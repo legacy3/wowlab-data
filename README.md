@@ -6,15 +6,19 @@ Data provided by [wago.tools](https://wago.tools/) - thank you!
 
 ## Updating Data
 
-To update with a new patch:
-
 ```bash
-python scripts/update-data.py <zip_url> <version>
+python scripts/update-data.py <source> <version>
 ```
+
+The source can be:
+
+- A **URL** to a zip file: `python scripts/update-data.py https://example.com/data.zip 12.0.5.66529`
+- A **local archive** (.zip, .tar, .tar.gz, .tgz, .tar.bz2, .tar.xz): `python scripts/update-data.py /path/to/data.zip 12.0.5.66529`
+- A **local directory** of CSV files: `python scripts/update-data.py /path/to/csvs/ 12.0.5.66529`
 
 This will:
 
-1. Download and extract the new CSV data to `data/tables/`
+1. Replace the CSV data in `data/tables/` with the new source
 2. Compare headers with the previous version
 3. Generate a structure diff at `changes/<version>.md`
 

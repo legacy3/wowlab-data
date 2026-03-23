@@ -3,7 +3,12 @@
 Update game data tables and generate structure change report.
 
 Usage:
-    python scripts/update-data.py <zip_url> <version>
+    python scripts/update-data.py <source> <version>
+
+Source can be:
+    - A URL to a zip file (https://...)
+    - A local zip or tar archive (.zip, .tar, .tar.gz, .tgz, .tar.bz2)
+    - A local directory containing CSV files
 """
 
 from __future__ import annotations
@@ -11,14 +16,14 @@ from __future__ import annotations
 import argparse
 import csv
 import shutil
+import tarfile
 import tempfile
 from pathlib import Path
-from typing import Optional
 from urllib.request import urlretrieve
 from zipfile import ZipFile
 
 
-def get_csv_header(path: Path) -> Optional[list[str]]:
+def get_csv_header(path: Path) -> list[str] | None:
     """Read the header row from a CSV file."""
     try:
         with open(path, newline="", encoding="utf-8-sig") as f:
@@ -28,17 +33,25 @@ def get_csv_header(path: Path) -> Optional[list[str]]:
         return None
 
 
-def download_and_extract(url: str, dest: Path, tmp_dir: Path) -> None:
-    """Download zip from URL and extract CSV files to destination."""
-    zip_path = tmp_dir / "data.zip"
+def read_headers(directory: Path) -> dict[str, list[str]]:
+    """Read CSV headers from all files in a directory."""
+    headers = {}
+    if directory.exists():
+        for csv_file in sorted(directory.glob("*.csv")):
+            header = get_csv_header(csv_file)
+            if header:
+                headers[csv_file.stem] = header
+    return headers
 
-    print(f"Downloading {url}...")
-    urlretrieve(url, zip_path)
 
-    print(f"Extracting to {dest}...")
-    shutil.rmtree(dest, ignore_errors=True)
-    dest.mkdir(parents=True, exist_ok=True)
+def copy_csvs_from_dir(src: Path, dest: Path) -> None:
+    """Copy CSV files from a directory to destination."""
+    for csv_file in src.glob("*.csv"):
+        shutil.copy2(csv_file, dest / csv_file.name)
 
+
+def extract_zip(zip_path: Path, dest: Path) -> None:
+    """Extract CSV files from a zip archive."""
     with ZipFile(zip_path) as zf:
         for member in zf.namelist():
             if member.endswith(".csv"):
@@ -47,9 +60,59 @@ def download_and_extract(url: str, dest: Path, tmp_dir: Path) -> None:
                     dst.write(src.read())
 
 
-def generate_diff(old_headers: dict, new_headers: dict) -> dict:
+def extract_tar(tar_path: Path, dest: Path) -> None:
+    """Extract CSV files from a tar archive."""
+    with tarfile.open(tar_path) as tf:
+        for member in tf.getmembers():
+            if member.isfile() and member.name.endswith(".csv"):
+                filename = Path(member.name).name
+                with tf.extractfile(member) as src, open(dest / filename, "wb") as dst:
+                    dst.write(src.read())
+
+
+def load_source(source: str, dest: Path, tmp_dir: Path) -> None:
+    """Load CSV data from a URL, archive, or directory into dest."""
+    shutil.rmtree(dest, ignore_errors=True)
+    dest.mkdir(parents=True, exist_ok=True)
+
+    source_path = Path(source)
+
+    # Local directory
+    if source_path.is_dir():
+        print(f"Copying from {source}...")
+        copy_csvs_from_dir(source_path, dest)
+        return
+
+    # Remote URL — download first
+    if source.startswith(("http://", "https://")):
+        archive_path = tmp_dir / "data.archive"
+        print(f"Downloading {source}...")
+        urlretrieve(source, archive_path)
+        source_path = archive_path
+
+    # Local or downloaded archive
+    if not source_path.is_file():
+        raise FileNotFoundError(f"Source not found: {source}")
+
+    suffix = "".join(source_path.suffixes).lower()
+    print(f"Extracting {source_path.name}...")
+
+    if suffix == ".zip":
+        extract_zip(source_path, dest)
+    elif suffix in (".tar", ".tar.gz", ".tgz", ".tar.bz2", ".tar.xz"):
+        extract_tar(source_path, dest)
+    else:
+        raise ValueError(
+            f"Unsupported archive format: {suffix}. "
+            "Expected .zip, .tar, .tar.gz, .tgz, .tar.bz2, or .tar.xz"
+        )
+
+
+def generate_diff(
+    old_headers: dict[str, list[str]], new_headers: dict[str, list[str]]
+) -> dict:
     """Compare old and new headers, return structured diff."""
-    all_tables = sorted(set(old_headers.keys()) | set(new_headers.keys()))
+    all_tables = sorted(set(old_headers) | set(new_headers))
     changes = {}
 
     for table in all_tables:
@@ -117,7 +180,10 @@ def main():
     parser = argparse.ArgumentParser(
         description="Update game data and generate structure diff"
     )
-    parser.add_argument("url", help="URL to the zip file containing new data")
+    parser.add_argument(
+        "source",
+        help="URL, local archive (.zip/.tar/.tar.gz), or directory with CSV files",
+    )
     parser.add_argument("version", help="Version string (e.g., 12.0.0.65459)")
     args = parser.parse_args()
 
@@ -127,24 +193,17 @@ def main():
 
     # Save old headers
     print("Reading old headers...")
-    old_headers = {}
-    if data_dir.exists():
-        for csv_file in data_dir.glob("*.csv"):
-            header = get_csv_header(csv_file)
-            if header:
-                old_headers[csv_file.stem] = header
+    old_headers = read_headers(data_dir)
+    print(f"  {len(old_headers)} tables")
 
-    # Download and extract new data
+    # Load new data
     with tempfile.TemporaryDirectory() as tmp_dir:
-        download_and_extract(args.url, data_dir, Path(tmp_dir))
+        load_source(args.source, data_dir, Path(tmp_dir))
 
     # Read new headers
     print("Reading new headers...")
-    new_headers = {}
-    for csv_file in data_dir.glob("*.csv"):
-        header = get_csv_header(csv_file)
-        if header:
-            new_headers[csv_file.stem] = header
+    new_headers = read_headers(data_dir)
+    print(f"  {len(new_headers)} tables")
 
     # Generate diff
     print("Generating diff...")
