@@ -65,14 +65,9 @@ Examples:
         .hideHelp(),
     )
     .option(
-      "--journal-output <dir>",
-      "Journal image output directory",
-      "data/images/journal",
-    )
-    .option(
-      "--loadscreen-output <dir>",
-      "Loadscreen output directory",
-      "data/images/loadscreens",
+      "--supabase-bucket <name>",
+      "Supabase storage bucket",
+      "encounter-images",
     )
     .addOption(
       new Option("--log-level <level>", "Reserved for future logging control")

@@ -1,5 +1,6 @@
 import { createRequire } from "node:module";
-import { fs, path } from "zx";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import pRetry from "p-retry";
 import sharp from "sharp";
 import type {
   CliOptions,
@@ -13,14 +14,27 @@ import type {
   LoadscreenCandidate,
   LoadscreenExport,
 } from "./types.mts";
-import { dataDir, repoDir } from "./paths.mts";
+import { dataDir } from "./paths.mts";
 import { loadCsvObjects, parsePositiveInt } from "./csv.mts";
 import { failed, failure, ok, runPool } from "./pool.mts";
 import { cascUrl, fetchBytes, WAGO_CASC_URL } from "./wago.mts";
+import { path } from "zx";
 
 const require = createRequire(import.meta.url);
 const BLPFile = require("js-blp");
 const SEO_RATIO = 2992 / 1148;
+
+type PngImage = {
+  bytes: Buffer;
+  width: number;
+  height: number;
+};
+
+type StorageContext = {
+  client: SupabaseClient;
+  bucket: string;
+  existing: Map<string, Set<string>>;
+};
 
 function normalizeKey(raw: string) {
   let value = raw.toLowerCase().replace(/\.blp$/i, "");
@@ -43,9 +57,98 @@ function normalizeKey(raw: string) {
   return value.replace(/[^a-z0-9]+/g, "");
 }
 
-async function blpToPng(
-  raw: Buffer,
-): Promise<{ bytes: Buffer; width: number; height: number }> {
+function storageClient(): SupabaseClient {
+  const url = process.env.SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.SUPABASE_SERVICE_KEY;
+  if (!url || !key) {
+    throw new Error(
+      "Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY to upload assets",
+    );
+  }
+  return createClient(url, key, { auth: { persistSession: false } });
+}
+
+function splitStoragePath(storagePath: string) {
+  const slash = storagePath.lastIndexOf("/");
+  return {
+    dir: slash === -1 ? "" : storagePath.slice(0, slash),
+    file: slash === -1 ? storagePath : storagePath.slice(slash + 1),
+  };
+}
+
+async function listExisting(
+  ctx: StorageContext,
+  dir: string,
+): Promise<Set<string>> {
+  const cached = ctx.existing.get(dir);
+  if (cached) {
+    return cached;
+  }
+
+  const files = new Set<string>();
+  let offset = 0;
+  for (;;) {
+    const { data, error } = await ctx.client.storage
+      .from(ctx.bucket)
+      .list(dir, {
+        limit: 1000,
+        offset,
+        sortBy: { column: "name", order: "asc" },
+      });
+    if (error) {
+      throw new Error(`Unable to list ${ctx.bucket}/${dir}: ${error.message}`);
+    }
+    for (const item of data ?? []) {
+      files.add(item.name);
+    }
+    if (!data || data.length < 1000) {
+      break;
+    }
+    offset += data.length;
+  }
+
+  ctx.existing.set(dir, files);
+  return files;
+}
+
+async function objectExists(ctx: StorageContext, storagePath: string) {
+  const { dir, file } = splitStoragePath(storagePath);
+  return (await listExisting(ctx, dir)).has(file);
+}
+
+async function uploadBuffer(
+  ctx: StorageContext,
+  storagePath: string,
+  body: Buffer | string,
+  contentType: string,
+  upsert: boolean,
+) {
+  const { error } = await ctx.client.storage
+    .from(ctx.bucket)
+    .upload(storagePath, body, {
+      contentType,
+      upsert,
+    });
+  if (error) {
+    throw new Error(
+      `Unable to upload ${ctx.bucket}/${storagePath}: ${error.message}`,
+    );
+  }
+
+  const { dir, file } = splitStoragePath(storagePath);
+  const existing = ctx.existing.get(dir);
+  if (existing) {
+    existing.add(file);
+  }
+}
+
+function publicUrl(ctx: StorageContext, storagePath: string) {
+  return ctx.client.storage.from(ctx.bucket).getPublicUrl(storagePath).data
+    .publicUrl;
+}
+
+async function blpToPng(raw: Buffer): Promise<PngImage> {
   const blp = new BLPFile(raw);
   const pixels = blp.getPixels(0);
   const pixelBuffer = Buffer.from(pixels.raw ?? pixels._buffer ?? pixels);
@@ -59,79 +162,58 @@ async function blpToPng(
 
 async function fetchBlpAsPng(
   fdid: number,
-  outputPath: string,
   version: string,
   args: CliOptions,
-): Promise<ImageAsset> {
+): Promise<PngImage> {
   const sourceUrl = cascUrl(fdid, version);
-  if (await fs.pathExists(outputPath)) {
-    const metadata = await sharp(outputPath).metadata();
-    return {
-      fileDataId: fdid,
-      sourceUrl,
-      outputPath,
-      width: metadata.width ?? 0,
-      height: metadata.height ?? 0,
-      bytes: (await fs.stat(outputPath)).size,
-      status: "cached",
-    };
-  }
-
-  let error = "unknown error";
-  for (let attempt = 1; attempt <= Math.max(1, args.attempts); attempt++) {
-    try {
-      const png = await blpToPng(
-        await fetchBytes(sourceUrl, args.assetTimeout),
-      );
-      await fs.ensureDir(path.dirname(outputPath));
-      await fs.writeFile(outputPath, png.bytes);
-      return {
-        fileDataId: fdid,
-        sourceUrl,
-        outputPath,
-        width: png.width,
-        height: png.height,
-        bytes: png.bytes.length,
-        status: "downloaded",
-      };
-    } catch (err) {
-      error = err instanceof Error ? err.message : String(err);
-      if (attempt < args.attempts) {
-        await new Promise((resolve) =>
-          setTimeout(resolve, Math.min(10, attempt * 2) * 1000),
-        );
-      }
-    }
-  }
-
-  throw new Error(error);
+  return await pRetry(
+    async () => await blpToPng(await fetchBytes(sourceUrl, args.assetTimeout)),
+    {
+      retries: Math.max(1, args.attempts) - 1,
+      minTimeout: 2_000,
+      maxTimeout: 10_000,
+    },
+  );
 }
 
-function imageVariant(image: ImageAsset): ImageVariant {
+async function uploadPngAsset(
+  ctx: StorageContext,
+  fdid: number,
+  storagePath: string,
+  version: string,
+  args: CliOptions,
+): Promise<{ asset: ImageAsset; png: PngImage }> {
+  const sourceUrl = cascUrl(fdid, version);
+  const png = await fetchBlpAsPng(fdid, version, args);
+  const exists = await objectExists(ctx, storagePath);
+  if (!exists) {
+    await uploadBuffer(ctx, storagePath, png.bytes, "image/png", false);
+  }
   return {
-    path: image.outputPath,
+    asset: {
+      fileDataId: fdid,
+      sourceUrl,
+      storagePath,
+      width: png.width,
+      height: png.height,
+      bytes: png.bytes.length,
+      status: exists ? "exists" : "uploaded",
+    },
+    png,
+  };
+}
+
+function imageVariant(ctx: StorageContext, image: ImageAsset): ImageVariant {
+  return {
+    path: image.storagePath,
     width: image.width,
     height: image.height,
     bytes: image.bytes,
-    publicUrl: null,
+    publicUrl: publicUrl(ctx, image.storagePath),
   };
 }
 
-async function pngVariant(filePath: string): Promise<ImageVariant> {
-  const [metadata, stat] = await Promise.all([
-    sharp(filePath).metadata(),
-    fs.stat(filePath),
-  ]);
-  return {
-    path: filePath,
-    width: metadata.width ?? 0,
-    height: metadata.height ?? 0,
-    bytes: stat.size,
-    publicUrl: null,
-  };
-}
-
-async function centerCropPng(input: Buffer): Promise<Buffer> {
+async function centerCropPng(input: Buffer): Promise<PngImage> {
   const metadata = await sharp(input).metadata();
   const width = metadata.width ?? 0;
   const height = metadata.height ?? 0;
@@ -144,23 +226,44 @@ async function centerCropPng(input: Buffer): Promise<Buffer> {
   const cropH = current > SEO_RATIO ? height : Math.floor(width / SEO_RATIO);
   const left = Math.floor((width - cropW) / 2);
   const top = Math.floor((height - cropH) / 2);
-  return await sharp(input)
+  const { data, info } = await sharp(input)
     .extract({ left, top, width: cropW, height: cropH })
     .png()
-    .toBuffer();
+    .toBuffer({ resolveWithObject: true });
+  return { bytes: data, width: info.width, height: info.height };
 }
 
-async function ensureSeoVariant(
-  sourcePath: string,
-  seoPath: string,
+async function uploadSeoVariant(
+  ctx: StorageContext,
+  full: PngImage,
+  storagePath: string,
 ): Promise<ImageVariant> {
-  if (!(await fs.pathExists(seoPath))) {
-    await fs.writeFile(
-      seoPath,
-      await centerCropPng(await fs.readFile(sourcePath)),
-    );
+  const seo = await centerCropPng(full.bytes);
+  const exists = await objectExists(ctx, storagePath);
+  if (!exists) {
+    await uploadBuffer(ctx, storagePath, seo.bytes, "image/png", false);
   }
-  return await pngVariant(seoPath);
+  return {
+    path: storagePath,
+    width: seo.width,
+    height: seo.height,
+    bytes: seo.bytes.length,
+    publicUrl: publicUrl(ctx, storagePath),
+  };
+}
+
+async function uploadJson(
+  ctx: StorageContext,
+  storagePath: string,
+  body: unknown,
+) {
+  await uploadBuffer(
+    ctx,
+    storagePath,
+    JSON.stringify(body, null, 2),
+    "application/json",
+    true,
+  );
 }
 
 function collectJournalAssets(journalRows: Record<string, string>[]) {
@@ -202,10 +305,17 @@ function collectJournalAssets(journalRows: Record<string, string>[]) {
   return { instances, references };
 }
 
+function storageContext(args: CliOptions): StorageContext {
+  return {
+    client: storageClient(),
+    bucket: args.supabaseBucket,
+    existing: new Map(),
+  };
+}
+
 export async function exportJournalImages(version: string, args: CliOptions) {
-  const outputDir = path.resolve(repoDir, args.journalOutput);
-  const imagesDir = path.join(outputDir, "images");
-  await fs.ensureDir(imagesDir);
+  const ctx = storageContext(args);
+  const imagesPrefix = "journal/images";
 
   const manifestRows = await loadCsvObjects(
     path.join(dataDir, "ManifestInterfaceData.csv"),
@@ -229,6 +339,7 @@ export async function exportJournalImages(version: string, args: CliOptions) {
     fdids = fdids.slice(0, Math.max(0, args.assetLimit));
   }
 
+  await listExisting(ctx, imagesPrefix);
   console.log(`Journal instances: ${instances.length}`);
   console.log(`Unique journal image IDs: ${fdids.length}`);
 
@@ -237,9 +348,10 @@ export async function exportJournalImages(version: string, args: CliOptions) {
     args.assetWorkers,
     async (fdid) => {
       try {
-        const image = await fetchBlpAsPng(
+        const { asset: image } = await uploadPngAsset(
+          ctx,
           fdid,
-          path.join(imagesDir, `${fdid}.png`),
+          `${imagesPrefix}/${fdid}.png`,
           version,
           args,
         );
@@ -287,7 +399,7 @@ export async function exportJournalImages(version: string, args: CliOptions) {
       const asset =
         typeof fdid === "number" ? exportedById.get(fdid) : undefined;
       if (asset) {
-        out[slot] = imageVariant(asset);
+        out[slot] = imageVariant(ctx, asset);
       }
     }
     instancesById[String(instance.journalInstanceId)] = out;
@@ -297,29 +409,28 @@ export async function exportJournalImages(version: string, args: CliOptions) {
   const summary = {
     journalInstances: instances.length,
     requestedImages: fdids.length,
+    uploadedImages: assets.filter((asset) => asset.status === "uploaded")
+      .length,
+    existingImages: assets.filter((asset) => asset.status === "exists").length,
     exportedImages: assets.length,
     failedImages: failures.length,
     coveragePercent:
       Math.round((assets.length / Math.max(1, fdids.length)) * 10000) / 100,
   };
-  await fs.writeJson(
-    path.join(outputDir, "manifest.json"),
-    {
-      generatedAt,
-      source: { assetUrlTemplate: `${WAGO_CASC_URL}/{fdid}`, version },
-      summary,
-      imagesDir,
-      assets,
-      failures,
-    },
-    { spaces: 2 },
-  );
-  await fs.writeJson(
-    path.join(outputDir, "journal-instance-images.json"),
-    { generatedAt, summary, instancesById },
-    { spaces: 2 },
-  );
-  console.log(`Wrote journal images: ${outputDir}`);
+  await uploadJson(ctx, "journal/manifest.json", {
+    generatedAt,
+    source: { assetUrlTemplate: `${WAGO_CASC_URL}/{fdid}`, version },
+    summary,
+    imagesPrefix,
+    assets,
+    failures,
+  });
+  await uploadJson(ctx, "journal/journal-instance-images.json", {
+    generatedAt,
+    summary,
+    instancesById,
+  });
+  console.log(`Uploaded journal images: ${ctx.bucket}/${imagesPrefix}`);
   if (failures.length) {
     throw new Error(
       `Journal image export failed for ${failures.length} assets`,
@@ -369,17 +480,16 @@ function loadscreenCandidate(
 }
 
 async function exportLoadscreen(
+  ctx: StorageContext,
   candidate: LoadscreenCandidate,
   version: string,
   args: CliOptions,
-  imagesDir: string,
-  seoDir: string,
 ): Promise<LoadscreenExport | FailedExport> {
   try {
-    const fullPath = path.join(imagesDir, `${candidate.fileDataId}.png`);
-    const image = await fetchBlpAsPng(
+    const { asset: image, png } = await uploadPngAsset(
+      ctx,
       candidate.fileDataId,
-      fullPath,
+      `loadscreens/images/${candidate.fileDataId}.png`,
       version,
       args,
     );
@@ -389,10 +499,11 @@ async function exportLoadscreen(
       ok: true,
       bytes: image.bytes,
       sourceUrl: cascUrl(candidate.fileDataId, version),
-      full: imageVariant(image),
-      seo: await ensureSeoVariant(
-        fullPath,
-        path.join(seoDir, `${candidate.fileDataId}.png`),
+      full: imageVariant(ctx, image),
+      seo: await uploadSeoVariant(
+        ctx,
+        png,
+        `loadscreens/seo/${candidate.fileDataId}.png`,
       ),
     };
   } catch (err) {
@@ -404,11 +515,11 @@ async function exportLoadscreen(
 }
 
 export async function exportLoadscreens(version: string, args: CliOptions) {
-  const outputDir = path.resolve(repoDir, args.loadscreenOutput);
-  const imagesDir = path.join(outputDir, "images");
-  const seoDir = path.join(outputDir, "seo");
-  await fs.ensureDir(imagesDir);
-  await fs.ensureDir(seoDir);
+  const ctx = storageContext(args);
+  await Promise.all([
+    listExisting(ctx, "loadscreens/images"),
+    listExisting(ctx, "loadscreens/seo"),
+  ]);
 
   let candidates = (
     await loadCsvObjects(path.join(dataDir, "ManifestInterfaceData.csv"))
@@ -422,31 +533,30 @@ export async function exportLoadscreens(version: string, args: CliOptions) {
 
   console.log(`Loadscreen candidates: ${candidates.length}`);
   const exported = await runPool(candidates, args.assetWorkers, (candidate) =>
-    exportLoadscreen(candidate, version, args, imagesDir, seoDir),
+    exportLoadscreen(ctx, candidate, version, args),
   );
   const entries = exported.filter(ok);
   const failures = exported.filter(failed);
 
-  await fs.writeJson(
-    path.join(outputDir, "manifest.json"),
-    {
-      generatedAt: new Date().toISOString(),
-      source: {
-        indexSource: "ManifestInterfaceData.csv",
-        assetUrlTemplate: `${WAGO_CASC_URL}/{fdid}`,
-        version,
-      },
-      summary: {
-        candidateCount: candidates.length,
-        exportedCount: entries.length,
-        failureCount: failures.length,
-      },
-      entries,
-      failures,
+  await uploadJson(ctx, "loadscreens/manifest.json", {
+    generatedAt: new Date().toISOString(),
+    source: {
+      indexSource: "ManifestInterfaceData.csv",
+      assetUrlTemplate: `${WAGO_CASC_URL}/{fdid}`,
+      version,
     },
-    { spaces: 2 },
-  );
-  console.log(`Wrote loadscreens: ${outputDir}`);
+    summary: {
+      candidateCount: candidates.length,
+      exportedCount: entries.length,
+      uploadedFullImages: entries.filter(
+        (entry) => entry.full && entry.full.path,
+      ).length,
+      failureCount: failures.length,
+    },
+    entries,
+    failures,
+  });
+  console.log(`Uploaded loadscreens: ${ctx.bucket}/loadscreens`);
   if (failures.length) {
     throw new Error(`Loadscreen export failed for ${failures.length} assets`);
   }

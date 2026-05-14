@@ -1,4 +1,5 @@
 import { $, fs, os, path } from "zx";
+import pRetry from "p-retry";
 import type {
   BuildInfo,
   CliOptions,
@@ -158,24 +159,28 @@ async function downloadTable(
   version: string,
   args: CliOptions,
 ): Promise<JobResult> {
-  let error = "unknown error";
-  for (let attempt = 1; attempt <= Math.max(1, args.attempts); attempt++) {
-    try {
-      const text = await fetchText(tableUrl(table, version), args.timeout);
-      validateCsv(table, text);
-      const finalText = text.endsWith("\n") ? text : `${text}\n`;
-      await fs.writeFile(path.join(dest, `${table}.csv`), finalText, "utf8");
-      return { name: table, ok: true, bytes: Buffer.byteLength(finalText) };
-    } catch (err) {
-      error = err instanceof Error ? err.message : String(err);
-      if (attempt < args.attempts) {
-        await new Promise((resolve) =>
-          setTimeout(resolve, Math.min(10, attempt * 2) * 1000),
-        );
-      }
-    }
+  try {
+    return await pRetry(
+      async () => {
+        const text = await fetchText(tableUrl(table, version), args.timeout);
+        validateCsv(table, text);
+        const finalText = text.endsWith("\n") ? text : `${text}\n`;
+        await fs.writeFile(path.join(dest, `${table}.csv`), finalText, "utf8");
+        return { name: table, ok: true, bytes: Buffer.byteLength(finalText) };
+      },
+      {
+        retries: Math.max(1, args.attempts) - 1,
+        minTimeout: 2_000,
+        maxTimeout: 10_000,
+      },
+    );
+  } catch (err) {
+    return {
+      name: table,
+      ok: false,
+      error: err instanceof Error ? err.message : String(err),
+    };
   }
-  return { name: table, ok: false, error };
 }
 
 export async function updateTables(

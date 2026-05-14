@@ -21,8 +21,7 @@ export type CliOptions = {
   skipAssets: boolean;
   assetWorkers: number;
   assetTimeout: number;
-  journalOutput: string;
-  loadscreenOutput: string;
+  supabaseBucket: string;
 };
 
 export type JobResult = {
@@ -35,11 +34,11 @@ export type JobResult = {
 export type ImageAsset = {
   fileDataId: number;
   sourceUrl: string;
-  outputPath: string;
+  storagePath: string;
   width: number;
   height: number;
   bytes: number;
-  status: "cached" | "downloaded";
+  status: "exists" | "uploaded";
 };
 
 export type ImageVariant = {

@@ -1,3 +1,4 @@
+import pMap from "p-map";
 import type { JobResult } from "./types.mts";
 
 export function ok<T extends JobResult>(result: T): result is T & { ok: true } {
@@ -26,22 +27,18 @@ export async function runPool<T, R extends JobResult>(
   workers: number,
   task: (item: T) => Promise<R>,
 ): Promise<R[]> {
-  const results: R[] = [];
-  let index = 0;
   let done = 0;
-  const count = Math.max(1, workers);
-
-  await Promise.all(
-    Array.from({ length: count }, async () => {
-      while (index < items.length) {
-        const item = items[index++];
-        results.push(await task(item));
-        done++;
-        if (done % 50 === 0 || done === items.length) {
-          console.log(`  progress: ${done}/${items.length}`);
-        }
+  const results = await pMap(
+    items,
+    async (item) => {
+      const result = await task(item);
+      done++;
+      if (done % 50 === 0 || done === items.length) {
+        console.log(`  progress: ${done}/${items.length}`);
       }
-    }),
+      return result;
+    },
+    { concurrency: Math.max(1, workers) },
   );
 
   return results.sort((a, b) => a.name.localeCompare(b.name));

@@ -13,11 +13,13 @@ pnpm install
 pnpm refresh
 ```
 
-For the default full update, you can also run:
+For the default full update, run:
 
 ```bash
 ./run.sh
 ```
+
+`run.sh` prompts for `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` when assets are enabled. You can also export them ahead of time for unattended runs.
 
 This is the main update entrypoint. It resolves the latest retail WoW build from `https://wago.tools/api/builds`, downloads every currently tracked DB2 table from `https://wago.tools/db2/<TableName>/csv?version=<build>`, replaces `data/tables/`, and writes:
 
@@ -33,22 +35,24 @@ pnpm refresh -- --version 12.0.5.67451
 pnpm refresh -- --skip-assets
 ```
 
-By default it also refreshes Wago CASC-derived PNG assets from the same resolved build:
+By default it also refreshes Wago CASC-derived PNG assets from the same resolved build and uploads them to the `encounter-images` Supabase Storage bucket:
 
 ```bash
 pnpm refresh
 ```
 
-Asset outputs default to:
+Asset paths in that bucket are:
 
-- `data/images/journal/` for Journal instance background/button/lore art
-- `data/images/loadscreens/` for loadscreen images, SEO crops, and manifests
+- `journal/images/` for Journal instance background/button/lore art
+- `journal/manifest.json` and `journal/journal-instance-images.json`
+- `loadscreens/images/` for full loadscreen images
+- `loadscreens/seo/` for loadscreen SEO crops
+- `loadscreens/manifest.json`
 
 Use `--skip-assets` when you only want the CSV tables.
 
 ## Directory Structure
 
 - `data/tables/` - CSV files for each game table
-- `data/images/` - generated PNG assets and manifests derived from Wago CASC files
 - `changes/` - Markdown files documenting structure changes between versions
 - `scripts/` - Utility scripts
