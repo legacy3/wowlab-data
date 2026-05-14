@@ -28,6 +28,7 @@ import { cascUrl, WAGO_CASC_URL } from "./wago.mts";
 export async function exportJournalImages(version: string, args: CliOptions) {
   const ctx = storageContext(args);
   const imagesPrefix = "journal/images";
+  const encountersPrefix = "journal/encounters";
   const manifest = await loadInterfaceManifest();
   const { instances, references } = collectJournalAssets(
     await loadCsvObjects(path.join(dataDir, "JournalInstance.csv")),
@@ -37,7 +38,10 @@ export async function exportJournalImages(version: string, args: CliOptions) {
     fdids = fdids.slice(0, Math.max(0, args.assetLimit));
   }
 
-  await listExisting(ctx, imagesPrefix);
+  await Promise.all([
+    listExisting(ctx, imagesPrefix),
+    listExisting(ctx, encountersPrefix),
+  ]);
   console.log(`Journal instances: ${instances.length}`);
   console.log(`Unique journal image IDs: ${fdids.length}`);
 
@@ -117,11 +121,21 @@ export async function exportJournalImages(version: string, args: CliOptions) {
     uploadedImages: assets.filter((asset) => asset.status === "uploaded")
       .length,
   };
+
+  const encounterResults = await exportEncounterImages(
+    ctx,
+    encountersPrefix,
+    version,
+    args,
+  );
   await uploadJson(ctx, "journal/manifest.json", {
     assets,
+    encounterAssets: encounterResults.assets,
     failures,
+    encounterFailures: encounterResults.failures,
     generatedAt,
     imagesPrefix,
+    encountersPrefix,
     source: { assetUrlTemplate: `${WAGO_CASC_URL}/{fdid}`, version },
     summary,
   });
@@ -131,11 +145,60 @@ export async function exportJournalImages(version: string, args: CliOptions) {
     summary,
   });
   console.log(`Uploaded journal images: ${ctx.bucket}/${imagesPrefix}`);
-  if (failures.length) {
+  if (failures.length || encounterResults.failures.length) {
     throw new Error(
-      `Journal image export failed for ${failures.length} assets`,
+      `Journal image export failed for ${failures.length + encounterResults.failures.length} assets`,
     );
   }
+}
+
+async function exportEncounterImages(
+  ctx: StorageContext,
+  encountersPrefix: string,
+  version: string,
+  args: CliOptions,
+) {
+  let fdids = [
+    ...new Set(
+      (await loadCsvObjects(path.join(dataDir, "JournalEncounterCreature.csv")))
+        .map((row) => parsePositiveInt(row.FileDataID))
+        .filter((fdid): fdid is number => typeof fdid === "number"),
+    ),
+  ].sort((a, b) => a - b);
+  if (args.assetLimit !== undefined) {
+    fdids = fdids.slice(0, Math.max(0, args.assetLimit));
+  }
+
+  console.log(`Unique encounter image IDs: ${fdids.length}`);
+  const results = await runPool<number, JournalAssetExport | FailedExport>(
+    fdids,
+    args.assetWorkers,
+    async (fdid) => {
+      try {
+        const { asset: image } = await uploadPngAsset(
+          ctx,
+          fdid,
+          `${encountersPrefix}/${fdid}.png`,
+          version,
+          args,
+        );
+        return {
+          ...image,
+          bytes: image.bytes,
+          name: String(fdid),
+          ok: true,
+          references: [],
+        };
+      } catch (err) {
+        return failure(fdid, err) as FailedExport;
+      }
+    },
+  );
+
+  return {
+    assets: results.filter(ok),
+    failures: results.filter(failed),
+  };
 }
 
 export async function uploadSeoVariant(
