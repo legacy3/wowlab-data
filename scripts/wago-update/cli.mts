@@ -1,13 +1,6 @@
 import { Command, Option } from "commander";
-import type { CliOptions } from "./types.mts";
 
-function integer(value: string): number {
-  const parsed = Number.parseInt(value, 10);
-  if (!Number.isFinite(parsed) || parsed < 0) {
-    throw new Error(`Expected a non-negative integer, got ${value}`);
-  }
-  return parsed;
-}
+import type { CliOptions } from "./types.mts";
 
 export function parseCliOptions(argv: string[]): CliOptions {
   const program = new Command()
@@ -21,7 +14,8 @@ Examples:
   pnpm refresh:dry-run
   pnpm refresh
   pnpm refresh -- --version 12.0.5.67451
-  pnpm refresh -- --skip-assets`,
+  pnpm refresh -- --skip-assets
+  pnpm refresh -- --skip-tables`,
     )
     .option("--product <name>", "Wago product branch", "wow")
     .option(
@@ -52,6 +46,11 @@ Examples:
       "Only update CSV tables; skip image asset exports",
       false,
     )
+    .option(
+      "--skip-tables",
+      "Only export image assets; skip CSV table downloads and structure diff",
+      false,
+    )
     .option("--asset-workers <n>", "Asset concurrency", integer, 4)
     .option(
       "--asset-timeout <seconds>",
@@ -77,4 +76,12 @@ Examples:
 
   program.parse(argv, { from: "user" });
   return program.opts<CliOptions>();
+}
+
+function integer(value: string): number {
+  const parsed = Number.parseInt(value, 10);
+  if (!Number.isFinite(parsed) || parsed < 0) {
+    throw new Error(`Expected a non-negative integer, got ${value}`);
+  }
+  return parsed;
 }

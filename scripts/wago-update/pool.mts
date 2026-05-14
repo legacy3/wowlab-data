@@ -1,25 +1,26 @@
 import pMap from "p-map";
-import type { JobResult } from "./types.mts";
 
-export function ok<T extends JobResult>(result: T): result is T & { ok: true } {
-  return result.ok;
-}
+import type { JobResult } from "./types.mts";
 
 export function failed<T extends JobResult>(
   result: T,
-): result is T & { ok: false } {
+): result is { ok: false } & T {
   return !result.ok;
 }
 
 export function failure(
   name: string | number,
   err: unknown,
-): JobResult & { ok: false } {
+): { ok: false } & JobResult {
   return {
+    error: err instanceof Error ? err.message : String(err),
     name: String(name),
     ok: false,
-    error: err instanceof Error ? err.message : String(err),
   };
+}
+
+export function ok<T extends JobResult>(result: T): result is { ok: true } & T {
+  return result.ok;
 }
 
 export async function runPool<T, R extends JobResult>(

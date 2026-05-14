@@ -1,14 +1,6 @@
 import { parse } from "csv-parse/sync";
 import { fs } from "zx";
 
-export function parseCsvRows(text: string): string[][] {
-  return parse(text, {
-    bom: true,
-    relaxColumnCount: true,
-    skipEmptyLines: false,
-  }) as string[][];
-}
-
 export async function loadCsvObjects(
   file: string,
 ): Promise<Record<string, string>[]> {
@@ -18,6 +10,14 @@ export async function loadCsvObjects(
     relaxColumnCount: true,
     skipEmptyLines: true,
   }) as Record<string, string>[];
+}
+
+export function parseCsvRows(text: string): string[][] {
+  return parse(text, {
+    bom: true,
+    relaxColumnCount: true,
+    skipEmptyLines: false,
+  }) as string[][];
 }
 
 export function parsePositiveInt(value: unknown): number | undefined {

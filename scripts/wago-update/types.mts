@@ -18,18 +18,21 @@ export type CliOptions = {
   dryRun: boolean;
   limit?: number;
   assetLimit?: number;
+  skipTables: boolean;
   skipAssets: boolean;
   assetWorkers: number;
   assetTimeout: number;
   supabaseBucket: string;
 };
 
-export type JobResult = {
-  name: string;
-  ok: boolean;
-  bytes?: number;
-  error?: string;
-};
+export type FailedExport = { ok: false } & JobResult;
+
+export type HeaderChanges = Record<
+  string,
+  | { status: "added"; columns: string[] }
+  | { status: "removed" }
+  | { status: "modified"; added: string[]; removed: string[] }
+>;
 
 export type ImageAsset = {
   fileDataId: number;
@@ -49,7 +52,26 @@ export type ImageVariant = {
   publicUrl: string | null;
 };
 
-export type JournalSlot = "background" | "button" | "lore";
+export type JobResult = {
+  name: string;
+  ok: boolean;
+  bytes?: number;
+  error?: string;
+};
+
+export type JournalAssetExport = {
+  ok: true;
+  fileName?: string;
+  filePath?: string;
+  references: JournalAssetReference[];
+} & ImageAsset &
+  JobResult;
+
+export type JournalAssetReference = {
+  journalInstanceId: number;
+  journalInstanceName: string;
+  slot: JournalSlot;
+};
 
 export type JournalInstance = {
   journalInstanceId: number;
@@ -60,21 +82,7 @@ export type JournalInstance = {
   loreFileDataId?: number;
 };
 
-export type JournalAssetReference = {
-  journalInstanceId: number;
-  journalInstanceName: string;
-  slot: JournalSlot;
-};
-
-export type JournalAssetExport = JobResult &
-  ImageAsset & {
-    ok: true;
-    fileName?: string;
-    filePath?: string;
-    references: JournalAssetReference[];
-  };
-
-export type FailedExport = JobResult & { ok: false };
+export type JournalSlot = "background" | "button" | "lore";
 
 export type LoadscreenCandidate = {
   fileDataId: number;
@@ -84,17 +92,10 @@ export type LoadscreenCandidate = {
   category: "dungeon" | "raid" | "zone" | "other";
 };
 
-export type LoadscreenExport = JobResult &
-  LoadscreenCandidate & {
-    ok: true;
-    sourceUrl: string;
-    full: ImageVariant;
-    seo: ImageVariant;
-  };
-
-export type HeaderChanges = Record<
-  string,
-  | { status: "added"; columns: string[] }
-  | { status: "removed" }
-  | { status: "modified"; added: string[]; removed: string[] }
->;
+export type LoadscreenExport = {
+  ok: true;
+  sourceUrl: string;
+  full: ImageVariant;
+  seo: ImageVariant;
+} & JobResult &
+  LoadscreenCandidate;

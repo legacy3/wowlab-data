@@ -33,6 +33,7 @@ pnpm refresh:dry-run
 pnpm refresh -- --product wowxptr
 pnpm refresh -- --version 12.0.5.67451
 pnpm refresh -- --skip-assets
+pnpm refresh -- --skip-tables
 ```
 
 By default it also refreshes Wago CASC-derived PNG assets from the same resolved build and uploads them to the `encounter-images` Supabase Storage bucket:
@@ -49,7 +50,7 @@ Asset paths in that bucket are:
 - `loadscreens/seo/` for loadscreen SEO crops
 - `loadscreens/manifest.json`
 
-Use `--skip-assets` when you only want the CSV tables.
+Use `--skip-assets` when you only want the CSV tables. Use `--skip-tables` when you only want to seed Supabase image assets from the current checked-in CSV tables.
 
 ## Directory Structure
 

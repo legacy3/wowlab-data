@@ -5,22 +5,10 @@ export const WAGO_DB2_CSV_URL = "https://wago.tools/db2";
 export const WAGO_CASC_URL = "https://wago.tools/api/casc";
 const USER_AGENT = "wowlab-data-updater/2.0";
 
-function timeoutSignal(seconds: number): AbortSignal {
-  return AbortSignal.timeout(Math.max(1, seconds) * 1000);
-}
-
-export async function fetchText(
-  url: string,
-  timeoutSeconds: number,
-): Promise<string> {
-  const res = await fetch(url, {
-    headers: { "user-agent": USER_AGENT },
-    signal: timeoutSignal(timeoutSeconds),
-  });
-  if (!res.ok) {
-    throw new Error(`${res.status} ${res.statusText}`);
-  }
-  return await res.text();
+export function cascUrl(fdid: number, version: string): string {
+  const url = new URL(`${WAGO_CASC_URL}/${fdid}`);
+  url.searchParams.set("version", version);
+  return url.toString();
 }
 
 export async function fetchBytes(
@@ -35,6 +23,20 @@ export async function fetchBytes(
     throw new Error(`${res.status} ${res.statusText}`);
   }
   return Buffer.from(await res.arrayBuffer());
+}
+
+export async function fetchText(
+  url: string,
+  timeoutSeconds: number,
+): Promise<string> {
+  const res = await fetch(url, {
+    headers: { "user-agent": USER_AGENT },
+    signal: timeoutSignal(timeoutSeconds),
+  });
+  if (!res.ok) {
+    throw new Error(`${res.status} ${res.statusText}`);
+  }
+  return await res.text();
 }
 
 export async function latestBuild(
@@ -59,8 +61,6 @@ export function tableUrl(table: string, version: string): string {
   return url.toString();
 }
 
-export function cascUrl(fdid: number, version: string): string {
-  const url = new URL(`${WAGO_CASC_URL}/${fdid}`);
-  url.searchParams.set("version", version);
-  return url.toString();
+function timeoutSignal(seconds: number): AbortSignal {
+  return AbortSignal.timeout(Math.max(1, seconds) * 1000);
 }
