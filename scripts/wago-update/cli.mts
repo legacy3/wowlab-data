@@ -56,7 +56,18 @@ Examples:
       "--asset-timeout <seconds>",
       "HTTP timeout for asset requests",
       integer,
-      300,
+      60,
+    )
+    .option(
+      "--asset-job-timeout <seconds>",
+      "Wall-clock timeout per asset job",
+      integer,
+      120,
+    )
+    .addOption(
+      new Option("--asset-kind <kind>", "Asset export to run")
+        .choices(["all", "journal", "journal-encounters", "loadscreens"])
+        .default("all"),
     )
     .addOption(
       new Option("--asset-limit <n>", "Limit asset count for tests")

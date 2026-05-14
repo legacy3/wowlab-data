@@ -7,7 +7,7 @@ import type {
 } from "./types.mts";
 
 import { loadCsvObjects, parsePositiveInt } from "./csv.mts";
-import { uploadPngAsset, uploadSeoVariant } from "./journal.mts";
+import { uploadPngAssetIfMissing, uploadSeoVariant } from "./journal.mts";
 import { dataDir } from "./paths.mts";
 import { failed, failure, ok, runPool } from "./pool.mts";
 import {
@@ -41,24 +41,27 @@ export async function exportLoadscreens(version: string, args: CliOptions) {
     args.assetWorkers,
     async (candidate) => {
       try {
-        const { asset: image, png } = await uploadPngAsset(
+        const { asset: image, png } = await uploadPngAssetIfMissing(
           ctx,
           candidate.fileDataId,
           `loadscreens/images/${candidate.fileDataId}.png`,
           version,
           args,
         );
+        const full = imageVariant(ctx, image);
         return {
           ...candidate,
           bytes: image.bytes,
-          full: imageVariant(ctx, image),
+          full,
           name: String(candidate.fileDataId),
           ok: true,
-          seo: await uploadSeoVariant(
-            ctx,
-            png,
-            `loadscreens/seo/${candidate.fileDataId}.png`,
-          ),
+          seo: png
+            ? await uploadSeoVariant(
+                ctx,
+                png,
+                `loadscreens/seo/${candidate.fileDataId}.png`,
+              )
+            : full,
           sourceUrl: cascUrl(candidate.fileDataId, version),
         };
       } catch (err) {
@@ -68,6 +71,7 @@ export async function exportLoadscreens(version: string, args: CliOptions) {
         };
       }
     },
+    args.assetJobTimeout,
   );
   const entries = exported.filter(ok);
   const failures = exported.filter(failed);

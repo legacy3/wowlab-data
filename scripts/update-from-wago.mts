@@ -1,6 +1,7 @@
 #!/usr/bin/env zx
 
 import {
+  exportJournalEncounterImages,
   exportJournalImages,
   exportLoadscreens,
   verifyStorageAccess,
@@ -30,6 +31,9 @@ if (args.limit !== undefined && !args.dryRun) {
 }
 if (args.skipTables && args.skipAssets) {
   throw new Error("--skip-tables and --skip-assets cannot be used together");
+}
+if (args.skipAssets && args.assetKind !== "all") {
+  throw new Error("--asset-kind cannot be used with --skip-assets");
 }
 if (args.skipTables && args.dryRun) {
   throw new Error("--skip-tables cannot be used with --dry-run");
@@ -68,7 +72,14 @@ if (args.dryRun) {
     await updateTables(tables, version, build, args);
   }
   if (!args.skipAssets) {
-    await exportJournalImages(version, args);
-    await exportLoadscreens(version, args);
+    if (args.assetKind === "all" || args.assetKind === "journal") {
+      await exportJournalImages(version, args);
+    }
+    if (args.assetKind === "journal-encounters") {
+      await exportJournalEncounterImages(version, args);
+    }
+    if (args.assetKind === "all" || args.assetKind === "loadscreens") {
+      await exportLoadscreens(version, args);
+    }
   }
 }

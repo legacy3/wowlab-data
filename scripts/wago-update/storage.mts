@@ -4,7 +4,10 @@ import pRetry from "p-retry";
 import type { CliOptions, ImageAsset, ImageVariant } from "./types.mts";
 
 const DEFAULT_CACHE_CONTROL = "3600";
-const SUPABASE_TIMEOUT_MS = 180_000;
+const SUPABASE_TIMEOUT_MS = Number.parseInt(
+  process.env.SUPABASE_TIMEOUT_MS ?? "60000",
+  10,
+);
 
 export type StorageContext = {
   supabase: SupabaseClient;

@@ -50,7 +50,7 @@ export async function exportJournalImages(version: string, args: CliOptions) {
     args.assetWorkers,
     async (fdid) => {
       try {
-        const { asset: image } = await uploadPngAsset(
+        const { asset: image } = await uploadPngAssetIfMissing(
           ctx,
           fdid,
           `${imagesPrefix}/${fdid}.png`,
@@ -73,6 +73,7 @@ export async function exportJournalImages(version: string, args: CliOptions) {
         return failure(fdid, err) as FailedExport;
       }
     },
+    args.assetJobTimeout,
   );
 
   const assets = results.filter(ok);
@@ -152,6 +153,41 @@ export async function exportJournalImages(version: string, args: CliOptions) {
   }
 }
 
+export async function exportJournalEncounterImages(
+  version: string,
+  args: CliOptions,
+) {
+  const ctx = storageContext(args);
+  const encountersPrefix = "journal/encounters";
+  await listExisting(ctx, encountersPrefix);
+  const results = await exportEncounterImages(
+    ctx,
+    encountersPrefix,
+    version,
+    args,
+  );
+  await uploadJson(ctx, "journal/encounter-images.json", {
+    assets: results.assets,
+    failures: results.failures,
+    generatedAt: new Date().toISOString(),
+    encountersPrefix,
+    source: { assetUrlTemplate: `${WAGO_CASC_URL}/{fdid}`, version },
+    summary: {
+      exportedImages: results.assets.length,
+      failedImages: results.failures.length,
+      uploadedImages: results.assets.filter(
+        (asset) => asset.status === "uploaded",
+      ).length,
+    },
+  });
+  console.log(`Uploaded encounter images: ${ctx.bucket}/${encountersPrefix}`);
+  if (results.failures.length) {
+    throw new Error(
+      `Encounter image export failed for ${results.failures.length} assets`,
+    );
+  }
+}
+
 async function exportEncounterImages(
   ctx: StorageContext,
   encountersPrefix: string,
@@ -175,7 +211,7 @@ async function exportEncounterImages(
     args.assetWorkers,
     async (fdid) => {
       try {
-        const { asset: image } = await uploadPngAsset(
+        const { asset: image } = await uploadPngAssetIfMissing(
           ctx,
           fdid,
           `${encountersPrefix}/${fdid}.png`,
@@ -193,6 +229,7 @@ async function exportEncounterImages(
         return failure(fdid, err) as FailedExport;
       }
     },
+    args.assetJobTimeout,
   );
 
   return {
@@ -309,4 +346,30 @@ async function uploadPngAsset(
     },
     png,
   };
+}
+
+export async function uploadPngAssetIfMissing(
+  ctx: StorageContext,
+  fdid: number,
+  storagePath: string,
+  version: string,
+  args: CliOptions,
+): Promise<{ asset: ImageAsset; png: PngImage | null }> {
+  const exists = await objectExists(ctx, storagePath);
+  if (exists) {
+    return {
+      asset: {
+        bytes: 0,
+        fileDataId: fdid,
+        height: 0,
+        sourceUrl: cascUrl(fdid, version),
+        status: "exists",
+        storagePath,
+        width: 0,
+      },
+      png: null,
+    };
+  }
+
+  return await uploadPngAsset(ctx, fdid, storagePath, version, args);
 }

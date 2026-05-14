@@ -22,8 +22,16 @@ export type CliOptions = {
   skipAssets: boolean;
   assetWorkers: number;
   assetTimeout: number;
+  assetJobTimeout: number;
+  assetKind: AssetKind;
   supabaseBucket: string;
 };
+
+export type AssetKind =
+  | "all"
+  | "journal"
+  | "journal-encounters"
+  | "loadscreens";
 
 export type FailedExport = { ok: false } & JobResult;
 
