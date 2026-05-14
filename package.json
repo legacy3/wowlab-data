@@ -1,0 +1,30 @@
+{
+  "name": "wowlab-data",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.0.8",
+  "scripts": {
+    "format": "prettier --write \"scripts/**/*.mts\" \"package.json\" \"tsconfig.json\"",
+    "format:check": "prettier --check \"scripts/**/*.mts\" \"package.json\" \"tsconfig.json\"",
+    "refresh": "zx scripts/update-from-wago.mts",
+    "refresh:dry-run": "zx scripts/update-from-wago.mts --dry-run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "14.0.3",
+    "csv-parse": "6.2.1",
+    "js-blp": "1.0.5",
+    "sharp": "0.34.5",
+    "zx": "8.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "24.12.4",
+    "prettier": "3.6.2",
+    "typescript": "5.9.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "sharp"
+    ]
+  }
+}
