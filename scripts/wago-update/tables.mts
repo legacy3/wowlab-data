@@ -9,6 +9,7 @@ import type {
 } from "./types.mts";
 
 import { parseCsvRows } from "./csv.mts";
+import { downloadGameTables } from "./gametables.mts";
 import { changesDir, dataDir, metadataDir } from "./paths.mts";
 import { failed, runPool } from "./pool.mts";
 import {
@@ -84,6 +85,9 @@ export async function updateTables(
       `Aborting without replacing data/tables: ${failures.length} table downloads failed`,
     );
   }
+
+  console.log("Downloading GameTables...");
+  await downloadGameTables(staging, version, args);
 
   const changes = generateDiff(oldHeaders, await readHeaders(staging));
   await fs.remove(dataDir);
