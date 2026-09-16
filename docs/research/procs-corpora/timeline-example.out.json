@@ -1,0 +1,894 @@
+[
+  {
+    "time_ms": 0,
+    "kind": "apply",
+    "spell_id": 1250564,
+    "state": {
+      "charges": 0,
+      "using_charges": false,
+      "stack_amount": 1,
+      "proc_cooldown_until": -Infinity,
+      "last_attempt_ms": -10000,
+      "last_success_ms": -120000,
+      "removed": false
+    }
+  },
+  {
+    "time_ms": 1000,
+    "kind": "event",
+    "label": "melee swing base normal",
+    "rolls_consumed": [],
+    "steps": [
+      {
+        "spell_id": 1250564,
+        "holder": "actor",
+        "reached": true,
+        "verdict": "ineligible",
+        "reason": "proc-flags-intersect",
+        "chance": null,
+        "roll": null,
+        "success": null,
+        "state_before": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": -Infinity,
+          "last_attempt_ms": -10000,
+          "last_success_ms": -120000,
+          "removed": false
+        },
+        "state_after": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": -Infinity,
+          "last_attempt_ms": -10000,
+          "last_success_ms": -120000,
+          "removed": false
+        },
+        "failure_side_effects": [],
+        "triggered": [],
+        "checks": [
+          {
+            "step": "proc-chain-hard-limit",
+            "consumer": "Unit::ProcSkillsAndAuras",
+            "outcome": "pass",
+            "detail": "spell chain length 0 vs limit 10"
+          },
+          {
+            "step": "side-receives-event",
+            "consumer": "Unit::TriggerAurasProcOnEvent",
+            "outcome": "pass",
+            "detail": "actor mask 0x0000000000400004"
+          },
+          {
+            "step": "has-spell-proc-entry",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "generated"
+          },
+          {
+            "step": "spell-object-gates",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "skip",
+            "detail": "no Spell attached: triggered/suppression/item-cast gates are not evaluated"
+          },
+          {
+            "step": "has-charges",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "using_charges=False charges=0"
+          },
+          {
+            "step": "proc-cooldown",
+            "consumer": "Aura::IsProcOnCooldown",
+            "outcome": "pass",
+            "detail": "cooldown until -inf ms, now 1000 ms"
+          },
+          {
+            "step": "proc-flags-intersect",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "fail",
+            "detail": "event 0x0000000000400004 & entry 0x0000000000011110"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "time_ms": 1500,
+    "kind": "event",
+    "label": "spell hit 1254180",
+    "rolls_consumed": [
+      60.0
+    ],
+    "steps": [
+      {
+        "spell_id": 1250564,
+        "holder": "actor",
+        "reached": true,
+        "verdict": "eligible",
+        "reason": "all pre-RNG checks passed",
+        "chance": {
+          "model": "rppm",
+          "chance_percent": 42.91667175292969,
+          "probability": 0.42916671752929686,
+          "stages": [
+            {
+              "stage": "SpellProcEntry::Chance",
+              "value": 101.0,
+              "note": ""
+            },
+            {
+              "stage": "BaseProcRate",
+              "value": 1.0,
+              "note": ""
+            },
+            {
+              "stage": "averageProcInterval = 60 / ppm",
+              "value": 60.0,
+              "note": ""
+            },
+            {
+              "stage": "secondsSinceLastAttempt (<= 10)",
+              "value": 10.0,
+              "note": ""
+            },
+            {
+              "stage": "secondsSinceLastProc (<= 1000)",
+              "value": 121.5,
+              "note": ""
+            },
+            {
+              "stage": "bad-luck multiplier max(1, 1 + (sinceProc/interval - 1.5) * 3)",
+              "value": 2.575000286102295,
+              "note": ""
+            },
+            {
+              "stage": "x ppm x sinceAttempt / 60",
+              "value": 0.4291667342185974,
+              "note": ""
+            },
+            {
+              "stage": "RoundToInterval(0, 1)",
+              "value": 0.4291667342185974,
+              "note": ""
+            },
+            {
+              "stage": "x 100",
+              "value": 42.91667175292969,
+              "note": ""
+            }
+          ],
+          "external": [
+            "SpellModOp::ProcChance (assumed no modifier)"
+          ]
+        },
+        "roll": 60.0,
+        "success": false,
+        "state_before": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": -Infinity,
+          "last_attempt_ms": -10000,
+          "last_success_ms": -120000,
+          "removed": false
+        },
+        "state_after": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": -Infinity,
+          "last_attempt_ms": 1500,
+          "last_success_ms": -120000,
+          "removed": false
+        },
+        "failure_side_effects": [],
+        "triggered": [],
+        "checks": [
+          {
+            "step": "proc-chain-hard-limit",
+            "consumer": "Unit::ProcSkillsAndAuras",
+            "outcome": "pass",
+            "detail": "spell chain length 0 vs limit 10"
+          },
+          {
+            "step": "side-receives-event",
+            "consumer": "Unit::TriggerAurasProcOnEvent",
+            "outcome": "pass",
+            "detail": "actor mask 0x0000000000010000"
+          },
+          {
+            "step": "has-spell-proc-entry",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "generated"
+          },
+          {
+            "step": "not-triggered-by-this-aura",
+            "consumer": "Spell::IsTriggeredByAura",
+            "outcome": "pass",
+            "detail": "event spell triggered by aura None"
+          },
+          {
+            "step": "triggered-spell-gate",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "event triggered=False, NOT_A_PROC=False"
+          },
+          {
+            "step": "cant-proc-from-item-cast",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "cast item=False"
+          },
+          {
+            "step": "suppress-weapon-procs",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "only-class-abilities",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "suppress-caster-procs",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "has-charges",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "using_charges=False charges=0"
+          },
+          {
+            "step": "proc-cooldown",
+            "consumer": "Aura::IsProcOnCooldown",
+            "outcome": "pass",
+            "detail": "cooldown until -inf ms, now 1500 ms"
+          },
+          {
+            "step": "proc-flags-intersect",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x0000000000010000 & entry 0x0000000000011110"
+          },
+          {
+            "step": "spell-family",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "entry family 0 mask 0x0; event family 0 flags 0x0"
+          },
+          {
+            "step": "spell-type-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x1 & entry 0x7"
+          },
+          {
+            "step": "spell-phase-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x2 & entry 0x2"
+          },
+          {
+            "step": "hit-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x1 & 0x403 (default done: NORMAL|CRITICAL|ABSORB)"
+          },
+          {
+            "step": "effect-0",
+            "consumer": "AuraEffect::CheckEffectProc",
+            "outcome": "pass",
+            "detail": "SPELL_AURA_PROC_TRIGGER_SPELL"
+          },
+          {
+            "step": "effect-1",
+            "consumer": "AuraEffect::CheckEffectProc",
+            "outcome": "pass",
+            "detail": "SPELL_AURA_DUMMY"
+          },
+          {
+            "step": "any-effect-remains",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "effect mask 0x3"
+          },
+          {
+            "step": "standing",
+            "consumer": "Unit::IsStandState",
+            "outcome": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "time_ms": 4000,
+    "kind": "event",
+    "label": "spell hit 1254180",
+    "rolls_consumed": [
+      5.0
+    ],
+    "steps": [
+      {
+        "spell_id": 1250564,
+        "holder": "actor",
+        "reached": true,
+        "verdict": "eligible",
+        "reason": "all pre-RNG checks passed",
+        "chance": {
+          "model": "rppm",
+          "chance_percent": 11.249999046325684,
+          "probability": 0.11249999046325683,
+          "stages": [
+            {
+              "stage": "SpellProcEntry::Chance",
+              "value": 101.0,
+              "note": ""
+            },
+            {
+              "stage": "BaseProcRate",
+              "value": 1.0,
+              "note": ""
+            },
+            {
+              "stage": "averageProcInterval = 60 / ppm",
+              "value": 60.0,
+              "note": ""
+            },
+            {
+              "stage": "secondsSinceLastAttempt (<= 10)",
+              "value": 2.5,
+              "note": ""
+            },
+            {
+              "stage": "secondsSinceLastProc (<= 1000)",
+              "value": 124.0,
+              "note": ""
+            },
+            {
+              "stage": "bad-luck multiplier max(1, 1 + (sinceProc/interval - 1.5) * 3)",
+              "value": 2.6999998092651367,
+              "note": ""
+            },
+            {
+              "stage": "x ppm x sinceAttempt / 60",
+              "value": 0.11249998956918716,
+              "note": ""
+            },
+            {
+              "stage": "RoundToInterval(0, 1)",
+              "value": 0.11249998956918716,
+              "note": ""
+            },
+            {
+              "stage": "x 100",
+              "value": 11.249999046325684,
+              "note": ""
+            }
+          ],
+          "external": [
+            "SpellModOp::ProcChance (assumed no modifier)"
+          ]
+        },
+        "roll": 5.0,
+        "success": true,
+        "state_before": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": -Infinity,
+          "last_attempt_ms": 1500,
+          "last_success_ms": -120000,
+          "removed": false
+        },
+        "state_after": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": 34000,
+          "last_attempt_ms": 4000,
+          "last_success_ms": 4000,
+          "removed": false
+        },
+        "failure_side_effects": [
+          "proc cooldown until 34000"
+        ],
+        "triggered": [
+          {
+            "effect": 0,
+            "aura": "SPELL_AURA_PROC_TRIGGER_SPELL",
+            "handler": "trigger-spell: cast EffectTriggerSpell",
+            "caster": "holder (actor)",
+            "cast_spell": 1254180,
+            "explicit_target": "action_target",
+            "trigger_flags": "TRIGGERED_FULL_MASK & ~(IGNORE_POWER_COST | IGNORE_REAGENT_COST)",
+            "triggering_aura": 1250564,
+            "triggering_spell": 1254180
+          },
+          {
+            "effect": 1,
+            "aura": "SPELL_AURA_DUMMY",
+            "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+            "caster": "holder (actor)",
+            "cast_spell": null
+          }
+        ],
+        "checks": [
+          {
+            "step": "proc-chain-hard-limit",
+            "consumer": "Unit::ProcSkillsAndAuras",
+            "outcome": "pass",
+            "detail": "spell chain length 0 vs limit 10"
+          },
+          {
+            "step": "side-receives-event",
+            "consumer": "Unit::TriggerAurasProcOnEvent",
+            "outcome": "pass",
+            "detail": "actor mask 0x0000000000010000"
+          },
+          {
+            "step": "has-spell-proc-entry",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "generated"
+          },
+          {
+            "step": "not-triggered-by-this-aura",
+            "consumer": "Spell::IsTriggeredByAura",
+            "outcome": "pass",
+            "detail": "event spell triggered by aura None"
+          },
+          {
+            "step": "triggered-spell-gate",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "event triggered=False, NOT_A_PROC=False"
+          },
+          {
+            "step": "cant-proc-from-item-cast",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "cast item=False"
+          },
+          {
+            "step": "suppress-weapon-procs",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "only-class-abilities",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "suppress-caster-procs",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "has-charges",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "using_charges=False charges=0"
+          },
+          {
+            "step": "proc-cooldown",
+            "consumer": "Aura::IsProcOnCooldown",
+            "outcome": "pass",
+            "detail": "cooldown until -inf ms, now 4000 ms"
+          },
+          {
+            "step": "proc-flags-intersect",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x0000000000010000 & entry 0x0000000000011110"
+          },
+          {
+            "step": "spell-family",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "entry family 0 mask 0x0; event family 0 flags 0x0"
+          },
+          {
+            "step": "spell-type-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x1 & entry 0x7"
+          },
+          {
+            "step": "spell-phase-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x2 & entry 0x2"
+          },
+          {
+            "step": "hit-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x1 & 0x403 (default done: NORMAL|CRITICAL|ABSORB)"
+          },
+          {
+            "step": "effect-0",
+            "consumer": "AuraEffect::CheckEffectProc",
+            "outcome": "pass",
+            "detail": "SPELL_AURA_PROC_TRIGGER_SPELL"
+          },
+          {
+            "step": "effect-1",
+            "consumer": "AuraEffect::CheckEffectProc",
+            "outcome": "pass",
+            "detail": "SPELL_AURA_DUMMY"
+          },
+          {
+            "step": "any-effect-remains",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "effect mask 0x3"
+          },
+          {
+            "step": "standing",
+            "consumer": "Unit::IsStandState",
+            "outcome": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "time_ms": 9000,
+    "kind": "event",
+    "label": "spell hit 1254180",
+    "rolls_consumed": [],
+    "steps": [
+      {
+        "spell_id": 1250564,
+        "holder": "actor",
+        "reached": true,
+        "verdict": "ineligible",
+        "reason": "proc-cooldown",
+        "chance": null,
+        "roll": null,
+        "success": null,
+        "state_before": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": 34000,
+          "last_attempt_ms": 4000,
+          "last_success_ms": 4000,
+          "removed": false
+        },
+        "state_after": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": 34000,
+          "last_attempt_ms": 4000,
+          "last_success_ms": 4000,
+          "removed": false
+        },
+        "failure_side_effects": [],
+        "triggered": [],
+        "checks": [
+          {
+            "step": "proc-chain-hard-limit",
+            "consumer": "Unit::ProcSkillsAndAuras",
+            "outcome": "pass",
+            "detail": "spell chain length 0 vs limit 10"
+          },
+          {
+            "step": "side-receives-event",
+            "consumer": "Unit::TriggerAurasProcOnEvent",
+            "outcome": "pass",
+            "detail": "actor mask 0x0000000000010000"
+          },
+          {
+            "step": "has-spell-proc-entry",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "generated"
+          },
+          {
+            "step": "not-triggered-by-this-aura",
+            "consumer": "Spell::IsTriggeredByAura",
+            "outcome": "pass",
+            "detail": "event spell triggered by aura None"
+          },
+          {
+            "step": "triggered-spell-gate",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "event triggered=False, NOT_A_PROC=False"
+          },
+          {
+            "step": "cant-proc-from-item-cast",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "cast item=False"
+          },
+          {
+            "step": "suppress-weapon-procs",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "only-class-abilities",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "suppress-caster-procs",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "has-charges",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "using_charges=False charges=0"
+          },
+          {
+            "step": "proc-cooldown",
+            "consumer": "Aura::IsProcOnCooldown",
+            "outcome": "fail",
+            "detail": "cooldown until 34000 ms, now 9000 ms"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "time_ms": 34000,
+    "kind": "event",
+    "label": "spell hit 1254180",
+    "rolls_consumed": [
+      5.0
+    ],
+    "steps": [
+      {
+        "spell_id": 1250564,
+        "holder": "actor",
+        "reached": true,
+        "verdict": "eligible",
+        "reason": "all pre-RNG checks passed",
+        "chance": {
+          "model": "rppm",
+          "chance_percent": 16.666667938232422,
+          "probability": 0.1666666793823242,
+          "stages": [
+            {
+              "stage": "SpellProcEntry::Chance",
+              "value": 101.0,
+              "note": ""
+            },
+            {
+              "stage": "BaseProcRate",
+              "value": 1.0,
+              "note": ""
+            },
+            {
+              "stage": "averageProcInterval = 60 / ppm",
+              "value": 60.0,
+              "note": ""
+            },
+            {
+              "stage": "secondsSinceLastAttempt (<= 10)",
+              "value": 10.0,
+              "note": ""
+            },
+            {
+              "stage": "secondsSinceLastProc (<= 1000)",
+              "value": 30.0,
+              "note": ""
+            },
+            {
+              "stage": "bad-luck multiplier max(1, 1 + (sinceProc/interval - 1.5) * 3)",
+              "value": 1.0,
+              "note": ""
+            },
+            {
+              "stage": "x ppm x sinceAttempt / 60",
+              "value": 0.1666666716337204,
+              "note": ""
+            },
+            {
+              "stage": "RoundToInterval(0, 1)",
+              "value": 0.1666666716337204,
+              "note": ""
+            },
+            {
+              "stage": "x 100",
+              "value": 16.666667938232422,
+              "note": ""
+            }
+          ],
+          "external": [
+            "SpellModOp::ProcChance (assumed no modifier)"
+          ]
+        },
+        "roll": 5.0,
+        "success": true,
+        "state_before": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": 34000,
+          "last_attempt_ms": 4000,
+          "last_success_ms": 4000,
+          "removed": false
+        },
+        "state_after": {
+          "charges": 0,
+          "using_charges": false,
+          "stack_amount": 1,
+          "proc_cooldown_until": 64000,
+          "last_attempt_ms": 34000,
+          "last_success_ms": 34000,
+          "removed": false
+        },
+        "failure_side_effects": [
+          "proc cooldown until 64000"
+        ],
+        "triggered": [
+          {
+            "effect": 0,
+            "aura": "SPELL_AURA_PROC_TRIGGER_SPELL",
+            "handler": "trigger-spell: cast EffectTriggerSpell",
+            "caster": "holder (actor)",
+            "cast_spell": 1254180,
+            "explicit_target": "action_target",
+            "trigger_flags": "TRIGGERED_FULL_MASK & ~(IGNORE_POWER_COST | IGNORE_REAGENT_COST)",
+            "triggering_aura": 1250564,
+            "triggering_spell": 1254180
+          },
+          {
+            "effect": 1,
+            "aura": "SPELL_AURA_DUMMY",
+            "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+            "caster": "holder (actor)",
+            "cast_spell": null
+          }
+        ],
+        "checks": [
+          {
+            "step": "proc-chain-hard-limit",
+            "consumer": "Unit::ProcSkillsAndAuras",
+            "outcome": "pass",
+            "detail": "spell chain length 0 vs limit 10"
+          },
+          {
+            "step": "side-receives-event",
+            "consumer": "Unit::TriggerAurasProcOnEvent",
+            "outcome": "pass",
+            "detail": "actor mask 0x0000000000010000"
+          },
+          {
+            "step": "has-spell-proc-entry",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "generated"
+          },
+          {
+            "step": "not-triggered-by-this-aura",
+            "consumer": "Spell::IsTriggeredByAura",
+            "outcome": "pass",
+            "detail": "event spell triggered by aura None"
+          },
+          {
+            "step": "triggered-spell-gate",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "event triggered=False, NOT_A_PROC=False"
+          },
+          {
+            "step": "cant-proc-from-item-cast",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "cast item=False"
+          },
+          {
+            "step": "suppress-weapon-procs",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "only-class-abilities",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "suppress-caster-procs",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": ""
+          },
+          {
+            "step": "has-charges",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "using_charges=False charges=0"
+          },
+          {
+            "step": "proc-cooldown",
+            "consumer": "Aura::IsProcOnCooldown",
+            "outcome": "pass",
+            "detail": "cooldown until 34000 ms, now 34000 ms"
+          },
+          {
+            "step": "proc-flags-intersect",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x0000000000010000 & entry 0x0000000000011110"
+          },
+          {
+            "step": "spell-family",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "entry family 0 mask 0x0; event family 0 flags 0x0"
+          },
+          {
+            "step": "spell-type-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x1 & entry 0x7"
+          },
+          {
+            "step": "spell-phase-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x2 & entry 0x2"
+          },
+          {
+            "step": "hit-mask",
+            "consumer": "SpellMgr::CanSpellTriggerProcOnEvent",
+            "outcome": "pass",
+            "detail": "event 0x1 & 0x403 (default done: NORMAL|CRITICAL|ABSORB)"
+          },
+          {
+            "step": "effect-0",
+            "consumer": "AuraEffect::CheckEffectProc",
+            "outcome": "pass",
+            "detail": "SPELL_AURA_PROC_TRIGGER_SPELL"
+          },
+          {
+            "step": "effect-1",
+            "consumer": "AuraEffect::CheckEffectProc",
+            "outcome": "pass",
+            "detail": "SPELL_AURA_DUMMY"
+          },
+          {
+            "step": "any-effect-remains",
+            "consumer": "Aura::GetProcEffectMask",
+            "outcome": "pass",
+            "detail": "effect mask 0x3"
+          },
+          {
+            "step": "standing",
+            "consumer": "Unit::IsStandState",
+            "outcome": "pass",
+            "detail": ""
+          }
+        ]
+      }
+    ]
+  }
+]

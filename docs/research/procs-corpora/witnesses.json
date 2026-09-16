@@ -1,0 +1,5602 @@
+{
+ "providers": {
+  "1250564": {
+   "spell_id": 1250564,
+   "difficulty": 0,
+   "name": "Xathuux's Last Roar",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 69904,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 30000,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000011110",
+    "proc_flag_names": [
+     "DEAL_MELEE_ABILITY",
+     "DEAL_RANGED_ABILITY",
+     "DEAL_HARMFUL_ABILITY",
+     "DEAL_HARMFUL_SPELL"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 1254180,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    1254180
+   ],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 1.0,
+    "rppm_id": 86,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=101 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1254677,
+      0
+     ],
+     "1": [
+      1279134,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 243083,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 804718,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [
+     {
+      "item_effect_id": 214278,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       250228
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     }
+    ],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [
+     250228
+    ],
+    "kinds": [
+     "item-equip",
+     "current-gear"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "0 (none)",
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "item-equip",
+     "current-gear"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCooldown (per Aura, shared across applications)",
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "1254180": {
+   "spell_id": 1254180,
+   "difficulty": 0,
+   "name": "Xathuux's Last Roar",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 69972,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 1,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000011154",
+    "proc_flag_names": [
+     "DEAL_MELEE_SWING",
+     "DEAL_MELEE_ABILITY",
+     "DEAL_RANGED_ATTACK",
+     "DEAL_RANGED_ABILITY",
+     "DEAL_HARMFUL_ABILITY",
+     "DEAL_HARMFUL_SPELL"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 189,
+     "aura_name": "SPELL_AURA_MOD_RATING",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": true,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 35,
+     "effect_name": "SPELL_EFFECT_APPLY_AREA_AURA_PARTY",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 1254331,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    1254331
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1260490,
+      0
+     ],
+     "1": [
+      1260696,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 243390,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 808182,
+     "DifficultyID": 0
+    },
+    "SpellCategories": {
+     "ID": 176559,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [
+     {
+      "spell_id": 1250564,
+      "effect": 0,
+      "effect_type": 6,
+      "aura": 42
+     }
+    ],
+    "current_gear_items": [],
+    "kinds": [
+     "triggered-by-spell"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "active-timed",
+    "bindings": [
+     "applied by another spell's effect (lifetime = that aura's duration)"
+    ],
+    "duration_ms": 30000,
+    "aura_implicit_targets": [
+     "0 (none)",
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "triggered-by-spell"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "1295884": {
+   "spell_id": 1295884,
+   "difficulty": 0,
+   "name": "Hex Lord's Dooming Idol",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 87312,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 6000,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000015510",
+    "proc_flag_names": [
+     "DEAL_MELEE_ABILITY",
+     "DEAL_RANGED_ABILITY",
+     "DEAL_HELPFUL_ABILITY",
+     "DEAL_HARMFUL_ABILITY",
+     "DEAL_HELPFUL_SPELL",
+     "DEAL_HARMFUL_SPELL"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 1307470,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    1307470
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1318226,
+      0
+     ],
+     "1": [
+      1318228,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 247156,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 843271,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [
+     {
+      "item_effect_id": 234138,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       270169
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     }
+    ],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [
+     270169
+    ],
+    "kinds": [
+     "item-equip",
+     "current-gear"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "item-equip",
+     "current-gear"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCooldown (per Aura, shared across applications)"
+   ]
+  },
+  "1307356": {
+   "spell_id": 1307356,
+   "difficulty": 0,
+   "name": "Sszorak's Ferocity",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 4294967298,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 1,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 10000,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000100000002",
+    "proc_flag_names": [
+     "KILL",
+     "2_TARGET_DIES"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": [
+     "REQ_EXP_OR_HONOR"
+    ]
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 1307361,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    1307361
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods",
+    "Player::isHonorOrXPTarget(action target)"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1335308,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 247148,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 854039,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [
+     {
+      "item_effect_id": 236147,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       270163
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     }
+    ],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [
+     270163
+    ],
+    "kinds": [
+     "item-equip",
+     "current-gear"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "item-equip",
+     "current-gear"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCooldown (per Aura, shared across applications)"
+   ]
+  },
+  "1295643": {
+   "spell_id": 1295643,
+   "difficulty": 0,
+   "name": "Idol of the Howling Nexus",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 139944,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 2,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x00000000000222A8",
+    "proc_flag_names": [
+     "TAKE_MELEE_SWING",
+     "TAKE_MELEE_ABILITY",
+     "TAKE_RANGED_ATTACK",
+     "TAKE_RANGED_ABILITY",
+     "TAKE_HARMFUL_ABILITY",
+     "TAKE_HARMFUL_SPELL"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": [
+     "TRIGGERED_CAN_PROC"
+    ]
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 1295649,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    1295649
+   ],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 2.0,
+    "rppm_id": 125,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=101 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1317836,
+      0
+     ],
+     "1": [
+      1317851,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 247222,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 843032,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [
+     {
+      "item_effect_id": 234103,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       270174
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     }
+    ],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [
+     270174
+    ],
+    "kinds": [
+     "item-equip",
+     "current-gear"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "item-equip",
+     "current-gear"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "1250557": {
+   "spell_id": 1250557,
+   "difficulty": 0,
+   "name": "Void Execution Mandate",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 137438957908,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 4,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000002000001154",
+    "proc_flag_names": [
+     "DEAL_MELEE_SWING",
+     "DEAL_MELEE_ABILITY",
+     "DEAL_RANGED_ATTACK",
+     "DEAL_RANGED_ABILITY",
+     "DEAL_HARMFUL_ABILITY",
+     "UNKNOWN_0x2000000000"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": "0x0000002000000000",
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 64,
+     "effect_name": "SPELL_EFFECT_TRIGGER_SPELL",
+     "aura": 0,
+     "aura_name": "SPELL_AURA_NONE",
+     "is_aura": false,
+     "trigger_aura": false,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 1263355,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 2,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 189,
+     "aura_name": "SPELL_AURA_MOD_RATING",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": true,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1254664,
+      0
+     ],
+     "1": [
+      1254665,
+      0
+     ],
+     "2": [
+      1273962,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 243080,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 804711,
+     "DifficultyID": 0
+    },
+    "SpellCategories": {
+     "ID": 183109,
+     "DifficultyID": 0
+    },
+    "SpellCooldowns": {
+     "ID": 95825,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [
+     {
+      "item_effect_id": 214273,
+      "trigger_type": 0,
+      "trigger_name": "OnUse",
+      "route": "on-use root: Player::CastItemUseSpell (needs item runtime policy)",
+      "items": [
+       250225
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     }
+    ],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [
+     {
+      "spell_id": 1263357,
+      "effect": 1,
+      "effect_type": 3,
+      "aura": 0
+     }
+    ],
+    "current_gear_items": [
+     250225
+    ],
+    "kinds": [
+     "item-use",
+     "triggered-by-spell",
+     "current-gear"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "active-timed",
+    "bindings": [
+     "applied by another spell's effect (lifetime = that aura's duration)",
+     "applied by an on-use item spell"
+    ],
+    "duration_ms": 20000,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "item-use",
+     "triggered-by-spell",
+     "current-gear"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "1250546": {
+   "spell_id": 1250546,
+   "difficulty": 0,
+   "name": "Mindpiercer's Sigil",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 327680,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000050000",
+    "proc_flag_names": [
+     "DEAL_HARMFUL_SPELL",
+     "DEAL_HARMFUL_PERIODIC"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 2.0,
+    "rppm_id": 125,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=101 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1254646,
+      0
+     ],
+     "1": [
+      1254647,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 244042,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 804697,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [
+     {
+      "item_effect_id": 214270,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       250224
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     }
+    ],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [
+     {
+      "spell_id": 1264374,
+      "effect": 1,
+      "effect_type": 3,
+      "aura": 0
+     },
+     {
+      "spell_id": 1264404,
+      "effect": 1,
+      "effect_type": 3,
+      "aura": 0
+     }
+    ],
+    "current_gear_items": [
+     250224
+    ],
+    "kinds": [
+     "item-equip",
+     "triggered-by-spell",
+     "current-gear"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip",
+     "applied by another spell's effect (lifetime = that aura's duration)"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "item-equip",
+     "triggered-by-spell",
+     "current-gear"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "1262337": {
+   "spell_id": 1262337,
+   "difficulty": 0,
+   "name": "Farstrider's Hawkeye",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 320,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000000140",
+    "proc_flag_names": [
+     "DEAL_RANGED_ATTACK",
+     "DEAL_RANGED_ABILITY"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 1262336,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    1262336
+   ],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 3.0,
+    "rppm_id": 102,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=101 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1272511,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 243865,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 815397,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [
+     {
+      "enchant_id": 8614,
+      "slot": 0,
+      "effect_type": 3,
+      "effect_points_min": 0
+     }
+    ],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "enchant-equip"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "enchant-equip"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "1237014": {
+   "spell_id": 1237014,
+   "difficulty": 0,
+   "name": "Oil of Dawn",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 2114560,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000204400",
+    "proc_flag_names": [
+     "DEAL_HELPFUL_ABILITY",
+     "DEAL_HELPFUL_SPELL",
+     "DEAL_HELPFUL_PERIODIC"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 1237015,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    1237015
+   ],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 6.0,
+    "rppm_id": 124,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [
+     {
+      "id": 374,
+      "type": 1,
+      "param": 4,
+      "coeff": 1.0
+     }
+    ],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=101 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1233521,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 242015,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 791574,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [
+     {
+      "enchant_id": 8053,
+      "slot": 0,
+      "effect_type": 3,
+      "effect_points_min": 12
+     }
+    ],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "enchant-equip"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "enchant-equip"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "17619": {
+   "spell_id": 17619,
+   "difficulty": 0,
+   "name": "Alchemist Stone",
+   "status": "spell_proc",
+   "generation_reason": null,
+   "entry": {
+    "school_mask": 0,
+    "family_name": 13,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 18432,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 1,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "spell_proc",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000004800",
+    "proc_flag_names": [
+     "TAKE_HELPFUL_ABILITY",
+     "DEAL_HELPFUL_SPELL"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "CAST"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": [
+      "EFFECT_0:SPELL_AURA_DUMMY"
+     ]
+    }
+   ],
+   "triggered_spells": [],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [
+     "spell_item_alchemist_stone"
+    ],
+    "proc_hooks": [
+     "DoCheckProc",
+     "OnEffectProc"
+    ],
+    "effect_proc_bindings": [
+     "EFFECT_0:SPELL_AURA_DUMMY"
+    ],
+    "any_prevent_default_action": true,
+    "unresolved_script_names": [],
+    "files": [
+     "src/server/scripts/Spells/spell_item.cpp"
+    ]
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods",
+    "AuraScript proc hooks: DoCheckProc, OnEffectProc"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      9268,
+      0
+     ]
+    },
+    "SpellMisc": {
+     "ID": 7201,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 1194,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [
+     {
+      "item_effect_id": 2020,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       13503
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 7357,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       35749
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 7356,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       35748
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 7358,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       35750
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 7359,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       35751
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 9793,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       44322
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 9794,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       44323
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 9795,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       44324
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 12241,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       58483
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 13523,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       68775
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 13524,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       68776
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 13525,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       68777
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 19645,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       109262
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 25015,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       122601
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 25016,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       122604
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 25017,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       122603
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 25018,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       122602
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 25770,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       127842
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 25979,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       128023
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 25981,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       128024
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 35267,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       151607
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 35858,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       152632
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 35868,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       152637
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 36875,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       75274
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 111940,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       165926
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 111942,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       165927
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 111944,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       165928
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 112717,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       166974
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 112719,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       166975
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 112721,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       166976
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 113553,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       168674
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 113555,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       168675
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 113557,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       168676
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 114962,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       171085
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 114966,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       171087
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 114968,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       171088
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 115118,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       171323
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 116984,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       175941
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 116986,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       175942
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 116988,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       175943
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 181831,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       210816
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 208942,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       241340
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     }
+    ],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "item-equip"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "active-unlimited",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip"
+    ],
+    "duration_ms": -1,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "item-equip"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "16166": {
+   "spell_id": 16166,
+   "difficulty": 0,
+   "name": "Master of the Elements",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 65536,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 2,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000010000",
+    "proc_flag_names": [
+     "DEAL_HARMFUL_SPELL"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 260734,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 219,
+     "aura_name": "SPELL_AURA_ADD_FLAT_MODIFIER_BY_SPELL_LABEL",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": true,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    260734
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      7950,
+      0
+     ],
+     "1": [
+      1019494,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 533,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 6247,
+     "DifficultyID": 0
+    },
+    "SpellCategories": {
+     "ID": 2376,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 945,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [
+     {
+      "trait_tree_id": 1033,
+      "trait_node_id": 102894,
+      "trait_definition_id": 131842,
+      "loadout_specs": [
+       262,
+       263,
+       264
+      ]
+     },
+     {
+      "trait_tree_id": 1034,
+      "trait_node_id": 103103,
+      "trait_definition_id": 132092,
+      "loadout_specs": [
+       262,
+       263,
+       264
+      ]
+     },
+     {
+      "trait_tree_id": 786,
+      "trait_node_id": 80999,
+      "trait_definition_id": 141486,
+      "loadout_specs": [
+       262,
+       263,
+       264
+      ]
+     }
+    ],
+    "any_trait": true,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "class-trait"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "0 (none)",
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "class-trait"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "53576": {
+   "spell_id": 53576,
+   "difficulty": 0,
+   "name": "Infusion of Light",
+   "status": "spell_proc",
+   "generation_reason": null,
+   "entry": {
+    "school_mask": 0,
+    "family_name": 10,
+    "family_mask": "0x00000000000000000001000000200000",
+    "proc_flags": 81920,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 2,
+    "hit_mask": 2,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "spell_proc",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000014000",
+    "proc_flag_names": [
+     "DEAL_HELPFUL_SPELL",
+     "DEAL_HARMFUL_SPELL"
+    ],
+    "spell_type_names": [],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "CRITICAL"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "trigger-spell: cast EffectTriggerSpell if nonzero and it exists",
+     "trigger_spell": 54149,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    54149
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      46235,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 3488,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 35081,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 5658,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [
+     {
+      "trait_tree_id": 790,
+      "trait_node_id": 81569,
+      "trait_definition_id": 107555,
+      "loadout_specs": [
+       65,
+       66,
+       70
+      ]
+     }
+    ],
+    "any_trait": true,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "class-trait"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "class-trait"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "54149": {
+   "spell_id": 54149,
+   "difficulty": 0,
+   "name": "Infusion of Light",
+   "status": "spell_proc",
+   "generation_reason": null,
+   "entry": {
+    "school_mask": 0,
+    "family_name": 10,
+    "family_mask": "0x00000000000004000000000040000000",
+    "proc_flags": 81936,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 1,
+    "origin": "spell_proc",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000014010",
+    "proc_flag_names": [
+     "DEAL_MELEE_ABILITY",
+     "DEAL_HELPFUL_SPELL",
+     "DEAL_HARMFUL_SPELL"
+    ],
+    "spell_type_names": [],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 108,
+     "aura_name": "SPELL_AURA_ADD_PCT_MODIFIER",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": [
+      "EFFECT_0:SPELL_AURA_ADD_PCT_MODIFIER"
+     ]
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": [
+      "EFFECT_1:SPELL_AURA_DUMMY"
+     ]
+    },
+    {
+     "index": 2,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 107,
+     "aura_name": "SPELL_AURA_ADD_FLAT_MODIFIER",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": [
+      "EFFECT_2:SPELL_AURA_ADD_FLAT_MODIFIER"
+     ]
+    },
+    {
+     "index": 3,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 4,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 5,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 6,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 7,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 108,
+     "aura_name": "SPELL_AURA_ADD_PCT_MODIFIER",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [
+     "spell_pal_infusion_of_light"
+    ],
+    "proc_hooks": [
+     "DoCheckEffectProc",
+     "OnEffectProc"
+    ],
+    "effect_proc_bindings": [
+     "EFFECT_0:SPELL_AURA_ADD_PCT_MODIFIER",
+     "EFFECT_1:SPELL_AURA_DUMMY",
+     "EFFECT_2:SPELL_AURA_ADD_FLAT_MODIFIER"
+    ],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": [
+     "src/server/scripts/Spells/spell_paladin.cpp"
+    ]
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods",
+    "AuraScript proc hooks: DoCheckEffectProc, OnEffectProc"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      46860,
+      0
+     ],
+     "1": [
+      288923,
+      0
+     ],
+     "2": [
+      750484,
+      0
+     ],
+     "3": [
+      1082791,
+      0
+     ],
+     "4": [
+      1084305,
+      0
+     ],
+     "5": [
+      1224051,
+      0
+     ],
+     "6": [
+      1224052,
+      0
+     ],
+     "7": [
+      1224053,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 3549,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 35566,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 5748,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [
+     {
+      "spell_id": 53576,
+      "effect": 0,
+      "effect_type": 6,
+      "aura": 4
+     }
+    ],
+    "current_gear_items": [],
+    "kinds": [
+     "triggered-by-spell"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "active-timed",
+    "bindings": [
+     "applied by another spell's effect (lifetime = that aura's duration)"
+    ],
+    "duration_ms": 15000,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "triggered-by-spell"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCharges (reset to max on refresh)"
+   ]
+  },
+  "207104": {
+   "spell_id": 207104,
+   "difficulty": 0,
+   "name": "Runic Attenuation",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 4,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000000004",
+    "proc_flag_names": [
+     "DEAL_MELEE_SWING"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 221322,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    221322
+   ],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 10.80000019073,
+    "rppm_id": 388,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [
+     {
+      "id": 1201,
+      "type": 1,
+      "param": 4,
+      "coeff": 1.0
+     }
+    ],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=100 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      306302,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 22602,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 181135,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 25680,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [
+     {
+      "trait_tree_id": 750,
+      "trait_node_id": 76045,
+      "trait_definition_id": 101175,
+      "loadout_specs": [
+       250,
+       251,
+       252
+      ]
+     }
+    ],
+    "any_trait": true,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "class-trait"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "class-trait"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "205148": {
+   "spell_id": 205148,
+   "difficulty": 0,
+   "name": "Reverse Entropy",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 327680,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000050000",
+    "proc_flag_names": [
+     "DEAL_HARMFUL_SPELL",
+     "DEAL_HARMFUL_PERIODIC"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 266030,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    266030
+   ],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 2.5,
+    "rppm_id": 110,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=101 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      302855,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 138206,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 179217,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 25402,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [
+     {
+      "trait_tree_id": 720,
+      "trait_node_id": 71980,
+      "trait_definition_id": 96498,
+      "loadout_specs": [
+       265,
+       266,
+       267
+      ]
+     },
+     {
+      "trait_tree_id": 877,
+      "trait_node_id": 93606,
+      "trait_definition_id": 120988,
+      "loadout_specs": [
+       265,
+       266,
+       267
+      ]
+     }
+    ],
+    "any_trait": true,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "class-trait"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "class-trait"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "2094": {
+   "spell_id": 2094,
+   "difficulty": 0,
+   "name": "Blind",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 664232,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 2,
+    "disable_effects_mask": 1,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 1,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x00000000000A22A8",
+    "proc_flag_names": [
+     "TAKE_MELEE_SWING",
+     "TAKE_MELEE_ABILITY",
+     "TAKE_RANGED_ATTACK",
+     "TAKE_RANGED_ABILITY",
+     "TAKE_HARMFUL_ABILITY",
+     "TAKE_HARMFUL_SPELL",
+     "TAKE_HARMFUL_PERIODIC"
+    ],
+    "spell_type_names": [
+     "DAMAGE"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": [
+     "TRIGGERED_CAN_PROC"
+    ]
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 33,
+     "aura_name": "SPELL_AURA_MOD_DECREASE_SPEED",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": true,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 5,
+     "aura_name": "SPELL_AURA_MOD_CONFUSE",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "needs DamageInfo with damage > 0; own spell at full duration is ignored",
+     "handler": "breakable-cc: reduce amount by damage, remove at <= 0",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    },
+    {
+     "attribute": "SPELL_ATTR7_CAN_PROC_FROM_SUPPRESSED_TARGET_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: ignore SUPPRESS_TARGET_PROCS"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [
+     "spell_rog_airborne_irritant",
+     "spell_rog_blackjack"
+    ],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": [
+     "src/server/scripts/Spells/spell_rogue.cpp"
+    ]
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      616,
+      0
+     ],
+     "1": [
+      617,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 46,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 430,
+     "DifficultyID": 0
+    },
+    "SpellCategories": {
+     "ID": 314,
+     "DifficultyID": 0
+    },
+    "SpellCooldowns": {
+     "ID": 208,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 164,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [
+     {
+      "trait_tree_id": 852,
+      "trait_node_id": 90684,
+      "trait_definition_id": 117577,
+      "loadout_specs": [
+       259,
+       260,
+       261
+      ]
+     }
+    ],
+    "any_trait": true,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "class-trait"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "active-timed",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": 60000,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_TARGET_ENEMY"
+    ],
+    "holder": "explicit/area target (see implicit targets)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "class-trait"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCharges (reset to max on refresh)"
+   ]
+  },
+  "382549": {
+   "spell_id": 382549,
+   "difficulty": 0,
+   "name": "Pain and Gain",
+   "status": "spell_proc",
+   "generation_reason": null,
+   "entry": {
+    "school_mask": 0,
+    "family_name": 4,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 664232,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 0,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 10000,
+    "charges": 0,
+    "origin": "spell_proc",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x00000000000A22A8",
+    "proc_flag_names": [
+     "TAKE_MELEE_SWING",
+     "TAKE_MELEE_ABILITY",
+     "TAKE_RANGED_ATTACK",
+     "TAKE_RANGED_ABILITY",
+     "TAKE_HARMFUL_ABILITY",
+     "TAKE_HARMFUL_SPELL",
+     "TAKE_HARMFUL_PERIODIC"
+    ],
+    "spell_type_names": [
+     "DAMAGE"
+    ],
+    "spell_phase_names": [],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 382551,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    382551
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    },
+    {
+     "attribute": "SPELL_ATTR12_CAN_PROC_FROM_SUPPRESSED_CASTER_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: ignore SUPPRESS_CASTER_PROCS"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1013939,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 220501,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 641319,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 67652,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [
+     {
+      "trait_tree_id": 850,
+      "trait_node_id": 90353,
+      "trait_definition_id": 117222,
+      "loadout_specs": [
+       71,
+       72,
+       73
+      ]
+     },
+     {
+      "trait_tree_id": 880,
+      "trait_node_id": 94421,
+      "trait_definition_id": 121982,
+      "loadout_specs": [
+       71,
+       72,
+       73
+      ]
+     }
+    ],
+    "any_trait": true,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "class-trait"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "class-trait"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCooldown (per Aura, shared across applications)"
+   ]
+  },
+  "5301": {
+   "spell_id": 5301,
+   "difficulty": 0,
+   "name": "Revenge Trigger",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 684,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 2,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 101.0,
+    "cooldown_ms": 3000,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x00000000000002AC",
+    "proc_flag_names": [
+     "DEAL_MELEE_SWING",
+     "TAKE_MELEE_SWING",
+     "TAKE_MELEE_ABILITY",
+     "TAKE_RANGED_ATTACK",
+     "TAKE_RANGED_ABILITY"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": [
+     "TRIGGERED_CAN_PROC"
+    ]
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 5302,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    5302
+   ],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 101.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 3.0,
+    "rppm_id": 468,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [
+     {
+      "id": 1278,
+      "type": 8,
+      "param": 202560,
+      "coeff": 0.20000000298
+     }
+    ],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=101 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1897,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 119,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 1450,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [
+     {
+      "spec_id": 73,
+      "class_id": 1
+     }
+    ],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "spec-spell"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "spec-spell"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCooldown (per Aura, shared across applications)",
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "203555": {
+   "spell_id": 203555,
+   "difficulty": 0,
+   "name": "Demon Blades",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 4,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 2,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000000004",
+    "proc_flag_names": [
+     "DEAL_MELEE_SWING"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 203796,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 107,
+     "aura_name": "SPELL_AURA_ADD_FLAT_MODIFIER",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": true,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    203796
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      300260,
+      0
+     ],
+     "1": [
+      350250,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 20676,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 177572,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 25063,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": true,
+    "spec_spells": [
+     {
+      "spec_id": 577,
+      "class_id": 12
+     }
+    ],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "other-trait",
+     "spec-spell"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "0 (none)",
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "other-trait",
+     "spec-spell"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "3439": {
+   "spell_id": 3439,
+   "difficulty": 0,
+   "name": "Wandering Plague",
+   "status": "generated",
+   "generation_reason": "generated",
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 40,
+    "spell_type_mask": 7,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 2,
+    "disable_effects_mask": 2,
+    "procs_per_minute": 0.0,
+    "chance": 10.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "generated",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000000028",
+    "proc_flag_names": [
+     "TAKE_MELEE_SWING",
+     "TAKE_MELEE_ABILITY"
+    ],
+    "spell_type_names": [
+     "DAMAGE",
+     "HEAL",
+     "NO_DMG_HEAL"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": [
+     "TRIGGERED_CAN_PROC"
+    ]
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 87,
+     "aura_name": "SPELL_AURA_MOD_DAMAGE_PERCENT_TAKEN",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 80,
+     "aura_name": "SPELL_AURA_MOD_PERCENT_STAT",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": true,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 2,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 3439,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    3439
+   ],
+   "chance": {
+    "model": "fixed",
+    "fixed_chance": 10.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [
+    "SPELL_ATTR0_WEARER_CASTS_PROC_TRIGGER"
+   ],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      1135,
+      0
+     ],
+     "1": [
+      1136,
+      0
+     ],
+     "2": [
+      1137,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 75,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 848,
+     "DifficultyID": 0
+    },
+    "SpellCategories": {
+     "ID": 497,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [
+     {
+      "spell_id": 3439,
+      "effect": 2,
+      "effect_type": 6,
+      "aura": 42
+     },
+     {
+      "spell_id": 3436,
+      "effect": 2,
+      "effect_type": 6,
+      "aura": 42
+     }
+    ],
+    "current_gear_items": [],
+    "kinds": [
+     "triggered-by-spell"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "active-timed",
+    "bindings": [
+     "applied by another spell's effect (lifetime = that aura's duration)"
+    ],
+    "duration_ms": 30000,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_NEARBY_PARTY"
+    ],
+    "holder": "explicit/area target (see implicit targets)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "triggered-by-spell"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "38334": {
+   "spell_id": 38334,
+   "difficulty": 0,
+   "name": "Bangle of Endless Blessings",
+   "status": "spell_proc",
+   "generation_reason": null,
+   "entry": {
+    "school_mask": 0,
+    "family_name": 0,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 81920,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 2,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 60,
+    "charges": 0,
+    "origin": "spell_proc",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000014000",
+    "proc_flag_names": [
+     "DEAL_HELPFUL_SPELL",
+     "DEAL_HARMFUL_SPELL"
+    ],
+    "spell_type_names": [],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 38346,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    38346
+   ],
+   "chance": {
+    "model": "rppm",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 1.20000004768,
+    "rppm_id": 393,
+    "rppm_flags_unconsumed": 1,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [
+     "if the aura caster is gone, only fixed Chance=100 applies"
+    ],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner",
+     "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+     "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR12_ONLY_PROC_FROM_CLASS_ABILITIES",
+     "role": "event-matching",
+     "consumer": "Aura::GetProcEffectMask: event spell must carry ATTR13_ALLOW_CLASS_ABILITY_PROCS"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      29078,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 2209,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 22186,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 3963,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [
+     {
+      "item_effect_id": 26689,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       28370
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     },
+     {
+      "item_effect_id": 139719,
+      "trigger_type": 1,
+      "trigger_name": "OnEquip",
+      "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+      "items": [
+       188396
+      ],
+      "item_count": 1,
+      "chr_specialization_id": 0,
+      "cooldown_ms": -1,
+      "category_cooldown_ms": -1,
+      "charges": 0
+     }
+    ],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [
+     {
+      "spell_id": 38346,
+      "effect": 1,
+      "effect_type": 3,
+      "aura": 0
+     }
+    ],
+    "current_gear_items": [],
+    "kinds": [
+     "item-equip",
+     "triggered-by-spell"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "equip-bound: applied by ApplyItemEquipSpell/ApplyEnchantment/ApplyEquipSpell, removed on unequip",
+     "applied by another spell's effect (lifetime = that aura's duration)"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "item-equip",
+     "triggered-by-spell"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCooldown (per Aura, shared across applications)",
+    "Aura::m_lastProcAttemptTime / m_lastProcSuccessTime (RPPM)"
+   ]
+  },
+  "370455": {
+   "spell_id": 370455,
+   "difficulty": 0,
+   "name": "Charged Blast",
+   "status": "spell_proc",
+   "generation_reason": null,
+   "entry": {
+    "school_mask": 0,
+    "family_name": 224,
+    "family_mask": "0x00000000000000000000000000000000",
+    "proc_flags": 327680,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 2,
+    "hit_mask": 1027,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "spell_proc",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000000050000",
+    "proc_flag_names": [
+     "DEAL_HARMFUL_SPELL",
+     "DEAL_HARMFUL_PERIODIC"
+    ],
+    "spell_type_names": [
+     "DAMAGE"
+    ],
+    "spell_phase_names": [
+     "HIT"
+    ],
+    "hit_mask_names": [
+     "NORMAL",
+     "CRITICAL",
+     "ABSORB"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+     "handler": "trigger-spell: cast EffectTriggerSpell",
+     "trigger_spell": 370454,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    370454
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    },
+    {
+     "attribute": "SPELL_ATTR12_ONLY_PROC_FROM_CLASS_ABILITIES",
+     "role": "event-matching",
+     "consumer": "Aura::GetProcEffectMask: event spell must carry ATTR13_ALLOW_CLASS_ABILITY_PROCS"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [
+     "spell_evo_charged_blast"
+    ],
+    "proc_hooks": [
+     "DoCheckProc"
+    ],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": [
+     "src/server/scripts/Spells/spell_evoker.cpp"
+    ]
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods",
+    "AuraScript proc hooks: DoCheckProc"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      981820,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 187628,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 485413,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 62358,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [
+     {
+      "trait_tree_id": 701,
+      "trait_node_id": 68627,
+      "trait_definition_id": 92653,
+      "loadout_specs": [
+       1467,
+       1468
+      ]
+     },
+     {
+      "trait_tree_id": 872,
+      "trait_node_id": 93317,
+      "trait_definition_id": 120640,
+      "loadout_specs": [
+       1467,
+       1468,
+       1473
+      ]
+     }
+    ],
+    "any_trait": true,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "class-trait"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "class-trait"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "59057": {
+   "spell_id": 59057,
+   "difficulty": 0,
+   "name": "Rime",
+   "status": "spell_proc",
+   "generation_reason": null,
+   "entry": {
+    "school_mask": 0,
+    "family_name": 15,
+    "family_mask": "0x00000000000000000000000000008080",
+    "proc_flags": 17179869184,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 1,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 2,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 0,
+    "origin": "spell_proc",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000400000000",
+    "proc_flag_names": [
+     "2_CAST_SUCCESSFUL"
+    ],
+    "spell_type_names": [
+     "DAMAGE"
+    ],
+    "spell_phase_names": [
+     "CAST"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [
+    "spell 59057: SpellTypeMask set but unused for these ProcFlags",
+    "spell 59057: SpellPhaseMask set but unused for these ProcFlags"
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": false,
+     "check_gate": null,
+     "handler": "trigger-spell: cast EffectTriggerSpell if nonzero and it exists",
+     "trigger_spell": 59052,
+     "trigger_spell_exists": true,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": [
+      "EFFECT_0:SPELL_AURA_PROC_TRIGGER_SPELL"
+     ]
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "aura_name": "SPELL_AURA_DUMMY",
+     "is_aura": true,
+     "trigger_aura": true,
+     "disabled": true,
+     "check_gate": null,
+     "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [
+    59052
+   ],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [
+    {
+     "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+     "role": "suppression",
+     "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    }
+   ],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [
+     "spell_dk_rime"
+    ],
+    "proc_hooks": [
+     "DoCheckEffectProc"
+    ],
+    "effect_proc_bindings": [
+     "EFFECT_0:SPELL_AURA_PROC_TRIGGER_SPELL"
+    ],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": [
+     "src/server/scripts/Spells/spell_dk.cpp"
+    ]
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods",
+    "AuraScript proc hooks: DoCheckEffectProc"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      52489,
+      0
+     ],
+     "1": [
+      464145,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 3917,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 39890,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 6396,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [
+     {
+      "spec_id": 251,
+      "class_id": 6
+     }
+    ],
+    "mastery_of_specs": [],
+    "triggered_by": [],
+    "current_gear_items": [],
+    "kinds": [
+     "spec-spell"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "passive",
+    "bindings": [
+     "learned: passive auto-cast while the spell is known"
+    ],
+    "duration_ms": null,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "spec-spell"
+    ]
+   },
+   "mutable_state": [
+    "none beyond aura existence (stateless roll per eligible event)"
+   ]
+  },
+  "59052": {
+   "spell_id": 59052,
+   "difficulty": 0,
+   "name": "Rime",
+   "status": "spell_proc",
+   "generation_reason": null,
+   "entry": {
+    "school_mask": 0,
+    "family_name": 15,
+    "family_mask": "0x00000000000000000000000200000000",
+    "proc_flags": 17179934720,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 1,
+    "hit_mask": 0,
+    "attributes_mask": 0,
+    "disable_effects_mask": 0,
+    "procs_per_minute": 0.0,
+    "chance": 100.0,
+    "cooldown_ms": 0,
+    "charges": 1,
+    "origin": "spell_proc",
+    "keyed_difficulty": 0,
+    "proc_flags_hex": "0x0000000400010000",
+    "proc_flag_names": [
+     "DEAL_HARMFUL_SPELL",
+     "2_CAST_SUCCESSFUL"
+    ],
+    "spell_type_names": [
+     "DAMAGE"
+    ],
+    "spell_phase_names": [
+     "CAST"
+    ],
+    "hit_mask_names": [
+     "NONE (default)"
+    ],
+    "attribute_names": []
+   },
+   "unknown_proc_flag_bits": null,
+   "load_log": [],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 108,
+     "aura_name": "SPELL_AURA_ADD_PCT_MODIFIER",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 108,
+     "aura_name": "SPELL_AURA_ADD_PCT_MODIFIER",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 2,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 108,
+     "aura_name": "SPELL_AURA_ADD_PCT_MODIFIER",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    },
+    {
+     "index": 3,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 108,
+     "aura_name": "SPELL_AURA_ADD_PCT_MODIFIER",
+     "is_aura": true,
+     "trigger_aura": false,
+     "disabled": false,
+     "check_gate": null,
+     "handler": null,
+     "trigger_spell": 0,
+     "trigger_spell_exists": null,
+     "trigger_spell_adds_extra_attacks": false,
+     "script_bindings": []
+    }
+   ],
+   "triggered_spells": [],
+   "chance": {
+    "model": "fixed-guaranteed",
+    "fixed_chance": 100.0,
+    "classic_ppm": 0.0,
+    "rppm_base": 0.0,
+    "rppm_id": null,
+    "rppm_flags_unconsumed": null,
+    "rppm_modifiers": [],
+    "reduce_proc_60": false,
+    "notes": [],
+    "external_inputs": [
+     "SpellModOp::ProcChance on the aura caster's mod owner"
+    ]
+   },
+   "provider_attributes": [],
+   "unconsumed_attributes": [],
+   "scripts": {
+    "script_names": [],
+    "proc_hooks": [],
+    "effect_proc_bindings": [],
+    "any_prevent_default_action": false,
+    "unresolved_script_names": [],
+    "files": []
+   },
+   "conditions": [],
+   "trinity_code_corrections": [],
+   "equipped_requirement": null,
+   "external_inputs": [
+    "aura application effect mask (area auras may apply a subset of effects)",
+    "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+   ],
+   "provenance": {
+    "difficulty_chain": [
+     0
+    ],
+    "SpellEffect": {
+     "0": [
+      52485,
+      0
+     ],
+     "1": [
+      219498,
+      0
+     ],
+     "2": [
+      292146,
+      0
+     ],
+     "3": [
+      1218112,
+      0
+     ]
+    },
+    "SpellAuraOptions": {
+     "ID": 3915,
+     "DifficultyID": 0
+    },
+    "SpellMisc": {
+     "ID": 39886,
+     "DifficultyID": 0
+    },
+    "SpellCategories": {
+     "ID": 13188,
+     "DifficultyID": 0
+    },
+    "SpellClassOptions": {
+     "ID": 6395,
+     "DifficultyID": 0
+    }
+   },
+   "origins": {
+    "item_effects": [],
+    "enchants": [],
+    "gems": [],
+    "set_bonuses": [],
+    "current_class_trait": [],
+    "any_trait": false,
+    "spec_spells": [],
+    "mastery_of_specs": [],
+    "triggered_by": [
+     {
+      "spell_id": 59057,
+      "effect": 0,
+      "effect_type": 6,
+      "aura": 4
+     }
+    ],
+    "current_gear_items": [],
+    "kinds": [
+     "triggered-by-spell"
+    ]
+   },
+   "lifecycle": {
+    "lifecycle": "active-timed",
+    "bindings": [
+     "applied by another spell's effect (lifetime = that aura's duration)"
+    ],
+    "duration_ms": 15000,
+    "aura_implicit_targets": [
+     "TARGET_UNIT_CASTER"
+    ],
+    "holder": "self (implicit TARGET_UNIT_CASTER)",
+    "state_owner": "Aura object on the holder (charges, proc cooldown, RPPM times shared by all applications)",
+    "origins": [
+     "triggered-by-spell"
+    ]
+   },
+   "mutable_state": [
+    "Aura::m_procCharges (reset to max on refresh)"
+   ]
+  }
+ },
+ "items": {
+  "250228": {
+   "item_id": 250228,
+   "name": "Resonant Bellowstone",
+   "inventory_type": 12,
+   "class_id": 4,
+   "delay_ms": 0,
+   "legacy_flag": false,
+   "item_template_addon_spell_ppm": null,
+   "effects": [
+    {
+     "item_effect_id": 214278,
+     "spell_id": 1250564,
+     "trigger_type": 1,
+     "trigger_name": "OnEquip",
+     "route": "equip aura: Player::ApplyItemEquipSpell -> CastSpell(this, spell, item)",
+     "legacy_slot_index": 0,
+     "charges": 0,
+     "cooldown_ms": -1,
+     "category_cooldown_ms": -1,
+     "spell_category_id": 0,
+     "chr_specialization_id": 0,
+     "player_condition_id": 0,
+     "combat_relevant": true,
+     "proc_provider": {
+      "spell_id": 1250564,
+      "difficulty": 0,
+      "name": "Xathuux's Last Roar",
+      "status": "generated",
+      "generation_reason": "generated",
+      "entry": {
+       "school_mask": 0,
+       "family_name": 0,
+       "family_mask": "0x00000000000000000000000000000000",
+       "proc_flags": 69904,
+       "spell_type_mask": 7,
+       "spell_phase_mask": 2,
+       "hit_mask": 0,
+       "attributes_mask": 0,
+       "disable_effects_mask": 0,
+       "procs_per_minute": 0.0,
+       "chance": 101.0,
+       "cooldown_ms": 30000,
+       "charges": 0,
+       "origin": "generated",
+       "keyed_difficulty": 0,
+       "proc_flags_hex": "0x0000000000011110",
+       "proc_flag_names": [
+        "DEAL_MELEE_ABILITY",
+        "DEAL_RANGED_ABILITY",
+        "DEAL_HARMFUL_ABILITY",
+        "DEAL_HARMFUL_SPELL"
+       ],
+       "spell_type_names": [
+        "DAMAGE",
+        "HEAL",
+        "NO_DMG_HEAL"
+       ],
+       "spell_phase_names": [
+        "HIT"
+       ],
+       "hit_mask_names": [
+        "NONE (default)"
+       ],
+       "attribute_names": []
+      },
+      "unknown_proc_flag_bits": null,
+      "load_log": [],
+      "effects": [
+       {
+        "index": 0,
+        "effect": 6,
+        "effect_name": "SPELL_EFFECT_APPLY_AURA",
+        "aura": 42,
+        "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+        "is_aura": true,
+        "trigger_aura": true,
+        "disabled": false,
+        "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+        "handler": "trigger-spell: cast EffectTriggerSpell",
+        "trigger_spell": 1254180,
+        "trigger_spell_exists": true,
+        "trigger_spell_adds_extra_attacks": false,
+        "script_bindings": []
+       },
+       {
+        "index": 1,
+        "effect": 6,
+        "effect_name": "SPELL_EFFECT_APPLY_AURA",
+        "aura": 4,
+        "aura_name": "SPELL_AURA_DUMMY",
+        "is_aura": true,
+        "trigger_aura": true,
+        "disabled": false,
+        "check_gate": null,
+        "handler": "none: DUMMY with no EffectTriggerSpell (warning logged, no action)",
+        "trigger_spell": 0,
+        "trigger_spell_exists": null,
+        "trigger_spell_adds_extra_attacks": false,
+        "script_bindings": []
+       }
+      ],
+      "triggered_spells": [
+       1254180
+      ],
+      "chance": {
+       "model": "rppm",
+       "fixed_chance": 101.0,
+       "classic_ppm": 0.0,
+       "rppm_base": 1.0,
+       "rppm_id": 86,
+       "rppm_flags_unconsumed": 1,
+       "rppm_modifiers": [],
+       "reduce_proc_60": false,
+       "notes": [
+        "if the aura caster is gone, only fixed Chance=101 applies"
+       ],
+       "external_inputs": [
+        "SpellModOp::ProcChance on the aura caster's mod owner",
+        "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+        "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+       ]
+      },
+      "provider_attributes": [],
+      "unconsumed_attributes": [],
+      "scripts": {
+       "script_names": [],
+       "proc_hooks": [],
+       "effect_proc_bindings": [],
+       "any_prevent_default_action": false,
+       "unresolved_script_names": [],
+       "files": []
+      },
+      "conditions": [],
+      "trinity_code_corrections": [],
+      "equipped_requirement": null,
+      "external_inputs": [
+       "aura application effect mask (area auras may apply a subset of effects)",
+       "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+      ],
+      "provenance": {
+       "difficulty_chain": [
+        0
+       ],
+       "SpellEffect": {
+        "0": [
+         1254677,
+         0
+        ],
+        "1": [
+         1279134,
+         0
+        ]
+       },
+       "SpellAuraOptions": {
+        "ID": 243083,
+        "DifficultyID": 0
+       },
+       "SpellMisc": {
+        "ID": 804718,
+        "DifficultyID": 0
+       }
+      }
+     }
+    }
+   ]
+  },
+  "647": {
+   "item_id": 647,
+   "name": "Destiny",
+   "inventory_type": 17,
+   "class_id": 2,
+   "delay_ms": 3600,
+   "legacy_flag": false,
+   "item_template_addon_spell_ppm": 1.3,
+   "effects": [
+    {
+     "item_effect_id": 9,
+     "spell_id": 17152,
+     "trigger_type": 2,
+     "trigger_name": "OnProc",
+     "route": "item proc root: Player::CastItemCombatSpell (legacy path)",
+     "legacy_slot_index": 0,
+     "charges": 0,
+     "cooldown_ms": -1,
+     "category_cooldown_ms": -1,
+     "spell_category_id": 0,
+     "chr_specialization_id": 0,
+     "player_condition_id": 0,
+     "combat_relevant": true,
+     "legacy_item_proc": {
+      "consumer": "Player::CastItemCombatSpell",
+      "triggered_spell": 17152,
+      "triggered_spell_exists": true,
+      "requires_event": "spell/melee DamageInfo with NORMAL|CRITICAL|ABSORB; victim alive and not self",
+      "chance_source": "item_template_addon.SpellPPMChance (classic PPM on attack speed)",
+      "triggered_spell_proc_chance": 0,
+      "cast_target": "damage victim",
+      "state": "none (no ICD, no charges, no RPPM)"
+     }
+    }
+   ]
+  }
+ },
+ "enchants": {
+  "803": {
+   "enchant_id": 803,
+   "name": "Fiery Weapon",
+   "spell_enchant_proc_data": {
+    "EnchantID": 803,
+    "Chance": 0,
+    "ProcsPerMinute": 6,
+    "HitMask": 0,
+    "AttributesMask": 0
+   },
+   "effects": [
+    {
+     "slot": 0,
+     "type": 1,
+     "type_name": "CombatSpell",
+     "effect_arg": 13897,
+     "effect_points_min": 0,
+     "acquisition": "proc root: handled in Player::CastItemCombatSpell",
+     "enchant_combat_proc": {
+      "consumer": "Player::CastItemCombatSpell (item combat enchantments)",
+      "triggered_spell": 13897,
+      "triggered_spell_exists": true,
+      "hit_requirement": "NORMAL|CRITICAL|ABSORB",
+      "white_hit_only": false,
+      "chance": {
+       "unknown": "classic PPM on the host item's ItemDelay (item instance)"
+      },
+      "chance_source": "spell_enchant_proc_data.ProcsPerMinute on the item's own delay",
+      "rng": "two independent roll_chance draws, each able to cast (see docs, section 8)",
+      "cast_target": "self if SpellInfo::IsPositive() else victim (IsPositive not ported)",
+      "state": "none"
+     }
+    }
+   ]
+  },
+  "8614": {
+   "enchant_id": 8614,
+   "name": "Farstrider's Hawkeye |A:Professions-ChatIcon-Quality-12-Tier1:20:20|a",
+   "spell_enchant_proc_data": null,
+   "effects": [
+    {
+     "slot": 0,
+     "type": 3,
+     "type_name": "EquipSpell",
+     "effect_arg": 1262337,
+     "effect_points_min": 0,
+     "acquisition": "equip aura: CastSpell(this, spell, item)",
+     "proc_provider": {
+      "spell_id": 1262337,
+      "difficulty": 0,
+      "name": "Farstrider's Hawkeye",
+      "status": "generated",
+      "generation_reason": "generated",
+      "entry": {
+       "school_mask": 0,
+       "family_name": 0,
+       "family_mask": "0x00000000000000000000000000000000",
+       "proc_flags": 320,
+       "spell_type_mask": 7,
+       "spell_phase_mask": 2,
+       "hit_mask": 0,
+       "attributes_mask": 0,
+       "disable_effects_mask": 0,
+       "procs_per_minute": 0.0,
+       "chance": 101.0,
+       "cooldown_ms": 0,
+       "charges": 0,
+       "origin": "generated",
+       "keyed_difficulty": 0,
+       "proc_flags_hex": "0x0000000000000140",
+       "proc_flag_names": [
+        "DEAL_RANGED_ATTACK",
+        "DEAL_RANGED_ABILITY"
+       ],
+       "spell_type_names": [
+        "DAMAGE",
+        "HEAL",
+        "NO_DMG_HEAL"
+       ],
+       "spell_phase_names": [
+        "HIT"
+       ],
+       "hit_mask_names": [
+        "NONE (default)"
+       ],
+       "attribute_names": []
+      },
+      "unknown_proc_flag_bits": null,
+      "load_log": [],
+      "effects": [
+       {
+        "index": 0,
+        "effect": 6,
+        "effect_name": "SPELL_EFFECT_APPLY_AURA",
+        "aura": 42,
+        "aura_name": "SPELL_AURA_PROC_TRIGGER_SPELL",
+        "is_aura": true,
+        "trigger_aura": true,
+        "disabled": false,
+        "check_gate": "trigger spell with ADD_EXTRA_ATTACKS may not re-proc from itself",
+        "handler": "trigger-spell: cast EffectTriggerSpell",
+        "trigger_spell": 1262336,
+        "trigger_spell_exists": true,
+        "trigger_spell_adds_extra_attacks": false,
+        "script_bindings": []
+       }
+      ],
+      "triggered_spells": [
+       1262336
+      ],
+      "chance": {
+       "model": "rppm",
+       "fixed_chance": 101.0,
+       "classic_ppm": 0.0,
+       "rppm_base": 3.0,
+       "rppm_id": 102,
+       "rppm_flags_unconsumed": 1,
+       "rppm_modifiers": [],
+       "reduce_proc_60": false,
+       "notes": [
+        "if the aura caster is gone, only fixed Chance=101 applies"
+       ],
+       "external_inputs": [
+        "SpellModOp::ProcChance on the aura caster's mod owner",
+        "per-Aura m_lastProcAttemptTime / m_lastProcSuccessTime",
+        "Aura cast item level (SPELL_PPM_MOD_ITEM_LEVEL)"
+       ]
+      },
+      "provider_attributes": [],
+      "unconsumed_attributes": [],
+      "scripts": {
+       "script_names": [],
+       "proc_hooks": [],
+       "effect_proc_bindings": [],
+       "any_prevent_default_action": false,
+       "unresolved_script_names": [],
+       "files": []
+      },
+      "conditions": [],
+      "trinity_code_corrections": [],
+      "equipped_requirement": null,
+      "external_inputs": [
+       "aura application effect mask (area auras may apply a subset of effects)",
+       "SpellModOp::ProcChance / ProcCharges / ProcCooldown from the caster's spell mods"
+      ],
+      "provenance": {
+       "difficulty_chain": [
+        0
+       ],
+       "SpellEffect": {
+        "0": [
+         1272511,
+         0
+        ]
+       },
+       "SpellAuraOptions": {
+        "ID": 243865,
+        "DifficultyID": 0
+       },
+       "SpellMisc": {
+        "ID": 815397,
+        "DifficultyID": 0
+       }
+      }
+     }
+    }
+   ]
+  }
+ }
+}

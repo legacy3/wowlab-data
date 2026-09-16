@@ -1,0 +1,3476 @@
+{
+  "proc_flags": {
+    "0x0000000000000001": "HEARTBEAT",
+    "0x0000000000000002": "KILL",
+    "0x0000000000000004": "DEAL_MELEE_SWING",
+    "0x0000000000000008": "TAKE_MELEE_SWING",
+    "0x0000000000000010": "DEAL_MELEE_ABILITY",
+    "0x0000000000000020": "TAKE_MELEE_ABILITY",
+    "0x0000000000000040": "DEAL_RANGED_ATTACK",
+    "0x0000000000000080": "TAKE_RANGED_ATTACK",
+    "0x0000000000000100": "DEAL_RANGED_ABILITY",
+    "0x0000000000000200": "TAKE_RANGED_ABILITY",
+    "0x0000000000000400": "DEAL_HELPFUL_ABILITY",
+    "0x0000000000000800": "TAKE_HELPFUL_ABILITY",
+    "0x0000000000001000": "DEAL_HARMFUL_ABILITY",
+    "0x0000000000002000": "TAKE_HARMFUL_ABILITY",
+    "0x0000000000004000": "DEAL_HELPFUL_SPELL",
+    "0x0000000000008000": "TAKE_HELPFUL_SPELL",
+    "0x0000000000010000": "DEAL_HARMFUL_SPELL",
+    "0x0000000000020000": "TAKE_HARMFUL_SPELL",
+    "0x0000000000040000": "DEAL_HARMFUL_PERIODIC",
+    "0x0000000000080000": "TAKE_HARMFUL_PERIODIC",
+    "0x0000000000100000": "TAKE_ANY_DAMAGE",
+    "0x0000000000200000": "DEAL_HELPFUL_PERIODIC",
+    "0x0000000000400000": "MAIN_HAND_WEAPON_SWING",
+    "0x0000000000800000": "OFF_HAND_WEAPON_SWING",
+    "0x0000000001000000": "DEATH",
+    "0x0000000002000000": "JUMP",
+    "0x0000000004000000": "PROC_CLONE_SPELL",
+    "0x0000000008000000": "ENTER_COMBAT",
+    "0x0000000010000000": "ENCOUNTER_START",
+    "0x0000000020000000": "CAST_ENDED",
+    "0x0000000040000000": "LOOTED",
+    "0x0000000080000000": "TAKE_HELPFUL_PERIODIC",
+    "0x0000000100000000": "2_TARGET_DIES",
+    "0x0000000200000000": "2_KNOCKBACK",
+    "0x0000000400000000": "2_CAST_SUCCESSFUL",
+    "0x0000001000000000": "2_SUCCESSFUL_DISPEL",
+    "0x0000004000000000": "2_DO_EMOTE"
+  },
+  "spell_type": {
+    "1": "DAMAGE",
+    "2": "HEAL",
+    "4": "NO_DMG_HEAL"
+  },
+  "spell_phase": {
+    "1": "CAST",
+    "2": "HIT",
+    "4": "FINISH"
+  },
+  "hit": {
+    "1": "NORMAL",
+    "2": "CRITICAL",
+    "4": "MISS",
+    "8": "FULL_RESIST",
+    "16": "DODGE",
+    "32": "PARRY",
+    "64": "BLOCK",
+    "128": "EVADE",
+    "256": "IMMUNE",
+    "512": "DEFLECT",
+    "1024": "ABSORB",
+    "2048": "REFLECT",
+    "4096": "INTERRUPT",
+    "8192": "FULL_BLOCK",
+    "16384": "DISPEL"
+  },
+  "proc_attributes": {
+    "1": "REQ_EXP_OR_HONOR",
+    "2": "TRIGGERED_CAN_PROC",
+    "4": "REQ_POWER_COST",
+    "8": "REQ_SPELLMOD",
+    "16": "USE_STACKS_FOR_CHARGES",
+    "128": "REDUCE_PROC_60",
+    "256": "CANT_PROC_FROM_ITEM_CAST"
+  },
+  "spell_attributes": [
+    {
+      "attribute": "SPELL_ATTR0_PROC_FAILURE_BURNS_CHARGE",
+      "side": "provider",
+      "role": "suppression/charges",
+      "consumer": "Unit::GetProcAurasTriggeredOnEvent: failed GetProcEffectMask still drops a charge"
+    },
+    {
+      "attribute": "SPELL_ATTR2_PROC_COOLDOWN_ON_FAILURE",
+      "side": "provider",
+      "role": "cooldown",
+      "consumer": "Unit::GetProcAurasTriggeredOnEvent: failed GetProcEffectMask still starts the proc cooldown"
+    },
+    {
+      "attribute": "SPELL_ATTR3_CAN_PROC_FROM_PROCS",
+      "side": "provider",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask: provider may proc from triggered spells; SpellMgr::LoadSpellProcs: infinite-loop guard refuses generation"
+    },
+    {
+      "attribute": "SPELL_ATTR3_NOT_A_PROC",
+      "side": "event",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask: triggered event spell still counts as a proc source"
+    },
+    {
+      "attribute": "SPELL_ATTR3_SUPPRESS_CASTER_PROCS",
+      "side": "event",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask (non-taken events); Unit::ProcSkillsAndAuras (reactives only)"
+    },
+    {
+      "attribute": "SPELL_ATTR3_SUPPRESS_TARGET_PROCS",
+      "side": "event",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask (taken events); Unit::ProcSkillsAndAuras (reactives only)"
+    },
+    {
+      "attribute": "SPELL_ATTR7_CAN_PROC_FROM_SUPPRESSED_TARGET_PROCS",
+      "side": "provider",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask: ignore SUPPRESS_TARGET_PROCS"
+    },
+    {
+      "attribute": "SPELL_ATTR12_ENABLE_PROCS_FROM_SUPPRESSED_CASTER_PROCS",
+      "side": "event",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask: event spell re-enables its own suppressed caster procs"
+    },
+    {
+      "attribute": "SPELL_ATTR12_CAN_PROC_FROM_SUPPRESSED_CASTER_PROCS",
+      "side": "provider",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask: ignore SUPPRESS_CASTER_PROCS"
+    },
+    {
+      "attribute": "SPELL_ATTR4_SUPPRESS_WEAPON_PROCS",
+      "side": "event",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask (with provider ATTR6_AURA_IS_WEAPON_PROC); Spell::TargetInfo::DoDamageAndTriggers (no CastItemCombatSpell)"
+    },
+    {
+      "attribute": "SPELL_ATTR6_AURA_IS_WEAPON_PROC",
+      "side": "provider",
+      "role": "suppression",
+      "consumer": "Aura::GetProcEffectMask: suppressed by event ATTR4_SUPPRESS_WEAPON_PROCS"
+    },
+    {
+      "attribute": "SPELL_ATTR12_ONLY_PROC_FROM_CLASS_ABILITIES",
+      "side": "provider",
+      "role": "event-matching",
+      "consumer": "Aura::GetProcEffectMask: event spell must carry ATTR13_ALLOW_CLASS_ABILITY_PROCS"
+    },
+    {
+      "attribute": "SPELL_ATTR13_ALLOW_CLASS_ABILITY_PROCS",
+      "side": "event",
+      "role": "event-matching",
+      "consumer": "Aura::GetProcEffectMask: pairs with provider ATTR12_ONLY_PROC_FROM_CLASS_ABILITIES"
+    },
+    {
+      "attribute": "SPELL_ATTR3_NO_PROC_EQUIP_REQUIREMENT",
+      "side": "provider",
+      "role": "actor-applicability",
+      "consumer": "Aura::GetProcEffectMask: skip passive equipped-item requirement"
+    },
+    {
+      "attribute": "SPELL_ATTR3_ONLY_PROC_OUTDOORS",
+      "side": "provider",
+      "role": "actor-applicability",
+      "consumer": "Aura::GetProcEffectMask: target->IsOutdoors()"
+    },
+    {
+      "attribute": "SPELL_ATTR3_ONLY_PROC_ON_CASTER",
+      "side": "provider",
+      "role": "actor-applicability",
+      "consumer": "Aura::GetProcEffectMask: aura target GUID == aura caster GUID"
+    },
+    {
+      "attribute": "SPELL_ATTR4_ALLOW_PROC_WHILE_SITTING",
+      "side": "provider",
+      "role": "actor-applicability",
+      "consumer": "Aura::GetProcEffectMask: skip IsStandState()"
+    },
+    {
+      "attribute": "SPELL_ATTR6_DO_NOT_CONSUME_RESOURCES",
+      "side": "event",
+      "role": "charges",
+      "consumer": "Aura::PrepareProcChargeDrop: event spell with this attribute does not drop a charge"
+    },
+    {
+      "attribute": "SPELL_ATTR8_TARGET_PROCS_ON_CASTER",
+      "side": "provider",
+      "role": "target",
+      "consumer": "AuraEffect::HandleProcTriggerSpell[WithValue]AuraProc: taken procs target the actor"
+    },
+    {
+      "attribute": "SPELL_ATTR3_TREAT_AS_PERIODIC",
+      "side": "event",
+      "role": "event-identity",
+      "consumer": "Spell::FinalizeDataForTriggerSystem: spell hits report *_PERIODIC flags"
+    },
+    {
+      "attribute": "SPELL_ATTR0_IS_ABILITY",
+      "side": "event",
+      "role": "event-identity",
+      "consumer": "Spell::FinalizeDataForTriggerSystem: DmgClass NONE/MAGIC spell reports *_ABILITY flags"
+    },
+    {
+      "attribute": "SPELL_ATTR2_AUTO_REPEAT",
+      "side": "event",
+      "role": "event-identity",
+      "consumer": "Spell::prepareDataForTriggerSystem: ranged/wand auto-repeat reports *_RANGED_ATTACK"
+    },
+    {
+      "attribute": "SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT",
+      "side": "event",
+      "role": "suppression",
+      "consumer": "Spell::TargetInfo::DoDamageAndTriggers: no CastItemCombatSpell"
+    },
+    {
+      "attribute": "SPELL_ATTR4_CLASS_TRIGGER_ONLY_ON_TARGET",
+      "side": "provider",
+      "role": "target",
+      "consumer": "Spell::CanExecuteTriggersOnHit (SPELL_AURA_ADD_TARGET_TRIGGER path only)"
+    }
+  ],
+  "unconsumed_attributes": {
+    "SPELL_ATTR0_WEARER_CASTS_PROC_TRIGGER": "no consumer (SharedDefines: 'Just a marker attribute')",
+    "SPELL_ATTR3_INSTANT_TARGET_PROCS": "no consumer in this checkout",
+    "SPELL_ATTR4_REACTIVE_DAMAGE_PROC": "Unit::DealDamage aura-interrupt only, not proc eligibility",
+    "SPELL_ATTR4_PROC_SUPPRESS_SWING_ANIM": "no consumer in this checkout"
+  },
+  "event_producers": [
+    {
+      "site": "Unit::AttackerStateUpdate (Unit.cpp)",
+      "event": "white melee swing",
+      "actor": "DEAL_MELEE_SWING | MAIN_HAND_WEAPON_SWING (base) or | OFF_HAND_WEAPON_SWING (off)",
+      "target": "TAKE_MELEE_SWING, | TAKE_ANY_DAMAGE if damage > 0 after resilience",
+      "spell_type": "NONE",
+      "phase": "NONE",
+      "hit": "DamageInfo(CalcDamageInfo)::m_hitMask",
+      "spell": false,
+      "damage_info": true,
+      "heal_info": false,
+      "also": "Player::CastItemCombatSpell for the attacker (Unit.cpp, before the proc call)"
+    },
+    {
+      "site": "Spell::TargetInfo::DoDamageAndTriggers (Spell.cpp)",
+      "event": "spell hit on a unit target",
+      "actor": "prepareDataForTriggerSystem by DmgClass, else FinalizeDataForTriggerSystem(positive)",
+      "target": "matching TAKE_* flag, | TAKE_ANY_DAMAGE if damage dealt (not immune)",
+      "spell_type": "HEAL if healing>0, | DAMAGE if damage>0, NO_DMG_HEAL if neither",
+      "phase": "HIT",
+      "hit": "per-target ProcHitMask (+DISPEL/INTERRUPT from effects)",
+      "spell": true,
+      "damage_info": "if damage or neither",
+      "heal_info": "if healing",
+      "gate": "unitTarget->CanProc() (m_procDeep == 0) else no event at all",
+      "also": "Player::CastItemCombatSpell if DAMAGE|NO_DMG_HEAL and DmgClass melee/ranged"
+    },
+    {
+      "site": "Spell::_cast (Spell.cpp)",
+      "event": "cast success",
+      "actor": "m_procAttacker or FinalizeDataForTriggerSystem(IsPositive()).first, | 2_CAST_SUCCESSFUL",
+      "target": "NONE (no action target)",
+      "spell_type": "MASK_ALL",
+      "phase": "CAST",
+      "hit": "m_hitMask | NORMAL unless CRITICAL",
+      "spell": true,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "Spell::_handle_finish_phase (Spell.cpp)",
+      "event": "cast finish",
+      "actor": "m_procAttacker or FinalizeDataForTriggerSystem(IsPositive()).first",
+      "target": "NONE",
+      "spell_type": "accumulated m_procSpellType (NO_DMG_HEAL if no targets)",
+      "phase": "FINISH",
+      "hit": "accumulated m_hitMask (NORMAL if no targets)",
+      "spell": true,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "Spell::finish (Spell.cpp)",
+      "event": "cast ended (any result)",
+      "actor": "CAST_ENDED",
+      "target": "NONE",
+      "spell_type": "MASK_ALL",
+      "phase": "NONE",
+      "hit": "NONE",
+      "spell": true,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "AuraEffect::HandlePeriodicDamageAurasTick (SpellAuraEffects.cpp)",
+      "event": "periodic damage tick",
+      "actor": "DEAL_HARMFUL_PERIODIC",
+      "target": "TAKE_HARMFUL_PERIODIC, | TAKE_ANY_DAMAGE if damage",
+      "spell_type": "DAMAGE",
+      "phase": "HIT",
+      "hit": "DamageInfo hit mask | CRITICAL/NORMAL if damage",
+      "spell": false,
+      "damage_info": true,
+      "heal_info": false
+    },
+    {
+      "site": "AuraEffect::HandlePeriodicHealthLeechAuraTick",
+      "event": "leech tick (damage half)",
+      "actor": "DEAL_HARMFUL_PERIODIC",
+      "target": "TAKE_HARMFUL_PERIODIC, | TAKE_ANY_DAMAGE if damage",
+      "spell_type": "DAMAGE",
+      "phase": "HIT",
+      "hit": "as periodic damage",
+      "spell": false,
+      "damage_info": true,
+      "heal_info": false,
+      "also": "then (caster, caster) DEAL/TAKE_HELPFUL_PERIODIC, HEAL for the heal half"
+    },
+    {
+      "site": "AuraEffect::HandlePeriodicHealthFunnelAuraTick",
+      "event": "health funnel tick",
+      "actor": "DEAL_HARMFUL_PERIODIC",
+      "target": "TAKE_HARMFUL_PERIODIC",
+      "spell_type": "HEAL",
+      "phase": "HIT",
+      "hit": "NORMAL",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": true
+    },
+    {
+      "site": "AuraEffect::HandlePeriodicHealAurasTick",
+      "event": "periodic heal tick",
+      "actor": "DEAL_HELPFUL_PERIODIC",
+      "target": "TAKE_HELPFUL_PERIODIC",
+      "spell_type": "HEAL",
+      "phase": "HIT",
+      "hit": "CRITICAL or NORMAL",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": true
+    },
+    {
+      "site": "AuraEffect::HandlePeriodicManaLeechAuraTick/PowerBurn",
+      "event": "power burn tick",
+      "actor": "DEAL_HARMFUL_PERIODIC",
+      "target": "TAKE_HARMFUL_PERIODIC, | TAKE_ANY_DAMAGE if damage",
+      "spell_type": "NO_DMG_HEAL | DAMAGE if damage",
+      "phase": "HIT",
+      "hit": "createProcHitMask(damage, MISS_NONE)",
+      "spell": false,
+      "damage_info": true,
+      "heal_info": false
+    },
+    {
+      "site": "Unit::DealDamageShieldDamage/split damage (Unit.cpp CalcAbsorbResist)",
+      "event": "split damage",
+      "actor": "NONE",
+      "target": "TAKE_HARMFUL_SPELL",
+      "spell_type": "DAMAGE",
+      "phase": "HIT",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": true,
+      "heal_info": false
+    },
+    {
+      "site": "ProcReflectDelayed (Spell.cpp)",
+      "event": "reflect",
+      "actor": "NONE",
+      "target": "TAKE_HARMFUL_SPELL | TAKE_HARMFUL_ABILITY",
+      "spell_type": "DAMAGE | NO_DMG_HEAL",
+      "phase": "NONE",
+      "hit": "REFLECT",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "Spell::EffectDispel / EffectStealBeneficialBuff / EffectDispelMechanic",
+      "event": "successful dispel",
+      "actor": "2_SUCCESSFUL_DISPEL",
+      "target": "NONE (target passed, mask NONE)",
+      "spell_type": "MASK_ALL",
+      "phase": "HIT",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "Spell::EffectKnockBack",
+      "event": "knocked back",
+      "actor": "NONE",
+      "target": "2_KNOCKBACK",
+      "spell_type": "MASK_ALL",
+      "phase": "HIT",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "Unit::Update heartbeat (Unit.cpp)",
+      "event": "heartbeat",
+      "actor": "HEARTBEAT",
+      "target": "NONE",
+      "spell_type": "MASK_ALL",
+      "phase": "NONE",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "Unit::AtStartOfEncounter",
+      "event": "encounter start",
+      "actor": "ENCOUNTER_START",
+      "target": "NONE",
+      "spell_type": "MASK_ALL",
+      "phase": "NONE",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "Unit::AtEnterCombat",
+      "event": "enter combat",
+      "actor": "ENTER_COMBAT",
+      "target": "NONE",
+      "spell_type": "MASK_ALL",
+      "phase": "NONE",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "Unit::Kill",
+      "event": "kill / assist / death",
+      "actor": "KILL (killer and its owner); 2_TARGET_DIES (every tapper)",
+      "target": "victim receives DEATH as action target of itself",
+      "spell_type": "MASK_ALL",
+      "phase": "NONE",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "WorldSession::HandleMovementOpcode (MovementHandler.cpp)",
+      "event": "jump",
+      "actor": "JUMP",
+      "target": "NONE",
+      "spell_type": "MASK_ALL",
+      "phase": "NONE",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    },
+    {
+      "site": "LootHandler / Player::StoreLootItem",
+      "event": "looted",
+      "actor": "LOOTED",
+      "target": "NONE",
+      "spell_type": "MASK_ALL",
+      "phase": "NONE",
+      "hit": "NONE",
+      "spell": false,
+      "damage_info": false,
+      "heal_info": false
+    }
+  ],
+  "unproduced_flags": {
+    "PROC_CLONE_SPELL": "no producer in this checkout",
+    "2_DO_EMOTE": "no producer in this checkout"
+  },
+  "fields": [
+    {
+      "table": "SpellAuraOptions",
+      "column": "DifficultyID",
+      "db2_type": "int16",
+      "consumer": "SpellMgr::LoadSpellInfoStore",
+      "role": "identity",
+      "note": "per-difficulty SpellInfo; fallback via Difficulty.FallbackDifficultyID",
+      "spell_key": "SpellID",
+      "rows": 32162,
+      "nonzero_rows": 313,
+      "distinct_nonzero": 19,
+      "top_values": [
+        [
+          16,
+          45
+        ],
+        [
+          17,
+          44
+        ],
+        [
+          2,
+          41
+        ],
+        [
+          15,
+          32
+        ],
+        [
+          14,
+          23
+        ],
+        [
+          4,
+          22
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 33
+    },
+    {
+      "table": "SpellAuraOptions",
+      "column": "ProcTypeMask_0",
+      "db2_type": "int32",
+      "consumer": "SpellInfo::ProcFlags[0] -> SpellProcEntry::ProcFlags",
+      "role": "event-matching",
+      "note": "ProcFlags word 0",
+      "spell_key": "SpellID",
+      "rows": 32162,
+      "nonzero_rows": 13345,
+      "distinct_nonzero": 432,
+      "top_values": [
+        [
+          4,
+          847
+        ],
+        [
+          20,
+          817
+        ],
+        [
+          16777216,
+          690
+        ],
+        [
+          16,
+          641
+        ],
+        [
+          65536,
+          588
+        ],
+        [
+          2,
+          537
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 13332
+    },
+    {
+      "table": "SpellAuraOptions",
+      "column": "ProcTypeMask_1",
+      "db2_type": "int32",
+      "consumer": "SpellInfo::ProcFlags[1] -> SpellProcEntry::ProcFlags",
+      "role": "event-matching",
+      "note": "ProcFlags2 word; bits 0x8 and 0x20 have no Trinity name",
+      "spell_key": "SpellID",
+      "rows": 32162,
+      "nonzero_rows": 1158,
+      "distinct_nonzero": 9,
+      "top_values": [
+        [
+          4,
+          839
+        ],
+        [
+          32,
+          168
+        ],
+        [
+          1,
+          101
+        ],
+        [
+          16,
+          20
+        ],
+        [
+          64,
+          11
+        ],
+        [
+          36,
+          10
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 1158
+    },
+    {
+      "table": "SpellAuraOptions",
+      "column": "ProcChance",
+      "db2_type": "uint8",
+      "consumer": "SpellInfo::ProcChance -> SpellProcEntry::Chance; Player::CastItemCombatSpell (legacy item path)",
+      "role": "chance-policy",
+      "note": "101 is common: guaranteed on the aura path, 'weapon proc chance' on the legacy item path",
+      "spell_key": "SpellID",
+      "rows": 32162,
+      "nonzero_rows": 32038,
+      "distinct_nonzero": 36,
+      "top_values": [
+        [
+          101,
+          24111
+        ],
+        [
+          100,
+          5893
+        ],
+        [
+          10,
+          365
+        ],
+        [
+          20,
+          331
+        ],
+        [
+          15,
+          293
+        ],
+        [
+          30,
+          226
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 14130
+    },
+    {
+      "table": "SpellAuraOptions",
+      "column": "ProcCharges",
+      "db2_type": "int32",
+      "consumer": "SpellInfo::ProcCharges -> SpellProcEntry::Charges -> Aura::CalcMaxCharges (uint8)",
+      "role": "charge-policy",
+      "note": "-1 becomes 255 through uint32 -> uint8",
+      "spell_key": "SpellID",
+      "rows": 32162,
+      "nonzero_rows": 1406,
+      "distinct_nonzero": 21,
+      "top_values": [
+        [
+          1,
+          1068
+        ],
+        [
+          3,
+          99
+        ],
+        [
+          2,
+          62
+        ],
+        [
+          5,
+          57
+        ],
+        [
+          10,
+          37
+        ],
+        [
+          4,
+          28
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 1324
+    },
+    {
+      "table": "SpellAuraOptions",
+      "column": "ProcCategoryRecovery",
+      "db2_type": "int32",
+      "consumer": "SpellInfo::ProcCooldown -> SpellProcEntry::Cooldown",
+      "role": "cooldown-policy",
+      "note": "milliseconds; per-Aura timer",
+      "spell_key": "SpellID",
+      "rows": 32162,
+      "nonzero_rows": 3542,
+      "distinct_nonzero": 78,
+      "top_values": [
+        [
+          1000,
+          504
+        ],
+        [
+          500,
+          326
+        ],
+        [
+          3000,
+          248
+        ],
+        [
+          2000,
+          226
+        ],
+        [
+          120000,
+          226
+        ],
+        [
+          100,
+          214
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 3466
+    },
+    {
+      "table": "SpellAuraOptions",
+      "column": "SpellProcsPerMinuteID",
+      "db2_type": "uint16",
+      "consumer": "SpellInfo::ProcBasePPM / ProcPPMMods",
+      "role": "chance-policy",
+      "note": "nonzero selects RPPM whenever BaseProcRate > 0",
+      "spell_key": "SpellID",
+      "rows": 32162,
+      "nonzero_rows": 1987,
+      "distinct_nonzero": 241,
+      "top_values": [
+        [
+          116,
+          210
+        ],
+        [
+          86,
+          209
+        ],
+        [
+          125,
+          171
+        ],
+        [
+          102,
+          139
+        ],
+        [
+          57,
+          123
+        ],
+        [
+          105,
+          94
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 1972
+    },
+    {
+      "table": "SpellAuraOptions",
+      "column": "CumulativeAura",
+      "db2_type": "uint16",
+      "consumer": "SpellInfo::StackAmount -> Aura::ModStackAmount",
+      "role": "charge-policy",
+      "note": "only proc-relevant with PROC_ATTR_USE_STACKS_FOR_CHARGES",
+      "spell_key": "SpellID",
+      "rows": 32162,
+      "nonzero_rows": 16396,
+      "distinct_nonzero": 71,
+      "top_values": [
+        [
+          1,
+          3977
+        ],
+        [
+          99,
+          2539
+        ],
+        [
+          10,
+          2045
+        ],
+        [
+          5,
+          2029
+        ],
+        [
+          3,
+          1332
+        ],
+        [
+          100,
+          888
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 1181
+    },
+    {
+      "table": "SpellProcsPerMinute",
+      "column": "BaseProcRate",
+      "db2_type": "float",
+      "consumer": "SpellInfo::CalcProcPPM",
+      "role": "chance-policy",
+      "note": "",
+      "spell_key": null,
+      "rows": 295,
+      "nonzero_rows": 293,
+      "distinct_nonzero": 84,
+      "top_values": [
+        [
+          2,
+          34
+        ],
+        [
+          3,
+          30
+        ],
+        [
+          1,
+          25
+        ],
+        [
+          1.5,
+          14
+        ],
+        [
+          4,
+          13
+        ],
+        [
+          5,
+          13
+        ]
+      ]
+    },
+    {
+      "table": "SpellProcsPerMinute",
+      "column": "Flags",
+      "db2_type": "int32",
+      "consumer": "none (DB2 load only)",
+      "role": "unconsumed",
+      "note": "values 0/1/3 in snapshot; semantics unproved -- fail closed",
+      "spell_key": null,
+      "rows": 295,
+      "nonzero_rows": 290,
+      "distinct_nonzero": 2,
+      "top_values": [
+        [
+          1,
+          285
+        ],
+        [
+          3,
+          5
+        ]
+      ]
+    },
+    {
+      "table": "SpellProcsPerMinuteMod",
+      "column": "Type",
+      "db2_type": "int32",
+      "consumer": "SpellInfo::CalcProcPPM switch",
+      "role": "chance-policy",
+      "note": "",
+      "spell_key": null,
+      "rows": 821,
+      "nonzero_rows": 821,
+      "distinct_nonzero": 8,
+      "top_values": [
+        [
+          4,
+          573
+        ],
+        [
+          1,
+          159
+        ],
+        [
+          3,
+          58
+        ],
+        [
+          8,
+          13
+        ],
+        [
+          2,
+          9
+        ],
+        [
+          7,
+          6
+        ]
+      ]
+    },
+    {
+      "table": "SpellProcsPerMinuteMod",
+      "column": "Param",
+      "db2_type": "int32",
+      "consumer": "CalcPPMHasteMod/CritMod/ItemLevelMod, class/spec/race/aura",
+      "role": "chance-policy",
+      "note": "",
+      "spell_key": null,
+      "rows": 821,
+      "nonzero_rows": 813,
+      "distinct_nonzero": 70,
+      "top_values": [
+        [
+          4,
+          159
+        ],
+        [
+          104,
+          43
+        ],
+        [
+          105,
+          37
+        ],
+        [
+          103,
+          36
+        ],
+        [
+          263,
+          36
+        ],
+        [
+          264,
+          32
+        ]
+      ]
+    },
+    {
+      "table": "SpellProcsPerMinuteMod",
+      "column": "Coeff",
+      "db2_type": "float",
+      "consumer": "SpellInfo::CalcProcPPM",
+      "role": "chance-policy",
+      "note": "",
+      "spell_key": null,
+      "rows": 821,
+      "nonzero_rows": 808,
+      "distinct_nonzero": 61,
+      "top_values": [
+        [
+          -0.5,
+          493
+        ],
+        [
+          1,
+          171
+        ],
+        [
+          -0.40000000596,
+          14
+        ],
+        [
+          -0.75,
+          11
+        ],
+        [
+          0.40000000596,
+          8
+        ],
+        [
+          0.20000000298,
+          6
+        ]
+      ]
+    },
+    {
+      "table": "SpellProcsPerMinuteMod",
+      "column": "SpellProcsPerMinuteID",
+      "db2_type": "uint32",
+      "consumer": "DB2Manager::GetSpellProcsPerMinuteMods",
+      "role": "identity",
+      "note": "store order = application order",
+      "spell_key": null,
+      "rows": 821,
+      "nonzero_rows": 821,
+      "distinct_nonzero": 209,
+      "top_values": [
+        [
+          51,
+          21
+        ],
+        [
+          38,
+          20
+        ],
+        [
+          209,
+          17
+        ],
+        [
+          218,
+          16
+        ],
+        [
+          252,
+          16
+        ],
+        [
+          253,
+          16
+        ]
+      ]
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectIndex",
+      "db2_type": "int32",
+      "consumer": "DisableEffectsMask, procEffectMask bits",
+      "role": "provider-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 191505,
+      "distinct_nonzero": 31,
+      "top_values": [
+        [
+          1,
+          121082
+        ],
+        [
+          2,
+          37786
+        ],
+        [
+          3,
+          13282
+        ],
+        [
+          4,
+          6277
+        ],
+        [
+          5,
+          3594
+        ],
+        [
+          6,
+          2317
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 10749
+    },
+    {
+      "table": "SpellEffect",
+      "column": "Effect",
+      "db2_type": "uint32",
+      "consumer": "SpellEffectInfo::IsEffect/IsAura",
+      "role": "provider-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 628841,
+      "distinct_nonzero": 329,
+      "top_values": [
+        [
+          6,
+          260200
+        ],
+        [
+          3,
+          73314
+        ],
+        [
+          2,
+          52688
+        ],
+        [
+          28,
+          25464
+        ],
+        [
+          64,
+          18964
+        ],
+        [
+          32,
+          12147
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 25044
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectAura",
+      "db2_type": "int16",
+      "consumer": "isTriggerAura (generation); AuraEffect::CheckEffectProc; AuraEffect::HandleProc",
+      "role": "action",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 263218,
+      "distinct_nonzero": 521,
+      "top_values": [
+        [
+          4,
+          79291
+        ],
+        [
+          23,
+          17582
+        ],
+        [
+          3,
+          16367
+        ],
+        [
+          226,
+          9160
+        ],
+        [
+          42,
+          7201
+        ],
+        [
+          12,
+          7113
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 22518
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectTriggerSpell",
+      "db2_type": "int32",
+      "consumer": "AuraEffect::HandleProcTriggerSpell[WithValue]AuraProc",
+      "role": "action",
+      "note": "triggered SpellID (resolved at the aura's cast difficulty)",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 99523,
+      "distinct_nonzero": 73099,
+      "top_values": [
+        [
+          81040,
+          600
+        ],
+        [
+          177825,
+          199
+        ],
+        [
+          1219179,
+          172
+        ],
+        [
+          415603,
+          146
+        ],
+        [
+          417275,
+          145
+        ],
+        [
+          417276,
+          145
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 8330
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectSpellClassMask_0",
+      "db2_type": "flag128[0]",
+      "consumer": "LoadSpellProcs generated SpellFamilyMask",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 3928,
+      "distinct_nonzero": 361,
+      "top_values": [
+        [
+          1,
+          198
+        ],
+        [
+          8,
+          151
+        ],
+        [
+          16,
+          148
+        ],
+        [
+          131072,
+          141
+        ],
+        [
+          128,
+          137
+        ],
+        [
+          512,
+          133
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 806
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectSpellClassMask_1",
+      "db2_type": "flag128[1]",
+      "consumer": "LoadSpellProcs generated SpellFamilyMask",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 2788,
+      "distinct_nonzero": 262,
+      "top_values": [
+        [
+          256,
+          154
+        ],
+        [
+          128,
+          137
+        ],
+        [
+          131072,
+          111
+        ],
+        [
+          2048,
+          100
+        ],
+        [
+          8192,
+          99
+        ],
+        [
+          8,
+          97
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 515
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectSpellClassMask_2",
+      "db2_type": "flag128[2]",
+      "consumer": "LoadSpellProcs generated SpellFamilyMask",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 2154,
+      "distinct_nonzero": 210,
+      "top_values": [
+        [
+          256,
+          113
+        ],
+        [
+          8192,
+          91
+        ],
+        [
+          64,
+          90
+        ],
+        [
+          2,
+          86
+        ],
+        [
+          16384,
+          83
+        ],
+        [
+          65536,
+          77
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 405
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectSpellClassMask_3",
+      "db2_type": "flag128[3]",
+      "consumer": "LoadSpellProcs generated SpellFamilyMask",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 1906,
+      "distinct_nonzero": 186,
+      "top_values": [
+        [
+          1073741824,
+          151
+        ],
+        [
+          4096,
+          99
+        ],
+        [
+          128,
+          94
+        ],
+        [
+          4,
+          91
+        ],
+        [
+          1024,
+          77
+        ],
+        [
+          4194304,
+          74
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 386
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectBasePointsF",
+      "db2_type": "float",
+      "consumer": "MOD_HIT_CHANCE generation (<= -100); PROC_TRIGGER_DAMAGE amount; WITH_VALUE BasePoint0; breakable-CC amount",
+      "role": "action",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 222204,
+      "distinct_nonzero": 22229,
+      "top_values": [
+        [
+          1,
+          33075
+        ],
+        [
+          100,
+          12132
+        ],
+        [
+          10,
+          10457
+        ],
+        [
+          50,
+          8893
+        ],
+        [
+          5,
+          8202
+        ],
+        [
+          20,
+          7009
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 11973
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectMiscValue_0",
+      "db2_type": "int32",
+      "consumer": "CheckEffectProc: mechanic / school gates",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 203079,
+      "distinct_nonzero": 74352,
+      "top_values": [
+        [
+          127,
+          14417
+        ],
+        [
+          1,
+          6632
+        ],
+        [
+          3,
+          3385
+        ],
+        [
+          13,
+          2502
+        ],
+        [
+          100,
+          1876
+        ],
+        [
+          10,
+          1719
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 4988
+    },
+    {
+      "table": "SpellEffect",
+      "column": "EffectMechanic",
+      "db2_type": "int32",
+      "consumer": "SpellInfo::GetAllEffectsMechanicMask (event spell)",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 9839,
+      "distinct_nonzero": 35,
+      "top_values": [
+        [
+          11,
+          2023
+        ],
+        [
+          12,
+          1594
+        ],
+        [
+          15,
+          1328
+        ],
+        [
+          22,
+          800
+        ],
+        [
+          33,
+          576
+        ],
+        [
+          7,
+          491
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 167
+    },
+    {
+      "table": "SpellEffect",
+      "column": "ImplicitTarget_0",
+      "db2_type": "int32",
+      "consumer": "triggered spell target selection; provider holder",
+      "role": "downstream-cast",
+      "note": "Trinity passes a contextual explicit target first",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 606029,
+      "distinct_nonzero": 144,
+      "top_values": [
+        [
+          1,
+          330462
+        ],
+        [
+          25,
+          47661
+        ],
+        [
+          6,
+          43991
+        ],
+        [
+          22,
+          40862
+        ],
+        [
+          18,
+          31700
+        ],
+        [
+          87,
+          25029
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 24161
+    },
+    {
+      "table": "SpellEffect",
+      "column": "ScalingClass",
+      "db2_type": "int32",
+      "consumer": "SpellEffectInfo::CalcBaseValue (not ported)",
+      "role": "action",
+      "note": "only matters where an amount is read",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 10091,
+      "distinct_nonzero": 10,
+      "top_values": [
+        [
+          -1,
+          3290
+        ],
+        [
+          -7,
+          1986
+        ],
+        [
+          -9,
+          1581
+        ],
+        [
+          -8,
+          1548
+        ],
+        [
+          -2,
+          828
+        ],
+        [
+          -4,
+          441
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 1992
+    },
+    {
+      "table": "SpellEffect",
+      "column": "DifficultyID",
+      "db2_type": "int32",
+      "consumer": "LoadSpellInfoStore",
+      "role": "identity",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 629298,
+      "nonzero_rows": 30557,
+      "distinct_nonzero": 35,
+      "top_values": [
+        [
+          16,
+          4843
+        ],
+        [
+          14,
+          4550
+        ],
+        [
+          15,
+          4129
+        ],
+        [
+          17,
+          3679
+        ],
+        [
+          2,
+          3315
+        ],
+        [
+          23,
+          1902
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 256
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_0",
+      "db2_type": "int32",
+      "consumer": "PROC_FAILURE_BURNS_CHARGE, IS_ABILITY, PASSIVE",
+      "role": "suppression-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 337123,
+      "distinct_nonzero": 2312,
+      "top_values": [
+        [
+          696254848,
+          68071
+        ],
+        [
+          256,
+          22905
+        ],
+        [
+          384,
+          20421
+        ],
+        [
+          690225536,
+          17893
+        ],
+        [
+          128,
+          15816
+        ],
+        [
+          218103808,
+          11616
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 11742
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_2",
+      "db2_type": "int32",
+      "consumer": "PROC_COOLDOWN_ON_FAILURE, AUTO_REPEAT, CANT_CRIT",
+      "role": "cooldown-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 227695,
+      "distinct_nonzero": 545,
+      "top_values": [
+        [
+          273170437,
+          77773
+        ],
+        [
+          4,
+          35282
+        ],
+        [
+          273170436,
+          33180
+        ],
+        [
+          16388,
+          8902
+        ],
+        [
+          536887296,
+          5373
+        ],
+        [
+          272629764,
+          4156
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 4285
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_3",
+      "db2_type": "int32",
+      "consumer": "CAN_PROC_FROM_PROCS, NOT_A_PROC, SUPPRESS_*, ONLY_PROC_*, TREAT_AS_PERIODIC",
+      "role": "suppression-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 217415,
+      "distinct_nonzero": 889,
+      "top_values": [
+        [
+          269681152,
+          69529
+        ],
+        [
+          268632576,
+          13685
+        ],
+        [
+          4653056,
+          11387
+        ],
+        [
+          1073741824,
+          9878
+        ],
+        [
+          1048576,
+          9798
+        ],
+        [
+          268435456,
+          9778
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 7687
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_4",
+      "db2_type": "int32",
+      "consumer": "SUPPRESS_WEAPON_PROCS, ALLOW_PROC_WHILE_SITTING",
+      "role": "suppression-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 211260,
+      "distinct_nonzero": 675,
+      "top_values": [
+        [
+          8388736,
+          86796
+        ],
+        [
+          128,
+          20872
+        ],
+        [
+          10485888,
+          20538
+        ],
+        [
+          8388608,
+          14088
+        ],
+        [
+          129,
+          11928
+        ],
+        [
+          8321,
+          7912
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 5768
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_6",
+      "db2_type": "int32",
+      "consumer": "AURA_IS_WEAPON_PROC, DO_NOT_CONSUME_RESOURCES",
+      "role": "suppression-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 179608,
+      "distinct_nonzero": 528,
+      "top_values": [
+        [
+          4608,
+          63226
+        ],
+        [
+          4096,
+          35819
+        ],
+        [
+          12800,
+          23119
+        ],
+        [
+          1024,
+          10241
+        ],
+        [
+          536870912,
+          8420
+        ],
+        [
+          8192,
+          2148
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 3553
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_7",
+      "db2_type": "int32",
+      "consumer": "CAN_PROC_FROM_SUPPRESSED_TARGET_PROCS",
+      "role": "suppression-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 40325,
+      "distinct_nonzero": 111,
+      "top_values": [
+        [
+          64,
+          26534
+        ],
+        [
+          536870912,
+          3743
+        ],
+        [
+          4,
+          2005
+        ],
+        [
+          1,
+          1309
+        ],
+        [
+          33554432,
+          742
+        ],
+        [
+          32768,
+          630
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 1222
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_8",
+      "db2_type": "int32",
+      "consumer": "TARGET_PROCS_ON_CASTER",
+      "role": "target-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 79692,
+      "distinct_nonzero": 259,
+      "top_values": [
+        [
+          32,
+          35502
+        ],
+        [
+          4096,
+          20291
+        ],
+        [
+          134217728,
+          3210
+        ],
+        [
+          65536,
+          2265
+        ],
+        [
+          4128,
+          2143
+        ],
+        [
+          1073741824,
+          1533
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 5077
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_12",
+      "db2_type": "int32",
+      "consumer": "ONLY_PROC_FROM_CLASS_ABILITIES, *_SUPPRESSED_CASTER_PROCS",
+      "role": "suppression-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 40223,
+      "distinct_nonzero": 152,
+      "top_values": [
+        [
+          1048576,
+          20411
+        ],
+        [
+          128,
+          3906
+        ],
+        [
+          8388608,
+          3152
+        ],
+        [
+          2048,
+          2426
+        ],
+        [
+          131072,
+          1901
+        ],
+        [
+          -2147483648,
+          1889
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 3061
+    },
+    {
+      "table": "SpellMisc",
+      "column": "Attributes_13",
+      "db2_type": "int32",
+      "consumer": "ALLOW_CLASS_ABILITY_PROCS",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 43152,
+      "distinct_nonzero": 207,
+      "top_values": [
+        [
+          1,
+          13332
+        ],
+        [
+          33554432,
+          13179
+        ],
+        [
+          2,
+          2822
+        ],
+        [
+          1073741824,
+          1760
+        ],
+        [
+          268435456,
+          1684
+        ],
+        [
+          268435458,
+          1583
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 4583
+    },
+    {
+      "table": "SpellMisc",
+      "column": "SchoolMask",
+      "db2_type": "uint8",
+      "consumer": "ProcEventInfo::GetSchoolMask (spell events)",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 414943,
+      "distinct_nonzero": 52,
+      "top_values": [
+        [
+          1,
+          317638
+        ],
+        [
+          32,
+          26574
+        ],
+        [
+          8,
+          24491
+        ],
+        [
+          4,
+          17521
+        ],
+        [
+          64,
+          11677
+        ],
+        [
+          16,
+          5898
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 14207
+    },
+    {
+      "table": "SpellMisc",
+      "column": "DurationIndex",
+      "db2_type": "uint16",
+      "consumer": "Aura::CalcMaxDuration",
+      "role": "lifetime",
+      "note": "provider lifecycle only",
+      "spell_key": "SpellID",
+      "rows": 417571,
+      "nonzero_rows": 209941,
+      "distinct_nonzero": 342,
+      "top_values": [
+        [
+          21,
+          95755
+        ],
+        [
+          1,
+          11459
+        ],
+        [
+          9,
+          7710
+        ],
+        [
+          28,
+          6777
+        ],
+        [
+          32,
+          6712
+        ],
+        [
+          8,
+          6432
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 8528
+    },
+    {
+      "table": "SpellClassOptions",
+      "column": "SpellClassSet",
+      "db2_type": "uint8",
+      "consumer": "SpellInfo::IsAffected; generated SpellFamilyName",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 26406,
+      "nonzero_rows": 25929,
+      "distinct_nonzero": 26,
+      "top_values": [
+        [
+          9,
+          2568
+        ],
+        [
+          3,
+          2353
+        ],
+        [
+          10,
+          2200
+        ],
+        [
+          7,
+          2177
+        ],
+        [
+          11,
+          2015
+        ],
+        [
+          5,
+          1989
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 5427
+    },
+    {
+      "table": "SpellClassOptions",
+      "column": "SpellClassMask_0",
+      "db2_type": "flag128",
+      "consumer": "SpellInfo::IsAffected (event spell)",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 26406,
+      "nonzero_rows": 2380,
+      "distinct_nonzero": 197,
+      "top_values": [
+        [
+          2,
+          149
+        ],
+        [
+          256,
+          147
+        ],
+        [
+          -2147483648,
+          125
+        ],
+        [
+          8,
+          122
+        ],
+        [
+          512,
+          120
+        ],
+        [
+          16777216,
+          99
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 232
+    },
+    {
+      "table": "SpellCategories",
+      "column": "DefenseType",
+      "db2_type": "int8",
+      "consumer": "Spell::prepareDataForTriggerSystem (DmgClass)",
+      "role": "event-matching",
+      "note": "decides MELEE/RANGED vs spell/ability flags of the *event*",
+      "spell_key": "SpellID",
+      "rows": 93201,
+      "nonzero_rows": 65662,
+      "distinct_nonzero": 3,
+      "top_values": [
+        [
+          1,
+          50242
+        ],
+        [
+          2,
+          11844
+        ],
+        [
+          3,
+          3576
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 2040
+    },
+    {
+      "table": "SpellCategories",
+      "column": "Mechanic",
+      "db2_type": "int8",
+      "consumer": "GetAllEffectsMechanicMask",
+      "role": "event-matching",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 93201,
+      "nonzero_rows": 9757,
+      "distinct_nonzero": 35,
+      "top_values": [
+        [
+          21,
+          2055
+        ],
+        [
+          12,
+          1628
+        ],
+        [
+          11,
+          1061
+        ],
+        [
+          15,
+          868
+        ],
+        [
+          28,
+          700
+        ],
+        [
+          7,
+          613
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 343
+    },
+    {
+      "table": "SpellCategories",
+      "column": "Category",
+      "db2_type": "int16",
+      "consumer": "SpellHistory (triggered cast; ignored under TRIGGERED_IGNORE_SPELL_AND_CATEGORY_CD)",
+      "role": "downstream-cast",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 93201,
+      "nonzero_rows": 17525,
+      "distinct_nonzero": 552,
+      "top_values": [
+        [
+          1152,
+          9790
+        ],
+        [
+          133,
+          899
+        ],
+        [
+          1159,
+          525
+        ],
+        [
+          1141,
+          432
+        ],
+        [
+          99,
+          254
+        ],
+        [
+          21,
+          196
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 468
+    },
+    {
+      "table": "SpellCategories",
+      "column": "ChargeCategory",
+      "db2_type": "int16",
+      "consumer": "SpellHistory charges (triggered casts do not consume)",
+      "role": "downstream-cast",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 93201,
+      "nonzero_rows": 904,
+      "distinct_nonzero": 304,
+      "top_values": [
+        [
+          1255,
+          193
+        ],
+        [
+          1152,
+          57
+        ],
+        [
+          2309,
+          42
+        ],
+        [
+          133,
+          30
+        ],
+        [
+          2216,
+          12
+        ],
+        [
+          1149,
+          11
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 35
+    },
+    {
+      "table": "SpellCooldowns",
+      "column": "RecoveryTime",
+      "db2_type": "int32",
+      "consumer": "SpellHistory::HandleCooldowns (skipped for IsIgnoringCooldowns)",
+      "role": "downstream-cast",
+      "note": "not a proc cooldown",
+      "spell_key": "SpellID",
+      "rows": 36331,
+      "nonzero_rows": 14666,
+      "distinct_nonzero": 117,
+      "top_values": [
+        [
+          1000,
+          1853
+        ],
+        [
+          10000,
+          1310
+        ],
+        [
+          5000,
+          1229
+        ],
+        [
+          3000,
+          998
+        ],
+        [
+          30000,
+          821
+        ],
+        [
+          60000,
+          781
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 552
+    },
+    {
+      "table": "SpellCooldowns",
+      "column": "CategoryRecoveryTime",
+      "db2_type": "int32",
+      "consumer": "SpellHistory (skipped for triggered casts)",
+      "role": "downstream-cast",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 36331,
+      "nonzero_rows": 14155,
+      "distinct_nonzero": 87,
+      "top_values": [
+        [
+          3000,
+          3553
+        ],
+        [
+          5000,
+          1907
+        ],
+        [
+          2000,
+          1204
+        ],
+        [
+          1000,
+          979
+        ],
+        [
+          10000,
+          783
+        ],
+        [
+          6000,
+          741
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 346
+    },
+    {
+      "table": "SpellCategory",
+      "column": "ChargeRecoveryTime",
+      "db2_type": "int32",
+      "consumer": "SpellHistory charges",
+      "role": "downstream-cast",
+      "note": "",
+      "spell_key": null,
+      "rows": 1109,
+      "nonzero_rows": 399,
+      "distinct_nonzero": 55,
+      "top_values": [
+        [
+          30000,
+          42
+        ],
+        [
+          60000,
+          31
+        ],
+        [
+          20000,
+          27
+        ],
+        [
+          12000,
+          25
+        ],
+        [
+          10000,
+          23
+        ],
+        [
+          25000,
+          19
+        ]
+      ]
+    },
+    {
+      "table": "SpellEquippedItems",
+      "column": "EquippedItemClass",
+      "db2_type": "int32",
+      "consumer": "Aura::GetProcEffectMask equipment gate (passive only); wand event identity",
+      "role": "provider-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 3758,
+      "nonzero_rows": 3757,
+      "distinct_nonzero": 9,
+      "top_values": [
+        [
+          2,
+          2611
+        ],
+        [
+          4,
+          1079
+        ],
+        [
+          19,
+          49
+        ],
+        [
+          15,
+          11
+        ],
+        [
+          13,
+          2
+        ],
+        [
+          7,
+          2
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 101
+    },
+    {
+      "table": "SpellEquippedItems",
+      "column": "EquippedItemSubclass",
+      "db2_type": "int32",
+      "consumer": "Item::IsFitToSpellRequirements",
+      "role": "provider-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 3758,
+      "nonzero_rows": 3551,
+      "distinct_nonzero": 97,
+      "top_values": [
+        [
+          173555,
+          849
+        ],
+        [
+          262156,
+          771
+        ],
+        [
+          31,
+          546
+        ],
+        [
+          30,
+          271
+        ],
+        [
+          64,
+          131
+        ],
+        [
+          41105,
+          103
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 97
+    },
+    {
+      "table": "SpellEquippedItems",
+      "column": "EquippedItemInvTypes",
+      "db2_type": "int32",
+      "consumer": "Item::IsFitToSpellRequirements",
+      "role": "provider-policy",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 3758,
+      "nonzero_rows": 1104,
+      "distinct_nonzero": 35,
+      "top_values": [
+        [
+          128,
+          129
+        ],
+        [
+          8,
+          117
+        ],
+        [
+          2048,
+          109
+        ],
+        [
+          65536,
+          86
+        ],
+        [
+          512,
+          81
+        ],
+        [
+          1048608,
+          66
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 3
+    },
+    {
+      "table": "SpellTargetRestrictions",
+      "column": "MaxTargets",
+      "db2_type": "uint32",
+      "consumer": "triggered spell target selection",
+      "role": "downstream-cast",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 48821,
+      "nonzero_rows": 10506,
+      "distinct_nonzero": 27,
+      "top_values": [
+        [
+          1,
+          6566
+        ],
+        [
+          3,
+          1152
+        ],
+        [
+          2,
+          885
+        ],
+        [
+          5,
+          711
+        ],
+        [
+          4,
+          333
+        ],
+        [
+          10,
+          250
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 120
+    },
+    {
+      "table": "SpellInterrupts",
+      "column": "AuraInterruptFlags_0",
+      "db2_type": "int32",
+      "consumer": "Unit::RemoveAurasWithInterruptFlags",
+      "role": "lifetime",
+      "note": "removes the provider on events; never gates a proc",
+      "spell_key": "SpellID",
+      "rows": 122150,
+      "nonzero_rows": 38238,
+      "distinct_nonzero": 1005,
+      "top_values": [
+        [
+          4718592,
+          12948
+        ],
+        [
+          524288,
+          4847
+        ],
+        [
+          -2142765056,
+          2821
+        ],
+        [
+          4194304,
+          1673
+        ],
+        [
+          541589504,
+          1212
+        ],
+        [
+          268435456,
+          1053
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 1533
+    },
+    {
+      "table": "SpellAuraRestrictions",
+      "column": "CasterAuraSpell",
+      "db2_type": "uint32",
+      "consumer": "Spell::CheckCast (triggered cast)",
+      "role": "downstream-cast",
+      "note": "TRIGGERED_IGNORE_CASTER_AURAS is part of TRIGGERED_FULL_MASK",
+      "spell_key": "SpellID",
+      "rows": 10631,
+      "nonzero_rows": 2193,
+      "distinct_nonzero": 1271,
+      "top_values": [
+        [
+          1227147,
+          120
+        ],
+        [
+          431760,
+          76
+        ],
+        [
+          305760,
+          43
+        ],
+        [
+          1213439,
+          42
+        ],
+        [
+          372773,
+          23
+        ],
+        [
+          284099,
+          16
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 58
+    },
+    {
+      "table": "SpellAuraRestrictions",
+      "column": "TargetAuraSpell",
+      "db2_type": "uint32",
+      "consumer": "Spell::CheckCast (triggered cast)",
+      "role": "downstream-cast",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 10631,
+      "nonzero_rows": 1532,
+      "distinct_nonzero": 924,
+      "top_values": [
+        [
+          132633,
+          88
+        ],
+        [
+          305760,
+          38
+        ],
+        [
+          473102,
+          21
+        ],
+        [
+          132634,
+          19
+        ],
+        [
+          424143,
+          19
+        ],
+        [
+          369736,
+          17
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 55
+    },
+    {
+      "table": "SpellShapeshift",
+      "column": "ShapeshiftMask_0",
+      "db2_type": "int32",
+      "consumer": "Spell::CheckCast (ignored: TRIGGERED_IGNORE_SHAPESHIFT)",
+      "role": "downstream-cast",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 6431,
+      "nonzero_rows": 794,
+      "distinct_nonzero": 43,
+      "top_values": [
+        [
+          16777216,
+          170
+        ],
+        [
+          134217728,
+          131
+        ],
+        [
+          1,
+          83
+        ],
+        [
+          -2147483648,
+          77
+        ],
+        [
+          64,
+          49
+        ],
+        [
+          1073741824,
+          43
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 58
+    },
+    {
+      "table": "SpellLabel",
+      "column": "LabelID",
+      "db2_type": "uint32",
+      "consumer": "spell mods by label (not proc gating)",
+      "role": "downstream-cast",
+      "note": "no proc-pipeline consumer",
+      "spell_key": "SpellID",
+      "rows": 142908,
+      "nonzero_rows": 142908,
+      "distinct_nonzero": 3465,
+      "top_values": [
+        [
+          292,
+          21239
+        ],
+        [
+          16,
+          16546
+        ],
+        [
+          969,
+          11557
+        ],
+        [
+          590,
+          1888
+        ],
+        [
+          630,
+          1831
+        ],
+        [
+          627,
+          1725
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 19870
+    },
+    {
+      "table": "SpellPower",
+      "column": "ManaCost",
+      "db2_type": "int32",
+      "consumer": "Spell::GetPowerCost -> PROC_ATTR_REQ_POWER_COST (event); triggered casts pay power",
+      "role": "event-matching",
+      "note": "runtime cost is an event fact",
+      "spell_key": "SpellID",
+      "rows": 5713,
+      "nonzero_rows": 3942,
+      "distinct_nonzero": 154,
+      "top_values": [
+        [
+          100,
+          449
+        ],
+        [
+          90,
+          385
+        ],
+        [
+          30,
+          174
+        ],
+        [
+          150,
+          172
+        ],
+        [
+          20,
+          171
+        ],
+        [
+          10,
+          161
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 163
+    },
+    {
+      "table": "ItemEffect",
+      "column": "TriggerType",
+      "db2_type": "uint8",
+      "consumer": "ApplyItemEquipSpell / CastItemUseSpell / CastItemCombatSpell",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 61778,
+      "nonzero_rows": 22100,
+      "distinct_nonzero": 10,
+      "top_values": [
+        [
+          6,
+          9706
+        ],
+        [
+          1,
+          8855
+        ],
+        [
+          7,
+          1127
+        ],
+        [
+          5,
+          1119
+        ],
+        [
+          9,
+          536
+        ],
+        [
+          10,
+          343
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 3861
+    },
+    {
+      "table": "ItemEffect",
+      "column": "SpellID",
+      "db2_type": "int32",
+      "consumer": "same",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 61778,
+      "nonzero_rows": 61556,
+      "distinct_nonzero": 38567,
+      "top_values": [
+        [
+          483,
+          6258
+        ],
+        [
+          55884,
+          3450
+        ],
+        [
+          341427,
+          287
+        ],
+        [
+          42292,
+          258
+        ],
+        [
+          342040,
+          248
+        ],
+        [
+          328242,
+          240
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 4261
+    },
+    {
+      "table": "ItemEffect",
+      "column": "ChrSpecializationID",
+      "db2_type": "uint16",
+      "consumer": "Player::ApplyItemEquipSpell spec gate",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 61778,
+      "nonzero_rows": 68,
+      "distinct_nonzero": 36,
+      "top_values": [
+        [
+          73,
+          3
+        ],
+        [
+          102,
+          2
+        ],
+        [
+          103,
+          2
+        ],
+        [
+          104,
+          2
+        ],
+        [
+          105,
+          2
+        ],
+        [
+          253,
+          2
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 12
+    },
+    {
+      "table": "ItemXItemEffect",
+      "column": "ItemEffectID",
+      "db2_type": "int32",
+      "consumer": "ObjectMgr::LoadItemTemplates",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": null,
+      "rows": 60278,
+      "nonzero_rows": 60278,
+      "distinct_nonzero": 60276,
+      "top_values": [
+        [
+          205133,
+          2
+        ],
+        [
+          205134,
+          2
+        ],
+        [
+          2,
+          1
+        ],
+        [
+          3,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ]
+    },
+    {
+      "table": "ItemSparse",
+      "column": "Flags_0",
+      "db2_type": "int32",
+      "consumer": "ITEM_FLAG_LEGACY (ApplyItemEquipSpell/CastItemCombatSpell)",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": null,
+      "rows": 175164,
+      "nonzero_rows": 102671,
+      "distinct_nonzero": 470,
+      "top_values": [
+        [
+          4096,
+          25984
+        ],
+        [
+          64,
+          8499
+        ],
+        [
+          65536,
+          8135
+        ],
+        [
+          134250496,
+          5371
+        ],
+        [
+          32768,
+          5173
+        ],
+        [
+          2048,
+          3616
+        ]
+      ]
+    },
+    {
+      "table": "ItemSparse",
+      "column": "ItemDelay",
+      "db2_type": "uint16",
+      "consumer": "enchant classic PPM (proto->GetDelay)",
+      "role": "chance-policy",
+      "note": "",
+      "spell_key": null,
+      "rows": 175164,
+      "nonzero_rows": 18022,
+      "distinct_nonzero": 23,
+      "top_values": [
+        [
+          2600,
+          6777
+        ],
+        [
+          3600,
+          5743
+        ],
+        [
+          1800,
+          2317
+        ],
+        [
+          3000,
+          1965
+        ],
+        [
+          2000,
+          898
+        ],
+        [
+          1700,
+          94
+        ]
+      ]
+    },
+    {
+      "table": "SpellItemEnchantment",
+      "column": "Effect_0",
+      "db2_type": "uint8",
+      "consumer": "Player::ApplyEnchantment / CastItemCombatSpell",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": null,
+      "rows": 5342,
+      "nonzero_rows": 4838,
+      "distinct_nonzero": 11,
+      "top_values": [
+        [
+          5,
+          3229
+        ],
+        [
+          3,
+          631
+        ],
+        [
+          4,
+          378
+        ],
+        [
+          9,
+          318
+        ],
+        [
+          11,
+          128
+        ],
+        [
+          2,
+          38
+        ]
+      ]
+    },
+    {
+      "table": "SpellItemEnchantment",
+      "column": "EffectArg_0",
+      "db2_type": "uint32",
+      "consumer": "triggered/equip SpellID",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": null,
+      "rows": 5342,
+      "nonzero_rows": 4632,
+      "distinct_nonzero": 813,
+      "top_values": [
+        [
+          5,
+          470
+        ],
+        [
+          32,
+          416
+        ],
+        [
+          3,
+          357
+        ],
+        [
+          4,
+          336
+        ],
+        [
+          7,
+          313
+        ],
+        [
+          40,
+          308
+        ]
+      ]
+    },
+    {
+      "table": "SpellItemEnchantment",
+      "column": "EffectPointsMin_0",
+      "db2_type": "int16",
+      "consumer": "CastItemCombatSpell chance (0 = weapon proc chance)",
+      "role": "chance-policy",
+      "note": "",
+      "spell_key": null,
+      "rows": 5342,
+      "nonzero_rows": 3378,
+      "distinct_nonzero": 102,
+      "top_values": [
+        [
+          1,
+          369
+        ],
+        [
+          12,
+          167
+        ],
+        [
+          4,
+          137
+        ],
+        [
+          20,
+          134
+        ],
+        [
+          10,
+          129
+        ],
+        [
+          8,
+          123
+        ]
+      ]
+    },
+    {
+      "table": "GemProperties",
+      "column": "Enchant_ID",
+      "db2_type": "uint16 (EnchantId)",
+      "consumer": "Item::SetGem -> enchant",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": null,
+      "rows": 2409,
+      "nonzero_rows": 2306,
+      "distinct_nonzero": 2012,
+      "top_values": [
+        [
+          5850,
+          22
+        ],
+        [
+          5851,
+          22
+        ],
+        [
+          5852,
+          22
+        ],
+        [
+          5853,
+          22
+        ],
+        [
+          5847,
+          19
+        ],
+        [
+          5848,
+          19
+        ]
+      ]
+    },
+    {
+      "table": "ItemSetSpell",
+      "column": "SpellID",
+      "db2_type": "uint32",
+      "consumer": "Player::ApplyEquipSpell",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 2971,
+      "nonzero_rows": 2971,
+      "distinct_nonzero": 2273,
+      "top_values": [
+        [
+          23047,
+          17
+        ],
+        [
+          23218,
+          17
+        ],
+        [
+          345606,
+          16
+        ],
+        [
+          384565,
+          16
+        ],
+        [
+          384583,
+          16
+        ],
+        [
+          385420,
+          16
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 954
+    },
+    {
+      "table": "TraitDefinition",
+      "column": "SpellID",
+      "db2_type": "int32",
+      "consumer": "Player::LearnSpell via TraitMgr",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 17031,
+      "nonzero_rows": 9215,
+      "distinct_nonzero": 5525,
+      "top_values": [
+        [
+          1231978,
+          54
+        ],
+        [
+          1232416,
+          53
+        ],
+        [
+          1232419,
+          53
+        ],
+        [
+          1232425,
+          53
+        ],
+        [
+          1232418,
+          51
+        ],
+        [
+          1232426,
+          44
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 1786
+    },
+    {
+      "table": "TraitDefinitionEffectPoints",
+      "column": "CurveID",
+      "db2_type": "int32",
+      "consumer": "SpellEffectInfo::CalcValue trait override",
+      "role": "action",
+      "note": "changes effect amounts (proc action magnitude), never proc policy",
+      "spell_key": null,
+      "rows": 1406,
+      "nonzero_rows": 1406,
+      "distinct_nonzero": 1356,
+      "top_values": [
+        [
+          82523,
+          36
+        ],
+        [
+          62350,
+          3
+        ],
+        [
+          61136,
+          2
+        ],
+        [
+          61270,
+          2
+        ],
+        [
+          77723,
+          2
+        ],
+        [
+          77957,
+          2
+        ]
+      ]
+    },
+    {
+      "table": "TraitTreeLoadout",
+      "column": "TraitTreeID",
+      "db2_type": "int32",
+      "consumer": "current class/spec trees (census scope)",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": null,
+      "rows": 78,
+      "nonzero_rows": 78,
+      "distinct_nonzero": 21,
+      "top_values": [
+        [
+          880,
+          9
+        ],
+        [
+          775,
+          7
+        ],
+        [
+          877,
+          6
+        ],
+        [
+          701,
+          5
+        ],
+        [
+          781,
+          4
+        ],
+        [
+          793,
+          4
+        ]
+      ]
+    },
+    {
+      "table": "SpecializationSpells",
+      "column": "SpellID",
+      "db2_type": "int32",
+      "consumer": "Player::LearnSpecializationSpells",
+      "role": "acquisition",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 633,
+      "nonzero_rows": 633,
+      "distinct_nonzero": 491,
+      "top_values": [
+        [
+          1229376,
+          40
+        ],
+        [
+          162699,
+          10
+        ],
+        [
+          162697,
+          10
+        ],
+        [
+          162701,
+          6
+        ],
+        [
+          162698,
+          5
+        ],
+        [
+          264656,
+          4
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 62
+    },
+    {
+      "table": "SkillLineAbility",
+      "column": "SupercedesSpell",
+      "db2_type": "int32",
+      "consumer": "SpellMgr::LoadSpellRanks (all-ranks rows)",
+      "role": "identity",
+      "note": "",
+      "spell_key": "Spell",
+      "rows": 17952,
+      "nonzero_rows": 1228,
+      "distinct_nonzero": 1220,
+      "top_values": [
+        [
+          280732,
+          4
+        ],
+        [
+          280733,
+          4
+        ],
+        [
+          33388,
+          2
+        ],
+        [
+          127649,
+          2
+        ],
+        [
+          2366,
+          1
+        ],
+        [
+          2575,
+          1
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 0
+    },
+    {
+      "table": "Difficulty",
+      "column": "FallbackDifficultyID",
+      "db2_type": "int16",
+      "consumer": "GetSpellInfo / GetSpellProcEntry fallback",
+      "role": "identity",
+      "note": "",
+      "spell_key": null,
+      "rows": 60,
+      "nonzero_rows": 22,
+      "distinct_nonzero": 12,
+      "top_values": [
+        [
+          14,
+          5
+        ],
+        [
+          1,
+          3
+        ],
+        [
+          39,
+          3
+        ],
+        [
+          4,
+          2
+        ],
+        [
+          2,
+          2
+        ],
+        [
+          3,
+          1
+        ]
+      ]
+    },
+    {
+      "table": "RandPropPoints",
+      "column": "SuperiorF_0",
+      "db2_type": "float",
+      "consumer": "CalcPPMItemLevelMod via GetRandomPropertyPoints(RARE, CHEST)",
+      "role": "chance-policy",
+      "note": "",
+      "spell_key": null,
+      "rows": 1300,
+      "nonzero_rows": 1297,
+      "distinct_nonzero": 1297,
+      "top_values": [
+        [
+          1.97842180729,
+          1
+        ],
+        [
+          2.36330938339,
+          1
+        ],
+        [
+          2.77761483192,
+          1
+        ],
+        [
+          3.22102379799,
+          1
+        ],
+        [
+          3.69326496124,
+          1
+        ],
+        [
+          4.19410228729,
+          1
+        ]
+      ]
+    },
+    {
+      "table": "SpellReplacement",
+      "column": "ReplacementSpellID",
+      "db2_type": "(not loaded)",
+      "consumer": "none: no DB2Storage in this checkout",
+      "role": "unconsumed",
+      "note": "",
+      "spell_key": "SpellID",
+      "rows": 332,
+      "nonzero_rows": 332,
+      "distinct_nonzero": 306,
+      "top_values": [
+        [
+          391429,
+          2
+        ],
+        [
+          391888,
+          2
+        ],
+        [
+          391528,
+          2
+        ],
+        [
+          391951,
+          2
+        ],
+        [
+          384790,
+          2
+        ],
+        [
+          384791,
+          2
+        ]
+      ],
+      "nonzero_rows_on_proc_providers": 137
+    }
+  ],
+  "world_db_fields": [
+    {
+      "table": "spell_proc",
+      "column": "*",
+      "consumer": "SpellMgr::LoadSpellProcs",
+      "role": "provider-policy (override of DB2 defaults, authored by Trinity)"
+    },
+    {
+      "table": "spell_enchant_proc_data",
+      "column": "Chance/ProcsPerMinute/HitMask/AttributesMask",
+      "consumer": "Player::CastItemCombatSpell",
+      "role": "chance-policy / event-matching"
+    },
+    {
+      "table": "item_template_addon",
+      "column": "SpellPPMChance",
+      "consumer": "Player::CastItemCombatSpell",
+      "role": "chance-policy (legacy item PPM)"
+    },
+    {
+      "table": "conditions",
+      "column": "SourceTypeOrReferenceId=24",
+      "consumer": "Aura::GetProcEffectMask",
+      "role": "event-matching (live actor/target state)"
+    },
+    {
+      "table": "spell_script_names",
+      "column": "ScriptName",
+      "consumer": "AuraScript proc hooks",
+      "role": "bespoke consumer binding"
+    },
+    {
+      "table": "spell_custom_attr",
+      "column": "attributes",
+      "consumer": "SpellInfo::AttributesCu",
+      "role": "suppression-policy (CU_DONT_BREAK_STEALTH)"
+    }
+  ]
+}
