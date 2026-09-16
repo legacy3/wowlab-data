@@ -1,0 +1,192 @@
+========================================================================
+Strength tank -- Blood Death Knight  items [271474, 271472, 271477, 271473, 271475] at item levels [318, 318, 318, 318, 318]
+
+  boundary payload handed to the character side:
+    stats   : {"ItemModType 74 (Str|Int)": 730, "Stamina": 14642}
+    ratings : {"CritMelee": 288, "CritRanged": 288, "CritSpell": 288, "HasteMelee": 46, "HasteRanged": 46, "HasteSpell": 46, "Mastery": 416, "VersatilityDamageDone": 94, "VersatilityDamageTaken": 94, "VersatilityHealingDone": 94}
+    armor   : 1513
+    set spell roots: [{"spell_id": 1296651, "threshold": 4, "item_set_id": 2055}, {"spell_id": 1296650, "threshold": 2, "item_set_id": 2055}]
+
+Orc Death Knight -- Blood (250) -- level 90
+  primary stat      : Strength (ChrSpecialization.PrimaryStatPriority 5)
+  base stat source  : SYNTHETIC test fixture - NOT real player_classlevelstats values
+
+  stats (Unit::GetTotalStatValue -> int32)
+    Strength   =     1888   create=1158  supplied=730
+    Agility    =     2146   create=2146
+    Stamina    =    17794   create=3152  supplied=14642
+    Intellect  =     4877   create=4147  supplied=730
+    Spirit     =        0   create=0
+
+  derived
+    max health      =   355880   stamina 17794 * HpPerSta[90]=20 -> 355880
+    armor           =     5805   (bonus 1513)
+    attack power    =     1888   str*1=1888  agi*0=0
+    ranged AP       =        0   (level + agi) * 0
+    spell power     =        0   from intellect 0
+
+  ratings (Player::GetRatingBonusValue)
+    CritMelee                     288 * 0.021739 =    6.261%  curve  21024 ->    6.261%  with 5% base -> 11.261%
+    CritRanged                    288 * 0.021739 =    6.261%  curve  21024 ->    6.261%  with 5% base -> 11.261%
+    CritSpell                     288 * 0.021739 =    6.261%  curve  21024 ->    6.261%  with 5% base -> 11.261%
+    HasteMelee                     46 * 0.022727 =    1.045%  curve  21024 ->    1.045%
+    HasteRanged                    46 * 0.022727 =    1.045%  curve  21024 ->    1.045%
+    HasteSpell                     46 * 0.022727 =    1.045%  curve  21024 ->    1.045%
+    Mastery                       416 * 0.021739 =    9.043%  curve  21024 ->    9.043%
+    VersatilityDamageDone          94 * 0.018519 =    1.741%  curve  21024 ->    1.741%
+    VersatilityHealingDone         94 * 0.018519 =    1.741%  curve  21024 ->    1.741%
+    VersatilityDamageTaken         94 * 0.009259 =    0.870%  curve  21035 ->    0.870%
+
+  mastery [script-or-consumer-dependent]
+    ActivePlayerData::Mastery = 9.0435
+    mastery-scaled effects use SPELL_AURA_DUMMY, which carry no generic value semantics
+    spell 77513 'Mastery: Blood Shield' (MASTERY_AFFECTS_POINTS=True)
+     * idx0 SPELL_AURA_DUMMY                                 base=0 coef=2 -> 18.0870
+     * idx1 SPELL_AURA_MOD_ATTACK_POWER_PCT                  base=0 coef=1 -> 9.0435
+       idx2 SPELL_AURA_DUMMY                                 base=50 coef=0 -> 50.0000
+
+  NOTE: no talents, buffs, consumables, shapeshift forms or aura stages are applied.
+
+========================================================================
+Agility melee -- Windwalker Monk  items [271519, 271517, 271522, 271518, 271520] at item levels [318, 318, 318, 318, 318]
+
+  boundary payload handed to the character side:
+    stats   : {"ItemModType 73 (Agi|Int)": 730, "Stamina": 14642}
+    ratings : {"CritMelee": 176, "CritRanged": 176, "CritSpell": 176, "HasteMelee": 254, "HasteRanged": 254, "HasteSpell": 254, "Mastery": 307, "VersatilityDamageDone": 109, "VersatilityDamageTaken": 109, "VersatilityHealingDone": 109}
+    armor   : 682
+    set spell roots: [{"spell_id": 1296624, "threshold": 4, "item_set_id": 2061}, {"spell_id": 1296621, "threshold": 2, "item_set_id": 2061}]
+
+Human Monk -- Windwalker (269) -- level 90
+  primary stat      : Agility (ChrSpecialization.PrimaryStatPriority 2)
+  base stat source  : SYNTHETIC test fixture - NOT real player_classlevelstats values
+
+  stats (Unit::GetTotalStatValue -> int32)
+    Strength   =     1195   create=1195
+    Agility    =     2918   create=2188  supplied=730
+    Stamina    =    17832   create=3190  supplied=14642
+    Intellect  =     4921   create=4191  supplied=730
+    Spirit     =        0   create=0
+
+  derived
+    max health      =   356640   stamina 17832 * HpPerSta[90]=20 -> 356640
+    armor           =     5058   (bonus 682)
+    attack power    =     2918   str*0=0  agi*1=2918
+    ranged AP       =        0   (level + agi) * 0
+    spell power     =        0   from intellect 0
+
+  ratings (Player::GetRatingBonusValue)
+    CritMelee                     176 * 0.021739 =    3.826%  curve  21024 ->    3.826%  with 5% base -> 8.826%
+    CritRanged                    176 * 0.021739 =    3.826%  curve  21024 ->    3.826%  with 5% base -> 8.826%
+    CritSpell                     176 * 0.021739 =    3.826%  curve  21024 ->    3.826%  with 5% base -> 8.826%
+    HasteMelee                    254 * 0.022727 =    5.773%  curve  21024 ->    5.773%
+    HasteRanged                   254 * 0.022727 =    5.773%  curve  21024 ->    5.773%
+    HasteSpell                    254 * 0.022727 =    5.773%  curve  21024 ->    5.773%
+    Mastery                       307 * 0.021739 =    6.674%  curve  21024 ->    6.674%
+    VersatilityDamageDone         109 * 0.018519 =    2.019%  curve  21024 ->    2.019%
+    VersatilityHealingDone        109 * 0.018519 =    2.019%  curve  21024 ->    2.019%
+    VersatilityDamageTaken        109 * 0.009259 =    1.009%  curve  21035 ->    1.009%
+
+  mastery [script-or-consumer-dependent]
+    ActivePlayerData::Mastery = 6.6739
+    mastery-scaled effects use SPELL_AURA_DUMMY, which carry no generic value semantics
+    spell 115636 'Mastery: Combo Strikes' (MASTERY_AFFECTS_POINTS=True)
+     * idx0 SPELL_AURA_DUMMY                                 base=0 coef=2.32875 -> 15.5419
+
+  NOTE: no talents, buffs, consumables, shapeshift forms or aura stages are applied.
+
+========================================================================
+Intellect healer -- Mistweaver Monk  items [271519, 271517, 271522, 271518, 271520] at item levels [318, 318, 318, 318, 318]
+
+  boundary payload handed to the character side:
+    stats   : {"ItemModType 73 (Agi|Int)": 730, "Stamina": 14642}
+    ratings : {"CritMelee": 176, "CritRanged": 176, "CritSpell": 176, "HasteMelee": 254, "HasteRanged": 254, "HasteSpell": 254, "Mastery": 307, "VersatilityDamageDone": 109, "VersatilityDamageTaken": 109, "VersatilityHealingDone": 109}
+    armor   : 682
+    set spell roots: [{"spell_id": 1296620, "threshold": 4, "item_set_id": 2061}, {"spell_id": 1296619, "threshold": 2, "item_set_id": 2061}]
+
+Human Monk -- Mistweaver (270) -- level 90
+  primary stat      : Intellect (ChrSpecialization.PrimaryStatPriority 0)
+  base stat source  : SYNTHETIC test fixture - NOT real player_classlevelstats values
+
+  stats (Unit::GetTotalStatValue -> int32)
+    Strength   =     1195   create=1195
+    Agility    =     2918   create=2188  supplied=730
+    Stamina    =    17832   create=3190  supplied=14642
+    Intellect  =     4921   create=4191  supplied=730
+    Spirit     =        0   create=0
+
+  derived
+    max health      =   356640   stamina 17832 * HpPerSta[90]=20 -> 356640
+    armor           =     5058   (bonus 682)
+    attack power    =     2918   str*0=0  agi*1=2918
+    ranged AP       =        0   (level + agi) * 0
+    spell power     =     4921   from intellect 4921
+
+  ratings (Player::GetRatingBonusValue)
+    CritMelee                     176 * 0.021739 =    3.826%  curve  21024 ->    3.826%  with 5% base -> 8.826%
+    CritRanged                    176 * 0.021739 =    3.826%  curve  21024 ->    3.826%  with 5% base -> 8.826%
+    CritSpell                     176 * 0.021739 =    3.826%  curve  21024 ->    3.826%  with 5% base -> 8.826%
+    HasteMelee                    254 * 0.022727 =    5.773%  curve  21024 ->    5.773%
+    HasteRanged                   254 * 0.022727 =    5.773%  curve  21024 ->    5.773%
+    HasteSpell                    254 * 0.022727 =    5.773%  curve  21024 ->    5.773%
+    Mastery                       307 * 0.021739 =    6.674%  curve  21024 ->    6.674%
+    VersatilityDamageDone         109 * 0.018519 =    2.019%  curve  21024 ->    2.019%
+    VersatilityHealingDone        109 * 0.018519 =    2.019%  curve  21024 ->    2.019%
+    VersatilityDamageTaken        109 * 0.009259 =    1.009%  curve  21035 ->    1.009%
+
+  mastery [script-or-consumer-dependent]
+    ActivePlayerData::Mastery = 6.6739
+    mastery-scaled effects use SPELL_AURA_DUMMY, which carry no generic value semantics
+    spell 117907 'Mastery: Gust of Mists' (MASTERY_AFFECTS_POINTS=True)
+     * idx0 SPELL_AURA_DUMMY                                 base=0 coef=31.185 -> 208.1260
+       idx1 SPELL_AURA_DUMMY                                 base=0 coef=0 -> 0.0000
+     * idx2 SPELL_AURA_ADD_FLAT_MODIFIER                     base=0 coef=0.31185 -> 2.0813
+
+  NOTE: no talents, buffs, consumables, shapeshift forms or aura stages are applied.
+
+========================================================================
+Intellect caster healer -- Discipline Priest  items [271555, 271553, 271554, 271556, 271558] at item levels [318, 318, 318, 318, 318]
+
+  boundary payload handed to the character side:
+    stats   : {"Intellect": 730, "Stamina": 14642}
+    ratings : {"CritMelee": 334, "CritRanged": 334, "CritSpell": 334, "HasteMelee": 179, "HasteRanged": 179, "HasteSpell": 179, "Mastery": 278, "VersatilityDamageDone": 55, "VersatilityDamageTaken": 55, "VersatilityHealingDone": 55}
+    armor   : 398
+    set spell roots: [{"spell_id": 1296578, "threshold": 4, "item_set_id": 2063}, {"spell_id": 1296577, "threshold": 2, "item_set_id": 2063}]
+
+Human Priest -- Discipline (256) -- level 90
+  primary stat      : Intellect (ChrSpecialization.PrimaryStatPriority 0)
+  base stat source  : SYNTHETIC test fixture - NOT real player_classlevelstats values
+
+  stats (Unit::GetTotalStatValue -> int32)
+    Strength   =     1145   create=1145
+    Agility    =     2138   create=2138
+    Stamina    =    17782   create=3140  supplied=14642
+    Intellect  =     4871   create=4141  supplied=730
+    Spirit     =        0   create=0
+
+  derived
+    max health      =   355640   stamina 17782 * HpPerSta[90]=20 -> 355640
+    armor           =     4674   (bonus 398)
+    attack power    =        0   str*0=0  agi*0=0
+    ranged AP       =        0   (level + agi) * 0
+    spell power     =     4871   from intellect 4871
+
+  ratings (Player::GetRatingBonusValue)
+    CritMelee                     334 * 0.021739 =    7.261%  curve  21024 ->    7.261%  with 5% base -> 12.261%
+    CritRanged                    334 * 0.021739 =    7.261%  curve  21024 ->    7.261%  with 5% base -> 12.261%
+    CritSpell                     334 * 0.021739 =    7.261%  curve  21024 ->    7.261%  with 5% base -> 12.261%
+    HasteMelee                    179 * 0.022727 =    4.068%  curve  21024 ->    4.068%
+    HasteRanged                   179 * 0.022727 =    4.068%  curve  21024 ->    4.068%
+    HasteSpell                    179 * 0.022727 =    4.068%  curve  21024 ->    4.068%
+    Mastery                       278 * 0.021739 =    6.043%  curve  21024 ->    6.043%
+    VersatilityDamageDone          55 * 0.018519 =    1.019%  curve  21024 ->    1.019%
+    VersatilityHealingDone         55 * 0.018519 =    1.019%  curve  21024 ->    1.019%
+    VersatilityDamageTaken         55 * 0.009259 =    0.509%  curve  21035 ->    0.509%
+
+  mastery [script-or-consumer-dependent]
+    ActivePlayerData::Mastery = 6.0435
+    mastery-scaled effects use SPELL_AURA_DUMMY, which carry no generic value semantics
+    spell 271534 'Mastery: Grace' (MASTERY_AFFECTS_POINTS=True)
+     * idx0 SPELL_AURA_DUMMY                                 base=0 coef=1.35 -> 8.1587
+
+  NOTE: no talents, buffs, consumables, shapeshift forms or aura stages are applied.
+

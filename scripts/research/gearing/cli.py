@@ -266,6 +266,9 @@ def build_parser() -> argparse.ArgumentParser:
                             help="raid + Mythic+ rosters in one machine-readable dump")
     _add_season(corpus)
     corpus.add_argument("--keystone-level", type=int, default=None)
+    corpus.add_argument("--compact", action="store_true",
+                        help="drop per-row bonus traces and curve detail; "
+                             "keeps the result small enough to commit")
     corpus.add_argument("--player-level", type=int, default=DEFAULT_PLAYER_LEVEL)
     corpus.add_argument("--output", type=Path, default=None)
 
@@ -603,8 +606,9 @@ def _cmd_corpus(resolver: GearResolver, args: argparse.Namespace) -> int:
     payload = {
         "window": window.to_dict(),
         "player_level": args.player_level,
-        "raid": raid.to_dict(),
-        "mythic_plus": dungeon.to_dict(),
+        "compact": bool(args.compact),
+        "raid": raid.to_dict(args.compact),
+        "mythic_plus": dungeon.to_dict(args.compact),
     }
     summary = (f"window {window.availability_condition_id}: "
                f"raid {len(raid.items)} items / {sum(len(i.variants) for i in raid.items)} variants, "

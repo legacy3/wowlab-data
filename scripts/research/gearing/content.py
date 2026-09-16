@@ -46,16 +46,35 @@ class RosterItem:
     item_set_id: int = 0
     skipped_reason: str | None = None
 
-    def to_dict(self) -> dict[str, Any]:
-        return {
+    def to_dict(self, compact: bool = False) -> dict[str, Any]:
+        out: dict[str, Any] = {
             "item_id": self.item_id,
             "name": self.name,
             "item_set_id": self.item_set_id,
             "provenance": self.provenance,
-            "loot_entries": [e.to_dict() for e in self.loot_entries],
-            "variants": [v.to_dict() for v in self.variants],
             "skipped_reason": self.skipped_reason,
         }
+        if compact:
+            out["variants"] = [{
+                "context": v.variant.context,
+                "context_name": v.variant.label,
+                "effective_item_level": v.effective_item_level,
+                "quality": v.quality,
+                "inventory_type": v.inventory_type,
+                "applied_bonus_lists": v.applied_bonus_lists,
+                "item_level_selector_id": v.selection.item_level_selector_id,
+                "stats": [{"stat_type": s.stat_type, "stat_name": s.stat_name,
+                           "value": s.final_value} for s in v.stats
+                          if s.final_value],
+                "armor": v.armor,
+                "weapon_dps": v.weapon["dps"] if v.weapon else None,
+                "curves_used": sorted({c.curve_id for c in v.curve_evaluations}),
+                "spell_roots": v.spell_roots,
+            } for v in self.variants]
+        else:
+            out["loot_entries"] = [e.to_dict() for e in self.loot_entries]
+            out["variants"] = [v.to_dict() for v in self.variants]
+        return out
 
 
 @dataclass
@@ -66,7 +85,7 @@ class ResolvedRoster:
     requested_contexts: list[int]
     notes: list[str] = field(default_factory=list)
 
-    def to_dict(self) -> dict[str, Any]:
+    def to_dict(self, compact: bool = False) -> dict[str, Any]:
         return {
             "selector": self.roster.selector,
             "player_level": self.player_level,
@@ -79,7 +98,7 @@ class ResolvedRoster:
             "notes": self.roster.notes + self.notes,
             "item_count": len(self.items),
             "variant_count": sum(len(i.variants) for i in self.items),
-            "items": [i.to_dict() for i in self.items],
+            "items": [i.to_dict(compact) for i in self.items],
         }
 
 
@@ -115,14 +134,14 @@ def resolve_roster(
                 skipped_reason="no Item/ItemSparse row in this snapshot"))
             continue
         proto = resolver.items.get(item_id)
+        if item_set_only and not proto.item_set:
+            continue
         if equippable_only and not proto.is_equippable:
             items.append(RosterItem(
                 item_id=item_id, name=proto.name,
                 provenance=[e.provenance for e in entries], loot_entries=entries,
                 item_set_id=proto.item_set,
                 skipped_reason="InventoryType 0 (not equippable)"))
-            continue
-        if item_set_only and not proto.item_set:
             continue
 
         available = {v.context for v in resolver.discover_variants(item_id)}

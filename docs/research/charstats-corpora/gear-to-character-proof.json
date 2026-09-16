@@ -1,0 +1,3613 @@
+{
+  "cases": [
+    {
+      "label": "Strength tank -- Blood Death Knight",
+      "identity": {
+        "race_id": 2,
+        "class_id": 6,
+        "spec_id": 250,
+        "spec": "Blood"
+      },
+      "gear": {
+        "item_ids": [
+          271474,
+          271472,
+          271477,
+          271473,
+          271475
+        ],
+        "context": 6,
+        "effective_item_levels": [
+          318,
+          318,
+          318,
+          318,
+          318
+        ]
+      },
+      "boundary_payload": {
+        "stats": {
+          "ItemModType 74 (Str|Int)": 730,
+          "Stamina": 14642
+        },
+        "ratings": {
+          "CritMelee": 288,
+          "CritRanged": 288,
+          "CritSpell": 288,
+          "HasteMelee": 46,
+          "HasteRanged": 46,
+          "HasteSpell": 46,
+          "Mastery": 416,
+          "VersatilityDamageDone": 94,
+          "VersatilityDamageTaken": 94,
+          "VersatilityHealingDone": 94
+        },
+        "armor": 1513,
+        "item_set_spell_roots": [
+          {
+            "spell_id": 1296651,
+            "threshold": 4,
+            "item_set_id": 2055
+          },
+          {
+            "spell_id": 1296650,
+            "threshold": 2,
+            "item_set_id": 2055
+          }
+        ]
+      },
+      "character": {
+        "race": {
+          "race_id": 2,
+          "name": "Orc",
+          "flags": 6291596,
+          "faction_id": 2,
+          "playable_race_bit": 1
+        },
+        "class": {
+          "class_id": 6,
+          "name": "Death Knight",
+          "primary_stat_priority": 5,
+          "attack_power_per_strength": 1,
+          "attack_power_per_agility": 0,
+          "ranged_attack_power_per_agility": 0,
+          "display_power": 6,
+          "armor_type_mask": 3121,
+          "default_spec": 251,
+          "has_strength_attack_bonus": 1,
+          "damage_bonus_stat": 9,
+          "spell_class_set": 15,
+          "roles_mask": 10
+        },
+        "spec": {
+          "spec_id": 250,
+          "name": "Blood",
+          "class_id": 6,
+          "order_index": 0,
+          "primary_stat_priority": 5,
+          "role": 0,
+          "flags": 4,
+          "mastery_spell_ids": [
+            77513,
+            0
+          ],
+          "role_name": "Tank"
+        },
+        "level": 90,
+        "base": {
+          "class_id": 6,
+          "race_id": 2,
+          "level": 90,
+          "stats": {
+            "Strength": 1158,
+            "Agility": 2146,
+            "Stamina": 3152,
+            "Intellect": 4147,
+            "Spirit": 0
+          },
+          "stats_source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+          "create_health": 0,
+          "create_mana": 0,
+          "base_armor": 4292,
+          "provenance": [
+            {
+              "step": "base-primary-stats",
+              "source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+              "consumer": "ObjectMgr::LoadPlayerLevelInfo -> player_classlevelstats[class][level] + player_racestats[race]",
+              "stats": {
+                "Strength": 1158,
+                "Agility": 2146,
+                "Stamina": 3152,
+                "Intellect": 4147,
+                "Spirit": 0
+              }
+            },
+            {
+              "step": "create-mana",
+              "value": 0,
+              "source": "BaseMp.txt",
+              "consumer": "ObjectMgr::GetPlayerClassLevelInfo"
+            },
+            {
+              "step": "create-health",
+              "value": 0,
+              "consumer": "Player::InitStatsForLevel -> SetCreateHealth(0)",
+              "note": "a Player has no base health; all max health comes from stamina and from item/aura modifiers"
+            },
+            {
+              "step": "base-armor",
+              "value": 4292,
+              "consumer": "Player::InitStatsForLevel -> SetArmor(int32(createStats[AGILITY] * 2), 0)",
+              "note": "this is the create-time value; UpdateArmor recomputes armor from UNIT_MOD_ARMOR and does not re-add it"
+            }
+          ]
+        },
+        "primary_stat_routing": {
+          "class_id": 6,
+          "spec_id": 250,
+          "primary_stat": 0,
+          "primary_stat_priority": 5,
+          "attack_power_per_strength": 1,
+          "attack_power_per_agility": 0,
+          "ranged_attack_power_per_agility": 0,
+          "spell_power_from_intellect": false,
+          "primary_stat_name": "Strength"
+        },
+        "contributions": {
+          "stats": {
+            "Strength": 730,
+            "Stamina": 14642,
+            "Intellect": 730
+          },
+          "ratings": {
+            "CritMelee": 288,
+            "CritRanged": 288,
+            "CritSpell": 288,
+            "HasteMelee": 46,
+            "HasteRanged": 46,
+            "HasteSpell": 46,
+            "Mastery": 416,
+            "VersatilityDamageDone": 94,
+            "VersatilityDamageTaken": 94,
+            "VersatilityHealingDone": 94
+          },
+          "armor": 1513,
+          "attack_power": 0,
+          "spell_power": 0,
+          "health": 0,
+          "source": "gearing.loadout.resolve_loadout aggregate"
+        },
+        "stats": {
+          "Strength": {
+            "stat": 0,
+            "stat_name": "Strength",
+            "create_value": 1158,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 730.0,
+            "total_pct": 1.0,
+            "raw_value": 1888.0,
+            "value": 1888,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Agility": {
+            "stat": 1,
+            "stat_name": "Agility",
+            "create_value": 2146,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 2146.0,
+            "value": 2146,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Stamina": {
+            "stat": 2,
+            "stat_name": "Stamina",
+            "create_value": 3152,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 14642.0,
+            "total_pct": 1.0,
+            "raw_value": 17794.0,
+            "value": 17794,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Intellect": {
+            "stat": 3,
+            "stat_name": "Intellect",
+            "create_value": 4147,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 730.0,
+            "total_pct": 1.0,
+            "raw_value": 4877.0,
+            "value": 4877,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Spirit": {
+            "stat": 4,
+            "stat_name": "Spirit",
+            "create_value": 0,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 0.0,
+            "value": 0,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          }
+        },
+        "max_health": 355880,
+        "health_from_stamina": 355880.0,
+        "hp_per_sta": 20.0,
+        "armor": 5805,
+        "bonus_armor": 1513,
+        "attack_power": 1888,
+        "attack_power_from_strength": 1888.0,
+        "attack_power_from_agility": 0.0,
+        "ranged_attack_power": 0,
+        "spell_power": 0,
+        "spell_power_from_intellect": 0,
+        "ratings": [
+          {
+            "rating": "CritMelee",
+            "combat_ratings_column": 8,
+            "amount": 288.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 6.260869565217391,
+            "diminishing_curve_id": 21024,
+            "final_percent": 6.260869565217391,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 6.260869565217391,
+              "raw_y": 6.260869565217391,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritMelee"
+            },
+            "effective_percentage_with_base": 11.26086956521739,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "CritRanged",
+            "combat_ratings_column": 9,
+            "amount": 288.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 6.260869565217391,
+            "diminishing_curve_id": 21024,
+            "final_percent": 6.260869565217391,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 6.260869565217391,
+              "raw_y": 6.260869565217391,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritRanged"
+            },
+            "effective_percentage_with_base": 11.26086956521739,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "CritSpell",
+            "combat_ratings_column": 10,
+            "amount": 288.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 6.260869565217391,
+            "diminishing_curve_id": 21024,
+            "final_percent": 6.260869565217391,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 6.260869565217391,
+              "raw_y": 6.260869565217391,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritSpell"
+            },
+            "effective_percentage_with_base": 11.26086956521739,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "HasteMelee",
+            "combat_ratings_column": 17,
+            "amount": 46.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 1.0454545454545454,
+            "diminishing_curve_id": 21024,
+            "final_percent": 1.0454545454545454,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.0454545454545454,
+              "raw_y": 1.0454545454545454,
+              "rounded_y": 1,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteMelee"
+            }
+          },
+          {
+            "rating": "HasteRanged",
+            "combat_ratings_column": 18,
+            "amount": 46.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 1.0454545454545454,
+            "diminishing_curve_id": 21024,
+            "final_percent": 1.0454545454545454,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.0454545454545454,
+              "raw_y": 1.0454545454545454,
+              "rounded_y": 1,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteRanged"
+            }
+          },
+          {
+            "rating": "HasteSpell",
+            "combat_ratings_column": 19,
+            "amount": 46.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 1.0454545454545454,
+            "diminishing_curve_id": 21024,
+            "final_percent": 1.0454545454545454,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.0454545454545454,
+              "raw_y": 1.0454545454545454,
+              "rounded_y": 1,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteSpell"
+            }
+          },
+          {
+            "rating": "Mastery",
+            "combat_ratings_column": 25,
+            "amount": 416.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 9.043478260869565,
+            "diminishing_curve_id": 21024,
+            "final_percent": 9.043478260869565,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 9.043478260869565,
+              "raw_y": 9.043478260869565,
+              "rounded_y": 9,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Mastery"
+            }
+          },
+          {
+            "rating": "VersatilityDamageDone",
+            "combat_ratings_column": 28,
+            "amount": 94.0,
+            "per_point": 0.018518518518518517,
+            "linear_percent": 1.7407407407407407,
+            "diminishing_curve_id": 21024,
+            "final_percent": 1.7407407407407407,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.7407407407407407,
+              "raw_y": 1.7407407407407407,
+              "rounded_y": 2,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityDamageDone"
+            }
+          },
+          {
+            "rating": "VersatilityHealingDone",
+            "combat_ratings_column": 29,
+            "amount": 94.0,
+            "per_point": 0.018518518518518517,
+            "linear_percent": 1.7407407407407407,
+            "diminishing_curve_id": 21024,
+            "final_percent": 1.7407407407407407,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.7407407407407407,
+              "raw_y": 1.7407407407407407,
+              "rounded_y": 2,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityHealingDone"
+            }
+          },
+          {
+            "rating": "VersatilityDamageTaken",
+            "combat_ratings_column": 30,
+            "amount": 94.0,
+            "per_point": 0.009259259259259259,
+            "linear_percent": 0.8703703703703703,
+            "diminishing_curve_id": 21035,
+            "final_percent": 0.8703703703703703,
+            "curve": {
+              "curve_id": 21035,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.8703703703703703,
+              "raw_y": 0.8703703703703703,
+              "rounded_y": 1,
+              "point_count": 9,
+              "surrounding_points": [
+                [
+                  0.5,
+                  0.5
+                ],
+                [
+                  15.0,
+                  15.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityDamageTaken"
+            }
+          },
+          {
+            "rating": "Lifesteal",
+            "combat_ratings_column": 16,
+            "amount": 0.0,
+            "per_point": 0.01449254674733451,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Lifesteal"
+            }
+          },
+          {
+            "rating": "Avoidance",
+            "combat_ratings_column": 20,
+            "amount": 0.0,
+            "per_point": 0.027173525148790872,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Avoidance"
+            }
+          },
+          {
+            "rating": "Speed",
+            "combat_ratings_column": 13,
+            "amount": 0.0,
+            "per_point": 0.08695528047140502,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Speed"
+            }
+          },
+          {
+            "rating": "Dodge",
+            "combat_ratings_column": 2,
+            "amount": 0.0,
+            "per_point": 0.019230769230769232,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Dodge"
+            }
+          },
+          {
+            "rating": "Parry",
+            "combat_ratings_column": 3,
+            "amount": 0.0,
+            "per_point": 0.019230769230769232,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Parry"
+            }
+          },
+          {
+            "rating": "Block",
+            "combat_ratings_column": 4,
+            "amount": 0.0,
+            "per_point": 0.04347764023570251,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Block"
+            }
+          },
+          {
+            "rating": "Expertise",
+            "combat_ratings_column": 23,
+            "amount": 0.0,
+            "per_point": 0.03952512749012676,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": null,
+            "final_percent": 0.0
+          }
+        ],
+        "mastery": {
+          "spec_id": 250,
+          "spec_name": "Blood",
+          "class_id": 6,
+          "category": "script-or-consumer-dependent",
+          "reason": "mastery-scaled effects use SPELL_AURA_DUMMY, which carry no generic value semantics",
+          "spells": [
+            {
+              "spell_id": 77513,
+              "name": "Mastery: Blood Shield",
+              "mastery_affects_points": true,
+              "effects": [
+                {
+                  "effect_index": 0,
+                  "effect": 6,
+                  "aura_type": 4,
+                  "aura_name": "SPELL_AURA_DUMMY",
+                  "base_points": 0.0,
+                  "bonus_coefficient": 2.0,
+                  "misc_value_0": 2,
+                  "misc_value_1": 0
+                },
+                {
+                  "effect_index": 1,
+                  "effect": 6,
+                  "aura_type": 166,
+                  "aura_name": "SPELL_AURA_MOD_ATTACK_POWER_PCT",
+                  "base_points": 0.0,
+                  "bonus_coefficient": 1.0,
+                  "misc_value_0": 0,
+                  "misc_value_1": 0
+                },
+                {
+                  "effect_index": 2,
+                  "effect": 6,
+                  "aura_type": 4,
+                  "aura_name": "SPELL_AURA_DUMMY",
+                  "base_points": 50.0,
+                  "bonus_coefficient": 0.0,
+                  "misc_value_0": 2,
+                  "misc_value_1": 0
+                }
+              ]
+            }
+          ]
+        },
+        "mastery_value": 9.043478260869565,
+        "armor_specializations": [
+          {
+            "spell_id": 86537,
+            "spec_id": 250,
+            "armor_subclass_mask": 16,
+            "armor_subclasses": [
+              "Plate"
+            ],
+            "required_inventory_types": [
+              1,
+              3,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              20
+            ],
+            "requires_all_armor_slots": true,
+            "stat_mask": 4,
+            "stat_names": [
+              "Stamina"
+            ],
+            "percent": 5.0
+          }
+        ],
+        "armor_specialization_applied": null,
+        "provenance": [
+          {
+            "step": "base-primary-stats",
+            "source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+            "consumer": "ObjectMgr::LoadPlayerLevelInfo -> player_classlevelstats[class][level] + player_racestats[race]",
+            "stats": {
+              "Strength": 1158,
+              "Agility": 2146,
+              "Stamina": 3152,
+              "Intellect": 4147,
+              "Spirit": 0
+            }
+          },
+          {
+            "step": "create-mana",
+            "value": 0,
+            "source": "BaseMp.txt",
+            "consumer": "ObjectMgr::GetPlayerClassLevelInfo"
+          },
+          {
+            "step": "create-health",
+            "value": 0,
+            "consumer": "Player::InitStatsForLevel -> SetCreateHealth(0)",
+            "note": "a Player has no base health; all max health comes from stamina and from item/aura modifiers"
+          },
+          {
+            "step": "base-armor",
+            "value": 4292,
+            "consumer": "Player::InitStatsForLevel -> SetArmor(int32(createStats[AGILITY] * 2), 0)",
+            "note": "this is the create-time value; UpdateArmor recomputes armor from UNIT_MOD_ARMOR and does not re-add it"
+          },
+          {
+            "step": "primary-stat-routing",
+            "consumer": "Player::GetPrimaryStat + ChrClasses AP coefficients",
+            "primary_stat": "Strength",
+            "primary_stat_priority": 5
+          },
+          {
+            "step": "max-health",
+            "consumer": "Player::UpdateMaxHealth + GetHealthBonusFromStamina",
+            "stamina": 17794.0,
+            "hp_per_sta": 20.0,
+            "health_from_stamina": 355880.0,
+            "create_health": 0,
+            "item_health_base_value": 0,
+            "max_health": 355880,
+            "rounding": "(uint32) truncating cast"
+          },
+          {
+            "step": "armor",
+            "consumer": "Player::UpdateArmor",
+            "base_value": 4292,
+            "item_armor_total_value": 1513,
+            "armor": 5805,
+            "bonus_armor": 1513,
+            "note": "gear armor arrives in TOTAL_VALUE, so it is reported as bonus armor and is not scaled by BASE_PCT"
+          },
+          {
+            "step": "attack-power",
+            "consumer": "Player::UpdateAttackPowerAndDamage",
+            "attack_power_per_strength": 1,
+            "attack_power_per_agility": 0,
+            "from_strength": 1888.0,
+            "from_agility": 0.0,
+            "base_attack_power": 1888,
+            "item_attack_power_total_value": 0,
+            "note": "ITEM_MOD_ATTACK_POWER and the weapon's int32(dps*6) land in TOTAL_VALUE and are reported separately as AttackPowerModPos, not folded into this number"
+          },
+          {
+            "step": "spell-power",
+            "consumer": "Unit::SpellBaseDamageBonusDone",
+            "primary_stat_is_intellect": false,
+            "from_intellect": 0,
+            "item_spell_power": 0,
+            "spell_power": 0
+          },
+          {
+            "step": "mastery",
+            "consumer": "Player::UpdateMastery",
+            "mastery_rating": 416,
+            "mastery_value": 9.043478260869565,
+            "mastery_spell_ids": [
+              77513
+            ],
+            "category": "script-or-consumer-dependent",
+            "note": "ActivePlayerData::Mastery; each mastery effect amount is base_points + Mastery * EffectBonusCoefficient"
+          }
+        ],
+        "warnings": [],
+        "caveat": "Aura stages, talents, buffs, consumables and shapeshift forms are NOT applied.  Supplied contributions are explicit inputs."
+      }
+    },
+    {
+      "label": "Agility melee -- Windwalker Monk",
+      "identity": {
+        "race_id": 1,
+        "class_id": 10,
+        "spec_id": 269,
+        "spec": "Windwalker"
+      },
+      "gear": {
+        "item_ids": [
+          271519,
+          271517,
+          271522,
+          271518,
+          271520
+        ],
+        "context": 6,
+        "effective_item_levels": [
+          318,
+          318,
+          318,
+          318,
+          318
+        ]
+      },
+      "boundary_payload": {
+        "stats": {
+          "ItemModType 73 (Agi|Int)": 730,
+          "Stamina": 14642
+        },
+        "ratings": {
+          "CritMelee": 176,
+          "CritRanged": 176,
+          "CritSpell": 176,
+          "HasteMelee": 254,
+          "HasteRanged": 254,
+          "HasteSpell": 254,
+          "Mastery": 307,
+          "VersatilityDamageDone": 109,
+          "VersatilityDamageTaken": 109,
+          "VersatilityHealingDone": 109
+        },
+        "armor": 682,
+        "item_set_spell_roots": [
+          {
+            "spell_id": 1296624,
+            "threshold": 4,
+            "item_set_id": 2061
+          },
+          {
+            "spell_id": 1296621,
+            "threshold": 2,
+            "item_set_id": 2061
+          }
+        ]
+      },
+      "character": {
+        "race": {
+          "race_id": 1,
+          "name": "Human",
+          "flags": 6292620,
+          "faction_id": 1,
+          "playable_race_bit": 0
+        },
+        "class": {
+          "class_id": 10,
+          "name": "Monk",
+          "primary_stat_priority": 2,
+          "attack_power_per_strength": 0,
+          "attack_power_per_agility": 1,
+          "ranged_attack_power_per_agility": 0,
+          "display_power": 3,
+          "armor_type_mask": 37,
+          "default_spec": 268,
+          "has_strength_attack_bonus": 1,
+          "damage_bonus_stat": 0,
+          "spell_class_set": 53,
+          "roles_mask": 14
+        },
+        "spec": {
+          "spec_id": 269,
+          "name": "Windwalker",
+          "class_id": 10,
+          "order_index": 2,
+          "primary_stat_priority": 2,
+          "role": 2,
+          "flags": 68,
+          "mastery_spell_ids": [
+            115636,
+            0
+          ],
+          "role_name": "Damage"
+        },
+        "level": 90,
+        "base": {
+          "class_id": 10,
+          "race_id": 1,
+          "level": 90,
+          "stats": {
+            "Strength": 1195,
+            "Agility": 2188,
+            "Stamina": 3190,
+            "Intellect": 4191,
+            "Spirit": 0
+          },
+          "stats_source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+          "create_health": 0,
+          "create_mana": 250000,
+          "base_armor": 4376,
+          "provenance": [
+            {
+              "step": "base-primary-stats",
+              "source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+              "consumer": "ObjectMgr::LoadPlayerLevelInfo -> player_classlevelstats[class][level] + player_racestats[race]",
+              "stats": {
+                "Strength": 1195,
+                "Agility": 2188,
+                "Stamina": 3190,
+                "Intellect": 4191,
+                "Spirit": 0
+              }
+            },
+            {
+              "step": "create-mana",
+              "value": 250000,
+              "source": "BaseMp.txt",
+              "consumer": "ObjectMgr::GetPlayerClassLevelInfo"
+            },
+            {
+              "step": "create-health",
+              "value": 0,
+              "consumer": "Player::InitStatsForLevel -> SetCreateHealth(0)",
+              "note": "a Player has no base health; all max health comes from stamina and from item/aura modifiers"
+            },
+            {
+              "step": "base-armor",
+              "value": 4376,
+              "consumer": "Player::InitStatsForLevel -> SetArmor(int32(createStats[AGILITY] * 2), 0)",
+              "note": "this is the create-time value; UpdateArmor recomputes armor from UNIT_MOD_ARMOR and does not re-add it"
+            }
+          ]
+        },
+        "primary_stat_routing": {
+          "class_id": 10,
+          "spec_id": 269,
+          "primary_stat": 1,
+          "primary_stat_priority": 2,
+          "attack_power_per_strength": 0,
+          "attack_power_per_agility": 1,
+          "ranged_attack_power_per_agility": 0,
+          "spell_power_from_intellect": false,
+          "primary_stat_name": "Agility"
+        },
+        "contributions": {
+          "stats": {
+            "Agility": 730,
+            "Stamina": 14642,
+            "Intellect": 730
+          },
+          "ratings": {
+            "CritMelee": 176,
+            "CritRanged": 176,
+            "CritSpell": 176,
+            "HasteMelee": 254,
+            "HasteRanged": 254,
+            "HasteSpell": 254,
+            "Mastery": 307,
+            "VersatilityDamageDone": 109,
+            "VersatilityDamageTaken": 109,
+            "VersatilityHealingDone": 109
+          },
+          "armor": 682,
+          "attack_power": 0,
+          "spell_power": 0,
+          "health": 0,
+          "source": "gearing.loadout.resolve_loadout aggregate"
+        },
+        "stats": {
+          "Strength": {
+            "stat": 0,
+            "stat_name": "Strength",
+            "create_value": 1195,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 1195.0,
+            "value": 1195,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Agility": {
+            "stat": 1,
+            "stat_name": "Agility",
+            "create_value": 2188,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 730.0,
+            "total_pct": 1.0,
+            "raw_value": 2918.0,
+            "value": 2918,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Stamina": {
+            "stat": 2,
+            "stat_name": "Stamina",
+            "create_value": 3190,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 14642.0,
+            "total_pct": 1.0,
+            "raw_value": 17832.0,
+            "value": 17832,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Intellect": {
+            "stat": 3,
+            "stat_name": "Intellect",
+            "create_value": 4191,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 730.0,
+            "total_pct": 1.0,
+            "raw_value": 4921.0,
+            "value": 4921,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Spirit": {
+            "stat": 4,
+            "stat_name": "Spirit",
+            "create_value": 0,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 0.0,
+            "value": 0,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          }
+        },
+        "max_health": 356640,
+        "health_from_stamina": 356640.0,
+        "hp_per_sta": 20.0,
+        "armor": 5058,
+        "bonus_armor": 682,
+        "attack_power": 2918,
+        "attack_power_from_strength": 0.0,
+        "attack_power_from_agility": 2918.0,
+        "ranged_attack_power": 0,
+        "spell_power": 0,
+        "spell_power_from_intellect": 0,
+        "ratings": [
+          {
+            "rating": "CritMelee",
+            "combat_ratings_column": 8,
+            "amount": 176.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 3.8260869565217392,
+            "diminishing_curve_id": 21024,
+            "final_percent": 3.826086956521739,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 3.8260869565217392,
+              "raw_y": 3.826086956521739,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritMelee"
+            },
+            "effective_percentage_with_base": 8.826086956521738,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "CritRanged",
+            "combat_ratings_column": 9,
+            "amount": 176.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 3.8260869565217392,
+            "diminishing_curve_id": 21024,
+            "final_percent": 3.826086956521739,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 3.8260869565217392,
+              "raw_y": 3.826086956521739,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritRanged"
+            },
+            "effective_percentage_with_base": 8.826086956521738,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "CritSpell",
+            "combat_ratings_column": 10,
+            "amount": 176.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 3.8260869565217392,
+            "diminishing_curve_id": 21024,
+            "final_percent": 3.826086956521739,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 3.8260869565217392,
+              "raw_y": 3.826086956521739,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritSpell"
+            },
+            "effective_percentage_with_base": 8.826086956521738,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "HasteMelee",
+            "combat_ratings_column": 17,
+            "amount": 254.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 5.7727272727272725,
+            "diminishing_curve_id": 21024,
+            "final_percent": 5.7727272727272725,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 5.7727272727272725,
+              "raw_y": 5.7727272727272725,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteMelee"
+            }
+          },
+          {
+            "rating": "HasteRanged",
+            "combat_ratings_column": 18,
+            "amount": 254.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 5.7727272727272725,
+            "diminishing_curve_id": 21024,
+            "final_percent": 5.7727272727272725,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 5.7727272727272725,
+              "raw_y": 5.7727272727272725,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteRanged"
+            }
+          },
+          {
+            "rating": "HasteSpell",
+            "combat_ratings_column": 19,
+            "amount": 254.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 5.7727272727272725,
+            "diminishing_curve_id": 21024,
+            "final_percent": 5.7727272727272725,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 5.7727272727272725,
+              "raw_y": 5.7727272727272725,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteSpell"
+            }
+          },
+          {
+            "rating": "Mastery",
+            "combat_ratings_column": 25,
+            "amount": 307.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 6.673913043478261,
+            "diminishing_curve_id": 21024,
+            "final_percent": 6.673913043478261,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 6.673913043478261,
+              "raw_y": 6.673913043478261,
+              "rounded_y": 7,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Mastery"
+            }
+          },
+          {
+            "rating": "VersatilityDamageDone",
+            "combat_ratings_column": 28,
+            "amount": 109.0,
+            "per_point": 0.018518518518518517,
+            "linear_percent": 2.0185185185185186,
+            "diminishing_curve_id": 21024,
+            "final_percent": 2.0185185185185186,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 2.0185185185185186,
+              "raw_y": 2.0185185185185186,
+              "rounded_y": 2,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityDamageDone"
+            }
+          },
+          {
+            "rating": "VersatilityHealingDone",
+            "combat_ratings_column": 29,
+            "amount": 109.0,
+            "per_point": 0.018518518518518517,
+            "linear_percent": 2.0185185185185186,
+            "diminishing_curve_id": 21024,
+            "final_percent": 2.0185185185185186,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 2.0185185185185186,
+              "raw_y": 2.0185185185185186,
+              "rounded_y": 2,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityHealingDone"
+            }
+          },
+          {
+            "rating": "VersatilityDamageTaken",
+            "combat_ratings_column": 30,
+            "amount": 109.0,
+            "per_point": 0.009259259259259259,
+            "linear_percent": 1.0092592592592593,
+            "diminishing_curve_id": 21035,
+            "final_percent": 1.0092592592592593,
+            "curve": {
+              "curve_id": 21035,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.0092592592592593,
+              "raw_y": 1.0092592592592593,
+              "rounded_y": 1,
+              "point_count": 9,
+              "surrounding_points": [
+                [
+                  0.5,
+                  0.5
+                ],
+                [
+                  15.0,
+                  15.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityDamageTaken"
+            }
+          },
+          {
+            "rating": "Lifesteal",
+            "combat_ratings_column": 16,
+            "amount": 0.0,
+            "per_point": 0.01449254674733451,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Lifesteal"
+            }
+          },
+          {
+            "rating": "Avoidance",
+            "combat_ratings_column": 20,
+            "amount": 0.0,
+            "per_point": 0.027173525148790872,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Avoidance"
+            }
+          },
+          {
+            "rating": "Speed",
+            "combat_ratings_column": 13,
+            "amount": 0.0,
+            "per_point": 0.08695528047140502,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Speed"
+            }
+          },
+          {
+            "rating": "Dodge",
+            "combat_ratings_column": 2,
+            "amount": 0.0,
+            "per_point": 0.019230769230769232,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Dodge"
+            }
+          },
+          {
+            "rating": "Parry",
+            "combat_ratings_column": 3,
+            "amount": 0.0,
+            "per_point": 0.019230769230769232,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Parry"
+            }
+          },
+          {
+            "rating": "Block",
+            "combat_ratings_column": 4,
+            "amount": 0.0,
+            "per_point": 0.04347764023570251,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Block"
+            }
+          },
+          {
+            "rating": "Expertise",
+            "combat_ratings_column": 23,
+            "amount": 0.0,
+            "per_point": 0.03952512749012676,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": null,
+            "final_percent": 0.0
+          }
+        ],
+        "mastery": {
+          "spec_id": 269,
+          "spec_name": "Windwalker",
+          "class_id": 10,
+          "category": "script-or-consumer-dependent",
+          "reason": "mastery-scaled effects use SPELL_AURA_DUMMY, which carry no generic value semantics",
+          "spells": [
+            {
+              "spell_id": 115636,
+              "name": "Mastery: Combo Strikes",
+              "mastery_affects_points": true,
+              "effects": [
+                {
+                  "effect_index": 0,
+                  "effect": 6,
+                  "aura_type": 4,
+                  "aura_name": "SPELL_AURA_DUMMY",
+                  "base_points": 0.0,
+                  "bonus_coefficient": 2.3287498951,
+                  "misc_value_0": 0,
+                  "misc_value_1": 0
+                }
+              ]
+            }
+          ]
+        },
+        "mastery_value": 6.673913043478261,
+        "armor_specializations": [
+          {
+            "spell_id": 120227,
+            "spec_id": 269,
+            "armor_subclass_mask": 4,
+            "armor_subclasses": [
+              "Leather"
+            ],
+            "required_inventory_types": [
+              1,
+              3,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              20
+            ],
+            "requires_all_armor_slots": true,
+            "stat_mask": 2,
+            "stat_names": [
+              "Agility"
+            ],
+            "percent": 5.0
+          }
+        ],
+        "armor_specialization_applied": null,
+        "provenance": [
+          {
+            "step": "base-primary-stats",
+            "source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+            "consumer": "ObjectMgr::LoadPlayerLevelInfo -> player_classlevelstats[class][level] + player_racestats[race]",
+            "stats": {
+              "Strength": 1195,
+              "Agility": 2188,
+              "Stamina": 3190,
+              "Intellect": 4191,
+              "Spirit": 0
+            }
+          },
+          {
+            "step": "create-mana",
+            "value": 250000,
+            "source": "BaseMp.txt",
+            "consumer": "ObjectMgr::GetPlayerClassLevelInfo"
+          },
+          {
+            "step": "create-health",
+            "value": 0,
+            "consumer": "Player::InitStatsForLevel -> SetCreateHealth(0)",
+            "note": "a Player has no base health; all max health comes from stamina and from item/aura modifiers"
+          },
+          {
+            "step": "base-armor",
+            "value": 4376,
+            "consumer": "Player::InitStatsForLevel -> SetArmor(int32(createStats[AGILITY] * 2), 0)",
+            "note": "this is the create-time value; UpdateArmor recomputes armor from UNIT_MOD_ARMOR and does not re-add it"
+          },
+          {
+            "step": "primary-stat-routing",
+            "consumer": "Player::GetPrimaryStat + ChrClasses AP coefficients",
+            "primary_stat": "Agility",
+            "primary_stat_priority": 2
+          },
+          {
+            "step": "max-health",
+            "consumer": "Player::UpdateMaxHealth + GetHealthBonusFromStamina",
+            "stamina": 17832.0,
+            "hp_per_sta": 20.0,
+            "health_from_stamina": 356640.0,
+            "create_health": 0,
+            "item_health_base_value": 0,
+            "max_health": 356640,
+            "rounding": "(uint32) truncating cast"
+          },
+          {
+            "step": "armor",
+            "consumer": "Player::UpdateArmor",
+            "base_value": 4376,
+            "item_armor_total_value": 682,
+            "armor": 5058,
+            "bonus_armor": 682,
+            "note": "gear armor arrives in TOTAL_VALUE, so it is reported as bonus armor and is not scaled by BASE_PCT"
+          },
+          {
+            "step": "attack-power",
+            "consumer": "Player::UpdateAttackPowerAndDamage",
+            "attack_power_per_strength": 0,
+            "attack_power_per_agility": 1,
+            "from_strength": 0.0,
+            "from_agility": 2918.0,
+            "base_attack_power": 2918,
+            "item_attack_power_total_value": 0,
+            "note": "ITEM_MOD_ATTACK_POWER and the weapon's int32(dps*6) land in TOTAL_VALUE and are reported separately as AttackPowerModPos, not folded into this number"
+          },
+          {
+            "step": "spell-power",
+            "consumer": "Unit::SpellBaseDamageBonusDone",
+            "primary_stat_is_intellect": false,
+            "from_intellect": 0,
+            "item_spell_power": 0,
+            "spell_power": 0
+          },
+          {
+            "step": "mastery",
+            "consumer": "Player::UpdateMastery",
+            "mastery_rating": 307,
+            "mastery_value": 6.673913043478261,
+            "mastery_spell_ids": [
+              115636
+            ],
+            "category": "script-or-consumer-dependent",
+            "note": "ActivePlayerData::Mastery; each mastery effect amount is base_points + Mastery * EffectBonusCoefficient"
+          }
+        ],
+        "warnings": [],
+        "caveat": "Aura stages, talents, buffs, consumables and shapeshift forms are NOT applied.  Supplied contributions are explicit inputs."
+      }
+    },
+    {
+      "label": "Intellect healer -- Mistweaver Monk",
+      "identity": {
+        "race_id": 1,
+        "class_id": 10,
+        "spec_id": 270,
+        "spec": "Mistweaver"
+      },
+      "gear": {
+        "item_ids": [
+          271519,
+          271517,
+          271522,
+          271518,
+          271520
+        ],
+        "context": 6,
+        "effective_item_levels": [
+          318,
+          318,
+          318,
+          318,
+          318
+        ]
+      },
+      "boundary_payload": {
+        "stats": {
+          "ItemModType 73 (Agi|Int)": 730,
+          "Stamina": 14642
+        },
+        "ratings": {
+          "CritMelee": 176,
+          "CritRanged": 176,
+          "CritSpell": 176,
+          "HasteMelee": 254,
+          "HasteRanged": 254,
+          "HasteSpell": 254,
+          "Mastery": 307,
+          "VersatilityDamageDone": 109,
+          "VersatilityDamageTaken": 109,
+          "VersatilityHealingDone": 109
+        },
+        "armor": 682,
+        "item_set_spell_roots": [
+          {
+            "spell_id": 1296620,
+            "threshold": 4,
+            "item_set_id": 2061
+          },
+          {
+            "spell_id": 1296619,
+            "threshold": 2,
+            "item_set_id": 2061
+          }
+        ]
+      },
+      "character": {
+        "race": {
+          "race_id": 1,
+          "name": "Human",
+          "flags": 6292620,
+          "faction_id": 1,
+          "playable_race_bit": 0
+        },
+        "class": {
+          "class_id": 10,
+          "name": "Monk",
+          "primary_stat_priority": 2,
+          "attack_power_per_strength": 0,
+          "attack_power_per_agility": 1,
+          "ranged_attack_power_per_agility": 0,
+          "display_power": 3,
+          "armor_type_mask": 37,
+          "default_spec": 268,
+          "has_strength_attack_bonus": 1,
+          "damage_bonus_stat": 0,
+          "spell_class_set": 53,
+          "roles_mask": 14
+        },
+        "spec": {
+          "spec_id": 270,
+          "name": "Mistweaver",
+          "class_id": 10,
+          "order_index": 1,
+          "primary_stat_priority": 0,
+          "role": 1,
+          "flags": 5,
+          "mastery_spell_ids": [
+            117907,
+            0
+          ],
+          "role_name": "Healer"
+        },
+        "level": 90,
+        "base": {
+          "class_id": 10,
+          "race_id": 1,
+          "level": 90,
+          "stats": {
+            "Strength": 1195,
+            "Agility": 2188,
+            "Stamina": 3190,
+            "Intellect": 4191,
+            "Spirit": 0
+          },
+          "stats_source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+          "create_health": 0,
+          "create_mana": 250000,
+          "base_armor": 4376,
+          "provenance": [
+            {
+              "step": "base-primary-stats",
+              "source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+              "consumer": "ObjectMgr::LoadPlayerLevelInfo -> player_classlevelstats[class][level] + player_racestats[race]",
+              "stats": {
+                "Strength": 1195,
+                "Agility": 2188,
+                "Stamina": 3190,
+                "Intellect": 4191,
+                "Spirit": 0
+              }
+            },
+            {
+              "step": "create-mana",
+              "value": 250000,
+              "source": "BaseMp.txt",
+              "consumer": "ObjectMgr::GetPlayerClassLevelInfo"
+            },
+            {
+              "step": "create-health",
+              "value": 0,
+              "consumer": "Player::InitStatsForLevel -> SetCreateHealth(0)",
+              "note": "a Player has no base health; all max health comes from stamina and from item/aura modifiers"
+            },
+            {
+              "step": "base-armor",
+              "value": 4376,
+              "consumer": "Player::InitStatsForLevel -> SetArmor(int32(createStats[AGILITY] * 2), 0)",
+              "note": "this is the create-time value; UpdateArmor recomputes armor from UNIT_MOD_ARMOR and does not re-add it"
+            }
+          ]
+        },
+        "primary_stat_routing": {
+          "class_id": 10,
+          "spec_id": 270,
+          "primary_stat": 3,
+          "primary_stat_priority": 0,
+          "attack_power_per_strength": 0,
+          "attack_power_per_agility": 1,
+          "ranged_attack_power_per_agility": 0,
+          "spell_power_from_intellect": true,
+          "primary_stat_name": "Intellect"
+        },
+        "contributions": {
+          "stats": {
+            "Agility": 730,
+            "Stamina": 14642,
+            "Intellect": 730
+          },
+          "ratings": {
+            "CritMelee": 176,
+            "CritRanged": 176,
+            "CritSpell": 176,
+            "HasteMelee": 254,
+            "HasteRanged": 254,
+            "HasteSpell": 254,
+            "Mastery": 307,
+            "VersatilityDamageDone": 109,
+            "VersatilityDamageTaken": 109,
+            "VersatilityHealingDone": 109
+          },
+          "armor": 682,
+          "attack_power": 0,
+          "spell_power": 0,
+          "health": 0,
+          "source": "gearing.loadout.resolve_loadout aggregate"
+        },
+        "stats": {
+          "Strength": {
+            "stat": 0,
+            "stat_name": "Strength",
+            "create_value": 1195,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 1195.0,
+            "value": 1195,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Agility": {
+            "stat": 1,
+            "stat_name": "Agility",
+            "create_value": 2188,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 730.0,
+            "total_pct": 1.0,
+            "raw_value": 2918.0,
+            "value": 2918,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Stamina": {
+            "stat": 2,
+            "stat_name": "Stamina",
+            "create_value": 3190,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 14642.0,
+            "total_pct": 1.0,
+            "raw_value": 17832.0,
+            "value": 17832,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Intellect": {
+            "stat": 3,
+            "stat_name": "Intellect",
+            "create_value": 4191,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 730.0,
+            "total_pct": 1.0,
+            "raw_value": 4921.0,
+            "value": 4921,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Spirit": {
+            "stat": 4,
+            "stat_name": "Spirit",
+            "create_value": 0,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 0.0,
+            "value": 0,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          }
+        },
+        "max_health": 356640,
+        "health_from_stamina": 356640.0,
+        "hp_per_sta": 20.0,
+        "armor": 5058,
+        "bonus_armor": 682,
+        "attack_power": 2918,
+        "attack_power_from_strength": 0.0,
+        "attack_power_from_agility": 2918.0,
+        "ranged_attack_power": 0,
+        "spell_power": 4921,
+        "spell_power_from_intellect": 4921,
+        "ratings": [
+          {
+            "rating": "CritMelee",
+            "combat_ratings_column": 8,
+            "amount": 176.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 3.8260869565217392,
+            "diminishing_curve_id": 21024,
+            "final_percent": 3.826086956521739,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 3.8260869565217392,
+              "raw_y": 3.826086956521739,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritMelee"
+            },
+            "effective_percentage_with_base": 8.826086956521738,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "CritRanged",
+            "combat_ratings_column": 9,
+            "amount": 176.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 3.8260869565217392,
+            "diminishing_curve_id": 21024,
+            "final_percent": 3.826086956521739,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 3.8260869565217392,
+              "raw_y": 3.826086956521739,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritRanged"
+            },
+            "effective_percentage_with_base": 8.826086956521738,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "CritSpell",
+            "combat_ratings_column": 10,
+            "amount": 176.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 3.8260869565217392,
+            "diminishing_curve_id": 21024,
+            "final_percent": 3.826086956521739,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 3.8260869565217392,
+              "raw_y": 3.826086956521739,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritSpell"
+            },
+            "effective_percentage_with_base": 8.826086956521738,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "HasteMelee",
+            "combat_ratings_column": 17,
+            "amount": 254.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 5.7727272727272725,
+            "diminishing_curve_id": 21024,
+            "final_percent": 5.7727272727272725,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 5.7727272727272725,
+              "raw_y": 5.7727272727272725,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteMelee"
+            }
+          },
+          {
+            "rating": "HasteRanged",
+            "combat_ratings_column": 18,
+            "amount": 254.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 5.7727272727272725,
+            "diminishing_curve_id": 21024,
+            "final_percent": 5.7727272727272725,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 5.7727272727272725,
+              "raw_y": 5.7727272727272725,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteRanged"
+            }
+          },
+          {
+            "rating": "HasteSpell",
+            "combat_ratings_column": 19,
+            "amount": 254.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 5.7727272727272725,
+            "diminishing_curve_id": 21024,
+            "final_percent": 5.7727272727272725,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 5.7727272727272725,
+              "raw_y": 5.7727272727272725,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteSpell"
+            }
+          },
+          {
+            "rating": "Mastery",
+            "combat_ratings_column": 25,
+            "amount": 307.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 6.673913043478261,
+            "diminishing_curve_id": 21024,
+            "final_percent": 6.673913043478261,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 6.673913043478261,
+              "raw_y": 6.673913043478261,
+              "rounded_y": 7,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Mastery"
+            }
+          },
+          {
+            "rating": "VersatilityDamageDone",
+            "combat_ratings_column": 28,
+            "amount": 109.0,
+            "per_point": 0.018518518518518517,
+            "linear_percent": 2.0185185185185186,
+            "diminishing_curve_id": 21024,
+            "final_percent": 2.0185185185185186,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 2.0185185185185186,
+              "raw_y": 2.0185185185185186,
+              "rounded_y": 2,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityDamageDone"
+            }
+          },
+          {
+            "rating": "VersatilityHealingDone",
+            "combat_ratings_column": 29,
+            "amount": 109.0,
+            "per_point": 0.018518518518518517,
+            "linear_percent": 2.0185185185185186,
+            "diminishing_curve_id": 21024,
+            "final_percent": 2.0185185185185186,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 2.0185185185185186,
+              "raw_y": 2.0185185185185186,
+              "rounded_y": 2,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityHealingDone"
+            }
+          },
+          {
+            "rating": "VersatilityDamageTaken",
+            "combat_ratings_column": 30,
+            "amount": 109.0,
+            "per_point": 0.009259259259259259,
+            "linear_percent": 1.0092592592592593,
+            "diminishing_curve_id": 21035,
+            "final_percent": 1.0092592592592593,
+            "curve": {
+              "curve_id": 21035,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.0092592592592593,
+              "raw_y": 1.0092592592592593,
+              "rounded_y": 1,
+              "point_count": 9,
+              "surrounding_points": [
+                [
+                  0.5,
+                  0.5
+                ],
+                [
+                  15.0,
+                  15.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityDamageTaken"
+            }
+          },
+          {
+            "rating": "Lifesteal",
+            "combat_ratings_column": 16,
+            "amount": 0.0,
+            "per_point": 0.01449254674733451,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Lifesteal"
+            }
+          },
+          {
+            "rating": "Avoidance",
+            "combat_ratings_column": 20,
+            "amount": 0.0,
+            "per_point": 0.027173525148790872,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Avoidance"
+            }
+          },
+          {
+            "rating": "Speed",
+            "combat_ratings_column": 13,
+            "amount": 0.0,
+            "per_point": 0.08695528047140502,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Speed"
+            }
+          },
+          {
+            "rating": "Dodge",
+            "combat_ratings_column": 2,
+            "amount": 0.0,
+            "per_point": 0.019230769230769232,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Dodge"
+            }
+          },
+          {
+            "rating": "Parry",
+            "combat_ratings_column": 3,
+            "amount": 0.0,
+            "per_point": 0.019230769230769232,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Parry"
+            }
+          },
+          {
+            "rating": "Block",
+            "combat_ratings_column": 4,
+            "amount": 0.0,
+            "per_point": 0.04347764023570251,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Block"
+            }
+          },
+          {
+            "rating": "Expertise",
+            "combat_ratings_column": 23,
+            "amount": 0.0,
+            "per_point": 0.03952512749012676,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": null,
+            "final_percent": 0.0
+          }
+        ],
+        "mastery": {
+          "spec_id": 270,
+          "spec_name": "Mistweaver",
+          "class_id": 10,
+          "category": "script-or-consumer-dependent",
+          "reason": "mastery-scaled effects use SPELL_AURA_DUMMY, which carry no generic value semantics",
+          "spells": [
+            {
+              "spell_id": 117907,
+              "name": "Mastery: Gust of Mists",
+              "mastery_affects_points": true,
+              "effects": [
+                {
+                  "effect_index": 0,
+                  "effect": 6,
+                  "aura_type": 4,
+                  "aura_name": "SPELL_AURA_DUMMY",
+                  "base_points": 0.0,
+                  "bonus_coefficient": 31.18499946594,
+                  "misc_value_0": 24,
+                  "misc_value_1": 0
+                },
+                {
+                  "effect_index": 1,
+                  "effect": 6,
+                  "aura_type": 4,
+                  "aura_name": "SPELL_AURA_DUMMY",
+                  "base_points": 0.0,
+                  "bonus_coefficient": 0.0,
+                  "misc_value_0": 0,
+                  "misc_value_1": 0
+                },
+                {
+                  "effect_index": 2,
+                  "effect": 6,
+                  "aura_type": 107,
+                  "aura_name": "SPELL_AURA_ADD_FLAT_MODIFIER",
+                  "base_points": 0.0,
+                  "bonus_coefficient": 0.31185001135,
+                  "misc_value_0": 24,
+                  "misc_value_1": 0
+                }
+              ]
+            }
+          ]
+        },
+        "mastery_value": 6.673913043478261,
+        "armor_specializations": [
+          {
+            "spell_id": 120224,
+            "spec_id": 270,
+            "armor_subclass_mask": 4,
+            "armor_subclasses": [
+              "Leather"
+            ],
+            "required_inventory_types": [
+              1,
+              3,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              20
+            ],
+            "requires_all_armor_slots": true,
+            "stat_mask": 8,
+            "stat_names": [
+              "Intellect"
+            ],
+            "percent": 5.0
+          }
+        ],
+        "armor_specialization_applied": null,
+        "provenance": [
+          {
+            "step": "base-primary-stats",
+            "source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+            "consumer": "ObjectMgr::LoadPlayerLevelInfo -> player_classlevelstats[class][level] + player_racestats[race]",
+            "stats": {
+              "Strength": 1195,
+              "Agility": 2188,
+              "Stamina": 3190,
+              "Intellect": 4191,
+              "Spirit": 0
+            }
+          },
+          {
+            "step": "create-mana",
+            "value": 250000,
+            "source": "BaseMp.txt",
+            "consumer": "ObjectMgr::GetPlayerClassLevelInfo"
+          },
+          {
+            "step": "create-health",
+            "value": 0,
+            "consumer": "Player::InitStatsForLevel -> SetCreateHealth(0)",
+            "note": "a Player has no base health; all max health comes from stamina and from item/aura modifiers"
+          },
+          {
+            "step": "base-armor",
+            "value": 4376,
+            "consumer": "Player::InitStatsForLevel -> SetArmor(int32(createStats[AGILITY] * 2), 0)",
+            "note": "this is the create-time value; UpdateArmor recomputes armor from UNIT_MOD_ARMOR and does not re-add it"
+          },
+          {
+            "step": "primary-stat-routing",
+            "consumer": "Player::GetPrimaryStat + ChrClasses AP coefficients",
+            "primary_stat": "Intellect",
+            "primary_stat_priority": 0
+          },
+          {
+            "step": "max-health",
+            "consumer": "Player::UpdateMaxHealth + GetHealthBonusFromStamina",
+            "stamina": 17832.0,
+            "hp_per_sta": 20.0,
+            "health_from_stamina": 356640.0,
+            "create_health": 0,
+            "item_health_base_value": 0,
+            "max_health": 356640,
+            "rounding": "(uint32) truncating cast"
+          },
+          {
+            "step": "armor",
+            "consumer": "Player::UpdateArmor",
+            "base_value": 4376,
+            "item_armor_total_value": 682,
+            "armor": 5058,
+            "bonus_armor": 682,
+            "note": "gear armor arrives in TOTAL_VALUE, so it is reported as bonus armor and is not scaled by BASE_PCT"
+          },
+          {
+            "step": "attack-power",
+            "consumer": "Player::UpdateAttackPowerAndDamage",
+            "attack_power_per_strength": 0,
+            "attack_power_per_agility": 1,
+            "from_strength": 0.0,
+            "from_agility": 2918.0,
+            "base_attack_power": 2918,
+            "item_attack_power_total_value": 0,
+            "note": "ITEM_MOD_ATTACK_POWER and the weapon's int32(dps*6) land in TOTAL_VALUE and are reported separately as AttackPowerModPos, not folded into this number"
+          },
+          {
+            "step": "spell-power",
+            "consumer": "Unit::SpellBaseDamageBonusDone",
+            "primary_stat_is_intellect": true,
+            "from_intellect": 4921,
+            "item_spell_power": 0,
+            "spell_power": 4921
+          },
+          {
+            "step": "mastery",
+            "consumer": "Player::UpdateMastery",
+            "mastery_rating": 307,
+            "mastery_value": 6.673913043478261,
+            "mastery_spell_ids": [
+              117907
+            ],
+            "category": "script-or-consumer-dependent",
+            "note": "ActivePlayerData::Mastery; each mastery effect amount is base_points + Mastery * EffectBonusCoefficient"
+          }
+        ],
+        "warnings": [],
+        "caveat": "Aura stages, talents, buffs, consumables and shapeshift forms are NOT applied.  Supplied contributions are explicit inputs."
+      }
+    },
+    {
+      "label": "Intellect caster healer -- Discipline Priest",
+      "identity": {
+        "race_id": 1,
+        "class_id": 5,
+        "spec_id": 256,
+        "spec": "Discipline"
+      },
+      "gear": {
+        "item_ids": [
+          271555,
+          271553,
+          271554,
+          271556,
+          271558
+        ],
+        "context": 6,
+        "effective_item_levels": [
+          318,
+          318,
+          318,
+          318,
+          318
+        ]
+      },
+      "boundary_payload": {
+        "stats": {
+          "Intellect": 730,
+          "Stamina": 14642
+        },
+        "ratings": {
+          "CritMelee": 334,
+          "CritRanged": 334,
+          "CritSpell": 334,
+          "HasteMelee": 179,
+          "HasteRanged": 179,
+          "HasteSpell": 179,
+          "Mastery": 278,
+          "VersatilityDamageDone": 55,
+          "VersatilityDamageTaken": 55,
+          "VersatilityHealingDone": 55
+        },
+        "armor": 398,
+        "item_set_spell_roots": [
+          {
+            "spell_id": 1296578,
+            "threshold": 4,
+            "item_set_id": 2063
+          },
+          {
+            "spell_id": 1296577,
+            "threshold": 2,
+            "item_set_id": 2063
+          }
+        ]
+      },
+      "character": {
+        "race": {
+          "race_id": 1,
+          "name": "Human",
+          "flags": 6292620,
+          "faction_id": 1,
+          "playable_race_bit": 0
+        },
+        "class": {
+          "class_id": 5,
+          "name": "Priest",
+          "primary_stat_priority": 0,
+          "attack_power_per_strength": 0,
+          "attack_power_per_agility": 0,
+          "ranged_attack_power_per_agility": 0,
+          "display_power": 0,
+          "armor_type_mask": 35,
+          "default_spec": 256,
+          "has_strength_attack_bonus": 0,
+          "damage_bonus_stat": 0,
+          "spell_class_set": 6,
+          "roles_mask": 12
+        },
+        "spec": {
+          "spec_id": 256,
+          "name": "Discipline",
+          "class_id": 5,
+          "order_index": 0,
+          "primary_stat_priority": 0,
+          "role": 1,
+          "flags": 67,
+          "mastery_spell_ids": [
+            271534,
+            0
+          ],
+          "role_name": "Healer"
+        },
+        "level": 90,
+        "base": {
+          "class_id": 5,
+          "race_id": 1,
+          "level": 90,
+          "stats": {
+            "Strength": 1145,
+            "Agility": 2138,
+            "Stamina": 3140,
+            "Intellect": 4141,
+            "Spirit": 0
+          },
+          "stats_source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+          "create_health": 0,
+          "create_mana": 250000,
+          "base_armor": 4276,
+          "provenance": [
+            {
+              "step": "base-primary-stats",
+              "source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+              "consumer": "ObjectMgr::LoadPlayerLevelInfo -> player_classlevelstats[class][level] + player_racestats[race]",
+              "stats": {
+                "Strength": 1145,
+                "Agility": 2138,
+                "Stamina": 3140,
+                "Intellect": 4141,
+                "Spirit": 0
+              }
+            },
+            {
+              "step": "create-mana",
+              "value": 250000,
+              "source": "BaseMp.txt",
+              "consumer": "ObjectMgr::GetPlayerClassLevelInfo"
+            },
+            {
+              "step": "create-health",
+              "value": 0,
+              "consumer": "Player::InitStatsForLevel -> SetCreateHealth(0)",
+              "note": "a Player has no base health; all max health comes from stamina and from item/aura modifiers"
+            },
+            {
+              "step": "base-armor",
+              "value": 4276,
+              "consumer": "Player::InitStatsForLevel -> SetArmor(int32(createStats[AGILITY] * 2), 0)",
+              "note": "this is the create-time value; UpdateArmor recomputes armor from UNIT_MOD_ARMOR and does not re-add it"
+            }
+          ]
+        },
+        "primary_stat_routing": {
+          "class_id": 5,
+          "spec_id": 256,
+          "primary_stat": 3,
+          "primary_stat_priority": 0,
+          "attack_power_per_strength": 0,
+          "attack_power_per_agility": 0,
+          "ranged_attack_power_per_agility": 0,
+          "spell_power_from_intellect": true,
+          "primary_stat_name": "Intellect"
+        },
+        "contributions": {
+          "stats": {
+            "Stamina": 14642,
+            "Intellect": 730
+          },
+          "ratings": {
+            "CritMelee": 334,
+            "CritRanged": 334,
+            "CritSpell": 334,
+            "HasteMelee": 179,
+            "HasteRanged": 179,
+            "HasteSpell": 179,
+            "Mastery": 278,
+            "VersatilityDamageDone": 55,
+            "VersatilityDamageTaken": 55,
+            "VersatilityHealingDone": 55
+          },
+          "armor": 398,
+          "attack_power": 0,
+          "spell_power": 0,
+          "health": 0,
+          "source": "gearing.loadout.resolve_loadout aggregate"
+        },
+        "stats": {
+          "Strength": {
+            "stat": 0,
+            "stat_name": "Strength",
+            "create_value": 1145,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 1145.0,
+            "value": 1145,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Agility": {
+            "stat": 1,
+            "stat_name": "Agility",
+            "create_value": 2138,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 2138.0,
+            "value": 2138,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Stamina": {
+            "stat": 2,
+            "stat_name": "Stamina",
+            "create_value": 3140,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 14642.0,
+            "total_pct": 1.0,
+            "raw_value": 17782.0,
+            "value": 17782,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Intellect": {
+            "stat": 3,
+            "stat_name": "Intellect",
+            "create_value": 4141,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 730.0,
+            "total_pct": 1.0,
+            "raw_value": 4871.0,
+            "value": 4871,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          },
+          "Spirit": {
+            "stat": 4,
+            "stat_name": "Spirit",
+            "create_value": 0,
+            "base_flat": 0.0,
+            "base_pct_exclude_create": 0.0,
+            "base_pct": 1.0,
+            "total_flat": 0.0,
+            "total_pct": 1.0,
+            "raw_value": 0.0,
+            "value": 0,
+            "formula": "((base_flat * base_pct_exclude_create) + create) * base_pct + total_flat, then * total_pct, then int32()"
+          }
+        },
+        "max_health": 355640,
+        "health_from_stamina": 355640.0,
+        "hp_per_sta": 20.0,
+        "armor": 4674,
+        "bonus_armor": 398,
+        "attack_power": 0,
+        "attack_power_from_strength": 0.0,
+        "attack_power_from_agility": 0.0,
+        "ranged_attack_power": 0,
+        "spell_power": 4871,
+        "spell_power_from_intellect": 4871,
+        "ratings": [
+          {
+            "rating": "CritMelee",
+            "combat_ratings_column": 8,
+            "amount": 334.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 7.260869565217391,
+            "diminishing_curve_id": 21024,
+            "final_percent": 7.260869565217391,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 7.260869565217391,
+              "raw_y": 7.260869565217391,
+              "rounded_y": 7,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritMelee"
+            },
+            "effective_percentage_with_base": 12.26086956521739,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "CritRanged",
+            "combat_ratings_column": 9,
+            "amount": 334.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 7.260869565217391,
+            "diminishing_curve_id": 21024,
+            "final_percent": 7.260869565217391,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 7.260869565217391,
+              "raw_y": 7.260869565217391,
+              "rounded_y": 7,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritRanged"
+            },
+            "effective_percentage_with_base": 12.26086956521739,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "CritSpell",
+            "combat_ratings_column": 10,
+            "amount": 334.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 7.260869565217391,
+            "diminishing_curve_id": 21024,
+            "final_percent": 7.260869565217391,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 7.260869565217391,
+              "raw_y": 7.260869565217391,
+              "rounded_y": 7,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/CritSpell"
+            },
+            "effective_percentage_with_base": 12.26086956521739,
+            "base_percentage_source": "Player::UpdateAllCritPercentages / UpdateSpellCritChance"
+          },
+          {
+            "rating": "HasteMelee",
+            "combat_ratings_column": 17,
+            "amount": 179.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 4.068181818181818,
+            "diminishing_curve_id": 21024,
+            "final_percent": 4.068181818181818,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 4.068181818181818,
+              "raw_y": 4.068181818181818,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteMelee"
+            }
+          },
+          {
+            "rating": "HasteRanged",
+            "combat_ratings_column": 18,
+            "amount": 179.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 4.068181818181818,
+            "diminishing_curve_id": 21024,
+            "final_percent": 4.068181818181818,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 4.068181818181818,
+              "raw_y": 4.068181818181818,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteRanged"
+            }
+          },
+          {
+            "rating": "HasteSpell",
+            "combat_ratings_column": 19,
+            "amount": 179.0,
+            "per_point": 0.022727272727272728,
+            "linear_percent": 4.068181818181818,
+            "diminishing_curve_id": 21024,
+            "final_percent": 4.068181818181818,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 4.068181818181818,
+              "raw_y": 4.068181818181818,
+              "rounded_y": 4,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/HasteSpell"
+            }
+          },
+          {
+            "rating": "Mastery",
+            "combat_ratings_column": 25,
+            "amount": 278.0,
+            "per_point": 0.021739130434782608,
+            "linear_percent": 6.043478260869565,
+            "diminishing_curve_id": 21024,
+            "final_percent": 6.043478260869565,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 6.043478260869565,
+              "raw_y": 6.043478260869565,
+              "rounded_y": 6,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Mastery"
+            }
+          },
+          {
+            "rating": "VersatilityDamageDone",
+            "combat_ratings_column": 28,
+            "amount": 55.0,
+            "per_point": 0.018518518518518517,
+            "linear_percent": 1.0185185185185184,
+            "diminishing_curve_id": 21024,
+            "final_percent": 1.0185185185185184,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.0185185185185184,
+              "raw_y": 1.0185185185185184,
+              "rounded_y": 1,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityDamageDone"
+            }
+          },
+          {
+            "rating": "VersatilityHealingDone",
+            "combat_ratings_column": 29,
+            "amount": 55.0,
+            "per_point": 0.018518518518518517,
+            "linear_percent": 1.0185185185185184,
+            "diminishing_curve_id": 21024,
+            "final_percent": 1.0185185185185184,
+            "curve": {
+              "curve_id": 21024,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 1.0185185185185184,
+              "raw_y": 1.0185185185185184,
+              "rounded_y": 1,
+              "point_count": 8,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  30.0,
+                  30.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityHealingDone"
+            }
+          },
+          {
+            "rating": "VersatilityDamageTaken",
+            "combat_ratings_column": 30,
+            "amount": 55.0,
+            "per_point": 0.009259259259259259,
+            "linear_percent": 0.5092592592592592,
+            "diminishing_curve_id": 21035,
+            "final_percent": 0.5092592592592592,
+            "curve": {
+              "curve_id": 21035,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.5092592592592592,
+              "raw_y": 0.5092592592592592,
+              "rounded_y": 1,
+              "point_count": 9,
+              "surrounding_points": [
+                [
+                  0.5,
+                  0.5
+                ],
+                [
+                  15.0,
+                  15.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/VersatilityDamageTaken"
+            }
+          },
+          {
+            "rating": "Lifesteal",
+            "combat_ratings_column": 16,
+            "amount": 0.0,
+            "per_point": 0.01449254674733451,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Lifesteal"
+            }
+          },
+          {
+            "rating": "Avoidance",
+            "combat_ratings_column": 20,
+            "amount": 0.0,
+            "per_point": 0.027173525148790872,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Avoidance"
+            }
+          },
+          {
+            "rating": "Speed",
+            "combat_ratings_column": 13,
+            "amount": 0.0,
+            "per_point": 0.08695528047140502,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21025,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21025,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 7,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  0.5,
+                  0.5
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Speed"
+            }
+          },
+          {
+            "rating": "Dodge",
+            "combat_ratings_column": 2,
+            "amount": 0.0,
+            "per_point": 0.019230769230769232,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Dodge"
+            }
+          },
+          {
+            "rating": "Parry",
+            "combat_ratings_column": 3,
+            "amount": 0.0,
+            "per_point": 0.019230769230769232,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Parry"
+            }
+          },
+          {
+            "rating": "Block",
+            "combat_ratings_column": 4,
+            "amount": 0.0,
+            "per_point": 0.04347764023570251,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": 21505,
+            "final_percent": 0.0,
+            "curve": {
+              "curve_id": 21505,
+              "curve_type": 0,
+              "interpolation": "Linear",
+              "x": 0.0,
+              "raw_y": 0.0,
+              "rounded_y": 0,
+              "point_count": 2,
+              "surrounding_points": [
+                [
+                  0.0,
+                  0.0
+                ],
+                [
+                  100.0,
+                  100.0
+                ]
+              ],
+              "clamped": null,
+              "consumer": "Player::ApplyRatingDiminishing/Block"
+            }
+          },
+          {
+            "rating": "Expertise",
+            "combat_ratings_column": 23,
+            "amount": 0.0,
+            "per_point": 0.03952512749012676,
+            "linear_percent": 0.0,
+            "diminishing_curve_id": null,
+            "final_percent": 0.0
+          }
+        ],
+        "mastery": {
+          "spec_id": 256,
+          "spec_name": "Discipline",
+          "class_id": 5,
+          "category": "script-or-consumer-dependent",
+          "reason": "mastery-scaled effects use SPELL_AURA_DUMMY, which carry no generic value semantics",
+          "spells": [
+            {
+              "spell_id": 271534,
+              "name": "Mastery: Grace",
+              "mastery_affects_points": true,
+              "effects": [
+                {
+                  "effect_index": 0,
+                  "effect": 6,
+                  "aura_type": 4,
+                  "aura_name": "SPELL_AURA_DUMMY",
+                  "base_points": 0.0,
+                  "bonus_coefficient": 1.35000002384,
+                  "misc_value_0": 12,
+                  "misc_value_1": 0
+                }
+              ]
+            }
+          ]
+        },
+        "mastery_value": 6.043478260869565,
+        "armor_specializations": [],
+        "armor_specialization_applied": null,
+        "provenance": [
+          {
+            "step": "base-primary-stats",
+            "source": "SYNTHETIC test fixture - NOT real player_classlevelstats values",
+            "consumer": "ObjectMgr::LoadPlayerLevelInfo -> player_classlevelstats[class][level] + player_racestats[race]",
+            "stats": {
+              "Strength": 1145,
+              "Agility": 2138,
+              "Stamina": 3140,
+              "Intellect": 4141,
+              "Spirit": 0
+            }
+          },
+          {
+            "step": "create-mana",
+            "value": 250000,
+            "source": "BaseMp.txt",
+            "consumer": "ObjectMgr::GetPlayerClassLevelInfo"
+          },
+          {
+            "step": "create-health",
+            "value": 0,
+            "consumer": "Player::InitStatsForLevel -> SetCreateHealth(0)",
+            "note": "a Player has no base health; all max health comes from stamina and from item/aura modifiers"
+          },
+          {
+            "step": "base-armor",
+            "value": 4276,
+            "consumer": "Player::InitStatsForLevel -> SetArmor(int32(createStats[AGILITY] * 2), 0)",
+            "note": "this is the create-time value; UpdateArmor recomputes armor from UNIT_MOD_ARMOR and does not re-add it"
+          },
+          {
+            "step": "primary-stat-routing",
+            "consumer": "Player::GetPrimaryStat + ChrClasses AP coefficients",
+            "primary_stat": "Intellect",
+            "primary_stat_priority": 0
+          },
+          {
+            "step": "max-health",
+            "consumer": "Player::UpdateMaxHealth + GetHealthBonusFromStamina",
+            "stamina": 17782.0,
+            "hp_per_sta": 20.0,
+            "health_from_stamina": 355640.0,
+            "create_health": 0,
+            "item_health_base_value": 0,
+            "max_health": 355640,
+            "rounding": "(uint32) truncating cast"
+          },
+          {
+            "step": "armor",
+            "consumer": "Player::UpdateArmor",
+            "base_value": 4276,
+            "item_armor_total_value": 398,
+            "armor": 4674,
+            "bonus_armor": 398,
+            "note": "gear armor arrives in TOTAL_VALUE, so it is reported as bonus armor and is not scaled by BASE_PCT"
+          },
+          {
+            "step": "attack-power",
+            "consumer": "Player::UpdateAttackPowerAndDamage",
+            "attack_power_per_strength": 0,
+            "attack_power_per_agility": 0,
+            "from_strength": 0.0,
+            "from_agility": 0.0,
+            "base_attack_power": 0,
+            "item_attack_power_total_value": 0,
+            "note": "ITEM_MOD_ATTACK_POWER and the weapon's int32(dps*6) land in TOTAL_VALUE and are reported separately as AttackPowerModPos, not folded into this number"
+          },
+          {
+            "step": "spell-power",
+            "consumer": "Unit::SpellBaseDamageBonusDone",
+            "primary_stat_is_intellect": true,
+            "from_intellect": 4871,
+            "item_spell_power": 0,
+            "spell_power": 4871
+          },
+          {
+            "step": "mastery",
+            "consumer": "Player::UpdateMastery",
+            "mastery_rating": 278,
+            "mastery_value": 6.043478260869565,
+            "mastery_spell_ids": [
+              271534
+            ],
+            "category": "script-or-consumer-dependent",
+            "note": "ActivePlayerData::Mastery; each mastery effect amount is base_points + Mastery * EffectBonusCoefficient"
+          }
+        ],
+        "warnings": [],
+        "caveat": "Aura stages, talents, buffs, consumables and shapeshift forms are NOT applied.  Supplied contributions are explicit inputs."
+      }
+    }
+  ]
+}
