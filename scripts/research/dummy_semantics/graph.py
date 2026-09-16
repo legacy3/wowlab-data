@@ -122,7 +122,7 @@ class SemanticGraph:
     def components(self) -> list[set[str]]:
         seen: set[str] = set()
         comps = []
-        for n in self.nodes:
+        for n in sorted(self.nodes):
             if n in seen:
                 continue
             comp = set()
@@ -150,7 +150,7 @@ class SemanticGraph:
         low: dict[str, int] = {}
         on: set[str] = set()
         out: list[list[str]] = []
-        nodes = [n for n in self.nodes if n.startswith(("spell:", "class:"))]
+        nodes = sorted(n for n in self.nodes if n.startswith(("spell:", "class:")))
         adj = {n: [y for k, y in self.out.get(n, []) if y.startswith(("spell:", "class:", "script:")) or k == "implemented-by"] for n in self.nodes}
 
         def strong(v: str) -> None:
@@ -215,31 +215,32 @@ class SemanticGraph:
         comps = self.components()
         sizes = sorted((len(c) for c in comps), reverse=True)
         kinds = Counter(k for lst in self.out.values() for k, _ in lst)
-        node_kinds = Counter(n.split(":")[0] for n in self.nodes)
+        node_kinds = dict(sorted(Counter(n.split(":")[0] for n in self.nodes).items()))
         hubs = Counter()
-        for n in self.nodes:
+        for n in sorted(self.nodes):
             if n.startswith(("helper:", "script:", "class:")):
                 hubs[n] = len(self.inc.get(n, [])) + len([1 for k, _ in self.out.get(n, []) if k in ("casts", "queries", "removes")])
         script_fanout = {n: len(self.inc.get(n, [])) for n in self.nodes if n.startswith("script:")}
         spell_fanout = {n: len([1 for k, _ in self.out.get(n, []) if k == "bound"]) for n in self.nodes if n.startswith("spell:")}
         out: dict[str, Any] = {
-            "nodes": len(self.nodes), "edges": self.edge_count, "node_kinds": dict(node_kinds), "edge_kinds": dict(kinds.most_common()),
+            "nodes": len(self.nodes), "edges": self.edge_count, "node_kinds": node_kinds,
+            "edge_kinds": dict(sorted(kinds.items(), key=lambda kv: (-kv[1], kv[0]))),
             "components": len(comps), "largest_components": sizes[:10],
             "singleton_components": sum(1 for s in sizes if s == 1),
-            "helper_hubs": [(n, c) for n, c in hubs.most_common(15) if n.startswith("helper:")],
-            "script_hubs (spells bound)": sorted(((n, c) for n, c in script_fanout.items() if c > 1), key=lambda x: -x[1])[:15],
-            "class_hubs (casts+queries+removes)": [(n, c) for n, c in hubs.most_common(60) if n.startswith("class:")][:15],
+            "helper_hubs": sorted(((n, c) for n, c in hubs.items() if n.startswith("helper:")), key=lambda x: (-x[1], x[0]))[:15],
+            "script_hubs (spells bound)": sorted(((n, c) for n, c in script_fanout.items() if c > 1), key=lambda x: (-x[1], x[0]))[:15],
+            "class_hubs (casts+queries+removes)": sorted(((n, c) for n, c in hubs.items() if n.startswith("class:")), key=lambda x: (-x[1], x[0]))[:15],
             "spells_with_multiple_scripts": sum(1 for c in spell_fanout.values() if c > 1),
-            "sccs": len(self.sccs()), "scc_examples": self.sccs()[:5],
+            "sccs": len(self.sccs()), "scc_examples": sorted(self.sccs())[:5],
         }
         if player_spells is not None:
             roots = [f"spell:{s}" for s in player_spells]
             d = self.depths(roots)
             sub_nodes = set(d)
             out["player_subgraph"] = {
-                "nodes": len(sub_nodes), "node_kinds": dict(Counter(n.split(":")[0] for n in sub_nodes)),
+                "nodes": len(sub_nodes), "node_kinds": dict(sorted(Counter(n.split(":")[0] for n in sub_nodes).items())),
                 "max_depth": max(d.values()) if d else 0,
-                "depth_histogram": dict(Counter(d.values())),
+                "depth_histogram": dict(sorted(Counter(d.values()).items())),
                 "child_spells_outside_player_scope": sorted({int(n.split(":")[1]) for n in sub_nodes if n.startswith("spell:") and int(n.split(":")[1]) not in player_spells})[:60],
                 "child_spells_outside_player_scope_count": sum(1 for n in sub_nodes if n.startswith("spell:") and int(n.split(":")[1]) not in player_spells),
             }

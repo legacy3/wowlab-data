@@ -34,26 +34,33 @@ raid/M+ gear, sets, gems, enchants and their authored trigger edges; 40 specs,
 
 1. **The population is dominated by Dummy auras that Trinity never reads.**
    4,325 population effects on 2,750 owner spells are reachable. 2,978 of them
-   are `SPELL_AURA_DUMMY` on 2,069 owners. For 2,215 owners (81% of the population
+   are `SPELL_AURA_DUMMY` on 2,069 owners. For 2,217 owners (81% of the population
    owners) no server-side layer at all names the spell: no script, no observer, no
    world-DB row, no hardcoded case. A further 69 owners are newer than the last
-   client build Trinity supports and 38 carry a script whose hooks no longer match
-   the 12.1 effect layout. These are *unimplemented*, not *unique* (§20, §24).
-2. **Everything Trinity does implement for current players reduces to 15
-   structural families.** 385 reachable spells carry 625 executing script hooks.
-   All 625 fall into one of 15 code shapes (`cast-child`, `cast-child-with-amount`,
-   `amount-adapter`, `proc-filter-adapter`, `linked-aura-mutation`, `target-adapter`,
-   `cooldown-mutation`, `choose-among-children`, `random-child`, `suppress-default`,
-   `cast-gate`, `delayed-child`, `pet-owner-forward-cast`, `resource-mutation`,
-   `consume-and-cast`) plus a `state-only` bookkeeping shape. **Zero executing
-   hooks in player scope are unclassified** (§5, §20). Across all authored
-   content the structural tail is 48 hooks on 46 spells, all legacy content (§6).
-3. **The ordinary-action boundary is almost universal.** 316 of the 625 hooks end
-   in `CastSpell` of an authored child SpellID (204 plain, 72 with forwarded
-   BasePoints, 17 choose, 15 random, 4 delayed, 4 pet-forwarded); 92 rewrite an
-   amount inside an ordinary damage/heal/absorb pipeline; 39 mutate another
-   aura; 21 touch cooldowns; 4 touch power. Only 8 hooks suppress a default with
-   no other action (§8, §24 "Ordinary-action boundary").
+   client build Trinity supports and 35 carry a script whose hooks no longer match
+   the 12.1 effect layout. These are *unimplemented in this Trinity revision*, not
+   *unique* and not *inert in Retail* (§20, §24).
+2. **Everything Trinity does implement for current players reduces, structurally,
+   to 15 code-shape families plus a 4-hook residue.** 389 reachable spells carry 633
+   executing script hooks. 629 fall into one of 15 code shapes (`cast-child`,
+   `cast-child-with-amount`, `amount-adapter`, `proc-filter-adapter`,
+   `linked-aura-mutation`, `target-adapter`, `cooldown-mutation`,
+   `choose-among-children`, `random-child`, `suppress-default`, `cast-gate`,
+   `delayed-child`, `pet-owner-forward-cast`, `resource-mutation`, `consume-and-cast`)
+   or the `state-only` bookkeeping shape; 4 hooks on 4 spells (Demonic Circle
+   teleport, Alter Time, Divine Image, Dancing Rune Weapon) move units or deal
+   damage outside the spell system and are classified **genuinely unique** (§5,
+   §6). A family label is a *primary* code shape: 144 of the 633 hooks perform
+   more than one action kind and 81 perform an action outside their family's
+   declared set (all recorded per hook, §5). Structural equivalence is **not**
+   proof of semantic equivalence: the families say which engine actions a hook
+   emits, not that one production primitive would reproduce every member.
+3. **The ordinary-action boundary is almost universal.** Counting overlapping
+   action kinds over the 633 hooks: 326 call `CastSpell` on an authored child
+   SpellID, 84 write an amount (BasePoints or the current hit/absorb pipeline),
+   66 mutate another aura, 38 touch cooldowns, 8 touch power, 15 edit a target
+   list, 29 prevent a default, 47 roll RNG, 8 schedule work, 3 teleport, 1 deals
+   damage directly (§14, §24 "Ordinary-action boundary").
 4. **The world-database layers are marginal for current players.** Of the world
    tables that supply spell behaviour, only `spell_script_names` matters in
    player scope (523 bindings). `spell_linked_spell` contributes 6 rows,
@@ -66,17 +73,20 @@ raid/M+ gear, sets, gems, enchants and their authored trigger edges; 40 specs,
    shapes. In player scope 26 sites survive, 17 of them load-time classification
    (`_LoadSpellSpecific`, DR groups, immunities); the 2 gameplay branches
    (Kill Command 34026, Bestial Wrath 19574) are legacy dead code for current data (§6).
-6. **Marker/state auras are real but small.** 157 of the 2,069 Dummy-aura owners
-   are observed by a strong consumer (137 by script `HasAura/GetAuraEffect`
-   queries, 15 by `SpellAuraRestrictions.*AuraSpell` in the client data itself,
-   9 by engine cases). 132 of the 523 bindings gate the entire script in `Load()`
-   on `HasAura(<talent>)`: the talent Dummy aura is a boolean marker (§9).
+6. **Marker/state auras are real but small.** 152 of the 2,069 Dummy-aura owners
+   are observed by a strong consumer (139 by script `HasAura/GetAuraEffect`
+   queries: 76 as a `Load()` gate, 59 as an amount read, 35 as a presence read, 4
+   as a proc gate; 15 by `SpellAuraRestrictions.*AuraSpell` in the client data
+   itself; 1 by a gameplay engine case; 8 more only by load-time classification
+   sites, counted as weak). 134 of the 523 bindings gate the entire script in
+   `Load()` on `HasAura(<talent>)`: the talent Dummy aura is a boolean marker (§9).
 7. **The proc census resolves as follows.** Of the 550 inert-only, 78 mixed and
-   130 script-bound current providers: 591 have no consumer at all, 15 are build
-   skew, 14 are marker-only, 49 are ordinary triggers supplied by code, 38 fall in
-   other reusable families, 35 are amount adapters, 1 is a target adapter, 13 are
-   bound to a script whose hooks no longer match the 12.1 effect layout, and 2 are
-   state-only scripts (§16).
+   130 script-bound current providers: 592 have no consumer at all, 15 are build
+   skew, 13 are marker-only, 48 are ordinary triggers supplied by code, 37 fall in
+   other reusable families, 36 are amount adapters, 1 is a target adapter, 12 are
+   bound to a script whose hooks no longer match the 12.1 effect layout, 2 are
+   state-only scripts and 2 (Dancing Rune Weapon, Divine Image) are genuinely
+   unique (§16). The buckets are a strict partition of the 758.
 
 Everything unknown fails closed: unresolved scripts, hooks whose effect masks
 are 0, condition types without an evaluator, unnamed flag bits, and every
@@ -201,31 +211,33 @@ but **never executes** (`_Validate` logs, the server continues). The binding map
 | | all | player |
 |---|---:|---:|
 | bound spells / bindings / distinct scripts | 3,640 / 3,812 / 2,763 | 432 / 523 / 456 |
-| bindings whose ScriptName has no registration | 223 | 6 |
-| SpellScript / AuraScript / both | 2,069 / 1,468 / 52 | 278 / 223 / 16 |
-| hooks registered / never executing (mask 0) / executing | 4,886 / 258 / 4,579 | 717 / 74 / 625 |
-| bindings that call PreventDefaultAction / PreventHitDefaultEffect | 418 | 35 |
+| bindings whose ScriptName has no registration | 17 | 0 |
+| SpellScript / AuraScript / both | 2,213 / 1,520 / 62 | 284 / 222 / 17 |
+| hooks registered / never executing (mask 0) / executing | 4,937 / 261 / 4,626 | 725 / 74 / 633 |
+| bindings that call PreventDefaultAction / PreventHitDefaultEffect | 465 | 37 |
 | bindings with constructor arguments | 136 | 13 |
-| bindings with mutable script fields | 398 | 51 |
-| bindings gated in `Load()` (HasAura 103, HasAuraEffect 12, HasSpell 7, ...) | -- | 132 |
+| bindings with mutable script fields | 422 | 52 |
+| bindings gated in `Load()` (HasAura 105, HasAuraEffect 12, HasSpell 7, ...) | -- | 134 |
 
-The 6 unresolved player bindings are `spell_dru_incapacitating_roar`,
-`spell_warr_meat_cleaver_damage_bonus_thunder_clap` (×2), `spell_pri_prayer_of_mending_dummy`,
-`spell_dru_berserk`, `spell_dru_stampeding_roar`: rows exist in the world DB but no
-class registers those names in this checkout (database/source drift).
+Class resolution follows C++ inheritance: a script deriving from a same-file
+helper base (`spell_dru_berserk : spell_dru_base_transformer : SpellScript`)
+inherits the base's `Register()` hooks, methods and fields. The 17 unresolved
+all-content names (Kael'thas, Sindragosa, Sunwell necks, Lich King, Dalaran
+sewers, ...) have world-DB rows but no registration in this checkout.
 
 The 74 never-executing player hooks are **effect-layout drift** between the data
 Trinity's authors saw (≤ 12.0.7) and the 12.1 snapshot. Witness: `spell_warr_avatar`
 registers `OnEffectHitTarget(EFFECT_5, SPELL_EFFECT_SCRIPT_EFFECT)` for Avatar 107574; in
 the snapshot effect 5 is `MOD_AOE_DAMAGE_AVOIDANCE` and no SCRIPT_EFFECT exists.
-13 proc providers are affected (§16).
+12 proc providers are affected (§16).
 
 Hook-list usage in player scope (executing): `OnEffectProc` 95, `OnEffectHitTarget` 92,
 `AfterCast` 51, `DoCheckEffectProc` 44, `CalcDamage` 36, `DoCheckProc` 33,
 `OnEffectPeriodic` 31, `AfterEffectRemove` 26, `AfterHit` 25, `OnObjectTargetSelect` 20,
 `DoEffectCalcAmount` 18, `OnProc` 16, `AfterEffectApply` 14, `OnEffectHit` 14,
 `OnEffectLaunch(Target)` 13+13, `OnHit` 11, `OnObjectAreaTargetSelect` 10,
-`CalcHealing` 9, `OnCast` 8, `OnCalcCritChance` 7, `OnCheckCast` 7, then ≤ 6 each.
+`CalcHealing` 9, `OnCast` 8, `OnCalcCritChance` 7, `OnCheckCast` 7, then ≤ 6 each
+(`AfterCast` 52, `OnEffectHitTarget` 93 and `CalcDamage` 38 after inheritance).
 
 ---
 
@@ -280,35 +292,62 @@ order; a `preventDefault` from any of them wins.
 ## 5. Reusable server-side families
 
 Structural clustering (`dummy_semantics/families.py`) assigns each executing hook
-a family from its code shape with a fixed precedence (hook role first, then the
-action it performs). Every family below was **verified by reading the witness code**
-(coordinates in `witnesses.py`; structural cross-check in
+a **primary** family from its code shape with a fixed precedence (hook role first,
+then the action it performs). Every family below was **verified by reading the
+witness code** (coordinates in `witnesses.py`; structural cross-check in
 `test_witnesses_agree_with_structural_index`). Counts are current player scope.
+
+Two limits are stated up front. (1) A family is a code shape, not a proof of
+semantic equivalence: two `cast-child` hooks may differ in trigger flags,
+original-caster handling, gating conditions or the value they copy, and a
+production primitive would have to carry every such difference as an explicit
+parameter. The corpora keep the full parameterisation per hook (child ids, scalar
+source, cast target, trigger-flag tokens, gating aura ids, RNG, delay, prevent).
+(2) Hooks do more than one thing: 144 of the 633 perform more than one action kind
+and 81 perform an action their primary family does not declare (`secondary_actions`
+per hook; totals: aura 26, prevent 19, cooldown 13, target-ops 8, rng 5, power 5,
+delay 4, cast 3, areatrigger 3, movement 3, pet-owner 2, direct-damage 1, summon 1).
+Nothing a hook does is dropped by the label; the label only orders it.
 
 | family (proved) | hooks | spells | scripts | source facts / consumer | immutable inputs | explicit runtime inputs | mutable state | RNG | output action | negative near-match |
 |---|---:|---:|---:|---|---|---|---|---|---|---|
-| cast-child | 204 | 171 | 171 | `Unit::CastSpell(target, id, args)` from Effect/Hit/Cast/Apply/Remove/Proc hooks | child SpellID (script constant or `SpellAuraRestrictions.*AuraSpell`), trigger flags | caster, hit unit / aura target / proc target | none | none | ordinary cast of an authored spell | `suppress-default` (cast replaced by nothing) |
-| cast-child-with-amount | 72 | 66 | 64 | same + `CastSpellExtraArgs::AddSpellMod(SPELLVALUE_BASE_POINTn, x)` / `SpellValueOverrides` | child SpellID, effect index, percentage (talent amount) | damage/heal info amount, aura amount, health/power, AP/SP | none | none | ordinary cast with fixed BasePoints | `amount-adapter` (no cast, rewrites in place) |
-| amount-adapter | 92 | 80 | 57 | `CalcDamage/CalcHealing/DoEffectCalcAmount/OnCalcCritChance/OnEffectAbsorb` writes, `SetHitDamage/SetHitHeal/SetEffectValue/SetSpellValue` | percentage from a talent aura amount or another spell's effect value | caster aura amounts, victim identity, health pct | occasionally a float member (`_pctMod`) | none | scalar into the ordinary damage/heal/absorb/duration pipeline | `state-only` (reads but writes nothing) |
+| cast-child | 207 | 174 | 174 | `Unit::CastSpell(target, id, args)` from Effect/Hit/Cast/Apply/Remove/Proc hooks | child SpellID (script constant or `SpellAuraRestrictions.*AuraSpell`), trigger flags | caster, hit unit / aura target / proc target | none | none | ordinary cast of an authored spell | `suppress-default` (cast replaced by nothing) |
+| cast-child-with-amount | 73 | 67 | 65 | same + `CastSpellExtraArgs::AddSpellMod(SPELLVALUE_BASE_POINTn, x)` / `SpellValueOverrides` | child SpellID, effect index, percentage (talent amount) | damage/heal info amount, aura amount, health/power, AP/SP | none | none | ordinary cast with fixed BasePoints | `amount-adapter` (no cast, rewrites in place) |
+| amount-adapter | 94 | 82 | 58 | `CalcDamage/CalcHealing/DoEffectCalcAmount/OnCalcCritChance/OnEffectAbsorb` writes, `SetHitDamage/SetHitHeal/SetEffectValue/SetSpellValue` | percentage from a talent aura amount or another spell's effect value | caster aura amounts, victim identity, health pct | occasionally a float member (`_pctMod`) | none | scalar into the ordinary damage/heal/absorb/duration pipeline | `state-only` (reads but writes nothing) |
 | proc-filter-adapter | 77 | 64 | 64 | `DoCheckProc` / `DoCheckEffectProc` predicates before the roll | spell family masks, effect indices | proc spell info, `m_appliedMods`, damage/heal info, target auras | none | 23 hooks roll `roll_chance(aurEff->GetAmount())` (script RNG replaces the generic chance) | accept/reject proc | generic `ProcFlags`/`spell_proc` gating |
-| linked-aura-mutation | 39 | 38 | 37 | `RemoveAurasDueToSpell`, `RefreshDuration`, `SetDuration`, `ModStackAmount`, `ChangeAmount` on another aura | linked SpellID | aura target / caster, remove mode | none | none | modify-aura | `spell_linked_spell` REMOVE rows (data-driven twin) |
+| linked-aura-mutation | 38 | 37 | 36 | `RemoveAurasDueToSpell`, `RefreshDuration`, `SetDuration`, `ModStackAmount`, `ChangeAmount` on another aura | linked SpellID | aura target / caster, remove mode | none | none | modify-aura | `spell_linked_spell` REMOVE rows (data-driven twin) |
 | target-adapter | 31 | 21 | 22 | `OnObject{Area,}TargetSelect` / `OnDestinationTargetSelect` list edits | target type, effect index | candidate list, explicit target, caster auras | none | 3 hooks (RandomResize) | select-targets | `DoCheckAreaTarget` (predicate only) |
-| cooldown-mutation | 21 | 19 | 17 | `SpellHistory::ModifyCooldown/ResetCooldown/RestoreCharge` | SpellID, amount from another spell's effect value | caster history, spec | none | none | modify-cooldown | `SPELL_AURA_MOD_SPELL_CATEGORY_COOLDOWN` (generic) |
+| cooldown-mutation | 25 | 21 | 19 | `SpellHistory::ModifyCooldown/ResetCooldown/RestoreCharge` | SpellID, amount from another spell's effect value | caster history, spec | none | none | modify-cooldown | `SPELL_AURA_MOD_SPELL_CATEGORY_COOLDOWN` (generic) |
 | choose-among-children | 17 | 15 | 15 | ≥ 2 child casts selected by branch (`IsFriendlyTo`, switch on id) or all cast | child SpellIDs | reaction, proc spell id | none | none | one or several casts | `random-child` |
-| random-child | 15 | 14 | 15 | `roll_chance(x)` guarding a cast | chance (talent amount) | caster aura amount | none | script roll | cast or nothing | generic proc chance |
-| suppress-default | 8 | 4 | 4 | `PreventHitDefaultEffect`/`PreventDefaultAction` and nothing else | effect index, gating aura ids | caster auras | none | none | no-action | -- |
+| random-child | 16 | 15 | 16 | `roll_chance(x)` guarding a cast | chance (talent amount) | caster aura amount | none | script roll | cast or nothing | generic proc chance |
+| suppress-default | 10 | 6 | 5 | `PreventHitDefaultEffect`/`PreventDefaultAction` and nothing else | effect index, gating aura ids | caster auras | none | none | no-action | -- |
 | cast-gate | 7 | 7 | 7 | `OnCheckCast` returning `SpellCastResult` | -- | explicit target reaction / facing / path | none | none | gate-cast | `conditions` source 17 |
 | delayed-child | 4 | 4 | 4 | `m_Events.AddEventAtOffset(lambda/BasicEvent)` casting later | child SpellID, delay | GUID-captured targets | scheduled event | none | schedule + cast | `SPELL_EFFECT_TRIGGER_SPELL` `MiscValue` delay (generic) |
-| pet-owner-forward-cast | 4 | 4 | 3 | cast issued by a controlled summon / owner | creature entries, child SpellID | `m_Controlled` list | summon timer | none | cast (other caster) | `spell_pet_auras` (generic twin, unused) |
-| resource-mutation | 4 | 4 | 4 | `ModifyPower` | power type, percentage | duration ratio, power cost, proc spell | none | 1 hook rolls | modify-power | `SPELL_EFFECT_ENERGIZE` (generic) |
+| pet-owner-forward-cast | 3 | 3 | 2 | cast issued by a controlled summon / owner | creature entries, child SpellID | `m_Controlled` list | summon timer | none | cast (other caster) | `spell_pet_auras` (generic twin, unused) |
+| resource-mutation | 3 | 3 | 3 | `ModifyPower` | power type, percentage | duration ratio, power cost, proc spell | none | 1 hook rolls | modify-power | `SPELL_EFFECT_ENERGIZE` (generic) |
 | consume-and-cast | 2 | 2 | 2 | own `DropCharge/Remove` then cast | child SpellID | aura target, damage info | none | none | modify-aura + cast | `linked-aura-mutation` |
-| state-only (not a family) | 28 | 23 | 23 | bookkeeping: GUID lists, primary-target marks, cosmetic visuals | -- | hit unit identity | script fields | 2 | marker | -- |
+| state-only (not a family) | 22 | 19 | 20 | bookkeeping: GUID lists, primary-target marks, cosmetic visuals | -- | hit unit identity | script fields | 2 | marker | -- |
+| unclassified (genuinely unique) | 4 | 4 | 4 | `NearTeleportTo` (Demonic Circle 48020, Alter Time 342246, Divine Image 392988), `Unit::DealDamage` by a controlled summon (Dancing Rune Weapon 49028) | -- | position/health snapshots, summon list | Alter Time snapshot members | none | teleport / direct damage | no family declares these actions |
 
-Sub-kinds (92 in player scope, `families.json → sub_kinds`) pin the scalar source
-and the cast target: `cast-child/{caster 51, aura-target 46, hit-unit 32, aura-spell-field 9,
-proc-target 6, destination 4}`, `cast-child-with-amount/{aura-amount 23, damage-copy+aura-amount 10,
-computed 7, heal-copy+aura-amount 4, effect-value 5, pct-of-health 2, pct-of-power 1, combo 1}`,
-`amount-adapter/{aura-amount 36, effect-value 8, pct-math 8, hit-amount:damage-copy 7, pct-of-health 4, ...}`.
+Sub-kinds (60 named in player scope, `families.json → sub_kinds`) pin the scalar
+source and the cast target: `cast-child/{caster 69, aura-target 53, hit-unit 48,
+aura-spell-field 11, proc-target 8, nullptr 7, other 6, destination 4}`,
+`cast-child-with-amount/{aura-amount 25, damage-copy+aura-amount 10, computed 9,
+heal-copy+aura-amount 4, effect-value 3, pct-of-health 2, ...}`,
+`amount-adapter/{aura-amount 38, constant-or-other 9, effect-value 8, pct-math 4,
+hit-amount:damage-copy 7, pct-of-health 6, ...}`.
+
+Hidden helper behaviour was checked explicitly: same-class helper methods,
+same-file free functions (including the three helper namespaces
+`MajorPlayerHealingCooldownHelpers`, `DivineImageHelpers`, `HealingRain`),
+static methods of same-file helper structs (`spell_dh_shattered_souls_base_lesser::CreateFragments`,
+`spell_pri_holy_words_base`), nested `BasicEvent` classes and methods reached
+through `GetScript<X>()` are merged into the calling handler before
+classification (`ScriptIndex.merged_facts`). 11 player hooks read or write
+another script's state through `GetScript<>` (Stormblast, Tricks of the Trade,
+Healing Rain, Thorim's Invocation, Blade Dance / First Blood, Molten Thunder,
+Mind Devourer, Divine Procession); 5 call static helpers of another class. Both
+are recorded per hook (`cross_script`, `cross_class`).
 
 Two families are **parameterised by client data rather than by code**:
 `spell_gen_trigger_exclude_caster_aura_spell` / `..._target_aura_spell` (18 + 22
@@ -362,16 +401,24 @@ reachable gameplay branches, Kill Command 34026 (`HandleAuraDummy`, casts 34027 
 sets stacks on pet aura 58914) and Bestial Wrath 19574 (`HandleAuraSpecificMods`,
 The Beast Within), reference 3.x child ids and are dead for 12.1 data.
 
-Genuinely unique behaviour among *scripts*: in player scope none (0 unclassified
-hooks). Across all content 48 hooks on 46 spells are unclassified, all legacy
-(Muisek Vessel item family 11885-11889, Kel'Thuzad chains, Illidan/Akama,
-Headless Horseman, Oscillating Field). Spell-specific *parameterisation* inside
-otherwise reusable families does exist and is where the real tail lives:
-hardcoded id tables (`spell_sha_mastery_elemental_overload::GetTriggeredSpellId`,
-5 pairs), creature-entry lists (`spell_pri_inescapable_torment`), cross-script
-state (`GetScript<spell_sha_stormblast>()->AllowedOriginalCastId`), and script
-member state (51 player bindings: `_appliedAtonements` GUID list,
-`_procTarget`, `_wasStealth`, `_pctMod`, ...).
+Genuinely unique behaviour among *scripts* in player scope: 4 hooks on 4 spells.
+Demonic Circle: Teleport 48020 teleports the caster to its summoned circle
+gameobject and clears movement impairment; Alter Time 342246 snapshots health
+and position on apply and restores both on expiry (plus a Blink charge reset);
+Divine Image 392988 teleports the controlled image next to the priest before
+empowering it; Dancing Rune Weapon 49028 deals half the proc damage directly
+through the summon with `Unit::DealDamage` (Trinity's own comment: "port of the
+old switch hack, it's not correct"). Position and direct-damage actions are
+outside every family's declared action set and stay `unclassified`. Across all
+content 96 hooks on 39 spells are unclassified, the rest legacy (Muisek Vessel
+item family, Kel'Thuzad chains, Illidan/Akama, Headless Horseman, Oscillating
+Field, ...). Spell-specific *parameterisation* inside otherwise reusable families
+is the larger residue: hardcoded id tables
+(`spell_sha_mastery_elemental_overload::GetTriggeredSpellId`, 5 pairs;
+`DivineImageHelpers::GetSpellToCast`, 24 ids → 6 children), creature-entry lists
+(`spell_pri_inescapable_torment`), cross-script state (11 hooks), and script
+member state (52 player bindings: `_appliedAtonements` GUID list, `_procTarget`,
+`_wasStealth`, `_pctMod`, Alter Time's `_health`/`_pos`, ...).
 
 ---
 
@@ -407,7 +454,7 @@ The eight lifecycle shapes from the brief, with witnesses (all traced in
 
 | shape | witness | trace |
 |---|---|---|
-| no consumer | 2,215 player owners (e.g. talent 200390 Cultivation *aura* itself) | Dummy aura applied by the talent's passive cast → `HandleAuraDummy` REAL: no pet aura, no case → nothing; observed only as a value holder by another spell's script |
+| no consumer | 2,217 player owners (e.g. talent 200390 Cultivation *aura* itself) | Dummy aura applied by the talent's passive cast → `HandleAuraDummy` REAL: no pet aura, no case → nothing; observed only as a value holder by another spell's script |
 | full replacement | Light's Beacon 53651, Elemental Overload 168534 | proc → `OnEffectProc` → `PreventDefaultAction()` → script cast; `HandleProcTriggerSpellAuraProc` skipped |
 | augmentation | Immolate 348, Shadow Bolt 686, Stealth 1784 | generic effect/aura handler runs; hook adds a cast before/after it |
 | proc carrier | Divine Aegis 47515 | DUMMY aura with ProcFlags → generic eligibility + roll → `OnEffectProc` cast; default (TriggerSpell 0) logs and returns |
@@ -426,18 +473,22 @@ Observers of a Dummy aura that the corpora can prove (`markers.json`):
 |---|---:|
 | `trait-node` (a TraitDefinition points at it; acquisition only) | 1,772 |
 | `proc-provider` (carries ProcFlags; see proc research) | 756 |
-| `script-aura-query` (another script's `HasAura/GetAura/GetAuraEffect(<id>)`) | 137 |
-| `script-validate` (named in some `ValidateSpellInfo`; navigation only) | 105 |
+| `script-aura-query` (another script's `HasAura/GetAura/GetAuraEffect(<id>)`) | 139 |
+| &nbsp;&nbsp; of which read as a `Load()` gate / amount read / presence read / proc gate | 76 / 59 / 35 / 4 |
+| `script-validate` (named in some `ValidateSpellInfo`; navigation only) | 106 |
 | `script-own-amount` (its own script reads `aurEff->GetAmount()`) | 59 |
 | `db2-aura-restriction` (`SpellAuraRestrictions.{Caster,Target,Exclude*}AuraSpell` of another spell) | 15 |
-| `engine-hardcoded` | 9 |
-| `spell-linked`, `script-aura-remove` | 2, 2 |
+| `engine-classification` (load-time `_LoadSpellSpecific` / DR / immunity sites; weak) | 8 |
+| `engine-hardcoded` (gameplay-semantic engine branch) | 1 |
+| `spell-linked`, `script-aura-remove`, `condition-aura` (any condition source) | 2, 2, 1 |
 
-157 of 2,069 owners have a strong observer (script query, DB2 restriction,
-engine, linked table); 1,792 have none and no script of their own; 41 of those are
-newer than Trinity's supported build. The strong-observer combinations are
-`script-aura-query` alone (131), `db2-aura-restriction` alone (11),
-`engine-hardcoded` alone (7), mixed (8). The DB2 restriction observers are notable
+Strong observers are those that read the aura as gameplay state: script queries
+in any role, client `SpellAuraRestrictions`, gameplay engine branches,
+`spell_linked_spell` and `CONDITION_AURA` rows. A `ValidateSpellInfo` mention,
+a `TraitDefinition` pointer and a load-time classification case are reference-only
+and never make an owner "consumed". 152 of 2,069 owners have a strong observer;
+1,794 have none and no script of their own; 41 of those are newer than Trinity's
+supported build. The DB2 restriction observers are notable
 because they are *client* facts: Stealth 1784, Blade Flurry 13877, Avenging Wrath
 31884, Killing Spree 51690, Water Shield 52127, Vampiric Blood 55233, Thunder
 Focus Tea 116680, Bone Shield 195181 gate other spells' `CheckCast` without any
@@ -446,7 +497,7 @@ server code.
 Marker lifetime and stacks follow the ordinary aura (duration/stacks from
 `SpellMisc.DurationIndex` / `SpellAuraOptions.CumulativeAura`); no marker in player
 scope has its amount, stacks or duration mutated by a consumer other than its
-own script (`linked-aura-mutation` edges in `graph.json`). 132 bindings use the
+own script (`linked-aura-mutation` edges in `graph.json`). 134 bindings use the
 marker as a **load gate**: `Load()` returns `GetCaster()->HasAura(TALENT)`, so the
 whole script is inert unless the talent aura is present. A marker aura therefore
 needs no independent execution; it needs to *exist* on the right unit with the
@@ -591,48 +642,48 @@ current ordinary pipeline` in 92 hooks: 164 of 164.
 Status precedence per owner: script-family → script-state-only → marker-only →
 engine-hardcoded → world-data → build-skew → unresolved (`specs.json`).
 
-| spec | reachable spells | owners with population effects | scripted | marker-only | engine/world | build-skew | unresolved |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| Death Knight / Blood | 337 | 201 | 10 | 13 | 0 | 55 | 123 |
-| Death Knight / Frost | 348 | 204 | 7 | 8 | 0 | 55 | 134 |
-| Death Knight / Unholy | 338 | 206 | 7 | 7 | 0 | 55 | 137 |
-| Demon Hunter / Devourer | 331 | 186 | 10 | 8 | 0 | 55 | 113 |
-| Demon Hunter / Havoc | 364 | 215 | 20 | 13 | 0 | 55 | 127 |
-| Demon Hunter / Vengeance | 344 | 204 | 15 | 12 | 0 | 55 | 122 |
-| Druid / Balance | 358 | 196 | 14 | 0 | 0 | 56 | 126 |
-| Druid / Feral | 366 | 197 | 10 | 1 | 0 | 55 | 131 |
-| Druid / Guardian | 360 | 200 | 14 | 4 | 0 | 55 | 127 |
-| Druid / Restoration | 356 | 203 | 12 | 4 | 0 | 55 | 132 |
-| Evoker / Augmentation | 296 | 179 | 3 | 2 | 0 | 55 | 119 |
-| Evoker / Devastation | 322 | 189 | 4 | 4 | 0 | 55 | 126 |
-| Evoker / Preservation | 330 | 198 | 3 | 2 | 0 | 55 | 138 |
-| Hunter / Beast Mastery | 320 | 192 | 5 | 5 | 0 | 55 | 127 |
-| Hunter / Marksmanship | 326 | 191 | 12 | 5 | 0 | 55 | 119 |
-| Hunter / Survival | 321 | 184 | 3 | 3 | 0 | 55 | 123 |
-| Mage / Arcane | 321 | 193 | 6 | 4 | 0 | 58 | 125 |
-| Mage / Fire | 320 | 187 | 12 | 4 | 0 | 55 | 116 |
-| Mage / Frost | 324 | 193 | 7 | 0 | 0 | 55 | 131 |
-| Monk / Brewmaster | 411 | 239 | 4 | 3 | 0 | 55 | 177 |
-| Monk / Mistweaver | 411 | 251 | 4 | 6 | 0 | 55 | 186 |
-| Monk / Windwalker | 430 | 245 | 3 | 5 | 0 | 55 | 182 |
-| Paladin / Holy | 384 | 244 | 12 | 5 | 0 | 55 | 172 |
-| Paladin / Protection | 371 | 227 | 6 | 6 | 0 | 56 | 159 |
-| Paladin / Retribution | 376 | 223 | 11 | 5 | 0 | 55 | 152 |
-| Priest / Discipline | 333 | 191 | 21 | 15 | 0 | 56 | 99 |
-| Priest / Holy | 332 | 189 | 19 | 10 | 0 | 55 | 105 |
-| Priest / Shadow | 347 | 213 | 16 | 9 | 0 | 55 | 133 |
-| Rogue / Assassination | 338 | 198 | 10 | 4 | 0 | 55 | 129 |
-| Rogue / Outlaw | 329 | 182 | 10 | 4 | 0 | 55 | 113 |
-| Rogue / Subtlety | 342 | 195 | 8 | 9 | 0 | 56 | 122 |
-| Shaman / Elemental | 389 | 210 | 18 | 3 | 0 | 55 | 134 |
-| Shaman / Enhancement | 388 | 226 | 26 | 8 | 0 | 55 | 137 |
-| Shaman / Restoration | 374 | 216 | 13 | 4 | 0 | 56 | 143 |
-| Warlock / Affliction | 376 | 215 | 9 | 3 | 0 | 57 | 146 |
-| Warlock / Demonology | 384 | 226 | 3 | 3 | 0 | 56 | 164 |
-| Warlock / Destruction | 379 | 219 | 9 | 5 | 0 | 57 | 148 |
-| Warrior / Arms | 395 | 203 | 16 | 7 | 0 | 55 | 125 |
-| Warrior / Fury | 416 | 200 | 19 | 14 | 0 | 58 | 109 |
-| Warrior / Protection | 388 | 191 | 19 | 4 | 0 | 55 | 113 |
+| spec | reachable spells | owners with population effects | scripted | unique | marker-only | engine/world | build-skew | unresolved |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Death Knight / Blood | 337 | 201 | 9 | 1 | 13 | 0 | 55 | 123 |
+| Death Knight / Frost | 348 | 204 | 7 | 0 | 8 | 0 | 55 | 134 |
+| Death Knight / Unholy | 338 | 206 | 7 | 0 | 7 | 0 | 55 | 137 |
+| Demon Hunter / Devourer | 331 | 186 | 10 | 0 | 8 | 0 | 55 | 113 |
+| Demon Hunter / Havoc | 364 | 215 | 20 | 0 | 13 | 0 | 55 | 127 |
+| Demon Hunter / Vengeance | 344 | 204 | 15 | 0 | 12 | 0 | 55 | 122 |
+| Druid / Balance | 358 | 196 | 15 | 0 | 0 | 0 | 56 | 125 |
+| Druid / Feral | 366 | 197 | 11 | 0 | 1 | 0 | 55 | 130 |
+| Druid / Guardian | 360 | 200 | 16 | 0 | 4 | 0 | 55 | 125 |
+| Druid / Restoration | 356 | 203 | 13 | 0 | 4 | 0 | 55 | 131 |
+| Evoker / Augmentation | 296 | 179 | 3 | 0 | 2 | 0 | 55 | 119 |
+| Evoker / Devastation | 322 | 189 | 4 | 0 | 4 | 0 | 55 | 126 |
+| Evoker / Preservation | 330 | 198 | 3 | 0 | 2 | 0 | 55 | 138 |
+| Hunter / Beast Mastery | 320 | 192 | 5 | 0 | 5 | 0 | 55 | 127 |
+| Hunter / Marksmanship | 326 | 191 | 12 | 0 | 5 | 0 | 55 | 119 |
+| Hunter / Survival | 321 | 184 | 3 | 0 | 3 | 0 | 55 | 123 |
+| Mage / Arcane | 321 | 193 | 6 | 0 | 4 | 0 | 58 | 125 |
+| Mage / Fire | 320 | 187 | 12 | 0 | 4 | 0 | 55 | 116 |
+| Mage / Frost | 324 | 193 | 7 | 0 | 0 | 0 | 55 | 131 |
+| Monk / Brewmaster | 411 | 239 | 4 | 0 | 3 | 0 | 55 | 177 |
+| Monk / Mistweaver | 411 | 251 | 4 | 0 | 6 | 0 | 55 | 186 |
+| Monk / Windwalker | 430 | 245 | 3 | 0 | 5 | 0 | 55 | 182 |
+| Paladin / Holy | 384 | 244 | 12 | 0 | 4 | 0 | 55 | 173 |
+| Paladin / Protection | 371 | 227 | 6 | 0 | 5 | 0 | 56 | 160 |
+| Paladin / Retribution | 376 | 223 | 11 | 0 | 4 | 0 | 55 | 153 |
+| Priest / Discipline | 333 | 191 | 21 | 0 | 16 | 0 | 56 | 98 |
+| Priest / Holy | 332 | 189 | 19 | 1 | 11 | 0 | 55 | 103 |
+| Priest / Shadow | 347 | 213 | 16 | 0 | 8 | 0 | 55 | 134 |
+| Rogue / Assassination | 338 | 198 | 10 | 0 | 4 | 0 | 55 | 129 |
+| Rogue / Outlaw | 329 | 182 | 10 | 0 | 4 | 0 | 55 | 113 |
+| Rogue / Subtlety | 342 | 195 | 8 | 0 | 9 | 0 | 56 | 122 |
+| Shaman / Elemental | 389 | 210 | 18 | 0 | 3 | 0 | 55 | 134 |
+| Shaman / Enhancement | 388 | 226 | 26 | 0 | 8 | 0 | 55 | 137 |
+| Shaman / Restoration | 374 | 216 | 13 | 0 | 4 | 0 | 56 | 143 |
+| Warlock / Affliction | 376 | 215 | 9 | 0 | 3 | 0 | 57 | 146 |
+| Warlock / Demonology | 384 | 226 | 3 | 0 | 2 | 0 | 56 | 165 |
+| Warlock / Destruction | 379 | 219 | 9 | 0 | 4 | 0 | 57 | 149 |
+| Warrior / Arms | 395 | 203 | 16 | 0 | 7 | 0 | 55 | 125 |
+| Warrior / Fury | 416 | 200 | 19 | 0 | 14 | 0 | 58 | 109 |
+| Warrior / Protection | 388 | 191 | 19 | 0 | 4 | 0 | 55 | 113 |
 
 Gear (spells reachable from the acquisition kind):
 
@@ -657,42 +708,55 @@ by `spell:effectIndex`:
 
 | resolution | inert-only | mixed | script | total |
 |---|---:|---:|---:|---:|
-| unresolved-unbound (no script, no observer) | 524 | 67 | -- | 591 |
+| unresolved-unbound (no script, no observer) | 525 | 67 | -- | 592 |
 | build-skew (newer than 12.0.7.68453, no consumer) | 13 | 2 | -- | 15 |
-| marker-only (observed, executes nothing) | 10 | 4 | -- | 14 |
-| ordinary-trigger (script casts fixed children on proc) | 1 | -- | 48 | 49 |
-| reusable-family (other families) | 1 | 3 | 34 | 38 |
-| amount-adapter | -- | 1 | 34 | 35 |
+| marker-only (observed, executes nothing) | 9 | 4 | -- | 13 |
+| ordinary-trigger (script casts fixed children on proc) | 1 | -- | 47 | 48 |
+| reusable-family (other families) | 1 | 3 | 33 | 37 |
+| amount-adapter | 1 | 1 | 34 | 36 |
 | target-adapter | -- | -- | 1 | 1 |
-| unresolved-bound-no-executing-hook (script exists, masks 0) | 1 | 1 | 11 | 13 |
+| unresolved-bound-no-executing-hook (script exists, masks 0) | -- | 1 | 11 | 12 |
 | state-only-script | -- | -- | 2 | 2 |
-| genuinely-unique | 0 | 0 | 0 | 0 |
+| genuinely-unique | -- | -- | 2 | 2 |
+| **total** | **550** | **78** | **130** | **758** |
 
-The 13 drifted providers: Prayer of Mending 33076, Misdirection 34477, Rime 59057,
-Obliteration 207256, Stormblast 319930, Dream of Cenarius 372119, Mental Decay
-375994, Kingsbane 385627, Cycle of Binding 389718, Ashen Catalyst 390370, Inner
-Focus 390693, Power Surge 453109, Acrobatic Strikes 455143. The 14 marker-only
-providers include Avenging Wrath, Pillar of Frost, Water Shield, Havoc, Thunder
-Focus Tea, Bone Shield, Obliteration 281238, Inner Demon, Void Metamorphosis.
-"Generic HandleProc does nothing" is therefore *not* equated with gameplay-inert:
-14 of the 550 are consumed as state, 3 are executed by scripts, 524 simply have
-no Trinity implementation.
+The classification is a strict partition: one proc bucket (from the proc census
+shape) and one resolution per provider, decided in this precedence -- executing
+hooks (unclassified → unique; trigger families only → ordinary-trigger; amount
+families only → amount-adapter; target-select only → target-adapter; state-only
+→ marker-only if observed else state-only-script; otherwise reusable-family),
+then bound-without-executing-hook, then marker observers, then build skew, then
+unresolved. A provider that is both scripted and observed is counted under its
+script resolution; the observer stays visible in `marker_observers`.
+
+The 12 drifted providers: Misdirection 34477, Rime 59057, Obliteration 207256,
+Stormblast 319930, Dream of Cenarius 372119, Mental Decay 375994, Kingsbane
+385627, Cycle of Binding 389718, Ashen Catalyst 390370, Inner Focus 390693,
+Power Surge 453109, Acrobatic Strikes 455143 (Prayer of Mending 33076 resolves
+after inheritance: `spell_pri_prayer_of_mending_dummy` derives from a helper
+base). The 13 marker-only providers: Avenging Wrath, Pillar of Frost, Water
+Shield, Thunder Focus Tea, Bone Shield, Shear, Guardian of Elune, Obliteration
+281238, Cleaving Strikes, Inner Demon, Power of the Archdruid, Student of
+Suffering, Void Metamorphosis (Havoc 80240 dropped to unresolved: its only
+observer is a load-time classification site). "Generic HandleProc does nothing"
+is therefore *not* equated with gameplay-inert: 13 of the 550 are consumed as
+state, 3 are executed by scripts, 525 simply have no Trinity implementation.
 
 ---
 
 ## 17. Server-semantic graph
 
-`graph.json`: 28,610 nodes, 34,206 edges (kinds: db2-marker 11,669, family/emits
-9,176, implemented-by 3,831, bound 3,812, condition 2,114, casts 1,955, queries 769,
-removes 318, uses 226, engine 123, linked 211, pet-aura 2). 7,425 weakly connected
-components; the largest (11,387 nodes) is held together by `SpellAuraRestrictions`
+`graph.json`: 28,649 nodes, 34,358 edges (kinds: db2-marker 11,669, family/emits
+9,225, implemented-by 3,857, bound 3,812, condition 2,114, casts 1,962, queries 784,
+removes 319, uses 280, engine 123, linked 211, pet-aura 2). 7,418 weakly connected
+components; the largest (11,442 nodes) is held together by `SpellAuraRestrictions`
 marker edges and the shared generic scripts. Hubs: `SetBonusValueForEffect`
 helper (77 users, Mixology), `spell_gen_mixology_bonus` (77 spells),
 `spell_gen_tournament_pennant` (36), `spell_warr_improved_whirlwind_cleave` (31),
 `spell_gen_trigger_exclude_*_aura_spell` (22 + 18). 112 non-trivial SCCs (spell ↔
 class cast/query cycles, e.g. aura scripts that re-cast their own owner). The
-player subgraph from the 4,836 reachable spells has 2,057 nodes (954 spells, 527
-classes, 521 scripts, 24 helpers), max depth 9, and reaches 351 child SpellIDs
+player subgraph from the 4,836 reachable spells has 2,099 nodes (961 spells, 541
+classes, 528 scripts, 38 helpers), max depth 9, and reaches 357 child SpellIDs
 that no authored edge reaches: the client data does not encode those
 relationships at all.
 
@@ -721,7 +785,7 @@ tests and the witness cross-check.
 
 ## 19. Tests
 
-`scripts/research/tests/test_dummy_*.py` (48 tests): oracle arithmetic and probe
+`scripts/research/tests/test_dummy_*.py` (53 tests): oracle arithmetic and probe
 differential; hypothesis properties for the two source-proven invariants
 (`CalculatePct(b,100) == b` for exactly representable products;
 `EFFECT_FIRST_FOUND` is the lowest bit of `EFFECT_ALL`); linked-spell, pet-aura,
@@ -734,7 +798,11 @@ synthetic facts; witnesses agree with the index; population/scope nesting; marke
 classification; proc cross-reference partition (1,195 / 758 / 550+78+130);
 census partition; per-spec partition; reproducibility of the committed census
 and population against a fresh run; provenance pinning (one Trinity commit across
-all corpora, 0 unparsed statements, `spell_scripts` empty).
+all corpora, 0 unparsed statements, `spell_scripts` empty); inheritance, namespace
+and cross-class helper merging; movement / direct damage never absorbed into a
+family; secondary actions retained; the unique set is exactly the four spells.
+The pre-existing gearing / charstats / proc suites (1,377 tests) still pass with
+the shared conftest.
 
 ---
 
@@ -748,52 +816,71 @@ bucket per owner; tags record overlaps (`tag_overlaps`).
 | bucket | owners | population effects |
 |---|---:|---:|
 | generic-engine (data-decided consumer: DB2 marker read by CheckCast, spell_pet_auras, linked rows) | 32 | 63 |
-| script-family (reusable script shapes other than the three below) | 229 | 263 |
+| script-family (reusable script shapes other than the three below) | 229 | 264 |
 | target-adapter | 11 | 6 |
-| amount-adapter | 102 | 100 |
-| proc-adapter (proc filter + ordinary trigger cast) | 43 | 60 |
-| marker-state | 136 | 188 |
+| amount-adapter | 103 | 101 |
+| proc-adapter (proc filter + ordinary trigger cast) | 42 | 57 |
+| marker-state | 133 | 184 |
 | world-data-policy | 3 | 5 |
 | source-correction | 2 | 4 |
-| **unique** | **0** | **0** |
-| script-drift (bound, but no hook matches the 12.1 effect layout) | 38 | 27 |
-| unresolved / build-skew | 69 | 108 |
-| unresolved / no consumer at all | 2,215 | 3,501 |
+| **unique** (a consumer exists; the research cannot reduce it to a family) | **4** | **4** |
+| script-drift (bound, but no hook matches the 12.1 effect layout) | 35 | 26 |
+| unresolved / build-skew (newer than any client build this Trinity supports) | 69 | 108 |
+| unresolved / no consumer at all in this Trinity revision | 2,217 | 3,503 |
 
-Overlaps (`tag_overlaps`): 340 owners are script-only, 133 marker-only, 38
-script-drift, 32 DB2-marker + marker, 31 script + marker, 6 script + DB2 marker +
-marker, 4 script + correction, 2,284 carry no tag at all. Distinct reusable
-primitives in use: **15 families, 92 named sub-kinds** (100 family/sub-kind keys
-counting families without a sub-kind), explaining all 625 executing hooks.
-Unresolved profile (2,284 owners incl. build skew): 1,828 passive, 1,801
-class-trait roots, 200 spec-spell roots, 96 gear roots, 1,668 Dummy-aura-only
-owners, 1,613 with a nonzero Dummy BasePoints (tooltip value holders), 705 proc
-carriers, 76 periodic dummies, 42 trigger-without-trigger.
+Category definitions, kept apart on purpose:
 
-All-content comparison (174,143 owners): generic-engine 3,581, script-family 2,686,
-amount 386, target 192, proc 130, marker 463, world-data 1,095, correction 55,
-**unique 46**, script-drift 132, build-skew 4,995, unresolved 160,382; 17 families in use.
+| category | meaning | evidence |
+|---|---|---|
+| unsupported (build skew) | the SpellID did not exist in the last client build family Trinity supports | `build-skew.json` (added since 12.0.7.68367) and no consumer |
+| script-drift | a `spell_script_names` row binds a script but every hook's effect/aura/target mask is 0 against 12.1 data | `bindings.json` per hook |
+| no consumer in this revision | no script, no strong observer, no world-DB row, no gameplay engine case | absence in all corpora |
+| consumer exists, unclassifiable | executing hooks with an action outside every family (teleport, direct damage) | `unique` bucket |
+| genuinely inert | **not decidable from this evidence**; absence in Trinity is not evidence of absence in Retail | -- |
+| genuinely unique | the 4 `unique` owners | §6 |
+
+Overlaps (`tag_overlaps`): 352 owners are script-only, 130 marker-only, 35
+script-drift, 32 DB2-marker + marker, 23 script + marker, 6 script + DB2 marker +
+marker, 4 script + correction, 2,286 carry no tag at all. Distinct reusable
+primitives in use: **15 families, 60 named sub-kinds** (103 family/sub-kind keys
+counting families without a sub-kind), explaining 629 of the 633 executing hooks.
+Unresolved profile (2,286 owners incl. build skew): 1,809 passive, 1,774
+class-trait roots, 191 spec-spell roots, 96 gear roots, 1,663 Dummy-aura-only
+owners, 1,601 with a nonzero Dummy BasePoints (tooltip value holders), 696 proc
+carriers, 76 periodic dummies, 42 trigger-without-trigger. A grep of every
+unresolved SpellID across the whole Trinity source tree and all world updates
+found 80 ids mentioned in code: 79 as enum constants used only in `Validate`
+lists or not at all, the rest as coordinates, quest ids and comments; none in a
+`HasAura`, cast or `case` consumer (§25).
+
+All-content comparison (174,143 owners): generic-engine 3,581, script-family 2,659,
+amount 387, target 190, proc 129, marker 488, world-data 1,095, correction 55,
+**unique 94**, script-drift 122, build-skew 4,995, unresolved 160,348; 17 families in use.
 
 **Answer to the central question.** After normalising repeated consumers, the
-server side of current player behaviour that Trinity implements is explained by
-15 reusable primitives (with ≈ 90 parameterisations of scalar source and cast
-target) plus three data-driven generic consumers (`SpellAuraRestrictions` marker
-reads, `spell_linked_spell`, `EffectTriggerSpell`-with-value). The truly unique
-tail among implemented current content is empty at hook granularity; spell
-specificity lives in parameters (child ids, id tables, percentages, gating auras)
-and in a handful of runtime-state idioms (§24). The dominant fact is not
-uniqueness but absence: 2,284 of 2,880 owners (79%) have no server-side consumer
-in this Trinity revision (a further 38 have only a drifted script), and nothing in
-this evidence base says what they do.
+server side of current player behaviour that Trinity implements is explained
+*structurally* by 15 code-shape families (with 60 named parameterisations of
+scalar source and cast target, and per-hook secondary actions) plus three
+data-driven generic consumers (`SpellAuraRestrictions` marker reads,
+`spell_linked_spell`, `EffectTriggerSpell`-with-value), leaving a 4-hook / 4-spell
+unique tail. That is a statement about which engine actions the hooks emit; it is
+not evidence that 15 production primitives would be *sufficient*, because members
+of one family still differ in parameters and gating that a primitive would have to
+carry explicitly (§5). The dominant fact is not uniqueness but absence: 2,286 of
+2,880 owners (79%) have no server-side consumer in this Trinity revision (35 more
+have only a drifted script), and nothing in this evidence base says what they do
+in Retail.
 
 ---
 
 ## 21. Fail-closed inventory
 
-* 2,215 unresolved + 69 build-skew owners: no semantics inferred.
+* 2,217 unresolved + 69 build-skew owners: no semantics inferred; absence in
+  Trinity is never read as absence in Retail.
 * 74 registered-but-never-executing hooks (effect-layout drift) reported per binding;
-  38 owners have no other consumer and are bucketed `script-drift`.
-* 6 unresolved ScriptNames, 223 all-content.
+  35 owners have no other consumer and are bucketed `script-drift`.
+* 0 unresolved ScriptNames in player scope, 17 all-content.
+* 4 unique hooks (teleport / direct damage) are not folded into any family.
 * Condition types without an evaluator (NEAR_CREATURE, QUEST*, AREAID, ACTIVE_EVENT,
   INSTANCE_INFO, ...) raise `FailClosed`; none occurs in player scope.
 * `TargetHook::CheckEffect` selection-category refinement is not ported: target-select
@@ -904,23 +991,23 @@ Corpus hashes (sha256):
 
 | corpus | sha256 |
 |---|---|
-| `bindings.json` | `49db03fa252a15c64942e9e97bb0d76b8fe78ee0481496c82dfa5b55d9f0b3a4` |
+| `bindings.json` | `a82519dab38b337dcbe99ae560197064fbb9622a897147aaf8c2123b79108d1a` |
 | `build-skew.json` | `de1bab805980b54c99459421889fa52224cd709f962cf07402bdd26ebb8b87e5` |
-| `census.json` | `c8c2e66e1ed537ff45184f629551e2e7ff34d1912234440fd99a6f0371258454` |
+| `census.json` | `076533c4d1d71b1762831160113dfe46808d122d9a807ed464466cf275b2e45d` |
 | `conditions.json` | `33a380e341704fd99a8b4c6054b9bbfe82e2dbfef89e9cbfc891fb41d80e2e15` |
 | `corrections.json` | `ae74c2494dd1d55cc931271e549fd510068070d58cde18169d994299a3390f2d` |
 | `dispatch-tables.json` | `a68ee2522ecaa2262464490474fbbac21c94212342b30c149ce6c6d9b1b472f8` |
-| `families.json` | `88c418fd0678922db7f4cbdaa633e141e51cdac4f65297d987d6425b24f530af` |
-| `graph.json` | `c5ae81f473829b48faee70e781ee60b61b8bfbb9df5dfe9fe6adabb7ce2fe29e` |
+| `families.json` | `936162efb96aec024b08724f237a9efa828739d963e1d061b4c8cec514ab1e6d` |
+| `graph.json` | `116c85d8bfe70d905bb9b50876bc4ff4a31d9a517b816a7646d9d233ecfabc38` |
 | `hardcoded.json` | `693d5db9fe43fc89f2e86ce97cdc1d10cd2553e38e58b0eff2765cb6effb31f4` |
 | `hooks.json` | `7bde384e0d84758454fbfb2cced4e7ff8f23046d37c6e3b01c6c0329c604baf4` |
-| `markers.json` | `fe72f2f79dd34403ee4cdd580283d09b673570bd2fc9290a996d1f5d5cb77a41` |
+| `markers.json` | `ee61e12d5d04cb679429047d92a1f4184f83b36b27577f699276dd07d30ad4f1` |
 | `population.json` | `1a492f4d102ea52f1405998d4c7dac483f1c435f1c9beb7046746ad51d6f0c1f` |
-| `proc-xref.json` | `db738ac256f3fd48652baf9fc7d465fb36307df1e03218e39c89fe442a88e91c` |
-| `script-index.json` | `67b7e7c323bc9eecee73621263fe3d811fadd076093362f1b1b0c116a45ad8c7` |
-| `sources.json` | `dcf46b3cc79a25549d8b6640e87c37ac5ec7dbc44bdd91b19a5379f74387ad3c` |
-| `specs.json` | `6102429c5cab76f0844c9bc762fdfa2fc14f989825deda0cab8e85f7970f2655` |
-| `trinity-server-overlay.json` | `dd864b641392d1aa113f1e41be1540acc8199b114802f5c408aa9290ed74aaf7` |
+| `proc-xref.json` | `a491cd2108931907a9ea24ee0f079282a1028dfc8d6fe33b1a47952cad58c06f` |
+| `script-index.json` | `5cad4b5c52da44e970008ce00688bfb469c3b12e6c349a10206952ab60a937fc` |
+| `sources.json` | `00f0ab4b8c95cb48aa999d7df1837093e7c8f51fa2c2b1511c2c5c1e6766a9ce` |
+| `specs.json` | `102e2fc4a46c47cfdc5dba6297752fe0593f217a09f72be6a46b06d69fcaaf7b` |
+| `trinity-server-overlay.json` | `19e3bbc7e51c2f610753e5d35472080d889def45a8e66a770e4a0b63b904f4b4` |
 | `witnesses.json` | `46bf300c4401504b22632e50e0ab3b47df309538a14584090cef3160c5a87167` |
 
 External documentation, Wowhead, SimC and historical knowledge were not used as
@@ -933,7 +1020,7 @@ semantic authority; the sibling `simc` checkout was not consulted.
 ### Server-side semantic layers
 
 Missing behaviour is supplied, in order of weight for current players, by (1) the
-`spell_script_names` → SpellScript/AuraScript hook system (523 bindings, 625 executing
+`spell_script_names` → SpellScript/AuraScript hook system (523 bindings, 633 executing
 hooks), (2) client-data marker reads that need no code (`SpellAuraRestrictions`
 gates, 15 Dummy owners), (3) six `spell_linked_spell` rows, 7 `spell_group`, 10
 `spell_threat`, 2 `spell_custom_attr`, 1 condition row, (4) 7 `LoadSpellInfoCorrections`
@@ -944,45 +1031,52 @@ in player scope.
 
 ### Reusable semantic families
 
-Fifteen structural families explain every executing hook in player scope (§5
-table). By hooks: cast-child 204, amount-adapter 92, proc-filter-adapter 77,
-cast-child-with-amount 72, linked-aura-mutation 39, target-adapter 31,
-cooldown-mutation 21, choose-among-children 17, random-child 15, suppress-default 8,
-cast-gate 7, delayed-child 4, pet-owner-forward-cast 4, resource-mutation 4,
-consume-and-cast 2; plus 28 state-only bookkeeping hooks. Owners: 385 spells
-(272 with a Dummy-class effect, 113 on ordinary effects).
+Fifteen structural families explain 629 of the 633 executing hooks in player
+scope (§5 table). By primary label: cast-child 207, amount-adapter 94,
+proc-filter-adapter 77, cast-child-with-amount 73, linked-aura-mutation 38,
+target-adapter 31, cooldown-mutation 25, choose-among-children 17, random-child 16,
+suppress-default 10, cast-gate 7, delayed-child 4, pet-owner-forward-cast 3,
+resource-mutation 3, consume-and-cast 2; plus 22 state-only bookkeeping hooks and
+4 unique hooks. Owners: 389 spells (259 with a Dummy-class effect, 130 on ordinary
+effects). Structural family membership is not semantic equivalence: 81 hooks carry
+secondary actions outside their family and every member keeps its own parameters.
 
 ### Marker/state families
 
-157 Dummy-aura owners are meaningful without executing anything: 137 are read by
-other scripts (`HasAura`/`GetAuraEffect(id, EFFECT_n)->GetAmount()`), 15 by client
-`SpellAuraRestrictions`, 9 by engine cases. 132 bindings are `Load()`-gated on a
-talent aura. Their meaningful content is existence + `GetAmount()` of a specific
-effect index; stacks and durations are ordinary.
+152 Dummy-aura owners are meaningful without executing anything: 139 are read by
+other scripts (76 as a `Load()` gate, 59 as `GetAuraEffect(id, EFFECT_n)->GetAmount()`,
+35 as a presence check, 4 as a proc gate), 15 by client `SpellAuraRestrictions`,
+1 by a gameplay engine branch, 2 by `spell_linked_spell`, 1 by a `CONDITION_AURA`
+row. 134 bindings are `Load()`-gated on a talent aura. Their meaningful content
+is existence + `GetAmount()` of a specific effect index; stacks and durations are
+ordinary.
 
 ### Script/helper infrastructure
 
-Shared machinery: the hook system (52 hook types, 59 call sites), 95 free helpers
-(one hub: `SetBonusValueForEffect`, 77 users), same-class helper methods (merged
-in 3,812 bindings), nested `BasicEvent` classes for delays, constructor-parameterised
+Shared machinery: the hook system (52 hook types, 59 call sites), 111 free helpers
+(one hub: `SetBonusValueForEffect`, 77 users; three helper namespaces), same-file
+helper base classes and structs (618 indexed), same-class helper methods (merged in
+3,812 bindings), nested `BasicEvent` classes for delays, constructor-parameterised
 scripts (13 player bindings), DB2-parameterised generic scripts (40 player
 bindings). Fanout: 127 spells carry more than one script; the widest player scripts
 bind 31 / 22 / 18 spells.
 
 ### Proc cross-reference
 
-550 inert-only → 524 no consumer, 13 build skew, 10 marker-only, 3 scripted (1
-trigger, 1 family, 1 drifted). 78 mixed → 67 no consumer, 4 marker-only, 4 scripted,
-2 build skew, 1 drifted. 130 script-bound → 48 ordinary triggers, 34 reusable
-families, 34 amount adapters, 1 target adapter, 2 state-only, 11 drifted. Zero
-genuinely unique.
+550 inert-only → 525 no consumer, 13 build skew, 9 marker-only, 3 scripted (1
+trigger, 1 family, 1 amount). 78 mixed → 67 no consumer, 4 marker-only, 4 scripted,
+2 build skew, 1 drifted. 130 script-bound → 47 ordinary triggers, 33 reusable
+families, 34 amount adapters, 1 target adapter, 2 state-only, 11 drifted, 2
+genuinely unique (Dancing Rune Weapon, Divine Image). Strict partition of 758.
 
 ### Genuine unique tail
 
-At hook granularity: none in player scope; 48 legacy hooks (46 spells) in all
-content. The specific residue inside families: 1 hardcoded id table (Elemental
-Overload), 1 creature-entry list (Inescapable Torment), cross-script state reads
-(Stormblast), 51 scripts with member state, and 3 drifted/dead engine branches.
+At hook granularity: 4 hooks on 4 spells in player scope (Demonic Circle
+teleport, Alter Time, Divine Image, Dancing Rune Weapon); 96 hooks on 39 spells
+in all content, the rest legacy. The specific residue *inside* families: 2
+hardcoded id tables (Elemental Overload, Divine Image), 1 creature-entry list
+(Inescapable Torment), cross-script state reads in 11 hooks, 52 scripts with
+member state, 81 hooks with secondary actions, and 2 dead engine branches.
 
 ### Runtime facts and mutable state
 
@@ -992,13 +1086,14 @@ amounts, `m_appliedMods` of the proc spell); caster aura amounts by (spell, effe
 index); health and power values and percentages; explicit target reaction and
 facing; remove mode; remaining/max duration; combo points and power costs; the
 caster's controlled summons; GUID-captured targets for scheduled work. Mutable
-state introduced by scripts: 51 player scripts keep members (GUID lists, primary
-target, flags, cached percentages); 4 schedule events; 1 mutates a summon timer;
-cross-script state exists (`GetScript<T>()`).
+state introduced by scripts: 52 player scripts keep members (GUID lists, primary
+target, flags, cached percentages, Alter Time's health/position snapshot); 8 hooks
+schedule work; 1 mutates a summon timer; 11 hooks read or write another script's
+members through `GetScript<T>()`.
 
 ### RNG and ordering boundaries
 
-Directly proved: `roll_chance(aurEff->GetAmount())` in 23 proc filters and 15
+Directly proved: `roll_chance(aurEff->GetAmount())` in 23 proc filters and 16
 random-child hooks is drawn inside the script, at hook time -- for `DoCheckEffectProc`
 before the generic `CalcProcChance` roll (which then rolls at 101%), for `OnEffectHit`
 before unit targets are processed, for `OnEffectHitTarget` per target. `RandomResize`
@@ -1009,41 +1104,86 @@ AfterCast → linked CAST (§4).
 
 ### Ordinary-action boundary
 
-316 of 625 hooks (51%) end in `CastSpell` of an authored SpellID; 164 (26%) end in
-a scalar handed to an ordinary damage/heal/absorb/duration pipeline or to
-BasePoints; 39 end in an ordinary aura mutation, 21 in a cooldown mutation, 4 in a
-power change, 31 in a target list; 77 are predicates; 8 suppress a default; 28
-only keep state. Everything Trinity does for current players ultimately emits
-ordinary SpellIDs, aura operations or scalars.
+Overlapping action kinds over the 633 hooks (one hook may count several times;
+144 do): 326 call `CastSpell` on an authored SpellID; 84 write an amount into
+BasePoints or the current hit/absorb pipeline; 66 mutate another aura; 38 touch
+cooldowns; 8 change power; 15 edit a target list; 29 prevent a default; 47 roll
+RNG; 8 schedule work; 5 route through a pet/owner; 3 query areatriggers; 3
+teleport; 1 deals damage directly; 1 summons. By primary label: 77 predicates
+(proc filters), 7 cast gates, 10 pure suppressions, 22 state-only. Apart from
+the 4 unique hooks, everything Trinity does for current players ultimately
+emits ordinary SpellIDs, aura operations or scalars.
 
 ### Current-player census
 
 2,880 owners (2,750 with a population effect + 130 script-bound spells on
 ordinary effects): the 15 families and 3 generic data consumers cover 422 owners
-(15%); 136 are marker-only (5%); 38 have only a drifted script (1%); 2,284 (79%)
-have no consumer, 69 of them provably newer than the supported build. Effects:
-4,325 population effects, 3,609 unresolved + 27 drifted.
+(15%); 4 are unique; 133 are marker-only (5%); 35 have only a drifted script (1%);
+2,286 (79%) have no consumer in this Trinity revision, 69 of them provably newer
+than the supported build. Effects: 4,325 population effects, 3,611 unresolved +
+26 drifted + 4 unique.
 
 ### Open questions
 
-1. **What implements the 2,236 unresolved owners?** Nothing in Trinity `7f3d43b`.
+1. **What implements the 2,217 unresolved owners?** Nothing in Trinity `7f3d43b`.
    Reopen per spell with a direct consumer (a newer Trinity, another server, or a
    client-side consumer). Most are passive talents whose Dummy `BasePoints` is a
    value read by nobody server-side.
-2. **Effect-layout drift.** 74 player hooks (13 proc providers) match no 12.1
+2. **Effect-layout drift.** 74 player hooks (12 proc providers) match no 12.1
    effect. Reopen when Trinity supports ≥ 12.1; until then their scripts are
    evidence of intent, not behaviour.
 3. **Unnamed aura types 320/380/493/531 and effect 324** in player scope: no
    consumer; reopen with a handler.
 4. **`TargetHook::CheckEffect` refinement** (selection category × object type) not
    ported; reopen if a target-adapter mask decision depends on it.
-5. **The 6 unresolved ScriptNames** (database rows without registrations): reopen
-   on the next TDB/Trinity bump.
+5. **The 17 unresolved all-content ScriptNames** (database rows without
+   registrations; none in player scope): reopen on the next TDB/Trinity bump.
 6. **`serverside_spell` id collisions** with 12.1 `SpellName` (10 ids): Trinity
    would reject those rows on a 12.1 store; reopen when the DB targets 12.1.
 7. **Script member state and cross-script reads** are recorded, not modelled;
    reopen when a family oracle needs them (Atonement target list, Stormblast
    original-cast gate).
+9. **Structural families versus production primitives.** Whether one primitive
+   per family (with the recorded parameters) reproduces every member is not
+   proved here; reopen per family with differential tests against Trinity.
 8. **`SpellAuraRestrictions`-driven markers** are client facts consumed by
    `Spell::CheckCast`; whether current clients gate more markers than the 15
    found here is not decidable from this snapshot alone.
+
+---
+
+## 25. Closeout review
+
+A hostile closeout pass tried to falsify the strongest conclusions before commit.
+Defects found and fixed:
+
+* **Hidden helper behaviour.** Namespace-level helpers (`MajorPlayerHealingCooldownHelpers`,
+  `DivineImageHelpers`, `HealingRain`), static methods of same-file helper structs,
+  same-file helper base classes, handlers bound directly to
+  `PreventHitDefaultEffect`, template handlers (`CheckSpecialization<...>`) and
+  methods reached through `GetScript<X>()` were not indexed or not merged. All are
+  now indexed (618 helper classes, 111 free functions) and merged into the calling
+  handler; class kind resolves through inheritance. Effect: player-scope unresolved
+  bindings 6 → 0, all-content 223 → 17; executing player hooks 625 → 633.
+* **Silent secondary actions.** A single family label hid additional actions in
+  144 hooks (e.g. a `cast-child` that also resets a cooldown). Every hook now
+  carries its full `actions` set and `secondary_actions`; the census reports
+  overlapping action counts instead of a partition.
+* **False "zero unique".** Teleports (`NearTeleportTo`) and direct `Unit::DealDamage`
+  were absorbed into cast/power families. They are now action kinds outside every
+  family; 4 player hooks / 4 spells (2 proc providers) are genuinely unique.
+* **Marker strength.** Load-time classification engine sites were counted as
+  strong observers; they are now weak (`engine-classification`). Script queries
+  carry a role (load gate / amount read / presence read / proc gate).
+  `CONDITION_AURA` rows from every condition source are now extracted.
+  Marker-consumed owners 157 → 152.
+* **Own-consume regression** introduced while separating areatrigger `Remove()`
+  from aura `Remove()` was caught by the synthetic family tests.
+
+Checks that held: the population, scope and proc-bucket totals; the strict
+partition of the 758 providers; the 26 player-scope hardcoded sites; a grep of all
+2,286 unresolved SpellIDs over the entire Trinity tree and world updates (no
+missed consumer: 79 enum constants, coordinates, quest ids, comments); the world-DB
+replay (0 unparsed statements after extending the conditions filter); two
+independent `all` runs producing byte-identical corpora; the C++ probe rebuilt
+from a clean extraction; the pre-existing research suites.

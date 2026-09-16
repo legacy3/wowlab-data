@@ -2,14 +2,14 @@
  "nodes": 28649,
  "edges": 34358,
  "node_kinds": {
-  "spell": 20901,
+  "action": 12,
   "class": 2739,
-  "script": 2763,
-  "world": 2114,
   "engine": 24,
   "family": 19,
   "helper": 77,
-  "action": 12
+  "script": 2763,
+  "spell": 20901,
+  "world": 2114
  },
  "edge_kinds": {
   "db2-marker": 11669,
@@ -47,6 +47,62 @@
   [
    "helper:SetBonusValueForEffect@spell_generic.cpp",
    77
+  ],
+  [
+   "helper:HandlePlate@pilgrims_bounty.cpp",
+   20
+  ],
+  [
+   "helper:FindCreatureIgnorePhase@zone_exiles_reach.cpp",
+   15
+  ],
+  [
+   "helper:GetSummon@spell_priest.cpp",
+   7
+  ],
+  [
+   "helper:GetBonusMultiplier@spell_generic.cpp",
+   6
+  ],
+  [
+   "helper:GetShapeshiftFormSpell@spell_druid.cpp",
+   6
+  ],
+  [
+   "helper:ToCatForm@spell_druid.cpp",
+   6
+  ],
+  [
+   "helper:CastPrayerOfMendingAura@spell_priest.cpp",
+   5
+  ],
+  [
+   "helper:GetPlateInSeat@pilgrims_bounty.cpp",
+   5
+  ],
+  [
+   "helper:GetTable@pilgrims_bounty.cpp",
+   5
+  ],
+  [
+   "helper:CheckLocationForForm@spell_druid.cpp",
+   4
+  ],
+  [
+   "helper:GetAnnounceGroupID@boss_anduin_wrynn.cpp",
+   4
+  ],
+  [
+   "helper:GetAreaTriggerSpellID@boss_anduin_wrynn.cpp",
+   4
+  ],
+  [
+   "helper:GetFirstTarget@spell_dh.cpp",
+   4
+  ],
+  [
+   "helper:GetFormSpellId@spell_druid.cpp",
+   4
   ]
  ],
  "script_hubs (spells bound)": [
@@ -107,7 +163,7 @@
    13
   ],
   [
-   "script:spell_icecrown_bested_trigger",
+   "script:spell_gen_mounted_charge",
    13
   ]
  ],
@@ -141,11 +197,11 @@
    35
   ],
   [
-   "class:spell_gen_summon_tournament_mount@spell_generic.cpp",
+   "class:spell_brewfest_ram@brewfest.cpp",
    28
   ],
   [
-   "class:spell_brewfest_ram@brewfest.cpp",
+   "class:spell_gen_summon_tournament_mount@spell_generic.cpp",
    28
   ],
   [
@@ -177,43 +233,68 @@
  "sccs": 112,
  "scc_examples": [
   [
-   "spell:162188",
-   "spell:162189"
+   "class:spell_anduin_wrynn_hopebreaker_damage@boss_anduin_wrynn.cpp",
+   "class:spell_anduin_wrynn_hopebreaker_periodic@boss_anduin_wrynn.cpp",
+   "script:spell_anduin_wrynn_hopebreaker_damage",
+   "script:spell_anduin_wrynn_hopebreaker_periodic",
+   "spell:361817",
+   "spell:361818"
   ],
   [
-   "class:spell_zuldrak_scourge_disguise@zone_zuldrak.cpp",
-   "class:spell_zuldrak_scourge_disguise_expiring@zone_zuldrak.cpp",
-   "class:spell_zuldrak_scourge_disguise_instability@zone_zuldrak.cpp",
-   "script:spell_zuldrak_scourge_disguise",
-   "script:spell_zuldrak_scourge_disguise_expiring",
-   "script:spell_zuldrak_scourge_disguise_instability",
-   "spell:51966",
-   "spell:51971",
-   "spell:52010"
+   "class:spell_baleroc_vital_flame@boss_baleroc.cpp",
+   "class:spell_baleroc_vital_spark@boss_baleroc.cpp",
+   "script:spell_baleroc_vital_flame",
+   "script:spell_baleroc_vital_spark",
+   "spell:99262",
+   "spell:99263"
   ],
   [
-   "spell:106663",
-   "spell:106668"
+   "class:spell_bg_seething_shore_rocket_parachute_ground_check@battleground_seething_shore.cpp",
+   "class:spell_bg_seething_shore_rocket_parachute_trigger@battleground_seething_shore.cpp",
+   "script:spell_bg_seething_shore_rocket_parachute_ground_check",
+   "script:spell_bg_seething_shore_rocket_parachute_trigger",
+   "spell:250917",
+   "spell:250921"
   ],
   [
-   "spell:148593",
-   "spell:150454"
+   "class:spell_brewfest_exhausted_ram@brewfest.cpp",
+   "class:spell_brewfest_giddyup@brewfest.cpp",
+   "class:spell_brewfest_ram@brewfest.cpp",
+   "class:spell_brewfest_ram_fatigue@brewfest.cpp",
+   "script:spell_brewfest_exhausted_ram",
+   "script:spell_brewfest_giddyup",
+   "script:spell_brewfest_ram",
+   "script:spell_brewfest_ram_fatigue",
+   "spell:42924",
+   "spell:42992",
+   "spell:42993",
+   "spell:42994",
+   "spell:43052",
+   "spell:43310",
+   "spell:43332",
+   "spell:43880",
+   "spell:43883"
   ],
   [
-   "spell:162780",
-   "spell:162781"
+   "class:spell_dh_glide@spell_dh.cpp",
+   "class:spell_dh_glide_AuraScript@spell_dh.cpp",
+   "class:spell_dh_glide_timer@spell_dh.cpp",
+   "script:spell_dh_glide",
+   "script:spell_dh_glide_timer",
+   "spell:131347",
+   "spell:197154"
   ]
  ],
  "player_subgraph": {
   "nodes": 2099,
   "node_kinds": {
-   "spell": 961,
-   "class": 541,
-   "script": 528,
-   "helper": 38,
-   "family": 17,
    "action": 11,
+   "class": 541,
    "engine": 2,
+   "family": 17,
+   "helper": 38,
+   "script": 528,
+   "spell": 961,
    "world": 1
   },
   "max_depth": 9,

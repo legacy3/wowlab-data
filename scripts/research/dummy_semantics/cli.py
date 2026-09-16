@@ -56,7 +56,6 @@ def provenance(ctx: Context) -> dict[str, Any]:
         "trinity_commit": ctx.b.world.provenance["trinitycore_commit"],
         "server_overlay": ctx.b.world.provenance, "script_index": ctx.b.index.provenance,
         "dispatch": ctx.b.dispatch.provenance, "build_skew": ctx.b.skew.provenance,
-        "load_seconds": ctx.load_seconds,
     }
 
 
