@@ -1,0 +1,6512 @@
+{
+ "all": {
+  "fix_blocks": 191,
+  "spell_ids": 373,
+  "spell_ids_missing_in_snapshot": 0,
+  "classes": {
+   "source-correction": 119,
+   "implementation-workaround": 49,
+   "unknown": 16,
+   "missing-client-fact": 15,
+   "runtime-code-only": 1,
+   "server-authored-policy": 1
+  },
+  "members": {
+   "TargetA": 27,
+   "RangeEntry": 16,
+   "Effect": 15,
+   "MaxAffectedTargets": 15,
+   "AttributesEx2": 13,
+   "Attributes": 12,
+   "DurationEntry": 12,
+   "TargetB": 11,
+   "TargetARadiusEntry": 11,
+   "TriggerSpell": 9,
+   "AttributesEx3": 9,
+   "ApplyAuraPeriod": 7,
+   "AttributesEx": 7,
+   "RecoveryTime": 7,
+   "ApplyAuraName": 5,
+   "AttributesEx6": 5,
+   "AuraInterruptFlags": 4,
+   "AttributesEx4": 3,
+   "BasePoints": 3,
+   "MiscValue": 3,
+   "Speed": 3,
+   "AttributesEx8": 3,
+   "SpellClassMask": 2,
+   "ChannelInterruptFlags": 2,
+   "Mechanic": 2,
+   "TargetBRadiusEntry": 2,
+   "NegativeEffects": 2,
+   "MiscValueB": 1,
+   "AttributesEx5": 1,
+   "Scaling": 1,
+   "SpellFamilyFlags": 1,
+   "ChannelInterruptFlags2": 1,
+   "RequiredAreasID": 1,
+   "Stances": 1,
+   "ProcChance": 1,
+   "AttributesEx9": 1,
+   "AttributesCu": 1
+  },
+  "patch_shape": {
+   "data-patch": 175,
+   "runtime-code": 45
+  },
+  "newer_than_trinity": 0
+ },
+ "player": {
+  "fix_blocks": 7,
+  "spell_ids": 7,
+  "spell_ids_missing_in_snapshot": 0,
+  "classes": {
+   "unknown": 3,
+   "source-correction": 2,
+   "implementation-workaround": 2
+  },
+  "members": {
+   "NegativeEffects": 2,
+   "MaxAffectedTargets": 1,
+   "SpellClassMask": 1,
+   "Effect": 1,
+   "TargetB": 1,
+   "AttributesEx4": 1
+  },
+  "patch_shape": {
+   "data-patch": 6,
+   "runtime-code": 1
+  },
+  "newer_than_trinity": 0
+ },
+ "player_fixes": [
+  {
+   "line": 3649,
+   "note": null,
+   "ids": [
+    38310,
+    53385
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "38310": "Multi-Shot",
+    "53385": "Divine Storm (Damage)"
+   },
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "4",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3654
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    38310,
+    53385
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3690,
+   "note": "Fingers of Frost",
+   "ids": [
+    44544
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "SpellClassMask",
+     "effect": "EFFECT_0",
+     "op": "|=",
+     "value": "0x20000",
+     "class": "unknown",
+     "patch_shape": "data-patch",
+     "line": 3694
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    44544
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4033,
+   "note": "Inescapable Torment",
+   "ids": [
+    373427
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_3",
+     "op": "=",
+     "value": "SPELL_EFFECT_DUMMY",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4038
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    373427
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5127,
+   "note": "Earthquake",
+   "ids": [
+    61882
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "NegativeEffects",
+     "effect": null,
+     "op": "=",
+     "value": "true",
+     "class": "unknown",
+     "patch_shape": "data-patch",
+     "line": 5129
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    61882
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5133,
+   "note": "Sundering",
+   "ids": [
+    197214
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_2",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo()",
+     "class": "implementation-workaround",
+     "patch_shape": "runtime-code",
+     "line": 5137
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    197214
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5212,
+   "note": "Burning Rush",
+   "ids": [
+    111400
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx4",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR4_AURA_IS_BUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5214
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    111400
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5233,
+   "note": "Eradicate, Reap, Cull",
+   "ids": [
+    1225826,
+    1226019,
+    1245453
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "NegativeEffects",
+     "effect": null,
+     "op": "=",
+     "value": "true",
+     "class": "unknown",
+     "patch_shape": "data-patch",
+     "line": 5235
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    1225826,
+    1226019,
+    1245453
+   ],
+   "missing_in_snapshot": []
+  }
+ ],
+ "all_fixes": [
+  {
+   "line": 3396,
+   "note": null,
+   "ids": [
+    6727,
+    7331,
+    34589,
+    52562,
+    57550,
+    65755
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "6727": "Poison Mushroom",
+    "7331": "Healing Aura (TEST) (Rank 1)",
+    "34589": "Dangerous Water",
+    "52562": "Arthas Zombie Catcher",
+    "57550": "Tirion Aggro"
+   },
+   "writes": [
+    {
+     "member": "ApplyAuraPeriod",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "1 * IN_MILLISECONDS",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3412
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    6727,
+    7331,
+    34589,
+    52562,
+    57550,
+    65755
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3416,
+   "note": null,
+   "ids": [
+    24707,
+    26263,
+    29055
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "24707": "Food",
+    "26263": "Dim Sum",
+    "29055": "Refreshing Red Apple"
+   },
+   "writes": [
+    {
+     "member": "ApplyAuraPeriod",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "1 * IN_MILLISECONDS",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3424
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    24707,
+    26263,
+    29055
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3429,
+   "note": "Karazhan - Chess NPC AI, action timer",
+   "ids": [
+    37504
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "ApplyAuraPeriod",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "5 * IN_MILLISECONDS",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3433
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    37504
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3438,
+   "note": "Vomit",
+   "ids": [
+    43327
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "ApplyAuraPeriod",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "1 * IN_MILLISECONDS",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3442
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    43327
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3450,
+   "note": "Brood Affliction: Bronze",
+   "ids": [
+    23170
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "23171",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3454
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    23170
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3459,
+   "note": "Feed Captured Animal",
+   "ids": [
+    29917
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "29916",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3463
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    29917
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3468,
+   "note": "Eye of Grillok",
+   "ids": [
+    38495
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "38530",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3472
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    38495
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3477,
+   "note": "Tear of Azzinoth Summon Channel - it's not really supposed to do anything, and this only prevents the console spam",
+   "ids": [
+    39857
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "39856",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3481
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    39857
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3486,
+   "note": "Personalized Weather",
+   "ids": [
+    46736
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "46737",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3490
+    },
+    {
+     "member": "ApplyAuraName",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_AURA_PERIODIC_TRIGGER_SPELL",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3491
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "missing-client-fact"
+   ],
+   "exists": [
+    46736
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3496,
+   "note": null,
+   "ids": [
+    63026,
+    63137
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "63026": "Summon Aspirant Test NPC (HACK: Target shouldn't be changed)",
+    "63137": "Summon Valiant Test (HACK: Target shouldn't be changed; summon position should be untied from spell destination)"
+   },
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DB)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3503
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    63026,
+    63137
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3508,
+   "note": "Summon Skeletons",
+   "ids": [
+    52611,
+    52612
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MiscValueB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "64",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3512
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    52611,
+    52612
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3516,
+   "note": null,
+   "ids": [
+    40244,
+    40245,
+    40246,
+    40247,
+    42835
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "40244": "Simon Game Visual",
+    "40245": "Simon Game Visual",
+    "40246": "Simon Game Visual",
+    "40247": "Simon Game Visual",
+    "42835": "Spout, remove damage effect, only anim is needed"
+   },
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_EFFECT_NONE",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3526
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    40244,
+    40245,
+    40246,
+    40247,
+    42835
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3530,
+   "note": null,
+   "ids": [
+    63665,
+    51904,
+    68933,
+    29200
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "63665": "Charge (Argent Tournament emote on riders)",
+    "51904": "Summon Ghouls On Scarlet Crusade (this should use conditions table, script for this spell needs to be fixed)",
+    "68933": "Wrath of Air Totem rank 2 (Aura)",
+    "29200": "Purify Helboar Meat"
+   },
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_CASTER)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3539
+    },
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo()",
+     "class": "implementation-workaround",
+     "patch_shape": "runtime-code",
+     "line": 3540
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    63665,
+    51904,
+    68933,
+    29200
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3544,
+   "note": null,
+   "ids": [
+    56690,
+    60586,
+    60776,
+    60881,
+    60864
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "56690": "Thrust Spear",
+    "60586": "Mighty Spear Thrust",
+    "60776": "Claw Swipe",
+    "60881": "Fatal Strike",
+    "60864": "Jaws of Death"
+   },
+   "writes": [
+    {
+     "member": "AttributesEx4",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR4_IGNORE_DAMAGE_TAKEN_MODIFIERS",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3552
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    56690,
+    60586,
+    60776,
+    60881,
+    60864
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3555,
+   "note": null,
+   "ids": [
+    42818,
+    42821,
+    720,
+    731
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "42818": "Headless Horseman - Wisp Flight Port",
+    "42821": "Headless Horseman - Wisp Flight Missile",
+    "720": "Entangle",
+    "731": "Entangle"
+   },
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(6)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 3562
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    42818,
+    42821,
+    720,
+    731
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3566,
+   "note": "They Must Burn Bomb Aura (self)",
+   "ids": [
+    36350
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "36325",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3570
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    36350
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3574,
+   "note": null,
+   "ids": [
+    36327,
+    39365,
+    41071,
+    42442,
+    42611,
+    44978,
+    45001,
+    45002,
+    45004,
+    45006,
+    45010,
+    45761,
+    45863,
+    48246,
+    41635,
+    44869,
+    45027,
+    45976,
+    52124,
+    52479,
+    61588,
+    55479,
+    28560,
+    53096,
+    70743,
+    70614,
+    4020,
+    52438,
+    52449,
+    53609,
+    53457,
+    45907,
+    52953,
+    58121,
+    43109,
+    58552,
+    58533,
+    21855,
+    38762,
+    51122,
+    71848,
+    36146,
+    33711,
+    38794
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "36327": "Shoot Arcane Explosion Arrow",
+    "39365": "Thundering Storm",
+    "41071": "Raise Dead (HACK)",
+    "42442": "Vengeance Landing Cannonfire",
+    "42611": "Shoot",
+    "44978": "Wild Magic",
+    "45001": "Wild Magic",
+    "45002": "Wild Magic",
+    "45004": "Wild Magic",
+    "45006": "Wild Magic",
+    "45010": "Wild Magic",
+    "45761": "Shoot Gun",
+    "45863": "Cosmetic - Incinerate to Random Target",
+    "48246": "Ball of Flame",
+    "41635": "Prayer of Mending",
+    "44869": "Spectral Blast",
+    "45027": "Revitalize",
+    "45976": "Muru Portal Channel",
+    "52124": "Sky Darkener Assault",
+    "52479": "Gift of the Harvester",
+    "61588": "Blazing Harpoon",
+    "55479": "Force Obedience",
+    "28560": "Summon Blizzard (Sapphiron)",
+    "53096": "Quetz'lun's Judgment",
+    "70743": "AoD Special",
+    "70614": "AoD Special - Vegard",
+    "4020": "Safirdrang's Chill",
+    "52438": "Summon Skittering Swarmer (Force Cast)",
+    "52449": "Summon Skittering Infector (Force Cast)",
+    "53609": "Summon Anub'ar Assassin (Force Cast)",
+    "53457": "Summon Impale Trigger (AoE)",
+    "45907": "Torch Target Picker",
+    "52953": "Torch",
+    "58121": "Torch",
+    "43109": "Throw Torch",
+    "58552": "Return to Orgrimmar",
+    "58533": "Return to Stormwind",
+    "21855": "Challenge Flag",
+    "38762": "Force of Neltharaku",
+    "51122": "Fierce Lightning Stike",
+    "71848": "Toxic Wasteling Find Target",
+    "36146": "Chains of Naberius",
+    "33711": "Murmur's Touch",
+    "38794": "Murmur's Touch"
+   },
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "1",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3621
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    36327,
+    39365,
+    41071,
+    42442,
+    42611,
+    44978,
+    45001,
+    45002,
+    45004,
+    45006,
+    45010,
+    45761,
+    45863,
+    48246,
+    41635,
+    44869,
+    45027,
+    45976,
+    52124,
+    52479,
+    61588,
+    55479,
+    28560,
+    53096,
+    70743,
+    70614,
+    4020,
+    52438,
+    52449,
+    53609,
+    53457,
+    45907,
+    52953,
+    58121,
+    43109,
+    58552,
+    58533,
+    21855,
+    38762,
+    51122,
+    71848,
+    36146,
+    33711,
+    38794
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3624,
+   "note": null,
+   "ids": [
+    36384,
+    47731
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "36384": "Skartax Purple Beam",
+    "47731": "Critter"
+   },
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "2",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3629
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    36384,
+    47731
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3632,
+   "note": null,
+   "ids": [
+    28542,
+    29213,
+    29576,
+    37790,
+    39992,
+    40816,
+    41303,
+    41376,
+    45248,
+    46771,
+    66588
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "28542": "Life Drain - Sapphiron",
+    "29213": "Curse of the Plaguebringer - Noth",
+    "29576": "Multi-Shot",
+    "37790": "Spread Shot",
+    "39992": "Needle Spine",
+    "40816": "Saber Lash",
+    "41303": "Soul Drain",
+    "41376": "Spite",
+    "45248": "Shadow Blades",
+    "46771": "Flame Sear",
+    "66588": "Flaming Spear"
+   },
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "3",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3646
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    28542,
+    29213,
+    29576,
+    37790,
+    39992,
+    40816,
+    41303,
+    41376,
+    45248,
+    46771,
+    66588
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3649,
+   "note": null,
+   "ids": [
+    38310,
+    53385
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "38310": "Multi-Shot",
+    "53385": "Divine Storm (Damage)"
+   },
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "4",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3654
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    38310,
+    53385
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3657,
+   "note": null,
+   "ids": [
+    42005,
+    38296,
+    37676,
+    46008,
+    45641,
+    55665,
+    28796,
+    37135
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "42005": "Bloodboil",
+    "38296": "Spitfire Totem",
+    "37676": "Insidious Whisper",
+    "46008": "Negative Energy",
+    "45641": "Fire Bloom",
+    "55665": "Life Drain - Sapphiron (H)",
+    "28796": "Poison Bolt Volly - Faerlina",
+    "37135": "Domination"
+   },
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "5",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3668
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    42005,
+    38296,
+    37676,
+    46008,
+    45641,
+    55665,
+    28796,
+    37135
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3671,
+   "note": null,
+   "ids": [
+    40827,
+    40859,
+    40860,
+    40861,
+    54098,
+    54835
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "40827": "Sinful Beam",
+    "40859": "Sinister Beam",
+    "40860": "Vile Beam",
+    "40861": "Wicked Beam",
+    "54098": "Poison Bolt Volly - Faerlina (H)",
+    "54835": "Curse of the Plaguebringer - Noth (H)"
+   },
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "10",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3680
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    40827,
+    40859,
+    40860,
+    40861,
+    54098,
+    54835
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3684,
+   "note": "Unholy Frenzy",
+   "ids": [
+    50312
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "15",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3686
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    50312
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3690,
+   "note": "Fingers of Frost",
+   "ids": [
+    44544
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "SpellClassMask",
+     "effect": "EFFECT_0",
+     "op": "|=",
+     "value": "0x20000",
+     "class": "unknown",
+     "patch_shape": "data-patch",
+     "line": 3694
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    44544
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3698,
+   "note": null,
+   "ids": [
+    52212,
+    41485,
+    41487
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "52212": "Death and Decay",
+    "41485": "Deadly Poison - Black Temple",
+    "41487": "Envenom - Black Temple"
+   },
+   "writes": [
+    {
+     "member": "AttributesEx6",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR6_IGNORE_PHASE_SHIFT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3704
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    52212,
+    41485,
+    41487
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3708,
+   "note": "Oscillation Field",
+   "ids": [
+    37408
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_DOT_STACKING_RULE",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3710
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    37408
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3714,
+   "note": "Crafty's Ultra-Advanced Proto-Typical Shortening Blaster",
+   "ids": [
+    51912
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "ApplyAuraPeriod",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "3000",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 3718
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    51912
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3723,
+   "note": "Radius in DBC is not enough",
+   "ids": [
+    36854,
+    36856
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "36854": "Channel",
+    "36856": "Channel"
+   },
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(5)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 3728
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    36854,
+    36856
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3732,
+   "note": "Nether Portal - Perseverence",
+   "ids": [
+    30421
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "BasePoints",
+     "effect": "EFFECT_2",
+     "op": "+=",
+     "value": "30000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3736
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    30421
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3741,
+   "note": "Parasitic Shadowfiend Passive",
+   "ids": [
+    41913
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "ApplyAuraName",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_AURA_DUMMY",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3745
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    41913
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3749,
+   "note": null,
+   "ids": [
+    27892,
+    27928,
+    27935
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "27892": "To Anchor 1",
+    "27928": "To Anchor 1",
+    "27935": "To Anchor 1"
+   },
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_10_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 3757
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    27892,
+    27928,
+    27935
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3762,
+   "note": "Wrath of the Plaguebringer",
+   "ids": [
+    29214,
+    54836
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_SRC_AREA_ALLY)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3768
+    },
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_SRC_AREA_ALLY)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3772
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    29214,
+    54836
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3777,
+   "note": "Earthbind Totem (instant pulse)",
+   "ids": [
+    6474
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx5",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR5_EXTRA_INITIAL_PERIOD",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3779
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    6474
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3782,
+   "note": null,
+   "ids": [
+    70728,
+    70840
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "70728": "Exploit Weakness (needs target selection script)",
+    "70840": "Devious Minds (needs target selection script)"
+   },
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_CASTER)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3789
+    },
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_PET)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3790
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    70728,
+    70840
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3795,
+   "note": "Ride Carpet",
+   "ids": [
+    45602
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "BasePoints",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "0",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3799
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    45602
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3804,
+   "note": "Easter Lay Noblegarden Egg Aura - Interrupt flags copied from aura which this aura is linked with",
+   "ids": [
+    61719
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AuraInterruptFlags",
+     "effect": null,
+     "op": "=",
+     "value": "SpellAuraInterruptFlags::HostileActionReceived | SpellAuraInterruptFlags::Damage",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3806
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    61719
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3809,
+   "note": null,
+   "ids": [
+    71838,
+    71839
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "71838": "Drain Life - Bryntroll Normal",
+    "71839": "Drain Life - Bryntroll Heroic"
+   },
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_CANT_CRIT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3814
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    71838,
+    71839
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3817,
+   "note": null,
+   "ids": [
+    51597,
+    56606,
+    61791
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "51597": "Summon Scourged Captive",
+    "56606": "Ride Jokkum",
+    "61791": "Ride Vehicle (Yogg-Saron)"
+   },
+   "writes": [
+    {
+     "member": "BasePoints",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "1",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3826
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    51597,
+    56606,
+    61791
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3831,
+   "note": "Summon Scourged Captive",
+   "ids": [
+    51597
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Scaling",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "0.0f",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3835
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    51597
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3840,
+   "note": "Black Magic",
+   "ids": [
+    59630
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_PASSIVE",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3842
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    59630
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3846,
+   "note": "Paralyze",
+   "ids": [
+    48278
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_DOT_STACKING_RULE",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3848
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    48278
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3851,
+   "note": null,
+   "ids": [
+    51798,
+    47134
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "51798": "Brewfest - Relay Race - Intro - Quest Complete",
+    "47134": "Quest Complete"
+   },
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_EFFECT_NONE",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3859
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    51798,
+    47134
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3864,
+   "note": "Siege Cannon (Tol Barad)",
+   "ids": [
+    85123
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_200_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 3868
+    },
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_SRC_AREA_ENTRY)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3869
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "unknown"
+   ],
+   "exists": [
+    85123
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3874,
+   "note": "Maelstrom Weapon",
+   "ids": [
+    187881
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "SpellClassMask",
+     "effect": "EFFECT_1",
+     "op": "|=",
+     "value": "0x1000",
+     "class": "unknown",
+     "patch_shape": "data-patch",
+     "line": 3879
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    187881
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3883,
+   "note": null,
+   "ids": [
+    15538,
+    42490,
+    42492,
+    43115
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "15538": "Gout of Flame",
+    "42490": "Energized!",
+    "42492": "Cast Energized",
+    "43115": "Plague Vial"
+   },
+   "writes": [
+    {
+     "member": "AttributesEx",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR1_NO_THREAT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3890
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    15538,
+    42490,
+    42492,
+    43115
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3894,
+   "note": "Test Ribbon Pole Channel",
+   "ids": [
+    29726
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "ChannelInterruptFlags",
+     "effect": null,
+     "op": "&=",
+     "value": "~SpellAuraInterruptFlags::Action",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3896
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    29726
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3900,
+   "note": "Sic'em",
+   "ids": [
+    42767
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_NEARBY_ENTRY)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 3904
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    42767
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3909,
+   "note": "Burn Body",
+   "ids": [
+    42793
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MiscValue",
+     "effect": "EFFECT_2",
+     "op": "=",
+     "value": "24008",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3913
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    42793
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3918,
+   "note": "Gift of the Naaru (priest and monk variants)",
+   "ids": [
+    59544,
+    121093
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "SpellFamilyFlags",
+     "effect": null,
+     "op": "=",
+     "value": "0x80000000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3920
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    59544,
+    121093
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3923,
+   "note": null,
+   "ids": [
+    50661,
+    68979,
+    48714,
+    7853
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "50661": "Weakened Resolve",
+    "68979": "Unleashed Souls",
+    "48714": "Compelled",
+    "7853": "The Art of Being a Water Terror: Force Cast on Player"
+   },
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(13)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 3930
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    50661,
+    68979,
+    48714,
+    7853
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3933,
+   "note": null,
+   "ids": [
+    44327,
+    44408
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "44327": "Trained Rock Falcon/Hawk Hunting",
+    "44408": "Trained Rock Falcon/Hawk Hunting"
+   },
+   "writes": [
+    {
+     "member": "Speed",
+     "effect": null,
+     "op": "=",
+     "value": "0.f",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3938
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    44327,
+    44408
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3942,
+   "note": "Summon Corpse Scarabs",
+   "ids": [
+    28864,
+    29105
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_10_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 3946
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    28864,
+    29105
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3950,
+   "note": null,
+   "ids": [
+    37851,
+    37918
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "37851": "Tag Greater Felfire Diemetradon",
+    "37918": "Arcano-pince"
+   },
+   "writes": [
+    {
+     "member": "RecoveryTime",
+     "effect": null,
+     "op": "=",
+     "value": "3000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3955
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    37851,
+    37918
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3959,
+   "note": "Jormungar Strike",
+   "ids": [
+    56513
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RecoveryTime",
+     "effect": null,
+     "op": "=",
+     "value": "2000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3961
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    56513
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3964,
+   "note": null,
+   "ids": [
+    54997,
+    56524
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "54997": "Cast Net (tooltip says 10s but sniffs say 6s)",
+    "56524": "Acid Breath"
+   },
+   "writes": [
+    {
+     "member": "RecoveryTime",
+     "effect": null,
+     "op": "=",
+     "value": "6000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3969
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    54997,
+    56524
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3972,
+   "note": null,
+   "ids": [
+    47911,
+    48620,
+    51752
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "47911": "EMP",
+    "48620": "Wing Buffet",
+    "51752": "Stampy's Stompy-Stomp"
+   },
+   "writes": [
+    {
+     "member": "RecoveryTime",
+     "effect": null,
+     "op": "=",
+     "value": "10000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3978
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    47911,
+    48620,
+    51752
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3981,
+   "note": null,
+   "ids": [
+    37727,
+    54996
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "37727": "Touch of Darkness",
+    "54996": "Ice Slick (tooltip says 20s but sniffs say 12s)"
+   },
+   "writes": [
+    {
+     "member": "RecoveryTime",
+     "effect": null,
+     "op": "=",
+     "value": "12000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3986
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    37727,
+    54996
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3990,
+   "note": "Signal Helmet to Attack",
+   "ids": [
+    51748
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RecoveryTime",
+     "effect": null,
+     "op": "=",
+     "value": "15000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 3992
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    51748
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 3995,
+   "note": null,
+   "ids": [
+    51756,
+    37919,
+    37917
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "51756": "Charge",
+    "37919": "Arcano-dismantle",
+    "37917": "Arcano-Cloak"
+   },
+   "writes": [
+    {
+     "member": "RecoveryTime",
+     "effect": null,
+     "op": "=",
+     "value": "20000",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4001
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    51756,
+    37919,
+    37917
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4005,
+   "note": "Summon Frigid Bones",
+   "ids": [
+    53525
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(4)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4007
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    53525
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4011,
+   "note": "Dark Conclave Ritualist Channel",
+   "ids": [
+    38469
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(6)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4013
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    38469
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4017,
+   "note": "Death and Decay (target increase)",
+   "ids": [
+    188290
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [],
+   "other_statements": [
+    "spellEffectInfo->SpellClassMask.Set(0x80, 0, 0, 0x8000)",
+    "spellEffectInfo->SpellClassMask.Set(0x80, 0, 0, 0x8000)"
+   ],
+   "classes": [
+    "runtime-code-only"
+   ],
+   "exists": [
+    188290
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4027,
+   "note": "Chrono Shift (enemy slow part)",
+   "ids": [
+    236299
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(6)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4029
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    236299
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4033,
+   "note": "Inescapable Torment",
+   "ids": [
+    373427
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_3",
+     "op": "=",
+     "value": "SPELL_EFFECT_DUMMY",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4038
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    373427
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4043,
+   "note": "Summon Faol in Tirisfal",
+   "ids": [
+    202112
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DB)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4047
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    202112
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4055,
+   "note": "Water Globule (Ichoron)",
+   "ids": [
+    54258,
+    54264,
+    54265,
+    54266,
+    54267
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_25_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4061
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    54258,
+    54264,
+    54265,
+    54266,
+    54267
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4070,
+   "note": "Pursued (Flame Leviathan)",
+   "ids": [
+    62374
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_50000_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4074
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    62374
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4079,
+   "note": "Focused Eyebeam Summon Trigger (Kologarn)",
+   "ids": [
+    63342
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "1",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4081
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    63342
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4084,
+   "note": null,
+   "ids": [
+    65584,
+    64381
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "65584": "Growth of Nature (Freya)",
+    "64381": "Strength of the Pack (Auriaya)"
+   },
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_DOT_STACKING_RULE",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4089
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    65584,
+    64381
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4092,
+   "note": null,
+   "ids": [
+    63018,
+    65121,
+    63024,
+    64234
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "63018": "Searing Light (XT-002)",
+    "65121": "Searing Light (25m) (XT-002)",
+    "63024": "Gravity Bomb (XT-002)",
+    "64234": "Gravity Bomb (25m) (XT-002)"
+   },
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "1",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4099
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    63018,
+    65121,
+    63024,
+    64234
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4102,
+   "note": null,
+   "ids": [
+    64386,
+    64389,
+    64678
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "64386": "Terrifying Screech (Auriaya)",
+    "64389": "Sentinel Blast (Auriaya)",
+    "64678": "Sentinel Blast (Auriaya)"
+   },
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(28)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4108
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    64386,
+    64389,
+    64678
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4112,
+   "note": "Potent Pheromones (Freya)",
+   "ids": [
+    64321
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR1_IMMUNITY_PURGES_EFFECT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4117
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    64321
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4121,
+   "note": "Blizzard (Thorim)",
+   "ids": [
+    62576,
+    62602
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_CASTER_LEFT)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4127
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    62576,
+    62602
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4132,
+   "note": "Spinning Up (Mimiron)",
+   "ids": [
+    63414
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "ChannelInterruptFlags",
+     "effect": null,
+     "op": "=",
+     "value": "SpellAuraInterruptFlags::None",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4134
+    },
+    {
+     "member": "ChannelInterruptFlags2",
+     "effect": null,
+     "op": "=",
+     "value": "SpellAuraInterruptFlags2::None",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4135
+    },
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_CASTER)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4138
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "source-correction"
+   ],
+   "exists": [
+    63414
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4143,
+   "note": "Rocket Strike (Mimiron)",
+   "ids": [
+    63036
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Speed",
+     "effect": null,
+     "op": "=",
+     "value": "0",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4145
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    63036
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4149,
+   "note": "Magnetic Field (Mimiron)",
+   "ids": [
+    64668
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Mechanic",
+     "effect": null,
+     "op": "=",
+     "value": "MECHANIC_NONE",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4151
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    64668
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4155,
+   "note": "Empowering Shadows (Yogg-Saron)",
+   "ids": [
+    64468,
+    64486
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "3",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4157
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    64468,
+    64486
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4161,
+   "note": "Cosmic Smash (Algalon the Observer)",
+   "ids": [
+    62301
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "1",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4163
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    62301
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4167,
+   "note": "Cosmic Smash (Algalon the Observer)",
+   "ids": [
+    64598
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "3",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4169
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    64598
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4173,
+   "note": "Cosmic Smash (Algalon the Observer)",
+   "ids": [
+    62293
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_CASTER)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4177
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    62293
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4182,
+   "note": "Cosmic Smash (Algalon the Observer)",
+   "ids": [
+    62311,
+    64596
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(6)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4184
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    62311,
+    64596
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4187,
+   "note": null,
+   "ids": [
+    64014,
+    64024,
+    64025,
+    64028,
+    64029,
+    64030,
+    64031,
+    64032,
+    65042
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "64014": "Expedition Base Camp Teleport",
+    "64024": "Conservatory Teleport",
+    "64025": "Halls of Invention Teleport",
+    "64028": "Colossal Forge Teleport",
+    "64029": "Shattered Walkway Teleport",
+    "64030": "Antechamber Teleport",
+    "64031": "Scrapyard Teleport",
+    "64032": "Formation Grounds Teleport",
+    "65042": "Prison of Yogg-Saron Teleport"
+   },
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DB)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4201
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    64014,
+    64024,
+    64025,
+    64028,
+    64029,
+    64030,
+    64031,
+    64032,
+    65042
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4210,
+   "note": "Infernal Eruption",
+   "ids": [
+    66258
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(85)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4214
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    66258
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4221,
+   "note": "",
+   "ids": [
+    70781,
+    70856,
+    70857,
+    70858,
+    70859,
+    70860,
+    70861
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "70781": "Light's Hammer Teleport",
+    "70856": "Oratory of the Damned Teleport",
+    "70857": "Rampart of Skulls Teleport",
+    "70858": "Deathbringer's Rise Teleport",
+    "70859": "Upper Spire Teleport",
+    "70860": "Frozen Throne Teleport",
+    "70861": "Sindragosa's Lair Teleport"
+   },
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DB)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4236
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    70781,
+    70856,
+    70857,
+    70858,
+    70859,
+    70860,
+    70861
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4241,
+   "note": "Shadow's Fate",
+   "ids": [
+    71169
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_DOT_STACKING_RULE",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4243
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    71169
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4247,
+   "note": "Resistant Skin (Deathbringer Saurfang adds)",
+   "ids": [
+    72723
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_2",
+     "op": "=",
+     "value": "SPELL_EFFECT_NONE",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4252
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    72723
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4257,
+   "note": "Coldflame Jets (Traps after Saurfang)",
+   "ids": [
+    70460
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(1)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4259
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    70460
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4262,
+   "note": null,
+   "ids": [
+    71412,
+    71415
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "71412": "Green Ooze Summon (Professor Putricide)",
+    "71415": "Orange Ooze Summon (Professor Putricide)"
+   },
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_TARGET_ANY)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4269
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    71412,
+    71415
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4274,
+   "note": "Awaken Plagued Zombies",
+   "ids": [
+    71159
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(21)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4276
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    71159
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4280,
+   "note": "Volatile Ooze Beam Protection (Professor Putricide)",
+   "ids": [
+    70530
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_EFFECT_APPLY_AURA",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4284
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    70530
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4289,
+   "note": "Mutated Strength (Professor Putricide)",
+   "ids": [
+    71604
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SPELL_EFFECT_NONE",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4294
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    71604
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4299,
+   "note": "Unbound Plague (Professor Putricide) (needs target selection script)",
+   "ids": [
+    70911
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_TARGET_ENEMY)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4303
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    70911
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4308,
+   "note": "Empowered Flare (Blood Prince Council)",
+   "ids": [
+    71708
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_IGNORE_CASTER_MODIFIERS",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4310
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    71708
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4314,
+   "note": "Swarming Shadows",
+   "ids": [
+    71266
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RequiredAreasID",
+     "effect": null,
+     "op": "=",
+     "value": "0",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4316
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    71266
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4320,
+   "note": "Corruption",
+   "ids": [
+    70602
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_DOT_STACKING_RULE",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4322
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    70602
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4326,
+   "note": "Column of Frost (visual marker)",
+   "ids": [
+    70715
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(32)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4328
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    70715
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4332,
+   "note": "Mana Void (periodic aura)",
+   "ids": [
+    71085
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(9)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4334
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    71085
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4338,
+   "note": "Summon Suppressor (needs target selection script)",
+   "ids": [
+    70936
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(157)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4340
+    },
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_TARGET_ANY)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4343
+    },
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo()",
+     "class": "implementation-workaround",
+     "patch_shape": "runtime-code",
+     "line": 4344
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "source-correction"
+   ],
+   "exists": [
+    70936
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4349,
+   "note": "Sindragosa's Fury",
+   "ids": [
+    70598
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4353
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    70598
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4358,
+   "note": "Frost Bomb",
+   "ids": [
+    69846
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Speed",
+     "effect": null,
+     "op": "=",
+     "value": "0.0f",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4360
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    69846
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4364,
+   "note": "Chilled to the Bone",
+   "ids": [
+    70106
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_IGNORE_CASTER_MODIFIERS",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4366
+    },
+    {
+     "member": "AttributesEx6",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR6_IGNORE_CASTER_DAMAGE_MODIFIERS",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4367
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    70106
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4371,
+   "note": "Ice Lock",
+   "ids": [
+    71614
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Mechanic",
+     "effect": null,
+     "op": "=",
+     "value": "MECHANIC_STUN",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4373
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    71614
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4377,
+   "note": "Defile",
+   "ids": [
+    72762
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(559)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4379
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    72762
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4383,
+   "note": "Defile",
+   "ids": [
+    72743
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(22)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4385
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    72743
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4389,
+   "note": "Defile",
+   "ids": [
+    72754
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_200_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4393
+    },
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_200_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4397
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    72754
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4402,
+   "note": "Val'kyr Target Search",
+   "ids": [
+    69030
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_NO_IMMUNITIES",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4404
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    69030
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4408,
+   "note": "Raging Spirit Visual",
+   "ids": [
+    69198
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(13)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4410
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    69198
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4414,
+   "note": "Harvest Soul",
+   "ids": [
+    73655
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_IGNORE_CASTER_MODIFIERS",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4416
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    73655
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4420,
+   "note": "Summon Shadow Trap",
+   "ids": [
+    73540
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(3)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4422
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    73540
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4426,
+   "note": "Shadow Trap (visual)",
+   "ids": [
+    73530
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(27)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4428
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    73530
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4432,
+   "note": "Summon Spirit Bomb",
+   "ids": [
+    74302
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "2",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4434
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    74302
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4438,
+   "note": "Summon Spirit Bomb",
+   "ids": [
+    73579
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_25_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4442
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    73579
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4447,
+   "note": "Raise Dead",
+   "ids": [
+    72376
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "3",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4449
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    72376
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4453,
+   "note": "Jump",
+   "ids": [
+    71809
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(5)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4455
+    },
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_10_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4458
+    },
+    {
+     "member": "MiscValue",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "190",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4459
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction",
+    "unknown"
+   ],
+   "exists": [
+    71809
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4468,
+   "note": "Soul Consumption",
+   "ids": [
+    74799
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_12_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4472
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    74799
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4477,
+   "note": "Twilight Mending",
+   "ids": [
+    75509
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx6",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR6_IGNORE_PHASE_SHIFT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4479
+    },
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4480
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    75509
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4484,
+   "note": "Awaken Flames",
+   "ids": [
+    75888
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR1_EXCLUDE_CASTER",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4486
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    75888
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4493,
+   "note": "",
+   "ids": [
+    57473,
+    57431,
+    56091,
+    56092,
+    57090,
+    57143
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "57473": "Arcane Storm bonus explicit visual spell",
+    "57431": "Summon Static Field",
+    "56091": "Flame Spike (Wyrmrest Skytalon)",
+    "56092": "Engulf in Flames (Wyrmrest Skytalon)",
+    "57090": "Revivify (Wyrmrest Skytalon)",
+    "57143": "Life Burst (Wyrmrest Skytalon)"
+   },
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4504
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    57473,
+    57431,
+    56091,
+    56092,
+    57090,
+    57143
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4508,
+   "note": "Arcane Barrage (cast by players and NONMELEEDAMAGELOG with caster Scion of Eternity (original caster)).",
+   "ids": [
+    63934
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_CANT_CRIT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4512
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    63934
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4516,
+   "note": null,
+   "ids": [
+    40055,
+    40165,
+    40166,
+    40167
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "40055": "Introspection",
+    "40165": "Introspection",
+    "40166": "Introspection",
+    "40167": "Introspection"
+   },
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_AURA_IS_DEBUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4523
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    40055,
+    40165,
+    40166,
+    40167
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4529,
+   "note": "",
+   "ids": [
+    95284,
+    95285
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "95284": "Teleport (from entrance to Slabhide)",
+    "95285": "Teleport (from Slabhide to entrance)"
+   },
+   "writes": [
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DB)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4536
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    95284,
+    95285
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4544,
+   "note": "",
+   "ids": [
+    76606,
+    76608
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "76606": "Disable Beacon Beams L",
+    "76608": "Disable Beacon Beams R"
+   },
+   "writes": [
+    {
+     "member": "TargetBRadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_45_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4552
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    76606,
+    76608
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4559,
+   "note": "Threatening Gaze",
+   "ids": [
+    24314
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AuraInterruptFlags",
+     "effect": null,
+     "op": "|=",
+     "value": "SpellAuraInterruptFlags::Action | SpellAuraInterruptFlags::Moving | SpellAuraInterruptFlags::Anim",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4561
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    24314
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4565,
+   "note": "Travel Form (dummy) - cannot be cast indoors.",
+   "ids": [
+    783
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_ONLY_OUTDOORS",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4567
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    783
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4571,
+   "note": "Tree of Life (Passive)",
+   "ids": [
+    5420
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Stances",
+     "effect": null,
+     "op": "=",
+     "value": "UI64LIT(1) << (FORM_TREE_OF_LIFE - 1)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4573
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    5420
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4577,
+   "note": "Gaze of Occu'thar",
+   "ids": [
+    96942
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx",
+     "effect": null,
+     "op": "&=",
+     "value": "~SPELL_ATTR1_IS_CHANNELLED",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4579
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    96942
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4583,
+   "note": "Evolution",
+   "ids": [
+    75610
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MaxAffectedTargets",
+     "effect": null,
+     "op": "=",
+     "value": "1",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4585
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    75610
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4589,
+   "note": "Evolution",
+   "ids": [
+    75697
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_SRC_AREA_ENTRY)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4593
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    75697
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4601,
+   "note": "Teleport",
+   "ids": [
+    66551
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(13)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4603
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    66551
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4608,
+   "note": "Aura of Fear",
+   "ids": [
+    40453
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "ApplyAuraName",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_AURA_PROC_TRIGGER_SPELL",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4615
+    },
+    {
+     "member": "ApplyAuraPeriod",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "0",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 4616
+    },
+    {
+     "member": "ProcChance",
+     "effect": null,
+     "op": "=",
+     "value": "10",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 4618
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "missing-client-fact"
+   ],
+   "exists": [
+    40453
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4622,
+   "note": "Survey Sinkholes",
+   "ids": [
+    45853
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(5)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4624
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    45853
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4628,
+   "note": "Baron Rivendare (Stratholme) - Unholy Aura",
+   "ids": [
+    17466,
+    17467
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_NO_INITIAL_THREAT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4630
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    17466,
+    17467
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4634,
+   "note": "Spore - Spore Visual",
+   "ids": [
+    42525
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx3",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4636
+    },
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_ALLOW_DEAD_TARGET",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4637
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    42525
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4641,
+   "note": "Soul Sickness (Forge of Souls)",
+   "ids": [
+    69131
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "ApplyAuraName",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SPELL_AURA_MOD_DECREASE_SPEED",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4645
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    69131
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4653,
+   "note": "Torment Searcher",
+   "ids": [
+    99253
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetBRadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_15_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4657
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    99253
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4662,
+   "note": "Torment Damage",
+   "ids": [
+    99256
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_AURA_IS_DEBUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4664
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    99256
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4668,
+   "note": "Blaze of Glory",
+   "ids": [
+    99252
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AuraInterruptFlags",
+     "effect": null,
+     "op": "|=",
+     "value": "SpellAuraInterruptFlags::LeaveWorld",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4670
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    99252
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4679,
+   "note": "111755 - Call Reinforcement",
+   "ids": [
+    111755
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4681
+    },
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DB)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4685
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "source-correction"
+   ],
+   "exists": [
+    111755
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4690,
+   "note": "111756 - Call Reinforcement",
+   "ids": [
+    111756
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4692
+    },
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DB)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4696
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "source-correction"
+   ],
+   "exists": [
+    111756
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4707,
+   "note": "187382 - The Invasion Begins: Summon Wrath Warrior",
+   "ids": [
+    187382
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(13)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4709
+    },
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4713
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "source-correction"
+   ],
+   "exists": [
+    187382
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4718,
+   "note": "195061 - Beaming Gaze",
+   "ids": [
+    195061
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4722
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    195061
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4733,
+   "note": "193465 - Bane",
+   "ids": [
+    193465
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "MiscValue",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "5838",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4738
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    193465
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4749,
+   "note": "Soul Echoes",
+   "ids": [
+    194981
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(6)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4751
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    194981
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4755,
+   "note": "Soulgorge",
+   "ids": [
+    196930
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(7)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 4757
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    196930
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4767,
+   "note": "Gaseous Bubbles",
+   "ids": [
+    193018
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_AURA_IS_DEBUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4769
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    193018
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4779,
+   "note": "Decimation",
+   "ids": [
+    244449
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_2",
+     "op": "=",
+     "value": "SPELL_EFFECT_NONE",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4785
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    244449
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4796,
+   "note": "Shoot Wickerman",
+   "ids": [
+    255416
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4798
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    255416
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4810,
+   "note": "Void Orb",
+   "ids": [
+    273467
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetARadiusEntry",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "sSpellRadiusStore.LookupEntry(EFFECT_RADIUS_0_5_YARDS)",
+     "class": "unknown",
+     "patch_shape": "runtime-code",
+     "line": 4814
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    273467
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4825,
+   "note": "Fixate",
+   "ids": [
+    269936
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_AURA_IS_DEBUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4827
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    269936
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4837,
+   "note": "Discordant Cadenza",
+   "ids": [
+    268308
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4839
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    268308
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4844,
+   "note": "Waycrest Manor - Waycrests Defeated (Alliance)",
+   "ids": [
+    267595,
+    267597,
+    267609
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_EFFECT_CREATE_CONVERSATION",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4848
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    267595,
+    267597,
+    267609
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4852,
+   "note": null,
+   "ids": [
+    260566,
+    260570
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "260566": "Wildfire Missile",
+    "260570": "Wildfire Missile Impact"
+   },
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4857
+    },
+    {
+     "member": "AttributesEx9",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR9_FORCE_DEST_LOCATION",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4858
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    260566,
+    260570
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4868,
+   "note": "Wicked Star (Marker)",
+   "ids": [
+    365021
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_AURA_IS_DEBUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4870
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    365021
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4874,
+   "note": "Empowered Wicked Star (Marker)",
+   "ids": [
+    367632
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_AURA_IS_DEBUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4876
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    367632
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4880,
+   "note": "Wicked Star Areatrigger",
+   "ids": [
+    365017
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4884
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    365017
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4889,
+   "note": "Willpower Energize Large",
+   "ids": [
+    365228
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx6",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR6_IGNORE_PHASE_SHIFT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4891
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    365228
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4895,
+   "note": "Willpower Energize Small",
+   "ids": [
+    365217
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx6",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR6_IGNORE_PHASE_SHIFT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4897
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    365217
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4901,
+   "note": "Force of Will",
+   "ids": [
+    368913
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_AURA_IS_DEBUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4903
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    368913
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4907,
+   "note": "Fragment of Hope Areatrigger",
+   "ids": [
+    365816
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4911
+    },
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4915
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    365816
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4920,
+   "note": "Shadestep",
+   "ids": [
+    363976
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4924
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    363976
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4934,
+   "note": "Stinging Sap",
+   "ids": [
+    374523
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx8",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 4936
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    374523
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4940,
+   "note": "Jump to Center (DNT)",
+   "ids": [
+    387981
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4944
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    387981
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4949,
+   "note": "Jump to Platform (DNT)",
+   "ids": [
+    388082
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4953
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    388082
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4965,
+   "note": "These spells have TARGET_DEST_NEARBY_ENTRY for serverside unit",
+   "ids": [
+    274365,
+    274367,
+    264911,
+    264912,
+    264913
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "274365": "Requiem of the Abyss",
+    "274367": "Requiem of the Abyss",
+    "264911": "Erupting Waters",
+    "264912": "Erupting Waters",
+    "264913": "Erupting Waters"
+   },
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4975
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    274365,
+    274367,
+    264911,
+    264912,
+    264913
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4980,
+   "note": "Conversation",
+   "ids": [
+    274668,
+    274669,
+    274622,
+    274640,
+    274641,
+    274674,
+    274675
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_EFFECT_CREATE_CONVERSATION",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 4984
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    274668,
+    274669,
+    274622,
+    274640,
+    274641,
+    274674,
+    274675
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 4996,
+   "note": "Boundless Rot",
+   "ids": [
+    259845
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5000
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    259845
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5012,
+   "note": "Reverse Cast Ride Vehicle",
+   "ids": [
+    258344
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx8",
+     "effect": null,
+     "op": "&=",
+     "value": "~SPELL_ATTR8_ONLY_TARGET_IF_SAME_CREATOR",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5014
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    258344
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5020,
+   "note": "Summon Spirit of Gold",
+   "ids": [
+    258388,
+    259205,
+    259209
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DEST)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5028
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    258388,
+    259205,
+    259209
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5033,
+   "note": "Tainted Blood",
+   "ids": [
+    255592
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5035
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    255592
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5046,
+   "note": "Summon Master Li Fei",
+   "ids": [
+    102445
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_DEST_DB)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5050
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    102445
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5055,
+   "note": "Flame Spout",
+   "ids": [
+    114685
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR1_NO_THREAT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5057
+    },
+    {
+     "member": "AttributesEx8",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5058
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    114685
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5069,
+   "note": "Shredder Round",
+   "ids": [
+    130162
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(245)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 5071
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    130162
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5075,
+   "note": "Cannon Explosion",
+   "ids": [
+    130237
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SPELL_EFFECT_NONE",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5079
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    130237
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5086,
+   "note": "Summon Gunship Turret, Right",
+   "ids": [
+    130996,
+    130997,
+    130998
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "RangeEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellRangeStore.LookupEntry(12)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 5088
+    },
+    {
+     "member": "AttributesEx4",
+     "effect": null,
+     "op": "&=",
+     "value": "~SPELL_ATTR4_USE_FACING_FROM_SPELL",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5089
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    130996,
+    130997,
+    130998
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5093,
+   "note": "Rappelling Rope",
+   "ids": [
+    130960
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AuraInterruptFlags",
+     "effect": null,
+     "op": "|=",
+     "value": "SpellAuraInterruptFlags::LeaveWorld",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5095
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    130960
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5106,
+   "note": "Darkflame Pickaxe",
+   "ids": [
+    421277
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx2",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5108
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    421277
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5112,
+   "note": "Throw Darkflame",
+   "ids": [
+    420696
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_AURA_IS_DEBUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5114
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    420696
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5118,
+   "note": "Throw Darkflame",
+   "ids": [
+    421250
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "DurationEntry",
+     "effect": null,
+     "op": "=",
+     "value": "sSpellDurationStore.LookupEntry(165)",
+     "class": "source-correction",
+     "patch_shape": "runtime-code",
+     "line": 5120
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    421250
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5127,
+   "note": "Earthquake",
+   "ids": [
+    61882
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "NegativeEffects",
+     "effect": null,
+     "op": "=",
+     "value": "true",
+     "class": "unknown",
+     "patch_shape": "data-patch",
+     "line": 5129
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    61882
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5133,
+   "note": "Sundering",
+   "ids": [
+    197214
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TargetB",
+     "effect": "EFFECT_2",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo()",
+     "class": "implementation-workaround",
+     "patch_shape": "runtime-code",
+     "line": 5137
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    197214
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5144,
+   "note": "Headless Horseman Climax - Head Is Dead",
+   "ids": [
+    42401,
+    43105,
+    42428
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Attributes",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_NO_IMMUNITIES",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5146
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    42401,
+    43105,
+    42428
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5149,
+   "note": null,
+   "ids": [
+    61874,
+    71068,
+    71071,
+    71073,
+    71074
+   ],
+   "unresolved_ids": [],
+   "id_notes": {
+    "61874": "Noblegarden Chocolate",
+    "71068": "Sweet Surprise",
+    "71071": "Very Berry Cream",
+    "71073": "Dark Desire",
+    "71074": "Buttermilk Delight"
+   },
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SPELL_EFFECT_APPLY_AURA",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5159
+    },
+    {
+     "member": "TargetA",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SpellImplicitTargetInfo(TARGET_UNIT_CASTER)",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5160
+    },
+    {
+     "member": "ApplyAuraName",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SPELL_AURA_PERIODIC_TRIGGER_SPELL",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5161
+    },
+    {
+     "member": "ApplyAuraPeriod",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "10 * IN_MILLISECONDS",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 5162
+    },
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "24870",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 5163
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround",
+    "missing-client-fact"
+   ],
+   "exists": [
+    61874,
+    71068,
+    71071,
+    71073,
+    71074
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5168,
+   "note": "Horde / Alliance switch (BG mercenary system)",
+   "ids": [
+    195838,
+    195843
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "SPELL_EFFECT_APPLY_AURA",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5172
+    },
+    {
+     "member": "Effect",
+     "effect": "EFFECT_1",
+     "op": "=",
+     "value": "SPELL_EFFECT_APPLY_AURA",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5176
+    },
+    {
+     "member": "Effect",
+     "effect": "EFFECT_2",
+     "op": "=",
+     "value": "SPELL_EFFECT_APPLY_AURA",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5180
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    195838,
+    195843
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5185,
+   "note": "Fire Cannon",
+   "ids": [
+    181593
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "0",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 5192
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    181593
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5196,
+   "note": null,
+   "ids": [
+    265057
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "TriggerSpell",
+     "effect": "EFFECT_0",
+     "op": "=",
+     "value": "16403",
+     "class": "missing-client-fact",
+     "patch_shape": "data-patch",
+     "line": 5201
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "missing-client-fact"
+   ],
+   "exists": [
+    265057
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5206,
+   "note": "Ray of Frost (Fingers of Frost charges)",
+   "ids": [
+    269748
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx",
+     "effect": null,
+     "op": "&=",
+     "value": "~SPELL_ATTR1_IS_CHANNELLED",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5208
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    269748
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5212,
+   "note": "Burning Rush",
+   "ids": [
+    111400
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx4",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR4_AURA_IS_BUFF",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5214
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    111400
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5218,
+   "note": "TODO: temporary, remove with dragonriding",
+   "ids": [
+    404468
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesCu",
+     "effect": null,
+     "op": "|=",
+     "value": "SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED",
+     "class": "server-authored-policy",
+     "patch_shape": "data-patch",
+     "line": 5220
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "server-authored-policy"
+   ],
+   "exists": [
+    404468
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5224,
+   "note": "Sigil of Flame",
+   "ids": [
+    204598
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "Effect",
+     "effect": "EFFECT_2",
+     "op": "=",
+     "value": "SPELL_EFFECT_NONE",
+     "class": "implementation-workaround",
+     "patch_shape": "data-patch",
+     "line": 5228
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "implementation-workaround"
+   ],
+   "exists": [
+    204598
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5233,
+   "note": "Eradicate, Reap, Cull",
+   "ids": [
+    1225826,
+    1226019,
+    1245453
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "NegativeEffects",
+     "effect": null,
+     "op": "=",
+     "value": "true",
+     "class": "unknown",
+     "patch_shape": "data-patch",
+     "line": 5235
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "unknown"
+   ],
+   "exists": [
+    1225826,
+    1226019,
+    1245453
+   ],
+   "missing_in_snapshot": []
+  },
+  {
+   "line": 5239,
+   "note": "Collective Anguish channel hack (triggered by another channel)",
+   "ids": [
+    391057,
+    393831
+   ],
+   "unresolved_ids": [],
+   "id_notes": {},
+   "writes": [
+    {
+     "member": "AttributesEx",
+     "effect": null,
+     "op": "&=",
+     "value": "~SPELL_ATTR1_IS_CHANNELLED",
+     "class": "source-correction",
+     "patch_shape": "data-patch",
+     "line": 5241
+    }
+   ],
+   "other_statements": [],
+   "classes": [
+    "source-correction"
+   ],
+   "exists": [
+    391057,
+    393831
+   ],
+   "missing_in_snapshot": []
+  }
+ ]
+}

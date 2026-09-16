@@ -1,0 +1,181 @@
+"""Representative Dummy lifecycles traced against the engine (hand-verified witnesses).
+
+Each witness names the exact code read for it (TrinityCore ``7f3d43b``) and the
+lifecycle chain::
+
+    cast/aura creation -> generic dispatch -> hook/hardcoded consumer -> default prevented? -> produced action -> ordinary downstream
+
+The ``shape`` vocabulary is the brief's: no-consumer, full-replacement,
+augmentation, proc-carrier, marker-only, meaningful-amount, relationship-elsewhere,
+hardcoded-non-script.  Everything below was read in the sibling checkout; the
+structural index is cross-checked against it by the tests.
+"""
+
+from __future__ import annotations
+
+from typing import Any
+
+WITNESSES: list[dict[str, Any]] = [
+    {
+        "spell": 686, "name": "Shadow Bolt", "script": "spell_warl_shadow_bolt", "family": "cast-child",
+        "code": "src/server/scripts/Spells/spell_warlock.cpp:1332-1348",
+        "chain": ["Spell::_cast", "handle_immediate (SCHOOL_DAMAGE effect, generic)", "Spell::_cast -> CallScriptAfterCastHandlers",
+                  "HandleAfterCast: GetCaster()->CastSpell(GetCaster(), SPELL_WARLOCK_SHADOW_BOLT_ENERGIZE(194192), true)",
+                  "ordinary cast of 194192 (energize)"],
+        "shape": "augmentation", "prevent_default": False, "inputs": ["caster"], "rng": False, "state": None,
+        "note": "the client data has no Shadow Bolt -> 194192 relationship; the script supplies it as an AfterCast child cast",
+    },
+    {
+        "spell": 348, "name": "Immolate", "script": "spell_warl_immolate", "family": "cast-child/hit-unit",
+        "code": "src/server/scripts/Spells/spell_warlock.cpp:879-895",
+        "chain": ["Spell::DoSpellEffectHit -> HandleEffects(HIT_TARGET) for EFFECT_0 SCHOOL_DAMAGE", "CallScriptEffectHandlers -> HandleOnEffectHit",
+                  "GetCaster()->CastSpell(GetHitUnit(), 157736, GetSpell())", "generic EffectSchoolDMG still runs (not prevented)"],
+        "shape": "augmentation", "prevent_default": False, "inputs": ["caster", "hit unit", "triggering Spell"], "rng": False, "state": None,
+    },
+    {
+        "spell": 774, "name": "Rejuvenation (Cultivation)", "script": "spell_dru_cultivation", "family": "cast-child/aura-target (conditional)",
+        "code": "src/server/scripts/Spells/spell_druid.cpp:458-482",
+        "chain": ["AuraEffect::PeriodicTick (PERIODIC_HEAL) -> CallScriptEffectPeriodicHandlers -> HandleOnTick",
+                  "reads caster->GetAuraEffect(CULTIVATION talent, EFFECT_0)->GetAmount() (talent DUMMY aura = threshold marker)",
+                  "if target->HealthBelowPct(amount): caster->CastSpell(target, 200389)", "generic periodic heal tick still runs"],
+        "shape": "augmentation + marker-only talent (meaningful-amount)", "prevent_default": False,
+        "inputs": ["aura caster", "aura target health pct", "talent aura amount"], "rng": False, "state": None,
+        "note": "the talent aura 200390 is consumed only as a value holder (marker with meaningful amount)",
+    },
+    {
+        "spell": 596, "name": "Prayer of Healing (Prayerful Litany)", "script": "spell_pri_prayerful_litany", "family": "amount-adapter/aura-amount",
+        "code": "src/server/scripts/Spells/spell_priest.cpp:3783-3806",
+        "chain": ["Load(): GetCaster()->HasAuraEffect(PRAYERFUL_LITANY, EFFECT_0) gates the whole script",
+                  "Unit::SpellHealingBonusDone -> CallScriptCalcHealingHandlers -> CalcPrimaryTargetHealing",
+                  "if victim == GetExplTargetUnit(): AddPct(pctMod, talentEff->GetAmount())", "generic heal pipeline applies pctMod"],
+        "shape": "meaningful-amount (talent DUMMY read) -> ordinary heal", "prevent_default": False,
+        "inputs": ["caster", "explicit target identity", "talent aura amount"], "rng": False, "state": None,
+    },
+    {
+        "spell": 32175, "name": "Stormstrike (Stormblast)", "script": "spell_sha_stormblast_damage", "family": "cast-child-with-amount/damage-copy",
+        "code": "src/server/scripts/Spells/spell_shaman.cpp:2522-2562",
+        "chain": ["Load(): talent aura present AND stormblast->GetScript<spell_sha_stormblast>()->AllowedOriginalCastId == m_originalCastId (cross-script state)",
+                  "TargetInfo::DoDamageAndTriggers -> CallScriptAfterHitHandlers -> TriggerDamage",
+                  "damage = CalculatePct(GetHitDamage(), talentAmount); AddPct(damage, masteryAmount)",
+                  "CastSpell(GetHitUnit(), 390287, SpellValueOverrides{BASE_POINT0 = damage})", "ordinary damage spell 390287 with fixed BasePoints"],
+        "shape": "augmentation, amount forwarded", "prevent_default": False,
+        "inputs": ["hit damage after mitigation", "talent amount", "mastery amount", "original cast id"], "rng": False,
+        "state": "reads another script's member (AllowedOriginalCastId)",
+    },
+    {
+        "spell": 47515, "name": "Divine Aegis", "script": "spell_pri_divine_aegis", "family": "cast-child-with-amount/heal-copy",
+        "code": "src/server/scripts/Spells/spell_priest.cpp:3496-3527",
+        "chain": ["Aura::GetProcEffectMask -> CallScriptCheckProcHandlers: CheckProc = eventInfo.GetHealInfo() != nullptr",
+                  "AuraEffect::HandleProc(DUMMY) -> CallScriptEffectProcHandlers -> HandleProc",
+                  "aegis = CalculatePct(healInfo->GetHeal(), aurEff->GetAmount()); args.AddSpellMod(BASE_POINT0, aegis)",
+                  "actor->CastSpell(actionTarget, 47753, args)", "generic HandleProcTriggerSpellAuraProc not prevented but TriggerSpell==0 -> logs, no action"],
+        "shape": "proc-carrier DUMMY, augmentation with forwarded amount", "prevent_default": False,
+        "inputs": ["heal info amount", "aura amount", "actor", "action target"], "rng": "generic proc roll only", "state": None,
+    },
+    {
+        "spell": 53651, "name": "Light's Beacon", "script": "spell_pal_light_s_beacon", "family": "cast-child-with-amount/heal-copy + target adapter",
+        "code": "src/server/scripts/Spells/spell_paladin.cpp:1369-1415",
+        "chain": ["DoCheckProc: action target must not carry Beacon of Light from this actor; heal > 0",
+                  "OnEffectProc HandleProc: PreventDefaultAction(); heal = CalculatePct(GetHeal(), aurEff->GetAmount())",
+                  "target = first application of the caster's single-cast Beacon aura", "actor->CastSpell(beaconTarget, 53652, BASE_POINT0 = heal)"],
+        "shape": "full-replacement (default prevented) proc-carrier with target adapter", "prevent_default": True,
+        "inputs": ["heal amount", "aura amount", "caster's single-cast aura list"], "rng": "generic proc roll only", "state": None,
+    },
+    {
+        "spell": 8092, "name": "Mind Blast (Dark Indulgence)", "script": "spell_pri_dark_indulgence", "family": "random-child",
+        "code": "src/server/scripts/Spells/spell_priest.cpp:1018-1039",
+        "chain": ["HandleEffects(HIT) for EFFECT_0 SCHOOL_DAMAGE -> OnEffectHit", "aurEff = caster->GetAuraEffect(talent, EFFECT_0)",
+                  "if roll_chance(aurEff->GetAmount()): caster->CastSpell(caster, 198069, true)"],
+        "shape": "augmentation with script RNG", "prevent_default": False, "inputs": ["talent aura amount"],
+        "rng": "roll_chance(amount) inside the script (drawn per cast, before unit targets are processed)", "state": None,
+    },
+    {
+        "spell": 1784, "name": "Stealth", "script": "spell_rog_stealth", "family": "choose-among-children (fixed set) + linked-aura-mutation",
+        "code": "src/server/scripts/Spells/spell_rogue.cpp:1326-1369",
+        "chain": ["AuraEffect::HandleEffect(apply, REAL) -> HandleAuraDummy (generic: nothing for 1784) -> CallScriptAfterEffectApplyHandlers",
+                  "target->CastSpell(target, 98877 / 158185 / 158188) (three children, all cast)",
+                  "AfterEffectRemove: RemoveAurasDueToSpell(158185), RemoveAurasDueToSpell(158188)"],
+        "shape": "augmentation of a DUMMY aura (relationship encoded only in code)", "prevent_default": False, "inputs": ["aura target"], "rng": False, "state": None,
+    },
+    {
+        "spell": 114165, "name": "Holy Prism", "script": "spell_pal_holy_prism", "family": "choose-among-children (friend/foe)",
+        "code": "src/server/scripts/Spells/spell_paladin.cpp:1091-1112",
+        "chain": ["HandleEffects(HIT_TARGET) EFFECT_0 DUMMY -> OnEffectHitTarget HandleDummy", "IsFriendlyTo(hit) ? cast 114852 : cast 114862; always cast 114871 (visual)",
+                  "Spell::EffectDummy default not prevented: spell_pet_auras lookup only -> nothing"],
+        "shape": "full replacement in effect (default Dummy does nothing)", "prevent_default": False, "inputs": ["caster/target reaction"], "rng": False, "state": None,
+    },
+    {
+        "spell": 54149, "name": "Infusion of Light", "script": "spell_pal_infusion_of_light", "family": "proc-filter-adapter + cast-child",
+        "code": "src/server/scripts/Spells/spell_paladin.cpp:984-1017",
+        "chain": ["AuraEffect::CheckEffectProc -> DoCheckEffectProc per effect: EFFECT_0/2 require the proc spell to have consumed this aura as a spell mod (m_appliedMods); EFFECT_1 requires IsAffected(PALADIN, {0,0,0x400})",
+                  "HandleProc(DUMMY EFFECT_1) -> actor->CastSpell(actor, 414862? (SPELL_PALADIN_INFUSION_OF_LIGHT_ENERGIZE))"],
+        "shape": "proc-carrier with per-effect filter (spell-mod consumption is a runtime fact)", "prevent_default": False,
+        "inputs": ["proc spell's applied spell mods", "proc spell family mask"], "rng": "generic proc roll", "state": None,
+    },
+    {
+        "spell": 172, "name": "Corruption (generic exclude-aura trigger)", "script": "spell_gen_trigger_exclude_caster_aura_spell", "family": "cast-child/aura-spell-field (DB2-parameterised)",
+        "code": "src/server/scripts/Spells/spell_generic.cpp:3462-3499",
+        "chain": ["AfterCast -> GetCaster()->AddAura(GetSpellInfo()->ExcludeCasterAuraSpell, GetCaster())",
+                  "the child is read from SpellAuraRestrictions.ExcludeCasterAuraSpell of the owner (client data)"],
+        "shape": "reusable family whose parameter is an authored DB2 field (18 + 22 bindings)", "prevent_default": False,
+        "inputs": ["SpellAuraRestrictions.ExcludeCasterAuraSpell / ExcludeTargetAuraSpell"], "rng": False, "state": None,
+    },
+    {
+        "spell": 2050, "name": "Holy Word: Serenity (Salvation CDR)", "script": "spell_pri_holy_word_salvation_cooldown_reduction", "family": "cooldown-mutation",
+        "code": "src/server/scripts/Spells/spell_priest.cpp:2566-2591",
+        "chain": ["Load(): caster->HasSpell(SALVATION)", "AfterCast -> ModifyCooldown(SALVATION, -Seconds(SALVATION.EFFECT_2.CalcValueAsInt(caster)), true)"],
+        "shape": "augmentation, amount from another spell's effect value", "prevent_default": False, "inputs": ["caster known spells", "other spell's EFFECT_2 value"], "rng": False, "state": None,
+    },
+    {
+        "spell": 14914, "name": "Holy Fire (Empyreal Blaze extend)", "script": "spell_pri_empyreal_blaze_extend", "family": "amount-adapter/duration",
+        "code": "src/server/scripts/Spells/spell_priest.cpp:1709-1738",
+        "chain": ["OnHit -> existing aura duration + CalcMaxDuration -> GetSpell()->SetSpellValue(SPELLVALUE_DURATION, ...)", "aura refresh uses the overridden duration"],
+        "shape": "augmentation of the spell's own aura duration", "prevent_default": False, "inputs": ["existing aura duration on target"], "rng": False, "state": None,
+    },
+    {
+        "spell": 86949, "name": "Cauterize", "script": "spell_mage_cauterize", "family": "suppress-default",
+        "code": "src/server/scripts/Spells/spell_mage.cpp:405-416",
+        "chain": ["HandleEffects(LAUNCH) EFFECT_2 TRIGGER_SPELL -> OnEffectLaunch SuppressSpeedBuff -> PreventHitDefaultEffect(EFFECT_2)", "generic EffectTriggerSpell skipped"],
+        "shape": "full replacement by suppression (relationship removed by code)", "prevent_default": True, "inputs": [], "rng": False, "state": None,
+    },
+    {
+        "spell": 168534, "name": "Mastery: Elemental Overload", "script": "spell_sha_mastery_elemental_overload", "family": "delayed-child + choose-among-children + proc-filter (rng)",
+        "code": "src/server/scripts/Spells/spell_shaman.cpp:2124-2207",
+        "chain": ["DoCheckEffectProc: chance = aurEff->GetAmount() (mastery %), /3 for Chain Lightning, 100 if the proc spell consumed Stormkeeper; roll_chance(chance)",
+                  "OnEffectProc HandleProc: PreventDefaultAction(); m_Events.AddEventAtOffset(400ms, lambda: caster->CastSpell(targets, overloadSpellId(procSpell)))"],
+        "shape": "proc-carrier, full replacement, delayed, hardcoded id table (5 pairs)", "prevent_default": True,
+        "inputs": ["proc spell id", "actor", "action target", "mastery amount", "applied spell mods"], "rng": "script roll (replaces the generic ProcChance=101 roll semantics)",
+        "state": "scheduled event captures targets by GUID",
+    },
+    {
+        "spell": 8092, "name": "Mind Blast (Inescapable Torment)", "script": "spell_pri_inescapable_torment", "family": "pet-owner-forward-cast",
+        "code": "src/server/scripts/Spells/spell_priest.cpp:2596-2637",
+        "chain": ["Load(): caster has talent aura", "OnEffectHitTarget EFFECT_0 SPELL_EFFECT_ANY", "summon = first m_Controlled with entry in {Shadowfiend, Mindbender, Voidwraith}",
+                  "summon->CastSpell(GetHitUnit(), 373441); summon->ModifyTimer(talent EFFECT_1 value ms)"],
+        "shape": "augmentation forwarded to a controlled summon (hardcoded creature entries)", "prevent_default": False,
+        "inputs": ["caster's controlled summons", "talent effect value"], "rng": False, "state": "summon timer mutated",
+    },
+    {
+        "spell": 1943, "name": "Rupture (Venomous Wounds refund)", "script": "spell_rog_rupture", "family": "resource-mutation",
+        "code": "src/server/scripts/Spells/spell_rogue.cpp:1044-1079",
+        "chain": ["OnEffectRemove (REAL): only AURA_REMOVE_BY_DEATH", "caster has Venomous Wounds aura", "cost = Rupture power cost; pct = duration/maxDuration; ModifyPower(ENERGY, cost*pct)"],
+        "shape": "augmentation on remove (resource)", "prevent_default": False, "inputs": ["remove mode", "remaining/max duration", "power cost", "caster aura"], "rng": False, "state": None,
+    },
+    {
+        "spell": 34026, "name": "Kill Command (legacy)", "script": None, "family": "engine-hardcoded (AuraEffect::HandleAuraDummy case)",
+        "code": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4899-4920",
+        "chain": ["HandleAuraDummy apply (REAL|REAPPLY): pet = target->GetGuardianPet(); target->CastSpell(target, 34027); set stacks/charges on 34027 and pet aura 58914"],
+        "shape": "hardcoded-non-script; the ids are legacy (58914/34027 are not current) -> dead branch for current data", "prevent_default": None,
+        "inputs": ["guardian pet"], "rng": False, "state": "aura stacks/charges",
+    },
+    {
+        "spell": 19574, "name": "Bestial Wrath (legacy branch)", "script": None, "family": "engine-hardcoded (Aura::HandleAuraSpecificMods)",
+        "code": "src/server/game/Spells/Auras/SpellAuras.cpp:1559-1578",
+        "chain": ["HandleAuraSpecificMods apply/remove for SPELLFAMILY_HUNTER 19574: The Beast Within cast on owner if talent present (legacy ids)"],
+        "shape": "hardcoded-non-script legacy branch", "prevent_default": None, "inputs": ["owner"], "rng": False, "state": None,
+    },
+]
+
+
+def witness_ids() -> list[int]:
+    return sorted({w["spell"] for w in WITNESSES})

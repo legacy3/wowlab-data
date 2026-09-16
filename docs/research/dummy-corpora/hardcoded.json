@@ -1,0 +1,744 @@
+{
+ "all": {
+  "raw_spell_id_sites": 334,
+  "distinct_spell_ids": 297,
+  "by_role": {
+   "gameplay-semantic": 120,
+   "source-classification": 115,
+   "unclassified": 69,
+   "legacy-content-policy": 12,
+   "navigation": 10,
+   "cast-validation": 4,
+   "amount-adapter": 3,
+   "source-correction": 1
+  },
+  "by_function": {
+   "SpellInfo::_LoadSpellDiminishInfo": 43,
+   "SpellInfo::_LoadAuraState": 37,
+   "AuraEffect::HandleAuraDummy": 34,
+   "Spell::EffectScriptEffect": 29,
+   "SpellInfo::_LoadSpellSpecific": 17,
+   "SpellInfo::_LoadImmunityInfo": 15,
+   "_isPositiveEffectImpl": 15,
+   "SpellInfo::CheckLocation": 12,
+   "Aura::HandleAuraSpecificMods": 11,
+   "AuraEffect::HandleAuraTransform": 11,
+   "Unit::GetModelForForm": 10,
+   "SpellArea::IsFitToRequirements": 8,
+   "FillSpellCastFailedArgs": 5,
+   "Spell::EffectForceCast": 5,
+   "Spell::EffectHeal": 5,
+   "Spell::CheckCast": 4,
+   "AuraEffect::HandleAuraModShapeshift": 4,
+   "Spell::EffectTriggerSpell": 3,
+   "Spell::EffectEnergize": 3,
+   "SpellMgr::LoadSpellInfoCustomAttributes": 3,
+   "AuraEffect::HandleShapeshiftBoosts": 3,
+   "Player::BuildPlayerRepop": 3,
+   "Player::OnGossipSelect": 3,
+   "Player::ReportedAfkBy": 3,
+   "Spell::UpdateSpellHealPrediction": 2,
+   "SpellInfo::IsMultiSlotAura": 2,
+   "Unit::SpellDamagePctDone": 2,
+   "Player::ResurrectPlayer": 2,
+   "Player::DuelComplete": 2,
+   "Player::InitializeSelfResurrectionSpells": 2,
+   "Player::EnablePvpRules": 2,
+   "Guardian::InitStatsForLevel": 2,
+   "Spell::finish": 1,
+   "Spell::GetSpellCastDataAmmo": 1,
+   "Spell::TriggerGlobalCooldown": 1,
+   "Spell::EffectTaunt": 1,
+   "Spell::EffectWeaponDmg": 1,
+   "Spell::EffectDuel": 1,
+   "Spell::EffectStuck": 1,
+   "Spell::EffectEnchantHeldItem": 1
+  },
+  "domains_all_sites": {
+   "spell": 334,
+   "spell-like-missing": 48,
+   "creature": 24,
+   "other": 15,
+   "unknown": 15,
+   "unknown-exists-as-spell": 7,
+   "item": 2
+  },
+  "gameplay_case_families": {
+   "Spell::EffectScriptEffect::no-action": {
+    "cases": 14,
+    "spells": [
+     22539,
+     22972,
+     22975,
+     22976,
+     22977,
+     22978,
+     22979,
+     22980,
+     22981,
+     22982,
+     22983,
+     22984
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::no-action": {
+    "cases": 8,
+    "spells": [
+     52172,
+     57819,
+     57820,
+     57821,
+     57822
+    ]
+   },
+   "AuraEffect::HandleAuraTransform::query-only": {
+    "cases": 7,
+    "spells": [
+     16739,
+     42365,
+     51926,
+     53806,
+     65495,
+     75531,
+     75532
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::CastSpell:child": {
+    "cases": 5,
+    "spells": [
+     13139,
+     37096,
+     39850,
+     46308,
+     91604
+    ]
+   },
+   "Spell::EffectScriptEffect::CastSpell:child": {
+    "cases": 4,
+    "spells": [
+     22985,
+     45151,
+     51904,
+     62482
+    ]
+   },
+   "Spell::EffectEnergize::query-only": {
+    "cases": 3,
+    "spells": [
+     24532,
+     24571,
+     67490
+    ]
+   },
+   "Spell::EffectForceCast::no-action": {
+    "cases": 2,
+    "spells": [
+     52463,
+     52588
+    ]
+   },
+   "Spell::EffectForceCast::CastSpell": {
+    "cases": 2,
+    "spells": [
+     52349,
+     72298
+    ]
+   },
+   "AuraEffect::HandleAuraTransform::no-action": {
+    "cases": 2,
+    "spells": [
+     50517,
+     65386
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::CastSpell+RemoveAurasDueToSpell": {
+    "cases": 2,
+    "spells": [
+     24658,
+     24661
+    ]
+   },
+   "Spell::EffectForceCast::RemoveAura": {
+    "cases": 1,
+    "spells": [
+     48598
+    ]
+   },
+   "Spell::EffectScriptEffect::CastSpell+RemoveItem:child": {
+    "cases": 1,
+    "spells": [
+     41931
+    ]
+   },
+   "Spell::EffectScriptEffect::UnSummon": {
+    "cases": 1,
+    "spells": [
+     60243
+    ]
+   },
+   "Spell::EffectScriptEffect::DespawnOrUnsummon": {
+    "cases": 1,
+    "spells": [
+     57347
+    ]
+   },
+   "Spell::EffectScriptEffect::DestroyItemCount": {
+    "cases": 1,
+    "spells": [
+     57349
+    ]
+   },
+   "Spell::EffectPlaySound::query-only": {
+    "cases": 1,
+    "spells": [
+     91604
+    ]
+   },
+   "Aura::HandleAuraSpecificMods::CastSpell:child": {
+    "cases": 1,
+    "spells": [
+     50836
+    ]
+   },
+   "Aura::HandleAuraSpecificMods::CastSpell+RemoveAurasDueToSpell:child": {
+    "cases": 1,
+    "spells": [
+     19574
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::AddThreat": {
+    "cases": 1,
+    "spells": [
+     1515
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::CastSpell+SetStackAmount+SetCharges:child": {
+    "cases": 1,
+    "spells": [
+     34026
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::PlayDistanceSound:child": {
+    "cases": 1,
+    "spells": [
+     43873
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::MoveFall": {
+    "cases": 1,
+    "spells": [
+     46361
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::LeaveBattleground": {
+    "cases": 1,
+    "spells": [
+     43681
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::CastSpell": {
+    "cases": 1,
+    "spells": [
+     60244
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::ApplySpellImmune": {
+    "cases": 1,
+    "spells": [
+     11196
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::SetEntry": {
+    "cases": 1,
+    "spells": [
+     30877
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::query-only": {
+    "cases": 1,
+    "spells": [
+     57822
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::CastSpell+PlayDirectSound:child": {
+    "cases": 1,
+    "spells": [
+     58204
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::PlayDirectSound:child": {
+    "cases": 1,
+    "spells": [
+     58205
+    ]
+   },
+   "AuraEffect::HandlePeriodicDamageAurasTick::no-action": {
+    "cases": 1,
+    "spells": [
+     70911
+    ]
+   }
+  },
+  "gameplay_case_family_count": 30,
+  "gameplay_case_count": 69
+ },
+ "player": {
+  "raw_spell_id_sites": 26,
+  "distinct_spell_ids": 22,
+  "by_role": {
+   "source-classification": 17,
+   "unclassified": 5,
+   "gameplay-semantic": 3,
+   "navigation": 1
+  },
+  "by_function": {
+   "SpellInfo::_LoadSpellSpecific": 8,
+   "SpellInfo::_LoadSpellDiminishInfo": 5,
+   "SpellInfo::_LoadImmunityInfo": 3,
+   "Spell::UpdateSpellHealPrediction": 2,
+   "Aura::HandleAuraSpecificMods": 2,
+   "Spell::TriggerGlobalCooldown": 1,
+   "SpellInfo::_LoadAuraState": 1,
+   "_isPositiveEffectImpl": 1,
+   "AuraEffect::HandleAuraDummy": 1,
+   "Unit::CalculateAverageResistReduction": 1,
+   "Unit::GetModelForForm": 1
+  },
+  "domains_all_sites": {
+   "spell": 26,
+   "other": 1
+  },
+  "gameplay_case_families": {
+   "Aura::HandleAuraSpecificMods::CastSpell+RemoveAurasDueToSpell:child": {
+    "cases": 1,
+    "spells": [
+     19574
+    ]
+   },
+   "AuraEffect::HandleAuraDummy::CastSpell+SetStackAmount+SetCharges:child": {
+    "cases": 1,
+    "spells": [
+     34026
+    ]
+   }
+  },
+  "gameplay_case_family_count": 2,
+  "gameplay_case_count": 2
+ },
+ "player_sites": [
+  {
+   "file": "src/server/game/Spells/Spell.cpp",
+   "function": "Spell::UpdateSpellHealPrediction",
+   "kind": "compare",
+   "value": 53651,
+   "line": 5043,
+   "subject": "aura->GetSpellInfo()->GetEffect(EFFECT_1).TriggerS\u2026",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "unclassified",
+   "role_note": "unlisted function",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/Spell.cpp",
+   "function": "Spell::UpdateSpellHealPrediction",
+   "kind": "call",
+   "value": 53651,
+   "line": 5039,
+   "subject": "HasAura",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "unclassified",
+   "role_note": "unlisted function",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": "HasAura"
+  },
+  {
+   "file": "src/server/game/Spells/Spell.cpp",
+   "function": "Spell::TriggerGlobalCooldown",
+   "kind": "compare",
+   "value": 133,
+   "line": 9211,
+   "subject": "m_spellInfo->StartRecoveryCategory",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "unclassified",
+   "role_note": "unlisted function",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadAuraState",
+   "kind": "case",
+   "value": 1064,
+   "line": 2745,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "AuraStateType from family / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellSpecific",
+   "kind": "case",
+   "value": 465,
+   "line": 2932,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "SpellSpecificType from family flags / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellSpecific",
+   "kind": "case",
+   "value": 32223,
+   "line": 2933,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "SpellSpecificType from family flags / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellSpecific",
+   "kind": "case",
+   "value": 317920,
+   "line": 2935,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "SpellSpecificType from family flags / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellSpecific",
+   "kind": "compare",
+   "value": 603,
+   "line": 2888,
+   "subject": "Id",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "SpellSpecificType from family flags / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellSpecific",
+   "kind": "compare",
+   "value": 980,
+   "line": 2888,
+   "subject": "Id",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "SpellSpecificType from family flags / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellSpecific",
+   "kind": "compare",
+   "value": 80240,
+   "line": 2888,
+   "subject": "Id",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "SpellSpecificType from family flags / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellSpecific",
+   "kind": "compare",
+   "value": 48263,
+   "line": 2954,
+   "subject": "Id",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "SpellSpecificType from family flags / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellSpecific",
+   "kind": "compare",
+   "value": 48265,
+   "line": 2954,
+   "subject": "Id",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "SpellSpecificType from family flags / ids",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellDiminishInfo",
+   "kind": "case",
+   "value": 108199,
+   "line": 3008,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "load-time derivation (unlisted function)",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellDiminishInfo",
+   "kind": "case",
+   "value": 179057,
+   "line": 3345,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "load-time derivation (unlisted function)",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellDiminishInfo",
+   "kind": "case",
+   "value": 217832,
+   "line": 3350,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "load-time derivation (unlisted function)",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellDiminishInfo",
+   "kind": "case",
+   "value": 217832,
+   "line": 3434,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "load-time derivation (unlisted function)",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadSpellDiminishInfo",
+   "kind": "compare",
+   "value": 207167,
+   "line": 3266,
+   "subject": "Id",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "load-time derivation (unlisted function)",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadImmunityInfo",
+   "kind": "case",
+   "value": 19574,
+   "line": 3524,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "immunity derivation",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadImmunityInfo",
+   "kind": "case",
+   "value": 47585,
+   "line": 3618,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "immunity derivation",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "SpellInfo::_LoadImmunityInfo",
+   "kind": "case",
+   "value": 47585,
+   "line": 3641,
+   "subject": "(Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "source-classification",
+   "role_note": "immunity derivation",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/SpellInfo.cpp",
+   "function": "_isPositiveEffectImpl",
+   "kind": "case",
+   "value": 32645,
+   "line": 4676,
+   "subject": "(spellInfo->Id)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "unclassified",
+   "role_note": "unlisted function",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/Auras/SpellAuras.cpp",
+   "function": "Aura::HandleAuraSpecificMods",
+   "kind": "case",
+   "value": 19574,
+   "line": 1559,
+   "subject": "(GetId())",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "gameplay-semantic",
+   "role_note": "hardcoded apply/remove side effects (spell_area, spell_linked_spell + family switch)",
+   "body_calls": {
+    "GetOwner": 1,
+    "HasAura": 1,
+    "CastSpell": 1,
+    "GetEffect": 1,
+    "RemoveAurasDueToSpell": 1
+   },
+   "body_ints": [
+    34471,
+    34692
+   ],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/Auras/SpellAuras.cpp",
+   "function": "Aura::HandleAuraSpecificMods",
+   "kind": "compare",
+   "value": 1784,
+   "line": 1547,
+   "subject": "GetId()",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "gameplay-semantic",
+   "role_note": "hardcoded apply/remove side effects (spell_area, spell_linked_spell + family switch)",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Spells/Auras/SpellAuraEffects.cpp",
+   "function": "AuraEffect::HandleAuraDummy",
+   "kind": "case",
+   "value": 34026,
+   "line": 4899,
+   "subject": "(GetId())",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "gameplay-semantic",
+   "role_note": "hardcoded Dummy aura consumer",
+   "body_calls": {
+    "GetAura": 2,
+    "GetCasterGUID": 2,
+    "SetStackAmount": 2,
+    "GetSpellInfo": 2,
+    "GetGuardianPet": 1,
+    "CastSpell": 1,
+    "SetCharges": 1
+   },
+   "body_ints": [
+    34027,
+    58914
+   ],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Entities/Unit/Unit.cpp",
+   "function": "Unit::CalculateAverageResistReduction",
+   "kind": "compare",
+   "value": 116858,
+   "line": 1853,
+   "subject": "spellInfo->Id",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "unclassified",
+   "role_note": "unlisted function",
+   "body_calls": {},
+   "body_ints": [],
+   "callee": null
+  },
+  {
+   "file": "src/server/game/Entities/Unit/Unit.cpp",
+   "function": "Unit::GetModelForForm",
+   "kind": "case",
+   "value": 24858,
+   "line": 12575,
+   "subject": "(spellId)",
+   "domain": "spell",
+   "exists_as_spell": true,
+   "role": "navigation",
+   "role_note": "display ids",
+   "body_calls": {
+    "HasAura": 1
+   },
+   "body_ints": [
+    114301
+   ],
+   "callee": null
+  }
+ ]
+}

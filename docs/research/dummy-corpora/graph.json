@@ -1,0 +1,296 @@
+{
+ "nodes": 28649,
+ "edges": 34358,
+ "node_kinds": {
+  "spell": 20901,
+  "class": 2739,
+  "script": 2763,
+  "world": 2114,
+  "engine": 24,
+  "family": 19,
+  "helper": 77,
+  "action": 12
+ },
+ "edge_kinds": {
+  "db2-marker": 11669,
+  "family": 4626,
+  "emits": 4599,
+  "implemented-by": 3857,
+  "bound": 3812,
+  "condition": 2114,
+  "casts": 1962,
+  "queries": 784,
+  "removes": 319,
+  "uses": 280,
+  "engine": 123,
+  "linked:0": 78,
+  "linked:3": 56,
+  "linked:1": 52,
+  "linked:2": 25,
+  "pet-aura": 2
+ },
+ "components": 7418,
+ "largest_components": [
+  11442,
+  142,
+  131,
+  121,
+  79,
+  77,
+  47,
+  44,
+  30,
+  30
+ ],
+ "singleton_components": 1666,
+ "helper_hubs": [
+  [
+   "helper:SetBonusValueForEffect@spell_generic.cpp",
+   77
+  ]
+ ],
+ "script_hubs (spells bound)": [
+  [
+   "script:spell_gen_mixology_bonus",
+   77
+  ],
+  [
+   "script:spell_gen_tournament_pennant",
+   36
+  ],
+  [
+   "script:spell_warr_improved_whirlwind_cleave",
+   31
+  ],
+  [
+   "script:spell_gen_clone",
+   27
+  ],
+  [
+   "script:spell_gen_arena_drink",
+   25
+  ],
+  [
+   "script:spell_gen_whisper_to_controller",
+   24
+  ],
+  [
+   "script:spell_gen_trigger_exclude_target_aura_spell",
+   22
+  ],
+  [
+   "script:spell_fetch_ingredient_aura",
+   21
+  ],
+  [
+   "script:spell_gen_feign_death_all_flags",
+   20
+  ],
+  [
+   "script:spell_gen_trigger_exclude_caster_aura_spell",
+   18
+  ],
+  [
+   "script:spell_quest_taming_the_beast",
+   18
+  ],
+  [
+   "script:spell_gen_charmed_unit_spell_cooldown",
+   14
+  ],
+  [
+   "script:spell_gen_summon_tournament_mount",
+   14
+  ],
+  [
+   "script:spell_evo_blessing_of_the_bronze",
+   13
+  ],
+  [
+   "script:spell_icecrown_bested_trigger",
+   13
+  ]
+ ],
+ "class_hubs (casts+queries+removes)": [
+  [
+   "class:spell_gen_mixology_bonus@spell_generic.cpp",
+   231
+  ],
+  [
+   "class:spell_gen_bloodlust@spell_generic.cpp",
+   121
+  ],
+  [
+   "class:spell_warr_improved_whirlwind_cleave@spell_warrior.cpp",
+   62
+  ],
+  [
+   "class:spell_fetch_ingredient_aura@zone_zuldrak.cpp",
+   43
+  ],
+  [
+   "class:spell_gen_feast@spell_generic.cpp",
+   41
+  ],
+  [
+   "class:spell_gen_tournament_pennant@spell_generic.cpp",
+   36
+  ],
+  [
+   "class:spell_pilgrims_bounty_well_fed@pilgrims_bounty.cpp",
+   35
+  ],
+  [
+   "class:spell_gen_summon_tournament_mount@spell_generic.cpp",
+   28
+  ],
+  [
+   "class:spell_brewfest_ram@brewfest.cpp",
+   28
+  ],
+  [
+   "class:spell_gen_clone@spell_generic.cpp",
+   27
+  ],
+  [
+   "class:spell_gen_arena_drink@spell_generic.cpp",
+   25
+  ],
+  [
+   "class:spell_brewfest_botm_weak_alcohol@brewfest.cpp",
+   24
+  ],
+  [
+   "class:spell_gen_whisper_to_controller@spell_generic.cpp",
+   24
+  ],
+  [
+   "class:spell_gen_trigger_exclude_target_aura_spell@spell_generic.cpp",
+   22
+  ],
+  [
+   "class:spell_brewfest_giddyup@brewfest.cpp",
+   21
+  ]
+ ],
+ "spells_with_multiple_scripts": 127,
+ "sccs": 112,
+ "scc_examples": [
+  [
+   "spell:162188",
+   "spell:162189"
+  ],
+  [
+   "class:spell_zuldrak_scourge_disguise@zone_zuldrak.cpp",
+   "class:spell_zuldrak_scourge_disguise_expiring@zone_zuldrak.cpp",
+   "class:spell_zuldrak_scourge_disguise_instability@zone_zuldrak.cpp",
+   "script:spell_zuldrak_scourge_disguise",
+   "script:spell_zuldrak_scourge_disguise_expiring",
+   "script:spell_zuldrak_scourge_disguise_instability",
+   "spell:51966",
+   "spell:51971",
+   "spell:52010"
+  ],
+  [
+   "spell:106663",
+   "spell:106668"
+  ],
+  [
+   "spell:148593",
+   "spell:150454"
+  ],
+  [
+   "spell:162780",
+   "spell:162781"
+  ]
+ ],
+ "player_subgraph": {
+  "nodes": 2099,
+  "node_kinds": {
+   "spell": 961,
+   "class": 541,
+   "script": 528,
+   "helper": 38,
+   "family": 17,
+   "action": 11,
+   "engine": 2,
+   "world": 1
+  },
+  "max_depth": 9,
+  "depth_histogram": {
+   "0": 604,
+   "1": 487,
+   "2": 469,
+   "3": 343,
+   "4": 73,
+   "5": 62,
+   "6": 38,
+   "7": 10,
+   "8": 10,
+   "9": 3
+  },
+  "child_spells_outside_player_scope": [
+   139,
+   589,
+   2645,
+   10444,
+   12472,
+   12654,
+   19263,
+   22482,
+   25771,
+   25912,
+   25914,
+   27285,
+   32216,
+   32409,
+   32727,
+   33110,
+   33778,
+   37169,
+   41425,
+   41635,
+   42223,
+   45470,
+   47753,
+   48107,
+   48108,
+   48517,
+   48518,
+   50322,
+   52437,
+   53390,
+   53652,
+   55095,
+   57840,
+   57841,
+   59628,
+   61851,
+   61988,
+   62388,
+   65219,
+   66188,
+   67481,
+   70658,
+   70718,
+   70721,
+   72232,
+   77535,
+   79636,
+   81141,
+   81262,
+   81269,
+   81297,
+   81661,
+   81700,
+   81751,
+   82691,
+   85739,
+   86392,
+   87204,
+   88263,
+   90259
+  ],
+  "child_spells_outside_player_scope_count": 357
+ }
+}

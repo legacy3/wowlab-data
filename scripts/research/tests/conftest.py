@@ -82,3 +82,19 @@ def write_gametable(path: Path, header: list[str], rows: list[list]) -> None:
     lines = ["\t".join(header)]
     lines.extend("\t".join(str(c) for c in row) for row in rows)
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+# ---------------------------------------------------------------------------
+# dummy_semantics (server-side semantics archaeology) -- session scoped, ~1 min
+# ---------------------------------------------------------------------------
+
+@pytest.fixture(scope="session")
+def dummy_ctx():
+    from dummy_semantics import CORPORA
+    from dummy_semantics.cli import Context
+    for name in ("trinity-server-overlay.json", "script-index.json", "dispatch-tables.json", "build-skew.json"):
+        if not (CORPORA / name).exists():
+            pytest.skip(f"missing corpus {name}")
+    if not DEFAULT_TABLES.is_dir():
+        pytest.skip(f"no table snapshot at {DEFAULT_TABLES}")
+    return Context()
