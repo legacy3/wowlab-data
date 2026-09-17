@@ -1,0 +1,207 @@
+{
+ "about": "cone caster-to-dest (id 104) without dest use",
+ "actors": [
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "caster",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "e_front",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    5.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "e_behind",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    -5.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "Trinity caster-facing cone (ConeDegrees 110) vs a cone oriented towards the dest (would hit e_behind); see RX-A-01 / TG-A-D5",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "e_front"
+   ],
+   "1": [
+    "caster"
+   ]
+  }
+ },
+ "explicit": {
+  "dest": [
+   -8.0,
+   0.0,
+   0.0
+  ],
+  "unit": null
+ },
+ "los": {
+  "blocked": [],
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0.0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0.0,
+  "range": 0
+ },
+ "name": "witness-A-46968-0",
+ "original_caster": "caster",
+ "relations": [
+  {
+   "friendly": false,
+   "from": "caster",
+   "hostile": true,
+   "to": "e_front",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "friendly": false,
+   "from": "caster",
+   "hostile": true,
+   "to": "e_behind",
+   "valid_assist": false,
+   "valid_attack": true
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 46968,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "e_front",
+  "e_behind"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1273-1324, 1301 (coneSrc = *m_caster), 9459-9479",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "e_front"
+    ],
+    "1": [
+     "caster"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.immune_effects=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "e_front.facts.immune_effects=[]",
+   "e_front.facts.cc_breakable_by_damage=false",
+   "e_front.facts.ignore_los_on_me=false",
+   "e_behind.facts.immune_effects=[]",
+   "e_behind.facts.cc_breakable_by_damage=false",
+   "e_behind.facts.ignore_los_on_me=false",
+   "modifiers.range=0 (no spell modifier on the caster)",
+   "modifiers.max_targets=0 (no spell modifier on the caster)"
+  ],
+  "selectors": [
+   104,
+   0
+  ],
+  "spell": 46968,
+  "track": "A"
+ }
+}

@@ -1,0 +1,131 @@
+{
+ "build_skew": false,
+ "consumer": "AreaTrigger.cpp:1108-1157 (UnitFitToActionRequirement FRIEND -> IsValidAssistTarget; AddAura)",
+ "discriminates": "template action target filter (FRIEND) vs 'all entering units'; AddAura bypasses spell target selection",
+ "effect": 0,
+ "expect": {
+  "at_inside_units": [
+   "caster",
+   "ally",
+   "enemy"
+  ],
+  "aura_81782": [
+   "caster",
+   "ally"
+  ]
+ },
+ "fixture": {
+  "actors": [
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "caster",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     97.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "facts": {
+     "areatrigger": {
+      "caster": "caster",
+      "create_properties": 1489,
+      "inside": [],
+      "override_scale": null
+     }
+    },
+    "id": "at",
+    "kind": "areatrigger",
+    "orientation": 1.0,
+    "pos": [
+     100.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "ally",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     101.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "enemy",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     102.0,
+     100.0,
+     10.0
+    ]
+   }
+  ],
+  "caster": "caster",
+  "name": "pw-barrier-62618-action",
+  "relations": [
+   {
+    "from": "caster",
+    "to": "ally",
+    "valid_assist": true
+   },
+   {
+    "from": "caster",
+    "to": "enemy",
+    "valid_assist": false
+   },
+   {
+    "from": "caster",
+    "to": "caster",
+    "valid_assist": true
+   }
+  ],
+  "schema": "targeting-fixture/1",
+  "spell": {
+   "id": 0
+  },
+  "visit_order": [
+   "caster",
+   "ally",
+   "enemy"
+  ]
+ },
+ "schema": "targeting-at-witness/1",
+ "selectors": [
+  "TARGET_UNIT_DEST_AREA_ALLY",
+  null
+ ],
+ "shape": "sphere r=8 (create properties 1489, template 5802)",
+ "spell": 62618
+}

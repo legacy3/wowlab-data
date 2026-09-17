@@ -1,0 +1,181 @@
+{
+ "about": "caster + TARGET_UNIT_PET (PetGUID)",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "pet": "pet1",
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "id": "p1",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "pet1",
+   "kind": "pet",
+   "orientation": 0.0,
+   "owner": "p1",
+   "pos": [
+    3,
+    0.0,
+    0.0
+   ],
+   "summoner": "p1"
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "g1",
+   "kind": "guardian",
+   "orientation": 0.0,
+   "owner": "p1",
+   "pos": [
+    4,
+    0.0,
+    0.0
+   ],
+   "summoner": "p1"
+  }
+ ],
+ "caster": "p1",
+ "discriminates": "TARGET_UNIT_PET resolves PetGUID (the permanent pet), not 'any owned unit' (g1 excluded) and not self; without a pet effect 1 selects nothing and the cast continues (DontFailSpellOnTargetingFailure 0x100000)",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "p1"
+   ],
+   "1": [
+    "pet1"
+   ]
+  }
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-F-264735-1",
+ "relations": [
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "pet1",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "g1",
+   "valid_assist": true,
+   "valid_attack": false
+  }
+ ],
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 264735,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "visit_order": [
+  "p1",
+  "pet1",
+  "g1"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1756-1759; Unit.cpp:6230-6243",
+  "effect": 1,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "p1"
+    ],
+    "1": [
+     "pet1"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "p1.facts.spell_other_immunity=[]",
+   "p1.facts.immune_effects=[]",
+   "p1.facts.cc_breakable_by_damage=false",
+   "pet1.facts.spell_other_immunity=[]",
+   "pet1.facts.immune_effects=[]",
+   "pet1.facts.cc_breakable_by_damage=false",
+   "pet1.facts.ignore_los_on_me=false",
+   "g1.facts.spell_other_immunity=[]",
+   "g1.facts.immune_effects=[]",
+   "g1.facts.cc_breakable_by_damage=false",
+   "g1.facts.ignore_los_on_me=false"
+  ],
+  "selectors": [
+   "TARGET_UNIT_PET",
+   0
+  ],
+  "spell": 264735,
+  "track": "F"
+ }
+}

@@ -1,0 +1,320 @@
+{
+ "about": "hostile-aoe caster-centred (SRC)",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "level": 80,
+    "magnet": false,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "group": null,
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "e_reach_in",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    9.4,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "e_edge_out",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    9.5,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "e_high",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    3.0,
+    0.0,
+    8.5
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "e_ledge",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    8.0,
+    0.0,
+    7.5
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "f_near",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    2.0,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "reach-inclusive strict 2D radius + |dz|<=R cylinder vs '<=', 'no reach' and 3D-sphere models (e_reach_in in, e_edge_out out, e_ledge in although 3D dist 10.97 > 9.5, e_high out)",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "e_reach_in",
+    "e_ledge"
+   ],
+   "1": [
+    "caster"
+   ],
+   "2": [
+    "caster"
+   ],
+   "3": [
+    "caster"
+   ],
+   "4": [
+    "caster"
+   ]
+  }
+ },
+ "explicit": {
+  "src": [
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-C-6343-0",
+ "relations": [
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "caster",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "e_reach_in",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "e_edge_out",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "e_high",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "e_ledge",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "f_near",
+   "valid_assist": true,
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 6343,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {},
+ "visit_order": [
+  "caster",
+  "e_reach_in",
+  "e_edge_out",
+  "e_high",
+  "e_ledge",
+  "f_near"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1326, 9418-9452; Object.cpp:617",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0"
+   ],
+   "recipients": {
+    "0": [
+     "e_reach_in",
+     "e_ledge"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.immune_effects=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "e_reach_in.facts.immune_effects=[]",
+   "e_reach_in.facts.cc_breakable_by_damage=false",
+   "e_reach_in.facts.ignore_los_on_me=false",
+   "e_edge_out.facts.immune_effects=[]",
+   "e_edge_out.facts.cc_breakable_by_damage=false",
+   "e_edge_out.facts.ignore_los_on_me=false",
+   "e_high.facts.immune_effects=[]",
+   "e_high.facts.cc_breakable_by_damage=false",
+   "e_high.facts.ignore_los_on_me=false",
+   "e_ledge.facts.immune_effects=[]",
+   "e_ledge.facts.cc_breakable_by_damage=false",
+   "e_ledge.facts.ignore_los_on_me=false",
+   "f_near.facts.immune_effects=[]",
+   "f_near.facts.cc_breakable_by_damage=false",
+   "f_near.facts.ignore_los_on_me=false",
+   "modifiers.range=0 (no spell modifier on the caster)",
+   "modifiers.chain_targets=0 (no spell modifier on the caster)",
+   "modifiers.chain_jump_distance=0 (no spell modifier on the caster)"
+  ],
+  "pipeline_filled_effects": [
+   "1",
+   "2",
+   "3",
+   "4"
+  ],
+  "selectors": [
+   "TARGET_SRC_CASTER",
+   "TARGET_UNIT_SRC_AREA_ENEMY"
+  ],
+  "spell": 6343,
+  "track": "C"
+ }
+}

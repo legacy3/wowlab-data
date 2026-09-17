@@ -1,0 +1,3020 @@
+{
+ "census": {
+  "area_checks": {
+   "ALLY": 54,
+   "ENEMY": 173,
+   "ENTRY": 1,
+   "PARTY": 15,
+   "RAID": 20,
+   "SUMMONED": 24
+  },
+  "area_references": {
+   "CASTER": 43,
+   "DEST": 172,
+   "SRC": 70,
+   "TARGET": 2
+  },
+  "area_selectors": {
+   "TARGET_CORPSE_SRC_AREA_RAID": 6,
+   "TARGET_UNIT_CASTER_AND_SUMMONS": 24,
+   "TARGET_UNIT_CASTER_AREA_RAID": 12,
+   "TARGET_UNIT_DEST_AREA_ALLY": 38,
+   "TARGET_UNIT_DEST_AREA_ENEMY": 119,
+   "TARGET_UNIT_DEST_AREA_ENTRY": 1,
+   "TARGET_UNIT_DEST_AREA_PARTY": 14,
+   "TARGET_UNIT_SRC_AREA_ALLY": 16,
+   "TARGET_UNIT_SRC_AREA_ENEMY": 53,
+   "TARGET_UNIT_SRC_AREA_PARTY": 1,
+   "TARGET_UNIT_TARGET_ALLY_OR_RAID": 2,
+   "TARGET_UNK_151": 1
+  },
+  "build_skew_area_effects": 3,
+  "can_hit_aoe_untargetable": 0,
+  "damage_area_effects": 72,
+  "effects_with_area": 287,
+  "grouped_area_effects": 45,
+  "healing_area_effects": 15,
+  "nearby_effects": 1,
+  "per_spec_area_spells": {
+   "102": 17,
+   "103": 15,
+   "104": 15,
+   "105": 16,
+   "1467": 7,
+   "1468": 9,
+   "1473": 10,
+   "1480": 7,
+   "250": 12,
+   "251": 9,
+   "252": 9,
+   "253": 9,
+   "254": 10,
+   "255": 8,
+   "256": 13,
+   "257": 14,
+   "258": 10,
+   "259": 6,
+   "260": 4,
+   "261": 6,
+   "262": 10,
+   "263": 11,
+   "264": 10,
+   "265": 20,
+   "266": 18,
+   "267": 16,
+   "268": 14,
+   "269": 10,
+   "270": 14,
+   "577": 11,
+   "581": 8,
+   "62": 11,
+   "63": 12,
+   "64": 10,
+   "65": 15,
+   "66": 11,
+   "70": 13,
+   "71": 22,
+   "72": 30,
+   "73": 20
+  },
+  "players_only": 10,
+  "radius_min_effects": 3,
+  "radius_min_examples": [
+   {
+    "effect": "1263566:0",
+    "max_targets": 1,
+    "radius": {
+     "index": 254,
+     "max": 20.0,
+     "min": 8.0,
+     "per_level": 0.0,
+     "radius": 20.0
+    },
+    "selector": "TARGET_UNIT_DEST_AREA_ENEMY"
+   },
+   {
+    "effect": "1263566:1",
+    "max_targets": 1,
+    "radius": {
+     "index": 254,
+     "max": 20.0,
+     "min": 8.0,
+     "per_level": 0.0,
+     "radius": 20.0
+    },
+    "selector": "TARGET_UNIT_DEST_AREA_ENEMY"
+   },
+   {
+    "effect": "1263566:2",
+    "max_targets": 1,
+    "radius": {
+     "index": 254,
+     "max": 20.0,
+     "min": 8.0,
+     "per_level": 0.0,
+     "radius": 20.0
+    },
+    "selector": "TARGET_UNIT_DEST_AREA_ENEMY"
+   }
+  ],
+  "radius_shapes": {
+   "flat": 279,
+   "flat+annulus-min": 3,
+   "none": 5
+  },
+  "special_area_selectors": {
+   "ally-or-raid": [
+    "1126:0",
+    "1126:1"
+   ],
+   "caster-and-passengers": [],
+   "caster-and-summons": [
+    "1264783:0",
+    "1279575:0",
+    "1279575:1",
+    "191384:0",
+    "191384:1",
+    "196277:1",
+    "197531:0",
+    "199483:0",
+    "199483:1",
+    "199483:2",
+    "199483:3",
+    "263135:3",
+    "264130:0",
+    "334591:0",
+    "385881:3",
+    "387273:0",
+    "394747:0",
+    "405936:1",
+    "405955:1",
+    "440040:8",
+    "450508:0",
+    "453908:0",
+    "455135:1",
+    "455135:2"
+   ],
+   "furthest": [],
+   "tap-list": [],
+   "threat-list": []
+  },
+  "unit_and_dest": 0,
+  "with_area_hooks": 10,
+  "with_conditions": 0
+ },
+ "effect_classes": {
+  "102359:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "102359:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "102793:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "106898:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "106898:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "107270:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "107570:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "108199:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "108199:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1126:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "ally-or-raid",
+    "area",
+    "grouped",
+    "ref-target"
+   ],
+   "unknowns": []
+  },
+  "1126:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "ally-or-raid",
+    "area",
+    "ref-target"
+   ],
+   "unknowns": []
+  },
+  "115310:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "115310:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "115310:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "115310:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "1160:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "1160:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "1160:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "1160:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "1161:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "1161:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "121253:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "121253:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "121253:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "121536:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:10": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:11": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:12": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:5": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:6": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:7": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:8": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1219209:9": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "12323:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "1234195:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1234195:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1234195:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1241462:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1244088:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1244091:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1244157:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "124682:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1247227:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "1248829:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1250580:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1253799:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1254851:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1257065:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1260251:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1260251:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1262142:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1262146:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1263566:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "radius-min-annulus",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": [
+    "TG-C-U01"
+   ]
+  },
+  "1263566:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "radius-min-annulus",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": [
+    "TG-C-U01"
+   ]
+  },
+  "1263566:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "radius-min-annulus",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": [
+    "TG-C-U01"
+   ]
+  },
+  "1264783:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "1265595:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1271173:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1279575:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "grouped",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "1279575:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "1280212:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1286247:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1291636:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1295535:0": {
+   "build_skew": true,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1298679:0": {
+   "build_skew": true,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1299944:0": {
+   "build_skew": true,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "132157:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "141425:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "141425:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "148187:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "152108:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "153561:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "153626:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "radius-none",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "153626:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "radius-none",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "157980:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "157980:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "157982:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "157997:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "157997:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "162530:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "167105:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "dest",
+    "ref-dest",
+    "world-geometry"
+   ],
+   "unknowns": []
+  },
+  "1714:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1714:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "179057:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "179057:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "179057:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "187698:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "188499:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "ref-src",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "190356:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "190356:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "190411:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "191384:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "grouped",
+    "radius-none",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "191384:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "radius-none",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "192077:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "194153:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "194153:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "194509:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "196277:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "196734:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "196771:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "197214:2": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "correction",
+    "dest",
+    "nearby",
+    "world-geometry"
+   ],
+   "unknowns": []
+  },
+  "197531:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "197628:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "197835:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "197835:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "197835:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "198137:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "198813:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "ref-src",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "198813:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "199483:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "grouped",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "199483:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "199483:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "199483:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "199552:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "199552:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "199667:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "199851:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "199852:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "200025:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "200025:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "200653:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "200685:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "200685:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "205180:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "207317:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "210372:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "212036:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "212040:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "212048:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "212051:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "212056:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "2120:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "213764:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "22570:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "22703:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "22703:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "257620:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "260243:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "262161:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "dest",
+    "ref-dest",
+    "world-geometry"
+   ],
+   "unknowns": []
+  },
+  "263135:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "264130:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "267211:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "27243:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "27243:2": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "274912:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "278326:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "278350:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "281265:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "285381:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "294020:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "29722:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "30283:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "319175:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "32375:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "32375:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "324536:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "325153:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "325153:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "325153:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "32592:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "334275:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "334591:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "radius-none",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "344548:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "34861:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "355575:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "355575:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "355575:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "361178:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "363534:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "365350:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "374227:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "374227:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "374227:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "374606:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "374968:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "375088:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "375576:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "375576:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "376080:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "376080:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "376080:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "378286:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "383121:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "383121:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "384102:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "384318:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "385060:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "385060:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "385061:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "385062:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "385881:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "386071:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "386071:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "386071:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "386276:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "386731:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "386731:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "386997:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "387273:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "388615:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "388615:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "388615:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "391400:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "393056:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "393786:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "394747:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "395152:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "395152:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "395160:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "395349:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "397364:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "397364:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "397364:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "399491:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "403460:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "404358:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "405936:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "405955:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "409311:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "412629:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "413984:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "413984:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "414664:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "414664:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "414664:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "414664:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "434029:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "435222:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "440040:8": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "444979:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "44949:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "450508:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "452701:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "453908:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "455135:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "grouped",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "455135:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "caster-and-summons",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "462620:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "462620:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "466904:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "466904:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "467745:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "467745:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "469270:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "470057:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "47568:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "48438:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "49028:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "49184:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "50286:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "50622:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "50842:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "51052:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "51490:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "51490:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "51490:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "51490:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "51723:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "5246:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "5246:5": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "5246:6": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "53385:0": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "area",
+    "correction",
+    "grouped",
+    "legacy-cap-correction",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "53385:1": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "area",
+    "correction",
+    "legacy-cap-correction",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "5484:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "5484:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "596:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "61882:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "61882:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "62618:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "6343:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "64844:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "64844:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "73920:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "73920:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "8122:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "8122:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "8122:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "85222:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "85222:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "88751:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "95738:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "97462:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "ref-caster"
+   ],
+   "unknowns": []
+  },
+  "99:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "99:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "ref-src"
+   ],
+   "unknowns": []
+  }
+ },
+ "provenance": {
+  "command": "cd scripts/research && python3 targeting.py area --out ../../docs/research/targeting-corpora/area.json",
+  "pins": {
+   "data_snapshot": "12.1.0.69497",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "track": "C (area targeting, geometry, target caps)"
+ },
+ "retail_experiments": [
+  {
+   "fidelity": "exact",
+   "id": "TG-C-X01",
+   "model_a": "Trinity: targets closer than RadiusMin+reach are excluded",
+   "model_b": "RadiusMin is only a clamp floor",
+   "observable": "combat log hits on the adjacent dummy",
+   "question": "Does RadiusMin exclude close targets from an area effect?",
+   "setup": "cast a current-player AoE whose radius row has RadiusMin>0 (see area.json radius_min_examples) with one dummy adjacent to the centre and one at mid radius"
+  },
+  {
+   "fidelity": "approximate",
+   "id": "TG-C-X02",
+   "model_a": "cylinder |dz| <= Max",
+   "model_b": "3D sphere with reach",
+   "observable": "combat log hit",
+   "question": "Vertical extent of ground AoE",
+   "setup": "dummies on a ledge at dz = 0.9*R, horizontal distance 0.5*R"
+  },
+  {
+   "fidelity": "approximate",
+   "id": "TG-C-X05",
+   "model_a": "Trinity: centre distance < R + target reach (strict, 2D)",
+   "model_b": "distance <= R (no reach)",
+   "observable": "combat log hit",
+   "question": "Area radius boundary inclusion and combat-reach addition",
+   "setup": "large-reach dummy (e.g. reach 5) at centre distance R + 3"
+  }
+ ],
+ "semantics": {
+  "caster_inclusion": "no special exclusion: the caster is a candidate like any other (relation/CheckTarget decide; SPELL_ATTR1_EXCLUDE_CASTER in CheckTarget)",
+  "order": "search (visit order) -> UNIT_AND_DEST ModDst(referer) -> OnObjectAreaTargetSelect -> FURTHEST sort -> cap -> AddUnitTarget(checkIfValid=false, losPosition=centre) (dedup by GUID: masks OR-ed)",
+  "phase": "no phase filter (AlwaysVisible searcher)",
+  "predicate": "units/corpses: IsInRange2d(centre, Min, Max) with the TARGET's combat reach added to both bounds, strict squared-float compare, and |dz| <= Max; AoETarget immunity unless SPELL_ATTR8_CAN_HIT_AOE_UNTARGETABLE; then CheckTarget(implicit) + relation + corpse alive test + conditions",
+  "radius": "SpellEffectInfo::CalcRadius(m_caster, targetIndex) * RadiusMod; Min=RadiusMin, Max=min(Radius+PerLevel*level, RadiusMax) for unit casters, SpellModOp::Radius on Max, +/-2 movement bonus unless SPELL_ATTR9_NO_MOVEMENT_RADIUS_BONUS; B uses A's entry (and A's target for the RANDOM test) when B has none",
+  "reference": {
+   "CASTER": "referer=caster, centre=caster",
+   "DEST": "referer=caster, centre=m_targets dst",
+   "LAST": "referer=last m_UniqueTargetInfo entry carrying this effect (else caster), centre=it",
+   "SRC": "referer=caster, centre=m_targets src",
+   "TARGET": "referer=explicit unit (none -> no targets), centre=it"
+  },
+  "search_radius": "Max + 40 when Max > 0 (cells only)"
+ },
+ "trinity_defects": [
+  {
+   "description": "ObjectDistanceOrderPred(ref, false) returns !(d1 < d2): not a strict weak ordering (UB for list::sort).",
+   "effect_on_recipients": "FURTHEST_ENEMY ties are reordered by libstdc++ merge behaviour (probe: equal distances reversed), changing which tied unit survives the truncating cap.",
+   "file_line": "src/server/game/Entities/Object/Object.h:645, Spell.cpp:1440",
+   "id": "TG-C-D03",
+   "oracle_behaviour": "reproduced with a libstdc++ list::sort emulation (caps.list_sort), probe-verified"
+  },
+  {
+   "description": "Random dest radius: Max = (Max - Min) * sqrt(rand_norm()) -- Min is subtracted but never added back.",
+   "effect_on_recipients": "random offsets fall in [0, Max-Min] instead of [Min, Max].",
+   "file_line": "src/server/game/Spells/SpellInfo.cpp:825-827",
+   "id": "TG-C-D06",
+   "oracle_behaviour": "reproduced in oracle.calc_radius (Track G)"
+  }
+ ],
+ "unknowns": [
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-C-U01",
+   "known": "Trinity uses RadiusMin as an inner exclusion radius (IsInRange2d minRange, Spell.cpp:9429; SpellInfo.cpp:797).",
+   "reopen_condition": "Retail experiment TG-C-X01 or a client disassembly of the radius read.",
+   "subject": "SpellRadius.RadiusMin on AREA/CONE effects",
+   "unknown": "Whether Retail treats RadiusMin as an annulus or as a clamp floor for the level-scaled radius.",
+   "why_unresolved": "No client consumer text; 254 of 375 SpellRadius rows have RadiusMin>0 with Radius==RadiusMax, which is more consistent with a clamp than with rings."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-C-U02",
+   "known": "Trinity: |dz| <= RadiusMax (no reach), 2D radius + target combat reach (Spell.cpp:9429).",
+   "reopen_condition": "TG-C-X02",
+   "subject": "area vertical bound",
+   "unknown": "Retail vertical policy (sphere vs cylinder, reach inclusion).",
+   "why_unresolved": "no Retail consumer"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "world-db-fact",
+   "id": "TG-C-U06",
+   "known": "conditions narrow GetSearcherTypeMask and filter candidates (Spell.cpp:2157-2158, 9392).",
+   "reopen_condition": "a ConditionMgr searcher-mask port",
+   "subject": "implicit-target conditions on searched selectors",
+   "unknown": "GetSearcherTypeMaskForConditionList not ported",
+   "why_unresolved": "ConditionMgr out of scope (BRIEF §7)"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-C-U07",
+   "known": "world container before grid container; standing cell first; newest-first within a cell (area.py docstring).",
+   "reopen_condition": "never from static data; fixtures state visit_order",
+   "subject": "grid visit order",
+   "unknown": "the concrete order for a scene (cell membership, insertion times)",
+   "why_unresolved": "map-internal state"
+  }
+ ]
+}

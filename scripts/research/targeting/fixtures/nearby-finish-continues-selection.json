@@ -1,0 +1,212 @@
+{
+ "about": "Effect 0 TARGET_UNIT_NEARBY_ENEMY finds nothing (no RangeEntry max) -> finish(BAD_IMPLICIT_TARGETS) and return from SelectImplicitNearbyTargets only (Spell.cpp:1196-1200); finish() just sets m_spellState (4356-4360), so SelectSpellTargets goes on: effect 1's capped area consumes its 3 urand draws and adds recipients; _cast discards the cast afterwards (3816-3819). Counterexample from hostile review R1-04.",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t1",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    3,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t2",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    3,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t3",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    -3,
+    0,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "caster",
+ "discriminates": "selector finish() only marks the spell finished (later effects still select and draw RNG) vs finish() aborting SelectSpellTargets (0 draws, no later recipients)",
+ "expect": {
+  "cast_result": "SPELL_FAILED_BAD_IMPLICIT_TARGETS",
+  "draws_consumed": 3,
+  "recipients": {
+   "0": [],
+   "1": [
+    "t2",
+    "t3"
+   ]
+  },
+  "unique_targets": [
+   {
+    "id": "t2",
+    "mask": 2
+   },
+   {
+    "id": "t3",
+    "mask": 2
+   }
+  ]
+ },
+ "explicit": {
+  "src": [
+   0,
+   0,
+   0
+  ],
+  "src_orientation": 0.0
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "nearby-finish-continues-selection",
+ "relations": [
+  {
+   "from": "caster",
+   "to": "t1",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "t2",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "t3",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "caster",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": [
+   3,
+   1,
+   1,
+   2,
+   1,
+   1
+  ]
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "attributes": [],
+  "attributes_cu": [],
+  "dmg_class": "MAGIC",
+  "effects": [
+   {
+    "effect": "SCHOOL_DAMAGE",
+    "index": 0,
+    "target_a": "TARGET_UNIT_NEARBY_ENEMY"
+   },
+   {
+    "effect": "SCHOOL_DAMAGE",
+    "index": 1,
+    "radius_a": {
+     "max": 8,
+     "min": 0,
+     "per_level": 0,
+     "radius": 8
+    },
+    "target_a": "TARGET_UNIT_SRC_AREA_ENEMY"
+   }
+  ],
+  "id": 900002,
+  "is_positive": false,
+  "max_affected_targets": 2,
+  "name": "grouped-cap",
+  "range": {
+   "max": [
+    0,
+    0
+   ],
+   "min": [
+    0,
+    0
+   ]
+  },
+  "script_hooks": [],
+  "synthetic": true,
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 2,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "t1",
+  "t2",
+  "t3",
+  "caster"
+ ]
+}

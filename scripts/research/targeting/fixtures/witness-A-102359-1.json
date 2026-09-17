@@ -1,0 +1,252 @@
+{
+ "about": "unit + dest-area reading an earlier effect's dest",
+ "actors": [
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "caster",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "t1",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    20.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "t2",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    24.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "e_ground",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    -30.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "effect 1's B centre = dst written by effect 0's A (target) vs client ground dst (e_ground) vs per-effect fresh m_targets; effect 1 recipients are gated by the caster talent aura 330670 (script)",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "t1",
+    "t2"
+   ],
+   "1": []
+  }
+ },
+ "explicit": {
+  "dest": [
+   -30.0,
+   0.0,
+   0.0
+  ],
+  "unit": "t1"
+ },
+ "los": {
+  "blocked": [],
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0.0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0.0,
+  "range": 0
+ },
+ "name": "witness-A-102359-1",
+ "original_caster": "caster",
+ "relations": [
+  {
+   "friendly": false,
+   "from": "caster",
+   "hostile": true,
+   "to": "t1",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "friendly": false,
+   "from": "caster",
+   "hostile": true,
+   "to": "t2",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "friendly": false,
+   "from": "caster",
+   "hostile": true,
+   "to": "e_ground",
+   "valid_assist": false,
+   "valid_attack": true
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 102359,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "t1",
+  "t2",
+  "e_ground"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:727-800 (m_targets persists across effects), SpellInfo.cpp:4572-4606 (dstSet from effect 0)",
+  "effect": 1,
+  "expectation_corrected": "proposer's effect-1 list ignored the bound script spell_dru_entangling_roots (spell_druid.cpp:921-944): OnObjectTargetSelect nulls EFFECT_1/TARGET_UNIT_TARGET_ENEMY and OnObjectAreaTargetSelect clears EFFECT_1/TARGET_UNIT_DEST_AREA_ENEMY unless the caster has aura 330670 (Curious Bramblepatch); the fixture caster has none -> effect 1 has no recipients (script-consumer, track E adapter)",
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "t1",
+     "t2"
+    ],
+    "1": [
+     "t1",
+     "t2"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.immune_effects=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "t1.facts.immune_effects=[]",
+   "t1.facts.cc_breakable_by_damage=false",
+   "t1.facts.ignore_los_on_me=false",
+   "t2.facts.immune_effects=[]",
+   "t2.facts.cc_breakable_by_damage=false",
+   "t2.facts.ignore_los_on_me=false",
+   "e_ground.facts.immune_effects=[]",
+   "e_ground.facts.cc_breakable_by_damage=false",
+   "e_ground.facts.ignore_los_on_me=false",
+   "modifiers.range=0 (no spell modifier on the caster)",
+   "modifiers.max_targets=0 (no spell modifier on the caster)"
+  ],
+  "selectors": [
+   6,
+   16
+  ],
+  "spell": 102359,
+  "track": "A"
+ }
+}

@@ -1,0 +1,219 @@
+{
+ "about": "scripted-target-filter",
+ "actors": [
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "pc",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "t",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    5,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "e1",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    6,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "e2",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    5,
+    1,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "pc",
+ "discriminates": "script explicit-removal vs engine default (explicit target inside the DEST_AREA radius is also a candidate): default model gives [e1, t, e2]",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "e1",
+    "e2"
+   ]
+  }
+ },
+ "explicit": {
+  "unit": "t"
+ },
+ "hit": {
+  "draws": {
+   "default": 0
+  }
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-E-404358-0",
+ "relations": [
+  {
+   "from": "pc",
+   "to": "t",
+   "valid_attack": true
+  },
+  {
+   "from": "pc",
+   "to": "e1",
+   "valid_attack": true
+  },
+  {
+   "from": "pc",
+   "to": "e2",
+   "valid_attack": true
+  },
+  {
+   "from": "pc",
+   "to": "pc",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 404358,
+  "override": {
+   "los_disabled": false,
+   "positive": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "e1",
+  "t",
+  "e2",
+  "pc"
+ ],
+ "witness": {
+  "consumer": "src/server/scripts/Spells/spell_paladin.cpp:357-360 (RemoveExplicitTarget); Spell.cpp:1437",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0"
+   ],
+   "recipients": {
+    "0": [
+     "e1",
+     "e2"
+    ]
+   }
+  },
+  "intake_additions": [
+   "pc.facts.cc_breakable_by_damage=false",
+   "t.facts.cc_breakable_by_damage=false",
+   "e1.facts.cc_breakable_by_damage=false",
+   "e2.facts.cc_breakable_by_damage=false"
+  ],
+  "selectors": [
+   53,
+   16
+  ],
+  "spell": 404358,
+  "track": "E"
+ }
+}

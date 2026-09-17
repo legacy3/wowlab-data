@@ -98,3 +98,13 @@ def dummy_ctx():
     if not DEFAULT_TABLES.is_dir():
         pytest.skip(f"no table snapshot at {DEFAULT_TABLES}")
     return Context()
+
+
+@pytest.fixture(scope="session")
+def tg_ctx():
+    """Targeting research context (snapshot + Dummy-pass evidence + current-player scope)."""
+    from gearing.tables import DEFAULT_TABLES as _tables
+    if not _tables.is_dir():
+        pytest.skip(f"no table snapshot at {_tables}")
+    from targeting import context
+    return context.get()

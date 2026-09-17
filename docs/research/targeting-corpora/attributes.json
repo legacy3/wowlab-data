@@ -1,0 +1,3149 @@
+{
+ "consumer_scan": {
+  "by_stage": {
+   "application-entry": 2,
+   "candidate-search": 4,
+   "cap": 1,
+   "chain": 10,
+   "dead-policy": 2,
+   "explicit-mask": 2,
+   "explicit-range": 1,
+   "explicit-redirect": 4,
+   "explicit-validation": 4,
+   "load-rewrite": 88,
+   "per-candidate": 23,
+   "per-effect": 5,
+   "post-selection": 5,
+   "relation": 17,
+   "selection": 11
+  },
+  "regions": {
+   "Spell::CheckCast": [
+    "// Don't check explicit target for passive spells",
+    "// Spell cast only in battleground"
+   ]
+  },
+  "rows": [
+   {
+    "code": "spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::PlayersOnly) == effects[j].EffectAttributes.HasFlag(SpellEffectAttributes::PlayersOnly) &&",
+    "consumer": "Spell.cpp:754",
+    "function": "Spell::SelectSpellTargets",
+    "stage": "post-selection",
+    "token": "SpellEffectAttributes::PlayersOnly"
+   },
+   {
+    "code": "spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::PlayersOnly) == effects[j].EffectAttributes.HasFlag(SpellEffectAttributes::PlayersOnly) &&",
+    "consumer": "Spell.cpp:754",
+    "function": "Spell::SelectSpellTargets",
+    "stage": "post-selection",
+    "token": "SpellEffectAttributes::PlayersOnly"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR1_REQUIRE_ALL_TARGETS))",
+    "consumer": "Spell.cpp:808",
+    "function": "Spell::SelectSpellTargets",
+    "stage": "post-selection",
+    "token": "SPELL_ATTR1_REQUIRE_ALL_TARGETS"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR2_FAIL_ON_ALL_TARGETS_IMMUNE))",
+    "consumer": "Spell.cpp:846",
+    "function": "Spell::SelectSpellTargets",
+    "stage": "post-selection",
+    "token": "SPELL_ATTR2_FAIL_ON_ALL_TARGETS_IMMUNE"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR8_REQUIRES_LOCATION_TO_BE_ON_LIQUID_SURFACE))",
+    "consumer": "Spell.cpp:863",
+    "function": "Spell::SelectSpellTargets",
+    "stage": "post-selection",
+    "token": "SPELL_ATTR8_REQUIRES_LOCATION_TO_BE_ON_LIQUID_SURFACE"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_USE_FACING_FROM_SPELL))",
+    "consumer": "Spell.cpp:1072",
+    "function": "Spell::SelectImplicitChannelTargets",
+    "stage": "selection",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_USE_FACING_FROM_SPELL))",
+    "consumer": "Spell.cpp:1145",
+    "function": "Spell::SelectImplicitNearbyTargets",
+    "stage": "selection",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_USE_FACING_FROM_SPELL))",
+    "consumer": "Spell.cpp:1258",
+    "function": "Spell::SelectImplicitNearbyTargets",
+    "stage": "selection",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_USE_FACING_FROM_SPELL))",
+    "consumer": "Spell.cpp:1429",
+    "function": "Spell::SelectImplicitAreaTargets",
+    "stage": "selection",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_USE_FACING_FROM_SPELL))",
+    "consumer": "Spell.cpp:1646",
+    "function": "Spell::SelectImplicitCasterDestTargets",
+    "stage": "selection",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "ASSERT(m_targets.GetObjectTarget() || spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::DontFailSpellOnTargetingFailure),",
+    "consumer": "Spell.cpp:1655",
+    "function": "Spell::SelectImplicitTargetDestTargets",
+    "stage": "selection",
+    "token": "SpellEffectAttributes::DontFailSpellOnTargetingFailure"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_USE_FACING_FROM_SPELL))",
+    "consumer": "Spell.cpp:1683",
+    "function": "Spell::SelectImplicitTargetDestTargets",
+    "stage": "selection",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_USE_FACING_FROM_SPELL))",
+    "consumer": "Spell.cpp:1735",
+    "function": "Spell::SelectImplicitDestDestTargets",
+    "stage": "selection",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "ASSERT(m_targets.GetObjectTarget() || m_targets.GetItemTarget() || spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::DontFailSpellOnTargetingFailure),",
+    "consumer": "Spell.cpp:1809",
+    "function": "Spell::SelectImplicitTargetObjectTargets",
+    "stage": "selection",
+    "token": "SpellEffectAttributes::DontFailSpellOnTargetingFailure"
+   },
+   {
+    "code": "Position const* losPosition = m_spellInfo->HasAttribute(SPELL_ATTR2_CHAIN_FROM_CASTER) ? m_caster : target;",
+    "consumer": "Spell.cpp:1853",
+    "function": "Spell::SelectImplicitChainTargets",
+    "stage": "chain",
+    "token": "SPELL_ATTR2_CHAIN_FROM_CASTER"
+   },
+   {
+    "code": "if (!m_spellInfo->HasAttribute(SPELL_ATTR2_CHAIN_FROM_CASTER) && !spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::ChainFromInitialTarget))",
+    "consumer": "Spell.cpp:1860",
+    "function": "Spell::SelectImplicitChainTargets",
+    "stage": "chain",
+    "token": "SPELL_ATTR2_CHAIN_FROM_CASTER"
+   },
+   {
+    "code": "if (!m_spellInfo->HasAttribute(SPELL_ATTR2_CHAIN_FROM_CASTER) && !spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::ChainFromInitialTarget))",
+    "consumer": "Spell.cpp:1860",
+    "function": "Spell::SelectImplicitChainTargets",
+    "stage": "chain",
+    "token": "SpellEffectAttributes::ChainFromInitialTarget"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_USE_FACING_FROM_SPELL))",
+    "consumer": "Spell.cpp:1956",
+    "function": "Spell::SelectImplicitTrajTargets",
+    "stage": "selection",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "if (spellInfo->HasAttribute(SPELL_ATTR3_ONLY_ON_PLAYER) || spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::PlayersOnly))",
+    "consumer": "Spell.cpp:2150",
+    "function": "Spell::GetSearcherTypeMask",
+    "stage": "candidate-search",
+    "token": "SPELL_ATTR3_ONLY_ON_PLAYER"
+   },
+   {
+    "code": "if (spellInfo->HasAttribute(SPELL_ATTR3_ONLY_ON_PLAYER) || spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::PlayersOnly))",
+    "consumer": "Spell.cpp:2150",
+    "function": "Spell::GetSearcherTypeMask",
+    "stage": "candidate-search",
+    "token": "SpellEffectAttributes::PlayersOnly"
+   },
+   {
+    "code": "if (spellInfo->HasAttribute(SPELL_ATTR3_ONLY_ON_GHOSTS))",
+    "consumer": "Spell.cpp:2152",
+    "function": "Spell::GetSearcherTypeMask",
+    "stage": "candidate-search",
+    "token": "SPELL_ATTR3_ONLY_ON_GHOSTS"
+   },
+   {
+    "code": "if (spellInfo->HasAttribute(SPELL_ATTR5_NOT_ON_PLAYER))",
+    "consumer": "Spell.cpp:2154",
+    "function": "Spell::GetSearcherTypeMask",
+    "stage": "candidate-search",
+    "token": "SPELL_ATTR5_NOT_ON_PLAYER"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR2_CHAIN_FROM_CASTER))",
+    "consumer": "Spell.cpp:2253",
+    "function": "Spell::SearchChainTargets",
+    "stage": "chain",
+    "token": "SPELL_ATTR2_CHAIN_FROM_CASTER"
+   },
+   {
+    "code": "if (spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::ChainFromInitialTarget))",
+    "consumer": "Spell.cpp:2256",
+    "function": "Spell::SearchChainTargets",
+    "stage": "chain",
+    "token": "SpellEffectAttributes::ChainFromInitialTarget"
+   },
+   {
+    "code": "WorldObject* chainSource = m_spellInfo->HasAttribute(SPELL_ATTR2_CHAIN_FROM_CASTER) ? m_caster : target;",
+    "consumer": "Spell.cpp:2262",
+    "function": "Spell::SearchChainTargets",
+    "stage": "chain",
+    "token": "SPELL_ATTR2_CHAIN_FROM_CASTER"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR5_MELEE_CHAIN_TARGETING))",
+    "consumer": "Spell.cpp:2270",
+    "function": "Spell::SearchChainTargets",
+    "stage": "chain",
+    "token": "SPELL_ATTR5_MELEE_CHAIN_TARGETING"
+   },
+   {
+    "code": "if (spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::EnforceLineOfSightToChainTargets) && !IsWithinLOS(m_caster, *itr, false, VMAP::ModelIgnoreFlags::M2))",
+    "consumer": "Spell.cpp:2311",
+    "function": "Spell::SearchChainTargets",
+    "stage": "chain",
+    "token": "SpellEffectAttributes::EnforceLineOfSightToChainTargets"
+   },
+   {
+    "code": "if (!m_spellInfo->HasAttribute(SPELL_ATTR2_CHAIN_FROM_CASTER) && !spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::ChainFromInitialTarget))",
+    "consumer": "Spell.cpp:2321",
+    "function": "Spell::SearchChainTargets",
+    "stage": "chain",
+    "token": "SPELL_ATTR2_CHAIN_FROM_CASTER"
+   },
+   {
+    "code": "if (!m_spellInfo->HasAttribute(SPELL_ATTR2_CHAIN_FROM_CASTER) && !spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::ChainFromInitialTarget))",
+    "consumer": "Spell.cpp:2321",
+    "function": "Spell::SearchChainTargets",
+    "stage": "chain",
+    "token": "SpellEffectAttributes::ChainFromInitialTarget"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR4_BOUNCY_CHAIN_MISSILES))",
+    "consumer": "Spell.cpp:2496",
+    "function": "Spell::AddUnitTarget",
+    "stage": "application-entry",
+    "token": "SPELL_ATTR4_BOUNCY_CHAIN_MISSILES"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR9_MISSILE_SPEED_IS_DELAY_IN_SEC))",
+    "consumer": "Spell.cpp:2513",
+    "function": "Spell::AddUnitTarget",
+    "stage": "application-entry",
+    "token": "SPELL_ATTR9_MISSILE_SPEED_IS_DELAY_IN_SEC"
+   },
+   {
+    "code": "if (m_spellInfo->DmgClass != SPELL_DAMAGE_CLASS_MELEE && !m_spellInfo->HasAttribute(SPELL_ATTR2_IGNORE_LINE_OF_SIGHT))",
+    "consumer": "Spell.cpp:5961",
+    "function": "Spell::CheckCast",
+    "stage": "explicit-validation",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "if ((m_spellInfo->HasAttribute(SPELL_ATTR0_CU_REQ_CASTER_BEHIND_TARGET)) && target->HasInArc(static_cast<float>(M_PI), m_caster))",
+    "consumer": "Spell.cpp:5986",
+    "function": "Spell::CheckCast",
+    "stage": "explicit-validation",
+    "token": "SPELL_ATTR0_CU_REQ_CASTER_BEHIND_TARGET"
+   },
+   {
+    "code": "if ((m_spellInfo->HasAttribute(SPELL_ATTR0_CU_REQ_TARGET_FACING_CASTER)) && !target->HasInArc(static_cast<float>(M_PI), m_caster))",
+    "consumer": "Spell.cpp:5990",
+    "function": "Spell::CheckCast",
+    "stage": "explicit-validation",
+    "token": "SPELL_ATTR0_CU_REQ_TARGET_FACING_CASTER"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR2_NO_ACTIVE_PETS))",
+    "consumer": "Spell.cpp:6015",
+    "function": "Spell::CheckCast",
+    "stage": "explicit-validation",
+    "token": "SPELL_ATTR2_NO_ACTIVE_PETS"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR0_USES_RANGED_SLOT) && m_caster->GetTypeId() == TYPEID_PLAYER)",
+    "consumer": "Spell.cpp:7377",
+    "function": "Spell::GetMinMaxRange",
+    "stage": "explicit-range",
+    "token": "SPELL_ATTR0_USES_RANGED_SLOT"
+   },
+   {
+    "code": "if (m_spellInfo->HasAttribute(SPELL_ATTR2_IGNORE_LINE_OF_SIGHT) || DisableMgr::IsDisabledFor(DISABLE_TYPE_SPELL, m_spellInfo->Id, nullptr, SPELL_DISABLE_LOS))",
+    "consumer": "Spell.cpp:8197",
+    "function": "Spell::CheckEffectTarget",
+    "stage": "per-effect",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "if (!m_spellInfo->HasAttribute(SPELL_ATTR5_ALWAYS_LINE_OF_SIGHT) && IsTriggered() && m_triggeredByAuraSpell && (m_triggeredByAuraSpell->HasAttribute(SPELL_ATTR2_IGNORE_LINE_OF_SIGHT) || DisableMgr::Is",
+    "consumer": "Spell.cpp:8206",
+    "function": "Spell::CheckEffectTarget",
+    "stage": "per-effect",
+    "token": "SPELL_ATTR5_ALWAYS_LINE_OF_SIGHT"
+   },
+   {
+    "code": "if (!m_spellInfo->HasAttribute(SPELL_ATTR5_ALWAYS_LINE_OF_SIGHT) && IsTriggered() && m_triggeredByAuraSpell && (m_triggeredByAuraSpell->HasAttribute(SPELL_ATTR2_IGNORE_LINE_OF_SIGHT) || DisableMgr::Is",
+    "consumer": "Spell.cpp:8206",
+    "function": "Spell::CheckEffectTarget",
+    "stage": "per-effect",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "if (!losPosition || m_spellInfo->HasAttribute(SPELL_ATTR5_ALWAYS_AOE_LINE_OF_SIGHT) || spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::AlwaysAoeLineOfSight))",
+    "consumer": "Spell.cpp:8240",
+    "function": "Spell::CheckEffectTarget",
+    "stage": "per-effect",
+    "token": "SPELL_ATTR5_ALWAYS_AOE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "if (!losPosition || m_spellInfo->HasAttribute(SPELL_ATTR5_ALWAYS_AOE_LINE_OF_SIGHT) || spellEffectInfo.EffectAttributes.HasFlag(SpellEffectAttributes::AlwaysAoeLineOfSight))",
+    "consumer": "Spell.cpp:8240",
+    "function": "Spell::CheckEffectTarget",
+    "stage": "per-effect",
+    "token": "SpellEffectAttributes::AlwaysAoeLineOfSight"
+   },
+   {
+    "code": "if (!_spellInfo->HasAttribute(SPELL_ATTR8_CAN_HIT_AOE_UNTARGETABLE) && unitTarget->GetSpellOtherImmunityMask().HasFlag(SpellOtherImmunity::AoETarget))",
+    "consumer": "Spell.cpp:9439",
+    "function": "WorldObjectSpellAreaTargetCheck::operator()",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR8_CAN_HIT_AOE_UNTARGETABLE"
+   },
+   {
+    "code": "if (_spellInfo->HasAttribute(SPELL_ATTR0_CU_CONE_BACK))",
+    "consumer": "Spell.cpp:9461",
+    "function": "WorldObjectSpellConeTargetCheck::operator()",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR0_CU_CONE_BACK"
+   },
+   {
+    "code": "else if (_spellInfo->HasAttribute(SPELL_ATTR0_CU_CONE_LINE))",
+    "consumer": "Spell.cpp:9466",
+    "function": "WorldObjectSpellConeTargetCheck::operator()",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR0_CU_CONE_LINE"
+   },
+   {
+    "code": "if (!_spellInfo->HasAttribute(SPELL_ATTR9_NO_MOVEMENT_RADIUS_BONUS))",
+    "consumer": "SpellInfo.cpp:810",
+    "function": "SpellEffectInfo::CalcRadius",
+    "stage": "selection",
+    "token": "SPELL_ATTR9_NO_MOVEMENT_RADIUS_BONUS"
+   },
+   {
+    "code": "return HasAttribute(SPELL_ATTR3_ONLY_ON_GHOSTS);",
+    "consumer": "SpellInfo.cpp:1835",
+    "function": "SpellInfo::IsRequiringDeadTarget",
+    "stage": "dead-policy",
+    "token": "SPELL_ATTR3_ONLY_ON_GHOSTS"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR2_ALLOW_DEAD_TARGET) || Targets & (TARGET_FLAG_CORPSE_ALLY | TARGET_FLAG_CORPSE_ENEMY | TARGET_FLAG_UNIT_DEAD))",
+    "consumer": "SpellInfo.cpp:1840",
+    "function": "SpellInfo::IsAllowingDeadTarget",
+    "stage": "dead-policy",
+    "token": "SPELL_ATTR2_ALLOW_DEAD_TARGET"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR5_LIMIT_N))",
+    "consumer": "SpellInfo.cpp:2055",
+    "function": "SpellInfo::IsSingleTarget",
+    "stage": "cap",
+    "token": "SPELL_ATTR5_LIMIT_N"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR1_EXCLUDE_CASTER) && caster == target)",
+    "consumer": "SpellInfo.cpp:2331",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR1_EXCLUDE_CASTER"
+   },
+   {
+    "code": ".IgnorePhaseShift = HasAttribute(SPELL_ATTR6_IGNORE_PHASE_SHIFT),",
+    "consumer": "SpellInfo.cpp:2337",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR6_IGNORE_PHASE_SHIFT"
+   },
+   {
+    "code": ".IncludeHiddenBySpawnTracking = HasAttribute(SPELL_ATTR8_ALLOW_TARGETS_HIDDEN_BY_SPAWN_TRACKING),",
+    "consumer": "SpellInfo.cpp:2338",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR8_ALLOW_TARGETS_HIDDEN_BY_SPAWN_TRACKING"
+   },
+   {
+    "code": ".IncludeAnyPrivateObject = HasAttribute(SPELL_ATTR0_CU_CAN_TARGET_ANY_PRIVATE_OBJECT)",
+    "consumer": "SpellInfo.cpp:2339",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR0_CU_CAN_TARGET_ANY_PRIVATE_OBJECT"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR8_ONLY_TARGET_IF_SAME_CREATOR))",
+    "consumer": "SpellInfo.cpp:2346",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR8_ONLY_TARGET_IF_SAME_CREATOR"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR1_ONLY_PEACEFUL_TARGETS) && (unitTarget->IsInCombat() || unitTarget->HasUnitFlag(UNIT_FLAG_PET_IN_COMBAT)))",
+    "consumer": "SpellInfo.cpp:2364",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR1_ONLY_PEACEFUL_TARGETS"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR3_ONLY_ON_GHOSTS) != unitTarget->HasAuraType(SPELL_AURA_GHOST))",
+    "consumer": "SpellInfo.cpp:2368",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR3_ONLY_ON_GHOSTS"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR3_ONLY_ON_GHOSTS))",
+    "consumer": "SpellInfo.cpp:2370",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR3_ONLY_ON_GHOSTS"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR2_CANNOT_CAST_ON_TAPPED))",
+    "consumer": "SpellInfo.cpp:2381",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR2_CANNOT_CAST_ON_TAPPED"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR0_CU_PICKPOCKET))",
+    "consumer": "SpellInfo.cpp:2386",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR0_CU_PICKPOCKET"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR8_ONLY_TARGET_OWN_SUMMONS))",
+    "consumer": "SpellInfo.cpp:2411",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR8_ONLY_TARGET_OWN_SUMMONS"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR3_NOT_ON_AOE_IMMUNE))",
+    "consumer": "SpellInfo.cpp:2415",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR3_NOT_ON_AOE_IMMUNE"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR9_TARGET_MUST_BE_GROUNDED) &&",
+    "consumer": "SpellInfo.cpp:2419",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR9_TARGET_MUST_BE_GROUNDED"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR3_ONLY_ON_PLAYER))",
+    "consumer": "SpellInfo.cpp:2443",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR3_ONLY_ON_PLAYER"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR5_NOT_ON_PLAYER_CONTROLLED_NPC) && unitTarget->IsControlledByPlayer())",
+    "consumer": "SpellInfo.cpp:2446",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR5_NOT_ON_PLAYER_CONTROLLED_NPC"
+   },
+   {
+    "code": "else if (HasAttribute(SPELL_ATTR5_NOT_ON_PLAYER))",
+    "consumer": "SpellInfo.cpp:2449",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR5_NOT_ON_PLAYER"
+   },
+   {
+    "code": "if (implicit && HasAttribute(SPELL_ATTR6_DO_NOT_CHAIN_TO_CROWD_CONTROLLED_TARGETS) && unitTarget->HasBreakableByDamageCrowdControlAura())",
+    "consumer": "SpellInfo.cpp:2456",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR6_DO_NOT_CHAIN_TO_CROWD_CONTROLLED_TARGETS"
+   },
+   {
+    "code": "if (unitTarget->HasUnitState(UNIT_STATE_IN_FLIGHT) && !HasAttribute(SPELL_ATTR0_CU_ALLOW_INFLIGHT_TARGET))",
+    "consumer": "SpellInfo.cpp:2482",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR0_CU_ALLOW_INFLIGHT_TARGET"
+   },
+   {
+    "code": "if (unitTarget->HasAuraType(SPELL_AURA_PREVENT_RESURRECTION) && !HasAttribute(SPELL_ATTR7_BYPASS_NO_RESURRECT_AURA))",
+    "consumer": "SpellInfo.cpp:2516",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR7_BYPASS_NO_RESURRECT_AURA"
+   },
+   {
+    "code": "if (HasAttribute(SPELL_ATTR8_ENFORCE_IN_COMBAT_RESSURECTION_LIMIT))",
+    "consumer": "SpellInfo.cpp:2520",
+    "function": "SpellInfo::CheckTarget",
+    "stage": "per-candidate",
+    "token": "SPELL_ATTR8_ENFORCE_IN_COMBAT_RESSURECTION_LIMIT"
+   },
+   {
+    "code": "if (!effect.EffectAttributes.HasFlag(SpellEffectAttributes::DontFailSpellOnTargetingFailure))",
+    "consumer": "SpellInfo.cpp:4600",
+    "function": "SpellInfo::_InitializeExplicitTargetMask",
+    "stage": "explicit-mask",
+    "token": "SpellEffectAttributes::DontFailSpellOnTargetingFailure"
+   },
+   {
+    "code": "if (!HasAttribute(SPELL_ATTR13_DO_NOT_FAIL_IF_NO_TARGET))",
+    "consumer": "SpellInfo.cpp:4605",
+    "function": "SpellInfo::_InitializeExplicitTargetMask",
+    "stage": "explicit-mask",
+    "token": "SPELL_ATTR13_DO_NOT_FAIL_IF_NO_TARGET"
+   },
+   {
+    "code": "if (attributes & SPELL_ATTR0_CU_SHARE_DAMAGE)",
+    "consumer": "SpellMgr.cpp:3009",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_SHARE_DAMAGE"
+   },
+   {
+    "code": "TC_LOG_ERROR(\"sql.sql\", \"Spell {} listed in table `spell_custom_attr` with SPELL_ATTR0_CU_SHARE_DAMAGE has no SPELL_EFFECT_SCHOOL_DAMAGE, ignored.\", spellId);",
+    "consumer": "SpellMgr.cpp:3013",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_SHARE_DAMAGE"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_IGNORE_ARMOR;",
+    "consumer": "SpellMgr.cpp:3038",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_IGNORE_ARMOR"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_AURA_CC;",
+    "consumer": "SpellMgr.cpp:3048",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CC"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED;",
+    "consumer": "SpellMgr.cpp:3067",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_CAN_CRIT;",
+    "consumer": "SpellMgr.cpp:3086",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_CAN_CRIT"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_DIRECT_DAMAGE;",
+    "consumer": "SpellMgr.cpp:3100",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_DIRECT_DAMAGE"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_NO_INITIAL_THREAT;",
+    "consumer": "SpellMgr.cpp:3110",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_NO_INITIAL_THREAT"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_CHARGE;",
+    "consumer": "SpellMgr.cpp:3117",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_CHARGE"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_PICKPOCKET;",
+    "consumer": "SpellMgr.cpp:3120",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_PICKPOCKET"
+   },
+   {
+    "code": "const_cast<SpellInfo&>(procInfo).AttributesCu |= SPELL_ATTR0_CU_ENCHANT_PROC;",
+    "consumer": "SpellMgr.cpp:3148",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_ENCHANT_PROC"
+   },
+   {
+    "code": "if (!spellInfoMutable->HasAttribute(SPELL_ATTR3_ALWAYS_HIT))",
+    "consumer": "SpellMgr.cpp:3160",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_ALWAYS_HIT"
+   },
+   {
+    "code": "if (!spellEffectInfo.CalcValueAsInt() && !((spellEffectInfo.Effect == SPELL_EFFECT_INTERRUPT_CAST || spellInfoMutable->HasAttribute(SPELL_ATTR0_CU_AURA_CC)) && !spellInfoMutable->HasAttribute(SPELL_AT",
+    "consumer": "SpellMgr.cpp:3199",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CC"
+   },
+   {
+    "code": "if (!spellEffectInfo.CalcValueAsInt() && !((spellEffectInfo.Effect == SPELL_EFFECT_INTERRUPT_CAST || spellInfoMutable->HasAttribute(SPELL_ATTR0_CU_AURA_CC)) && !spellInfoMutable->HasAttribute(SPELL_AT",
+    "consumer": "SpellMgr.cpp:3199",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_NO_IMMUNITIES"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_BINARY_SPELL;",
+    "consumer": "SpellMgr.cpp:3225",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_BINARY_SPELL"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_SCHOOLMASK_NORMAL_WITH_MAGIC;",
+    "consumer": "SpellMgr.cpp:3236",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_SCHOOLMASK_NORMAL_WITH_MAGIC"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_IS_TALENT;",
+    "consumer": "SpellMgr.cpp:3242",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_IS_TALENT"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_CONE_LINE;",
+    "consumer": "SpellMgr.cpp:3245",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_CONE_LINE"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_AURA_CC;",
+    "consumer": "SpellMgr.cpp:3252",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CC"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_AURA_CC;",
+    "consumer": "SpellMgr.cpp:3257",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CC"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_AURA_CC;",
+    "consumer": "SpellMgr.cpp:3262",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CC"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_NEEDS_AMMO_DATA;",
+    "consumer": "SpellMgr.cpp:3300",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_NEEDS_AMMO_DATA"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu |= SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED;",
+    "consumer": "SpellMgr.cpp:3308",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED"
+   },
+   {
+    "code": "if (!spellInfoMutable->HasAttribute(SPELL_ATTR0_CU_BINARY_SPELL))",
+    "consumer": "SpellMgr.cpp:3315",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_BINARY_SPELL"
+   },
+   {
+    "code": "if (triggerSpell->HasAttribute(SPELL_ATTR0_CU_BINARY_SPELL))",
+    "consumer": "SpellMgr.cpp:3331",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_BINARY_SPELL"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu &= ~SPELL_ATTR0_CU_BINARY_SPELL;",
+    "consumer": "SpellMgr.cpp:3342",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_BINARY_SPELL"
+   },
+   {
+    "code": "if (spellInfo.HasAttribute(SPELL_ATTR0_CU_CAN_CRIT))",
+    "consumer": "SpellMgr.cpp:3346",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_CAN_CRIT"
+   },
+   {
+    "code": "if (spellInfo.HasAttribute(SPELL_ATTR2_CANT_CRIT))",
+    "consumer": "SpellMgr.cpp:3347",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_CANT_CRIT"
+   },
+   {
+    "code": "spellInfoMutable->AttributesCu &= ~SPELL_ATTR0_CU_CAN_CRIT;",
+    "consumer": "SpellMgr.cpp:3348",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_CAN_CRIT"
+   },
+   {
+    "code": "const_cast<SpellInfo&>(spellInfo).AttributesCu |= SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED;",
+    "consumer": "SpellMgr.cpp:3357",
+    "function": "SpellMgr::LoadSpellInfoCustomAttributes",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED"
+   },
+   {
+    "code": "spellInfo->AttributesEx4 |= SPELL_ATTR4_IGNORE_DAMAGE_TAKEN_MODIFIERS;",
+    "consumer": "SpellMgr.cpp:3552",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR4_IGNORE_DAMAGE_TAKEN_MODIFIERS"
+   },
+   {
+    "code": "spellInfo->AttributesEx6 |= SPELL_ATTR6_IGNORE_PHASE_SHIFT;",
+    "consumer": "SpellMgr.cpp:3704",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR6_IGNORE_PHASE_SHIFT"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_DOT_STACKING_RULE;",
+    "consumer": "SpellMgr.cpp:3710",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_DOT_STACKING_RULE"
+   },
+   {
+    "code": "spellInfo->AttributesEx5 |= SPELL_ATTR5_EXTRA_INITIAL_PERIOD;",
+    "consumer": "SpellMgr.cpp:3779",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR5_EXTRA_INITIAL_PERIOD"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_CANT_CRIT;",
+    "consumer": "SpellMgr.cpp:3814",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_CANT_CRIT"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_PASSIVE;",
+    "consumer": "SpellMgr.cpp:3842",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_PASSIVE"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_DOT_STACKING_RULE;",
+    "consumer": "SpellMgr.cpp:3848",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_DOT_STACKING_RULE"
+   },
+   {
+    "code": "spellInfo->AttributesEx |= SPELL_ATTR1_NO_THREAT;",
+    "consumer": "SpellMgr.cpp:3890",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR1_NO_THREAT"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_DOT_STACKING_RULE;",
+    "consumer": "SpellMgr.cpp:4089",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_DOT_STACKING_RULE"
+   },
+   {
+    "code": "spellInfo->AttributesEx |= SPELL_ATTR1_IMMUNITY_PURGES_EFFECT;",
+    "consumer": "SpellMgr.cpp:4117",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR1_IMMUNITY_PURGES_EFFECT"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_DOT_STACKING_RULE;",
+    "consumer": "SpellMgr.cpp:4243",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_DOT_STACKING_RULE"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_IGNORE_CASTER_MODIFIERS;",
+    "consumer": "SpellMgr.cpp:4310",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_IGNORE_CASTER_MODIFIERS"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_DOT_STACKING_RULE;",
+    "consumer": "SpellMgr.cpp:4322",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_DOT_STACKING_RULE"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_IGNORE_CASTER_MODIFIERS;",
+    "consumer": "SpellMgr.cpp:4366",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_IGNORE_CASTER_MODIFIERS"
+   },
+   {
+    "code": "spellInfo->AttributesEx6 |= SPELL_ATTR6_IGNORE_CASTER_DAMAGE_MODIFIERS;",
+    "consumer": "SpellMgr.cpp:4367",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR6_IGNORE_CASTER_DAMAGE_MODIFIERS"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_NO_IMMUNITIES;",
+    "consumer": "SpellMgr.cpp:4404",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_NO_IMMUNITIES"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_IGNORE_CASTER_MODIFIERS;",
+    "consumer": "SpellMgr.cpp:4416",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_IGNORE_CASTER_MODIFIERS"
+   },
+   {
+    "code": "spellInfo->AttributesEx6 |= SPELL_ATTR6_IGNORE_PHASE_SHIFT;",
+    "consumer": "SpellMgr.cpp:4479",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR6_IGNORE_PHASE_SHIFT"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:4480",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->AttributesEx |= SPELL_ATTR1_EXCLUDE_CASTER;",
+    "consumer": "SpellMgr.cpp:4486",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR1_EXCLUDE_CASTER"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:4504",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_CANT_CRIT;",
+    "consumer": "SpellMgr.cpp:4512",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_CANT_CRIT"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_AURA_IS_DEBUFF;",
+    "consumer": "SpellMgr.cpp:4523",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_AURA_IS_DEBUFF"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_ONLY_OUTDOORS;",
+    "consumer": "SpellMgr.cpp:4567",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_ONLY_OUTDOORS"
+   },
+   {
+    "code": "spellInfo->AttributesEx &= ~SPELL_ATTR1_IS_CHANNELLED;",
+    "consumer": "SpellMgr.cpp:4579",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR1_IS_CHANNELLED"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_NO_INITIAL_THREAT;",
+    "consumer": "SpellMgr.cpp:4630",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_NO_INITIAL_THREAT"
+   },
+   {
+    "code": "spellInfo->AttributesEx3 |= SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD;",
+    "consumer": "SpellMgr.cpp:4636",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_ALLOW_DEAD_TARGET;",
+    "consumer": "SpellMgr.cpp:4637",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_ALLOW_DEAD_TARGET"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_AURA_IS_DEBUFF;",
+    "consumer": "SpellMgr.cpp:4664",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_AURA_IS_DEBUFF"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:4681",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:4692",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_AURA_IS_DEBUFF;",
+    "consumer": "SpellMgr.cpp:4769",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_AURA_IS_DEBUFF"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:4798",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_AURA_IS_DEBUFF;",
+    "consumer": "SpellMgr.cpp:4827",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_AURA_IS_DEBUFF"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:4839",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:4857",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->AttributesEx9 |= SPELL_ATTR9_FORCE_DEST_LOCATION;",
+    "consumer": "SpellMgr.cpp:4858",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR9_FORCE_DEST_LOCATION"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_AURA_IS_DEBUFF;",
+    "consumer": "SpellMgr.cpp:4870",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_AURA_IS_DEBUFF"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_AURA_IS_DEBUFF;",
+    "consumer": "SpellMgr.cpp:4876",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_AURA_IS_DEBUFF"
+   },
+   {
+    "code": "spellInfo->AttributesEx6 |= SPELL_ATTR6_IGNORE_PHASE_SHIFT;",
+    "consumer": "SpellMgr.cpp:4891",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR6_IGNORE_PHASE_SHIFT"
+   },
+   {
+    "code": "spellInfo->AttributesEx6 |= SPELL_ATTR6_IGNORE_PHASE_SHIFT;",
+    "consumer": "SpellMgr.cpp:4897",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR6_IGNORE_PHASE_SHIFT"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_AURA_IS_DEBUFF;",
+    "consumer": "SpellMgr.cpp:4903",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_AURA_IS_DEBUFF"
+   },
+   {
+    "code": "spellInfo->AttributesEx8 |= SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC;",
+    "consumer": "SpellMgr.cpp:4936",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC"
+   },
+   {
+    "code": "spellInfo->AttributesEx8 &= ~SPELL_ATTR8_ONLY_TARGET_IF_SAME_CREATOR;",
+    "consumer": "SpellMgr.cpp:5014",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR8_ONLY_TARGET_IF_SAME_CREATOR"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:5035",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->AttributesEx |= SPELL_ATTR1_NO_THREAT;",
+    "consumer": "SpellMgr.cpp:5057",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR1_NO_THREAT"
+   },
+   {
+    "code": "spellInfo->AttributesEx8 |= SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC;",
+    "consumer": "SpellMgr.cpp:5058",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC"
+   },
+   {
+    "code": "spellInfo->AttributesEx4 &= ~SPELL_ATTR4_USE_FACING_FROM_SPELL;",
+    "consumer": "SpellMgr.cpp:5089",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR4_USE_FACING_FROM_SPELL"
+   },
+   {
+    "code": "spellInfo->AttributesEx2 |= SPELL_ATTR2_IGNORE_LINE_OF_SIGHT;",
+    "consumer": "SpellMgr.cpp:5108",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_AURA_IS_DEBUFF;",
+    "consumer": "SpellMgr.cpp:5114",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_AURA_IS_DEBUFF"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_NO_IMMUNITIES;",
+    "consumer": "SpellMgr.cpp:5146",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_NO_IMMUNITIES"
+   },
+   {
+    "code": "spellInfo->AttributesEx &= ~SPELL_ATTR1_IS_CHANNELLED;",
+    "consumer": "SpellMgr.cpp:5208",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR1_IS_CHANNELLED"
+   },
+   {
+    "code": "spellInfo->AttributesEx4 |= SPELL_ATTR4_AURA_IS_BUFF;",
+    "consumer": "SpellMgr.cpp:5214",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR4_AURA_IS_BUFF"
+   },
+   {
+    "code": "spellInfo->AttributesCu |= SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED;",
+    "consumer": "SpellMgr.cpp:5220",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_CU_AURA_CANNOT_BE_SAVED"
+   },
+   {
+    "code": "spellInfo->AttributesEx &= ~SPELL_ATTR1_IS_CHANNELLED;",
+    "consumer": "SpellMgr.cpp:5241",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR1_IS_CHANNELLED"
+   },
+   {
+    "code": "if (!spellInfo->Speed && !spellInfo->SpellFamilyName && !spellInfo->HasAttribute(SPELL_ATTR9_MISSILE_SPEED_IS_DELAY_IN_SEC))",
+    "consumer": "SpellMgr.cpp:5274",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR9_MISSILE_SPEED_IS_DELAY_IN_SEC"
+   },
+   {
+    "code": "spellInfo->AttributesEx5 |= SPELL_ATTR5_AI_DOESNT_FACE_TARGET;",
+    "consumer": "SpellMgr.cpp:5299",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR5_AI_DOESNT_FACE_TARGET"
+   },
+   {
+    "code": "spellInfo->Attributes |= SPELL_ATTR0_PASSIVE;",
+    "consumer": "SpellMgr.cpp:5302",
+    "function": "SpellMgr::LoadSpellInfoCorrections",
+    "stage": "load-rewrite",
+    "token": "SPELL_ATTR0_PASSIVE"
+   },
+   {
+    "code": "canSeeOrDetectExtraArgs.IgnorePhaseShift = bySpell->HasAttribute(SPELL_ATTR6_IGNORE_PHASE_SHIFT);",
+    "consumer": "Object.cpp:2360",
+    "function": "WorldObject::IsValidAttackTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR6_IGNORE_PHASE_SHIFT"
+   },
+   {
+    "code": "canSeeOrDetectExtraArgs.IncludeHiddenBySpawnTracking = bySpell->HasAttribute(SPELL_ATTR8_ALLOW_TARGETS_HIDDEN_BY_SPAWN_TRACKING);",
+    "consumer": "Object.cpp:2361",
+    "function": "WorldObject::IsValidAttackTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR8_ALLOW_TARGETS_HIDDEN_BY_SPAWN_TRACKING"
+   },
+   {
+    "code": "canSeeOrDetectExtraArgs.IncludeAnyPrivateObject = bySpell->HasAttribute(SPELL_ATTR0_CU_CAN_TARGET_ANY_PRIVATE_OBJECT);",
+    "consumer": "Object.cpp:2362",
+    "function": "WorldObject::IsValidAttackTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR0_CU_CAN_TARGET_ANY_PRIVATE_OBJECT"
+   },
+   {
+    "code": "if ((!bySpell || !bySpell->HasAttribute(SPELL_ATTR6_CAN_TARGET_UNTARGETABLE)) && unitTarget && unitTarget->HasUnitFlag(UNIT_FLAG_NON_ATTACKABLE_2))",
+    "consumer": "Object.cpp:2373",
+    "function": "WorldObject::IsValidAttackTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR6_CAN_TARGET_UNTARGETABLE"
+   },
+   {
+    "code": "if (unitOrOwner && unitTarget && !(isPositiveSpell && bySpell->HasAttribute(SPELL_ATTR6_CAN_ASSIST_IMMUNE_PC)))",
+    "consumer": "Object.cpp:2395",
+    "function": "WorldObject::IsValidAttackTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR6_CAN_ASSIST_IMMUNE_PC"
+   },
+   {
+    "code": "if (!bySpell || !bySpell->HasAttribute(SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC))",
+    "consumer": "Object.cpp:2403",
+    "function": "WorldObject::IsValidAttackTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC"
+   },
+   {
+    "code": "&& (!bySpell || bySpell->HasAttribute(SPELL_ATTR8_IGNORE_SANCTUARY)))",
+    "consumer": "Object.cpp:2469",
+    "function": "WorldObject::IsValidAttackTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR8_IGNORE_SANCTUARY"
+   },
+   {
+    "code": "if (playerAffectingTarget->IsPvP() || (bySpell && bySpell->HasAttribute(SPELL_ATTR5_IGNORE_AREA_EFFECT_PVP_CHECK)))",
+    "consumer": "Object.cpp:2475",
+    "function": "WorldObject::IsValidAttackTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR5_IGNORE_AREA_EFFECT_PVP_CHECK"
+   },
+   {
+    "code": "canSeeOrDetectExtraArgs.IgnorePhaseShift = bySpell->HasAttribute(SPELL_ATTR6_IGNORE_PHASE_SHIFT);",
+    "consumer": "Object.cpp:2525",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR6_IGNORE_PHASE_SHIFT"
+   },
+   {
+    "code": "canSeeOrDetectExtraArgs.IncludeHiddenBySpawnTracking = bySpell->HasAttribute(SPELL_ATTR8_ALLOW_TARGETS_HIDDEN_BY_SPAWN_TRACKING);",
+    "consumer": "Object.cpp:2526",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR8_ALLOW_TARGETS_HIDDEN_BY_SPAWN_TRACKING"
+   },
+   {
+    "code": "canSeeOrDetectExtraArgs.IncludeAnyPrivateObject = bySpell->HasAttribute(SPELL_ATTR0_CU_CAN_TARGET_ANY_PRIVATE_OBJECT);",
+    "consumer": "Object.cpp:2527",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR0_CU_CAN_TARGET_ANY_PRIVATE_OBJECT"
+   },
+   {
+    "code": "if ((!bySpell || !bySpell->HasAttribute(SPELL_ATTR6_CAN_TARGET_UNTARGETABLE)) && unitTarget && unitTarget->HasUnitFlag(UNIT_FLAG_NON_ATTACKABLE_2))",
+    "consumer": "Object.cpp:2537",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR6_CAN_TARGET_UNTARGETABLE"
+   },
+   {
+    "code": "if ((!bySpell || !bySpell->HasAttribute(SPELL_ATTR11_CAN_ASSIST_UNINTERACTIBLE)) && unitTarget && unitTarget->IsUninteractible())",
+    "consumer": "Object.cpp:2540",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR11_CAN_ASSIST_UNINTERACTIBLE"
+   },
+   {
+    "code": "if (isNegativeSpell || !bySpell || !bySpell->HasAttribute(SPELL_ATTR6_CAN_ASSIST_IMMUNE_PC))",
+    "consumer": "Object.cpp:2547",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR6_CAN_ASSIST_IMMUNE_PC"
+   },
+   {
+    "code": "if (!bySpell || !bySpell->HasAttribute(SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC))",
+    "consumer": "Object.cpp:2551",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC"
+   },
+   {
+    "code": "if (unitTarget->IsPvP() && (!bySpell || bySpell->HasAttribute(SPELL_ATTR8_IGNORE_SANCTUARY)))",
+    "consumer": "Object.cpp:2584",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR8_IGNORE_SANCTUARY"
+   },
+   {
+    "code": "if (!bySpell || !bySpell->HasAttribute(SPELL_ATTR6_CAN_ASSIST_IMMUNE_PC))",
+    "consumer": "Object.cpp:2593",
+    "function": "WorldObject::IsValidAssistTarget",
+    "stage": "relation",
+    "token": "SPELL_ATTR6_CAN_ASSIST_IMMUNE_PC"
+   },
+   {
+    "code": "if (spellInfo->HasAttribute(SPELL_ATTR0_IS_ABILITY) || spellInfo->HasAttribute(SPELL_ATTR1_NO_REDIRECTION) || spellInfo->HasAttribute(SPELL_ATTR0_NO_IMMUNITIES))",
+    "consumer": "Object.cpp:2605",
+    "function": "WorldObject::GetMagicHitRedirectTarget",
+    "stage": "explicit-redirect",
+    "token": "SPELL_ATTR0_IS_ABILITY"
+   },
+   {
+    "code": "if (spellInfo->HasAttribute(SPELL_ATTR0_IS_ABILITY) || spellInfo->HasAttribute(SPELL_ATTR1_NO_REDIRECTION) || spellInfo->HasAttribute(SPELL_ATTR0_NO_IMMUNITIES))",
+    "consumer": "Object.cpp:2605",
+    "function": "WorldObject::GetMagicHitRedirectTarget",
+    "stage": "explicit-redirect",
+    "token": "SPELL_ATTR1_NO_REDIRECTION"
+   },
+   {
+    "code": "if (spellInfo->HasAttribute(SPELL_ATTR0_IS_ABILITY) || spellInfo->HasAttribute(SPELL_ATTR1_NO_REDIRECTION) || spellInfo->HasAttribute(SPELL_ATTR0_NO_IMMUNITIES))",
+    "consumer": "Object.cpp:2605",
+    "function": "WorldObject::GetMagicHitRedirectTarget",
+    "stage": "explicit-redirect",
+    "token": "SPELL_ATTR0_NO_IMMUNITIES"
+   },
+   {
+    "code": "if (spellInfo->HasAttribute(SPELL_ATTR9_MISSILE_SPEED_IS_DELAY_IN_SEC))",
+    "consumer": "Object.cpp:2620",
+    "function": "WorldObject::GetMagicHitRedirectTarget",
+    "stage": "explicit-redirect",
+    "token": "SPELL_ATTR9_MISSILE_SPEED_IS_DELAY_IN_SEC"
+   }
+  ],
+  "sources": [
+   "src/server/game/Spells/Spell.cpp",
+   "src/server/game/Spells/SpellInfo.cpp",
+   "src/server/game/Spells/SpellMgr.cpp",
+   "src/server/game/Entities/Unit/Unit.cpp",
+   "src/server/game/Entities/Object/Object.cpp"
+  ],
+  "token_reads": 179
+ },
+ "dead_target_policy": {
+  "consumer": "SpellInfo.cpp:1838 IsAllowingDeadTarget via CheckTarget SpellInfo.cpp:2452; ghosts SpellInfo.cpp:2368 (ONLY_ON_GHOSTS == target HasAuraType(GHOST))",
+  "evidence": "trinity-consumer",
+  "player_spells": {
+   "alive-only": 4801,
+   "allow-dead": 35
+  }
+ },
+ "effect_attribute_unknown_bits_in_player_data": [
+  "0x00400000",
+  "0x10000000"
+ ],
+ "effect_attributes": [
+  {
+   "attribute": "NoImmunity",
+   "evidence": "n/a",
+   "mask": "0x00000001",
+   "player_effects": 6,
+   "player_spells": 4,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": false,
+   "witnesses": [
+    "64382:1",
+    "85288:0",
+    "194249:9",
+    "232698:0",
+    "232698:1"
+   ]
+  },
+  {
+   "attribute": "PositionIsFacingRelative",
+   "evidence": "unresolved",
+   "mask": "0x00000002",
+   "player_effects": 4,
+   "player_spells": 3,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": [
+    "31687:0",
+    "123986:0",
+    "123986:1",
+    "198898:0"
+   ]
+  },
+  {
+   "attribute": "JumpChargeUnitMeleeRange",
+   "evidence": "n/a",
+   "mask": "0x00000004",
+   "player_effects": 1,
+   "player_spells": 1,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": [
+    "186260:0"
+   ]
+  },
+  {
+   "attribute": "JumpChargeUnitStrictPathCheck",
+   "evidence": "n/a",
+   "mask": "0x00000008",
+   "player_effects": 0,
+   "player_spells": 0,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": []
+  },
+  {
+   "attribute": "ExcludeOwnParty",
+   "evidence": "unresolved",
+   "mask": "0x00000010",
+   "player_effects": 0,
+   "player_spells": 0,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": []
+  },
+  {
+   "attribute": "AlwaysAoeLineOfSight",
+   "evidence": "trinity-consumer",
+   "mask": "0x00000020",
+   "player_effects": 11,
+   "player_spells": 10,
+   "targeting_consumers": [
+    "Spell::CheckEffectTarget @ Spell.cpp:8240"
+   ],
+   "targeting_stages": [
+    "per-effect"
+   ],
+   "trinity_nyi": false,
+   "witnesses": [
+    "30451:0",
+    "50842:0",
+    "255937:0",
+    "319175:0",
+    "386997:1"
+   ]
+  },
+  {
+   "attribute": "SuppressPointsStacking",
+   "evidence": "n/a",
+   "mask": "0x00000040",
+   "player_effects": 176,
+   "player_spells": 85,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": false,
+   "witnesses": [
+    "974:0",
+    "974:1",
+    "974:2",
+    "16870:1",
+    "31884:0"
+   ]
+  },
+  {
+   "attribute": "ChainFromInitialTarget",
+   "evidence": "trinity-consumer",
+   "mask": "0x00000080",
+   "player_effects": 12,
+   "player_spells": 8,
+   "targeting_consumers": [
+    "Spell::SearchChainTargets @ Spell.cpp:2256",
+    "Spell::SearchChainTargets @ Spell.cpp:2321",
+    "Spell::SelectImplicitChainTargets @ Spell.cpp:1860"
+   ],
+   "targeting_stages": [
+    "chain"
+   ],
+   "trinity_nyi": false,
+   "witnesses": [
+    "133:0",
+    "30451:0",
+    "55090:0",
+    "55090:1",
+    "55090:2"
+   ]
+  },
+  {
+   "attribute": "UncontrolledNoBackwards",
+   "evidence": "n/a",
+   "mask": "0x00000100",
+   "player_effects": 1,
+   "player_spells": 1,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": [
+    "101545:0"
+   ]
+  },
+  {
+   "attribute": "AuraPointsStack",
+   "evidence": "n/a",
+   "mask": "0x00000200",
+   "player_effects": 4,
+   "player_spells": 4,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": false,
+   "witnesses": [
+    "190456:0",
+    "381990:2",
+    "1277297:0",
+    "1291636:0"
+   ]
+  },
+  {
+   "attribute": "NoCopyDamageInterruptsOrProcs",
+   "evidence": "n/a",
+   "mask": "0x00000400",
+   "player_effects": 0,
+   "player_spells": 0,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": []
+  },
+  {
+   "attribute": "AddTargetCombatReachToAOE",
+   "evidence": "unresolved",
+   "mask": "0x00000800",
+   "player_effects": 35,
+   "player_spells": 25,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": [
+    "133:0",
+    "845:0",
+    "6572:0",
+    "29722:1",
+    "115181:0"
+   ]
+  },
+  {
+   "attribute": "IsHarmful",
+   "evidence": "n/a",
+   "mask": "0x00001000",
+   "player_effects": 2,
+   "player_spells": 2,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": false,
+   "witnesses": [
+    "146739:0",
+    "324536:0"
+   ]
+  },
+  {
+   "attribute": "ForceScaleToOverrideCameraMinHeight",
+   "evidence": "n/a",
+   "mask": "0x00002000",
+   "player_effects": 0,
+   "player_spells": 0,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": []
+  },
+  {
+   "attribute": "PlayersOnly",
+   "evidence": "trinity-consumer",
+   "mask": "0x00004000",
+   "player_effects": 4,
+   "player_spells": 4,
+   "targeting_consumers": [
+    "Spell::GetSearcherTypeMask @ Spell.cpp:2150",
+    "Spell::SelectSpellTargets @ Spell.cpp:754"
+   ],
+   "targeting_stages": [
+    "candidate-search",
+    "post-selection"
+   ],
+   "trinity_nyi": false,
+   "witnesses": [
+    "325153:2",
+    "374227:2",
+    "394552:0",
+    "1278914:0"
+   ]
+  },
+  {
+   "attribute": "ComputePointsOnlyAtCastTime",
+   "evidence": "n/a",
+   "mask": "0x00008000",
+   "player_effects": 4,
+   "player_spells": 3,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": [
+    "22842:0",
+    "22842:1",
+    "27243:2",
+    "413984:0"
+   ]
+  },
+  {
+   "attribute": "EnforceLineOfSightToChainTargets",
+   "evidence": "trinity-consumer",
+   "mask": "0x00010000",
+   "player_effects": 5,
+   "player_spells": 4,
+   "targeting_consumers": [
+    "Spell::SearchChainTargets @ Spell.cpp:2311"
+   ],
+   "targeting_stages": [
+    "chain"
+   ],
+   "trinity_nyi": false,
+   "witnesses": [
+    "31935:0",
+    "403010:1",
+    "439843:0",
+    "439843:3",
+    "1241413:0"
+   ]
+  },
+  {
+   "attribute": "AreaEffectsUseTargetRadius",
+   "evidence": "unresolved",
+   "mask": "0x00020000",
+   "player_effects": 36,
+   "player_spells": 30,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": [
+    "133:0",
+    "845:0",
+    "6572:0",
+    "29722:1",
+    "30451:0"
+   ]
+  },
+  {
+   "attribute": "TeleportWithVehicle",
+   "evidence": "n/a",
+   "mask": "0x00040000",
+   "player_effects": 0,
+   "player_spells": 0,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": []
+  },
+  {
+   "attribute": "ScalePointsByChallengeModeDamageScaler",
+   "evidence": "n/a",
+   "mask": "0x00080000",
+   "player_effects": 0,
+   "player_spells": 0,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": []
+  },
+  {
+   "attribute": "DontFailSpellOnTargetingFailure",
+   "evidence": "trinity-consumer",
+   "mask": "0x00100000",
+   "player_effects": 9,
+   "player_spells": 9,
+   "targeting_consumers": [
+    "Spell::SelectImplicitTargetDestTargets @ Spell.cpp:1655",
+    "Spell::SelectImplicitTargetObjectTargets @ Spell.cpp:1809",
+    "SpellInfo::_InitializeExplicitTargetMask @ SpellInfo.cpp:4600"
+   ],
+   "targeting_stages": [
+    "explicit-mask",
+    "selection"
+   ],
+   "trinity_nyi": false,
+   "witnesses": [
+    "51533:0",
+    "192249:0",
+    "198067:0",
+    "198103:0",
+    "264735:1"
+   ]
+  },
+  {
+   "attribute": "IgnoreDuringCooldownTimeRateCalculation",
+   "evidence": "n/a",
+   "mask": "0x00800000",
+   "player_effects": 5,
+   "player_spells": 4,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": false,
+   "witnesses": [
+    "215785:1",
+    "383228:0",
+    "383228:1",
+    "402971:0",
+    "403495:0"
+   ]
+  },
+  {
+   "attribute": "DamageOnlyAbsorbShields",
+   "evidence": "n/a",
+   "mask": "0x04000000",
+   "player_effects": 3,
+   "player_spells": 3,
+   "targeting_consumers": [],
+   "targeting_stages": [],
+   "trinity_nyi": true,
+   "witnesses": [
+    "32379:0",
+    "394352:0",
+    "394354:0"
+   ]
+  }
+ ],
+ "facing_caster_flags_values": {
+  "1": 191,
+  "6": 1
+ },
+ "load_corrections_player": [
+  {
+   "class": "source-correction",
+   "consumer": "SpellMgr.cpp:3654",
+   "effect": null,
+   "member": "MaxAffectedTargets",
+   "op": "=",
+   "spell": 53385,
+   "value": "4"
+  },
+  {
+   "class": "source-correction",
+   "consumer": "SpellMgr.cpp:5214",
+   "effect": null,
+   "member": "AttributesEx4",
+   "op": "|=",
+   "spell": 111400,
+   "value": "SPELL_ATTR4_AURA_IS_BUFF"
+  },
+  {
+   "class": "implementation-workaround",
+   "consumer": "SpellMgr.cpp:5137",
+   "effect": "EFFECT_2",
+   "member": "TargetB",
+   "op": "=",
+   "spell": 197214,
+   "value": "SpellImplicitTargetInfo()"
+  },
+  {
+   "class": "implementation-workaround",
+   "consumer": "SpellMgr.cpp:4038",
+   "effect": "EFFECT_3",
+   "member": "Effect",
+   "op": "=",
+   "spell": 373427,
+   "value": "SPELL_EFFECT_DUMMY"
+  }
+ ],
+ "load_generic_rules": [
+  {
+   "consumer": "SpellMgr.cpp:5281-5283",
+   "rule": "cone effect with ConeAngle fuzzyEq 0 -> 90"
+  },
+  {
+   "consumer": "SpellMgr.cpp:5286-5291",
+   "rule": "area-aura effect with IsArea A/B -> (TARGET_UNIT_CASTER, 0)"
+  },
+  {
+   "consumer": "SpellMgr.cpp:5304-5305",
+   "rule": "SPELL_ATTR5_LIMIT_N and MaxAffectedTargets 0 -> 1"
+  },
+  {
+   "consumer": "SpellMgr.cpp:3244-3245",
+   "rule": "Width != 0 -> SPELL_ATTR0_CU_CONE_LINE"
+  },
+  {
+   "consumer": "SpellMgr.cpp:5251-5263",
+   "rule": "TRAJ trigger spell range raised to the main spell's"
+  },
+  {
+   "consumer": "World.cpp:1369-1390",
+   "rule": "load order: Corrections -> CustomAttributes (explicit mask) -> ... -> TargetCaps"
+  }
+ ],
+ "provenance": {
+  "command": "cd scripts/research && python3 targeting.py attributes --out docs/research/targeting-corpora/attributes.json",
+  "pins": {
+   "data_snapshot": "12.1.0.69497",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "probe": "scripts/research/tools/tc_target_selector_probe",
+  "track": "A"
+ },
+ "restriction_columns": [
+  {
+   "column": "SpellTargetRestrictions.ConeDegrees",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:1505",
+     "stage": "load",
+     "what": "ConeAngle = ConeDegrees"
+    },
+    {
+     "consumer": "SpellMgr.cpp:5282",
+     "stage": "load-rewrite",
+     "what": "cone effect with ConeAngle ~0 -> 90"
+    },
+    {
+     "consumer": "Spell.cpp:1281",
+     "stage": "selection",
+     "what": "cone angle (TARGET_UNIT_CONE_180_DEG_ENEMY 0 -> 180 unreachable)"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 38,
+   "witnesses": [
+    845,
+    6572,
+    31661,
+    46968,
+    61391
+   ]
+  },
+  {
+   "column": "SpellTargetRestrictions.Width",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:1506",
+     "stage": "load",
+     "what": "Width"
+    },
+    {
+     "consumer": "SpellMgr.cpp:3244",
+     "stage": "load-rewrite",
+     "what": "Width != 0 -> SPELL_ATTR0_CU_CONE_LINE"
+    },
+    {
+     "consumer": "Spell.cpp:1301",
+     "stage": "selection",
+     "what": "cone line width (else caster combat reach)"
+    },
+    {
+     "consumer": "Spell.cpp:1994",
+     "stage": "selection",
+     "what": "line width (else caster combat reach)"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 8,
+   "witnesses": [
+    197214,
+    370965,
+    392983,
+    395519,
+    395521
+   ]
+  },
+  {
+   "column": "SpellTargetRestrictions.MaxTargets",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:1509",
+     "stage": "load",
+     "what": "MaxAffectedTargets"
+    },
+    {
+     "consumer": "SpellMgr.cpp:5304",
+     "stage": "load-rewrite",
+     "what": "SPELL_ATTR5_LIMIT_N and 0 -> 1"
+    },
+    {
+     "consumer": "Spell.cpp:448",
+     "stage": "cap",
+     "what": "SpellValue::MaxAffectedTargets (+SpellModOp::MaxTargets, Spell.cpp:507)"
+    },
+    {
+     "consumer": "Spell.cpp:1310",
+     "stage": "cap",
+     "what": "cone RandomResize"
+    },
+    {
+     "consumer": "Spell.cpp:1445",
+     "stage": "cap",
+     "what": "area RandomResize / furthest truncate"
+    },
+    {
+     "consumer": "Spell.cpp:2003",
+     "stage": "cap",
+     "what": "line nearest truncate"
+    },
+    {
+     "consumer": "Unit.cpp:3477",
+     "stage": "application",
+     "what": "single-target aura instance limit (not selection)"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 47,
+   "witnesses": [
+    5484,
+    10326,
+    33763,
+    48181,
+    50286
+   ]
+  },
+  {
+   "column": "SpellTargetRestrictions.Targets",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:4604",
+     "stage": "explicit-mask",
+     "what": "ExplicitTargetMask |= Targets (required unless SPELL_ATTR13_DO_NOT_FAIL_IF_NO_TARGET, :4606)"
+    },
+    {
+     "consumer": "SpellInfo.cpp:1840",
+     "stage": "dead-policy",
+     "what": "CORPSE_* / UNIT_DEAD flags allow dead targets"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 81,
+   "witnesses": [
+    1122,
+    2120,
+    5740,
+    6197,
+    6544
+   ]
+  },
+  {
+   "column": "SpellTargetRestrictions.TargetCreatureType",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:2633",
+     "stage": "per-candidate",
+     "what": "CheckTargetCreatureType (via CheckTarget:2463)"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 17,
+   "witnesses": [
+    605,
+    710,
+    1513,
+    2637,
+    9484
+   ]
+  },
+  {
+   "column": "SpellTargetRestrictions.MaxTargetLevel",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:1510",
+     "stage": "load",
+     "what": "loaded only; no Trinity reader (no consumer != no Retail behaviour)"
+    }
+   ],
+   "evidence": "unresolved",
+   "player_spells_nonzero": 0,
+   "witnesses": []
+  },
+  {
+   "column": "SpellAuraRestrictions.TargetAuraState",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:2496",
+     "stage": "per-candidate",
+     "what": "skipped if caster is a vehicle or target is caster's charmer/owner"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 10,
+   "witnesses": [
+    5308,
+    17877,
+    18562,
+    53351,
+    163201
+   ]
+  },
+  {
+   "column": "SpellAuraRestrictions.ExcludeTargetAuraState",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:2499",
+     "stage": "per-candidate",
+     "what": "same guard"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 0,
+   "witnesses": []
+  },
+  {
+   "column": "SpellAuraRestrictions.TargetAuraSpell",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:2504",
+     "stage": "per-candidate",
+     "what": "HasAura(any caster)"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 0,
+   "witnesses": []
+  },
+  {
+   "column": "SpellAuraRestrictions.ExcludeTargetAuraSpell",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:2507",
+     "stage": "per-candidate",
+     "what": "HasAura(any caster)"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 16,
+   "witnesses": [
+    633,
+    1022,
+    3411,
+    36554,
+    116841
+   ]
+  },
+  {
+   "column": "SpellAuraRestrictions.TargetAuraType",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:2510",
+     "stage": "per-candidate",
+     "what": "HasAuraType"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 2,
+   "witnesses": [
+    1293603,
+    1293610
+   ]
+  },
+  {
+   "column": "SpellAuraRestrictions.ExcludeTargetAuraType",
+   "consumers": [
+    {
+     "consumer": "SpellInfo.cpp:2513",
+     "stage": "per-candidate",
+     "what": "HasAuraType"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 0,
+   "witnesses": []
+  },
+  {
+   "column": "SpellCastingRequirements.FacingCasterFlags",
+   "consumers": [
+    {
+     "consumer": "Spell.cpp:7300",
+     "stage": "explicit-range",
+     "what": "player caster: explicit unit must be in front (pi arc) unless within boundary radius; implicit targets unaffected"
+    }
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells_nonzero": 192,
+   "witnesses": [
+    53,
+    133,
+    348,
+    686,
+    703
+   ]
+  }
+ ],
+ "retail_experiments": [
+  {
+   "fidelity": "approximate",
+   "id": "RX-A-02",
+   "model_a": "Trinity: no reader; plain cylinder IsInRange2d (Spell.cpp:9432)",
+   "model_b": "distance test adds the candidate's combat reach",
+   "observable": "hit / no hit in the combat log",
+   "question": "Does AddTargetCombatReachToAOE / AreaEffectsUseTargetRadius enlarge the area test by target size?",
+   "setup": "cast an area effect carrying 0x800 (see attributes.json witnesses) with a large-reach dummy just outside the radius"
+  },
+  {
+   "fidelity": "approximate",
+   "id": "RX-A-03",
+   "model_a": "Trinity: 90 degrees (SpellMgr.cpp:5282)",
+   "model_b": "180 degrees (enum comment for id 54) or other",
+   "observable": "which dummies are hit",
+   "question": "Default cone angle for cone selectors with ConeDegrees 0",
+   "setup": "a current-player cone spell listed in selectors.json cone_defaults.defaulted_witnesses; dummies at 50 and 80 degrees off-axis"
+  }
+ ],
+ "shapeshift": {
+  "consumer": "SpellInfo.cpp:2111 CheckShapeshift(form) -- caster form only",
+  "evidence": "trinity-consumer",
+  "target_side_consumer": null
+ },
+ "spell_attributes": [
+  {
+   "attribute": "SPELL_ATTR0_CU_ALLOW_INFLIGHT_TARGET",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2482"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "AttributesCu (spell_custom_attr + SpellMgr code)",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR0_CU_CAN_TARGET_ANY_PRIVATE_OBJECT",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2339",
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2527",
+    "WorldObject::IsValidAttackTarget @ Object.cpp:2362"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "AttributesCu (spell_custom_attr + SpellMgr code)",
+   "stages": [
+    "per-candidate",
+    "relation"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR0_CU_CONE_BACK",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObjectSpellConeTargetCheck::operator() @ Spell.cpp:9461"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "AttributesCu (spell_custom_attr + SpellMgr code)",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR0_CU_CONE_LINE",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObjectSpellConeTargetCheck::operator() @ Spell.cpp:9466"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 8,
+   "source": "AttributesCu (spell_custom_attr + SpellMgr code)",
+   "stages": [
+    "load-rewrite",
+    "per-candidate"
+   ],
+   "witnesses": [
+    197214,
+    370965,
+    392983,
+    395519,
+    395521
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR0_CU_PICKPOCKET",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2386"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "AttributesCu (spell_custom_attr + SpellMgr code)",
+   "stages": [
+    "load-rewrite",
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR0_CU_REQ_CASTER_BEHIND_TARGET",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::CheckCast @ Spell.cpp:5986"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "AttributesCu (spell_custom_attr + SpellMgr code)",
+   "stages": [
+    "explicit-validation"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR0_CU_REQ_TARGET_FACING_CASTER",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::CheckCast @ Spell.cpp:5990"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "AttributesCu (spell_custom_attr + SpellMgr code)",
+   "stages": [
+    "explicit-validation"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR0_IS_ABILITY",
+   "build_skew_spells": 9,
+   "consumers": [
+    "WorldObject::GetMagicHitRedirectTarget @ Object.cpp:2605"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 714,
+   "source": "SpellMisc.Attributes_0 & 0x00000010",
+   "stages": [
+    "explicit-redirect"
+   ],
+   "witnesses": [
+    53,
+    71,
+    99,
+    674,
+    703
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR0_NO_IMMUNITIES",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObject::GetMagicHitRedirectTarget @ Object.cpp:2605"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 69,
+   "source": "SpellMisc.Attributes_0 & 0x20000000",
+   "stages": [
+    "load-rewrite",
+    "explicit-redirect"
+   ],
+   "witnesses": [
+    71,
+    3411,
+    5143,
+    5302,
+    19574
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR0_USES_RANGED_SLOT",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::GetMinMaxRange @ Spell.cpp:7377"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 7,
+   "source": "SpellMisc.Attributes_0 & 0x00000002",
+   "stages": [
+    "explicit-range"
+   ],
+   "witnesses": [
+    19434,
+    53351,
+    147362,
+    193455,
+    257620
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR11_CAN_ASSIST_UNINTERACTIBLE",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2540"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_11 & 0x00004000",
+   "stages": [
+    "relation"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR13_DO_NOT_FAIL_IF_NO_TARGET",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::_InitializeExplicitTargetMask @ SpellInfo.cpp:4605"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 2,
+   "source": "SpellMisc.Attributes_13 & 0x00008000",
+   "stages": [
+    "explicit-mask"
+   ],
+   "witnesses": [
+    421453,
+    432154
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR1_EXCLUDE_CASTER",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2331"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 15,
+   "source": "SpellMisc.Attributes_1 & 0x00080000",
+   "stages": [
+    "load-rewrite",
+    "per-candidate"
+   ],
+   "witnesses": [
+    3411,
+    6940,
+    48743,
+    57934,
+    73325
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR1_NO_REDIRECTION",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObject::GetMagicHitRedirectTarget @ Object.cpp:2605"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 55,
+   "source": "SpellMisc.Attributes_1 & 0x00000008",
+   "stages": [
+    "explicit-redirect"
+   ],
+   "witnesses": [
+    2120,
+    2818,
+    5246,
+    5484,
+    5740
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR1_ONLY_PEACEFUL_TARGETS",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2364"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_1 & 0x00000100",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR1_REQUIRE_ALL_TARGETS",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::SelectSpellTargets @ Spell.cpp:808"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 27,
+   "source": "SpellMisc.Attributes_1 & 0x04000000",
+   "stages": [
+    "post-selection"
+   ],
+   "witnesses": [
+    53,
+    605,
+    1329,
+    1776,
+    1822
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR2_ALLOW_DEAD_TARGET",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::IsAllowingDeadTarget @ SpellInfo.cpp:1840"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 28,
+   "source": "SpellMisc.Attributes_2 & 0x00000001",
+   "stages": [
+    "load-rewrite",
+    "dead-policy"
+   ],
+   "witnesses": [
+    14189,
+    46584,
+    46585,
+    52127,
+    115069
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR2_CANNOT_CAST_ON_TAPPED",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2381"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 7,
+   "source": "SpellMisc.Attributes_2 & 0x00000040",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": [
+    605,
+    710,
+    51514,
+    111673,
+    205364
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR2_CHAIN_FROM_CASTER",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::SearchChainTargets @ Spell.cpp:2253",
+    "Spell::SearchChainTargets @ Spell.cpp:2262",
+    "Spell::SearchChainTargets @ Spell.cpp:2321",
+    "Spell::SelectImplicitChainTargets @ Spell.cpp:1853",
+    "Spell::SelectImplicitChainTargets @ Spell.cpp:1860"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 40,
+   "source": "SpellMisc.Attributes_2 & 0x00001000",
+   "stages": [
+    "chain"
+   ],
+   "witnesses": [
+    703,
+    772,
+    1464,
+    5308,
+    5938
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR2_FAIL_ON_ALL_TARGETS_IMMUNE",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::SelectSpellTargets @ Spell.cpp:846"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 7,
+   "source": "SpellMisc.Attributes_2 & 0x00200000",
+   "stages": [
+    "post-selection"
+   ],
+   "witnesses": [
+    498,
+    1022,
+    1784,
+    45438,
+    199483
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR2_IGNORE_LINE_OF_SIGHT",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::CheckCast @ Spell.cpp:5961",
+    "Spell::CheckEffectTarget @ Spell.cpp:8197",
+    "Spell::CheckEffectTarget @ Spell.cpp:8206"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 90,
+   "source": "SpellMisc.Attributes_2 & 0x00000004",
+   "stages": [
+    "load-rewrite",
+    "explicit-validation",
+    "per-effect"
+   ],
+   "witnesses": [
+    2818,
+    5760,
+    6197,
+    14189,
+    16870
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR2_NO_ACTIVE_PETS",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::CheckCast @ Spell.cpp:6015"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_2 & 0x00010000",
+   "stages": [
+    "explicit-validation"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR3_NOT_ON_AOE_IMMUNE",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2415"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_3 & 0x80000000",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR3_ONLY_ON_GHOSTS",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::GetSearcherTypeMask @ Spell.cpp:2152",
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2368",
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2370",
+    "SpellInfo::IsRequiringDeadTarget @ SpellInfo.cpp:1835"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_3 & 0x00001000",
+   "stages": [
+    "candidate-search",
+    "per-candidate",
+    "dead-policy"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR3_ONLY_ON_PLAYER",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::GetSearcherTypeMask @ Spell.cpp:2150",
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2443"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 10,
+   "source": "SpellMisc.Attributes_3 & 0x00000100",
+   "stages": [
+    "candidate-search",
+    "per-candidate"
+   ],
+   "witnesses": [
+    3411,
+    57934,
+    97462,
+    374968,
+    395152
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR4_BOUNCY_CHAIN_MISSILES",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::AddUnitTarget @ Spell.cpp:2496"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 9,
+   "source": "SpellMisc.Attributes_4 & 0x00040000",
+   "stages": [
+    "application-entry"
+   ],
+   "witnesses": [
+    19434,
+    31935,
+    204157,
+    205021,
+    275773
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR4_USE_FACING_FROM_SPELL",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::SelectImplicitAreaTargets @ Spell.cpp:1429",
+    "Spell::SelectImplicitCasterDestTargets @ Spell.cpp:1646",
+    "Spell::SelectImplicitChannelTargets @ Spell.cpp:1072",
+    "Spell::SelectImplicitDestDestTargets @ Spell.cpp:1735",
+    "Spell::SelectImplicitNearbyTargets @ Spell.cpp:1145",
+    "Spell::SelectImplicitNearbyTargets @ Spell.cpp:1258",
+    "Spell::SelectImplicitTargetDestTargets @ Spell.cpp:1683",
+    "Spell::SelectImplicitTrajTargets @ Spell.cpp:1956"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_4 & 0x80000000",
+   "stages": [
+    "load-rewrite",
+    "selection"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR5_ALWAYS_AOE_LINE_OF_SIGHT",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::CheckEffectTarget @ Spell.cpp:8240"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 27,
+   "source": "SpellMisc.Attributes_5 & 0x04000000",
+   "stages": [
+    "per-effect"
+   ],
+   "witnesses": [
+    22703,
+    50286,
+    88751,
+    120517,
+    120644
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR5_ALWAYS_LINE_OF_SIGHT",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::CheckEffectTarget @ Spell.cpp:8206"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 20,
+   "source": "SpellMisc.Attributes_5 & 0x02000000",
+   "stages": [
+    "per-effect"
+   ],
+   "witnesses": [
+    31935,
+    53385,
+    85222,
+    106839,
+    115313
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR5_IGNORE_AREA_EFFECT_PVP_CHECK",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObject::IsValidAttackTarget @ Object.cpp:2475"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_5 & 0x00000040",
+   "stages": [
+    "relation"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR5_LIMIT_N",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::IsSingleTarget @ SpellInfo.cpp:2055"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 31,
+   "source": "SpellMisc.Attributes_5 & 0x00000020",
+   "stages": [
+    "cap"
+   ],
+   "witnesses": [
+    710,
+    974,
+    1513,
+    2637,
+    9484
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR5_MELEE_CHAIN_TARGETING",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::SearchChainTargets @ Spell.cpp:2270"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 8,
+   "source": "SpellMisc.Attributes_5 & 0x00001000",
+   "stages": [
+    "chain"
+   ],
+   "witnesses": [
+    85256,
+    162794,
+    186270,
+    195182,
+    199547
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR5_NOT_ON_PLAYER",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::GetSearcherTypeMask @ Spell.cpp:2154",
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2449"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 1,
+   "source": "SpellMisc.Attributes_5 & 0x00000080",
+   "stages": [
+    "candidate-search",
+    "per-candidate"
+   ],
+   "witnesses": [
+    111673
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR5_NOT_ON_PLAYER_CONTROLLED_NPC",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2446"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 5,
+   "source": "SpellMisc.Attributes_5 & 0x00000100",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": [
+    1126,
+    369459,
+    412710,
+    466904,
+    474750
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR6_CAN_ASSIST_IMMUNE_PC",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2547",
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2593",
+    "WorldObject::IsValidAttackTarget @ Object.cpp:2395"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_6 & 0x00000008",
+   "stages": [
+    "relation"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR6_CAN_TARGET_UNTARGETABLE",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2537",
+    "WorldObject::IsValidAttackTarget @ Object.cpp:2373"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 1,
+   "source": "SpellMisc.Attributes_6 & 0x01000000",
+   "stages": [
+    "relation"
+   ],
+   "witnesses": [
+    196277
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR6_DO_NOT_CHAIN_TO_CROWD_CONTROLLED_TARGETS",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2456"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 26,
+   "source": "SpellMisc.Attributes_6 & 0x00000100",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": [
+    133,
+    703,
+    1943,
+    5938,
+    30451
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR6_IGNORE_PHASE_SHIFT",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2337",
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2525",
+    "WorldObject::IsValidAttackTarget @ Object.cpp:2360"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 4,
+   "source": "SpellMisc.Attributes_6 & 0x00002000",
+   "stages": [
+    "load-rewrite",
+    "per-candidate",
+    "relation"
+   ],
+   "witnesses": [
+    450925,
+    451125,
+    451129,
+    1263077
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR7_BYPASS_NO_RESURRECT_AURA",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2516"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_7 & 0x08000000",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR8_ALLOW_TARGETS_HIDDEN_BY_SPAWN_TRACKING",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2338",
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2526",
+    "WorldObject::IsValidAttackTarget @ Object.cpp:2361"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_8 & 0x00080000",
+   "stages": [
+    "per-candidate",
+    "relation"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR8_CAN_ATTACK_IMMUNE_PC",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2551",
+    "WorldObject::IsValidAttackTarget @ Object.cpp:2403"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 3,
+   "source": "SpellMisc.Attributes_8 & 0x80000000",
+   "stages": [
+    "load-rewrite",
+    "relation"
+   ],
+   "witnesses": [
+    101545,
+    108503,
+    196099
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR8_CAN_HIT_AOE_UNTARGETABLE",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObjectSpellAreaTargetCheck::operator() @ Spell.cpp:9439"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_8 & 0x00000010",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR8_ENFORCE_IN_COMBAT_RESSURECTION_LIMIT",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2520"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_8 & 0x00800000",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR8_IGNORE_SANCTUARY",
+   "build_skew_spells": 0,
+   "consumers": [
+    "WorldObject::IsValidAssistTarget @ Object.cpp:2584",
+    "WorldObject::IsValidAttackTarget @ Object.cpp:2469"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 1,
+   "source": "SpellMisc.Attributes_8 & 0x00000080",
+   "stages": [
+    "relation"
+   ],
+   "witnesses": [
+    48743
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR8_ONLY_TARGET_IF_SAME_CREATOR",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2346"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_8 & 0x00000008",
+   "stages": [
+    "load-rewrite",
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR8_ONLY_TARGET_OWN_SUMMONS",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2411"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_8 & 0x00010000",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR8_REQUIRES_LOCATION_TO_BE_ON_LIQUID_SURFACE",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::SelectSpellTargets @ Spell.cpp:863"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_8 & 0x00008000",
+   "stages": [
+    "post-selection"
+   ],
+   "witnesses": []
+  },
+  {
+   "attribute": "SPELL_ATTR9_MISSILE_SPEED_IS_DELAY_IN_SEC",
+   "build_skew_spells": 0,
+   "consumers": [
+    "Spell::AddUnitTarget @ Spell.cpp:2513",
+    "WorldObject::GetMagicHitRedirectTarget @ Object.cpp:2620"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 16,
+   "source": "SpellMisc.Attributes_9 & 0x00000010",
+   "stages": [
+    "load-rewrite",
+    "explicit-redirect",
+    "application-entry"
+   ],
+   "witnesses": [
+    1122,
+    17962,
+    46968,
+    49184,
+    105174
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR9_NO_MOVEMENT_RADIUS_BONUS",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellEffectInfo::CalcRadius @ SpellInfo.cpp:810"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 1,
+   "source": "SpellMisc.Attributes_9 & 0x40000000",
+   "stages": [
+    "selection"
+   ],
+   "witnesses": [
+    386276
+   ]
+  },
+  {
+   "attribute": "SPELL_ATTR9_TARGET_MUST_BE_GROUNDED",
+   "build_skew_spells": 0,
+   "consumers": [
+    "SpellInfo::CheckTarget @ SpellInfo.cpp:2419"
+   ],
+   "evidence": "trinity-consumer",
+   "player_spells": 0,
+   "source": "SpellMisc.Attributes_9 & 0x00000400",
+   "stages": [
+    "per-candidate"
+   ],
+   "witnesses": []
+  }
+ ],
+ "stage_functions": {
+  "Spell::AddUnitTarget": "application-entry",
+  "Spell::CheckCast": "explicit-validation",
+  "Spell::CheckEffectTarget": "per-effect",
+  "Spell::CheckRange": "explicit-range",
+  "Spell::GetMinMaxRange": "explicit-range",
+  "Spell::GetSearcherTypeMask": "candidate-search",
+  "Spell::InitExplicitTargets": "explicit-init",
+  "Spell::SearchAreaTargets": "candidate-search",
+  "Spell::SearchChainTargets": "chain",
+  "Spell::SearchNearbyTarget": "candidate-search",
+  "Spell::SelectEffectImplicitTargets": "selection",
+  "Spell::SelectEffectTypeImplicitTargets": "selection",
+  "Spell::SelectExplicitTargets": "explicit-redirect",
+  "Spell::SelectImplicitAreaTargets": "selection",
+  "Spell::SelectImplicitCasterDestTargets": "selection",
+  "Spell::SelectImplicitCasterObjectTargets": "selection",
+  "Spell::SelectImplicitChainTargets": "chain",
+  "Spell::SelectImplicitChannelTargets": "selection",
+  "Spell::SelectImplicitConeTargets": "selection",
+  "Spell::SelectImplicitDestDestTargets": "selection",
+  "Spell::SelectImplicitLineTargets": "selection",
+  "Spell::SelectImplicitNearbyTargets": "selection",
+  "Spell::SelectImplicitTargetDestTargets": "selection",
+  "Spell::SelectImplicitTargetObjectTargets": "selection",
+  "Spell::SelectImplicitTrajTargets": "selection",
+  "Spell::SelectSpellTargets": "post-selection",
+  "Spell::UpdateChanneledTargetList": "channel-update",
+  "SpellEffectInfo::CalcRadius": "selection",
+  "SpellInfo::CheckExplicitTarget": "explicit-validation",
+  "SpellInfo::CheckTarget": "per-candidate",
+  "SpellInfo::CheckTargetCreatureType": "per-candidate",
+  "SpellInfo::IsAllowingDeadTarget": "dead-policy",
+  "SpellInfo::IsRequiringDeadTarget": "dead-policy",
+  "SpellInfo::IsSingleTarget": "cap",
+  "SpellInfo::_InitializeExplicitTargetMask": "explicit-mask",
+  "SpellMgr::LoadSpellInfoCorrections": "load-rewrite",
+  "SpellMgr::LoadSpellInfoCustomAttributes": "load-rewrite",
+  "Unit::GetMeleeHitRedirectTarget": "explicit-redirect",
+  "WorldObject::GetMagicHitRedirectTarget": "explicit-redirect",
+  "WorldObject::IsValidAssistTarget": "relation",
+  "WorldObject::IsValidAttackTarget": "relation",
+  "WorldObjectSpellAreaTargetCheck::operator()": "per-candidate",
+  "WorldObjectSpellConeTargetCheck::operator()": "per-candidate",
+  "WorldObjectSpellLineTargetCheck::operator()": "per-candidate",
+  "WorldObjectSpellNearbyTargetCheck::operator()": "per-candidate",
+  "WorldObjectSpellTargetCheck::operator()": "per-candidate",
+  "WorldObjectSpellTrajTargetCheck::operator()": "per-candidate"
+ },
+ "stages": [
+  "load-rewrite",
+  "explicit-mask",
+  "explicit-init",
+  "explicit-redirect",
+  "explicit-validation",
+  "explicit-range",
+  "selection",
+  "candidate-search",
+  "per-candidate",
+  "relation",
+  "dead-policy",
+  "cap",
+  "chain",
+  "per-effect",
+  "application-entry",
+  "post-selection",
+  "channel-update"
+ ],
+ "target_caps": {
+  "consumer": "SpellMgr.cpp:5407 LoadSpellInfoTargetCaps (_LoadSqrtTargetLimit max targets)",
+  "note": "sqrt damage scaling / cap semantics belong to Track C (caps.json)",
+  "player_spells": [
+   2120,
+   44949,
+   53385,
+   115310,
+   121253,
+   157997,
+   199667,
+   199851,
+   199852,
+   258860,
+   385060,
+   385061,
+   385062,
+   388615,
+   400254,
+   404358,
+   435222,
+   1254851
+  ],
+  "spells": {
+   "115310": 5,
+   "121253": 5,
+   "1225827": 5,
+   "1254851": 8,
+   "1265579": 5,
+   "1265580": 5,
+   "1265581": 5,
+   "1265582": 5,
+   "1279200": 5,
+   "157997": 8,
+   "198030": 5,
+   "199667": 5,
+   "199851": 5,
+   "199852": 5,
+   "205472": 8,
+   "2120": 8,
+   "212680": 5,
+   "258860": 8,
+   "258926": 5,
+   "307046": 5,
+   "351140": 8,
+   "385060": 8,
+   "385061": 8,
+   "385062": 8,
+   "388615": 5,
+   "389860": 5,
+   "390137": 5,
+   "400254": 5,
+   "400370": 5,
+   "404358": 5,
+   "435222": 5,
+   "44949": 5,
+   "453035": 8,
+   "53385": 5
+  }
+ },
+ "targets_flags_values": {
+  "0x00000010": 3,
+  "0x00000040": 77,
+  "0x00000400": 1
+ },
+ "trinity_defects": [
+  {
+   "description": "TARGET_UNIT_CONE_180_DEG_ENEMY 'ConeAngle 0 -> 180' is unreachable: load corrections already turned 0 into 90",
+   "effect_on_recipients": "such cones use 90 degrees, not 180 (0 current-player effects use id 54)",
+   "file_line": "Spell.cpp:1284-1287 vs SpellMgr.cpp:5281-5283",
+   "id": "TG-A-D1",
+   "oracle_behaviour": "reproduce 90 and mark defect"
+  }
+ ],
+ "unknowns": [
+  {
+   "build_skew": false,
+   "evidence": "db2-fact",
+   "id": "TG-A-04",
+   "known": "flags present on player effects (counts in attributes.json effect_attributes); Trinity marks them NYI and has no reader",
+   "reopen_condition": "a consumer appears in Trinity or retail experiment RX-A-02",
+   "subject": "SpellEffectAttributes AddTargetCombatReachToAOE (0x800), AreaEffectsUseTargetRadius (0x20000), PositionIsFacingRelative (0x2), ExcludeOwnParty (0x10) on player effects",
+   "unknown": "their effect on recipient sets (area radius / facing / party exclusion)",
+   "why_unresolved": "no consumer in Trinity != no Retail behaviour"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "db2-fact",
+   "id": "TG-A-05",
+   "known": "present in current-player SpellEffect.EffectAttributes, absent from DBCEnums.h:2400",
+   "reopen_condition": "Trinity/client enum update",
+   "subject": "EffectAttributes bits 0x00400000 and 0x10000000 in player data",
+   "unknown": "name and semantics",
+   "why_unresolved": "not in the pinned enum"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-A-06",
+   "known": "loaded (SpellInfo.cpp:1510), never read by Trinity; 0 current-player spells set it",
+   "reopen_condition": "a current-player spell sets it",
+   "subject": "SpellTargetRestrictions.MaxTargetLevel",
+   "unknown": "Retail semantics",
+   "why_unresolved": "no consumer, no current data"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "db2-fact",
+   "id": "TG-A-07",
+   "known": "Trinity only tests SPELL_FACING_FLAG_INFRONT (0x1) in CheckRange (Spell.cpp:7300)",
+   "reopen_condition": "enum update",
+   "subject": "SpellCastingRequirements.FacingCasterFlags value 6",
+   "unknown": "meaning of bits 0x2/0x4",
+   "why_unresolved": "no consumer"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-A-08",
+   "known": "Trinity forces 90 degrees at load (SpellMgr.cpp:5282), including TARGET_UNIT_CONE_180_DEG_ENEMY",
+   "reopen_condition": "retail experiment RX-A-03",
+   "subject": "cone effects with ConeDegrees == 0",
+   "unknown": "Retail default cone angle when ConeDegrees is 0",
+   "why_unresolved": "Trinity value is a server-authored default"
+  }
+ ]
+}

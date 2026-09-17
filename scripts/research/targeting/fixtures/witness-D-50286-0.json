@@ -1,0 +1,243 @@
+{
+ "about": "random-target",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "dru",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "e1",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    2,
+    1,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "e2",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    4,
+    1,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "e3",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    6,
+    1,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "dru",
+ "discriminates": "uniform subset with visit order kept; hook before cap",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "draws_consumed": 3,
+  "recipients": {
+   "0": [
+    "e2",
+    "e3"
+   ]
+  }
+ },
+ "explicit": {
+  "dest": [
+   2,
+   0,
+   0
+  ]
+ },
+ "hit": {
+  "draws": {
+   "default": 0
+  }
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-D-50286-0",
+ "relations": [
+  {
+   "from": "dru",
+   "to": "e1",
+   "valid_attack": true
+  },
+  {
+   "from": "dru",
+   "to": "e2",
+   "valid_attack": true
+  },
+  {
+   "from": "dru",
+   "to": "e3",
+   "valid_attack": true
+  },
+  {
+   "from": "dru",
+   "to": "dru",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": [
+   3,
+   1,
+   1
+  ]
+ },
+ "schema": "targeting-fixture/1",
+ "smart_check": {
+  "function": "rng.random_resize",
+  "hook_draws": [
+   3,
+   1,
+   1
+  ],
+  "input": [
+   "e1",
+   "e2",
+   "e3"
+  ],
+  "n": 2,
+  "output": [
+   "e2",
+   "e3"
+  ]
+ },
+ "spell": {
+  "difficulty": 0,
+  "id": 50286,
+  "override": {
+   "los_disabled": false,
+   "positive": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "e1",
+  "e2",
+  "e3",
+  "dru"
+ ],
+ "witness": {
+  "consumer": "spell_druid.cpp:2272-2275 -> Containers.h:67; Spell.cpp:1444-1448 (cap 20: no draw)",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0"
+   ],
+   "recipients": {
+    "0": [
+     "e2",
+     "e3"
+    ]
+   }
+  },
+  "intake_additions": [
+   "dru.facts.cc_breakable_by_damage=false",
+   "e1.facts.cc_breakable_by_damage=false",
+   "e2.facts.cc_breakable_by_damage=false",
+   "e3.facts.cc_breakable_by_damage=false",
+   "hook spell_dru_starfall_dummy runs through track E's adapter: RandomResize(2) over 3 consumes 3 urand draws (stream [3,1,1] reproduces the proposer's [e2, e3]); hostile review R2-05"
+  ],
+  "selectors": [
+   87,
+   16
+  ],
+  "spell": 50286,
+  "track": "D"
+ }
+}

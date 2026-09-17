@@ -1,0 +1,202 @@
+{
+ "about": "TargetA TARGET_DEST_TARGET_ENEMY writes m_targets dst = explicit target position (Spell.cpp:1653-1687); TargetB TARGET_UNIT_DEST_AREA_ENEMY then searches around that dst (Spell.cpp:1368), not around the caster.",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t1",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t2",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    23,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t3",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    2,
+    0,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "caster",
+ "discriminates": "B centred on A's dest (Trinity) vs B centred on caster / client dest",
+ "expect": {
+  "dests": {
+   "0": [
+    20.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  "recipients": {
+   "0": [
+    "t2",
+    "t1"
+   ]
+  },
+  "unique_targets": [
+   {
+    "id": "t2",
+    "mask": 1
+   },
+   {
+    "id": "t1",
+    "mask": 1
+   }
+  ]
+ },
+ "explicit": {
+  "redirect": null,
+  "unit": "t1"
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "targetb-area-around-targeta-dest",
+ "relations": [
+  {
+   "from": "caster",
+   "to": "t1",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "t2",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "t3",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "caster",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "attributes": [],
+  "attributes_cu": [],
+  "dmg_class": "MAGIC",
+  "effects": [
+   {
+    "effect": "SCHOOL_DAMAGE",
+    "index": 0,
+    "radius_a": {
+     "max": 5,
+     "min": 0,
+     "per_level": 0,
+     "radius": 5
+    },
+    "target_a": "TARGET_DEST_TARGET_ENEMY",
+    "target_b": "TARGET_UNIT_DEST_AREA_ENEMY"
+   }
+  ],
+  "id": 900004,
+  "is_positive": false,
+  "max_affected_targets": 0,
+  "name": "dest-then-area",
+  "range": {
+   "max": [
+    40,
+    40
+   ],
+   "min": [
+    0,
+    0
+   ]
+  },
+  "script_hooks": [],
+  "synthetic": true,
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "t3",
+  "t2",
+  "t1",
+  "caster"
+ ]
+}

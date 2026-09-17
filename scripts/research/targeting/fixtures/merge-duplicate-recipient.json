@@ -1,0 +1,179 @@
+{
+ "about": "Effect 0 hits the explicit target; effect 1 is a caster-centred enemy area. The explicit target is found again by the area search and is MERGED (EffectMask |=) into its existing unique entry (Spell.cpp:2464-2470), so effect 1's recipient order is unique-list order [t1, t2], not the area visit order [t2, t1].",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t1",
+   "kind": "creature",
+   "orientation": 3.14,
+   "pos": [
+    5,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t2",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    4,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "caster",
+ "discriminates": "unique-target list with per-target masks (Trinity) vs independent per-effect recipient lists in search order",
+ "expect": {
+  "recipients": {
+   "0": [
+    "t1"
+   ],
+   "1": [
+    "t1",
+    "t2"
+   ]
+  },
+  "unique_targets": [
+   {
+    "id": "t1",
+    "mask": 3
+   },
+   {
+    "id": "t2",
+    "mask": 2
+   }
+  ]
+ },
+ "explicit": {
+  "redirect": null,
+  "src": [
+   0,
+   0,
+   0
+  ],
+  "src_orientation": 0.0,
+  "unit": "t1"
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "merge-duplicate-recipient",
+ "relations": [
+  {
+   "from": "caster",
+   "to": "t1",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "t2",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "caster",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "attributes": [],
+  "attributes_cu": [],
+  "dmg_class": "MAGIC",
+  "effects": [
+   {
+    "effect": "SCHOOL_DAMAGE",
+    "index": 0,
+    "target_a": "TARGET_UNIT_TARGET_ENEMY"
+   },
+   {
+    "aura": "DUMMY",
+    "effect": "APPLY_AURA",
+    "index": 1,
+    "radius_a": {
+     "max": 8,
+     "min": 0,
+     "per_level": 0,
+     "radius": 8
+    },
+    "target_a": "TARGET_UNIT_SRC_AREA_ENEMY"
+   }
+  ],
+  "id": 900001,
+  "is_positive": false,
+  "name": "merge",
+  "range": {
+   "max": [
+    40,
+    40
+   ],
+   "min": [
+    0,
+    0
+   ]
+  },
+  "script_hooks": [],
+  "synthetic": true,
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "t2",
+  "caster",
+  "t1"
+ ]
+}

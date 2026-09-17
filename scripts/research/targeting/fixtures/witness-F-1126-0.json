@@ -1,0 +1,187 @@
+{
+ "about": "TARGET_UNIT_TARGET_ALLY_OR_RAID with an out-of-raid target",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "G1",
+    "raid": true,
+    "subgroup": 0
+   },
+   "id": "p1",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "G1",
+    "raid": true,
+    "subgroup": 0
+   },
+   "id": "p2",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    3,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "id": "p4",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    5,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "caster": "p1",
+ "discriminates": "caster not in raid with target -> exactly the explicit target, vs always-area (would add p1/p2) or 'always include target'",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "p4"
+   ],
+   "1": [
+    "p4"
+   ]
+  }
+ },
+ "explicit": {
+  "unit": "p4"
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-F-1126-0",
+ "relations": [
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "p2",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "p4",
+   "valid_assist": true,
+   "valid_attack": false
+  }
+ ],
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 1126,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "visit_order": [
+  "p1",
+  "p2",
+  "p4"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1393-1402",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "p4"
+    ],
+    "1": [
+     "p4"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "p1.facts.spell_other_immunity=[]",
+   "p1.facts.immune_effects=[]",
+   "p1.facts.cc_breakable_by_damage=false",
+   "p2.facts.spell_other_immunity=[]",
+   "p2.facts.immune_effects=[]",
+   "p2.facts.cc_breakable_by_damage=false",
+   "p4.facts.spell_other_immunity=[]",
+   "p4.facts.immune_effects=[]",
+   "p4.facts.cc_breakable_by_damage=false"
+  ],
+  "selectors": [
+   "TARGET_UNIT_TARGET_ALLY_OR_RAID",
+   0
+  ],
+  "spell": 1126,
+  "track": "F"
+ }
+}

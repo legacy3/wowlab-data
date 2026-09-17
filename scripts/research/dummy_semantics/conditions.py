@@ -8,7 +8,7 @@ Source types with a SpellID key (``ConditionMgr.h``):
 * 17 ``SPELL`` -- ``Spell::CheckCast`` (caster = target0, explicit target = target1);
   failing returns ``SPELL_FAILED_CASTER_AURASTATE`` / ``BAD_TARGETS`` / ErrorType -- a *cast gate*;
 * 24 ``SPELL_PROC`` -- ``Aura::CanProc`` (actor, action target) -- a *proc gate*;
-* 18 ``SPELL_CLICK_EVENT`` -- npc_spellclick (creature entry key, spell in SourceGroup);
+* 18 ``SPELL_CLICK_EVENT`` -- npc_spellclick (SourceGroup = creature entry, SourceEntry = spell);
 * 21 ``VEHICLE_SPELL`` -- vehicle seat spells;
 * 35 ``SKILL_LINE_ABILITY`` -- ``Player::LearnDefaultSkill*`` acquisition gate.
 
@@ -119,7 +119,11 @@ def meets(row: dict[str, Any], targets: list[ObjectFacts | None]) -> bool:
     v1, v2, v3 = int(row["ConditionValue1"]), int(row["ConditionValue2"]), int(row["ConditionValue3"])
     met = False
     if obj is None:
-        met = ctype == 0
+        if ctype != 0:
+            # Mirrors: ConditionMgr.cpp:284-288 -- needsObject && !object returns false *before*
+            # NegativeCondition is applied (errata of the targeting pass, 2026-09-17)
+            return False
+        met = True
     elif ctype == 0:
         met = True
     elif ctype == 1:      # AURA: unit->HasAuraEffect(v1, v2)
@@ -197,10 +201,9 @@ class Conditions:
     def rows_for_spell(self, spell_id: int) -> dict[str, list[dict[str, Any]]]:
         out = {}
         for st, name in SPELL_SOURCES.items():
-            if st == 18:  # spell in SourceGroup for spellclick
-                rows = [r for entries in self.by_source.get(st, {}).values() for r in entries if int(r["SourceGroup"]) == spell_id]
-            else:
-                rows = self.by_source.get(st, {}).get(spell_id, [])
+            # every spell source (incl. 18: ConditionId{SourceGroup = creature entry, SourceEntry = spell},
+            # ConditionMgr.cpp:1187) is keyed by SourceEntry
+            rows = self.by_source.get(st, {}).get(spell_id, [])
             if rows:
                 out[name] = rows
         return out
@@ -209,7 +212,7 @@ class Conditions:
         out: dict[str, Any] = {}
         for st, name in SPELL_SOURCES.items():
             entries = self.by_source.get(st, {})
-            keyed = {k: v for k, v in entries.items() if spells is None or (k in spells if st != 18 else any(int(r["SourceGroup"]) in spells for r in v))}
+            keyed = {k: v for k, v in entries.items() if spells is None or k in spells}
             types = Counter(CONDITION_NAMES.get(int(r["ConditionTypeOrReference"]), str(r["ConditionTypeOrReference"]))
                             for rows in keyed.values() for r in rows)
             unsupported = sorted({CONDITION_NAMES.get(int(r["ConditionTypeOrReference"]), str(r["ConditionTypeOrReference"]))

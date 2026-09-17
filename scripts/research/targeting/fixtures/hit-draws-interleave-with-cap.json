@@ -1,0 +1,193 @@
+{
+ "about": "Each new unique target calls SpellHitResult at selection time (Spell.cpp:2486); with one stated draw per new target, effect 1's RandomResize reads the stream after effect 0's hit roll.",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t1",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    3,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t2",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    3,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "caster",
+ "discriminates": "selection RNG before all hit RNG (resize reads [1,2] -> keeps t1) vs Trinity interleaving (hit(t1) reads 1, resize reads [2,1] -> keeps t2)",
+ "expect": {
+  "draws_consumed": 4,
+  "recipients": {
+   "0": [
+    "t1"
+   ],
+   "1": [
+    "t2"
+   ]
+  },
+  "unique_targets": [
+   {
+    "id": "t1",
+    "mask": 1
+   },
+   {
+    "id": "t2",
+    "mask": 2
+   }
+  ]
+ },
+ "explicit": {
+  "redirect": null,
+  "src": [
+   0,
+   0,
+   0
+  ],
+  "src_orientation": 0.0,
+  "unit": "t1"
+ },
+ "hit": {
+  "draws": {
+   "default": 1
+  }
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "hit-draws-interleave-with-cap",
+ "relations": [
+  {
+   "from": "caster",
+   "to": "t1",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "t2",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "caster",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": [
+   1,
+   2,
+   1,
+   1
+  ]
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "attributes": [],
+  "attributes_cu": [],
+  "dmg_class": "MAGIC",
+  "effects": [
+   {
+    "effect": "SCHOOL_DAMAGE",
+    "index": 0,
+    "target_a": "TARGET_UNIT_TARGET_ENEMY"
+   },
+   {
+    "aura": "DUMMY",
+    "effect": "APPLY_AURA",
+    "index": 1,
+    "radius_a": {
+     "max": 8,
+     "min": 0,
+     "per_level": 0,
+     "radius": 8
+    },
+    "target_a": "TARGET_UNIT_SRC_AREA_ENEMY"
+   }
+  ],
+  "id": 900010,
+  "is_positive": false,
+  "max_affected_targets": 1,
+  "name": "interleave",
+  "range": {
+   "max": [
+    40,
+    40
+   ],
+   "min": [
+    0,
+    0
+   ]
+  },
+  "script_hooks": [],
+  "synthetic": true,
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 1,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "t1",
+  "t2",
+  "caster"
+ ]
+}

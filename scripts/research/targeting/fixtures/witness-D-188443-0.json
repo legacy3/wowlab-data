@@ -1,0 +1,252 @@
+{
+ "about": "chain-damage",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "sham",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "P",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "X",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    28,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "Y",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    36,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "faction": 7,
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "Z",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    11.5,
+    0,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "sham",
+ "discriminates": "jump reference point",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "P",
+    "X",
+    "Y"
+   ],
+   "1": []
+  }
+ },
+ "explicit": {
+  "unit": "P"
+ },
+ "hit": {
+  "draws": {
+   "default": 0
+  }
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-D-188443-0",
+ "relations": [
+  {
+   "from": "sham",
+   "to": "P",
+   "valid_attack": true
+  },
+  {
+   "from": "sham",
+   "to": "X",
+   "valid_attack": true
+  },
+  {
+   "from": "sham",
+   "to": "Y",
+   "valid_attack": true
+  },
+  {
+   "from": "sham",
+   "to": "Z",
+   "valid_attack": true
+  },
+  {
+   "from": "sham",
+   "to": "sham",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 188443,
+  "override": {
+   "los_disabled": false,
+   "positive": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "P",
+  "Z",
+  "X",
+  "Y",
+  "sham"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1825 -> 2300-2325",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "P",
+     "X",
+     "Y"
+    ],
+    "1": []
+   }
+  },
+  "intake_additions": [
+   "sham.facts.cc_breakable_by_damage=false",
+   "P.facts.cc_breakable_by_damage=false",
+   "X.facts.cc_breakable_by_damage=false",
+   "Y.facts.cc_breakable_by_damage=false",
+   "Z.facts.cc_breakable_by_damage=false"
+  ],
+  "selectors": [
+   6,
+   0
+  ],
+  "spell": 188443,
+  "track": "D"
+ }
+}

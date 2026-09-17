@@ -1,0 +1,226 @@
+{
+ "build_skew": false,
+ "consumer": "SpellInfo.cpp:798-799 (no entry -> {0,0}); Spell.cpp:9429",
+ "discriminates": "radius {0,0} is not 'owner only': a party member whose centre lies within its own combat reach at equal z (p2) is accepted; dz 0.5 > Max 0 (p3) and 3 yd (p4) are not -- vs 'no radius = self only' and vs 'no radius = unlimited party'",
+ "effect": 0,
+ "expect": {
+  "recipients": [
+   "p1",
+   "p2"
+  ]
+ },
+ "fixture": {
+  "actors": [
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 1,
+     "immune_effects": [],
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": {
+     "id": "G",
+     "raid": false,
+     "subgroup": 0
+    },
+    "id": "p1",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 1,
+     "immune_effects": [],
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": {
+     "id": "G",
+     "raid": false,
+     "subgroup": 0
+    },
+    "id": "p2",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     1.0,
+     0,
+     0
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 1,
+     "immune_effects": [],
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": {
+     "id": "G",
+     "raid": false,
+     "subgroup": 0
+    },
+    "id": "p3",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     1.0,
+     0,
+     0.5
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 1,
+     "immune_effects": [],
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": {
+     "id": "G",
+     "raid": false,
+     "subgroup": 0
+    },
+    "id": "p4",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     3,
+     0,
+     0
+    ]
+   }
+  ],
+  "aura": {
+   "applications": {},
+   "caster": "p1",
+   "owner": "p1",
+   "static_applications": {}
+  },
+  "caster": "p1",
+  "los": {
+   "default": "clear"
+  },
+  "modifiers": {
+   "radius": 0,
+   "range": 0
+  },
+  "name": "witness-J-400129-0",
+  "relations": [
+   {
+    "friendly": true,
+    "from": "p1",
+    "hostile": false,
+    "to": "p2",
+    "valid_assist": true,
+    "valid_attack": false
+   },
+   {
+    "friendly": true,
+    "from": "p1",
+    "hostile": false,
+    "to": "p3",
+    "valid_assist": true,
+    "valid_attack": false
+   },
+   {
+    "friendly": true,
+    "from": "p1",
+    "hostile": false,
+    "to": "p4",
+    "valid_assist": true,
+    "valid_attack": false
+   }
+  ],
+  "schema": "targeting-fixture/1",
+  "spell": {
+   "difficulty": 0,
+   "id": 400129,
+   "override": {
+    "los_disabled": false
+   }
+  },
+  "visit_order": [
+   "p1",
+   "p2",
+   "p3",
+   "p4"
+  ]
+ },
+ "schema": "targeting-auramap-witness/1",
+ "selectors": [
+  "TARGET_UNIT_CASTER",
+  0
+ ],
+ "shape": "unit-aura party (35) with RadiusIndex 0",
+ "spell": 400129
+}

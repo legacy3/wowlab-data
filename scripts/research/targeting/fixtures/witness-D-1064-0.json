@@ -1,0 +1,269 @@
+{
+ "about": "chain-heal",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "sham",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 90,
+   "id": "p",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 60000,
+   "id": "a",
+   "kind": "player",
+   "max_health": 100000,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    20,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 20000,
+   "id": "b",
+   "kind": "player",
+   "max_health": 50000,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    19,
+    3,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "c",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    26,
+    5,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "sham",
+ "discriminates": "deficit vs health-% ranking; the caster (in the pre-filter) is never in 12.5y of a jump source here",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "p",
+    "a",
+    "b",
+    "c"
+   ],
+   "1": [],
+   "2": []
+  }
+ },
+ "explicit": {
+  "unit": "p"
+ },
+ "hit": {
+  "draws": {
+   "default": 0
+  }
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-D-1064-0",
+ "relations": [
+  {
+   "from": "sham",
+   "to": "sham",
+   "valid_assist": true
+  },
+  {
+   "from": "sham",
+   "to": "p",
+   "valid_assist": true
+  },
+  {
+   "from": "sham",
+   "to": "a",
+   "valid_assist": true
+  },
+  {
+   "from": "sham",
+   "to": "b",
+   "valid_assist": true
+  },
+  {
+   "from": "sham",
+   "to": "c",
+   "valid_assist": true
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 1064,
+  "override": {
+   "los_disabled": false,
+   "positive": true
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "p",
+  "b",
+  "a",
+  "c",
+  "sham"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1825 -> 1832-1864, 2221-2327",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1",
+    "2"
+   ],
+   "recipients": {
+    "0": [
+     "p",
+     "a",
+     "b",
+     "c"
+    ],
+    "1": [],
+    "2": []
+   }
+  },
+  "intake_additions": [
+   "sham.facts.cc_breakable_by_damage=false",
+   "p.facts.cc_breakable_by_damage=false",
+   "a.facts.cc_breakable_by_damage=false",
+   "b.facts.cc_breakable_by_damage=false",
+   "c.facts.cc_breakable_by_damage=false"
+  ],
+  "selectors": [
+   45,
+   0
+  ],
+  "spell": 1064,
+  "track": "D"
+ }
+}

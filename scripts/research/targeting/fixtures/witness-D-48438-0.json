@@ -1,0 +1,418 @@
+{
+ "about": "smart-heal",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "dru",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "t",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 99,
+   "id": "h1",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    12,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 5,
+   "id": "h2",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    8,
+    2,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g2",
+    "subgroup": 0
+   },
+   "health": 10,
+   "id": "o",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    11,
+    3,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "f1",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    9,
+    -2,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "f2",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    13,
+    1,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "f3",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    10,
+    4,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "dru",
+ "discriminates": "injured is a bit, not a ranking; bit order injured > player > grouped",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "draws_consumed": 4,
+  "recipients": {
+   "0": [
+    "h1",
+    "h2",
+    "o",
+    "f2",
+    "f1"
+   ],
+   "1": []
+  }
+ },
+ "explicit": {
+  "unit": "t"
+ },
+ "hit": {
+  "draws": {
+   "default": 0
+  }
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-D-48438-0",
+ "relations": [
+  {
+   "friendly": true,
+   "from": "dru",
+   "to": "t",
+   "valid_assist": true
+  },
+  {
+   "friendly": true,
+   "from": "dru",
+   "to": "h1",
+   "valid_assist": true
+  },
+  {
+   "friendly": true,
+   "from": "dru",
+   "to": "h2",
+   "valid_assist": true
+  },
+  {
+   "friendly": true,
+   "from": "dru",
+   "to": "o",
+   "valid_assist": true
+  },
+  {
+   "friendly": true,
+   "from": "dru",
+   "to": "f1",
+   "valid_assist": true
+  },
+  {
+   "friendly": true,
+   "from": "dru",
+   "to": "f2",
+   "valid_assist": true
+  },
+  {
+   "friendly": true,
+   "from": "dru",
+   "to": "f3",
+   "valid_assist": true
+  },
+  {
+   "friendly": true,
+   "from": "dru",
+   "to": "dru",
+   "valid_assist": true
+  }
+ ],
+ "rng": {
+  "draws": [
+   1,
+   0,
+   2,
+   2
+  ]
+ },
+ "schema": "targeting-fixture/1",
+ "smart_check": {
+  "function": "smart.select_random_injured_targets",
+  "group_of": "dru",
+  "hook_draws": [
+   1,
+   0,
+   3,
+   2
+  ],
+  "input": [
+   "t",
+   "h1",
+   "o",
+   "f1",
+   "h2",
+   "f2",
+   "f3",
+   "dru"
+  ],
+  "max_targets": 5,
+  "output": [
+   "h1",
+   "h2",
+   "o",
+   "f2",
+   "f1"
+  ],
+  "prioritize_players": true
+ },
+ "spell": {
+  "difficulty": 0,
+  "id": 48438,
+  "override": {
+   "los_disabled": false,
+   "positive": true
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "radius_mod": 1.0,
+  "wild_growth_max_targets": 5
+ },
+ "visit_order": [
+  "t",
+  "h1",
+  "o",
+  "f1",
+  "h2",
+  "f2",
+  "f3",
+  "dru"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1436 -> spell_druid.cpp:3021-3032 -> Spell.cpp:9513-9573",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "h1",
+     "h2",
+     "o",
+     "f2",
+     "f1"
+    ],
+    "1": []
+   }
+  },
+  "intake_additions": [
+   "dru.facts.cc_breakable_by_damage=false",
+   "t.facts.cc_breakable_by_damage=false",
+   "h1.facts.cc_breakable_by_damage=false",
+   "h2.facts.cc_breakable_by_damage=false",
+   "o.facts.cc_breakable_by_damage=false",
+   "f1.facts.cc_breakable_by_damage=false",
+   "f2.facts.cc_breakable_by_damage=false",
+   "f3.facts.cc_breakable_by_damage=false",
+   "hook spell_dru_wild_growth runs through track E's adapter: SelectRandomInjuredTargets(5) shuffles the boundary class with 4 Fisher-Yates index draws (stream [1,0,2,2] reproduces the proposer's order); wild_growth_max_targets=5 (EFFECT_1 value) stated; hostile review R2-05"
+  ],
+  "selectors": [
+   63,
+   31
+  ],
+  "spell": 48438,
+  "track": "D"
+ }
+}

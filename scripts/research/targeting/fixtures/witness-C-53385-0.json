@@ -1,0 +1,374 @@
+{
+ "about": "legacy correction cap (SpellMgr.cpp:3649 MaxAffectedTargets=4)",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "level": 80,
+    "magnet": false,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "group": null,
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "d0",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    1.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "d1",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    2.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "d2",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    3.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "d3",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    4.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "d4",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    5.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "d5",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    6.0,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "Trinity caps a Retail-uncapped spell at 4 (d1, d3 dropped with these draws) vs DB2-only model (all 6)",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "d0",
+    "d2",
+    "d4",
+    "d5"
+   ],
+   "1": [
+    "d0",
+    "d2",
+    "d4",
+    "d5"
+   ],
+   "2": [
+    "caster"
+   ],
+   "3": [
+    "caster"
+   ]
+  }
+ },
+ "explicit": {
+  "dest": [
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-C-53385-0",
+ "relations": [
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "caster",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "d0",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "d1",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "d2",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "d3",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "d4",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "d5",
+   "valid_assist": false,
+   "valid_attack": true
+  }
+ ],
+ "rng": {
+  "draws": [
+   1,
+   5,
+   1,
+   3,
+   2,
+   1
+  ]
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 53385,
+  "override": {
+   "los_disabled": false,
+   "max_affected_targets": 4
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {},
+ "visit_order": [
+  "caster",
+  "d0",
+  "d1",
+  "d2",
+  "d3",
+  "d4",
+  "d5"
+ ],
+ "witness": {
+  "consumer": "SpellMgr.cpp:3649-3655; Spell.cpp:1448",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "d0",
+     "d2",
+     "d4",
+     "d5"
+    ],
+    "1": [
+     "d0",
+     "d2",
+     "d4",
+     "d5"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.immune_effects=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "d0.facts.immune_effects=[]",
+   "d0.facts.cc_breakable_by_damage=false",
+   "d0.facts.ignore_los_on_me=false",
+   "d1.facts.immune_effects=[]",
+   "d1.facts.cc_breakable_by_damage=false",
+   "d1.facts.ignore_los_on_me=false",
+   "d2.facts.immune_effects=[]",
+   "d2.facts.cc_breakable_by_damage=false",
+   "d2.facts.ignore_los_on_me=false",
+   "d3.facts.immune_effects=[]",
+   "d3.facts.cc_breakable_by_damage=false",
+   "d3.facts.ignore_los_on_me=false",
+   "d4.facts.immune_effects=[]",
+   "d4.facts.cc_breakable_by_damage=false",
+   "d4.facts.ignore_los_on_me=false",
+   "d5.facts.immune_effects=[]",
+   "d5.facts.cc_breakable_by_damage=false",
+   "d5.facts.ignore_los_on_me=false",
+   "modifiers.range=0 (no spell modifier on the caster)",
+   "modifiers.chain_targets=0 (no spell modifier on the caster)",
+   "modifiers.chain_jump_distance=0 (no spell modifier on the caster)"
+  ],
+  "pipeline_filled_effects": [
+   "2",
+   "3"
+  ],
+  "selectors": [
+   "TARGET_DEST_CASTER",
+   "TARGET_UNIT_DEST_AREA_ENEMY"
+  ],
+  "spell": 53385,
+  "track": "C"
+ }
+}

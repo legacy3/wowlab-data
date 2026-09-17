@@ -1,0 +1,248 @@
+{
+ "about": "grouped effects inherit the lead's ChainTargets",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "id": "p1",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 14,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "is_summon": false,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "e1",
+   "kind": "creature",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    10,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 14,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "is_summon": false,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "e2",
+   "kind": "creature",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    13,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 14,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "is_summon": false,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "e3",
+   "kind": "creature",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    16,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "caster": "p1",
+ "discriminates": "effects 1/2 (ChainTargets -10 in DB2) are grouped with effect 0 (ChainTargets 3) and receive every chain target, vs per-effect chain counts (effects 1/2 only on e1). Chain jump facts owned by track D",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "e1",
+    "e2",
+    "e3"
+   ],
+   "1": [
+    "e1",
+    "e2",
+    "e3"
+   ],
+   "2": [
+    "e1",
+    "e2",
+    "e3"
+   ],
+   "3": [
+    "p1"
+   ]
+  }
+ },
+ "explicit": {
+  "unit": "e1"
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-F-31935-1",
+ "relations": [
+  {
+   "friendly": false,
+   "from": "p1",
+   "hostile": true,
+   "to": "e1",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "friendly": false,
+   "from": "p1",
+   "hostile": true,
+   "to": "e2",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "friendly": false,
+   "from": "p1",
+   "hostile": true,
+   "to": "e3",
+   "valid_assist": false,
+   "valid_attack": true
+  }
+ ],
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 31935,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "visit_order": [
+  "e1",
+  "e2",
+  "e3"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:741-788, 1832-1856",
+  "effect": 1,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1",
+    "2",
+    "3"
+   ],
+   "recipients": {
+    "0": [
+     "e1",
+     "e2",
+     "e3"
+    ],
+    "1": [
+     "e1",
+     "e2",
+     "e3"
+    ],
+    "2": [
+     "e1",
+     "e2",
+     "e3"
+    ],
+    "3": [
+     "p1"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "p1.facts.spell_other_immunity=[]",
+   "p1.facts.immune_effects=[]",
+   "p1.facts.cc_breakable_by_damage=false",
+   "e1.facts.spell_other_immunity=[]",
+   "e1.facts.immune_effects=[]",
+   "e1.facts.cc_breakable_by_damage=false",
+   "e1.facts.ignore_los_on_me=false",
+   "e2.facts.spell_other_immunity=[]",
+   "e2.facts.immune_effects=[]",
+   "e2.facts.cc_breakable_by_damage=false",
+   "e2.facts.ignore_los_on_me=false",
+   "e3.facts.spell_other_immunity=[]",
+   "e3.facts.immune_effects=[]",
+   "e3.facts.cc_breakable_by_damage=false",
+   "e3.facts.ignore_los_on_me=false"
+  ],
+  "selectors": [
+   "TARGET_UNIT_TARGET_ENEMY",
+   0
+  ],
+  "spell": 31935,
+  "track": "F"
+ }
+}

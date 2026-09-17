@@ -1,0 +1,1211 @@
+{
+ "by_build_skew": {
+  "False": 26,
+  "True": 2,
+  "mixed (per row)": 1,
+  "n/a": 47,
+  "per row": 1
+ },
+ "by_evidence": {
+  "build-skew": 2,
+  "db2-fact": 4,
+  "script-consumer": 2,
+  "structural-inference": 18,
+  "trinity-consumer": 34,
+  "trinity-probe": 7,
+  "unresolved": 5,
+  "world-db-fact": 5
+ },
+ "by_source": {
+  "area.json": 4,
+  "areatriggers.json": 7,
+  "aura-targets.json": 8,
+  "caps.json": 2,
+  "chains.json": 3,
+  "differential.json": 5,
+  "effect-recipients.json": 4,
+  "explicit-validation.json": 4,
+  "extended-scope.json": 1,
+  "geometry.json": 3,
+  "group-policy.json": 3,
+  "lead": 5,
+  "relations.json": 4,
+  "rng.json": 5,
+  "script-adapters.json": 6,
+  "selectors.json": 8,
+  "smart-selection.json": 3,
+  "world-policy.json": 2
+ },
+ "count": 77,
+ "entries": [
+  {
+   "build_skew": "n/a",
+   "evidence": "db2-fact",
+   "id": "TG-A-01",
+   "known": "no current-player or controlled-unit effect uses an id >= 153 in 12.1.0.69497",
+   "reopen_condition": "census selector_ids_beyond_trinity non-empty",
+   "sources": [
+    "selectors.json"
+   ],
+   "subject": "selector ids >= TOTAL_SPELL_TARGETS (153)",
+   "unknown": "behaviour of any future id beyond Trinity's _data table (Trinity indexes out of bounds)",
+   "why_unresolved": "no consumer"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-A-02",
+   "known": "Trinity _data row: UNIT/CASTER/AREA/ENEMY -> SelectImplicitAreaTargets adds enemies within radius 7 as unit targets carrying effect bit 0; EffectSummonType runs in LAUNCH mode (SpellEffects.cpp:1869) so the summon count does not depend on them",
+   "reopen_condition": "Trinity names id 151 or a sniff of 49028 shows target GUIDs",
+   "sources": [
+    "selectors.json"
+   ],
+   "subject": "selector 151 (TARGET_UNK_151) on 49028:0 Dancing Rune Weapon (SPELL_EFFECT_SUMMON)",
+   "unknown": "Retail meaning of id 151 (unnamed in Trinity) and whether the summon position follows an enemy",
+   "why_unresolved": "no Trinity name/comment; structural similarity only"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-A-03",
+   "known": "Trinity builds every cone from *m_caster (position and orientation) and ignores m_targets dst (Spell.cpp:1301, 9455); direction axis unused",
+   "reopen_condition": "retail experiment RX-A-01",
+   "sources": [
+    "selectors.json",
+    "composition.json"
+   ],
+   "subject": "CONE_CASTER_TO_DEST (104, 136) and RECT (128-130) orientation",
+   "unknown": "whether Retail orients the cone towards the destination for CASTER_TO_DEST ids",
+   "why_unresolved": "no Retail consumer; the name is not semantics"
+  },
+  {
+   "build_skew": false,
+   "evidence": "db2-fact",
+   "id": "TG-A-04",
+   "known": "flags present on player effects (counts in attributes.json effect_attributes); Trinity marks them NYI and has no reader",
+   "reopen_condition": "a consumer appears in Trinity or retail experiment RX-A-02",
+   "sources": [
+    "selectors.json",
+    "attributes.json"
+   ],
+   "subject": "SpellEffectAttributes AddTargetCombatReachToAOE (0x800), AreaEffectsUseTargetRadius (0x20000), PositionIsFacingRelative (0x2), ExcludeOwnParty (0x10) on player effects",
+   "unknown": "their effect on recipient sets (area radius / facing / party exclusion)",
+   "why_unresolved": "no consumer in Trinity != no Retail behaviour"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "db2-fact",
+   "id": "TG-A-05",
+   "known": "present in current-player SpellEffect.EffectAttributes, absent from DBCEnums.h:2400",
+   "reopen_condition": "Trinity/client enum update",
+   "sources": [
+    "selectors.json",
+    "attributes.json"
+   ],
+   "subject": "EffectAttributes bits 0x00400000 and 0x10000000 in player data",
+   "unknown": "name and semantics",
+   "why_unresolved": "not in the pinned enum"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-A-06",
+   "known": "loaded (SpellInfo.cpp:1510), never read by Trinity; 0 current-player spells set it",
+   "reopen_condition": "a current-player spell sets it",
+   "sources": [
+    "selectors.json",
+    "attributes.json"
+   ],
+   "subject": "SpellTargetRestrictions.MaxTargetLevel",
+   "unknown": "Retail semantics",
+   "why_unresolved": "no consumer, no current data"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "db2-fact",
+   "id": "TG-A-07",
+   "known": "Trinity only tests SPELL_FACING_FLAG_INFRONT (0x1) in CheckRange (Spell.cpp:7300)",
+   "reopen_condition": "enum update",
+   "sources": [
+    "selectors.json",
+    "attributes.json"
+   ],
+   "subject": "SpellCastingRequirements.FacingCasterFlags value 6",
+   "unknown": "meaning of bits 0x2/0x4",
+   "why_unresolved": "no consumer"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-A-08",
+   "known": "Trinity forces 90 degrees at load (SpellMgr.cpp:5282), including TARGET_UNIT_CONE_180_DEG_ENEMY",
+   "reopen_condition": "retail experiment RX-A-03",
+   "sources": [
+    "selectors.json",
+    "attributes.json"
+   ],
+   "subject": "cone effects with ConeDegrees == 0",
+   "unknown": "Retail default cone angle when ConeDegrees is 0",
+   "why_unresolved": "Trinity value is a server-authored default"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "unresolved",
+   "id": "TG-B-01",
+   "known": "IsValidAttack/AssistTarget, SpellHitResult, PreprocessSpellHit and CheckTarget read IsPositive()",
+   "reopen_condition": "positivity oracle lands (G SpellView.positive from data)",
+   "sources": [
+    "relations.json",
+    "explicit-validation.json"
+   ],
+   "subject": "SpellInfo::IsPositive (NegativeEffects)",
+   "unknown": "load-time positivity (SpellInfo.cpp:4609+ _isPositiveTarget/_isPositiveEffectImpl) is not ported; views must state it",
+   "why_unresolved": "outside Track B (payload/positivity pass)"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "unresolved",
+   "id": "TG-B-02",
+   "known": "explicit checks use implicit=false (stealth/invisibility enforced), area checks implicit=true (SpellInfo.cpp:2335)",
+   "reopen_condition": "simulated targets can be stealthed/invisible",
+   "sources": [
+    "relations.json",
+    "explicit-validation.json"
+   ],
+   "subject": "CanSeeOrDetect",
+   "unknown": "stealth/invisibility detection arithmetic",
+   "why_unresolved": "world visibility machinery; fixture fact `can_see`"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-B-03",
+   "known": "TargetAuraState gates (SpellInfo.cpp:2496) read Unit::HasAuraState (Unit.cpp:6145) incl. caster-specific ABILITY_IGNORE_AURASTATE",
+   "reopen_condition": "aura-state producer model exists",
+   "sources": [
+    "explicit-validation.json"
+   ],
+   "subject": "HasAuraState(state, spell, caster)",
+   "unknown": "per-caster aura-state derivation is modelled as a flat fixture list `aura_states`",
+   "why_unresolved": "aura-state producers belong to the aura lifecycle pass"
+  },
+  {
+   "build_skew": false,
+   "evidence": "world-db-fact",
+   "id": "TG-B-04",
+   "known": "CheckCast evaluates spell conditions with the explicit object as target (Spell.cpp:5919)",
+   "reopen_condition": "Track E / conditions adapter covers the spell's rows",
+   "sources": [
+    "explicit-validation.json"
+   ],
+   "subject": "CONDITION_SOURCE_TYPE_SPELL conditions",
+   "unknown": "condition evaluation (generic ConditionMgr not built)",
+   "why_unresolved": "brief scope guard"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-B-05",
+   "known": "CheckTarget fails with TARGET_CANNOT_BE_RESURRECTED when the instance has 0 combat-res charges during an encounter (SpellInfo.cpp:2520)",
+   "reopen_condition": "encounter simulation models combat-res charges",
+   "sources": [
+    "explicit-validation.json"
+   ],
+   "subject": "ATTR8_ENFORCE_IN_COMBAT_RESSURECTION_LIMIT",
+   "unknown": "InstanceScript charge state",
+   "why_unresolved": "instance runtime state"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-B-06",
+   "known": "TARGET_FLAG_UNIT_PASSENGER/MINIPET accepted via IsOnVehicle / CritterGUID (SpellInfo.cpp:2554-2559)",
+   "reopen_condition": "vehicle encounters",
+   "sources": [
+    "relations.json",
+    "explicit-validation.json"
+   ],
+   "subject": "vehicle / minipet explicit targets",
+   "unknown": "vehicle seat state",
+   "why_unresolved": "out of combat-sim scope"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-B-07",
+   "known": "facing uses std::atan2 on float operands (Position.h:140)",
+   "reopen_condition": "geometry.has_in_arc_actors available",
+   "sources": [
+    "explicit-validation.json"
+   ],
+   "subject": "HasInArc binary32 atan2",
+   "unknown": "local helper evaluates atan2 in double then narrows; exact float atan2 lives in Track C geometry",
+   "why_unresolved": "pending targeting.geometry actor-level helper"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-B-08",
+   "known": "m_ControlledByPlayer is set when a player-controlled owner/charmer exists",
+   "reopen_condition": "a witness depends on a charmed/possessed NPC",
+   "sources": [
+    "relations.json",
+    "explicit-validation.json"
+   ],
+   "subject": "Unit::IsControlledByPlayer for ATTR5_NOT_ON_PLAYER_CONTROLLED_NPC",
+   "unknown": "exact set/reset points (charm/possess edge cases)",
+   "why_unresolved": "approximated by `has an affecting player`"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-C-U01",
+   "known": "Trinity uses RadiusMin as an inner exclusion radius (IsInRange2d minRange, Spell.cpp:9429; SpellInfo.cpp:797).",
+   "reopen_condition": "Retail experiment TG-C-X01 or a client disassembly of the radius read.",
+   "sources": [
+    "area.json"
+   ],
+   "subject": "SpellRadius.RadiusMin on AREA/CONE effects",
+   "unknown": "Whether Retail treats RadiusMin as an annulus or as a clamp floor for the level-scaled radius.",
+   "why_unresolved": "No client consumer text; 254 of 375 SpellRadius rows have RadiusMin>0 with Radius==RadiusMax, which is more consistent with a clamp than with rings."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-C-U02",
+   "known": "Trinity: |dz| <= RadiusMax (no reach), 2D radius + target combat reach (Spell.cpp:9429).",
+   "reopen_condition": "TG-C-X02",
+   "sources": [
+    "area.json"
+   ],
+   "subject": "area vertical bound",
+   "unknown": "Retail vertical policy (sphere vs cylinder, reach inclusion).",
+   "why_unresolved": "no Retail consumer"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-probe",
+   "id": "TG-C-U03",
+   "known": "DegToRad(360) normalises to arc 0 (TG-C-D04).",
+   "reopen_condition": "TG-C-X03",
+   "sources": [
+    "geometry.json"
+   ],
+   "subject": "360-degree cones",
+   "unknown": "Retail: presumably full circle.",
+   "why_unresolved": "Trinity defect; Retail observation needed"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-C-U04",
+   "known": "Line length unbounded except by visited cells (TG-C-D02).",
+   "reopen_condition": "TG-C-X04",
+   "sources": [
+    "geometry.json"
+   ],
+   "subject": "LINE selectors",
+   "unknown": "Retail line length (radius Max) and width semantics (Width + target reach, strict).",
+   "why_unresolved": "which cells Cell::Visit covers is map data; Retail unobserved"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-C-U05",
+   "known": "pre-collision XY candidate reproduced; height/VMAP/MMAP steps are world data.",
+   "reopen_condition": "fixture supplies the post-collision dest",
+   "sources": [
+    "geometry.json"
+   ],
+   "subject": "random / directional destinations",
+   "unknown": "final dest position",
+   "why_unresolved": "no world geometry model (by design)"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "world-db-fact",
+   "id": "TG-C-U06",
+   "known": "conditions narrow GetSearcherTypeMask and filter candidates (Spell.cpp:2157-2158, 9392).",
+   "reopen_condition": "a ConditionMgr searcher-mask port",
+   "sources": [
+    "area.json"
+   ],
+   "subject": "implicit-target conditions on searched selectors",
+   "unknown": "GetSearcherTypeMaskForConditionList not ported",
+   "why_unresolved": "ConditionMgr out of scope (BRIEF §7)"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-C-U07",
+   "known": "world container before grid container; standing cell first; newest-first within a cell (area.py docstring).",
+   "reopen_condition": "never from static data; fixtures state visit_order",
+   "sources": [
+    "area.json"
+   ],
+   "subject": "grid visit order",
+   "unknown": "the concrete order for a scene (cell membership, insertion times)",
+   "why_unresolved": "map-internal state"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "script-consumer",
+   "id": "TG-C-U08",
+   "known": "script_sites lists every structural cap-touching line in Spells/Pet scripts",
+   "reopen_condition": "script-adapters.json",
+   "sources": [
+    "caps.json"
+   ],
+   "subject": "scripted cap writers/readers",
+   "unknown": "per-script semantics (Track E classifies)",
+   "why_unresolved": "owned by Track E"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-C-U09",
+   "known": "flat mods count once per matched family-flag bit; pct multiplies; uint32 truncation",
+   "reopen_condition": "fixture modifiers.max_targets",
+   "sources": [
+    "caps.json"
+   ],
+   "subject": "SpellModOp::MaxTargets aggregate",
+   "unknown": "which mod auras are active on a character (talent/state)",
+   "why_unresolved": "runtime state"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-D-01",
+   "known": "Trinity uses fixed DmgClass radii (7.5/5/10/12.5) and nearest-to-previous jumps.",
+   "reopen_condition": "Retail experiment TG-D-X01/X02 or a newer Trinity/sniff-derived change.",
+   "sources": [
+    "chains.json"
+   ],
+   "subject": "chain jump radius / nearest rule vs Retail",
+   "unknown": "Whether Retail uses the same radii/order for every current chain (e.g. modern Chain Lightning, Avenger's Shield).",
+   "why_unresolved": "No DB2 column carries a jump radius; the value is a server constant."
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-D-02",
+   "known": "Spell.cpp:7329-7387 (melee/ranged flags, combat reach of explicit target, movement bonus, ranged slot).",
+   "reopen_condition": "Track B/G port Spell::GetMinMaxRange.",
+   "sources": [
+    "chains.json"
+   ],
+   "subject": "Spell::GetMinMaxRange(false) for CHAIN_FROM_CASTER search radius",
+   "unknown": "The value per cast (runtime); the oracle takes it as spell_value.chain_from_caster_max_range.",
+   "why_unresolved": "Depends on explicit target, movement and equipment state."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "unresolved",
+   "id": "TG-D-03",
+   "known": "Spell.cpp:741-775 grouping rules.",
+   "reopen_condition": "Track E/F resolve the hook masks.",
+   "sources": [
+    "chains.json"
+   ],
+   "subject": "effect-mask grouping of chain effects with unresolved script hooks / corrections",
+   "unknown": "Grouping when the script hook mask is unresolved or LoadSpellInfoCorrections touch the spell.",
+   "why_unresolved": "Structural index cannot resolve the hook; corrections not applied by the view."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-D-10",
+   "known": "handler callees (state_dependent_hooks)",
+   "reopen_condition": "Track E adapter lands for the hook.",
+   "sources": [
+    "smart-selection.json"
+   ],
+   "subject": "current-player target hooks whose state-dependent filter is not ported to smart.py",
+   "unknown": "exact recipient policy of those handlers",
+   "why_unresolved": "Track E owns generic adapters; only the smart/random families are ported here."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "unresolved",
+   "id": "TG-D-11",
+   "known": "Trinity: binary injured bit + group bit + random; Radiance: 5 rule bits.",
+   "reopen_condition": "Retail experiment TG-D-X10.",
+   "sources": [
+    "smart-selection.json"
+   ],
+   "subject": "Retail smart healing (Wild Growth, Healing Rain, Circle of Healing, Radiance)",
+   "unknown": "Retail ranking (deficit? health %? incoming damage?) and tie-breaks.",
+   "why_unresolved": "Tooltips say 'injured allies'; no client data encodes the ranking."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-probe",
+   "id": "TG-D-12",
+   "known": "libstdc++13 insertion sort for <= 16 (stable).",
+   "reopen_condition": "never semantic; oracle fails closed",
+   "sources": [
+    "smart-selection.json"
+   ],
+   "subject": "std::ranges::sort tie order for > 16 candidates / other standard libraries",
+   "unknown": "Order of equal keys beyond 16 elements or with MSVC/libc++ builds.",
+   "why_unresolved": "Implementation-defined."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-probe",
+   "id": "TG-D-20",
+   "known": "libstdc++13 forward Fisher-Yates index sequence (probe-checked); floor(n/2) distribution calls.",
+   "reopen_condition": "only if a bit-exact Trinity replay is required",
+   "sources": [
+    "rng.json"
+   ],
+   "subject": "engine-word consumption of RandomShuffle / uniform_int_distribution",
+   "unknown": "How many engine words each distribution call costs (rejection sampling).",
+   "why_unresolved": "Library implementation detail; Retail does not run this code."
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-D-21",
+   "known": "draw count and order per selector path; Min not added back.",
+   "reopen_condition": "fixture states the collided point",
+   "sources": [
+    "rng.json"
+   ],
+   "subject": "random destinations (TARGET_DIR_RANDOM, *_RANDOM radius)",
+   "unknown": "the final point: MovePositionToFirstCollision / height are world geometry.",
+   "why_unresolved": "no VMAP/MMAP model"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-D-22",
+   "known": "Spell.cpp:773-774 calls CalcRadius (drawing) for each compared pair; a drawn radius almost never compares equal.",
+   "reopen_condition": "compiler-specific probe if ever needed",
+   "sources": [
+    "rng.json"
+   ],
+   "subject": "grouping radius comparison with random-radius selectors",
+   "unknown": "evaluation order of the two operands of != (unspecified in C++), hence which draw feeds which effect.",
+   "why_unresolved": "unspecified behaviour"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-D-23",
+   "known": "two rand_norm() calls as arguments of one MovePosition call (Object.cpp:2779).",
+   "reopen_condition": "compiler-specific probe",
+   "sources": [
+    "rng.json"
+   ],
+   "subject": "GetRandomNearPosition argument evaluation order",
+   "unknown": "which draw is the distance and which the angle (unspecified order).",
+   "why_unresolved": "unspecified behaviour"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-probe",
+   "id": "TG-D-24",
+   "known": "libstdc++ 13: forward Fisher-Yates, ascending swap positions, floor(n/2) uniform_int_distribution calls (one per pair, one extra first when n is even); probe-logged swaps.",
+   "reopen_condition": "a build of Trinity with another standard library must be replayed",
+   "sources": [
+    "rng.json"
+   ],
+   "subject": "standard-library dependence of the RandomShuffle index model",
+   "unknown": "Swap order / index mapping under libc++ or MSVC builds of Trinity (different shuffle implementations).",
+   "why_unresolved": "Implementation-defined; the oracle's fixture draws are swap indices for libstdc++ 13 only."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-E-01",
+   "known": "children cast by executing hooks (cast-category calls with SpellID ints) are followed",
+   "reopen_condition": "a script-cast edge corpus (AreaTriggerAI + helper tables) exists",
+   "sources": [
+    "script-adapters.json"
+   ],
+   "subject": "script-reach closure",
+   "unknown": "casts through helper tables / constructor args / AreaTriggerAI / creature AI are not followed; 448 target-hook registrations on bound spells lie outside every tier",
+   "why_unresolved": "no authored edge and the structural index does not resolve indirect SpellIDs"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-E-02",
+   "known": "priority bits, unstable std::ranges::sort, cutoff/tie shuffle (Spell.cpp:9513-9608)",
+   "reopen_condition": "targeting.smart publishes select_random_injured_targets",
+   "sources": [
+    "script-adapters.json"
+   ],
+   "subject": "smart selection ranking (SelectRandomInjuredTargets / SortTargetsWithPriorityRules)",
+   "unknown": "order among equal-priority elements before the shuffle (libstdc++ introsort) - track D oracle",
+   "why_unresolved": "owned by track D"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "unresolved",
+   "id": "TG-E-03",
+   "known": "Trinity behaviour per hook",
+   "reopen_condition": "retail experiments below",
+   "sources": [
+    "script-adapters.json"
+   ],
+   "subject": "Retail parity of script adapters",
+   "unknown": "whether Retail implements the same filters/caps (e.g. Wild Growth grouping preference)",
+   "why_unresolved": "Trinity is a consumer oracle, not Retail truth"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-E-04",
+   "known": "SpellScript.h:546-549 compares 16 uninitialised-padded bytes; static pointer is 8 bytes",
+   "reopen_condition": "a probe compiling the handler with the pinned toolchain",
+   "sources": [
+    "script-adapters.json"
+   ],
+   "subject": "effect-mask grouping across two registrations of one static target hook (435607 {1,2}, 184362 {0,1})",
+   "unknown": "whether the pinned binary groups these effects",
+   "why_unresolved": "indeterminate value (compiler/stack dependent)"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-E-05",
+   "known": "Holy Prism FilterTargets per spell (not-registered rows labelled), Mass Entanglement AOE per spell, Halo selectors by caster talents (mask 0 either way), Primordial Wave by caster spec (helper verdict); lead list TG-H-03",
+   "reopen_condition": "Register() evaluation per spell/caster state",
+   "sources": [
+    "script-adapters.json"
+   ],
+   "subject": "Register()-time conditional hooks",
+   "unknown": "the other conditional classes outside the target-hook inventory",
+   "why_unresolved": "hand-read only where in scope"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-E-06",
+   "known": "ValidateSpellInfo / ValidateSpellEffect evaluated; GetEffect predicates hand-read for 8 classes",
+   "reopen_condition": "hand-read or probe",
+   "sources": [
+    "script-adapters.json"
+   ],
+   "subject": "Validate() constructs not evaluated mechanically",
+   "unknown": "other constructs (listed in `validate_unparsed`) are assumed to pass",
+   "why_unresolved": "arbitrary C++"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "world-db-fact",
+   "id": "TG-E-10",
+   "known": "the overlay keeps only CONDITION_AURA reference rows",
+   "reopen_condition": "a current-player row references a list",
+   "sources": [
+    "world-policy.json"
+   ],
+   "subject": "reference conditions",
+   "unknown": "other reference lists",
+   "why_unresolved": "tools/tdb_server_overlay.py filter"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-E-11",
+   "known": "Trinity applies no entry filter (emergency case)",
+   "reopen_condition": "TDB adds source-13 rows or a sniff",
+   "sources": [
+    "world-policy.json"
+   ],
+   "subject": "TARGET_CHECK_ENTRY effects without conditions (in scope: 386276:0, 451125:0, 197214:2, 114852:2, 152588:0)",
+   "unknown": "which creature entries Retail restricts these selectors to",
+   "why_unresolved": "no world-db rows; client data has no entry list"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-F-U1",
+   "known": "player vs creature membership is true iff the creature has the static flag (Unit.cpp:12195-12197)",
+   "reopen_condition": "extract StaticFlags4 for the population entries with tools/tdb_world_extract.py",
+   "sources": [
+    "group-policy.json"
+   ],
+   "subject": "CREATURE_STATIC_FLAG_4_TREAT_AS_RAID_UNIT_FOR_HELPFUL_SPELLS",
+   "unknown": "which world creatures (incl. current-player summons) carry the flag in the pinned TDB",
+   "why_unresolved": "creature static flags (creature_template_difficulty.StaticFlags4) not extracted into the overlay"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-F-U2",
+   "known": "class compared is the referer's (explicit target), then RAID; controlled units compare their own unit_class",
+   "reopen_condition": "Retail experiment TG-F-X2",
+   "sources": [
+    "group-policy.json"
+   ],
+   "subject": "TARGET_UNIT_TARGET_AREA_RAID_CLASS (61)",
+   "unknown": "whether Retail compares the caster's class and whether pets can ever match",
+   "why_unresolved": "no Retail observation; Trinity is the only consumer"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-F-U3",
+   "known": "Trinity: owned units are in party/raid with their owner's group via one-level owner resolution",
+   "reopen_condition": "Retail experiment TG-F-X1",
+   "sources": [
+    "group-policy.json"
+   ],
+   "subject": "pet/guardian party membership in Retail",
+   "unknown": "Retail behaviour for guardians and for guardians owned by pets",
+   "why_unresolved": "consumer-only evidence"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-F-U4",
+   "known": "corrections rewrite targets/radius/chain/attributes before grouping",
+   "reopen_condition": "apply corrections (track A/G)",
+   "sources": [
+    "effect-recipients.json"
+   ],
+   "subject": "spells touched by LoadSpellInfoCorrections (targeting members)",
+   "unknown": "post-correction grouping",
+   "why_unresolved": "corrections are not applied by this census"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-F-U5",
+   "known": "Trinity comment: 'some spells appear to need this, however this requires more research' (Spell.cpp:747-748)",
+   "reopen_condition": "Retail experiment TG-F-X4",
+   "sources": [
+    "effect-recipients.json"
+   ],
+   "subject": "Retail effect-mask grouping",
+   "unknown": "whether Retail shares one target list across effects with equal selectors",
+   "why_unresolved": "no Retail consumer"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-F-U6",
+   "known": "SpellModOp::Radius has no effect index; applied identically to every effect's Max",
+   "reopen_condition": "fixture with modifiers.radius",
+   "sources": [
+    "effect-recipients.json"
+   ],
+   "subject": "radius spell mods per effect",
+   "unknown": "float collisions after mods (distinct raw radii becoming equal)",
+   "why_unresolved": "needs concrete modifier values"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "script-consumer",
+   "id": "TG-F-U7",
+   "known": "CheckScriptEffectImplicitTargets compares hook function identity per affected effect",
+   "reopen_condition": "track E resolves the hook tokens",
+   "sources": [
+    "effect-recipients.json"
+   ],
+   "subject": "script target hooks with unresolved effect masks",
+   "unknown": "the hook's affected mask (unresolved EFFECT_/TARGET_ token)",
+   "why_unresolved": "structural index could not resolve the token"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-probe",
+   "id": "TG-G-01",
+   "known": "targeting.positivity ports SpellInfo.cpp:4609-5099; probe-equal for 4831/4836 current-player spells under several load orders; load order is unspecified (boost hashed container, SpellMgr.cpp:48-64, 3031)",
+   "reopen_condition": "fixture states `override.positive`, or a Trinity build fixes the iteration order",
+   "sources": [
+    "differential.json"
+   ],
+   "subject": "SpellInfo::IsPositive for 5 current-player spells",
+   "unknown": "IsPositive of 44614 Flurry, 188499 Blade Dance, 190411 Whirlwind, 385059 Odyn's Fury (result depends on whether triggered spells were initialised first) and 111400 Burning Rush (AttributesEx4 correction not applied)",
+   "why_unresolved": "Trinity itself is order dependent for the four; the correction port is outside G"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "world-db-fact",
+   "id": "TG-G-02",
+   "known": "TDB `disables` has 5318 rows, 54 spell rows (sourceType 0)",
+   "reopen_condition": "overlay gains `disables`",
+   "sources": [
+    "differential.json"
+   ],
+   "subject": "DisableMgr SPELL_DISABLE_LOS rows",
+   "unknown": "table not in dummy-corpora/trinity-server-overlay.json -> SpellView.los_disabled is None for DB2 views",
+   "why_unresolved": "overlay owned by the lead"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-G-03",
+   "known": "each *new* unique target rolls hit/resist at AddUnitTarget time, interleaved with later selectors' RandomResize / rand_norm draws",
+   "reopen_condition": "a SpellHitResult draw-plan oracle (track D rng.hit_draw_plan) is wired into fixtures",
+   "sources": [
+    "differential.json"
+   ],
+   "subject": "SpellHitResult RNG consumption during selection (Spell.cpp:2486)",
+   "unknown": "the number of engine draws per target (depends on hit tables, auras, target type)",
+   "why_unresolved": "hit machinery out of scope (payload/mitigation); fixtures state `hit.draws`"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-G-04",
+   "known": "Spell::SearchTargets visits world then grid containers per cell (Spell.cpp:2163-2192)",
+   "reopen_condition": "never (fixture-stated `visit_order`)",
+   "sources": [
+    "differential.json"
+   ],
+   "subject": "map candidate enumeration order",
+   "unknown": "per-cell object order is runtime insertion history (GridRefManager push_front)",
+   "why_unresolved": "no grid model by design"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-G-05",
+   "known": "MovePositionToFirstCollision / GetMapHeight / spell_target_position feed dest selectors (Spell.cpp:1465-1740, 9283-9290)",
+   "reopen_condition": "never (fixture-stated `dest_positions`)",
+   "sources": [
+    "differential.json"
+   ],
+   "subject": "world-geometry dependent destinations",
+   "unknown": "the resolved positions",
+   "why_unresolved": "VMAP/MMAP not modelled"
+  },
+  {
+   "aliases": [
+    "TG-D-13"
+   ],
+   "build_skew": false,
+   "evidence": "structural-inference",
+   "id": "TG-H-01",
+   "known": "census.json `global`/`per_spec` count IsEffect rows of ctx.scope.reach (Dummy-pass Scope: authored edges only); children cast by script hooks, AreaTrigger scripts/actions and spell_linked_spell are counted in census.json `extended` (768 effects / 417 spells)",
+   "reopen_condition": "a future Core blocker names one of the extended children; read its parent hook body and promote the child (TG-D-13, TG-I-10)",
+   "sources": [
+    "lead"
+   ],
+   "subject": "main census population excludes script/AreaTrigger/linked children",
+   "unknown": "which extended children are cast at runtime (hook-internal conditions) and their full recipient policy",
+   "why_unresolved": "script-cast edges are structural facts; bodies were read for target adapters only"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-H-02",
+   "known": "targeting RandomResize/shuffle draws and SpellHitResult draws interleave per effect group inside SelectSpellTargets (Spell.cpp:2485); crit is rolled at launch (rng.json)",
+   "reopen_condition": "Core models a shared RNG stream across targeting and hit resolution",
+   "sources": [
+    "lead"
+   ],
+   "subject": "per-cast shared RNG stream order beyond targeting (hit/crit/proc/payload)",
+   "unknown": "exact draw counts of every SpellHitResult branch combined with the proc pipeline for a whole cast",
+   "why_unresolved": "outside targeting; needs the proc/attack-table RNG passes joined into one stream model"
+  },
+  {
+   "aliases": [
+    "TG-I-11"
+   ],
+   "build_skew": false,
+   "evidence": "structural-inference",
+   "id": "TG-H-03",
+   "known": "the tree-sitter index records every `+=` in Register() unconditionally; these classes register hooks inside if/switch/for: spell_dh.cpp:550 collective_anguish, :1027 demonic_appetite_energize; spell_dk.cpp:1350 subduing_grasp; spell_druid.cpp:941 entangling_roots; spell_generic.cpp:911 clone, :1312 defend, :2357 mounted_charge, :4768 war_mode_enlisted; spell_paladin.cpp:1157 holy_prism_selector; spell_pet.cpp:182 pet_calculate; spell_priest.cpp:1769 entropic_rift, :2271 halo_effect_selector, :2318 halo_return_effect_selector; spell_rogue.cpp:301 blade_flurry; spell_shaman.cpp:684 deeply_rooted_elements, :2448 primordial_wave; plus spell_evoker.cpp:642 ruby_embers (hook *target type* chosen by a ternary; found by hostile review R3, outside scope). Hand-read and modelled per registration state in script-adapters.json: primordial_wave (spec-conditional), holy_prism_selector (targets 16/31 never registered), entangling_roots (area hook only for 102359), halo selectors (talent-conditional, mask 0 either way; TG-I-D04)",
+   "reopen_condition": "a Core blocker touches one of these spells, or the index learns Register() conditions",
+   "sources": [
+    "lead"
+   ],
+   "subject": "Register()-time conditional hook registration (17 classes)",
+   "unknown": "for the classes not hand-read (the other 12), which hooks are live for a given spell id / caster state; Dummy binding counts treat them as always registered",
+   "why_unresolved": "no control-flow model of Register(); hand-reading done only where a hostile review flagged it"
+  },
+  {
+   "build_skew": true,
+   "evidence": "build-skew",
+   "id": "TG-H-04",
+   "known": "census.json marks 188 current-player effects build_skew (dummy-corpora/build-skew.json: IDs absent from 12.0.7.68367); their targeting verdicts use the generic consumer paths only",
+   "reopen_condition": "a TrinityCore revision supporting 12.1.0.69497 (or later) plus its TDB; re-run tools/regen_targeting.py with the new pins",
+   "sources": [
+    "lead"
+   ],
+   "subject": "build-skew effects (SpellIDs added after the last client build the pinned Trinity supports)",
+   "unknown": "whether Trinity would add scripts, corrections, spell_script_names, AreaTrigger properties or conditions for these spells once it supports 12.1",
+   "why_unresolved": "pinned Trinity 7f3d43b supports client builds <= 12.0.7.68453"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-H-05",
+   "known": "the spell's own selection only chooses the aura owner(s) (Spell.cpp:3241); area-aura recipients come from Aura::UpdateTargetMap / FillTargetMap every 500 ms (targeting.auratargets, aura-targets.json); AreaTriggers are a third, tick-driven pipeline (targeting.areatriggers)",
+   "reopen_condition": "a Core blocker needs area-aura or AreaTrigger recipients over time; compose pipeline -> auratargets / areatriggers with an explicit tick schedule",
+   "sources": [
+    "lead"
+   ],
+   "subject": "integration boundary between spell selection and the aura target map",
+   "unknown": "the oracle does not chain them: pipeline.evaluate does not hand its aura owners to auratargets.target_map, and neither models the update cadence against a timeline",
+   "why_unresolved": "time-stepped aura/AT lifecycle belongs to the aura-lifecycle and scheduling passes"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-I-01",
+   "known": "Trinity selects units into _insideUnits every tick but nothing reads them.",
+   "reopen_condition": "a server-side script or template action appears",
+   "sources": [
+    "areatriggers.json"
+   ],
+   "subject": "AreaTriggers without a Trinity consumer (no AI script, no template action, no external script)",
+   "unknown": "What Retail applies to those units (silence, pull, absorb, knockback ...).",
+   "why_unresolved": "no consumer in Trinity != no Retail behaviour"
+  },
+  {
+   "build_skew": "mixed (per row)",
+   "evidence": "world-db-fact",
+   "id": "TG-I-02",
+   "known": "AreaTrigger::Create fails (AreaTrigger.cpp:130): no AT, no recipients.",
+   "reopen_condition": "TDB adds the row (or a sniff provides it)",
+   "sources": [
+    "areatriggers.json"
+   ],
+   "subject": "missing areatrigger_create_properties rows",
+   "unknown": "Shape, template and actions of the Retail AT.",
+   "why_unresolved": "not in the pinned TDB (+522 updates)"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-I-03",
+   "known": "GuidUnorderedSet (std::unordered_set<ObjectGuid>) iteration.",
+   "reopen_condition": "never for Trinity; Retail order via combat-log experiment",
+   "sources": [
+    "areatriggers.json"
+   ],
+   "subject": "exit order / GetInsideUnits iteration order",
+   "unknown": "a deterministic order (depends on hash + bucket history)",
+   "why_unresolved": "implementation-defined container order"
+  },
+  {
+   "build_skew": false,
+   "evidence": "structural-inference",
+   "id": "TG-I-04",
+   "known": "radius = lerp(start, target, curve(progress)) * scale; position from spline/orbit.",
+   "reopen_condition": "a curve/spline port with a probe",
+   "sources": [
+    "areatriggers.json"
+   ],
+   "subject": "curve-driven shapes and moving ATs (MorphCurveId, ScaleCurveId, MoveCurveId, splines, PathGenerator)",
+   "unknown": "DB2Manager::GetCurveValueAt and Movement::Spline evaluation are not ported",
+   "why_unresolved": "out of the targeting pass scope (fixture states progress / tick pose)"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-probe",
+   "id": "TG-I-05",
+   "known": "Trinity compares |dx|<=X, |dy|<=Y, |dz|<=Z/2.",
+   "reopen_condition": "retail experiment TG-I-X02",
+   "sources": [
+    "areatriggers.json"
+   ],
+   "subject": "box half-height (AreaTrigger.cpp:761: extentsZ / 2) vs full X/Y extents",
+   "unknown": "whether Retail box extents are half-sizes in all three axes",
+   "why_unresolved": "no Retail oracle"
+  },
+  {
+   "build_skew": false,
+   "evidence": "structural-inference",
+   "id": "TG-I-06",
+   "known": "TG-I-D04",
+   "reopen_condition": "script update",
+   "sources": [
+    "areatriggers.json"
+   ],
+   "subject": "Halo 120517/120644 effect layout vs spell_pri_halo_effect_selector",
+   "unknown": "which Halo effects Retail executes",
+   "why_unresolved": "script written for an older effect layout"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-I-07",
+   "known": "SpellAuraEffects.cpp:6385 creates at the target's position, Attached flag, AreaTrigger::Update relocates to the target each tick (:371-384)",
+   "reopen_condition": "n/a",
+   "sources": [
+    "areatriggers.json"
+   ],
+   "subject": "aura-created ATs (SPELL_AURA_AREA_TRIGGER 395): attached AT follows the aura target",
+   "unknown": "per-tick pose of the carrier (movement)",
+   "why_unresolved": "fixture fact"
+  },
+  {
+   "build_skew": "per row",
+   "evidence": "structural-inference",
+   "id": "TG-I-10",
+   "known": "selector-path verdict (targeting.selectors.understood) and the parent's explicit-target kind",
+   "reopen_condition": "lead promotes children into the census",
+   "sources": [
+    "extended-scope.json"
+   ],
+   "subject": "extended-scope child effects",
+   "unknown": "whether the child is actually cast (runtime conditions in the hook) and the full recipient policy",
+   "why_unresolved": "population pass only (brief question 3)"
+  },
+  {
+   "build_skew": "n/a",
+   "effects": [
+    "465:0",
+    "740:1",
+    "5740:0",
+    "22842:2",
+    "32223:0",
+    "32223:1",
+    "32223:2",
+    "183416:1",
+    "317920:0",
+    "317920:1",
+    "317920:3",
+    "360194:1",
+    "363558:0",
+    "368412:0",
+    "383115:1",
+    "391528:2",
+    "391528:3",
+    "394313:1",
+    "400126:1",
+    "400129:0",
+    "403530:0",
+    "404752:0",
+    "440040:5",
+    "440040:8",
+    "449620:2",
+    "469279:1",
+    "1214467:0",
+    "1254180:1",
+    "1270083:0",
+    "1278914:0",
+    "1291885:2"
+   ],
+   "evidence": "trinity-consumer",
+   "id": "TG-J-01",
+   "known": "the recipient set given the grid visit list; the map is a std::unordered_map",
+   "reopen_condition": "a fixture states cell membership, or a consumer of application order is found",
+   "sources": [
+    "aura-targets.json"
+   ],
+   "subject": "all aura-target-map effects",
+   "unknown": "which units the grid visit reaches near cell boundaries (TG-J-D01); application order",
+   "why_unresolved": "cell layout / unordered_map iteration are map-internal and implementation-defined"
+  },
+  {
+   "build_skew": false,
+   "effects": [
+    "22842:2",
+    "183416:1",
+    "360194:1",
+    "391528:2",
+    "391528:3",
+    "394313:1",
+    "400126:1",
+    "400129:0",
+    "403530:0",
+    "449620:2",
+    "1254180:1"
+   ],
+   "evidence": "trinity-probe",
+   "id": "TG-J-02",
+   "known": "Trinity: radius {0,0}; owner plus units within their own reach at equal z",
+   "reopen_condition": "RE-J-02 result",
+   "sources": [
+    "aura-targets.json"
+   ],
+   "subject": "area-search auras with RadiusIndex 0 (effect_classes tag radius-zero)",
+   "unknown": "Retail recipients (owner only, whole party, or reach-based)",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "build_skew": false,
+   "effects": [
+    "360194:1"
+   ],
+   "evidence": "structural-inference",
+   "id": "TG-J-03",
+   "known": "Trinity never applies the effect (TG-J-D03)",
+   "reopen_condition": "RE-J-03 result",
+   "sources": [
+    "aura-targets.json"
+   ],
+   "subject": "360194:1 Deathmark",
+   "unknown": "Retail recipient (target expected)",
+   "why_unresolved": "no Retail observation; no Trinity script"
+  },
+  {
+   "build_skew": false,
+   "effects": [
+    "465:0",
+    "740:1",
+    "32223:0",
+    "32223:1",
+    "32223:2",
+    "317920:0",
+    "317920:1",
+    "317920:3",
+    "363558:0",
+    "368412:0",
+    "383115:1",
+    "404752:0",
+    "469279:1",
+    "1270083:0",
+    "1278914:0",
+    "1291885:2"
+   ],
+   "evidence": "trinity-consumer",
+   "id": "TG-J-04",
+   "known": "Trinity adds the caster movement leeway to aura radii (TG-J-D02)",
+   "reopen_condition": "RE-J-04 result",
+   "sources": [
+    "aura-targets.json"
+   ],
+   "subject": "unit area auras with a radius entry",
+   "unknown": "whether Retail aura radii change while the caster moves",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "build_skew": true,
+   "effects": [
+    "1291885:2"
+   ],
+   "evidence": "build-skew",
+   "id": "TG-J-05",
+   "known": "RAID area aura in 12.1 data",
+   "reopen_condition": "Trinity supports 12.1",
+   "sources": [
+    "aura-targets.json"
+   ],
+   "subject": "1291885:2 Soulcoiler Ritual Vessel",
+   "unknown": "whether Trinity (<= 12.0.7) loads the spell as authored",
+   "why_unresolved": "spell newer than the pinned Trinity build"
+  },
+  {
+   "build_skew": false,
+   "effects": [
+    "740:1",
+    "183416:1",
+    "1254180:1"
+   ],
+   "evidence": "trinity-consumer",
+   "id": "TG-J-06",
+   "known": "the owner comes from EFFECT_IMPLICIT_TARGET_EXPLICIT (explicit unit, else caster; Spell.cpp:2080) or from the spell's other aura effects",
+   "reopen_condition": "RE-J-05 result",
+   "sources": [
+    "aura-targets.json"
+   ],
+   "subject": "area auras of spells with a unit-owned aura effect on a non-unit selector (effect_classes tag owner-explicit-or-caster)",
+   "unknown": "Retail owner when an explicit friendly target is passed",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "build_skew": false,
+   "effects": [
+    "465:0",
+    "740:1",
+    "5740:0",
+    "22842:2",
+    "32223:0",
+    "32223:1",
+    "32223:2",
+    "171975:0",
+    "183416:1",
+    "317920:0",
+    "317920:1",
+    "317920:3",
+    "360194:1",
+    "363558:0",
+    "368412:0",
+    "383115:1",
+    "389590:2",
+    "391528:2",
+    "391528:3",
+    "394313:1",
+    "400126:1",
+    "400129:0",
+    "403530:0",
+    "404752:0",
+    "440040:5",
+    "440040:8",
+    "440044:5",
+    "440044:6",
+    "449620:2",
+    "469279:1",
+    "1214467:0",
+    "1254180:1",
+    "1270083:0",
+    "1278914:0",
+    "1291885:2"
+   ],
+   "evidence": "trinity-consumer",
+   "id": "TG-J-07",
+   "known": "Trinity refreshes every 500 ms of owner updates, removal at the next refresh",
+   "reopen_condition": "RE-J-01 timing result",
+   "sources": [
+    "aura-targets.json"
+   ],
+   "subject": "all aura-target-map effects",
+   "unknown": "Retail refresh cadence and removal latency",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "build_skew": false,
+   "effects": [
+    "440040:5",
+    "440040:8"
+   ],
+   "evidence": "trinity-consumer",
+   "id": "TG-J-08",
+   "known": "each hit unit (caster and summons) owns an aura; each applies eff 5/8 to its own pet only",
+   "reopen_condition": "a consumer or Retail observation of Xalan's Cruelty on summons",
+   "sources": [
+    "aura-targets.json"
+   ],
+   "subject": "440040:8 APPLY_AURA_ON_PET on TARGET_UNIT_CASTER_AND_SUMMONS",
+   "unknown": "Retail meaning of 174 on summons",
+   "why_unresolved": "no Retail observation"
+  }
+ ],
+ "provenance": {
+  "command": "python3 targeting.py unknowns --out ../../docs/research/targeting-corpora/unknowns.json",
+  "data_snapshot": "12.1.0.69497",
+  "merged_duplicates": {
+   "TG-D-13": "TG-H-01",
+   "TG-I-11": "TG-H-03"
+  },
+  "sources": [
+   "selectors.json",
+   "composition.json",
+   "attributes.json",
+   "relations.json",
+   "explicit-validation.json",
+   "geometry.json",
+   "area.json",
+   "caps.json",
+   "chains.json",
+   "smart-selection.json",
+   "rng.json",
+   "script-adapters.json",
+   "world-policy.json",
+   "group-policy.json",
+   "effect-recipients.json",
+   "areatriggers.json",
+   "extended-scope.json",
+   "aura-targets.json",
+   "differential.json",
+   "witnesses.json",
+   "targeting/unknowns.py:LEAD_UNKNOWNS"
+  ],
+  "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+  "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+  "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+  "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "trinity_supported_build_max": "12.0.7.68453"
+ }
+}

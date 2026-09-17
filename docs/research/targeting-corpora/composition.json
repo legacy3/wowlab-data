@@ -1,0 +1,4033 @@
+{
+ "controlled_unit_only_pairs": [
+  {
+   "a": 1,
+   "b": 27,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "independent-union"
+  },
+  {
+   "a": 1,
+   "b": 30,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "a-recipients-b-reads-spell-src"
+  },
+  {
+   "a": 6,
+   "b": 15,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "a-recipients-b-reads-spell-src"
+  },
+  {
+   "a": 16,
+   "b": 16,
+   "controlled_unit_effects": 1,
+   "hazards": [
+    "B reads m_targets dst not written by A: explicit dst (client / InitExplicitTargets fallback) or an earlier effect"
+   ],
+   "relation": "a-recipients-b-reads-spell-dest"
+  },
+  {
+   "a": 18,
+   "b": 8,
+   "controlled_unit_effects": 9,
+   "hazards": [],
+   "relation": "b-uses-a-dest"
+  },
+  {
+   "a": 22,
+   "b": 7,
+   "controlled_unit_effects": 19,
+   "hazards": [],
+   "relation": "b-uses-a-src"
+  },
+  {
+   "a": 22,
+   "b": 51,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "b-uses-a-src"
+  },
+  {
+   "a": 25,
+   "b": 32,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "a-recipients-b-dest"
+  },
+  {
+   "a": 27,
+   "b": 0,
+   "controlled_unit_effects": 17,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 28,
+   "b": 38,
+   "controlled_unit_effects": 3,
+   "hazards": [],
+   "relation": "a-dest-b-independent"
+  },
+  {
+   "a": 38,
+   "b": 0,
+   "controlled_unit_effects": 29,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 40,
+   "b": 0,
+   "controlled_unit_effects": 2,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 47,
+   "b": 52,
+   "controlled_unit_effects": 2,
+   "hazards": [],
+   "relation": "b-uses-a-dest"
+  },
+  {
+   "a": 65,
+   "b": 86,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "b-moves-a-dest"
+  },
+  {
+   "a": 87,
+   "b": 8,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "b-uses-a-dest"
+  },
+  {
+   "a": 87,
+   "b": 138,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "b-moves-a-dest"
+  },
+  {
+   "a": 89,
+   "b": 0,
+   "controlled_unit_effects": 16,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 89,
+   "b": 8,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "b-uses-a-dest"
+  },
+  {
+   "a": 89,
+   "b": 16,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "b-uses-a-dest"
+  },
+  {
+   "a": 92,
+   "b": 0,
+   "controlled_unit_effects": 6,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 94,
+   "b": 0,
+   "controlled_unit_effects": 10,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 95,
+   "b": 0,
+   "controlled_unit_effects": 3,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 96,
+   "b": 0,
+   "controlled_unit_effects": 5,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 97,
+   "b": 0,
+   "controlled_unit_effects": 5,
+   "hazards": [],
+   "relation": "a-only"
+  },
+  {
+   "a": 131,
+   "b": 86,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "b-moves-a-dest"
+  },
+  {
+   "a": 149,
+   "b": 0,
+   "controlled_unit_effects": 1,
+   "hazards": [],
+   "relation": "a-only"
+  }
+ ],
+ "cross_effect_dependencies": {
+  "count": 26,
+  "dst_reads_by_turn_lead": {
+   "definition": "dst only, counted at the turn's lead effect (same definition as Track F effect-recipients.json)",
+   "effects": 17,
+   "spells": 15
+  },
+  "grouping": "Track F exact static plan (targeting.cmd_f.static_plan); effects = every member of a reading selection turn",
+  "rows": [
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 87,
+    "slot": "A",
+    "spell": 5740,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 2,
+    "group_effects": [
+     2
+    ],
+    "reads": "dst",
+    "selector": 87,
+    "slot": "A",
+    "spell": 61882,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 2,
+    "group_effects": [
+     2
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 61882,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 2,
+    "effect": 3,
+    "group_effects": [
+     3
+    ],
+    "reads": "dst",
+    "selector": 87,
+    "slot": "A",
+    "spell": 61882,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 2,
+    "effect": 3,
+    "group_effects": [
+     3
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 61882,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 4,
+    "group_effects": [
+     4
+    ],
+    "reads": "dst",
+    "selector": 87,
+    "slot": "A",
+    "spell": 73920,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 4,
+    "group_effects": [
+     4
+    ],
+    "reads": "dst",
+    "selector": 31,
+    "slot": "B",
+    "spell": 73920,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "src",
+    "selector": 30,
+    "slot": "B",
+    "spell": 85222,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 102359,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 87,
+    "slot": "A",
+    "spell": 102793,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 87,
+    "slot": "A",
+    "spell": 109248,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "src",
+    "selector": 15,
+    "slot": "B",
+    "spell": 141425,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 87,
+    "slot": "A",
+    "spell": 190356,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 190356,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 3,
+    "group_effects": [
+     3
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 194153,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "src",
+    "selector": 15,
+    "slot": "B",
+    "spell": 198813,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 205180,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1,
+     2
+    ],
+    "reads": "src",
+    "selector": 30,
+    "slot": "B",
+    "spell": 355575,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 2,
+    "group_effects": [
+     2
+    ],
+    "reads": "dst",
+    "selector": 31,
+    "slot": "B",
+    "spell": 374227,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 1,
+    "effect": 2,
+    "group_effects": [
+     2
+    ],
+    "reads": "dst",
+    "selector": 31,
+    "slot": "B",
+    "spell": 375576,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 2,
+    "group_effects": [
+     2
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 386731,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 2,
+    "group_effects": [
+     2
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 462620,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 2,
+    "effect": 3,
+    "group_effects": [
+     3
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 462620,
+    "value_from_earlier_turn": false
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "A",
+    "spell": 467745,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 87,
+    "slot": "A",
+    "spell": 1248829,
+    "value_from_earlier_turn": true
+   },
+   {
+    "build_skew": false,
+    "earlier_writer": 0,
+    "effect": 1,
+    "group_effects": [
+     1
+    ],
+    "reads": "dst",
+    "selector": 16,
+    "slot": "B",
+    "spell": 1248829,
+    "value_from_earlier_turn": false
+   }
+  ],
+  "turn_reads_after_earlier_write": {
+   "definition": "a selection turn reads m_targets dst/src after an earlier turn wrote it (Track F tag dest-read-after-earlier-write)",
+   "effects": 22,
+   "spells": 19
+  },
+  "value_from_earlier_turn": {
+   "definition": "the read value was not overwritten by this turn's own TargetA before TargetB read it",
+   "effects": 11,
+   "spells": 10
+  }
+ },
+ "explicit_target_masks": {
+  "by_mask": {
+   "0x00000000": {
+    "flags": [],
+    "spells": 4245
+   },
+   "0x00000002": {
+    "flags": [
+     "UNIT"
+    ],
+    "spells": 23
+   },
+   "0x00000004": {
+    "flags": [
+     "UNIT_RAID"
+    ],
+    "spells": 11
+   },
+   "0x00000010": {
+    "flags": [
+     "ITEM"
+    ],
+    "spells": 3
+   },
+   "0x00000040": {
+    "flags": [
+     "DEST_LOCATION"
+    ],
+    "spells": 77
+   },
+   "0x00000042": {
+    "flags": [
+     "UNIT",
+     "DEST_LOCATION"
+    ],
+    "spells": 2
+   },
+   "0x00000044": {
+    "flags": [
+     "UNIT_RAID",
+     "DEST_LOCATION"
+    ],
+    "spells": 1
+   },
+   "0x00000080": {
+    "flags": [
+     "UNIT_ENEMY"
+    ],
+    "spells": 385
+   },
+   "0x00000082": {
+    "flags": [
+     "UNIT",
+     "UNIT_ENEMY"
+    ],
+    "spells": 2
+   },
+   "0x000000C0": {
+    "flags": [
+     "DEST_LOCATION",
+     "UNIT_ENEMY"
+    ],
+    "spells": 2
+   },
+   "0x00000100": {
+    "flags": [
+     "UNIT_ALLY"
+    ],
+    "spells": 83
+   },
+   "0x00000102": {
+    "flags": [
+     "UNIT",
+     "UNIT_ALLY"
+    ],
+    "spells": 1
+   },
+   "0x00000402": {
+    "flags": [
+     "UNIT",
+     "UNIT_DEAD"
+    ],
+    "spells": 1
+   }
+  },
+  "evidence": "differential (tests/test_tg_a_probe.py::test_explicit_masks_all_player_spells)",
+  "spells": 4836
+ },
+ "pairs": [
+  {
+   "a": 0,
+   "a_name": null,
+   "a_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 9,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 24,
+   "description": "no selector; SelectEffectTypeImplicitTargets alone decides (EffectImplicitTargetTypes)",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 325,
+   "player_spells": 246,
+   "relation": "empty",
+   "witnesses": [
+    "172:1",
+    "348:1",
+    "845:1",
+    "1064:1",
+    "1064:2"
+   ]
+  },
+  {
+   "a": 0,
+   "a_name": null,
+   "a_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "b": 16,
+   "b_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A slot empty (0); B alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-only",
+   "witnesses": [
+    "205180:1"
+   ]
+  },
+  {
+   "a": 0,
+   "a_name": null,
+   "a_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "b": 18,
+   "b_name": "TARGET_DEST_CASTER",
+   "b_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A slot empty (0); B alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-only",
+   "witnesses": [
+    "319175:2"
+   ]
+  },
+  {
+   "a": 1,
+   "a_name": "TARGET_UNIT_CASTER",
+   "a_rw": {
+    "adds": true,
+    "id": 1,
+    "name": "TARGET_UNIT_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 165,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 479,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 9123,
+   "player_spells": 4258,
+   "relation": "a-only",
+   "witnesses": [
+    "53:2",
+    "71:0",
+    "71:1",
+    "71:2",
+    "71:3"
+   ]
+  },
+  {
+   "a": 1,
+   "a_name": "TARGET_UNIT_CASTER",
+   "a_rw": {
+    "adds": true,
+    "id": 1,
+    "name": "TARGET_UNIT_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 1,
+   "b_name": "TARGET_UNIT_CASTER",
+   "b_rw": {
+    "adds": true,
+    "id": 1,
+    "name": "TARGET_UNIT_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "both add recipients from independent references; AddUnitTarget unions them (no intersection)",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 6,
+   "player_spells": 2,
+   "relation": "independent-union",
+   "witnesses": [
+    "31821:0",
+    "31821:2",
+    "31821:4",
+    "31821:5",
+    "183416:0"
+   ]
+  },
+  {
+   "a": 1,
+   "a_name": "TARGET_UNIT_CASTER",
+   "a_rw": {
+    "adds": true,
+    "id": 1,
+    "name": "TARGET_UNIT_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 18,
+   "b_name": "TARGET_DEST_CASTER",
+   "b_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A adds recipients; B writes or moves dst (effect destination / later effects)",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 2,
+   "relation": "a-recipients-b-dest",
+   "witnesses": [
+    "152175:1",
+    "432154:0"
+   ]
+  },
+  {
+   "a": 1,
+   "a_name": "TARGET_UNIT_CASTER",
+   "a_rw": {
+    "adds": true,
+    "id": 1,
+    "name": "TARGET_UNIT_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 47,
+   "b_name": "TARGET_DEST_CASTER_FRONT",
+   "b_rw": {
+    "adds": false,
+    "id": 47,
+    "name": "TARGET_DEST_CASTER_FRONT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 3,
+   "description": "A adds recipients; B writes or moves dst (effect destination / later effects)",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-recipients-b-dest",
+   "witnesses": [
+    "198793:1"
+   ]
+  },
+  {
+   "a": 1,
+   "a_name": "TARGET_UNIT_CASTER",
+   "a_rw": {
+    "adds": true,
+    "id": 1,
+    "name": "TARGET_UNIT_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 55,
+   "b_name": "TARGET_DEST_CASTER_FRONT_LEAP",
+   "b_rw": {
+    "adds": false,
+    "id": 55,
+    "name": "TARGET_DEST_CASTER_FRONT_LEAP",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A adds recipients; B writes or moves dst (effect destination / later effects)",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-recipients-b-dest",
+   "witnesses": [
+    "212653:0"
+   ]
+  },
+  {
+   "a": 1,
+   "a_name": "TARGET_UNIT_CASTER",
+   "a_rw": {
+    "adds": true,
+    "id": 1,
+    "name": "TARGET_UNIT_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 65,
+   "b_name": "TARGET_DEST_TARGET_BACK",
+   "b_rw": {
+    "adds": false,
+    "id": 65,
+    "name": "TARGET_DEST_TARGET_BACK",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A adds recipients; B writes or moves dst (effect destination / later effects)",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-recipients-b-dest",
+   "witnesses": [
+    "36563:0"
+   ]
+  },
+  {
+   "a": 1,
+   "a_name": "TARGET_UNIT_CASTER",
+   "a_rw": {
+    "adds": true,
+    "id": 1,
+    "name": "TARGET_UNIT_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 73,
+   "b_name": "TARGET_DEST_CASTER_RADIUS",
+   "b_rw": {
+    "adds": false,
+    "id": 73,
+    "name": "TARGET_DEST_CASTER_RADIUS",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "build_skew_effects": 1,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 1,
+   "description": "A adds recipients; B writes or moves dst (effect destination / later effects)",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-recipients-b-dest",
+   "witnesses": []
+  },
+  {
+   "a": 5,
+   "a_name": "TARGET_UNIT_PET",
+   "a_rw": {
+    "adds": true,
+    "id": 5,
+    "name": "TARGET_UNIT_PET",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 1,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 9,
+   "player_spells": 5,
+   "relation": "a-only",
+   "witnesses": [
+    "108503:0",
+    "264735:1",
+    "267171:1",
+    "321297:0",
+    "1233448:0"
+   ]
+  },
+  {
+   "a": 6,
+   "a_name": "TARGET_UNIT_TARGET_ENEMY",
+   "a_rw": {
+    "adds": true,
+    "id": 6,
+    "name": "TARGET_UNIT_TARGET_ENEMY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 7,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 398,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 577,
+   "player_spells": 368,
+   "relation": "a-only",
+   "witnesses": [
+    "53:0",
+    "53:1",
+    "53:3",
+    "133:0",
+    "172:0"
+   ]
+  },
+  {
+   "a": 6,
+   "a_name": "TARGET_UNIT_TARGET_ENEMY",
+   "a_rw": {
+    "adds": true,
+    "id": 6,
+    "name": "TARGET_UNIT_TARGET_ENEMY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": []
+   },
+   "b": 16,
+   "b_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A adds recipients; B reads the dst that exists before A (explicit/InitExplicitTargets or an earlier effect)",
+   "evidence": "trinity-consumer",
+   "hazards": [
+    "B reads m_targets dst not written by A: explicit dst (client / InitExplicitTargets fallback) or an earlier effect"
+   ],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-recipients-b-reads-spell-dest",
+   "witnesses": [
+    "102359:1"
+   ]
+  },
+  {
+   "a": 8,
+   "a_name": "TARGET_UNIT_DEST_AREA_ENTRY",
+   "a_rw": {
+    "adds": true,
+    "id": 8,
+    "name": "TARGET_UNIT_DEST_AREA_ENTRY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 5,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "386276:0"
+   ]
+  },
+  {
+   "a": 16,
+   "a_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "a_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 17,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 14,
+   "player_spells": 10,
+   "relation": "a-only",
+   "witnesses": [
+    "2120:0",
+    "30283:0",
+    "32375:1",
+    "32592:0",
+    "152108:0"
+   ]
+  },
+  {
+   "a": 17,
+   "a_name": "TARGET_DEST_DB",
+   "a_rw": {
+    "adds": false,
+    "id": 17,
+    "name": "TARGET_DEST_DB",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "451485:1"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 4,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 17,
+   "player_spells": 14,
+   "relation": "a-only",
+   "witnesses": [
+    "26573:2",
+    "48018:1",
+    "101643:0",
+    "119996:0",
+    "120517:0"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 6,
+   "b_name": "TARGET_UNIT_TARGET_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 6,
+    "name": "TARGET_UNIT_TARGET_ENEMY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst (only AddDestTarget / later effects read it); B adds recipients from a caster/target reference",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 2,
+   "relation": "a-dest-b-independent",
+   "witnesses": [
+    "1271748:1",
+    "1271802:1"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 16,
+   "b_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 16,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 33,
+   "player_spells": 26,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "44949:0",
+    "50842:0",
+    "53385:0",
+    "53385:1",
+    "153626:0"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 31,
+   "b_name": "TARGET_UNIT_DEST_AREA_ALLY",
+   "b_rw": {
+    "adds": true,
+    "id": 31,
+    "name": "TARGET_UNIT_DEST_AREA_ALLY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 20,
+   "player_spells": 13,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "274912:0",
+    "374227:0",
+    "374227:1",
+    "374227:2",
+    "375576:2"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 32,
+   "b_name": "TARGET_DEST_CASTER_SUMMON",
+   "b_rw": {
+    "adds": false,
+    "id": 32,
+    "name": "TARGET_DEST_CASTER_SUMMON",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "both write dst; B's SetDst wins for AddDestTarget and later effects",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-overwrites-a-dest",
+   "witnesses": [
+    "440742:1"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 34,
+   "b_name": "TARGET_UNIT_DEST_AREA_PARTY",
+   "b_rw": {
+    "adds": true,
+    "id": 34,
+    "name": "TARGET_UNIT_DEST_AREA_PARTY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 14,
+   "player_spells": 2,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "384102:0",
+    "1219209:0",
+    "1219209:1",
+    "1219209:2",
+    "1219209:3"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 79,
+   "b_name": "TARGET_DEST_DEST_BACK",
+   "b_rw": {
+    "adds": false,
+    "id": 79,
+    "name": "TARGET_DEST_DEST_BACK",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-moves-a-dest",
+   "witnesses": [
+    "388193:0"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 86,
+   "b_name": "TARGET_DEST_DEST_RANDOM",
+   "b_rw": {
+    "adds": false,
+    "id": 86,
+    "name": "TARGET_DEST_DEST_RANDOM",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 1,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-moves-a-dest",
+   "witnesses": []
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 87,
+   "b_name": "TARGET_DEST_DEST",
+   "b_rw": {
+    "adds": false,
+    "id": 87,
+    "name": "TARGET_DEST_DEST",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 1,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-moves-a-dest",
+   "witnesses": [
+    "342245:0"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 91,
+   "b_name": "TARGET_DEST_DEST_RADIUS",
+   "b_rw": {
+    "adds": false,
+    "id": 91,
+    "name": "TARGET_DEST_DEST_RADIUS",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-moves-a-dest",
+   "witnesses": [
+    "46585:0"
+   ]
+  },
+  {
+   "a": 18,
+   "a_name": "TARGET_DEST_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 18,
+    "name": "TARGET_DEST_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 104,
+   "b_name": "TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 104,
+    "name": "TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst (only AddDestTarget / later effects read it); B adds recipients from a caster/target reference",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 2,
+   "relation": "a-dest-b-independent",
+   "witnesses": [
+    "405345:0",
+    "405350:0"
+   ]
+  },
+  {
+   "a": 21,
+   "a_name": "TARGET_UNIT_TARGET_ALLY",
+   "a_rw": {
+    "adds": true,
+    "id": 21,
+    "name": "TARGET_UNIT_TARGET_ALLY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 16,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 137,
+   "player_spells": 80,
+   "relation": "a-only",
+   "witnesses": [
+    "475:0",
+    "527:0",
+    "527:1",
+    "596:0",
+    "633:0"
+   ]
+  },
+  {
+   "a": 22,
+   "a_name": "TARGET_SRC_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 22,
+    "name": "TARGET_SRC_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "src:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "50622:1"
+   ]
+  },
+  {
+   "a": 22,
+   "a_name": "TARGET_SRC_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 22,
+    "name": "TARGET_SRC_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "src:set"
+    ]
+   },
+   "b": 15,
+   "b_name": "TARGET_UNIT_SRC_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 15,
+    "name": "TARGET_UNIT_SRC_AREA_ENEMY",
+    "reads": [
+     "src"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 86,
+   "description": "A writes m_targets src; B selects recipients around that src",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 53,
+   "player_spells": 31,
+   "relation": "b-uses-a-src",
+   "witnesses": [
+    "99:0",
+    "99:1",
+    "1160:0",
+    "1160:1",
+    "1160:2"
+   ]
+  },
+  {
+   "a": 22,
+   "a_name": "TARGET_SRC_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 22,
+    "name": "TARGET_SRC_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "src:set"
+    ]
+   },
+   "b": 16,
+   "b_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes src; B reads the dst that exists before A (explicit/InitExplicitTargets or an earlier effect)",
+   "evidence": "trinity-consumer",
+   "hazards": [
+    "B reads m_targets dst not written by A: explicit dst (client / InitExplicitTargets fallback) or an earlier effect"
+   ],
+   "player_effects": 3,
+   "player_spells": 1,
+   "relation": "a-src-b-reads-spell-dest",
+   "witnesses": [
+    "1263566:0",
+    "1263566:1",
+    "1263566:2"
+   ]
+  },
+  {
+   "a": 22,
+   "a_name": "TARGET_SRC_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 22,
+    "name": "TARGET_SRC_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "src:set"
+    ]
+   },
+   "b": 24,
+   "b_name": "TARGET_UNIT_CONE_ENEMY_24",
+   "b_rw": {
+    "adds": true,
+    "id": 24,
+    "name": "TARGET_UNIT_CONE_ENEMY_24",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes src (unused by B); B adds recipients from a caster/target reference",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 3,
+   "player_spells": 2,
+   "relation": "a-src-b-independent",
+   "witnesses": [
+    "117418:0",
+    "117418:1",
+    "120086:0"
+   ]
+  },
+  {
+   "a": 22,
+   "a_name": "TARGET_SRC_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 22,
+    "name": "TARGET_SRC_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "src:set"
+    ]
+   },
+   "b": 30,
+   "b_name": "TARGET_UNIT_SRC_AREA_ALLY",
+   "b_rw": {
+    "adds": true,
+    "id": 30,
+    "name": "TARGET_UNIT_SRC_AREA_ALLY",
+    "reads": [
+     "src"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 3,
+   "description": "A writes m_targets src; B selects recipients around that src",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 16,
+   "player_spells": 12,
+   "relation": "b-uses-a-src",
+   "witnesses": [
+    "64844:0",
+    "64844:1",
+    "85222:0",
+    "85222:1",
+    "106898:0"
+   ]
+  },
+  {
+   "a": 22,
+   "a_name": "TARGET_SRC_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 22,
+    "name": "TARGET_SRC_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "src:set"
+    ]
+   },
+   "b": 33,
+   "b_name": "TARGET_UNIT_SRC_AREA_PARTY",
+   "b_rw": {
+    "adds": true,
+    "id": 33,
+    "name": "TARGET_UNIT_SRC_AREA_PARTY",
+    "reads": [
+     "src"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes m_targets src; B selects recipients around that src",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-uses-a-src",
+   "witnesses": [
+    "355575:0"
+   ]
+  },
+  {
+   "a": 22,
+   "a_name": "TARGET_SRC_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 22,
+    "name": "TARGET_SRC_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "src:set"
+    ]
+   },
+   "b": 56,
+   "b_name": "TARGET_UNIT_CASTER_AREA_RAID",
+   "b_rw": {
+    "adds": true,
+    "id": 56,
+    "name": "TARGET_UNIT_CASTER_AREA_RAID",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes src (unused by B); B adds recipients from a caster/target reference",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 7,
+   "player_spells": 2,
+   "relation": "a-src-b-independent",
+   "witnesses": [
+    "115310:0",
+    "115310:1",
+    "115310:2",
+    "115310:3",
+    "388615:0"
+   ]
+  },
+  {
+   "a": 22,
+   "a_name": "TARGET_SRC_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 22,
+    "name": "TARGET_SRC_CASTER",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "src:set"
+    ]
+   },
+   "b": 104,
+   "b_name": "TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 104,
+    "name": "TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 2,
+   "description": "A writes src (unused by B); B adds recipients from a caster/target reference",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-src-b-independent",
+   "witnesses": [
+    "1261215:0"
+   ]
+  },
+  {
+   "a": 24,
+   "a_name": "TARGET_UNIT_CONE_ENEMY_24",
+   "a_rw": {
+    "adds": true,
+    "id": 24,
+    "name": "TARGET_UNIT_CONE_ENEMY_24",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 20,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "468179:0"
+   ]
+  },
+  {
+   "a": 25,
+   "a_name": "TARGET_UNIT_TARGET_ANY",
+   "a_rw": {
+    "adds": true,
+    "id": 25,
+    "name": "TARGET_UNIT_TARGET_ANY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 32,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 28,
+   "player_spells": 20,
+   "relation": "a-only",
+   "witnesses": [
+    "20473:0",
+    "36554:0",
+    "47540:0",
+    "49028:2",
+    "55078:0"
+   ]
+  },
+  {
+   "a": 29,
+   "a_name": "TARGET_DEST_DYNOBJ_ALLY",
+   "a_rw": {
+    "adds": false,
+    "id": 29,
+    "name": "TARGET_DEST_DYNOBJ_ALLY",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "740:1"
+   ]
+  },
+  {
+   "a": 31,
+   "a_name": "TARGET_UNIT_DEST_AREA_ALLY",
+   "a_rw": {
+    "adds": true,
+    "id": 31,
+    "name": "TARGET_UNIT_DEST_AREA_ALLY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 7,
+   "player_spells": 7,
+   "relation": "a-only",
+   "witnesses": [
+    "32375:0",
+    "34861:0",
+    "51052:0",
+    "62618:0",
+    "121536:0"
+   ]
+  },
+  {
+   "a": 32,
+   "a_name": "TARGET_DEST_CASTER_SUMMON",
+   "a_rw": {
+    "adds": false,
+    "id": 32,
+    "name": "TARGET_DEST_CASTER_SUMMON",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 1,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 4,
+   "player_spells": 4,
+   "relation": "a-only",
+   "witnesses": [
+    "30146:0",
+    "1276467:1",
+    "1276672:0"
+   ]
+  },
+  {
+   "a": 41,
+   "a_name": "TARGET_DEST_CASTER_FRONT_RIGHT",
+   "a_rw": {
+    "adds": false,
+    "id": 41,
+    "name": "TARGET_DEST_CASTER_FRONT_RIGHT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "264119:0"
+   ]
+  },
+  {
+   "a": 42,
+   "a_name": "TARGET_DEST_CASTER_BACK_RIGHT",
+   "a_rw": {
+    "adds": false,
+    "id": 42,
+    "name": "TARGET_DEST_CASTER_BACK_RIGHT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 4,
+   "player_spells": 4,
+   "relation": "a-only",
+   "witnesses": [
+    "5394:0",
+    "16191:0",
+    "108280:0",
+    "383017:0"
+   ]
+  },
+  {
+   "a": 43,
+   "a_name": "TARGET_DEST_CASTER_BACK_LEFT",
+   "a_rw": {
+    "adds": false,
+    "id": 43,
+    "name": "TARGET_DEST_CASTER_BACK_LEFT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 2,
+   "relation": "a-only",
+   "witnesses": [
+    "8512:0",
+    "196361:0"
+   ]
+  },
+  {
+   "a": 44,
+   "a_name": "TARGET_DEST_CASTER_FRONT_LEFT",
+   "a_rw": {
+    "adds": false,
+    "id": 44,
+    "name": "TARGET_DEST_CASTER_FRONT_LEFT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 5,
+   "player_spells": 4,
+   "relation": "a-only",
+   "witnesses": [
+    "8143:0",
+    "265187:0",
+    "265187:3",
+    "383013:1",
+    "383019:0"
+   ]
+  },
+  {
+   "a": 45,
+   "a_name": "TARGET_UNIT_TARGET_CHAINHEAL_ALLY",
+   "a_rw": {
+    "adds": true,
+    "id": 45,
+    "name": "TARGET_UNIT_TARGET_CHAINHEAL_ALLY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 2,
+   "relation": "a-only",
+   "witnesses": [
+    "1064:0",
+    "77472:0"
+   ]
+  },
+  {
+   "a": 47,
+   "a_name": "TARGET_DEST_CASTER_FRONT",
+   "a_rw": {
+    "adds": false,
+    "id": 47,
+    "name": "TARGET_DEST_CASTER_FRONT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 9,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 7,
+   "player_spells": 5,
+   "relation": "a-only",
+   "witnesses": [
+    "84714:1",
+    "84714:2",
+    "111898:1",
+    "194913:0",
+    "197214:2"
+   ]
+  },
+  {
+   "a": 47,
+   "a_name": "TARGET_DEST_CASTER_FRONT",
+   "a_rw": {
+    "adds": false,
+    "id": 47,
+    "name": "TARGET_DEST_CASTER_FRONT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 16,
+   "b_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 1,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 2,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "167105:0",
+    "262161:0"
+   ]
+  },
+  {
+   "a": 47,
+   "a_name": "TARGET_DEST_CASTER_FRONT",
+   "a_rw": {
+    "adds": false,
+    "id": 47,
+    "name": "TARGET_DEST_CASTER_FRONT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 129,
+   "b_name": "TARGET_UNIT_RECT_CASTER_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 129,
+    "name": "TARGET_UNIT_RECT_CASTER_ENEMY",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst (only AddDestTarget / later effects read it); B adds recipients from a caster/target reference",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-dest-b-independent",
+   "witnesses": [
+    "1243807:0"
+   ]
+  },
+  {
+   "a": 49,
+   "a_name": "TARGET_DEST_CASTER_RIGHT",
+   "a_rw": {
+    "adds": false,
+    "id": 49,
+    "name": "TARGET_DEST_CASTER_RIGHT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 2,
+   "relation": "a-only",
+   "witnesses": [
+    "205180:0",
+    "267217:0"
+   ]
+  },
+  {
+   "a": 50,
+   "a_name": "TARGET_DEST_CASTER_LEFT",
+   "a_rw": {
+    "adds": false,
+    "id": 50,
+    "name": "TARGET_DEST_CASTER_LEFT",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 3,
+   "player_spells": 3,
+   "relation": "a-only",
+   "witnesses": [
+    "31687:0",
+    "322118:0",
+    "325197:0"
+   ]
+  },
+  {
+   "a": 53,
+   "a_name": "TARGET_DEST_TARGET_ENEMY",
+   "a_rw": {
+    "adds": false,
+    "id": 53,
+    "name": "TARGET_DEST_TARGET_ENEMY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 2,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 10,
+   "player_spells": 10,
+   "relation": "a-only",
+   "witnesses": [
+    "78675:1",
+    "88747:0",
+    "132578:0",
+    "200174:0",
+    "204066:0"
+   ]
+  },
+  {
+   "a": 53,
+   "a_name": "TARGET_DEST_TARGET_ENEMY",
+   "a_rw": {
+    "adds": false,
+    "id": 53,
+    "name": "TARGET_DEST_TARGET_ENEMY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 16,
+   "b_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 2,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 2,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 40,
+   "player_spells": 31,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "1714:0",
+    "1714:1",
+    "22570:1",
+    "27243:1",
+    "27243:2"
+   ]
+  },
+  {
+   "a": 53,
+   "a_name": "TARGET_DEST_TARGET_ENEMY",
+   "a_rw": {
+    "adds": false,
+    "id": 53,
+    "name": "TARGET_DEST_TARGET_ENEMY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 87,
+   "b_name": "TARGET_DEST_DEST",
+   "b_rw": {
+    "adds": false,
+    "id": 87,
+    "name": "TARGET_DEST_DEST",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-moves-a-dest",
+   "witnesses": [
+    "343527:4"
+   ]
+  },
+  {
+   "a": 53,
+   "a_name": "TARGET_DEST_TARGET_ENEMY",
+   "a_rw": {
+    "adds": false,
+    "id": 53,
+    "name": "TARGET_DEST_TARGET_ENEMY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 148,
+   "b_name": "TARGET_DEST_DEST_TARGET_TOWARDS_CASTER",
+   "b_rw": {
+    "adds": false,
+    "id": 148,
+    "name": "TARGET_DEST_DEST_TARGET_TOWARDS_CASTER",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-moves-a-dest",
+   "witnesses": [
+    "196884:1"
+   ]
+  },
+  {
+   "a": 56,
+   "a_name": "TARGET_UNIT_CASTER_AREA_RAID",
+   "a_rw": {
+    "adds": true,
+    "id": 56,
+    "name": "TARGET_UNIT_CASTER_AREA_RAID",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 2,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 5,
+   "player_spells": 4,
+   "relation": "a-only",
+   "witnesses": [
+    "97462:0",
+    "374968:0",
+    "412629:0",
+    "466904:0",
+    "466904:1"
+   ]
+  },
+  {
+   "a": 57,
+   "a_name": "TARGET_UNIT_TARGET_RAID",
+   "a_rw": {
+    "adds": true,
+    "id": 57,
+    "name": "TARGET_UNIT_TARGET_RAID",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 25,
+   "player_spells": 11,
+   "relation": "a-only",
+   "witnesses": [
+    "1022:0",
+    "1022:1",
+    "1022:2",
+    "1022:3",
+    "6940:0"
+   ]
+  },
+  {
+   "a": 59,
+   "a_name": "TARGET_UNIT_CONE_ALLY",
+   "a_rw": {
+    "adds": true,
+    "id": 59,
+    "name": "TARGET_UNIT_CONE_ALLY",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "197995:0"
+   ]
+  },
+  {
+   "a": 60,
+   "a_name": "TARGET_UNIT_CONE_ENTRY",
+   "a_rw": {
+    "adds": true,
+    "id": 60,
+    "name": "TARGET_UNIT_CONE_ENTRY",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 6,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "451125:0"
+   ]
+  },
+  {
+   "a": 62,
+   "a_name": "TARGET_DEST_CASTER_GROUND",
+   "a_rw": {
+    "adds": false,
+    "id": 62,
+    "name": "TARGET_DEST_CASTER_GROUND",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "196718:0"
+   ]
+  },
+  {
+   "a": 63,
+   "a_name": "TARGET_DEST_TARGET_ANY",
+   "a_rw": {
+    "adds": false,
+    "id": 63,
+    "name": "TARGET_DEST_TARGET_ANY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 1,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 5,
+   "player_spells": 3,
+   "relation": "a-only",
+   "witnesses": [
+    "36554:2",
+    "102401:1",
+    "1240996:1",
+    "1240996:2",
+    "1240996:3"
+   ]
+  },
+  {
+   "a": 63,
+   "a_name": "TARGET_DEST_TARGET_ANY",
+   "a_rw": {
+    "adds": false,
+    "id": 63,
+    "name": "TARGET_DEST_TARGET_ANY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 16,
+   "b_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 5,
+   "player_spells": 3,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "108199:1",
+    "108199:2",
+    "157980:1",
+    "157980:2",
+    "1250580:0"
+   ]
+  },
+  {
+   "a": 63,
+   "a_name": "TARGET_DEST_TARGET_ANY",
+   "a_rw": {
+    "adds": false,
+    "id": 63,
+    "name": "TARGET_DEST_TARGET_ANY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 31,
+   "b_name": "TARGET_UNIT_DEST_AREA_ALLY",
+   "b_rw": {
+    "adds": true,
+    "id": 31,
+    "name": "TARGET_UNIT_DEST_AREA_ALLY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "48438:0"
+   ]
+  },
+  {
+   "a": 63,
+   "a_name": "TARGET_DEST_TARGET_ANY",
+   "a_rw": {
+    "adds": false,
+    "id": 63,
+    "name": "TARGET_DEST_TARGET_ANY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 86,
+   "b_name": "TARGET_DEST_DEST_RANDOM",
+   "b_rw": {
+    "adds": false,
+    "id": 86,
+    "name": "TARGET_DEST_DEST_RANDOM",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-moves-a-dest",
+   "witnesses": [
+    "123904:0"
+   ]
+  },
+  {
+   "a": 72,
+   "a_name": "TARGET_DEST_CASTER_RANDOM",
+   "a_rw": {
+    "adds": false,
+    "id": 72,
+    "name": "TARGET_DEST_CASTER_RANDOM",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 1,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 2,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 4,
+   "player_spells": 4,
+   "relation": "a-only",
+   "witnesses": [
+    "458101:0",
+    "1262094:0",
+    "1276452:1"
+   ]
+  },
+  {
+   "a": 73,
+   "a_name": "TARGET_DEST_CASTER_RADIUS",
+   "a_rw": {
+    "adds": false,
+    "id": 73,
+    "name": "TARGET_DEST_CASTER_RADIUS",
+    "reads": [
+     "caster"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "102693:1"
+   ]
+  },
+  {
+   "a": 74,
+   "a_name": "TARGET_DEST_TARGET_RANDOM",
+   "a_rw": {
+    "adds": false,
+    "id": 74,
+    "name": "TARGET_DEST_TARGET_RANDOM",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "1263077:0"
+   ]
+  },
+  {
+   "a": 85,
+   "a_name": "TARGET_DEST_DEST_FRONT_LEFT",
+   "a_rw": {
+    "adds": false,
+    "id": 85,
+    "name": "TARGET_DEST_DEST_FRONT_LEFT",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "434587:0"
+   ]
+  },
+  {
+   "a": 87,
+   "a_name": "TARGET_DEST_DEST",
+   "a_rw": {
+    "adds": false,
+    "id": 87,
+    "name": "TARGET_DEST_DEST",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 25,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 75,
+   "player_spells": 43,
+   "relation": "a-only",
+   "witnesses": [
+    "1122:0",
+    "1122:1",
+    "1122:2",
+    "5740:1",
+    "6544:0"
+   ]
+  },
+  {
+   "a": 87,
+   "a_name": "TARGET_DEST_DEST",
+   "a_rw": {
+    "adds": false,
+    "id": 87,
+    "name": "TARGET_DEST_DEST",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 16,
+   "b_name": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "b_rw": {
+    "adds": true,
+    "id": 16,
+    "name": "TARGET_UNIT_DEST_AREA_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 1,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 20,
+   "player_spells": 16,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "22703:0",
+    "22703:1",
+    "50286:0",
+    "61882:2",
+    "61882:3"
+   ]
+  },
+  {
+   "a": 87,
+   "a_name": "TARGET_DEST_DEST",
+   "a_rw": {
+    "adds": false,
+    "id": 87,
+    "name": "TARGET_DEST_DEST",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 28,
+   "b_name": "TARGET_DEST_DYNOBJ_ENEMY",
+   "b_rw": {
+    "adds": false,
+    "id": 28,
+    "name": "TARGET_DEST_DYNOBJ_ENEMY",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 2,
+   "relation": "b-moves-a-dest",
+   "witnesses": [
+    "5740:0",
+    "1214467:0"
+   ]
+  },
+  {
+   "a": 87,
+   "a_name": "TARGET_DEST_DEST",
+   "a_rw": {
+    "adds": false,
+    "id": 87,
+    "name": "TARGET_DEST_DEST",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 31,
+   "b_name": "TARGET_UNIT_DEST_AREA_ALLY",
+   "b_rw": {
+    "adds": true,
+    "id": 31,
+    "name": "TARGET_UNIT_DEST_AREA_ALLY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 1,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 3,
+   "player_spells": 2,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "73920:0",
+    "73920:4"
+   ]
+  },
+  {
+   "a": 87,
+   "a_name": "TARGET_DEST_DEST",
+   "a_rw": {
+    "adds": false,
+    "id": 87,
+    "name": "TARGET_DEST_DEST",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 91,
+   "b_name": "TARGET_DEST_DEST_RADIUS",
+   "b_rw": {
+    "adds": false,
+    "id": 91,
+    "name": "TARGET_DEST_DEST_RADIUS",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "b-moves-a-dest",
+   "witnesses": [
+    "248280:0"
+   ]
+  },
+  {
+   "a": 104,
+   "a_name": "TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY",
+   "a_rw": {
+    "adds": true,
+    "id": 104,
+    "name": "TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 8,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 50,
+   "player_spells": 21,
+   "relation": "a-only",
+   "witnesses": [
+    "845:0",
+    "6572:0",
+    "31661:0",
+    "31661:1",
+    "46968:0"
+   ]
+  },
+  {
+   "a": 118,
+   "a_name": "TARGET_UNIT_TARGET_ALLY_OR_RAID",
+   "a_rw": {
+    "adds": true,
+    "id": 118,
+    "name": "TARGET_UNIT_TARGET_ALLY_OR_RAID",
+    "reads": [
+     "explicit-unit"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 2,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "1126:0",
+    "1126:1"
+   ]
+  },
+  {
+   "a": 119,
+   "a_name": "TARGET_CORPSE_SRC_AREA_RAID",
+   "a_rw": {
+    "adds": true,
+    "id": 119,
+    "name": "TARGET_CORPSE_SRC_AREA_RAID",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 6,
+   "player_spells": 6,
+   "relation": "a-only",
+   "witnesses": [
+    "212036:0",
+    "212040:0",
+    "212048:0",
+    "212051:0",
+    "212056:0"
+   ]
+  },
+  {
+   "a": 120,
+   "a_name": "TARGET_UNIT_CASTER_AND_SUMMONS",
+   "a_rw": {
+    "adds": true,
+    "id": 120,
+    "name": "TARGET_UNIT_CASTER_AND_SUMMONS",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 6,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 24,
+   "player_spells": 18,
+   "relation": "a-only",
+   "witnesses": [
+    "191384:0",
+    "191384:1",
+    "196277:1",
+    "197531:0",
+    "199483:0"
+   ]
+  },
+  {
+   "a": 129,
+   "a_name": "TARGET_UNIT_RECT_CASTER_ENEMY",
+   "a_rw": {
+    "adds": true,
+    "id": 129,
+    "name": "TARGET_UNIT_RECT_CASTER_ENEMY",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 5,
+   "player_spells": 4,
+   "relation": "a-only",
+   "witnesses": [
+    "197214:0",
+    "197214:1",
+    "392983:1",
+    "395519:0",
+    "395521:0"
+   ]
+  },
+  {
+   "a": 132,
+   "a_name": "TARGET_DEST_TARGET_ALLY",
+   "a_rw": {
+    "adds": false,
+    "id": 132,
+    "name": "TARGET_DEST_TARGET_ALLY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "355913:0"
+   ]
+  },
+  {
+   "a": 132,
+   "a_name": "TARGET_DEST_TARGET_ALLY",
+   "a_rw": {
+    "adds": false,
+    "id": 132,
+    "name": "TARGET_DEST_TARGET_ALLY",
+    "reads": [
+     "explicit-object"
+    ],
+    "writes": [
+     "dst:set"
+    ]
+   },
+   "b": 31,
+   "b_name": "TARGET_UNIT_DEST_AREA_ALLY",
+   "b_rw": {
+    "adds": true,
+    "id": 31,
+    "name": "TARGET_UNIT_DEST_AREA_ALLY",
+    "reads": [
+     "dst"
+    ],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "A writes m_targets dst; B selects recipients around/along that dst",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 7,
+   "player_spells": 6,
+   "relation": "b-uses-a-dest",
+   "witnesses": [
+    "596:1",
+    "124682:2",
+    "194509:1",
+    "200025:1",
+    "200025:2"
+   ]
+  },
+  {
+   "a": 136,
+   "a_name": "TARGET_UNIT_CONE_CASTER_TO_DEST_ALLY",
+   "a_rw": {
+    "adds": true,
+    "id": 136,
+    "name": "TARGET_UNIT_CONE_CASTER_TO_DEST_ALLY",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "388044:0"
+   ]
+  },
+  {
+   "a": 138,
+   "a_name": "TARGET_DEST_DEST_GROUND",
+   "a_rw": {
+    "adds": false,
+    "id": 138,
+    "name": "TARGET_DEST_DEST_GROUND",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "109248:0"
+   ]
+  },
+  {
+   "a": 148,
+   "a_name": "TARGET_DEST_DEST_TARGET_TOWARDS_CASTER",
+   "a_rw": {
+    "adds": false,
+    "id": 148,
+    "name": "TARGET_DEST_DEST_TARGET_TOWARDS_CASTER",
+    "reads": [
+     "dst"
+    ],
+    "writes": [
+     "dst:check",
+     "dst:mod"
+    ]
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "202770:1"
+   ]
+  },
+  {
+   "a": 151,
+   "a_name": "TARGET_UNK_151",
+   "a_rw": {
+    "adds": true,
+    "id": 151,
+    "name": "TARGET_UNK_151",
+    "reads": [
+     "caster"
+    ],
+    "writes": []
+   },
+   "b": 0,
+   "b_name": null,
+   "b_rw": {
+    "adds": false,
+    "id": 0,
+    "name": null,
+    "reads": [],
+    "writes": []
+   },
+   "build_skew_effects": 0,
+   "consumer": "Spell.cpp:787-788",
+   "controlled_unit_effects": 0,
+   "description": "B unused (0); A alone",
+   "evidence": "trinity-consumer",
+   "hazards": [],
+   "player_effects": 1,
+   "player_spells": 1,
+   "relation": "a-only",
+   "witnesses": [
+    "49028:0"
+   ]
+  }
+ ],
+ "provenance": {
+  "command": "cd scripts/research && python3 targeting.py composition --out docs/research/targeting-corpora/composition.json",
+  "pins": {
+   "data_snapshot": "12.1.0.69497",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "probe": "scripts/research/tools/tc_target_selector_probe",
+  "track": "A"
+ },
+ "relation_counts": {
+  "a-dest-b-independent": 5,
+  "a-only": 10169,
+  "a-recipients-b-dest": 6,
+  "a-recipients-b-reads-spell-dest": 1,
+  "a-src-b-independent": 11,
+  "a-src-b-reads-spell-dest": 3,
+  "b-moves-a-dest": 10,
+  "b-only": 2,
+  "b-overwrites-a-dest": 1,
+  "b-uses-a-dest": 145,
+  "b-uses-a-src": 70,
+  "empty": 325,
+  "independent-union": 6
+ },
+ "relations": {
+  "a-dest-b-independent": "A writes dst (only AddDestTarget / later effects read it); B adds recipients from a caster/target reference",
+  "a-only": "B unused (0); A alone",
+  "a-reads-dest-b-writes": "A reads the pre-existing dst; B then writes dst",
+  "a-recipients-b-dest": "A adds recipients; B writes or moves dst (effect destination / later effects)",
+  "a-recipients-b-reads-spell-dest": "A adds recipients; B reads the dst that exists before A (explicit/InitExplicitTargets or an earlier effect)",
+  "a-recipients-b-reads-spell-src": "A adds recipients; B reads the src that exists before A",
+  "a-recipients-b-src": "A adds recipients; B writes src (read only by later effects)",
+  "a-src-b-independent": "A writes src (unused by B); B adds recipients from a caster/target reference",
+  "a-src-b-reads-spell-dest": "A writes src; B reads the dst that exists before A (explicit/InitExplicitTargets or an earlier effect)",
+  "b-clips-a-dest": "A writes dst; B (TRAJ) clips it along the trajectory",
+  "b-moves-a-dest": "A writes dst; B (DEST_DEST) CheckDst + ModDst relative to it",
+  "b-only": "A slot empty (0); B alone",
+  "b-overwrites-a-dest": "both write dst; B's SetDst wins for AddDestTarget and later effects",
+  "b-uses-a-dest": "A writes m_targets dst; B selects recipients around/along that dst",
+  "b-uses-a-last-recipient": "B (LAST reference) centres on the last unique target carrying this effect bit (A's last add)",
+  "b-uses-a-src": "A writes m_targets src; B selects recipients around that src",
+  "dest-only": "neither adds recipients; only m_targets dst/src changes",
+  "empty": "no selector; SelectEffectTypeImplicitTargets alone decides (EffectImplicitTargetTypes)",
+  "independent-union": "both add recipients from independent references; AddUnitTarget unions them (no intersection)"
+ },
+ "retail_experiments": [
+  {
+   "fidelity": "approximate",
+   "id": "RX-A-01",
+   "model_a": "Trinity: caster position + caster orientation, dst ignored (Spell.cpp:1301)",
+   "model_b": "cone axis = caster -> m_targets dst",
+   "observable": "combat-log hits on dummies inside the facing cone vs inside the dst-oriented cone",
+   "question": "Is a TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY cone oriented by caster facing or towards the dest?",
+   "setup": "Wake of Ashes (405345:0, pair 18,104) or Shockwave (46968:0): turn the caster 90 degrees away from a dummy placed in front of the camera-facing direction while the client supplies a dst (if any)"
+  },
+  {
+   "fidelity": "exact",
+   "id": "RX-A-04",
+   "model_a": "Trinity: effect 0 (53) already set dst at the target, so B reads that dst (cross-effect)",
+   "model_b": "independent client dst",
+   "observable": "rooted set",
+   "question": "(6,16) Mass Entanglement: is the B area centred on the explicit target or a client ground point?",
+   "setup": "102359 on a target with a second enemy nearby"
+  }
+ ],
+ "rules": [
+  {
+   "consumer": "Spell.cpp:787-788",
+   "evidence": "trinity-consumer",
+   "rule": "A then B, same SpellEffectInfo (first of group) and same grouped effect mask"
+  },
+  {
+   "consumer": "Spell.cpp:2466-2471",
+   "evidence": "trinity-consumer",
+   "rule": "recipients union into m_UniqueTargetInfo; existing entry ORs effect bits; B never filters A"
+  },
+  {
+   "consumer": "Spell.cpp:980, 1650, 1687",
+   "evidence": "trinity-consumer",
+   "rule": "DEFAULT DEST/SRC selectors SetDst/SetSrc spell-wide m_targets (no effect mask)"
+  },
+  {
+   "consumer": "Spell.cpp:1365-1370, 1972-1977, SpellCastTargets::GetDstPos Spell.cpp:336",
+   "evidence": "trinity-consumer",
+   "rule": "DEST/SRC-referenced area/line read m_targets dst/src position (GetDstPos never null, even if !HasDst)"
+  },
+  {
+   "consumer": "Spell.cpp:966, 1696, 1739, 1960, 7268",
+   "evidence": "trinity-consumer",
+   "rule": "DEST_DEST and TRAJ: CheckDst() (dst := caster if none) then ModDst"
+  },
+  {
+   "consumer": "Spell.cpp:1426-1435, 377-381",
+   "evidence": "trinity-consumer",
+   "rule": "UNIT_AND_DEST area: ModDst(referer) after the search; ModDst ASSERTs HasDst"
+  },
+  {
+   "consumer": "Spell.cpp:1339-1352",
+   "evidence": "trinity-consumer",
+   "rule": "LAST reference: last m_UniqueTargetInfo entry with bit (1 << first effect of group), else caster"
+  },
+  {
+   "consumer": "Spell.cpp:799-800",
+   "evidence": "trinity-consumer",
+   "rule": "AddDestTarget per effect snapshots m_targets dst after that effect's selectors and EffectType targets"
+  },
+  {
+   "consumer": "Spell.cpp:727-844",
+   "evidence": "trinity-consumer",
+   "rule": "m_targets is not reset between effects: later effects read earlier effects' dst/src"
+  },
+  {
+   "consumer": "SpellInfo.cpp:140-244, 4572-4606",
+   "evidence": "differential",
+   "rule": "explicit mask folds A then B of each effect with shared srcSet/dstSet; UNIT_AND_DEST sets dstSet without requesting DEST_LOCATION"
+  },
+  {
+   "consumer": "Spell.cpp:665-688",
+   "evidence": "trinity-consumer",
+   "rule": "InitExplicitTargets: needed DEST without client dst -> explicit object position else caster; not needed -> RemoveDst (flag only); SRC likewise with caster"
+  },
+  {
+   "consumer": "Spell.cpp:824-843",
+   "evidence": "trinity-consumer",
+   "rule": "channel: after all selectors, m_channelTargetEffectMask gets the effect bit if any unique target carries it"
+  },
+  {
+   "consumer": "Spell.cpp:802-821",
+   "evidence": "trinity-consumer",
+   "rule": "REQUIRE_ALL_TARGETS checks only unit-object selector groups after both selectors"
+  }
+ ],
+ "trinity_defects": [
+  {
+   "description": "TARGET_UNIT_AND_DEST_LAST_ENEMY sets dstSet without requesting DEST_LOCATION, then ModDst ASSERTs HasDst",
+   "effect_on_recipients": "worldserver assertion unless an earlier selector wrote dst (0 current-player uses)",
+   "file_line": "Spell.cpp:1426-1435 with SpellInfo.cpp:140-244, Spell.cpp:377-381",
+   "id": "TG-A-D3",
+   "oracle_behaviour": "FailClosed with defect note"
+  },
+  {
+   "description": "CASTER_TO_DEST cone ids never read m_targets dst (likely incomplete port; structural-inference)",
+   "effect_on_recipients": "cone follows caster facing; 50+ current-player effects use id 104",
+   "file_line": "Spell.cpp:1301, 9455-9480",
+   "id": "TG-A-D5",
+   "oracle_behaviour": "reproduce caster-facing cone, mark likely defect (RX-A-01)"
+  }
+ ],
+ "unknowns": [
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-A-03",
+   "known": "Trinity builds every cone from *m_caster (position and orientation) and ignores m_targets dst (Spell.cpp:1301, 9455); direction axis unused",
+   "reopen_condition": "retail experiment RX-A-01",
+   "subject": "CONE_CASTER_TO_DEST (104, 136) and RECT (128-130) orientation",
+   "unknown": "whether Retail orients the cone towards the destination for CASTER_TO_DEST ids",
+   "why_unresolved": "no Retail consumer; the name is not semantics"
+  }
+ ]
+}

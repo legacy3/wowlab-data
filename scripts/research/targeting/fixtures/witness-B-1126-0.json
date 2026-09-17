@@ -1,0 +1,327 @@
+{
+ "about": "explicit-raid-gate",
+ "actors": [
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "damage_immune": false,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "immune_to_spell": false,
+    "moving": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "r",
+    "subgroup": 1
+   },
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "damage_immune": false,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "immune_to_spell": false,
+    "moving": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "id": "stranger",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    10,
+    0,
+    0
+   ]
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "TARGET_UNIT_TARGET_ALLY_OR_RAID contributes only TARGET_FLAG_UNIT_RAID: CheckExplicitTarget requires IsInRaidWith -> an ungrouped friendly player is BAD_TARGETS, so the selector's 'not in raid -> explicit target only' branch (Spell.cpp:1396) is unreachable for player casts; rules out 'ALLY_OR_RAID accepts any ally'",
+ "expect": {
+  "cast_result": "SPELL_FAILED_BAD_TARGETS",
+  "recipients": {
+   "0": [],
+   "1": []
+  }
+ },
+ "explicit": {
+  "unit": "stranger"
+ },
+ "faction_templates": {
+  "1": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 12,
+   "faction": 1,
+   "faction_group": 3,
+   "flags": 72,
+   "friend_group": 2,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "14": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 1,
+   "faction": 14,
+   "faction_group": 8,
+   "flags": 0,
+   "friend_group": 0,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "35": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 0,
+   "faction": 31,
+   "faction_group": 0,
+   "flags": 0,
+   "friend_group": 1,
+   "friends": [
+    31,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "7": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 0,
+   "faction": 7,
+   "faction_group": 0,
+   "flags": 0,
+   "friend_group": 0,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "factions": {
+  "1": {
+   "reputation_index": -1
+  },
+  "14": {
+   "reputation_index": -1
+  },
+  "31": {
+   "reputation_index": -1
+  },
+  "7": {
+   "reputation_index": -1
+  }
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": {
+   "flat": 0.0,
+   "pct": 1.0
+  }
+ },
+ "name": "witness-B-1126-0",
+ "precast": true,
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "can_reflect": false,
+  "difficulty": 0,
+  "id": 1126,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_view": {
+  "attributes": [
+   "SPELL_ATTR1_NO_THREAT",
+   "SPELL_ATTR1_NO_AUTOCAST_AI",
+   "SPELL_ATTR2_ALLOW_LOW_LEVEL_BUFF",
+   "SPELL_ATTR2_INCLUDE_IN_ADVANCED_COMBAT_LOG",
+   "SPELL_ATTR3_SUPPRESS_CASTER_PROCS",
+   "SPELL_ATTR5_NOT_ON_PLAYER_CONTROLLED_NPC",
+   "SPELL_ATTR6_VEHICLE_IMMUNITY_CATEGORY",
+   "SPELL_ATTR8_AURA_POINTS_ON_CLIENT",
+   "SPELL_ATTR13_ALLOW_CLASS_ABILITY_PROCS",
+   "SPELL_ATTR15_UNK26",
+   "SPELL_ATTR16_UNK3"
+  ],
+  "aura_restrictions": {
+   "exclude_target_aura_spell": 0,
+   "exclude_target_aura_state": 0,
+   "exclude_target_aura_type": 0,
+   "target_aura_spell": 0,
+   "target_aura_state": 0,
+   "target_aura_type": 0
+  },
+  "cast_time_ms": 0,
+  "category": 0,
+  "dmg_class": 1,
+  "effects": [
+   {
+    "aura": 471,
+    "effect": 6,
+    "explicit": false,
+    "index": 0
+   },
+   {
+    "aura": 0,
+    "effect": 203,
+    "explicit": false,
+    "index": 1
+   }
+  ],
+  "explicit_target_mask": 4,
+  "facing_caster_flags": 0,
+  "family": 7,
+  "has_hit_delay": false,
+  "has_only_damage_effects": false,
+  "id": 1126,
+  "is_affecting_area": true,
+  "is_allowing_dead_target": false,
+  "is_next_melee_swing": false,
+  "is_passive": false,
+  "is_positive": true,
+  "los_disabled": false,
+  "mechanic": 0,
+  "notes": [
+   "positivity and cast time stated by the witness author",
+   "los_disabled: world-DB `disables` (targeting-corpora/inputs/disables.json)"
+  ],
+  "range": {
+   "flags": 0,
+   "max": [
+    40.0,
+    40.0
+   ],
+   "min": [
+    0.0,
+    0.0
+   ]
+  },
+  "required_explicit_target_mask": 4,
+  "resurrect": false,
+  "target_creature_type": 0
+ },
+ "witness": {
+  "consumer": "SpellInfo.cpp:2551 / Spell.cpp:1396",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [],
+   "recipients": {}
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.spell_other_immunity=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "stranger.facts.spell_other_immunity=[]",
+   "stranger.facts.cc_breakable_by_damage=false",
+   "modifiers.radius=0 (no spell modifier on the caster)",
+   "modifiers.chain_targets=0 (no spell modifier on the caster)",
+   "modifiers.chain_jump_distance=0 (no spell modifier on the caster)",
+   "modifiers.max_targets=0 (no spell modifier on the caster)",
+   "precast=true (B witnesses describe the client input; InitExplicitTargets + CheckCast run first)"
+  ],
+  "pipeline_filled_effects": [
+   "0",
+   "1"
+  ],
+  "selectors": [
+   118,
+   0
+  ],
+  "spell": 1126,
+  "track": "B"
+ }
+}

@@ -1,0 +1,347 @@
+{
+ "about": "cone 90 deg, 8 yd",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "level": 80,
+    "magnet": false,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "group": null,
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "front",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    5.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "at44",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    3.596699001693256,
+    3.4732918522949863,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "at46",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    3.4732918522949863,
+    3.5966990016932554,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "behind_close",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    -1.5,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "behind",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    -4.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "too_far",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    9.6,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "ConeDegrees is the FULL angle (+-45: at44 in, at46 out) vs half-angle model; boundary-radius bypass keeps behind_close (1.5 < max(0.5,2)); caster orientation not dest (dest straight ahead here); too_far out (8+1.5)",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "front",
+    "at44",
+    "behind_close"
+   ],
+   "1": [],
+   "2": []
+  }
+ },
+ "explicit": {
+  "dest": [
+   5.0,
+   0.0,
+   0.0
+  ]
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-C-228478-0",
+ "relations": [
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "caster",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "front",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "at44",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "at46",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "behind_close",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "behind",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "too_far",
+   "valid_assist": false,
+   "valid_attack": true
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 228478,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {},
+ "visit_order": [
+  "caster",
+  "front",
+  "at44",
+  "at46",
+  "behind_close",
+  "behind",
+  "too_far"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1273-1321, 9459-9479; Position.cpp:173",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0"
+   ],
+   "recipients": {
+    "0": [
+     "front",
+     "at44",
+     "behind_close"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.immune_effects=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "front.facts.immune_effects=[]",
+   "front.facts.cc_breakable_by_damage=false",
+   "front.facts.ignore_los_on_me=false",
+   "at44.facts.immune_effects=[]",
+   "at44.facts.cc_breakable_by_damage=false",
+   "at44.facts.ignore_los_on_me=false",
+   "at46.facts.immune_effects=[]",
+   "at46.facts.cc_breakable_by_damage=false",
+   "at46.facts.ignore_los_on_me=false",
+   "behind_close.facts.immune_effects=[]",
+   "behind_close.facts.cc_breakable_by_damage=false",
+   "behind_close.facts.ignore_los_on_me=false",
+   "behind.facts.immune_effects=[]",
+   "behind.facts.cc_breakable_by_damage=false",
+   "behind.facts.ignore_los_on_me=false",
+   "too_far.facts.immune_effects=[]",
+   "too_far.facts.cc_breakable_by_damage=false",
+   "too_far.facts.ignore_los_on_me=false",
+   "modifiers.range=0 (no spell modifier on the caster)",
+   "modifiers.chain_targets=0 (no spell modifier on the caster)",
+   "modifiers.chain_jump_distance=0 (no spell modifier on the caster)"
+  ],
+  "pipeline_filled_effects": [
+   "1",
+   "2"
+  ],
+  "selectors": [
+   "TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY",
+   "0"
+  ],
+  "spell": 228478,
+  "track": "C"
+ }
+}

@@ -1187,3 +1187,15 @@ missed consumer: 79 enum constants, coordinates, quest ids, comments); the world
 replay (0 unparsed statements after extending the conditions filter); two
 independent `all` runs producing byte-identical corpora; the C++ probe rebuilt
 from a clean extraction; the pre-existing research suites.
+
+---
+
+## Errata (targeting pass, 2026-09-17)
+
+Recorded in detail in [`targeting-recipient-policy-archaeology.md`](targeting-recipient-policy-archaeology.md) ("Errata to earlier reports").
+
+* §13 / `bindings.py`: `SpellScript::TargetHook::CheckEffect` is now ported exactly (SpellScript.cpp:203-254). No hook mask and no count changed; the 39 `target-hook-approximate` notes are gone.
+* §12 / `conditions.py`: `SPELL_CLICK_EVENT` rows are keyed by `SourceEntry` (the spell). `SourceGroup` is the creature entry (ConditionMgr.cpp:1187). The player spellclick rows (46598, 408907) were false positives and are now 0. A condition whose object is missing now evaluates false *before* `NegativeCondition` (ConditionMgr.cpp:284-288). Only `conditions.json` changed.
+* §12 "one row, Shadowstep 36554": Ghoul Leap 47482 (controlled-unit tier) carries the same cast condition. Its ErrorType 103 means `SPELL_FAILED_NO_ENDURANCE` in the pinned enum; it was ROOTED in 3.3.5.
+* Bindings do not evaluate `Validate()`. In targeting scope, 5 registrations never attach on 12.1 rows (740; 184362 and 357209 already fail on 12.0.7). A Dummy-wide audit is open.
+* The script index records hooks registered conditionally inside `Register()` as unconditional (17 classes; targeting unknown TG-H-03). `spell_priest.cpp` is fully indexed; its `parse_errors` entry is local.

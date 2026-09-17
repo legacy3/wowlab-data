@@ -1,0 +1,195 @@
+{
+ "about": "grouped effects share one RandomResize draw set (MaxTargets 1)",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "G1",
+    "raid": true,
+    "subgroup": 0
+   },
+   "id": "p1",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "G1",
+    "raid": true,
+    "subgroup": 0
+   },
+   "id": "p2",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    3,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "G1",
+    "raid": true,
+    "subgroup": 1
+   },
+   "id": "p3",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    4,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "caster": "p1",
+ "discriminates": "one RandomResize over 3 candidates (3 urand draws: p1 3>1 dropped, p2 1<=1 kept, p3 1<=0 dropped) for both effects, vs independent per-effect draws (6 draws, possibly different recipients); the self-cast ally is an ordinary candidate",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "p2"
+   ],
+   "1": [
+    "p2"
+   ]
+  }
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-F-413984-0",
+ "relations": [
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "p2",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "p3",
+   "valid_assist": true,
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": [
+   3,
+   1,
+   1
+  ]
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 413984,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "visit_order": [
+  "p1",
+  "p2",
+  "p3"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:741-788, 1437-1452; Containers.h:67",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "p2"
+    ],
+    "1": [
+     "p2"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "p1.facts.spell_other_immunity=[]",
+   "p1.facts.immune_effects=[]",
+   "p1.facts.cc_breakable_by_damage=false",
+   "p2.facts.spell_other_immunity=[]",
+   "p2.facts.immune_effects=[]",
+   "p2.facts.cc_breakable_by_damage=false",
+   "p3.facts.spell_other_immunity=[]",
+   "p3.facts.immune_effects=[]",
+   "p3.facts.cc_breakable_by_damage=false"
+  ],
+  "selectors": [
+   "TARGET_DEST_CASTER",
+   "TARGET_UNIT_DEST_AREA_ALLY"
+  ],
+  "spell": 413984,
+  "track": "F"
+ }
+}

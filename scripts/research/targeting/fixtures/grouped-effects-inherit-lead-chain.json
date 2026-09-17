@@ -1,0 +1,245 @@
+{
+ "about": "Effects 0 (ChainTargets 3) and 1 (ChainTargets 0) share TargetA and are selected on effect 0's turn with mask 3; SelectImplicitChainTargets reads the lead's ChainTargets (Spell.cpp:1834), so effect 1 receives every jump. Chain heal picks the largest deficit within 12.5 yd of the previous target (Spell.cpp:2283-2298).",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "health": 100,
+   "id": "caster",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "health": 90,
+   "id": "p",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "pos": [
+    5,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "health": 95,
+   "id": "a1",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "pos": [
+    10,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "health": 91,
+   "id": "a2",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "pos": [
+    5,
+    8,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "health": 50,
+   "id": "a3",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "pos": [
+    30,
+    0,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "caster",
+ "discriminates": "lead-effect chain count for the whole group (Trinity) vs per-effect chain counts (effect 1 = explicit target only); largest-deficit jumps [a2, a1] vs nearest-first [a1, ...]",
+ "expect": {
+  "recipients": {
+   "0": [
+    "p",
+    "a2",
+    "a1"
+   ],
+   "1": [
+    "p",
+    "a2",
+    "a1"
+   ]
+  },
+  "unique_targets": [
+   {
+    "id": "p",
+    "mask": 3
+   },
+   {
+    "id": "a2",
+    "mask": 3
+   },
+   {
+    "id": "a1",
+    "mask": 3
+   }
+  ]
+ },
+ "explicit": {
+  "redirect": null,
+  "unit": "p"
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "grouped-effects-inherit-lead-chain",
+ "relations": [
+  {
+   "from": "caster",
+   "to": "caster",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "from": "caster",
+   "to": "p",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "from": "caster",
+   "to": "a1",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "from": "caster",
+   "to": "a2",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "from": "caster",
+   "to": "a3",
+   "valid_assist": true,
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "attributes": [],
+  "attributes_cu": [],
+  "dmg_class": "MAGIC",
+  "effects": [
+   {
+    "chain_targets": 3,
+    "effect": "HEAL",
+    "index": 0,
+    "target_a": "TARGET_UNIT_TARGET_CHAINHEAL_ALLY"
+   },
+   {
+    "aura": "DUMMY",
+    "chain_targets": 0,
+    "effect": "APPLY_AURA",
+    "index": 1,
+    "target_a": "TARGET_UNIT_TARGET_CHAINHEAL_ALLY"
+   }
+  ],
+  "id": 900011,
+  "is_positive": true,
+  "max_affected_targets": 0,
+  "name": "chain-lead",
+  "range": {
+   "max": [
+    40,
+    40
+   ],
+   "min": [
+    0,
+    0
+   ]
+  },
+  "script_hooks": [],
+  "synthetic": true,
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "p",
+  "a1",
+  "a2",
+  "a3",
+  "caster"
+ ]
+}

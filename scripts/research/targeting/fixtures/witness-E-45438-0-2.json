@@ -1,0 +1,162 @@
+{
+ "about": "object-suppression",
+ "actors": [
+  {
+   "alive": true,
+   "auras": [
+    {
+     "caster": "pc",
+     "spell": 320913
+    }
+   ],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "g1",
+    "subgroup": 0
+   },
+   "health": 100,
+   "id": "pc",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "pc",
+ "discriminates": "inverse gate: with the item aura effect 0 is suppressed and effects 5-6 land",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [],
+   "1": [
+    "pc"
+   ],
+   "2": [
+    "pc"
+   ],
+   "3": [
+    "pc"
+   ],
+   "4": [
+    "pc"
+   ],
+   "5": [
+    "pc"
+   ],
+   "6": [
+    "pc"
+   ]
+  }
+ },
+ "explicit": {},
+ "hit": {
+  "draws": {
+   "default": 0
+  },
+  "results": {
+   "pc": "NONE"
+  }
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-E-45438-0-2",
+ "relations": [
+  {
+   "from": "pc",
+   "to": "pc",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 45438,
+  "override": {
+   "los_disabled": false,
+   "positive": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "pc"
+ ],
+ "witness": {
+  "consumer": "src/server/scripts/Spells/spell_mage.cpp:1192-1208",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6"
+   ],
+   "recipients": {
+    "0": [],
+    "1": [
+     "pc"
+    ],
+    "2": [
+     "pc"
+    ],
+    "3": [
+     "pc"
+    ],
+    "4": [
+     "pc"
+    ],
+    "5": [
+     "pc"
+    ],
+    "6": [
+     "pc"
+    ]
+   }
+  },
+  "intake_additions": [
+   "pc.facts.cc_breakable_by_damage=false"
+  ],
+  "selectors": [
+   1,
+   0
+  ],
+  "spell": 45438,
+  "track": "E"
+ }
+}

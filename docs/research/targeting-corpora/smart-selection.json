@@ -1,0 +1,1877 @@
+{
+ "counts": {
+  "by_metric": {
+   "aura": 17,
+   "count": 3,
+   "explicit": 3,
+   "group": 2,
+   "health": 2,
+   "random": 5,
+   "rank": 1,
+   "unit-kind": 1
+  },
+  "current_player_target_hooks": 31,
+  "effect_classes": 18,
+  "families_by_status": {
+   "dead": 1,
+   "draw-only": 1,
+   "live": 7
+  },
+  "shared_helper_calls": 17,
+  "shared_helper_calls_in_reach": 2,
+  "shared_helper_calls_script_extended": 8,
+  "sites_bound_only_to_script_extended_reach": 13,
+  "sites_bound_to_reach": 10,
+  "sites_unbound_or_outside": 27,
+  "state_dependent_target_hooks": 18,
+  "targeting_script_sites": 50
+ },
+ "effect_classes": {
+  "102359:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "1064:0": {
+   "build_skew": false,
+   "class": "understood",
+   "family": "chain-heal-deficit",
+   "tags": [
+    "chain-heal",
+    "smart"
+   ],
+   "unknowns": []
+  },
+  "188499:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "194509:1": {
+   "build_skew": false,
+   "class": "understood",
+   "family": "priority-rules",
+   "tags": [
+    "random",
+    "script-adapter",
+    "smart"
+   ],
+   "unknowns": []
+  },
+  "194879:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "198813:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "27243:1": {
+   "build_skew": false,
+   "class": "understood",
+   "family": "random-resize-hook",
+   "tags": [
+    "random",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "27243:2": {
+   "build_skew": false,
+   "class": "understood",
+   "family": "random-resize-hook",
+   "tags": [
+    "random",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "343294:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "34914:3": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "45438:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "45438:5": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "45438:6": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "48438:0": {
+   "build_skew": false,
+   "class": "understood",
+   "family": "select-random-injured",
+   "tags": [
+    "random",
+    "script-adapter",
+    "smart"
+   ],
+   "unknowns": []
+  },
+  "50286:0": {
+   "build_skew": false,
+   "class": "understood",
+   "family": "random-resize-hook",
+   "tags": [
+    "random",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "740:3": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "740:4": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  },
+  "774:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "family": null,
+   "tags": [
+    "script-adapter"
+   ],
+   "unknowns": [
+    "TG-D-10"
+   ]
+  }
+ },
+ "families": [
+  {
+   "candidates": "chain prefilter around the previous target (radius 12.5 * jumps (+mods))",
+   "cap": "ChainTargets (+SpellModOp::ChainTargets) - 1 jumps",
+   "consumer": "Spell.cpp:2283-2298",
+   "determinism": "deterministic (no draws)",
+   "evidence": "trinity-consumer",
+   "explicit_guarantee": "initial target is the explicit/nearby unit, added before the jumps",
+   "full_health": "eligible; chosen only if it is the first acceptable candidate (deficit 0 never beats a found one)",
+   "id": "chain-heal-deficit",
+   "metric": "largest uint32(maxHealth - health), within 12.5y (+reaches) and LOS of the previous target",
+   "per_effect": "one selection per effect-mask group (first effect's ChainTargets)",
+   "pets": "eligible if the ALLY check passes (pets, guardians; the caster itself too)",
+   "spells_in_reach": [
+    1064
+   ],
+   "status": "live",
+   "tie_break": "first in visit order among equal deficits (strict >)"
+  },
+  {
+   "candidates": "the area hook input (grid visit order, after the area check)",
+   "cap": "script maxTargets; then Spell.cpp:1448 RandomResize(MaxAffectedTargets) if the spell has one",
+   "consumer": "Spell.cpp:9513-9573",
+   "determinism": "random only inside the boundary class; draws consumed even when the class exactly fills the cap",
+   "evidence": "trinity-consumer",
+   "explicit_guarantee": "none (explicit target is not special)",
+   "full_health": "eligible only after every injured candidate (grouped or not)",
+   "id": "select-random-injured",
+   "metric": "3 binary bits, most significant first: full health (4) / not player unless TreatAsRaidUnit creature (2) / not in raid with X (1)",
+   "per_effect": "hook bound to one effect/target pair; other effects keep their own lists",
+   "pets": "NOT_PLAYER bit unless TreatAsRaidUnit; pets of the group are 'grouped' only if IsInRaidWith holds",
+   "spells_in_reach": [
+    48438
+   ],
+   "status": "live",
+   "tie_break": "unstable sort within a class (libstdc++ <=16: input order), random shuffle of the boundary class"
+  },
+  {
+   "candidates": "the area hook input",
+   "cap": "EFFECT_2 value + 1",
+   "consumer": "Spell.cpp:9575-9613",
+   "determinism": "random only among equal scores at the cutoff",
+   "evidence": "trinity-consumer",
+   "explicit_guarantee": "explicit target first only if it is in the area list",
+   "full_health": "eligible (rule 3 false)",
+   "id": "priority-rules",
+   "metric": "rule bit vector (Radiance: explicit > no own Atonement > injured > player/raid-unit > in raid)",
+   "per_effect": "hook on EFFECT_1 only",
+   "pets": "rule 4 false unless TreatAsRaidUnit",
+   "spells_in_reach": [
+    194509
+   ],
+   "status": "live",
+   "tie_break": "unstable sort; random shuffle of the whole equal-score range if the cutoff splits it"
+  },
+  {
+   "candidates": "hook input",
+   "cap": "2 (Starfall) / 1 (Seed)",
+   "consumer": "spell_druid.cpp:2274; spell_warlock.cpp:1127-1145",
+   "determinism": "size draws when size > n",
+   "evidence": "trinity-consumer",
+   "explicit_guarantee": "Seed: explicit kept when it lacks Seed or nothing else qualifies",
+   "full_health": "n/a (enemies)",
+   "id": "random-resize-hook",
+   "metric": "none (uniform) / aura predicate first (Seed)",
+   "per_effect": "Seed: on 12.1 rows EFFECT_1/EFFECT_2 are one effect-mask group (same selectors/radius, same hook function), so the hook runs once for the lead EFFECT_1 and both effects share its single selection (Spell.cpp:741-788, 9066)",
+   "pets": "n/a",
+   "spells_in_reach": [
+    50286,
+    27243
+   ],
+   "status": "live",
+   "tie_break": "selection sampling keeps visit order"
+  },
+  {
+   "candidates": "AnyUnfriendlyUnitInObjectRangeCheck within 5y of the aura owner (Cell visit order)",
+   "cap": "one target",
+   "consumer": "Unit.cpp:10920-10949",
+   "determinism": "1 draw during DoCheckProc, before the aura's proc roll",
+   "evidence": "trinity-consumer",
+   "explicit_guarantee": "current victim and the proc's action target are excluded",
+   "full_health": "n/a",
+   "id": "proc-random-adjacent",
+   "metric": "none (uniform)",
+   "per_effect": "per proc event",
+   "pets": "neutral units qualify (only !IsFriendlyTo)",
+   "spells_in_reach": [
+    13877
+   ],
+   "status": "draw-only: DoCheckProc executes (draw + proc gate) but the recipient-acting HandleProc (EFFECT_0, aura 110/138) has affected mask 0 on 12.1 rows (spell_rogue.cpp:296-301; effect 0 is SPELL_AURA_DUMMY) -> 22482 is never cast; script-layout drift (R3-01)",
+   "tie_break": "n/a"
+  },
+  {
+   "candidates": "all units within 100y with the druid's Moonfire / Sunfire (UnitWorker visit order)",
+   "cap": "floor(amount*sqrt(n)/100) (+1 on the roll)",
+   "consumer": "spell_druid.cpp:2170-2215",
+   "determinism": "random",
+   "evidence": "script-consumer",
+   "explicit_guarantee": "n/a",
+   "full_health": "n/a",
+   "id": "shooting-stars",
+   "metric": "none",
+   "per_effect": "periodic tick",
+   "pets": "n/a",
+   "spells_in_reach": [
+    202342
+   ],
+   "status": "live",
+   "tie_break": "roll_chance(frac) then RandomResize(procs) per DoT list (moonfire list first)"
+  },
+  {
+   "candidates": "GUID list filled by the spell script",
+   "cap": "1 per tick",
+   "consumer": "spell_rog_killing_spree_aura (spell_rogue.cpp:664-677)",
+   "determinism": "1+ draws per tick",
+   "evidence": "script-consumer",
+   "explicit_guarantee": "n/a",
+   "full_health": "n/a",
+   "id": "killing-spree",
+   "metric": "none",
+   "per_effect": "per tick",
+   "pets": "n/a",
+   "spells_in_reach": [
+    51690
+   ],
+   "status": "dead: the list is filled only by spell_rog_killing_spree::HandleDummy (EFFECT_1, SPELL_EFFECT_DUMMY), but 51690 EFFECT_1 is an aura effect (6/33) on 12.0.7 and 12.1 -> mask 0; the periodic tick sees an empty list: no draw, no teleport, no damage (R3-06)",
+   "tie_break": "uniform; stale GUIDs removed and redrawn"
+  },
+  {
+   "candidates": "enemies within 10y of the Lava Lash target (VisitAllObjects order)",
+   "cap": "effect value + 1",
+   "consumer": "spell_shaman.cpp:2249-2275",
+   "determinism": "random tail",
+   "evidence": "script-consumer",
+   "explicit_guarantee": "n/a",
+   "full_health": "n/a",
+   "id": "molten-assault",
+   "metric": "has caster's Flame Shock first (std::partition, unstable)",
+   "per_effect": "EFFECT_2 hit",
+   "pets": "n/a",
+   "spells_in_reach": [
+    60103
+   ],
+   "status": "live",
+   "tie_break": "shuffle of the no-shock tail"
+  },
+  {
+   "candidates": "Atonement target GUID vector (insertion order)",
+   "cap": "1",
+   "consumer": "spell_priest.cpp:3540-3575",
+   "determinism": "deterministic",
+   "evidence": "script-consumer",
+   "explicit_guarantee": "n/a",
+   "full_health": "n/a",
+   "id": "divine-procession",
+   "metric": "shortest remaining Atonement duration",
+   "per_effect": "per proc",
+   "pets": "n/a",
+   "spells_in_reach": [
+    472361
+   ],
+   "status": "live",
+   "tie_break": "first minimum (min_element)"
+  }
+ ],
+ "findings": [
+  {
+   "consumer": "Spell.cpp:9513-9573",
+   "evidence": "trinity-consumer",
+   "id": "TG-D-S01",
+   "statement": "No generic smart-heal attribute exists at the pin. The shared helper SelectRandomInjuredTargets ranks by three binary bits, most significant first: full health, not a player/TreatAsRaidUnit creature, not in raid with X (an injured stranger beats a full-health group member); injured is IsFullHealth only -- no deficit or health-% ranking -- and ties inside the boundary class are broken by RandomShuffle. size <= max: unchanged, no draws."
+  },
+  {
+   "consumer": "Spell.cpp:9559-9569, libstdc++13 stl_algo.h",
+   "evidence": "trinity-probe",
+   "id": "TG-D-S02",
+   "statement": "The boundary class is shuffled even when it exactly fills the cap (draws consumed, kept set fixed, order changes); higher classes keep the std::ranges::sort order (libstdc++13: insertion sort, i.e. input order, for <= 16 candidates; implementation-defined otherwise)."
+  },
+  {
+   "consumer": "Spell.cpp:9575-9613, spell_priest.cpp:3387-3397",
+   "evidence": "trinity-probe",
+   "id": "TG-D-S03",
+   "statement": "SortTargetsWithPriorityRules scores rule bits (earlier rules dominate), sorts descending and, when the cutoff splits an equal-score group, shuffles the whole equal-score range (including already-kept members). Power Word: Radiance: explicit target > missing own Atonement > injured > player/raid unit > in raid; the explicit target only wins if the area search returned it."
+  },
+  {
+   "consumer": "Spell.cpp:1436-1450",
+   "evidence": "trinity-consumer",
+   "id": "TG-D-S04",
+   "statement": "Script area hooks run before the MaxAffectedTargets RandomResize; a hook that already reduced the list to <= cap causes no further draws."
+  },
+  {
+   "consumer": "Unit.cpp:10920-10949",
+   "evidence": "trinity-consumer",
+   "id": "TG-D-S05",
+   "statement": "Unit::SelectNearbyTarget (Blade Flurry 13877) picks uniformly among alive, non-friendly (neutral allowed), in-LOS, non-totem/critter/spirit-service units within 5y (+reaches), excluding the current victim and the proc's action target; one draw during DoCheckProc, before the aura's proc roll. At the pin the draw and the proc gate are live but the chosen unit receives nothing (TG-D-S08)."
+  },
+  {
+   "consumer": "spell_rogue.cpp:280-301, 664-677, 711-735",
+   "evidence": "trinity-consumer",
+   "id": "TG-D-S08",
+   "statement": "Script-layout drift (R3-01/R3-06): Blade Flurry 13877 still draws in DoCheckProc (SelectNearbyTarget) and gates the proc, but its recipient-acting HandleProc has mask 0 on 12.1 rows, so no extra attack is cast (draw-no-recipient). Killing Spree 51690's target list is filled by a SpellScript hook on EFFECT_1, which is an aura effect on 12.0.7/12.1 rows (mask 0): the periodic picker never runs (dead)."
+  },
+  {
+   "consumer": "dummy-corpora/script-index.json",
+   "evidence": "structural-inference",
+   "id": "TG-D-S06",
+   "statement": "Most Trinity smart-heal hooks (Circle of Healing 204883, Healing Rain 73921, Prayer of Mending jump 155793, Efflorescence 81269, Healing Stream Totem 52042, Downpour 207778, ...) are bound to spells reached only through scripts / area triggers / summons, i.e. outside ctx.scope.reach (authored reach). They are listed with spells_script_extended; effect_classes only covers reach."
+  },
+  {
+   "consumer": "CommonPredicates.cpp:39-46",
+   "evidence": "trinity-consumer",
+   "id": "TG-D-S07",
+   "statement": "HealthPctOrderPred compares float(health)/float(maxHealth) (0 for non-units / max 0) and is used with std::list::sort (stable); none of its three users is bound to a current-player reach spell."
+  }
+ ],
+ "provenance": {
+  "command": "targeting.py smart-selection --out docs/research/targeting-corpora/smart-selection.json",
+  "generator": "scripts/research/targeting/cmd_d.py",
+  "pins": {
+   "data_snapshot": "12.1.0.69497",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  }
+ },
+ "retail_experiments": [
+  {
+   "fidelity": "exact",
+   "id": "TG-D-X10",
+   "model_a": "Trinity: all 3 injured + 3 random full-health (injured > player > grouped bit order)",
+   "model_b": "lowest health % first, then nearest",
+   "observable": "SPELL_AURA_APPLIED destGUIDs",
+   "question": "Wild Growth: with 8 party members in range, 3 injured and 5 full, which 6 are hit?",
+   "setup": "Pre-damage 3 members (different %), cast Wild Growth on a full-health member; repeat 20x."
+  },
+  {
+   "fidelity": "exact",
+   "id": "TG-D-X11",
+   "model_a": "Trinity rule order (explicit, no Atonement, injured, player, raid)",
+   "model_b": "injured first",
+   "observable": "SPELL_HEAL / Atonement applications",
+   "question": "Power Word: Radiance: does the explicit target always receive it and are Atonement-less players preferred?",
+   "setup": "5 allies, 2 with the caster's Atonement and injured, 3 full health without Atonement."
+  }
+ ],
+ "schema": "targeting-smart/1",
+ "sites": [
+  {
+   "call": "frand(",
+   "class": "CometStormEvent",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_mage.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 491,
+   "method": "Execute",
+   "role": "dest",
+   "spells": [],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Position destPosition = {_dest.GetPositionX() + frand(-3.0f, 3.0f), _dest.GetPositionY() + frand(-3.0f, 3.0f), _dest.GetPositionZ()};"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "areatrigger_pri_entropic_rift",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 1918,
+   "method": "UpdateTarget",
+   "role": "target",
+   "spells": [],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "target = Trinity::Containers::SelectRandomContainerElement(targets);"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "npc_pet_hunter_snake_trap",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Pet/pet_hunter.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 97,
+   "method": "UpdateAI",
+   "role": "target",
+   "spells": [],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Unit* target = Trinity::Containers::SelectRandomContainerElement(targets);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_dru_efflorescence_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 772,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    81269
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    81269
+   ],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 3, true, GetCaster());"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_dru_flower_walk_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 1063,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    439902
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true, caster);"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_dru_luxuriant_soil",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1619,
+   "method": "HandleProc",
+   "role": "target",
+   "spells": [
+    392315
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "rejuvCaster->CastSpell(Trinity::Containers::SelectRandomContainerElement(targetList), SPELL_DRUID_REJUVENATION, TRIGGERED_IGNORE_GCD | TRIGGERED_IGNORE_POWER_CO"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_dru_power_of_the_archdruid",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1920,
+   "method": "HandleProc",
+   "role": "target",
+   "spells": [],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targetList, maxTargets);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_shooting_stars",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 2196,
+   "method": "ProcessDoT",
+   "role": "target-count",
+   "spells": [
+    202342
+   ],
+   "spells_in_reach": [
+    202342
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(std::modf(chance / 100.0f, &procs) * 100.0f))"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_dru_shooting_stars",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 2202,
+   "method": "ProcessDoT",
+   "role": "target",
+   "spells": [
+    202342
+   ],
+   "spells_in_reach": [
+    202342
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, procs);"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_dru_starfall_dummy",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 2274,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    50286
+   ],
+   "spells_in_reach": [
+    50286
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, 2);"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_dru_t10_restoration_4p_bonus",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 2544,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    70691
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Unit* target = Trinity::Containers::SelectRandomContainerElement(tempTargets);"
+  },
+  {
+   "call": ".sort(",
+   "class": "spell_dru_twin_moonfire",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_EFFECT_DUMMY",
+   "line": 2882,
+   "method": "HandleEffectHit",
+   "role": "target",
+   "spells": [
+    8921
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "targets.sort([caster, hitUnit](Unit const* lhs, Unit const* rhs) -> bool"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_dru_wild_growth",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 3031,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    48438
+   ],
+   "spells_in_reach": [
+    48438
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true, caster);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_dru_yseras_gift_group_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_CASTER_AREA_RAID",
+   "line": 3105,
+   "method": "SelectTargets",
+   "role": "target",
+   "spells": [
+    145110
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    145110
+   ],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_evo_azure_strike",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_evoker.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 100,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    362969
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, GetEffectInfo(EFFECT_0).CalcValueAsInt(GetCaster()) - 1);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_evo_emerald_blossom_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_evoker.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 311,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    355916
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true);"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_gen_random_aggro_taunt",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_generic.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_SRC_AREA_ENEMY",
+   "line": 5479,
+   "method": "SelectRandomTarget",
+   "role": "target",
+   "spells": [
+    81690
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, 1);"
+  },
+  {
+   "call": ".sort(",
+   "class": "spell_gen_replenishment",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_generic.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_ALL",
+   "hook_target": "TARGET_UNIT_CASTER_AREA_RAID",
+   "line": 3098,
+   "method": "RemoveInvalidTargets",
+   "role": "target",
+   "spells": [
+    57669
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "targets.sort(Trinity::Predicates::PowerPctOrderPred(POWER_MANA));"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_item_bracing_chill_search_jump_target",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_azerite.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 216,
+   "method": "FilterTarget",
+   "role": "target",
+   "spells": [
+    272436
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(copy, [&](WorldObject* target)"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_item_bracing_chill_search_jump_target",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_azerite.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 228,
+   "method": "FilterTarget",
+   "role": "target",
+   "spells": [
+    272436
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "WorldObject* target = Trinity::Containers::SelectRandomContainerElement(targets);"
+  },
+  {
+   "call": ".sort(",
+   "class": "spell_item_echoes_of_light",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_item.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 966,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    71610,
+    71641
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "targets.sort(Trinity::Predicates::HealthPctOrderPred());"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_item_taunt_flag_targeting",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_item.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_CORPSE_SRC_AREA_ENEMY",
+   "line": 3625,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    51640
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, 1);"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_item_wormhole_pandaria",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_item.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_EFFECT_DUMMY",
+   "line": 2394,
+   "method": "HandleTeleport",
+   "role": "dest",
+   "spells": [
+    126755
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "uint32 spellId = Trinity::Containers::SelectRandomContainerElement(WormholeTargetLocations);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_monk_burst_of_life_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_monk.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 116,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    399230
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    399230
+   ],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, GetSpellValue()->MaxAffectedTargets, true, GetExplTargetUnit());"
+  },
+  {
+   "call": ".sort(",
+   "class": "spell_pal_glyph_of_holy_light",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_paladin.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 910,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    54968
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "targets.sort(Trinity::Predicates::HealthPctOrderPred());"
+  },
+  {
+   "call": ".sort(",
+   "class": "spell_pal_holy_prism_selector",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_paladin.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 1136,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    114852,
+    114871
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    114852,
+    114871
+   ],
+   "text": "targets.sort(Trinity::Predicates::HealthPctOrderPred());"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_pal_holy_prism_selector",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_paladin.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 1140,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    114852,
+    114871
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    114852,
+    114871
+   ],
+   "text": "Trinity::Containers::RandomResize(targets, maxTargets);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_pri_circle_of_healing",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 954,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    204883
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    204883
+   ],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true);"
+  },
+  {
+   "call": "GetRandomNearPosition",
+   "class": "spell_pri_divine_image",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1246,
+   "method": "HandleProc",
+   "role": "dest",
+   "spells": [
+    392988
+   ],
+   "spells_in_reach": [
+    392988
+   ],
+   "spells_script_extended": [],
+   "text": "divineImage->NearTeleportTo(target->GetRandomNearPosition(3.0f));"
+  },
+  {
+   "call": "min_element",
+   "class": "spell_pri_divine_procession",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 3555,
+   "method": "HandleProc",
+   "role": "target",
+   "spells": [
+    472361
+   ],
+   "spells_in_reach": [
+    472361
+   ],
+   "spells_script_extended": [],
+   "text": "auto it = std::ranges::min_element(atonementTargets, std::ranges::less(), [caster](ObjectGuid const& guidA)"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_pri_divine_word_sanctuary_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 1595,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    372787
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_pri_essence_devourer_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 1965,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    415673,
+    415676
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_pri_holy_10_1_class_set_2pc_chooser",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENTRY",
+   "line": 3868,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    411097
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);"
+  },
+  {
+   "call": "SortTargetsWithPriorityRules",
+   "class": "spell_pri_power_word_radiance",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 3369,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    194509
+   ],
+   "spells_in_reach": [
+    194509
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::SortTargetsWithPriorityRules(targets, maxTargets, GetRadianceRules(caster, explTarget));"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_pri_prayer_of_mending_jump",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_SRC_AREA_ALLY",
+   "line": 3766,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    155793
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    155793
+   ],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);"
+  },
+  {
+   "call": ".sort(",
+   "class": "spell_pri_purge_the_wicked_dummy",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 4037,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    204215
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    204215
+   ],
+   "text": "targets.sort([&](WorldObject const* lhs, WorldObject const* rhs) -> bool"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_pri_ultimate_penitence_channel",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 5040,
+   "method": "TryDealingDamage",
+   "role": "target",
+   "spells": [
+    421434
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    421434
+   ],
+   "text": "GetTarget()->CastSpell(Trinity::Containers::SelectRandomContainerElement(enemies), SPELL_PRIEST_ULTIMATE_PENITENCE_DAMAGE, TRIGGERED_IGNORE_CAST_IN_PROGRESS | T"
+  },
+  {
+   "call": "SortTargetsWithPriorityRules",
+   "class": "spell_pri_ultimate_penitence_channel",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 5053,
+   "method": "TryHealing",
+   "role": "target",
+   "spells": [
+    421434
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    421434
+   ],
+   "text": "Trinity::SortTargetsWithPriorityRules(allies, 1, GetHealingRules(caster));"
+  },
+  {
+   "call": ".sort(",
+   "class": "spell_pri_whispering_shadows_effect",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 5407,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "targets.sort([&](WorldObject const* target1, WorldObject const* target2)"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_pri_whispering_shadows_effect",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 5422,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, GetSpellValue()->MaxAffectedTargets);"
+  },
+  {
+   "call": "SelectNearbyTarget",
+   "class": "spell_rog_blade_flurry",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_rogue.cpp",
+   "hook": "DoCheckProc",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 285,
+   "method": "CheckProc",
+   "role": "draw-no-recipient",
+   "spells": [
+    13877,
+    33735,
+    51211,
+    65956
+   ],
+   "spells_in_reach": [
+    13877
+   ],
+   "spells_script_extended": [],
+   "text": "_procTarget = GetTarget()->SelectNearbyTarget(eventInfo.GetActionTarget());"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_sha_ancestral_guidance_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_CASTER_AREA_RAID",
+   "line": 304,
+   "method": "ResizeTargets",
+   "role": "target",
+   "spells": [
+    114911
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    114911
+   ],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 3, true);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_sha_downpour",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 779,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    207778
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 6, true);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_sha_healing_rain_target_limit",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 1418,
+   "method": "SelectTargets",
+   "role": "target",
+   "spells": [
+    73921
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    73921
+   ],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 6, true);"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_sha_healing_stream_totem_heal",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 1432,
+   "method": "SelectTargets",
+   "role": "target",
+   "spells": [
+    52042
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_sha_liquid_magma_totem",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 1940,
+   "method": "HandleTargetSelect",
+   "role": "target",
+   "spells": [
+    192223
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "WorldObject* selected = Trinity::Containers::SelectRandomContainerElement(targets);"
+  },
+  {
+   "call": "RandomShuffle",
+   "class": "spell_sha_molten_assault",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_2",
+   "hook_target": "SPELL_EFFECT_DUMMY",
+   "line": 2265,
+   "method": "TriggerFlameShocks",
+   "role": "target",
+   "spells": [
+    60103
+   ],
+   "spells_in_reach": [
+    60103
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomShuffle(withoutFlameShockItr, targets.end());"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_sha_path_of_flames_spread",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 2389,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    210621
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [
+    210621
+   ],
+   "text": "Trinity::Containers::RandomResize(targets, Trinity::UnitAuraCheck(false, SPELL_SHAMAN_FLAME_SHOCK, GetCaster()->GetGUID()), 1);"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_warl_seed_of_corruption_dummy",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warlock.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_2",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 1140,
+   "method": "SelectTarget",
+   "role": "target",
+   "spells": [
+    27243
+   ],
+   "spells_in_reach": [
+    27243
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, 1);"
+  },
+  {
+   "call": "SelectNearbyTarget",
+   "class": "spell_warr_sweeping_strikes",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": "DoCheckProc",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 1945,
+   "method": "CheckProc",
+   "role": "target",
+   "spells": [
+    18765,
+    35429
+   ],
+   "spells_in_reach": [],
+   "spells_script_extended": [],
+   "text": "_procTarget = eventInfo.GetActor()->SelectNearbyTarget(eventInfo.GetActionTarget());"
+  }
+ ],
+ "state_dependent_hooks": [
+  {
+   "affected_mask": 8,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura"
+   ],
+   "evidence": "structural-inference",
+   "handler": "PreventEffect",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Tranquility",
+   "script": "spell_dru_inner_peace",
+   "spell": 740,
+   "target": 1
+  },
+  {
+   "affected_mask": 16,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura"
+   ],
+   "evidence": "structural-inference",
+   "handler": "PreventEffect",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Tranquility",
+   "script": "spell_dru_inner_peace",
+   "spell": 740,
+   "target": 1
+  },
+  {
+   "affected_mask": 1,
+   "build_skew": false,
+   "callees": [
+    "CastSpell",
+    "CastSpellExtraArgs",
+    "GetAura",
+    "GetCaster",
+    "GetDuration",
+    "GetGUID",
+    "GetSpell",
+    "HasAura",
+    "SetTriggeringSpell",
+    "ToUnit"
+   ],
+   "evidence": "structural-inference",
+   "handler": "PickRejuvenationVariant",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Rejuvenation",
+   "script": "spell_dru_germination",
+   "spell": 774,
+   "target": 21
+  },
+  {
+   "affected_mask": 2,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "GetExplTargetUnit",
+    "GetGUID",
+    "GetSpellInfo",
+    "HasAura",
+    "RandomResize",
+    "UnitAuraCheck",
+    "clear",
+    "empty",
+    "push_back",
+    "remove_if",
+    "size"
+   ],
+   "evidence": "structural-inference",
+   "handler": "SelectTarget",
+   "list": "OnObjectAreaTargetSelect",
+   "metrics": [
+    "aura",
+    "count",
+    "explicit",
+    "random"
+   ],
+   "name": "Seed of Corruption",
+   "script": "spell_warl_seed_of_corruption_dummy",
+   "spell": 27243,
+   "target": 16
+  },
+  {
+   "affected_mask": 4,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "GetExplTargetUnit",
+    "GetGUID",
+    "GetSpellInfo",
+    "HasAura",
+    "RandomResize",
+    "UnitAuraCheck",
+    "clear",
+    "empty",
+    "push_back",
+    "remove_if",
+    "size"
+   ],
+   "evidence": "structural-inference",
+   "handler": "SelectTarget",
+   "list": "OnObjectAreaTargetSelect",
+   "metrics": [
+    "aura",
+    "count",
+    "explicit",
+    "random"
+   ],
+   "name": "Seed of Corruption",
+   "script": "spell_warl_seed_of_corruption_dummy",
+   "spell": 27243,
+   "target": 16
+  },
+  {
+   "affected_mask": 8,
+   "build_skew": false,
+   "callees": [
+    "GetAuraEffect",
+    "GetBase",
+    "GetCaster",
+    "GetSpell",
+    "IsEmpty",
+    "[&] { if (!GetSpell()->m_originalCastId.…",
+    "contains"
+   ],
+   "evidence": "structural-inference",
+   "handler": "PreventDirectDamage",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Vampiric Touch",
+   "script": "spell_pri_unfurling_darkness",
+   "spell": 34914,
+   "target": 6
+  },
+  {
+   "affected_mask": 1,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura"
+   ],
+   "evidence": "structural-inference",
+   "handler": "PreventStunWithEverwarmSocks",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Ice Block",
+   "script": "spell_mage_ice_block",
+   "spell": 45438,
+   "target": 1
+  },
+  {
+   "affected_mask": 32,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura"
+   ],
+   "evidence": "structural-inference",
+   "handler": "PreventEverwarmSocks",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Ice Block",
+   "script": "spell_mage_ice_block",
+   "spell": 45438,
+   "target": 1
+  },
+  {
+   "affected_mask": 64,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura"
+   ],
+   "evidence": "structural-inference",
+   "handler": "PreventEverwarmSocks",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Ice Block",
+   "script": "spell_mage_ice_block",
+   "spell": 45438,
+   "target": 1
+  },
+  {
+   "affected_mask": 1,
+   "build_skew": false,
+   "callees": [
+    "CalcValueAsInt",
+    "GetAmountAsInt",
+    "GetAuraEffect",
+    "GetCaster",
+    "GetEffectInfo",
+    "SelectRandomInjuredTargets"
+   ],
+   "evidence": "structural-inference",
+   "handler": "FilterTargets",
+   "list": "OnObjectAreaTargetSelect",
+   "metrics": [
+    "aura",
+    "group",
+    "health",
+    "random"
+   ],
+   "name": "Wild Growth",
+   "script": "spell_dru_wild_growth",
+   "spell": 48438,
+   "target": 31
+  },
+  {
+   "affected_mask": 1,
+   "build_skew": false,
+   "callees": [
+    "RandomResize"
+   ],
+   "evidence": "structural-inference",
+   "handler": "FilterTargets",
+   "list": "OnObjectAreaTargetSelect",
+   "metrics": [
+    "random"
+   ],
+   "name": "Starfall",
+   "script": "spell_dru_starfall_dummy",
+   "spell": 50286,
+   "target": 16
+  },
+  {
+   "affected_mask": 2,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura"
+   ],
+   "evidence": "structural-inference",
+   "handler": "HandleCuriousBramblepatch",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Mass Entanglement",
+   "script": "spell_dru_entangling_roots",
+   "spell": 102359,
+   "target": 6
+  },
+  {
+   "affected_mask": 2,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura",
+    "clear"
+   ],
+   "evidence": "structural-inference",
+   "handler": "HandleCuriousBramblepatchAOE",
+   "list": "OnObjectAreaTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Mass Entanglement",
+   "script": "spell_dru_entangling_roots",
+   "spell": 102359,
+   "target": 16
+  },
+  {
+   "affected_mask": 1,
+   "build_skew": false,
+   "callees": [
+    "GetAura",
+    "GetCaster",
+    "GetGUID",
+    "GetScript<spell_dh_first_blood>",
+    "GetTarget",
+    "IsEmpty",
+    "SetFirstTarget",
+    "begin",
+    "empty",
+    "end",
+    "find_if",
+    "front",
+    "size"
+   ],
+   "evidence": "structural-inference",
+   "handler": "DecideFirstTarget",
+   "list": "OnObjectAreaTargetSelect",
+   "metrics": [
+    "aura",
+    "count"
+   ],
+   "name": "Blade Dance",
+   "script": "spell_dh_blade_dance",
+   "spell": 188499,
+   "target": 15
+  },
+  {
+   "affected_mask": 2,
+   "build_skew": false,
+   "callees": [
+    "CalcValueAsInt",
+    "GetCaster",
+    "GetEffectInfo",
+    "GetExplTargetUnit",
+    "GetGUID",
+    "GetRadianceRules",
+    "HasAura",
+    "IsCreature",
+    "IsFullHealth",
+    "IsInRaidWith",
+    "IsPlayer",
+    "IsTreatedAsRaidUnit",
+    "SortTargetsWithPriorityRules",
+    "ToCreature",
+    "push_back"
+   ],
+   "evidence": "structural-inference",
+   "handler": "FilterTargets",
+   "list": "OnObjectAreaTargetSelect",
+   "metrics": [
+    "aura",
+    "explicit",
+    "group",
+    "health",
+    "random",
+    "rank",
+    "unit-kind"
+   ],
+   "name": "Power Word: Radiance",
+   "script": "spell_pri_power_word_radiance",
+   "spell": 194509,
+   "target": 31
+  },
+  {
+   "affected_mask": 2,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura"
+   ],
+   "evidence": "structural-inference",
+   "handler": "HandleSmotheringOffense",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Icy Talons",
+   "script": "spell_dk_icy_talons_buff",
+   "spell": 194879,
+   "target": 1
+  },
+  {
+   "affected_mask": 1,
+   "build_skew": false,
+   "callees": [
+    "GetCaster",
+    "HasAura",
+    "clear"
+   ],
+   "evidence": "structural-inference",
+   "handler": "HandleVengefulBonds",
+   "list": "OnObjectAreaTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Vengeful Retreat",
+   "script": "spell_dh_vengeful_retreat_damage",
+   "spell": 198813,
+   "target": 15
+  },
+  {
+   "affected_mask": 2,
+   "build_skew": false,
+   "callees": [
+    "GetAura",
+    "GetCaster",
+    "GetSpell",
+    "IsAffectedByReaperOfSouls",
+    "contains"
+   ],
+   "evidence": "structural-inference",
+   "handler": "HandleDefault",
+   "list": "OnObjectTargetSelect",
+   "metrics": [
+    "aura"
+   ],
+   "name": "Soul Reaper",
+   "script": "spell_dk_reaper_of_souls",
+   "spell": 343294,
+   "target": 6
+  }
+ ],
+ "trinity_defects": [
+  {
+   "description": "The boundary class is shuffled when found + count == max (no selection needed).",
+   "effect_on_recipients": "Recipient set unchanged; AddUnitTarget order (hit-roll order, chain multipliers) and RNG consumption change.",
+   "file_line": "Spell.cpp:9559-9567",
+   "id": "TG-D-DEF-10",
+   "oracle_behaviour": "Reproduced."
+  }
+ ],
+ "unknowns": [
+  {
+   "build_skew": "n/a",
+   "evidence": "structural-inference",
+   "id": "TG-D-10",
+   "known": "handler callees (state_dependent_hooks)",
+   "reopen_condition": "Track E adapter lands for the hook.",
+   "subject": "current-player target hooks whose state-dependent filter is not ported to smart.py",
+   "unknown": "exact recipient policy of those handlers",
+   "why_unresolved": "Track E owns generic adapters; only the smart/random families are ported here."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "unresolved",
+   "id": "TG-D-11",
+   "known": "Trinity: binary injured bit + group bit + random; Radiance: 5 rule bits.",
+   "reopen_condition": "Retail experiment TG-D-X10.",
+   "subject": "Retail smart healing (Wild Growth, Healing Rain, Circle of Healing, Radiance)",
+   "unknown": "Retail ranking (deficit? health %? incoming damage?) and tie-breaks.",
+   "why_unresolved": "Tooltips say 'injured allies'; no client data encodes the ranking."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-probe",
+   "id": "TG-D-12",
+   "known": "libstdc++13 insertion sort for <= 16 (stable).",
+   "reopen_condition": "never semantic; oracle fails closed",
+   "subject": "std::ranges::sort tie order for > 16 candidates / other standard libraries",
+   "unknown": "Order of equal keys beyond 16 elements or with MSVC/libc++ builds.",
+   "why_unresolved": "Implementation-defined."
+  },
+  {
+   "build_skew": false,
+   "evidence": "structural-inference",
+   "id": "TG-D-13",
+   "known": "Smart-heal payload spells are cast by scripts/area triggers of reach spells.",
+   "reopen_condition": "lead decision",
+   "subject": "script-extended reach",
+   "unknown": "Whether the lead's census should include script-extended spells.",
+   "why_unresolved": "ctx.scope.reach follows authored edges only."
+  }
+ ]
+}

@@ -1,0 +1,404 @@
+{
+ "build_skew": false,
+ "consumer": "SpellAuras.cpp:2709-2737, 723-742; SpellEffects.cpp:1532-1538",
+ "discriminates": "check type from TargetB (ENEMY: friendly p2 out) vs TargetA DEFAULT (p2 in); dynobj phase filter (e3 out) vs AlwaysVisible; in-flight e4 dropped already by CheckTarget (SpellInfo.cpp:2482; the dynobj filter at SpellAuras.cpp:725 only adds to it for CU_ALLOW_INFLIGHT_TARGET); e5 is selected by FillTargetMap but refused by the same-caster same-spell dynobj stacking rule (SpellAuras.cpp:1642) vs no stacking gate; radius 8 + target reach (e1 at 7 in, e2 at 9.6 out); caster w outside the area",
+ "effect": 0,
+ "expect": {
+  "recipients": [
+   "e1"
+  ]
+ },
+ "fixture": {
+  "actors": [
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 9,
+     "faction_template": 1,
+     "immune_effects": [],
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": {
+     "id": "W",
+     "raid": false,
+     "subgroup": 0
+    },
+    "id": "w",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     20,
+     0,
+     0
+    ]
+   },
+   {
+    "facts": {
+     "caster": "w",
+     "radius": 8.0
+    },
+    "id": "dyn",
+    "kind": "dynamicobject",
+    "orientation": 0.0,
+    "pos": [
+     0,
+     0,
+     0
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 14,
+     "immune_effects": [],
+     "in_flight": false,
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": null,
+    "id": "e1",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     7,
+     0,
+     0
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 14,
+     "immune_effects": [],
+     "in_flight": false,
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": null,
+    "id": "e2",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     9.6,
+     0,
+     0
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 14,
+     "immune_effects": [],
+     "in_flight": false,
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": null,
+    "id": "e3",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     1,
+     0,
+     0
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 14,
+     "immune_effects": [],
+     "in_flight": true,
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": null,
+    "id": "e4",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     2,
+     0,
+     0
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [
+     {
+      "caster": "w",
+      "owner": "dyn_old",
+      "spell": 5740
+     }
+    ],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 14,
+     "highest_exclusive": true,
+     "immune_effects": [],
+     "in_flight": false,
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": null,
+    "id": "e5",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     3,
+     0,
+     0
+    ]
+   },
+   {
+    "alive": true,
+    "auras": [],
+    "bounding_radius": 0.389,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "aura_immune": false,
+     "aura_immune_effects": [],
+     "aura_immune_existing": false,
+     "banished": false,
+     "cc_breakable_by_damage": false,
+     "class": 2,
+     "faction_template": 1,
+     "immune_effects": [],
+     "in_flight": false,
+     "in_world": true,
+     "level": 90,
+     "profile": "combat-sim",
+     "range_movement_bonus": false,
+     "spell_other_immunity": [],
+     "suppressed_by_label": false
+    },
+    "group": {
+     "id": "W",
+     "raid": false,
+     "subgroup": 0
+    },
+    "id": "p2",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     1,
+     1,
+     0
+    ]
+   }
+  ],
+  "aura": {
+   "applications": {},
+   "caster": "w",
+   "owner": "dyn"
+  },
+  "caster": "w",
+  "los": {
+   "default": "clear"
+  },
+  "modifiers": {
+   "radius": 0,
+   "range": 0
+  },
+  "name": "witness-J-5740-0",
+  "relations": [
+   {
+    "friendly": false,
+    "from": "w",
+    "hostile": true,
+    "to": "e1",
+    "valid_assist": false,
+    "valid_attack": true
+   },
+   {
+    "friendly": false,
+    "from": "w",
+    "hostile": true,
+    "to": "e2",
+    "valid_assist": false,
+    "valid_attack": true
+   },
+   {
+    "friendly": false,
+    "from": "w",
+    "hostile": true,
+    "to": "e3",
+    "valid_assist": false,
+    "valid_attack": true
+   },
+   {
+    "friendly": false,
+    "from": "w",
+    "hostile": true,
+    "to": "e4",
+    "valid_assist": false,
+    "valid_attack": true
+   },
+   {
+    "friendly": false,
+    "from": "w",
+    "hostile": true,
+    "to": "e5",
+    "valid_assist": false,
+    "valid_attack": true
+   },
+   {
+    "friendly": true,
+    "from": "w",
+    "hostile": false,
+    "to": "p2",
+    "valid_assist": true,
+    "valid_attack": false
+   },
+   {
+    "from": "dyn",
+    "in_same_phase": true,
+    "to": "w"
+   },
+   {
+    "from": "dyn",
+    "in_same_phase": true,
+    "to": "e1"
+   },
+   {
+    "from": "dyn",
+    "in_same_phase": true,
+    "to": "e2"
+   },
+   {
+    "from": "dyn",
+    "in_same_phase": false,
+    "to": "e3"
+   },
+   {
+    "from": "dyn",
+    "in_same_phase": true,
+    "to": "e4"
+   },
+   {
+    "from": "dyn",
+    "in_same_phase": true,
+    "to": "e5"
+   },
+   {
+    "from": "dyn",
+    "in_same_phase": true,
+    "to": "p2"
+   }
+  ],
+  "schema": "targeting-fixture/1",
+  "spell": {
+   "difficulty": 0,
+   "id": 5740,
+   "override": {
+    "los_disabled": false
+   }
+  },
+  "visit_order": [
+   "w",
+   "e1",
+   "e2",
+   "e3",
+   "e4",
+   "e5",
+   "p2"
+  ]
+ },
+ "schema": "targeting-auramap-witness/1",
+ "selectors": [
+  "TARGET_DEST_DEST",
+  "TARGET_DEST_DYNOBJ_ENEMY"
+ ],
+ "shape": "dynobj aura (27), check from TargetB DEST_DYNOBJ_ENEMY",
+ "spell": 5740
+}

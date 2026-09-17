@@ -1,0 +1,88 @@
+{
+ "about": "SCHOOL_DAMAGE with TargetA/B = 0 and no explicit unit: SelectEffectTypeImplicitTargets (Spell.cpp:2073-2085) falls back to m_caster for EFFECT_IMPLICIT_TARGET_EXPLICIT effects whose unit target is missing.",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "caster",
+ "discriminates": "empty selector pair -> no recipient vs Trinity's caster fallback",
+ "expect": {
+  "recipients": {
+   "0": [
+    "caster"
+   ]
+  },
+  "unique_targets": [
+   {
+    "id": "caster",
+    "mask": 1
+   }
+  ]
+ },
+ "explicit": {},
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "effect-type-caster-fallback",
+ "relations": [],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "attributes": [],
+  "attributes_cu": [],
+  "dmg_class": "MAGIC",
+  "effects": [
+   {
+    "effect": "SCHOOL_DAMAGE",
+    "index": 0
+   }
+  ],
+  "id": 900008,
+  "is_positive": false,
+  "max_affected_targets": 0,
+  "name": "no-targets",
+  "range": null,
+  "script_hooks": [],
+  "synthetic": true,
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "caster"
+ ]
+}

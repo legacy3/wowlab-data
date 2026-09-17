@@ -1,0 +1,578 @@
+{
+ "evidence": "trinity-probe (per-check) / differential (summary)",
+ "integration_boundary": {
+  "consumer-read-only": [
+   "Spell::SelectSpellTargets loop, effect-mask grouping and the per-turn REQUIRE_ALL_TARGETS / channel checks (Spell.cpp:720-878) -- Python mirror, differentially tested against track F's plan, not compiled",
+   "Spell::AddUnitTarget merge / immunity order (Spell.cpp:2443-2559) -- track F UniqueTargets, not compiled",
+   "Spell::CheckEffectTarget (Spell.cpp:8174) and SpellInfo::CheckTarget (SpellInfo.cpp:2329) -- consumer-read",
+   "SelectImplicit{Caster,Target,Dest}DestTargets / CasterObject / TargetObject / Channel dispatch -- consumer-read",
+   "SpellEffectInfo::CalcRadius / SpellInfo::GetMaxRange / Player::ApplySpellMod arithmetic -- consumer-read",
+   "SpellEffectInfo::CalcValue()/CalcBaseValue() at load (only its sign feeds positivity) -- consumer-read",
+   "InitExplicitTargets / CheckCast pre-stage (opt-in `precast`) -- track B, relation part probe-verified",
+   "script target hooks (E), implicit-target conditions (ConditionMgr) -- fixture-stated or fail closed"
+  ],
+  "probe-verified": [
+   "SpellImplicitTargetInfo::_data axes / CalcDirectionAngle / GetExplicitTargetMask (A)",
+   "SpellEffectInfo::_data, GetMissingTargetMask, SpellInfo::_InitializeExplicitTargetMask (A)",
+   "Position/WorldObject binary32 distance, arc, line, range predicates (C)",
+   "WorldObjectSpellAreaTargetCheck / ConeTargetCheck / LineTargetCheck geometry + immunity part (C)",
+   "WorldObjectLastSearcher + WorldObjectSpellNearbyTargetCheck (C)",
+   "std::list::sort with ObjectDistanceOrderPred (non-strict descending) (C)",
+   "Spell::SearchChainTargets jump loop incl. search radius (D)",
+   "SpellInfo::_InitializeSpellPositivity / _isPositiveEffectImpl under driver load orders (G)",
+   "AreaTrigger::SearchUnitIn* shapes + max search radius (I)",
+   "Containers::RandomResize / SelectRandomContainerElement draw counts (D, own tests)",
+   "WorldObject::GetReactionTo / IsValidAttackTarget / IsValidAssistTarget / IsInPartyWith / IsInRaidWith (B)",
+   "pipeline-produced area candidates and chain jumps re-checked against the C/D probes (G)"
+  ],
+  "world-state (fixture-stated, never computed)": [
+   "grid visit order (Cell::Visit / GridRefManager order)",
+   "line of sight (VMAP)",
+   "MovePositionToFirstCollision / map height / spell_target_position destinations",
+   "SpellHitResult RNG consumption and results",
+   "IsImmunedToSpellEffect",
+   "CanSeeOrDetect",
+   "phase membership",
+   "DisableMgr rows (world `disables` not in the overlay)"
+  ]
+ },
+ "probes": {
+  "A_selector": {
+   "checks": {
+    "effect_table": {
+     "cases": 356,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "SpellInfo.cpp:835-866, 959 (SpellEffectInfo::_data, GetMissingTargetMask)",
+     "passed": 356
+    },
+    "explicit_mask_generated": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "SpellInfo.cpp:4572 _InitializeExplicitTargetMask",
+     "passed": 400
+    },
+    "explicit_mask_player_spells": {
+     "cases": 4836,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "SpellInfo.cpp:4572 on every current-player spell",
+     "passed": 4836
+    },
+    "selector_axes": {
+     "cases": 459,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "SpellInfo.cpp:83-133, 140-244 (SpellImplicitTargetInfo)",
+     "passed": 459
+    }
+   },
+   "probe": "tools/tc_target_selector_probe",
+   "status": "ok"
+  },
+  "B_relation": {
+   "checks": {
+    "reaction_attack_assist": {
+     "cases": 13380,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Object.cpp:2035-2193, 2331, 2489; Unit.cpp:12184-12218",
+     "passed": 13380
+    }
+   },
+   "probe": "tools/tc_target_relation_probe",
+   "queries": 3345,
+   "seed": 20260920,
+   "status": "ok",
+   "worlds": 200
+  },
+  "C_geometry": {
+   "checks": {
+    "area_check": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Spell.cpp:9418 WorldObjectSpellAreaTargetCheck",
+     "passed": 3000
+    },
+    "boundary_radius": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Unit.cpp IsWithinBoundaryRadius",
+     "passed": 3000
+    },
+    "cone_check": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Spell.cpp:9459 WorldObjectSpellConeTargetCheck",
+     "passed": 3000
+    },
+    "distance_order": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Object.cpp:569 GetDistanceOrder",
+     "passed": 3000
+    },
+    "has_in_arc": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Position.cpp:173 HasInArc",
+     "passed": 3000
+    },
+    "has_in_line": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Position.cpp:192 HasInLine",
+     "passed": 3000
+    },
+    "line_check": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Spell.cpp:9497-9510 WorldObjectSpellLineTargetCheck",
+     "passed": 3000
+    },
+    "list_sort_distance": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Object.h:643 + bits/list.tcc:488 list::sort",
+     "passed": 3000
+    },
+    "nearby_last_searcher": {
+     "cases": 3000,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Spell.cpp:2194, 9402 SearchNearbyTarget",
+     "passed": 3000
+    }
+   },
+   "iterations": 3000,
+   "probe": "tools/tc_target_geom_probe",
+   "seed": 20260918,
+   "status": "ok"
+  },
+  "D_chain": {
+   "checks": {
+    "chain_search_radius": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Spell.cpp:2250-2259",
+     "passed": 400
+    },
+    "search_chain_targets": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Spell.cpp:2221-2327 SearchChainTargets",
+     "passed": 400
+    }
+   },
+   "note": "probe stub SearchAreaTargets returns the Python pre-filter list (area predicate is verified by the geometry probe)",
+   "probe": "tools/tc_target_chain_probe",
+   "seed": 20260919,
+   "status": "ok",
+   "worlds": 400
+  },
+  "G_pipeline": {
+   "checks": {
+    "pipeline_area_candidates": {
+     "cases": 169,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Spell.cpp:2207 + 9418 on the pipeline's own search inputs",
+     "passed": 169
+    },
+    "pipeline_chain_jumps": {
+     "cases": 4,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "Spell.cpp:2221 on the pipeline's own chain inputs",
+     "passed": 4
+    }
+   },
+   "fixtures_evaluated": [
+    "effect-type-caster-fallback.json",
+    "grouped-effects-inherit-lead-chain.json",
+    "grouped-effects-share-random-resize.json",
+    "hit-draws-interleave-with-cap.json",
+    "immune-target-kept-with-empty-mask.json",
+    "merge-duplicate-recipient.json",
+    "nearby-finish-continues-selection.json",
+    "per-effect-dest-snapshot.json",
+    "radius-split-draws-twice.json",
+    "require-all-targets-per-turn.json",
+    "targetb-area-around-targeta-dest.json",
+    "witness-A-1022-0.json",
+    "witness-A-102359-1-bramblepatch.json",
+    "witness-A-102359-1.json",
+    "witness-A-1126-0.json",
+    "witness-A-1160-0.json",
+    "witness-A-1714-0.json",
+    "witness-A-31821-0.json",
+    "witness-A-46968-0.json",
+    "witness-A-61882-2.json",
+    "witness-B-1126-0-2.json",
+    "witness-B-1126-0.json",
+    "witness-B-133-0-2.json",
+    "witness-B-133-0-3.json",
+    "witness-B-133-0-4.json",
+    "witness-B-133-0.json",
+    "witness-B-2061-0.json",
+    "witness-B-3411-0-2.json",
+    "witness-B-3411-0.json",
+    "witness-B-53-0-2.json",
+    "witness-B-53-0.json",
+    "witness-C-1126-0-2.json",
+    "witness-C-1126-0.json",
+    "witness-C-2120-0.json",
+    "witness-C-228478-0.json",
+    "witness-C-384391-0.json",
+    "witness-C-53385-0.json",
+    "witness-C-5484-0-2.json",
+    "witness-C-5484-0.json",
+    "witness-C-6343-0.json",
+    "witness-C-64844-0.json",
+    "witness-C-97462-0.json",
+    "witness-D-1064-0.json",
+    "witness-D-188443-0.json",
+    "witness-D-48438-0.json",
+    "witness-D-50286-0.json",
+    "witness-E-107570-0-2.json",
+    "witness-E-107570-0.json",
+    "witness-E-27243-1.json",
+    "witness-E-404358-0.json",
+    "witness-E-45438-0-2.json",
+    "witness-E-45438-0.json",
+    "witness-F-1126-0.json",
+    "witness-F-1219209-0.json",
+    "witness-F-264735-1.json",
+    "witness-F-31935-1.json",
+    "witness-F-413984-0.json",
+    "witness-F-871-0.json",
+    "witness-F-97462-0.json"
+   ],
+   "probe": "tools/(pipeline)",
+   "status": "ok"
+  },
+  "G_positivity": {
+   "checks": {
+    "positivity_generated": {
+     "cases": 7538,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "SpellInfo.cpp:4609-5099 under every/sampled load order",
+     "passed": 7538
+    },
+    "positivity_player_spells": {
+     "cases": 4831,
+     "fail_closed": 5,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "SpellInfo.cpp:4609-5099 on current-player spells + trigger closure (orders: spell first / spell last / 4 random)",
+     "passed": 4831
+    }
+   },
+   "load_order": {
+    "fail_closed_confirmed_order_dependent": 3,
+    "fail_closed_order_independent_in_sample": 0,
+    "fail_closed_worlds": 3
+   },
+   "load_order_player_spells": {
+    "188499": {
+     "closure": [
+      188499,
+      199552,
+      200685
+     ],
+     "confirmed_order_dependent": true,
+     "negative_effect_masks_seen": [
+      18,
+      30
+     ]
+    },
+    "190411": {
+     "closure": [
+      44949,
+      190411,
+      199667,
+      199851,
+      199852
+     ],
+     "confirmed_order_dependent": true,
+     "negative_effect_masks_seen": [
+      120,
+      248,
+      376,
+      504
+     ]
+    },
+    "385059": {
+     "closure": [
+      385059,
+      385060,
+      385061,
+      385062
+     ],
+     "confirmed_order_dependent": true,
+     "negative_effect_masks_seen": [
+      7,
+      15
+     ]
+    },
+    "44614": {
+     "closure": [
+      44614,
+      228354,
+      228596
+     ],
+     "confirmed_order_dependent": true,
+     "negative_effect_masks_seen": [
+      2,
+      30
+     ]
+    }
+   },
+   "note": "CalcValue() is a cut point: the probe receives the Python load-time value; its sign logic (SpellInfo.cpp:521-752) is consumer-read",
+   "probe": "tools/tc_target_positivity_probe",
+   "seed": 20260921,
+   "status": "ok",
+   "worlds": 3000
+  },
+  "I_areatrigger": {
+   "checks": {
+    "shape_0": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "AreaTrigger.cpp:717-852 SearchUnitIn* + AreaTriggerShapeInfo::GetMaxSearchRadius",
+     "passed": 400
+    },
+    "shape_1": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "AreaTrigger.cpp:717-852 SearchUnitIn* + AreaTriggerShapeInfo::GetMaxSearchRadius",
+     "passed": 400
+    },
+    "shape_3": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "AreaTrigger.cpp:717-852 SearchUnitIn* + AreaTriggerShapeInfo::GetMaxSearchRadius",
+     "passed": 400
+    },
+    "shape_4": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "AreaTrigger.cpp:717-852 SearchUnitIn* + AreaTriggerShapeInfo::GetMaxSearchRadius",
+     "passed": 400
+    },
+    "shape_5": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "AreaTrigger.cpp:717-852 SearchUnitIn* + AreaTriggerShapeInfo::GetMaxSearchRadius",
+     "passed": 400
+    },
+    "shape_6": {
+     "cases": 400,
+     "fail_closed": 0,
+     "failed": 0,
+     "first_failures": [],
+     "mirrors": "AreaTrigger.cpp:717-852 SearchUnitIn* + AreaTriggerShapeInfo::GetMaxSearchRadius",
+     "passed": 400
+    }
+   },
+   "iterations": 400,
+   "probe": "tools/tc_target_at_probe",
+   "seed": 20260922,
+   "status": "ok"
+  }
+ },
+ "provenance": {
+  "command": "python3 targeting.py differential --out ../../docs/research/targeting-corpora/differential.json",
+  "pins": {
+   "data_snapshot": "12.1.0.69497",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "probes": [
+   "tools/tc_target_selector_probe",
+   "tools/tc_target_geom_probe",
+   "tools/tc_target_chain_probe",
+   "tools/tc_target_relation_probe",
+   "tools/tc_target_positivity_probe",
+   "tools/tc_target_at_probe"
+  ],
+  "seed": 20260917,
+  "toolchain": "g++ -std=c++20 -O0 -ffp-contract=off (probe Makefiles)"
+ },
+ "retail_experiments": [
+  {
+   "fidelity": "exact",
+   "id": "RE-G-01",
+   "model_a": "Trinity: one grouped selection, one RandomResize for the group (Spell.cpp:741-788)",
+   "model_b": "independent per-effect selection",
+   "observable": "combat log: SPELL_DAMAGE and SPELL_AURA_APPLIED destination sets per cast",
+   "question": "Do two effects of one spell with identical selectors hit the same random subset?",
+   "setup": "capped area spell with two recipient effects (e.g. damage + debuff) on > cap enemies, repeated casts"
+  },
+  {
+   "fidelity": "approximate",
+   "id": "RE-G-02",
+   "model_a": "Trinity: fails when the current turn's mask found nobody even if an earlier effect found a target",
+   "model_b": "fails only when the whole spell found nobody",
+   "observable": "cast error / cast success event",
+   "question": "Is REQUIRE_ALL_TARGETS evaluated per selection turn?",
+   "setup": "spell with ATTR1_REQUIRE_ALL_TARGETS whose later effect's area is empty"
+  },
+  {
+   "fidelity": "approximate",
+   "id": "RE-G-03",
+   "model_a": "Trinity: m_destTargets[eff] snapshot after each effect (Spell.cpp:799-800)",
+   "model_b": "every effect uses the final destination",
+   "observable": "ground effect / summon positions",
+   "question": "Does each effect keep the destination that existed after its own turn?",
+   "setup": "spell whose later effect moves the destination (dest_dest offset)"
+  }
+ ],
+ "summary": {
+  "cases": 62173,
+  "fail_closed": 5,
+  "failed": 0,
+  "per_probe": {
+   "A_selector": {
+    "cases": 6051,
+    "failed": 0
+   },
+   "B_relation": {
+    "cases": 13380,
+    "failed": 0
+   },
+   "C_geometry": {
+    "cases": 27000,
+    "failed": 0
+   },
+   "D_chain": {
+    "cases": 800,
+    "failed": 0
+   },
+   "G_pipeline": {
+    "cases": 173,
+    "failed": 0
+   },
+   "G_positivity": {
+    "cases": 12369,
+    "failed": 0
+   },
+   "I_areatrigger": {
+    "cases": 2400,
+    "failed": 0
+   }
+  }
+ },
+ "trinity_defects": [
+  {
+   "description": "effect-mask grouping compares CalcRadius(m_caster, A/B) of the lead and each candidate; for TARGET_DEST_{CASTER,TARGET,DEST}_RANDOM the radius is (Max-Min)*sqrt(rand_norm()), so the comparison consumes RNG and compares two random values",
+   "effect_on_recipients": "effects that should share one selection are split (independent searches / caps) and extra rand_norm draws shift later RNG; 12 DIFFICULTY_NONE effects in the 12.1 snapshot (none in current-player reach), e.g. 194687:0-2, 288507:0",
+   "file_line": "src/server/game/Spells/Spell.cpp:772-775 + SpellInfo.cpp:822-827",
+   "id": "TG-G-D01",
+   "oracle_behaviour": "reproduced: pipeline.group_mask calls oracle.calc_radius lazily in consumer order (lead A, other A, then B), consuming fixture rand_norm draws"
+  },
+  {
+   "description": "IsDisabledFor(DISABLE_TYPE_SPELL, id, nullptr, SPELL_DISABLE_LOS) returns true for any row with SPELL_DISABLE_DEPRECATED_SPELL even without the LOS bit",
+   "effect_on_recipients": "deprecated-flagged spells skip every LOS test in CheckEffectTarget (Spell.cpp:8194) and Spell::IsWithinLOS (9261)",
+   "file_line": "src/server/game/Conditions/DisableMgr.cpp:360-363",
+   "id": "TG-G-D02",
+   "oracle_behaviour": "reproduced in oracle._los_disabled (needs the world `disables` table)"
+  }
+ ],
+ "unknowns": [
+  {
+   "build_skew": false,
+   "evidence": "trinity-probe",
+   "id": "TG-G-01",
+   "known": "targeting.positivity ports SpellInfo.cpp:4609-5099; probe-equal for 4831/4836 current-player spells under several load orders; load order is unspecified (boost hashed container, SpellMgr.cpp:48-64, 3031)",
+   "reopen_condition": "fixture states `override.positive`, or a Trinity build fixes the iteration order",
+   "subject": "SpellInfo::IsPositive for 5 current-player spells",
+   "unknown": "IsPositive of 44614 Flurry, 188499 Blade Dance, 190411 Whirlwind, 385059 Odyn's Fury (result depends on whether triggered spells were initialised first) and 111400 Burning Rush (AttributesEx4 correction not applied)",
+   "why_unresolved": "Trinity itself is order dependent for the four; the correction port is outside G"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "world-db-fact",
+   "id": "TG-G-02",
+   "known": "TDB `disables` has 5318 rows, 54 spell rows (sourceType 0)",
+   "reopen_condition": "overlay gains `disables`",
+   "subject": "DisableMgr SPELL_DISABLE_LOS rows",
+   "unknown": "table not in dummy-corpora/trinity-server-overlay.json -> SpellView.los_disabled is None for DB2 views",
+   "why_unresolved": "overlay owned by the lead"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-G-03",
+   "known": "each *new* unique target rolls hit/resist at AddUnitTarget time, interleaved with later selectors' RandomResize / rand_norm draws",
+   "reopen_condition": "a SpellHitResult draw-plan oracle (track D rng.hit_draw_plan) is wired into fixtures",
+   "subject": "SpellHitResult RNG consumption during selection (Spell.cpp:2486)",
+   "unknown": "the number of engine draws per target (depends on hit tables, auras, target type)",
+   "why_unresolved": "hit machinery out of scope (payload/mitigation); fixtures state `hit.draws`"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-G-04",
+   "known": "Spell::SearchTargets visits world then grid containers per cell (Spell.cpp:2163-2192)",
+   "reopen_condition": "never (fixture-stated `visit_order`)",
+   "subject": "map candidate enumeration order",
+   "unknown": "per-cell object order is runtime insertion history (GridRefManager push_front)",
+   "why_unresolved": "no grid model by design"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-G-05",
+   "known": "MovePositionToFirstCollision / GetMapHeight / spell_target_position feed dest selectors (Spell.cpp:1465-1740, 9283-9290)",
+   "reopen_condition": "never (fixture-stated `dest_positions`)",
+   "subject": "world-geometry dependent destinations",
+   "unknown": "the resolved positions",
+   "why_unresolved": "VMAP/MMAP not modelled"
+  }
+ ]
+}

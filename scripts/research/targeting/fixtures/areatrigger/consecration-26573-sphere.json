@@ -1,0 +1,243 @@
+{
+ "build_skew": false,
+ "consumer": "AreaTrigger.cpp:641-714, 732-742, 853-906; GridNotifiers.h:1319; Object.cpp:410; spell_paladin.cpp:445",
+ "discriminates": "3D sphere + target reach + reqAlive=false vs 2D circle / no-reach / alive-only: e_above (7 yd up, reach 1.5) in; e_reach (8.9 yd, reach 1) in; e_ledge (3D 8.54 yd, reach 0) out although a 2D+band model with |dz|<=8 would keep it only if 2D 8.49 < 8 (it would not) -- the sphere is decided by 3D distance; e_dead is an AT unit but gets no debuff (IsValidAttackTarget); p_corpse is removed by the template filter (AllowWhileDead unset)",
+ "effect": 1,
+ "expect": {
+  "at_inside_units": [
+   "caster",
+   "e_in",
+   "e_reach",
+   "e_above",
+   "e_dead"
+  ],
+  "debuff_204242": [
+   "e_in",
+   "e_reach",
+   "e_above"
+  ],
+  "entering_order": [
+   "caster",
+   "e_in",
+   "e_reach",
+   "e_above",
+   "e_dead"
+  ],
+  "note": "204242 is cast per entering unit if caster->IsValidAttackTarget(unit) (script-consumer); damage 81297 is a separate DEST area cast at the AT position (child re-selects)"
+ },
+ "fixture": {
+  "actors": [
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "caster",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     97.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "facts": {
+     "areatrigger": {
+      "caster": "caster",
+      "create_properties": 4488,
+      "inside": [],
+      "override_scale": null
+     }
+    },
+    "id": "at",
+    "kind": "areatrigger",
+    "orientation": 1.0,
+    "pos": [
+     100.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "e_in",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     104.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "e_reach",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     108.9,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "e_above",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     100.0,
+     100.0,
+     17.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 0.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "e_ledge_2d_in_3d_out",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     106.0,
+     106.0,
+     11.0
+    ]
+   },
+   {
+    "alive": false,
+    "charmer": null,
+    "combat_reach": 1.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "e_dead",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     101.0,
+     101.0,
+     10.0
+    ]
+   },
+   {
+    "alive": false,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "death_state": "CORPSE",
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "p_corpse",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     102.0,
+     100.0,
+     10.0
+    ]
+   }
+  ],
+  "caster": "caster",
+  "name": "consecration-26573-sphere",
+  "relations": [
+   {
+    "from": "caster",
+    "to": "e_in",
+    "valid_attack": true
+   },
+   {
+    "from": "caster",
+    "to": "e_reach",
+    "valid_attack": true
+   },
+   {
+    "from": "caster",
+    "to": "e_above",
+    "valid_attack": true
+   },
+   {
+    "from": "caster",
+    "to": "e_ledge_2d_in_3d_out",
+    "valid_attack": true
+   },
+   {
+    "from": "caster",
+    "to": "e_dead",
+    "valid_attack": false
+   },
+   {
+    "from": "caster",
+    "to": "p_corpse",
+    "valid_attack": false
+   },
+   {
+    "from": "caster",
+    "to": "caster",
+    "valid_attack": false
+   }
+  ],
+  "schema": "targeting-fixture/1",
+  "spell": {
+   "id": 0
+  },
+  "visit_order": [
+   "caster",
+   "e_in",
+   "e_reach",
+   "e_above",
+   "e_ledge_2d_in_3d_out",
+   "e_dead",
+   "p_corpse"
+  ]
+ },
+ "schema": "targeting-at-witness/1",
+ "selectors": [
+  "TARGET_DEST_DEST",
+  null
+ ],
+ "shape": "sphere r=8 (create properties 4488, template 9228)",
+ "spell": 26573
+}

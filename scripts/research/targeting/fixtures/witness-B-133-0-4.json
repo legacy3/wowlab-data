@@ -1,0 +1,316 @@
+{
+ "about": "explicit-enemy",
+ "actors": [
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "damage_immune": false,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "immune_to_spell": false,
+    "moving": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 1.0,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": true,
+    "creature_type": 7,
+    "creature_type_flag_can_assist": false,
+    "damage_immune": false,
+    "faction_template": 14,
+    "hit_roll": "SPELL_MISS_NONE",
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "immune_to_spell": false,
+    "is_summon": false,
+    "moving": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "treated_as_raid_unit": false,
+    "unit_flags": []
+   },
+   "id": "boss",
+   "kind": "creature",
+   "orientation": 3.14159,
+   "owner": null,
+   "pos": [
+    30,
+    0,
+    0
+   ]
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "ATTR6_DO_NOT_CHAIN_TO_CROWD_CONTROLLED_TARGETS is implicit-only (CheckTarget implicit=false for explicit): a crowd-controlled explicit target is still a recipient",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "boss"
+   ]
+  }
+ },
+ "explicit": {
+  "unit": "boss"
+ },
+ "faction_templates": {
+  "1": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 12,
+   "faction": 1,
+   "faction_group": 3,
+   "flags": 72,
+   "friend_group": 2,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "14": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 1,
+   "faction": 14,
+   "faction_group": 8,
+   "flags": 0,
+   "friend_group": 0,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "35": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 0,
+   "faction": 31,
+   "faction_group": 0,
+   "flags": 0,
+   "friend_group": 1,
+   "friends": [
+    31,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "7": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 0,
+   "faction": 7,
+   "faction_group": 0,
+   "flags": 0,
+   "friend_group": 0,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "factions": {
+  "1": {
+   "reputation_index": -1
+  },
+  "14": {
+   "reputation_index": -1
+  },
+  "31": {
+   "reputation_index": -1
+  },
+  "7": {
+   "reputation_index": -1
+  }
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": {
+   "flat": 0.0,
+   "pct": 1.0
+  }
+ },
+ "name": "witness-B-133-0-4",
+ "precast": true,
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "can_reflect": false,
+  "difficulty": 0,
+  "id": 133,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_view": {
+  "attributes": [
+   "SPELL_ATTR0_NOT_SHAPESHIFTED",
+   "SPELL_ATTR6_DO_NOT_CHAIN_TO_CROWD_CONTROLLED_TARGETS",
+   "SPELL_ATTR13_ALLOW_CLASS_ABILITY_PROCS"
+  ],
+  "aura_restrictions": {
+   "exclude_target_aura_spell": 0,
+   "exclude_target_aura_state": 0,
+   "exclude_target_aura_type": 0,
+   "target_aura_spell": 0,
+   "target_aura_state": 0,
+   "target_aura_type": 0
+  },
+  "cast_time_ms": 0,
+  "category": 0,
+  "dmg_class": 1,
+  "effects": [
+   {
+    "aura": 0,
+    "effect": 2,
+    "explicit": true,
+    "index": 0
+   }
+  ],
+  "explicit_target_mask": 128,
+  "facing_caster_flags": 1,
+  "family": 3,
+  "has_hit_delay": true,
+  "has_only_damage_effects": true,
+  "id": 133,
+  "is_affecting_area": false,
+  "is_allowing_dead_target": false,
+  "is_next_melee_swing": false,
+  "is_passive": false,
+  "is_positive": false,
+  "los_disabled": false,
+  "mechanic": 0,
+  "notes": [
+   "positivity and cast time stated by the witness author",
+   "los_disabled: world-DB `disables` (targeting-corpora/inputs/disables.json)"
+  ],
+  "range": {
+   "flags": 0,
+   "max": [
+    40.0,
+    40.0
+   ],
+   "min": [
+    0.0,
+    0.0
+   ]
+  },
+  "required_explicit_target_mask": 128,
+  "resurrect": false,
+  "target_creature_type": 0
+ },
+ "witness": {
+  "consumer": "SpellInfo.cpp:2456 / Spell.cpp:1819",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0"
+   ],
+   "recipients": {
+    "0": [
+     "boss"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.spell_other_immunity=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "boss.facts.spell_other_immunity=[]",
+   "modifiers.radius=0 (no spell modifier on the caster)",
+   "modifiers.chain_targets=0 (no spell modifier on the caster)",
+   "modifiers.chain_jump_distance=0 (no spell modifier on the caster)",
+   "modifiers.max_targets=0 (no spell modifier on the caster)",
+   "precast=true (B witnesses describe the client input; InitExplicitTargets + CheckCast run first)"
+  ],
+  "selectors": [
+   6,
+   0
+  ],
+  "spell": 133,
+  "track": "B"
+ }
+}

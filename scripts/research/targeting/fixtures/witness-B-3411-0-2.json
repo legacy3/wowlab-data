@@ -1,0 +1,322 @@
+{
+ "about": "explicit-ally",
+ "actors": [
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "damage_immune": false,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "immune_to_spell": false,
+    "moving": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "auras": [
+    {
+     "caster": "caster",
+     "spell": 65219
+    }
+   ],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "damage_immune": false,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "immune_to_spell": false,
+    "moving": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "id": "ally",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    10,
+    0,
+    0
+   ]
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "ExcludeTargetAuraSpell 65219 is written on hit by spell_gen_trigger_exclude_target_aura_spell (AddAura, spell_generic.cpp:3492); a second cast on the same ally fails TARGET_AURASTATE at cast eligibility -- a script-written aura gating explicit validation",
+ "expect": {
+  "cast_result": "SPELL_FAILED_TARGET_AURASTATE",
+  "recipients": {
+   "0": []
+  }
+ },
+ "explicit": {
+  "unit": "ally"
+ },
+ "faction_templates": {
+  "1": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 12,
+   "faction": 1,
+   "faction_group": 3,
+   "flags": 72,
+   "friend_group": 2,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "14": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 1,
+   "faction": 14,
+   "faction_group": 8,
+   "flags": 0,
+   "friend_group": 0,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "35": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 0,
+   "faction": 31,
+   "faction_group": 0,
+   "flags": 0,
+   "friend_group": 1,
+   "friends": [
+    31,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  "7": {
+   "enemies": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ],
+   "enemy_group": 0,
+   "faction": 7,
+   "faction_group": 0,
+   "flags": 0,
+   "friend_group": 0,
+   "friends": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+   ]
+  }
+ },
+ "factions": {
+  "1": {
+   "reputation_index": -1
+  },
+  "14": {
+   "reputation_index": -1
+  },
+  "31": {
+   "reputation_index": -1
+  },
+  "7": {
+   "reputation_index": -1
+  }
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": {
+   "flat": 0.0,
+   "pct": 1.0
+  }
+ },
+ "name": "witness-B-3411-0-2",
+ "precast": true,
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "can_reflect": false,
+  "difficulty": 0,
+  "id": 3411,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_view": {
+  "attributes": [
+   "SPELL_ATTR0_IS_ABILITY",
+   "SPELL_ATTR0_NOT_SHAPESHIFTED",
+   "SPELL_ATTR0_DO_NOT_SHEATH",
+   "SPELL_ATTR0_NO_IMMUNITIES",
+   "SPELL_ATTR1_NO_THREAT",
+   "SPELL_ATTR1_EXCLUDE_CASTER",
+   "SPELL_ATTR2_ALLOW_LOW_LEVEL_BUFF",
+   "SPELL_ATTR3_ONLY_ON_PLAYER",
+   "SPELL_ATTR6_VEHICLE_IMMUNITY_CATEGORY",
+   "SPELL_ATTR13_ALLOW_CLASS_ABILITY_PROCS",
+   "SPELL_ATTR14_UNK0"
+  ],
+  "aura_restrictions": {
+   "exclude_target_aura_spell": 65219,
+   "exclude_target_aura_state": 0,
+   "exclude_target_aura_type": 0,
+   "target_aura_spell": 0,
+   "target_aura_state": 0,
+   "target_aura_type": 0
+  },
+  "cast_time_ms": 0,
+  "category": 0,
+  "dmg_class": 0,
+  "effects": [
+   {
+    "aura": 0,
+    "effect": 3,
+    "explicit": true,
+    "index": 0
+   }
+  ],
+  "explicit_target_mask": 256,
+  "facing_caster_flags": 0,
+  "family": 4,
+  "has_hit_delay": false,
+  "has_only_damage_effects": false,
+  "id": 3411,
+  "is_affecting_area": false,
+  "is_allowing_dead_target": false,
+  "is_next_melee_swing": false,
+  "is_passive": false,
+  "is_positive": true,
+  "los_disabled": false,
+  "mechanic": 0,
+  "notes": [
+   "positivity and cast time stated by the witness author",
+   "los_disabled: world-DB `disables` (targeting-corpora/inputs/disables.json)"
+  ],
+  "range": {
+   "flags": 0,
+   "max": [
+    25.0,
+    25.0
+   ],
+   "min": [
+    0.0,
+    0.0
+   ]
+  },
+  "required_explicit_target_mask": 256,
+  "resurrect": false,
+  "target_creature_type": 0
+ },
+ "witness": {
+  "consumer": "SpellInfo.cpp:2507",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0"
+   ],
+   "recipients": {
+    "0": []
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.spell_other_immunity=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "ally.facts.spell_other_immunity=[]",
+   "ally.facts.cc_breakable_by_damage=false",
+   "modifiers.radius=0 (no spell modifier on the caster)",
+   "modifiers.chain_targets=0 (no spell modifier on the caster)",
+   "modifiers.chain_jump_distance=0 (no spell modifier on the caster)",
+   "modifiers.max_targets=0 (no spell modifier on the caster)",
+   "precast=true (B witnesses describe the client input; InitExplicitTargets + CheckCast run first)"
+  ],
+  "selectors": [
+   21,
+   0
+  ],
+  "spell": 3411,
+  "track": "B"
+ }
+}

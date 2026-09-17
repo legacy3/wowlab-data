@@ -1,0 +1,312 @@
+{
+ "about": "raid area around caster + separate self effect; merged self entry",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "G1",
+    "raid": true,
+    "subgroup": 0
+   },
+   "id": "p2",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    5,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "G1",
+    "raid": true,
+    "subgroup": 0
+   },
+   "id": "p1",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "tot1",
+   "kind": "totem",
+   "orientation": 0.0,
+   "owner": "p1",
+   "pos": [
+    3,
+    0.0,
+    0.0
+   ],
+   "summoner": "p1"
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "id": "p4",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    6,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "charmer": null,
+   "combat_reach": 1.0,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 1,
+    "faction_template": 1,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "pet3",
+   "kind": "pet",
+   "orientation": 0.0,
+   "owner": "p3",
+   "pos": [
+    7,
+    0.0,
+    0.0
+   ],
+   "summoner": "p3"
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "class": 2,
+    "faction_template": 1,
+    "immune_effects": [],
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": {
+    "id": "G1",
+    "raid": true,
+    "subgroup": 1
+   },
+   "id": "p3",
+   "kind": "player",
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    8,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "caster": "p1",
+ "discriminates": "RAID (same Group) vs PARTY (subgroup): p3 included; pets via one-level owner resolution vs players-only: pet3 included; totem exclusion; ungrouped p4 excluded; caster appears once with mask 0b11 at its area position (not prepended, not duplicated); ATTR3_ONLY_ON_PLAYER removes pets from the searcher mask (pet3 excluded)",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "p2",
+    "p1",
+    "p3"
+   ],
+   "1": [
+    "p1"
+   ]
+  }
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-F-97462-0",
+ "relations": [
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "p2",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "tot1",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "p4",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "pet3",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "friendly": true,
+   "from": "p1",
+   "hostile": false,
+   "to": "p3",
+   "valid_assist": true,
+   "valid_attack": false
+  }
+ ],
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 97462,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "visit_order": [
+  "p2",
+  "p1",
+  "tot1",
+  "p4",
+  "pet3",
+  "p3"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1326-1463, 9357-9367; Unit.cpp:12203; Spell.cpp:2465-2470",
+  "effect": 0,
+  "expectation_corrected": "proposer's list included pet3; 97462 has SPELL_ATTR3_ONLY_ON_PLAYER, so GetSearcherTypeMask (Spell.cpp:2139-2141) restricts the area search to players/corpses: the pet is never enumerated (trinity-consumer; track C area.searcher_type_mask)",
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1"
+   ],
+   "recipients": {
+    "0": [
+     "p2",
+     "p1",
+     "pet3",
+     "p3"
+    ],
+    "1": [
+     "p1"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "p2.facts.spell_other_immunity=[]",
+   "p2.facts.immune_effects=[]",
+   "p2.facts.cc_breakable_by_damage=false",
+   "p1.facts.spell_other_immunity=[]",
+   "p1.facts.immune_effects=[]",
+   "p1.facts.cc_breakable_by_damage=false",
+   "tot1.facts.spell_other_immunity=[]",
+   "tot1.facts.immune_effects=[]",
+   "tot1.facts.cc_breakable_by_damage=false",
+   "tot1.facts.ignore_los_on_me=false",
+   "p4.facts.spell_other_immunity=[]",
+   "p4.facts.immune_effects=[]",
+   "p4.facts.cc_breakable_by_damage=false",
+   "pet3.facts.spell_other_immunity=[]",
+   "pet3.facts.immune_effects=[]",
+   "pet3.facts.cc_breakable_by_damage=false",
+   "pet3.facts.ignore_los_on_me=false",
+   "p3.facts.spell_other_immunity=[]",
+   "p3.facts.immune_effects=[]",
+   "p3.facts.cc_breakable_by_damage=false"
+  ],
+  "selectors": [
+   "TARGET_UNIT_CASTER_AREA_RAID",
+   0
+  ],
+  "spell": 97462,
+  "track": "F"
+ }
+}

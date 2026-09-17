@@ -1,0 +1,146 @@
+{
+ "about": "SPELL_ATTR1_REQUIRE_ALL_TARGETS is checked after each selection turn against that turn's mask only (Spell.cpp:802-820): effect 0 adds the caster, effect 1's enemy area finds nobody -> the cast fails although the unique list is not empty.",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t1",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    30,
+    0,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "caster",
+ "discriminates": "per-turn mask check (fail) vs 'any recipient anywhere' (succeed)",
+ "expect": {
+  "cast_result": "SPELL_FAILED_BAD_IMPLICIT_TARGETS",
+  "unique_targets": [
+   {
+    "id": "caster",
+    "mask": 1
+   }
+  ]
+ },
+ "explicit": {
+  "src": [
+   0,
+   0,
+   0
+  ],
+  "src_orientation": 0.0
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "require-all-targets-per-turn",
+ "relations": [
+  {
+   "from": "caster",
+   "to": "t1",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "caster",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "attributes": [
+   "SPELL_ATTR1_REQUIRE_ALL_TARGETS"
+  ],
+  "attributes_cu": [],
+  "dmg_class": "MAGIC",
+  "effects": [
+   {
+    "aura": "DUMMY",
+    "effect": "APPLY_AURA",
+    "index": 0,
+    "target_a": "TARGET_UNIT_CASTER"
+   },
+   {
+    "effect": "SCHOOL_DAMAGE",
+    "index": 1,
+    "radius_a": {
+     "max": 5,
+     "min": 0,
+     "per_level": 0,
+     "radius": 5
+    },
+    "target_a": "TARGET_UNIT_SRC_AREA_ENEMY"
+   }
+  ],
+  "id": 900005,
+  "is_positive": false,
+  "max_affected_targets": 0,
+  "name": "require-all",
+  "range": {
+   "max": [
+    40,
+    40
+   ],
+   "min": [
+    0,
+    0
+   ]
+  },
+  "script_hooks": [],
+  "synthetic": true,
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "caster",
+  "t1"
+ ]
+}

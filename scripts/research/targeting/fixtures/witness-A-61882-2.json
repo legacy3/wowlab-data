@@ -1,0 +1,217 @@
+{
+ "about": "dest-dest (client ground) + dest-area",
+ "actors": [
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "caster",
+   "kind": "player",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    0.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "e_ground",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    21.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  },
+  {
+   "alive": true,
+   "auras": [],
+   "bounding_radius": 0.389,
+   "charmer": null,
+   "combat_reach": 1.5,
+   "creator": null,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "level": 90,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "group": null,
+   "health": 100,
+   "id": "e_caster",
+   "kind": "creature",
+   "max_health": 100,
+   "orientation": 0.0,
+   "owner": null,
+   "pos": [
+    2.0,
+    0.0,
+    0.0
+   ],
+   "summoner": null
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "area around the client ground dst kept by the DEST request vs CheckDst caster fallback (e_caster)",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [],
+   "1": [
+    "caster"
+   ],
+   "2": [
+    "e_ground"
+   ],
+   "3": [
+    "e_ground"
+   ]
+  }
+ },
+ "explicit": {
+  "dest": [
+   20.0,
+   0.0,
+   0.0
+  ],
+  "unit": null
+ },
+ "los": {
+  "blocked": [],
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0.0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0.0,
+  "range": 0
+ },
+ "name": "witness-A-61882-2",
+ "original_caster": "caster",
+ "relations": [
+  {
+   "friendly": false,
+   "from": "caster",
+   "hostile": true,
+   "to": "e_ground",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "friendly": false,
+   "from": "caster",
+   "hostile": true,
+   "to": "e_caster",
+   "valid_assist": false,
+   "valid_attack": true
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 61882,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "e_ground",
+  "e_caster"
+ ],
+ "witness": {
+  "consumer": "SpellInfo.cpp:4604 (Targets=DEST_LOCATION), Spell.cpp:665-677, 1690-1740, 1368",
+  "effect": 2,
+  "independent_expectation": {
+   "effects": [
+    "0",
+    "1",
+    "2",
+    "3"
+   ],
+   "recipients": {
+    "0": [],
+    "1": [
+     "caster"
+    ],
+    "2": [
+     "e_ground"
+    ],
+    "3": [
+     "e_ground"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.immune_effects=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "e_ground.facts.immune_effects=[]",
+   "e_ground.facts.cc_breakable_by_damage=false",
+   "e_ground.facts.ignore_los_on_me=false",
+   "e_caster.facts.immune_effects=[]",
+   "e_caster.facts.cc_breakable_by_damage=false",
+   "e_caster.facts.ignore_los_on_me=false",
+   "modifiers.range=0 (no spell modifier on the caster)",
+   "modifiers.max_targets=0 (no spell modifier on the caster)"
+  ],
+  "selectors": [
+   87,
+   16
+  ],
+  "spell": 61882,
+  "track": "A"
+ }
+}

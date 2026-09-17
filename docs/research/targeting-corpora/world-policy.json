@@ -1,0 +1,806 @@
+{
+ "consumers": {
+  "cast": "Spell.cpp:5917-5933 (targets [caster, explicit object])",
+  "entry_without_conditions": "Spell.cpp:1120-1180; WorldObjectSpellTargetCheck has no ENTRY case (Spell.cpp:9322-9373)",
+  "implicit_target": "ConditionMgr.cpp:1851-1924 (validity), 1575-1682 (shared lists), Spell.cpp:9392-9395 (per candidate, targets [candidate, caster]), Spell.cpp:2158 (searcher mask)",
+  "linked": {
+   "SPELL_LINK_AURA": "SpellAuras.cpp:1405-1447 (aura application/removal on each target)",
+   "SPELL_LINK_CAST": "Spell.cpp:3949-3960 (Spell::_cast after AfterCast hooks)",
+   "SPELL_LINK_HIT": "Spell.cpp:3353-3364 (per hit unit)",
+   "SPELL_LINK_REMOVE": "SpellAuras.cpp:1419-1428"
+  },
+  "missing_object": "ConditionMgr.cpp:281-287: returns false before NegativeCondition; mLastFailedCondition stays null -> CheckCast CASTER_AURASTATE",
+  "searcher_mask": "ConditionMgr.cpp:983-1019: per ElseGroup AND of condition masks, OR over groups; negative row -> ALL; empty -> ALL",
+  "spellclick": "ConditionMgr.cpp:1187 key {creature, spell}",
+  "target_position": "Spell.cpp:1477-1492, 1157-1172"
+ },
+ "effect_classes": {
+  "190319:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "190319:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "190319:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "190319:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "190319:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "197214:2": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "condition",
+    "entry-without-conditions",
+    "world-db"
+   ],
+   "unknowns": [
+    "TG-E-11"
+   ]
+  },
+  "36554:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "cast-gate",
+    "condition",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "36554:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "cast-gate",
+    "condition",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "36554:2": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "cast-gate",
+    "condition",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "386276:0": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "condition",
+    "entry-without-conditions",
+    "world-db"
+   ],
+   "unknowns": [
+    "TG-E-11"
+   ]
+  },
+  "451125:0": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "condition",
+    "entry-without-conditions",
+    "world-db"
+   ],
+   "unknowns": [
+    "TG-E-11"
+   ]
+  },
+  "451485:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "dest",
+    "spell-target-position",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "5143:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "5143:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "5143:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "5143:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "53563:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "53563:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "53563:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "53563:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "53563:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "53563:5": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "58875:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "58875:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "64382:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "64382:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "73325:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  },
+  "73325:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "linked-spell",
+    "world-db"
+   ],
+   "unknowns": []
+  }
+ },
+ "effect_classes_extended": {
+  "114852:2": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "condition",
+    "entry-without-conditions",
+    "world-db"
+   ],
+   "tier": "script-reach",
+   "unknowns": [
+    "TG-E-11"
+   ]
+  },
+  "152588:0": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "condition",
+    "entry-without-conditions",
+    "world-db"
+   ],
+   "tier": "script-reach",
+   "unknowns": [
+    "TG-E-11"
+   ]
+  },
+  "47482:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "cast-gate",
+    "condition",
+    "world-db"
+   ],
+   "tier": "controlled-unit",
+   "unknowns": []
+  }
+ },
+ "policies": [
+  {
+   "linked": [
+    {
+     "consumer": "SpellAuras.cpp:1419-1428",
+     "linked": -36032,
+     "linked_tier": "reach",
+     "recipient_rule": "on removal (not by death for positive ids): target casts linked spell on itself; negative id: target removes the aura",
+     "trigger": 5143,
+     "type": "SPELL_LINK_REMOVE"
+    }
+   ],
+   "name": "Arcane Missiles",
+   "spell": 5143,
+   "tier": "reach"
+  },
+  {
+   "linked": [
+    {
+     "as_child": true,
+     "consumer": "Spell.cpp:3949-3960 (Spell::_cast after AfterCast hooks)",
+     "linked": 25771,
+     "linked_tier": "script-reach",
+     "recipient_rule": "caster casts the linked spell (TRIGGERED_FULL_MASK) at m_targets unit target, else at itself; negative id: caster removes the aura",
+     "trigger": 66010,
+     "type": "SPELL_LINK_CAST"
+    }
+   ],
+   "name": "Forbearance",
+   "spell": 25771,
+   "tier": "script-reach"
+  },
+  {
+   "name": "Earth Elemental",
+   "serverside_spell": "ignored: DB2 has the spell (SpellMgr.cpp:2887)",
+   "spell": 35773,
+   "tier": "controlled-unit"
+  },
+  {
+   "linked": [
+    {
+     "as_child": true,
+     "consumer": "SpellAuras.cpp:1419-1428",
+     "linked": -36032,
+     "linked_tier": "reach",
+     "recipient_rule": "on removal (not by death for positive ids): target casts linked spell on itself; negative id: target removes the aura",
+     "trigger": 5143,
+     "type": "SPELL_LINK_REMOVE"
+    }
+   ],
+   "name": "Arcane Charge",
+   "spell": 36032,
+   "tier": "reach"
+  },
+  {
+   "cast_conditions": {
+    "class": "cast-gate",
+    "consumer": "Spell.cpp:5917-5933 (targets [caster, explicit object])",
+    "rows": [
+     {
+      "comment": "Shadowstep - not using Shadowstep while rooted",
+      "else_group": 0,
+      "error_type": 103,
+      "negative": 1,
+      "script": "",
+      "target": 0,
+      "type": 21,
+      "type_name": "UNIT_STATE",
+      "value1": 1024,
+      "value1_name": "UNIT_STATE_ROOT",
+      "value2": 0,
+      "value3": 0
+     }
+    ],
+    "scope": "character"
+   },
+   "name": "Shadowstep",
+   "spell": 36554,
+   "tier": "reach"
+  },
+  {
+   "cast_conditions": {
+    "class": "cast-gate",
+    "consumer": "Spell.cpp:5917-5933 (targets [caster, explicit object])",
+    "rows": [
+     {
+      "comment": "Ghoul Leap - not using Ghoul Leap while rooted",
+      "else_group": 0,
+      "error_type": 103,
+      "negative": 1,
+      "script": "",
+      "target": 0,
+      "type": 21,
+      "type_name": "UNIT_STATE",
+      "value1": 1024,
+      "value1_name": "UNIT_STATE_ROOT",
+      "value2": 0,
+      "value3": 0
+     }
+    ],
+    "scope": "character"
+   },
+   "name": "Leap",
+   "spell": 47482,
+   "tier": "controlled-unit"
+  },
+  {
+   "linked": [
+    {
+     "consumer": "SpellAuras.cpp:1405-1447 (aura application/removal on each target)",
+     "linked": 53651,
+     "linked_tier": "reach",
+     "recipient_rule": "apply: caster->AddAura(linked, target) (negative: immunity to that spell); removal: target removes the linked aura by caster",
+     "trigger": 53563,
+     "type": "SPELL_LINK_AURA"
+    }
+   ],
+   "name": "Beacon of Light",
+   "spell": 53563,
+   "tier": "reach"
+  },
+  {
+   "linked": [
+    {
+     "as_child": true,
+     "consumer": "SpellAuras.cpp:1405-1447 (aura application/removal on each target)",
+     "linked": 53651,
+     "linked_tier": "reach",
+     "recipient_rule": "apply: caster->AddAura(linked, target) (negative: immunity to that spell); removal: target removes the linked aura by caster",
+     "trigger": 53563,
+     "type": "SPELL_LINK_AURA"
+    }
+   ],
+   "name": "Light's Beacon",
+   "spell": 53651,
+   "tier": "reach"
+  },
+  {
+   "linked": [
+    {
+     "as_child": true,
+     "consumer": "Spell.cpp:3949-3960 (Spell::_cast after AfterCast hooks)",
+     "linked": 55095,
+     "linked_tier": "script-reach",
+     "recipient_rule": "caster casts the linked spell (TRIGGERED_FULL_MASK) at m_targets unit target, else at itself; negative id: caster removes the aura",
+     "trigger": 45524,
+     "type": "SPELL_LINK_CAST"
+    }
+   ],
+   "name": "Frost Fever",
+   "spell": 55095,
+   "tier": "script-reach"
+  },
+  {
+   "linked": [
+    {
+     "consumer": "Spell.cpp:3353-3364 (per hit unit)",
+     "linked": 58876,
+     "linked_tier": "reach",
+     "recipient_rule": "each hit unit casts the linked spell on ITSELF (original caster = spell caster); negative id: hit unit removes the aura",
+     "trigger": 58875,
+     "type": "SPELL_LINK_HIT"
+    }
+   ],
+   "name": "Spirit Walk",
+   "spell": 58875,
+   "tier": "reach"
+  },
+  {
+   "linked": [
+    {
+     "as_child": true,
+     "consumer": "Spell.cpp:3353-3364 (per hit unit)",
+     "linked": 58876,
+     "linked_tier": "reach",
+     "recipient_rule": "each hit unit casts the linked spell on ITSELF (original caster = spell caster); negative id: hit unit removes the aura",
+     "trigger": 58875,
+     "type": "SPELL_LINK_HIT"
+    }
+   ],
+   "name": "Spirit Walk",
+   "spell": 58876,
+   "tier": "reach"
+  },
+  {
+   "linked": [
+    {
+     "as_child": true,
+     "consumer": "Spell.cpp:3949-3960 (Spell::_cast after AfterCast hooks)",
+     "linked": 64380,
+     "linked_tier": "reach",
+     "recipient_rule": "caster casts the linked spell (TRIGGERED_FULL_MASK) at m_targets unit target, else at itself; negative id: caster removes the aura",
+     "trigger": 64382,
+     "type": "SPELL_LINK_CAST"
+    }
+   ],
+   "name": "Shattering Throw",
+   "spell": 64380,
+   "tier": "reach"
+  },
+  {
+   "linked": [
+    {
+     "consumer": "Spell.cpp:3949-3960 (Spell::_cast after AfterCast hooks)",
+     "linked": 64380,
+     "linked_tier": "reach",
+     "recipient_rule": "caster casts the linked spell (TRIGGERED_FULL_MASK) at m_targets unit target, else at itself; negative id: caster removes the aura",
+     "trigger": 64382,
+     "type": "SPELL_LINK_CAST"
+    }
+   ],
+   "name": "Shattering Throw",
+   "spell": 64382,
+   "tier": "reach"
+  },
+  {
+   "linked": [
+    {
+     "consumer": "Spell.cpp:3949-3960 (Spell::_cast after AfterCast hooks)",
+     "linked": 92833,
+     "linked_tier": null,
+     "recipient_rule": "caster casts the linked spell (TRIGGERED_FULL_MASK) at m_targets unit target, else at itself; negative id: caster removes the aura",
+     "trigger": 73325,
+     "type": "SPELL_LINK_CAST"
+    }
+   ],
+   "name": "Leap of Faith",
+   "spell": 73325,
+   "tier": "reach"
+  },
+  {
+   "name": "Holy Prism",
+   "spell": 114852,
+   "tier": "script-reach",
+   "world_selectors": [
+    {
+     "category": "AREA",
+     "conditions": false,
+     "effect": 2,
+     "policy": "no conditions: TARGET_CHECK_ENTRY has no case in WorldObjectSpellTargetCheck (Spell.cpp:9322) -> every object of the selector's type passing CheckTarget is a candidate",
+     "selector": 8,
+     "slot": "B"
+    }
+   ]
+  },
+  {
+   "name": "Black Energy Hole",
+   "spell": 152588,
+   "tier": "script-reach",
+   "world_selectors": [
+    {
+     "category": "NEARBY",
+     "conditions": false,
+     "effect": 0,
+     "policy": "no conditions: 'emergency case' (Spell.cpp:1120) -> no entry filter; nearest object passing CheckTarget within range (WorldObjectLastSearcher); nothing found -> cast fails BAD_IMPLICIT_TARGETS (Spell.cpp:1196-1201)",
+     "selector": 38,
+     "slot": "A"
+    }
+   ]
+  },
+  {
+   "linked": [
+    {
+     "consumer": "SpellAuras.cpp:1419-1428",
+     "linked": -383637,
+     "linked_tier": "reach",
+     "recipient_rule": "on removal (not by death for positive ids): target casts linked spell on itself; negative id: target removes the aura",
+     "trigger": 190319,
+     "type": "SPELL_LINK_REMOVE"
+    }
+   ],
+   "name": "Combustion",
+   "spell": 190319,
+   "tier": "reach"
+  },
+  {
+   "name": "Sundering",
+   "spell": 197214,
+   "tier": "reach",
+   "world_selectors": [
+    {
+     "category": "NEARBY",
+     "conditions": false,
+     "effect": 2,
+     "policy": "no conditions: 'emergency case' (Spell.cpp:1120) -> no entry filter; nearest object passing CheckTarget within range (WorldObjectLastSearcher); nothing found -> cast fails BAD_IMPLICIT_TARGETS (Spell.cpp:1196-1201)",
+     "selector": 107,
+     "slot": "B"
+    }
+   ]
+  },
+  {
+   "linked": [
+    {
+     "as_child": true,
+     "consumer": "SpellAuras.cpp:1419-1428",
+     "linked": -383637,
+     "linked_tier": "reach",
+     "recipient_rule": "on removal (not by death for positive ids): target casts linked spell on itself; negative id: target removes the aura",
+     "trigger": 190319,
+     "type": "SPELL_LINK_REMOVE"
+    }
+   ],
+   "name": "Fiery Rush",
+   "spell": 383637,
+   "tier": "reach"
+  },
+  {
+   "name": "Bonedust Brew",
+   "spell": 386276,
+   "tier": "reach",
+   "world_selectors": [
+    {
+     "category": "AREA",
+     "conditions": false,
+     "effect": 0,
+     "policy": "no conditions: TARGET_CHECK_ENTRY has no case in WorldObjectSpellTargetCheck (Spell.cpp:9322) -> every object of the selector's type passing CheckTarget is a candidate",
+     "selector": 8,
+     "slot": "A"
+    }
+   ]
+  },
+  {
+   "name": "Lightning Bolt",
+   "spell": 451125,
+   "tier": "reach",
+   "world_selectors": [
+    {
+     "category": "CONE",
+     "conditions": false,
+     "effect": 0,
+     "policy": "no conditions: TARGET_CHECK_ENTRY has no case in WorldObjectSpellTargetCheck (Spell.cpp:9322) -> every object of the selector's type passing CheckTarget is a candidate",
+     "selector": 60,
+     "slot": "A"
+    }
+   ]
+  },
+  {
+   "name": "Brawler's Intensity",
+   "spell": 451485,
+   "tier": "reach",
+   "world_selectors": [
+    {
+     "effect": 1,
+     "policy": "no spell_target_position row: dest = explicit object target position if any, else caster (Spell.cpp:1487-1491)",
+     "selector": "TARGET_DEST_DB",
+     "slot": "A",
+     "spell_target_position_rows": 0
+    }
+   ]
+  }
+ ],
+ "provenance": {
+  "command": "python3 targeting.py world-policy --out docs/research/targeting-corpora/world-policy.json",
+  "evidence": [
+   "world-db-fact",
+   "trinity-consumer"
+  ],
+  "pins": {
+   "data_snapshot": "12.1.0.69497",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "scope": "targeting.adapters.compute_tiers (reach + controlled-unit + script-reach)",
+  "world_database": "docs/research/dummy-corpora/trinity-server-overlay.json"
+ },
+ "retail_experiments": [
+  {
+   "fidelity": "exact",
+   "id": "RX-E-10",
+   "model_a": "Trinity: condition UNIT_STATE_ROOT negated -> CASTER_AURASTATE",
+   "model_b": "castable while rooted",
+   "observable": "UI error / cast success",
+   "question": "Can Shadowstep be cast while rooted?",
+   "setup": "root the rogue (e.g. Frost Nova) and cast Shadowstep on an enemy"
+  },
+  {
+   "fidelity": "exact",
+   "id": "RX-E-11",
+   "model_a": "Trinity: any unit passing CheckTarget (no entry conditions)",
+   "model_b": "a specific creature entry only",
+   "observable": "combat log recipients of 386276",
+   "question": "Which units can Bonedust Brew (386276 effect 0, TARGET_UNIT_DEST_AREA_ENTRY) hit?",
+   "setup": "cast among enemies, allies and pets"
+  }
+ ],
+ "totals": {
+  "by_tier": {
+   "controlled-unit": 2,
+   "reach": 16,
+   "script-reach": 4
+  },
+  "cast_condition_spells_in_scope": 2,
+  "cast_condition_types_in_scope": {
+   "21": 2
+  },
+  "db_selector_effects_in_scope": 1,
+  "dummy_conditions_spellclick_false_positives": [
+   46598,
+   408907
+  ],
+  "effect_classes": 28,
+  "effect_classes_extended": 3,
+  "entry_selector_effects_in_scope": 5,
+  "entry_selector_effects_without_conditions": 5,
+  "evaluator_supported_types": {
+   "0": "NONE",
+   "21": "UNIT_STATE"
+  },
+  "implicit_target_condition_rows_all_spells": 3282,
+  "implicit_target_condition_spells_in_scope": 0,
+  "implicit_target_condition_types_all_spells": {
+   "-32906": 5,
+   "-4": 2,
+   "1": 36,
+   "27": 3,
+   "29": 19,
+   "30": 1,
+   "31": 2970,
+   "32": 26,
+   "33": 22,
+   "35": 9,
+   "36": 50,
+   "51": 116,
+   "58": 20,
+   "8": 2,
+   "9": 1
+  },
+  "implicit_target_condition_types_in_scope": {},
+  "linked_rows_touching_scope": 13,
+  "scoped_spells": 5322,
+  "serverside_rows_in_scope": 1,
+  "spell_area_spells_in_scope": 0,
+  "spell_target_position_spells_in_scope": 0,
+  "spells_with_world_policy": 22
+ },
+ "trinity_defects": [
+  {
+   "description": "ErrorType 103 was SPELL_FAILED_ROOTED in the 3.3.5 enum; in the pinned enum 103 is SPELL_FAILED_NO_ENDURANCE (SharedDefines.h:1812; ROOTED is 124 at :1833)",
+   "effect_on_recipients": "none (the cast is still rejected); the client receives the wrong error",
+   "file_line": "world DB conditions (SourceType 17, SourceEntry 36554 / 47482, ErrorType 103)",
+   "id": "TD-E-12",
+   "oracle_behaviour": "report SPELL_FAILED_NO_ENDURANCE, mark defect"
+  },
+  {
+   "description": "current-player TARGET_CHECK_ENTRY selectors have no implicit-target conditions in the pinned world DB; Trinity falls back to an unfiltered search",
+   "effect_on_recipients": "any unit (area/cone) or the nearest object (nearby dest) instead of a specific entry",
+   "file_line": "src/server/game/Spells/Spell.cpp:1120-1180",
+   "id": "TD-E-10",
+   "oracle_behaviour": "reproduce the unfiltered search; mark defect"
+  },
+  {
+   "description": "research-tool defect, not Trinity: source 18 keyed by SourceGroup as if it were the spell (Trinity key: SourceGroup = creature entry, ConditionMgr.cpp:1187); meets() negates a missing-object result (Trinity returns false before negation, ConditionMgr.cpp:281-287)",
+   "effect_on_recipients": "dummy-corpora/conditions.json player SPELL_CLICK_EVENT lists 46598/408907 (creature ids 31884/207684 collide with player SpellIDs)",
+   "file_line": "scripts/research/dummy_semantics/conditions.py (Conditions.census / rows_for_spell)",
+   "id": "TD-E-11",
+   "oracle_behaviour": "targeting.world uses the Trinity key and missing-object rule"
+  }
+ ],
+ "unknowns": [
+  {
+   "build_skew": "n/a",
+   "evidence": "world-db-fact",
+   "id": "TG-E-10",
+   "known": "the overlay keeps only CONDITION_AURA reference rows",
+   "reopen_condition": "a current-player row references a list",
+   "subject": "reference conditions",
+   "unknown": "other reference lists",
+   "why_unresolved": "tools/tdb_server_overlay.py filter"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-E-11",
+   "known": "Trinity applies no entry filter (emergency case)",
+   "reopen_condition": "TDB adds source-13 rows or a sniff",
+   "subject": "TARGET_CHECK_ENTRY effects without conditions (in scope: 386276:0, 451125:0, 197214:2, 114852:2, 152588:0)",
+   "unknown": "which creature entries Retail restricts these selectors to",
+   "why_unresolved": "no world-db rows; client data has no entry list"
+  }
+ ]
+}

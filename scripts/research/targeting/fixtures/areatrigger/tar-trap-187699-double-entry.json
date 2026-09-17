@@ -1,0 +1,132 @@
+{
+ "build_skew": false,
+ "consumer": "spell_hunter.cpp:1351-1360; AreaTrigger.cpp:853-906; Object.cpp:335; Map.cpp:2580",
+ "defect": "TG-I-D02",
+ "discriminates": "Trinity defect TG-I-D02 (one activation per hostile entering on the same tick) vs single activation",
+ "effect": 0,
+ "expect": {
+  "at_inside_units": [
+   "e1",
+   "e2"
+  ],
+  "casts_187700": 2,
+  "entering_order": [
+   "e1",
+   "e2"
+  ]
+ },
+ "fixture": {
+  "actors": [
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "caster",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     80.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "facts": {
+     "areatrigger": {
+      "caster": "caster",
+      "create_properties": 4435,
+      "inside": [],
+      "override_scale": null
+     }
+    },
+    "id": "at",
+    "kind": "areatrigger",
+    "orientation": 1.0,
+    "pos": [
+     100.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "e1",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     100.5,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "e2",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     99.5,
+     100.0,
+     10.0
+    ]
+   }
+  ],
+  "caster": "caster",
+  "name": "tar-trap-187699-double-entry",
+  "relations": [
+   {
+    "from": "caster",
+    "to": "e1",
+    "valid_attack": true
+   },
+   {
+    "from": "caster",
+    "to": "e2",
+    "valid_attack": true
+   },
+   {
+    "from": "caster",
+    "to": "caster",
+    "valid_attack": false
+   }
+  ],
+  "schema": "targeting-fixture/1",
+  "spell": {
+   "id": 0
+  },
+  "visit_order": [
+   "caster",
+   "e1",
+   "e2"
+  ]
+ },
+ "schema": "targeting-at-witness/1",
+ "selectors": [
+  "TARGET_DEST_DEST",
+  null
+ ],
+ "shape": "cylinder r=3 h=4 (create properties 4435)",
+ "spell": 187699
+}

@@ -1,0 +1,2330 @@
+{
+ "census": {
+  "cap_rule_effects": {
+   "no-capped-selector": 69,
+   "random-resize": 34
+  },
+  "capped_effects": 103,
+  "capped_effects_by_category": {
+   "AREA": 30,
+   "CONE": 2,
+   "OTHER": 67
+  },
+  "capped_spells": {
+   "10326": 6,
+   "107570": 3,
+   "114923": 1,
+   "115078": 1,
+   "118699": 1,
+   "1232285": 1,
+   "1240996": 1,
+   "1259790": 1,
+   "1263566": 1,
+   "1286247": 20,
+   "1291636": 5,
+   "157982": 60,
+   "196608": 2,
+   "204021": 1,
+   "207317": 20,
+   "217832": 1,
+   "278350": 8,
+   "33763": 1,
+   "360806": 1,
+   "360827": 1,
+   "369459": 1,
+   "374227": 5,
+   "378286": 5,
+   "384391": 2,
+   "385059": 255,
+   "385060": 255,
+   "385061": 255,
+   "385062": 255,
+   "391191": 3,
+   "395152": 30,
+   "409311": 1,
+   "412710": 1,
+   "413984": 1,
+   "434763": 1,
+   "451125": 1,
+   "452701": 2,
+   "474750": 1,
+   "48181": 1,
+   "50286": 20,
+   "50622": 255,
+   "5484": 5,
+   "55090": 5,
+   "64844": 60,
+   "72734": 10,
+   "76808": 250,
+   "85256": 255,
+   "95738": 255
+  },
+  "corrections": [
+   {
+    "build_skew": [],
+    "line": 3649,
+    "member": "MaxAffectedTargets",
+    "spells": [
+     53385
+    ],
+    "value": "4"
+   },
+   {
+    "build_skew": [],
+    "line": 5133,
+    "member": "TargetB",
+    "spells": [
+     197214
+    ],
+    "value": "SpellImplicitTargetInfo()"
+   }
+  ],
+  "db2_max_targets": {
+   "capped_without_capable_selector": 24,
+   "on_selector_spells": 23,
+   "spells": 47,
+   "values": {
+    "1": 20,
+    "2": 3,
+    "3": 2,
+    "5": 5,
+    "6": 1,
+    "8": 1,
+    "10": 1,
+    "20": 3,
+    "30": 1,
+    "60": 2,
+    "250": 1,
+    "255": 7
+   }
+  },
+  "effects_by_category": {
+   "AREA": 287,
+   "CONE": 66,
+   "NEARBY": 1,
+   "OTHER": 10400
+  },
+  "grouped_effect_sets_sharing_one_cap_draw": 24,
+  "per_spec_capped_selector_spells": {
+   "62": 0,
+   "63": 0,
+   "64": 0,
+   "65": 0,
+   "66": 1,
+   "70": 0,
+   "71": 5,
+   "72": 8,
+   "73": 3,
+   "102": 2,
+   "103": 1,
+   "104": 1,
+   "105": 2,
+   "250": 1,
+   "251": 0,
+   "252": 1,
+   "253": 0,
+   "254": 0,
+   "255": 0,
+   "256": 0,
+   "257": 1,
+   "258": 0,
+   "259": 0,
+   "260": 0,
+   "261": 0,
+   "262": 0,
+   "263": 0,
+   "264": 0,
+   "265": 2,
+   "266": 1,
+   "267": 1,
+   "268": 1,
+   "269": 1,
+   "270": 1,
+   "577": 0,
+   "581": 0,
+   "1467": 1,
+   "1468": 2,
+   "1473": 4,
+   "1480": 0
+  },
+  "per_spec_capped_spells": {
+   "102": 3,
+   "103": 2,
+   "104": 2,
+   "105": 5,
+   "1467": 3,
+   "1468": 4,
+   "1473": 8,
+   "1480": 1,
+   "250": 1,
+   "251": 0,
+   "252": 3,
+   "253": 0,
+   "254": 0,
+   "255": 0,
+   "256": 1,
+   "257": 2,
+   "258": 1,
+   "259": 0,
+   "260": 0,
+   "261": 1,
+   "262": 0,
+   "263": 0,
+   "264": 0,
+   "265": 5,
+   "266": 2,
+   "267": 2,
+   "268": 4,
+   "269": 4,
+   "270": 4,
+   "577": 2,
+   "581": 2,
+   "62": 1,
+   "63": 0,
+   "64": 1,
+   "65": 1,
+   "66": 2,
+   "70": 3,
+   "71": 5,
+   "72": 9,
+   "73": 3
+  },
+  "script_sites": [
+   {
+    "file_line": "src/server/scripts/Spells/spell_azerite.cpp:216",
+    "text": "Trinity::Containers::RandomResize(copy, [&](WorldObject* target)",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_azerite.cpp:228",
+    "text": "WorldObject* target = Trinity::Containers::SelectRandomContainerElement(targets);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_dh.cpp:1000",
+    "text": "Trinity::Containers::SelectRandomContainerElement(std::array{ SPELL_DH_SHATTERED_SOUL_LESSER_RIGHT, SPELL_DH_SHATTERED_SOUL_LESSER_LEFT }),",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_dh.cpp:1082",
+    "text": "source->CastSpell(dh, Trinity::Containers::SelectRandomContainerElement(spells), TRIGGERED_DONT_REPORT_CAST_ERROR);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_dh.cpp:2145",
+    "text": "soulFragments.resize(maxTargets);",
+    "token": "resize("
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_dh.cpp:2345",
+    "text": "_damagePerSecond.resize(seconds->GetAmountAsInt());",
+    "token": "resize("
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_dk.cpp:271",
+    "text": "GetCaster()->CastSpell(GetCaster(), Trinity::Containers::SelectRandomContainerElement(ArmyTransforms), true);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:772",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 3, true, GetCaster());",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:1063",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true, caster);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:1619",
+    "text": "rejuvCaster->CastSpell(Trinity::Containers::SelectRandomContainerElement(targetList), SPELL_DRUID_REJUVENATION, TRIGGERED_IGNORE_GCD | TRIGGERED_IGNORE_POWER_CO",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:1920",
+    "text": "Trinity::Containers::RandomResize(targetList, maxTargets);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:2202",
+    "text": "Trinity::Containers::RandomResize(targets, procs);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:2274",
+    "text": "Trinity::Containers::RandomResize(targets, 2);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:2544",
+    "text": "Unit* target = Trinity::Containers::SelectRandomContainerElement(tempTargets);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:3031",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true, caster);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_druid.cpp:3105",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_evoker.cpp:100",
+    "text": "Trinity::Containers::RandomResize(targets, GetEffectInfo(EFFECT_0).CalcValueAsInt(GetCaster()) - 1);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_evoker.cpp:311",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_generic.cpp:3099",
+    "text": "targets.resize(maxTargets);",
+    "token": "resize("
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_generic.cpp:3290",
+    "text": "GetCaster()->HandleEmoteCommand(Trinity::Containers::SelectRandomContainerElement(EmoteArray));",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_generic.cpp:5023",
+    "text": "uint32 spellId = Trinity::Containers::SelectRandomContainerElement(AncestralCallBuffs);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_generic.cpp:5479",
+    "text": "Trinity::Containers::RandomResize(targets, 1);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_item.cpp:390",
+    "text": "uint32 spellId = Trinity::Containers::SelectRandomContainerElement(triggeredSpells[caster->GetClass()]);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_item.cpp:631",
+    "text": "uint32 spellId = Trinity::Containers::SelectRandomContainerElement(randomSpells);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_item.cpp:1125",
+    "text": "caster->CastSpell(caster, Trinity::Containers::SelectRandomContainerElement(possibleSpells), true);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_item.cpp:1489",
+    "text": "GetCaster()->CastSpell(GetCaster(), Trinity::Containers::SelectRandomContainerElement(CreateFortuneSpells), true);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_item.cpp:2394",
+    "text": "uint32 spellId = Trinity::Containers::SelectRandomContainerElement(WormholeTargetLocations);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_item.cpp:3625",
+    "text": "Trinity::Containers::RandomResize(targets, 1);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_item.cpp:4036",
+    "text": "uint32 chosenElixir = Trinity::Containers::SelectRandomContainerElement(availableElixirs);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_item.cpp:4097",
+    "text": "uint32 chosenElixir = Trinity::Containers::SelectRandomContainerElement(availableElixirs);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_monk.cpp:101",
+    "text": ".SpellValueOverrides = { { SPELLVALUE_MAX_TARGETS, burstOfLife->GetAmountAsInt() } }",
+    "token": "SPELLVALUE_MAX_TARGETS"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_monk.cpp:116",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, GetSpellValue()->MaxAffectedTargets, true, GetExplTargetUnit());",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_paladin.cpp:906",
+    "text": "uint32 const maxTargets = GetSpellInfo()->MaxAffectedTargets;",
+    "token": "MaxAffectedTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_paladin.cpp:911",
+    "text": "targets.resize(maxTargets);",
+    "token": "resize("
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_paladin.cpp:1137",
+    "text": "targets.resize(maxTargets);",
+    "token": "resize("
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_paladin.cpp:1140",
+    "text": "Trinity::Containers::RandomResize(targets, maxTargets);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:954",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:1116",
+    "text": "{ SPELLVALUE_MAX_TARGETS, GetEffectInfo(EFFECT_1).CalcValueAsInt(caster) }",
+    "token": "SPELLVALUE_MAX_TARGETS"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:1595",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:1918",
+    "text": "target = Trinity::Containers::SelectRandomContainerElement(targets);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:1965",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:3766",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:3868",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:4062",
+    "text": "targets.resize(spreadCount);",
+    "token": "resize("
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:5040",
+    "text": "GetTarget()->CastSpell(Trinity::Containers::SelectRandomContainerElement(enemies), SPELL_PRIEST_ULTIMATE_PENITENCE_DAMAGE, TRIGGERED_IGNORE_CAST_IN_PROGRESS | T",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:5398",
+    "text": "if (targets.size() <= GetSpellValue()->MaxAffectedTargets)",
+    "token": "MaxAffectedTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:5419",
+    "text": "while (targets.size() > GetSpellValue()->MaxAffectedTargets && getVampiricTouch(targets.back()) != nullptr)",
+    "token": "MaxAffectedTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_priest.cpp:5422",
+    "text": "Trinity::Containers::RandomResize(targets, GetSpellValue()->MaxAffectedTargets);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_rogue.cpp:668",
+    "text": "ObjectGuid guid = Trinity::Containers::SelectRandomContainerElement(_targets);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_shaman.cpp:304",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 3, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_shaman.cpp:779",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 6, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_shaman.cpp:1069",
+    "text": "return Trinity::Containers::SelectRandomContainerElement(BuffSpells);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_shaman.cpp:1418",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 6, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_shaman.cpp:1432",
+    "text": "Trinity::SelectRandomInjuredTargets(targets, 1, true);",
+    "token": "SelectRandomInjuredTargets"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_shaman.cpp:1940",
+    "text": "WorldObject* selected = Trinity::Containers::SelectRandomContainerElement(targets);",
+    "token": "SelectRandomContainerElement"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_shaman.cpp:2389",
+    "text": "Trinity::Containers::RandomResize(targets, Trinity::UnitAuraCheck(false, SPELL_SHAMAN_FLAME_SHOCK, GetCaster()->GetGUID()), 1);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Spells/spell_warlock.cpp:1140",
+    "text": "Trinity::Containers::RandomResize(targets, 1);",
+    "token": "RandomResize"
+   },
+   {
+    "file_line": "src/server/scripts/Pet/pet_hunter.cpp:97",
+    "text": "Unit* target = Trinity::Containers::SelectRandomContainerElement(targets);",
+    "token": "SelectRandomContainerElement"
+   }
+  ],
+  "spellmod_max_target_edges": [
+   {
+    "creates_cap": false,
+    "kind": "flat",
+    "mod_effect": 3,
+    "mod_spell": 1270255,
+    "multiplicity": 1,
+    "target_spell": 5484,
+    "value": 5.0
+   }
+  ],
+  "spellmod_sources": [
+   {
+    "affects_selector_spells": 0,
+    "aura": "label_flat",
+    "class_mask": 0,
+    "effect": 4,
+    "family": 10,
+    "label": 2747,
+    "op": 6,
+    "spell": 31821,
+    "value": 20.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 85070591730234615865843651857942052864,
+    "effect": 5,
+    "family": 15,
+    "label": null,
+    "op": 6,
+    "spell": 51271,
+    "value": 150.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 8,
+    "effect": 3,
+    "family": 53,
+    "label": null,
+    "op": 6,
+    "spell": 132578,
+    "value": 0.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "pct",
+    "class_mask": 664624139097259762287115503765815296,
+    "effect": 2,
+    "family": 9,
+    "label": null,
+    "op": 6,
+    "spell": 193468,
+    "value": 0.0
+   },
+   {
+    "affects_selector_spells": 6,
+    "aura": "flat",
+    "class_mask": 314320713234911574244720776,
+    "effect": 2,
+    "family": 7,
+    "label": null,
+    "op": 6,
+    "spell": 197524,
+    "value": 5.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "label_flat",
+    "class_mask": 0,
+    "effect": 6,
+    "family": 7,
+    "label": 2595,
+    "op": 6,
+    "spell": 197524,
+    "value": 0.0
+   },
+   {
+    "affects_selector_spells": 2,
+    "aura": "pct",
+    "class_mask": 128,
+    "effect": 0,
+    "family": 4,
+    "label": null,
+    "op": 6,
+    "spell": 203201,
+    "value": 50.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 33554432,
+    "effect": 2,
+    "family": 10,
+    "label": null,
+    "op": 6,
+    "spell": 204054,
+    "value": 25.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 2199023255552,
+    "effect": 0,
+    "family": 53,
+    "label": null,
+    "op": 6,
+    "spell": 264348,
+    "value": 4.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "flat",
+    "class_mask": 17592186044416,
+    "effect": 1,
+    "family": 5,
+    "label": null,
+    "op": 6,
+    "spell": 264874,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "flat",
+    "class_mask": 140737488355328,
+    "effect": 2,
+    "family": 4,
+    "label": null,
+    "op": 6,
+    "spell": 275339,
+    "value": 6.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "pct",
+    "class_mask": 77371252455336267181195264,
+    "effect": 0,
+    "family": 7,
+    "label": null,
+    "op": 6,
+    "spell": 372943,
+    "value": 25.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 154742504910672534496608256,
+    "effect": 0,
+    "family": 7,
+    "label": null,
+    "op": 6,
+    "spell": 377835,
+    "value": 30.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "flat",
+    "class_mask": 1125899906842624,
+    "effect": 2,
+    "family": 8,
+    "label": null,
+    "op": 6,
+    "spell": 381631,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "flat",
+    "class_mask": 174085318024506609747623936,
+    "effect": 0,
+    "family": 11,
+    "label": null,
+    "op": 6,
+    "spell": 383222,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "label_flat",
+    "class_mask": 0,
+    "effect": 1,
+    "family": 11,
+    "label": 2676,
+    "op": 6,
+    "spell": 383222,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "label_flat",
+    "class_mask": 0,
+    "effect": 3,
+    "family": 11,
+    "label": 0,
+    "op": 6,
+    "spell": 383222,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "flat",
+    "class_mask": 131072,
+    "effect": 2,
+    "family": 4,
+    "label": null,
+    "op": 6,
+    "spell": 385840,
+    "value": 5.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 9223372036854776064,
+    "effect": 0,
+    "family": 53,
+    "label": null,
+    "op": 6,
+    "spell": 388846,
+    "value": 15.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 9223372036854776064,
+    "effect": 1,
+    "family": 53,
+    "label": null,
+    "op": 6,
+    "spell": 388848,
+    "value": 15.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 8606711808,
+    "effect": 0,
+    "family": 107,
+    "label": null,
+    "op": 6,
+    "spell": 389715,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 4835703278458516698824704,
+    "effect": 0,
+    "family": 53,
+    "label": null,
+    "op": 6,
+    "spell": 394093,
+    "value": 50.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 72057594037927936,
+    "effect": 0,
+    "family": 7,
+    "label": null,
+    "op": 6,
+    "spell": 400142,
+    "value": 20.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "pct",
+    "class_mask": 18446744078004518912,
+    "effect": 0,
+    "family": 224,
+    "label": null,
+    "op": 6,
+    "spell": 405659,
+    "value": 25.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 9444732965739290427392,
+    "effect": 6,
+    "family": 224,
+    "label": null,
+    "op": 6,
+    "spell": 406732,
+    "value": 100.0
+   },
+   {
+    "affects_selector_spells": 2,
+    "aura": "pct",
+    "class_mask": 2361183241434822606848,
+    "effect": 2,
+    "family": 4,
+    "label": null,
+    "op": 6,
+    "spell": 424742,
+    "value": 100.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "flat",
+    "class_mask": 34359738368,
+    "effect": 1,
+    "family": 5,
+    "label": null,
+    "op": 6,
+    "spell": 429072,
+    "value": 5.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 2306405959167115264,
+    "effect": 0,
+    "family": 107,
+    "label": null,
+    "op": 6,
+    "spell": 452413,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "label_flat",
+    "class_mask": 0,
+    "effect": 2,
+    "family": 107,
+    "label": 4666,
+    "op": 6,
+    "spell": 452413,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 81129638414606681695789005144064,
+    "effect": 3,
+    "family": 107,
+    "label": null,
+    "op": 6,
+    "spell": 452413,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 2,
+    "aura": "flat",
+    "class_mask": 9555413430181547737088,
+    "effect": 3,
+    "family": 224,
+    "label": null,
+    "op": 6,
+    "spell": 454983,
+    "value": 5.0
+   },
+   {
+    "affects_selector_spells": 3,
+    "aura": "pct",
+    "class_mask": 21267648578763354547216955706689192960,
+    "effect": 1,
+    "family": 6,
+    "label": null,
+    "op": 6,
+    "spell": 459559,
+    "value": 15.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 19807040628566084398453227584,
+    "effect": 0,
+    "family": 10,
+    "label": null,
+    "op": 6,
+    "spell": 469476,
+    "value": 20.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "label_flat",
+    "class_mask": 0,
+    "effect": 1,
+    "family": 10,
+    "label": 1155,
+    "op": 6,
+    "spell": 469476,
+    "value": 20.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 0,
+    "effect": 2,
+    "family": 10,
+    "label": null,
+    "op": 6,
+    "spell": 469476,
+    "value": 20.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 0,
+    "effect": 3,
+    "family": 10,
+    "label": null,
+    "op": 6,
+    "spell": 469476,
+    "value": 20.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 268435456,
+    "effect": 1,
+    "family": 6,
+    "label": null,
+    "op": 6,
+    "spell": 471668,
+    "value": 30.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "pct",
+    "class_mask": 32,
+    "effect": 1,
+    "family": 53,
+    "label": null,
+    "op": 6,
+    "spell": 1263641,
+    "value": 30.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "flat",
+    "class_mask": 17592186044416,
+    "effect": 1,
+    "family": 5,
+    "label": null,
+    "op": 6,
+    "spell": 1270255,
+    "value": 2.0
+   },
+   {
+    "affects_selector_spells": 0,
+    "aura": "flat",
+    "class_mask": 19342813113834066795298816,
+    "effect": 1,
+    "family": 9,
+    "label": null,
+    "op": 40,
+    "spell": 1256938,
+    "value": 4.0
+   },
+   {
+    "affects_selector_spells": 1,
+    "aura": "flat",
+    "class_mask": 34359738368,
+    "effect": 3,
+    "family": 5,
+    "label": null,
+    "op": 40,
+    "spell": 1270255,
+    "value": 5.0
+   }
+  ],
+  "sqrt_target_limits_in_scope": [
+   {
+    "args": [
+     "8",
+     "0",
+     "{}",
+     "EFFECT_1",
+     "{}",
+     "{}"
+    ],
+    "line": 5424,
+    "max_targets": 8,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "258860": 0
+    },
+    "selection_cap_after_corrections": {
+     "258860": 0
+    },
+    "spells": [
+     258860
+    ]
+   },
+   {
+    "args": [
+     "5",
+     "0",
+     "{}",
+     "EFFECT_1",
+     "{}",
+     "{}"
+    ],
+    "line": 5442,
+    "max_targets": 5,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "53385": 0
+    },
+    "selection_cap_after_corrections": {
+     "53385": "4"
+    },
+    "spells": [
+     53385
+    ]
+   },
+   {
+    "args": [
+     "5",
+     "0",
+     "{}",
+     "{}",
+     "{}",
+     "{}"
+    ],
+    "line": 5448,
+    "max_targets": 5,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "404358": 0
+    },
+    "selection_cap_after_corrections": {
+     "404358": 0
+    },
+    "spells": [
+     404358
+    ]
+   },
+   {
+    "args": [
+     "8",
+     "0",
+     "{}",
+     "EFFECT_2",
+     "{}",
+     "{}"
+    ],
+    "line": 5454,
+    "max_targets": 8,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "157997": 0
+    },
+    "selection_cap_after_corrections": {
+     "157997": 0
+    },
+    "spells": [
+     157997
+    ]
+   },
+   {
+    "args": [
+     "5",
+     "0",
+     "{}",
+     "EFFECT_2",
+     "{}",
+     "{}"
+    ],
+    "line": 5460,
+    "max_targets": 5,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "400254": 0
+    },
+    "selection_cap_after_corrections": {
+     "400254": 0
+    },
+    "spells": [
+     400254
+    ]
+   },
+   {
+    "args": [
+     "5",
+     "0",
+     "{}",
+     "EFFECT_4",
+     "{}",
+     "{}"
+    ],
+    "line": 5472,
+    "max_targets": 5,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "115310": 0
+    },
+    "selection_cap_after_corrections": {
+     "115310": 0
+    },
+    "spells": [
+     115310
+    ]
+   },
+   {
+    "args": [
+     "5",
+     "0",
+     "{}",
+     "EFFECT_4",
+     "{}",
+     "{}"
+    ],
+    "line": 5478,
+    "max_targets": 5,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "388615": 0
+    },
+    "selection_cap_after_corrections": {
+     "388615": 0
+    },
+    "spells": [
+     388615
+    ]
+   },
+   {
+    "args": [
+     "5",
+     "0",
+     "{}",
+     "EFFECT_6",
+     "{}",
+     "{}"
+    ],
+    "line": 5484,
+    "max_targets": 5,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "121253": 0
+    },
+    "selection_cap_after_corrections": {
+     "121253": 0
+    },
+    "spells": [
+     121253
+    ]
+   },
+   {
+    "args": [
+     "8",
+     "0",
+     "385059",
+     "EFFECT_5",
+     "{}",
+     "{}"
+    ],
+    "line": 5490,
+    "max_targets": 8,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "385060": 255,
+     "385061": 255,
+     "385062": 255
+    },
+    "selection_cap_after_corrections": {
+     "385060": 255,
+     "385061": 255,
+     "385062": 255
+    },
+    "spells": [
+     385060,
+     385061,
+     385062
+    ]
+   },
+   {
+    "args": [
+     "8",
+     "0",
+     "{}",
+     "EFFECT_1",
+     "{}",
+     "{}"
+    ],
+    "line": 5502,
+    "max_targets": 8,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "1254851": 0,
+     "2120": 0
+    },
+    "selection_cap_after_corrections": {
+     "1254851": 0,
+     "2120": 0
+    },
+    "spells": [
+     2120,
+     1254851
+    ]
+   },
+   {
+    "args": [
+     "5",
+     "0",
+     "190411",
+     "EFFECT_2",
+     "{}",
+     "{}"
+    ],
+    "line": 5514,
+    "max_targets": 5,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "199667": 0,
+     "199851": 0,
+     "199852": 0,
+     "44949": 0
+    },
+    "selection_cap_after_corrections": {
+     "199667": 0,
+     "199851": 0,
+     "199852": 0,
+     "44949": 0
+    },
+    "spells": [
+     199667,
+     44949,
+     199852,
+     199851
+    ]
+   },
+   {
+    "args": [
+     "5",
+     "0",
+     "{}",
+     "EFFECT_4",
+     "{}",
+     "{}"
+    ],
+    "line": 5537,
+    "max_targets": 5,
+    "num_non_diminished": 0,
+    "selection_cap": {
+     "435222": 0
+    },
+    "selection_cap_after_corrections": {
+     "435222": 0
+    },
+    "spells": [
+     435222
+    ]
+   }
+  ]
+ },
+ "effect_classes": {
+  "10326:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "10326:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "107570:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "107570:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "114923:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "114923:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "115078:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "115078:2": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "118699:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "118699:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1232285:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "1232285:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1232285:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1232285:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1240996:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "1240996:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "1240996:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1240996:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1240996:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1259790:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "1259790:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1259790:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1259790:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "1263566:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "radius-min-annulus",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": [
+    "TG-C-U01"
+   ]
+  },
+  "1263566:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "radius-min-annulus",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": [
+    "TG-C-U01"
+   ]
+  },
+  "1263566:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "radius-min-annulus",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": [
+    "TG-C-U01"
+   ]
+  },
+  "1286247:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1291636:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "1291636:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "1291636:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "157982:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "196608:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "196608:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "204021:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "204021:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "207317:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "217832:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "278350:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "33763:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "360806:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "360806:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "360827:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "360827:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "369459:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "369459:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "369459:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "374227:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "374227:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "374227:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "378286:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "384391:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cone",
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "385059:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "385059:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "385059:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "385059:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "385059:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "385059:5": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "385060:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "385060:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "385061:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "385062:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "391191:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "391191:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "395152:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "395152:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "395152:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "players-only"
+   ],
+   "unknowns": []
+  },
+  "409311:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "409311:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "players-only"
+   ],
+   "unknowns": []
+  },
+  "412710:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "413984:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "413984:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "players-only",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "434763:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped",
+    "players-only"
+   ],
+   "unknowns": []
+  },
+  "434763:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "players-only"
+   ],
+   "unknowns": []
+  },
+  "434763:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "players-only"
+   ],
+   "unknowns": []
+  },
+  "451125:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cone",
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "452701:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "474750:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "48181:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "48181:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "48181:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "48181:3": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "48181:4": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "50286:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-dest",
+    "script-adapter"
+   ],
+   "unknowns": []
+  },
+  "50622:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "50622:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "50622:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "53385:0": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "area",
+    "correction",
+    "grouped",
+    "legacy-cap-correction",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "53385:1": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "area",
+    "correction",
+    "legacy-cap-correction",
+    "random-cap",
+    "ref-dest"
+   ],
+   "unknowns": []
+  },
+  "53385:2": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "correction",
+    "grouped",
+    "legacy-cap-correction"
+   ],
+   "unknowns": []
+  },
+  "53385:3": {
+   "build_skew": false,
+   "class": "understood-with-defect",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "correction",
+    "legacy-cap-correction"
+   ],
+   "unknowns": []
+  },
+  "5484:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "5484:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "55090:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "55090:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "55090:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "64844:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "grouped",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "64844:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  },
+  "72734:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "76808:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector",
+    "grouped"
+   ],
+   "unknowns": []
+  },
+  "76808:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "85256:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "85256:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "cap",
+    "cap-unused-by-selector"
+   ],
+   "unknowns": []
+  },
+  "95738:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "area",
+    "random-cap",
+    "ref-src"
+   ],
+   "unknowns": []
+  }
+ },
+ "provenance": {
+  "command": "cd scripts/research && python3 targeting.py caps --out ../../docs/research/targeting-corpora/caps.json",
+  "pins": {
+   "data_snapshot": "12.1.0.69497",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "track": "C (area targeting, geometry, target caps)"
+ },
+ "retail_experiments": [
+  {
+   "fidelity": "approximate",
+   "id": "TG-C-X06",
+   "model_a": "Trinity: RandomResize (uniform, order preserving) for AREA/CONE; nearest-first for LINE",
+   "model_b": "nearest-first (Retail 'prioritise' behaviour for some capped AoEs)",
+   "observable": "hit frequency per dummy",
+   "question": "Cap selection: random among all in range vs nearest-first",
+   "setup": "capped AoE (caps.json top capped spells) against cap+3 dummies at graded distances, 50 casts"
+  }
+ ],
+ "semantics": {
+  "difficulty": "only DIFFICULTY_NONE rows modelled; SpellInfo difficulty variants copy restrictions per difficulty (current-player census is difficulty 0)",
+  "not_caps": [
+   "LoadSpellInfoTargetCaps (SpellMgr.cpp:5407) = sqrt damage/heal diminishing (_LoadSqrtTargetLimit), payload dependency, not recipient selection",
+   "Unit.cpp:3477 MaxAffectedTargets-1 = single-target aura limit (aura lifecycle)"
+  ],
+  "order": {
+   "AREA": "candidates -> filters (predicate in search) -> [ModDst] -> script hook -> [FURTHEST sort] -> cap -> AddUnitTarget",
+   "CHAIN": "ChainTargets (+SpellModOp::ChainTargets); MaxAffectedTargets unused (Track D)",
+   "CONE": "candidates -> filters -> script hook -> RandomResize -> AddUnitTarget",
+   "DEFAULT/unit": "no cap",
+   "LINE": "candidates -> filters -> script hook -> (max < size: sort nearest, truncate) -> AddUnitTarget",
+   "NEARBY": "single nearest; no cap"
+  },
+  "random_resize": "Containers.h:67: size<=n -> no draws; else exactly size urand(1,remaining) draws, order preserved",
+  "scope": "one value per spell cast; applied independently at each AREA/CONE/LINE selector call (TargetA and TargetB, each effect group); one draw set per group because grouped effects share one selection (Spell.cpp:741-788); not shared or decremented across selectors",
+  "value": "SpellValue::MaxAffectedTargets (per cast): SpellTargetRestrictions.MaxTargets -> SpellModOp::MaxTargets in the Spell ctor (Spell.cpp:507, flat mods add per matched family-flag bit, SpellInfo.cpp:2008) -> SPELLVALUE_MAX_TARGETS replaces (Spell.cpp:8738). 0 = no cap. A flat mod on an uncapped spell creates a cap."
+ },
+ "trinity_defects": [
+  {
+   "description": "ObjectDistanceOrderPred(ref, false) returns !(d1 < d2): not a strict weak ordering (UB for list::sort).",
+   "effect_on_recipients": "FURTHEST_ENEMY ties are reordered by libstdc++ merge behaviour (probe: equal distances reversed), changing which tied unit survives the truncating cap.",
+   "file_line": "src/server/game/Entities/Object/Object.h:645, Spell.cpp:1440",
+   "id": "TG-C-D03",
+   "oracle_behaviour": "reproduced with a libstdc++ list::sort emulation (caps.list_sort), probe-verified"
+  },
+  {
+   "description": "Legacy (WotLK) correction sets MaxAffectedTargets=4 on Divine Storm 53385, a current-player spell with no DB2 MaxTargets; LoadSpellInfoTargetCaps gives the same spell a sqrt limit of 5.",
+   "effect_on_recipients": "Trinity RandomResizes Divine Storm damage to 4 of the enemies in range (one draw set for the grouped effects 0 and 1).",
+   "file_line": "src/server/game/Spells/SpellMgr.cpp:3649-3655 (vs 5440-5444)",
+   "id": "TG-C-D09",
+   "oracle_behaviour": "oracle.from_data refuses corrected spells unless allow_corrections; caps reads the corrected value from the fixture (spell override max_affected_targets=4)"
+  }
+ ],
+ "unknowns": [
+  {
+   "build_skew": "n/a",
+   "evidence": "script-consumer",
+   "id": "TG-C-U08",
+   "known": "script_sites lists every structural cap-touching line in Spells/Pet scripts",
+   "reopen_condition": "script-adapters.json",
+   "subject": "scripted cap writers/readers",
+   "unknown": "per-script semantics (Track E classifies)",
+   "why_unresolved": "owned by Track E"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-C-U09",
+   "known": "flat mods count once per matched family-flag bit; pct multiplies; uint32 truncation",
+   "reopen_condition": "fixture modifiers.max_targets",
+   "subject": "SpellModOp::MaxTargets aggregate",
+   "unknown": "which mod auras are active on a character (talent/state)",
+   "why_unresolved": "runtime state"
+  }
+ ]
+}

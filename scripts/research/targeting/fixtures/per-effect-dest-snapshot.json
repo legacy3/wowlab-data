@@ -1,0 +1,145 @@
+{
+ "about": "AddDestTarget copies the spell-wide m_targets dst after each effect's turn (Spell.cpp:799-800): effect 0 keeps the caster position, effect 1 gets the explicit target's position written by its own TargetA.",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": []
+   },
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "ignore_los_on_me": false,
+    "in_caster_phase": true,
+    "profile": "combat-sim",
+    "spell_other_immunity": []
+   },
+   "id": "t1",
+   "kind": "creature",
+   "orientation": 1.0,
+   "pos": [
+    10,
+    5,
+    0
+   ]
+  }
+ ],
+ "cast": {
+  "original_caster_is_go": false
+ },
+ "caster": "caster",
+ "discriminates": "per-effect dest snapshot vs one final dest for all effects",
+ "expect": {
+  "dests": {
+   "0": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "1": [
+    10.0,
+    5.0,
+    0.0,
+    1.0
+   ]
+  },
+  "recipients": {
+   "0": [],
+   "1": []
+  },
+  "unique_targets": []
+ },
+ "explicit": {
+  "redirect": null,
+  "unit": "t1"
+ },
+ "immunity": {
+  "default": []
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "per-effect-dest-snapshot",
+ "relations": [
+  {
+   "from": "caster",
+   "to": "t1",
+   "valid_attack": true
+  },
+  {
+   "from": "caster",
+   "to": "caster",
+   "valid_attack": false
+  }
+ ],
+ "rng": {
+  "draws": []
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "attributes": [],
+  "attributes_cu": [],
+  "dmg_class": "MAGIC",
+  "effects": [
+   {
+    "effect": "DUMMY",
+    "index": 0,
+    "target_a": "TARGET_DEST_CASTER"
+   },
+   {
+    "effect": "DUMMY",
+    "index": 1,
+    "target_a": "TARGET_DEST_TARGET_ENEMY"
+   }
+  ],
+  "id": 900007,
+  "is_positive": false,
+  "max_affected_targets": 0,
+  "name": "dest-snapshots",
+  "range": {
+   "max": [
+    40,
+    40
+   ],
+   "min": [
+    0,
+    0
+   ]
+  },
+  "script_hooks": [],
+  "synthetic": true,
+  "triggered_by_aura": null
+ },
+ "spell_value": {
+  "max_affected_targets": 0,
+  "radius_mod": 1.0
+ },
+ "visit_order": [
+  "caster",
+  "t1"
+ ]
+}

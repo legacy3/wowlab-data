@@ -1,0 +1,269 @@
+{
+ "about": "cone 110 deg with MaxTargets 2",
+ "actors": [
+  {
+   "alive": true,
+   "bounding_radius": 0.389,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "level": 80,
+    "magnet": false,
+    "profile": "combat-sim",
+    "range_movement_bonus": false,
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "group": null,
+   "id": "caster",
+   "kind": "player",
+   "orientation": 0.0,
+   "pos": [
+    0.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "s1",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    4.0,
+    0.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "s2",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    6.0,
+    2.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "s3",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    8.0,
+    -3.0,
+    0.0
+   ]
+  },
+  {
+   "alive": true,
+   "bounding_radius": 0.5,
+   "combat_reach": 1.5,
+   "facts": {
+    "cc_breakable_by_damage": false,
+    "ghost": false,
+    "ignore_los_on_me": false,
+    "immune_effects": [],
+    "in_caster_phase": true,
+    "in_combat": false,
+    "in_flight": false,
+    "magnet": false,
+    "profile": "combat-sim",
+    "spell_other_immunity": [],
+    "visible": true
+   },
+   "id": "s_back",
+   "kind": "creature",
+   "orientation": 0.0,
+   "pos": [
+    -6.0,
+    0.0,
+    0.0
+   ]
+  }
+ ],
+ "caster": "caster",
+ "discriminates": "cone filter first (s_back out), then RandomResize over the 3 survivors (3 draws: s1 and s3 kept, s2 dropped)",
+ "expect": {
+  "cast_result": "SPELL_CAST_OK",
+  "recipients": {
+   "0": [
+    "s1",
+    "s3"
+   ]
+  }
+ },
+ "explicit": {
+  "dest": [
+   10.0,
+   0.0,
+   0.0
+  ]
+ },
+ "los": {
+  "default": "clear"
+ },
+ "modifiers": {
+  "chain_jump_distance": 0,
+  "chain_targets": 0,
+  "max_targets": 0,
+  "radius": 0,
+  "range": 0
+ },
+ "name": "witness-C-384391-0",
+ "relations": [
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "caster",
+   "valid_assist": true,
+   "valid_attack": false
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "s1",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "s2",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "s3",
+   "valid_assist": false,
+   "valid_attack": true
+  },
+  {
+   "can_see": true,
+   "from": "caster",
+   "to": "s_back",
+   "valid_assist": false,
+   "valid_attack": true
+  }
+ ],
+ "rng": {
+  "draws": [
+   2,
+   2,
+   1
+  ]
+ },
+ "schema": "targeting-fixture/1",
+ "spell": {
+  "difficulty": 0,
+  "id": 384391,
+  "override": {
+   "los_disabled": false
+  },
+  "triggered_by_aura": null
+ },
+ "spell_value": {},
+ "visit_order": [
+  "caster",
+  "s1",
+  "s2",
+  "s3",
+  "s_back"
+ ],
+ "witness": {
+  "consumer": "Spell.cpp:1308-1311",
+  "effect": 0,
+  "independent_expectation": {
+   "effects": [
+    "0"
+   ],
+   "recipients": {
+    "0": [
+     "s1",
+     "s3"
+    ]
+   }
+  },
+  "intake_additions": [
+   "spell.triggered_by_aura=null (witness models a direct, non-triggered cast)",
+   "spell.override.los_disabled=false (TDB `disables` has no SPELL_DISABLE_LOS/DEPRECATED row for this id; table not in the overlay yet)",
+   "caster.facts.immune_effects=[]",
+   "caster.facts.cc_breakable_by_damage=false",
+   "s1.facts.immune_effects=[]",
+   "s1.facts.cc_breakable_by_damage=false",
+   "s1.facts.ignore_los_on_me=false",
+   "s2.facts.immune_effects=[]",
+   "s2.facts.cc_breakable_by_damage=false",
+   "s2.facts.ignore_los_on_me=false",
+   "s3.facts.immune_effects=[]",
+   "s3.facts.cc_breakable_by_damage=false",
+   "s3.facts.ignore_los_on_me=false",
+   "s_back.facts.immune_effects=[]",
+   "s_back.facts.cc_breakable_by_damage=false",
+   "s_back.facts.ignore_los_on_me=false",
+   "modifiers.range=0 (no spell modifier on the caster)",
+   "modifiers.chain_targets=0 (no spell modifier on the caster)",
+   "modifiers.chain_jump_distance=0 (no spell modifier on the caster)"
+  ],
+  "selectors": [
+   "TARGET_UNIT_CONE_CASTER_TO_DEST_ENEMY",
+   "0"
+  ],
+  "spell": 384391,
+  "track": "C"
+ }
+}

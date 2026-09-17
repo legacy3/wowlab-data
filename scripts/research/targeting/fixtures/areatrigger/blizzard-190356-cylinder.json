@@ -1,0 +1,152 @@
+{
+ "build_skew": false,
+ "consumer": "AreaTrigger.cpp:785-807; spell_mage.cpp:344-361",
+ "discriminates": "AT-inside-units model vs child-reselection model for ground AoE damage; cylinder [z-4, z+4] inclusive (low_edge at dz=-4 in, too_high out), 2D radius + reach (rim in, far out)",
+ "effect": 1,
+ "expect": {
+  "at_inside_units": [
+   "caster",
+   "low_edge",
+   "rim"
+  ],
+  "damage": "not the AT list: every 1s the caster casts 190357 at the AT position (TARGET_DEST_DEST + TARGET_UNIT_DEST_AREA_ENEMY re-selection, see Track C area)"
+ },
+ "fixture": {
+  "actors": [
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 1.5,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "caster",
+    "kind": "player",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     97.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "facts": {
+     "areatrigger": {
+      "caster": "caster",
+      "create_properties": 4658,
+      "inside": [],
+      "override_scale": null
+     }
+    },
+    "id": "at",
+    "kind": "areatrigger",
+    "orientation": 1.0,
+    "pos": [
+     100.0,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 0.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "low_edge",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     100.0,
+     101.0,
+     6.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 0.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "too_high",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     100.0,
+     101.0,
+     14.5
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 0.6,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "rim",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     108.5,
+     100.0,
+     10.0
+    ]
+   },
+   {
+    "alive": true,
+    "charmer": null,
+    "combat_reach": 0.0,
+    "facts": {
+     "profile": "combat-sim",
+     "unit_flags": []
+    },
+    "group": null,
+    "id": "far",
+    "kind": "creature",
+    "orientation": 0.0,
+    "owner": null,
+    "pos": [
+     109.0,
+     100.0,
+     10.0
+    ]
+   }
+  ],
+  "caster": "caster",
+  "name": "blizzard-190356-cylinder",
+  "relations": [],
+  "schema": "targeting-fixture/1",
+  "spell": {
+   "id": 0
+  },
+  "visit_order": [
+   "caster",
+   "low_edge",
+   "too_high",
+   "rim",
+   "far"
+  ]
+ },
+ "schema": "targeting-at-witness/1",
+ "selectors": [
+  "TARGET_DEST_DEST",
+  "TARGET_UNIT_DEST_AREA_ENEMY"
+ ],
+ "shape": "cylinder r=8 h=4 (create properties 4658, HasAbsoluteOrientation)",
+ "spell": 190356
+}

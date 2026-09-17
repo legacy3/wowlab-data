@@ -1,0 +1,2376 @@
+{
+ "cast_order": [
+  {
+   "consumer": "Spell.cpp:3693 _cast -> 3816",
+   "draws": "none of the targeting kind (CheckCast is draw-free for targeting)",
+   "phase": "prepare/CheckCast"
+  },
+  {
+   "consumer": "Spell.cpp:691-718",
+   "draws": "redirect (GetMagicHitRedirectTarget) -- no draw",
+   "phase": "SelectExplicitTargets"
+  },
+  {
+   "consumer": "Spell.cpp:727-790",
+   "draws": "for each effect-mask group in effect order: TargetA then TargetB selection draws (RandomResize, random dest CalcRadius/CalcDirectionAngle, script hook draws), each interleaved with the hit-roll draws AddUnitTarget consumes for every *new* unique target",
+   "phase": "SelectSpellTargets group k"
+  },
+  {
+   "consumer": "Spell.cpp:3839 CallScriptOnCastHandlers",
+   "draws": "OnCast script handlers (script-specific draws; none bound to current reach with RNG)",
+   "phase": "_cast after selection"
+  },
+  {
+   "consumer": "Spell.cpp:8494-8500",
+   "draws": "before any crit roll: EffectSummonType (SpellEffects.cpp:1867; default branch CalcRadius draw at 1999 and GetRandomPoint per extra summon at 2016; SummonGuardian 5035), EffectTransmitted (4454: rand_norm/urand); no current-player spell reaches these draws (rng.json launch_draw_census)",
+   "phase": "HandleLaunchPhase: LAUNCH-mode effect handlers"
+  },
+  {
+   "consumer": "Spell.cpp:8502-8503 -> PreprocessSpellLaunch 8563",
+   "draws": "one crit roll_chance per unique target whose MissCondition is NONE (or reflect-hit), in m_UniqueTargetInfo order; the whole launch phase is deferred when LaunchDelay > 0 (Spell.cpp:3880)",
+   "phase": "HandleLaunchPhase: crit"
+  },
+  {
+   "consumer": "Spell.cpp:3980 DoProcessTargetContainer",
+   "draws": "payload and proc draws (out of targeting scope)",
+   "phase": "hit/effect handlers"
+  }
+ ],
+ "counts": {
+  "effect_classes": 43,
+  "grouping_draw_spells": 0,
+  "random_cap_effects": 32,
+  "random_dest_effects": 11,
+  "script_rng_sites_bound_to_reach": 59,
+  "script_rng_sites_by_role_in_reach": {
+   "dead": 1,
+   "dest": 1,
+   "draw-no-recipient": 1,
+   "non-targeting-rng": 42,
+   "spell-choice": 3,
+   "target": 7,
+   "target-count": 1,
+   "timing": 2,
+   "value": 1
+  },
+  "script_rng_sites_total": 189
+ },
+ "effect_classes": {
+  "102693:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "107570:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "123904:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "1262094:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "1263077:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "1263566:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "1263566:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "1263566:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "1276452:1": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "1286247:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "1291636:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "1293326:0": {
+   "build_skew": true,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "1307599:0": {
+   "build_skew": true,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "1308399:0": {
+   "build_skew": true,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "157982:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "207317:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "248280:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "278350:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "374227:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "374227:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "374227:2": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "378286:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "384391:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "385060:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "385060:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "385061:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "385062:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "395152:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "395152:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "409311:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "413984:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "413984:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "451125:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "452701:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "458101:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "46585:0": {
+   "build_skew": false,
+   "class": "fixture-dependent",
+   "tags": [
+    "dest",
+    "random-dest",
+    "world-geometry"
+   ],
+   "unknowns": [
+    "TG-D-21"
+   ]
+  },
+  "50286:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "50622:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "5484:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "5484:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "64844:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "64844:1": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  },
+  "95738:0": {
+   "build_skew": false,
+   "class": "understood",
+   "tags": [
+    "random-cap"
+   ],
+   "unknowns": []
+  }
+ },
+ "engine_sites": [
+  {
+   "algorithm": "RandomResize(targets, MaxAffectedTargets)",
+   "candidate_order": "grid visit order after the area check and the script hook",
+   "consumer": "Spell.cpp:1448",
+   "draws": "size if size > cap else 0",
+   "function": "SelectImplicitAreaTargets",
+   "id": "area-cap",
+   "owner_track": "C (caps), D (algorithm)",
+   "replacement": "without",
+   "shortcut": "size <= cap: no draws"
+  },
+  {
+   "algorithm": "RandomResize(targets, MaxAffectedTargets)",
+   "candidate_order": "grid visit order after the cone check and the script hook",
+   "consumer": "Spell.cpp:1311",
+   "draws": "size if size > cap else 0",
+   "function": "SelectImplicitConeTargets",
+   "id": "cone-cap",
+   "owner_track": "C (caps), D (algorithm)",
+   "replacement": "without",
+   "shortcut": "size <= cap: no draws"
+  },
+  {
+   "algorithm": "radius.Max = (Max - Min) * sqrt(rand_norm())  [Min is not added back]",
+   "candidate_order": "n/a",
+   "consumer": "SpellInfo.cpp:820-825",
+   "draws": "1 rand_norm per CalcRadius call whose resolved slot (TargetB only if it has an entry, else TargetA) has a radius entry and selector 72/74/86; no entry returns first (800-801)",
+   "function": "SpellEffectInfo::CalcRadius",
+   "id": "random-dest-radius",
+   "owner_track": "D",
+   "replacement": "n/a",
+   "shortcut": "none (drawn even when Max == Min)"
+  },
+  {
+   "algorithm": "rand_norm() * float(2*M_PI)",
+   "candidate_order": "n/a",
+   "consumer": "SpellInfo.cpp:128-129",
+   "draws": "1 rand_norm for TARGET_DIR_RANDOM ids 72,73,74,75,86,91,149",
+   "function": "SpellImplicitTargetInfo::CalcDirectionAngle",
+   "id": "random-dest-angle",
+   "owner_track": "A (direction), D (draw order)",
+   "replacement": "n/a",
+   "shortcut": "none"
+  },
+  {
+   "algorithm": "dist = CalcRadius(...).Max [draw 1 if random] ; angle = CalcDirectionAngle() [draw 2 if random]",
+   "candidate_order": "n/a",
+   "consumer": "Spell.cpp:1608-1609",
+   "draws": "TARGET_DEST_CASTER_RANDOM: radius then angle; TARGET_DEST_CASTER_RADIUS (73): angle only",
+   "function": "SelectImplicitCasterDestTargets",
+   "id": "caster-dest-default-order",
+   "owner_track": "D",
+   "replacement": "n/a",
+   "shortcut": "none"
+  },
+  {
+   "algorithm": "angle = CalcDirectionAngle() [draw 1] ; dist = CalcRadius(nullptr).Max [draw 2 if 74]",
+   "candidate_order": "n/a",
+   "consumer": "Spell.cpp:1672-1673",
+   "draws": "TARGET_DEST_TARGET_RANDOM: angle then radius (opposite of the caster path)",
+   "function": "SelectImplicitTargetDestTargets",
+   "id": "target-dest-default-order",
+   "owner_track": "D",
+   "replacement": "n/a",
+   "shortcut": "none"
+  },
+  {
+   "algorithm": "angle [draw 1] ; dist [draw 2 if 86]",
+   "candidate_order": "n/a",
+   "consumer": "Spell.cpp:1724-1725",
+   "draws": "TARGET_DEST_DEST_RANDOM: angle then radius",
+   "function": "SelectImplicitDestDestTargets",
+   "id": "dest-dest-default-order",
+   "owner_track": "D",
+   "replacement": "n/a",
+   "shortcut": "none"
+  },
+  {
+   "algorithm": "CalcRadius(TargetA) != CalcRadius(TargetA) || CalcRadius(TargetB) != ... for later effects j",
+   "candidate_order": "n/a",
+   "consumer": "Spell.cpp:773-774",
+   "draws": "for a random-dest selector (72/74/86) in the pair of a NEARBY/CONE/AREA/LINE selector: 1 rand_norm per call (4 calls per compared pair when TargetA and TargetB are both evaluated); census: see rng.json grouping_draw_census",
+   "function": "SelectSpellTargets (effect-mask grouping)",
+   "id": "grouping-radius-compare",
+   "owner_track": "D / F",
+   "replacement": "n/a",
+   "shortcut": "only evaluated when shouldCheckRadius(TargetA|TargetB)"
+  },
+  {
+   "algorithm": "TARGET_DEST_NEARBY_ENTRY_OR_DB (142): MovePosition(randomRadius, CalcDirectionAngle())",
+   "candidate_order": "n/a",
+   "consumer": "Spell.cpp:1167-1169, 1193, 1256",
+   "draws": "142 has TARGET_DIR_NONE -> no angle draw; radius is not a *_RANDOM target -> no draw",
+   "function": "SelectImplicitNearbyTargets",
+   "id": "nearby-entry-db-fallback",
+   "owner_track": "A/D",
+   "replacement": "n/a",
+   "shortcut": "n/a"
+  },
+  {
+   "algorithm": "SelectRandomContainerElement(positionsInRange)",
+   "candidate_order": "spell_target_position multimap order filtered by IsInRange3d",
+   "consumer": "Spell.cpp:1603",
+   "draws": "1 urand(0, n-1) (n >= 1; 0 positions fails the cast first)",
+   "function": "SelectImplicitCasterDestTargets TARGET_DEST_NEARBY_DB (106)",
+   "id": "nearby-db-positions",
+   "owner_track": "E (world), D (draw)",
+   "replacement": "n/a",
+   "shortcut": "none (drawn for n == 1)"
+  },
+  {
+   "algorithm": "frand(minDist, maxDist) then rand_norm() angle",
+   "candidate_order": "n/a",
+   "consumer": "Spell.cpp:1496-1498",
+   "draws": "2",
+   "function": "TARGET_DEST_CASTER_FISHING (39)",
+   "id": "fishing",
+   "owner_track": "D (not combat)",
+   "replacement": "n/a",
+   "shortcut": "none"
+  },
+  {
+   "algorithm": "SelectRandomContainerElement(creature tap list)",
+   "candidate_order": "tap list set order",
+   "consumer": "Spell.cpp:1784",
+   "draws": "1 (creature casters only)",
+   "function": "TARGET_UNIT_TARGET_TAP_LIST (124)",
+   "id": "tap-list",
+   "owner_track": "D (creature-only; no player reach)",
+   "replacement": "n/a",
+   "shortcut": "empty list: no draw"
+  },
+  {
+   "algorithm": "priority bits; std::ranges::sort (unstable); RandomShuffle of the boundary class",
+   "candidate_order": "hook input order (grid visit order)",
+   "consumer": "Spell.cpp:9513-9573",
+   "draws": "0 if size <= max; else FY indices for the boundary class only (n_boundary - 1)",
+   "function": "Trinity::SelectRandomInjuredTargets",
+   "id": "smart-injured",
+   "owner_track": "D (smart.py)",
+   "replacement": "without",
+   "shortcut": "size <= max: no draws"
+  },
+  {
+   "algorithm": "rule score bits; std::ranges::sort(greater) (unstable); RandomShuffle of the cutoff tie range",
+   "candidate_order": "hook input order",
+   "consumer": "Spell.cpp:9575-9613",
+   "draws": "0 if size <= max; 0 if no tie at the cutoff; else FY indices for the tie range",
+   "function": "Trinity::SortTargetsWithPriorityRules",
+   "id": "priority-rules",
+   "owner_track": "D (smart.py)",
+   "replacement": "without",
+   "shortcut": "size <= max: no draws"
+  },
+  {
+   "algorithm": "SelectRandomContainerElement over AnyUnfriendlyUnitInObjectRangeCheck results",
+   "candidate_order": "Cell::VisitAllObjects order minus victim/exclude/LOS/totem/critter",
+   "consumer": "Unit.cpp:10920-10949",
+   "draws": "1 if any candidate else 0",
+   "function": "Unit::SelectNearbyTarget",
+   "id": "select-nearby-target",
+   "owner_track": "D",
+   "replacement": "n/a",
+   "shortcut": "empty: no draw"
+  },
+  {
+   "algorithm": "urand(0, n-1) over group members + guardian pets",
+   "candidate_order": "group member list order, each player followed by its pet",
+   "consumer": "Unit.cpp:6657-6705",
+   "draws": "1 if n > 0",
+   "function": "Unit::GetNextRandomRaidMemberOrPet",
+   "id": "random-raid-member",
+   "owner_track": "D (no caller at the pin: dead code)",
+   "replacement": "n/a",
+   "shortcut": "no group: deterministic owner/pet"
+  },
+  {
+   "algorithm": "angle = rand_norm()*2pi; dist = min + (d-min)*sqrt(rand_norm())",
+   "candidate_order": "n/a",
+   "consumer": "Object.cpp:681-689",
+   "draws": "2 if distance != 0",
+   "function": "WorldObject::GetRandomPoint",
+   "id": "random-point",
+   "owner_track": "D",
+   "replacement": "n/a",
+   "shortcut": "distance == 0: no draws"
+  },
+  {
+   "algorithm": "MovePosition(pos, r*sqrt(rand_norm()), rand_norm()*2pi)",
+   "candidate_order": "n/a",
+   "consumer": "Object.cpp:2776-2780",
+   "draws": "2 (the two rand_norm() calls are arguments of one call: their evaluation order is unspecified in C++ -- see rng.json unknowns)",
+   "function": "WorldObject::GetRandomNearPosition",
+   "id": "random-near-position",
+   "owner_track": "D",
+   "replacement": "n/a",
+   "shortcut": "none"
+  }
+ ],
+ "generator": {
+  "engine": "thread_local SFMTRand via RandomEngine; urand/irand = std::uniform_int_distribution, frand/rand_norm/rand_chance = uniform_real_distribution<float>",
+  "evidence": "trinity-consumer",
+  "file": "src/common/Utilities/Random.cpp",
+  "shared": true
+ },
+ "grouping_draw_census": [],
+ "launch_draw_census": {
+  "evidence": "trinity-consumer",
+  "note": "EffectSummonType (SpellEffects.cpp:1867, LAUNCH mode): the WILD/ALLY default title branch calls CalcRadius() (1999; draws for TARGET 72/74/86 with an entry) and GetRandomPoint (2 draws) for every summon after the first; SummonGuardian (5035) uses GetRandomPoint(radius 5) per extra summon; numSummons > 1 only for the MiscValueB list at 1915-1934. EffectTransmitted (4454, LAUNCH) draws rand_norm/urand. Current reach hits none of them (lists empty).",
+  "summon_default_branch_calcradius_draw": [],
+  "summon_multiple_units_getrandompoint": [],
+  "transmitted_launch_draws": []
+ },
+ "provenance": {
+  "command": "targeting.py rng --out docs/research/targeting-corpora/rng.json",
+  "generator": "scripts/research/targeting/cmd_d.py",
+  "pins": {
+   "data_snapshot": "12.1.0.69497",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  }
+ },
+ "random_cap_effects": [
+  {
+   "effect": 0,
+   "max_targets": 5,
+   "name": "Howl of Terror",
+   "spell": 5484
+  },
+  {
+   "effect": 1,
+   "max_targets": 5,
+   "name": "Howl of Terror",
+   "spell": 5484
+  },
+  {
+   "effect": 0,
+   "max_targets": 20,
+   "name": "Starfall",
+   "spell": 50286
+  },
+  {
+   "effect": 0,
+   "max_targets": 255,
+   "name": "Bladestorm",
+   "spell": 50622
+  },
+  {
+   "effect": 0,
+   "max_targets": 60,
+   "name": "Divine Hymn",
+   "spell": 64844
+  },
+  {
+   "effect": 1,
+   "max_targets": 60,
+   "name": "Divine Hymn",
+   "spell": 64844
+  },
+  {
+   "effect": 0,
+   "max_targets": 255,
+   "name": "Bladestorm Off-Hand",
+   "spell": 95738
+  },
+  {
+   "effect": 0,
+   "max_targets": 3,
+   "name": "Storm Bolt",
+   "spell": 107570
+  },
+  {
+   "effect": 0,
+   "max_targets": 60,
+   "name": "Tranquility",
+   "spell": 157982
+  },
+  {
+   "effect": 0,
+   "max_targets": 20,
+   "name": "Epidemic",
+   "spell": 207317
+  },
+  {
+   "effect": 0,
+   "max_targets": 8,
+   "name": "Vile Taint",
+   "spell": 278350
+  },
+  {
+   "effect": 0,
+   "max_targets": 5,
+   "name": "Zephyr",
+   "spell": 374227
+  },
+  {
+   "effect": 1,
+   "max_targets": 5,
+   "name": "Zephyr",
+   "spell": 374227
+  },
+  {
+   "effect": 2,
+   "max_targets": 5,
+   "name": "Zephyr",
+   "spell": 374227
+  },
+  {
+   "effect": 0,
+   "max_targets": 5,
+   "name": "Tyr's Enforcer",
+   "spell": 378286
+  },
+  {
+   "effect": 0,
+   "max_targets": 2,
+   "name": "Sidearm",
+   "spell": 384391
+  },
+  {
+   "effect": 0,
+   "max_targets": 255,
+   "name": "Odyn's Fury",
+   "spell": 385060
+  },
+  {
+   "effect": 1,
+   "max_targets": 255,
+   "name": "Odyn's Fury",
+   "spell": 385060
+  },
+  {
+   "effect": 0,
+   "max_targets": 255,
+   "name": "Odyn's Fury Off-Hand",
+   "spell": 385061
+  },
+  {
+   "effect": 0,
+   "max_targets": 255,
+   "name": "Odyn's Fury",
+   "spell": 385062
+  },
+  {
+   "effect": 0,
+   "max_targets": 30,
+   "name": "Ebon Might",
+   "spell": 395152
+  },
+  {
+   "effect": 1,
+   "max_targets": 30,
+   "name": "Ebon Might",
+   "spell": 395152
+  },
+  {
+   "effect": 0,
+   "max_targets": 1,
+   "name": "Prescience",
+   "spell": 409311
+  },
+  {
+   "effect": 0,
+   "max_targets": 1,
+   "name": "Shifting Sands",
+   "spell": 413984
+  },
+  {
+   "effect": 1,
+   "max_targets": 1,
+   "name": "Shifting Sands",
+   "spell": 413984
+  },
+  {
+   "effect": 0,
+   "max_targets": 1,
+   "name": "Lightning Bolt",
+   "spell": 451125
+  },
+  {
+   "effect": 0,
+   "max_targets": 2,
+   "name": "Roar from the Heavens",
+   "spell": 452701
+  },
+  {
+   "effect": 0,
+   "max_targets": 1,
+   "name": "Abomination Limb",
+   "spell": 1263566
+  },
+  {
+   "effect": 1,
+   "max_targets": 1,
+   "name": "Abomination Limb",
+   "spell": 1263566
+  },
+  {
+   "effect": 2,
+   "max_targets": 1,
+   "name": "Abomination Limb",
+   "spell": 1263566
+  },
+  {
+   "effect": 0,
+   "max_targets": 20,
+   "name": "Starfall",
+   "spell": 1286247
+  },
+  {
+   "effect": 0,
+   "max_targets": 5,
+   "name": "Temporal Barrier",
+   "spell": 1291636
+  }
+ ],
+ "random_dest_effects": [
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "angle",
+   "effect": 0,
+   "name": "Raise Dead",
+   "order": "angle",
+   "radius_path": "entry 8 of B, resolved selector 91",
+   "slot": "B",
+   "spell": 46585,
+   "target": 91,
+   "target_name": "TARGET_DEST_DEST_RADIUS"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "angle",
+   "effect": 1,
+   "name": "Grove Guardians",
+   "order": "angle",
+   "radius_path": "entry 15 of A, resolved selector 73",
+   "slot": "A",
+   "spell": 102693,
+   "target": 73,
+   "target_name": "TARGET_DEST_CASTER_RADIUS"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "radius+angle",
+   "effect": 0,
+   "name": "Invoke Xuen, the White Tiger",
+   "order": "angle, radius",
+   "radius_path": "entry 15 of B, resolved selector 86",
+   "slot": "B",
+   "spell": 123904,
+   "target": 86,
+   "target_name": "TARGET_DEST_DEST_RANDOM"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "angle",
+   "effect": 0,
+   "name": "Force of Nature",
+   "order": "angle",
+   "radius_path": "entry 8 of B, resolved selector 91",
+   "slot": "B",
+   "spell": 248280,
+   "target": 91,
+   "target_name": "TARGET_DEST_DEST_RADIUS"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "radius+angle",
+   "effect": 0,
+   "name": "Lively Totems",
+   "order": "radius, angle",
+   "radius_path": "entry 15 of A, resolved selector 72",
+   "slot": "A",
+   "spell": 458101,
+   "target": 72,
+   "target_name": "TARGET_DEST_CASTER_RANDOM"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "radius+angle",
+   "effect": 0,
+   "name": "Summon Desperate Soul",
+   "order": "radius, angle",
+   "radius_path": "entry 8 of A, resolved selector 72",
+   "slot": "A",
+   "spell": 1262094,
+   "target": 72,
+   "target_name": "TARGET_DEST_CASTER_RANDOM"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "angle",
+   "effect": 0,
+   "name": "Uprooted Lasher",
+   "order": "angle",
+   "radius_path": "no radius entry on A (SpellInfo.cpp:800-801)",
+   "slot": "A",
+   "spell": 1263077,
+   "target": 74,
+   "target_name": "TARGET_DEST_TARGET_RANDOM"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "radius+angle",
+   "effect": 1,
+   "name": "Grimoire: Imp Lord",
+   "order": "radius, angle",
+   "radius_path": "entry 14 of A, resolved selector 72",
+   "slot": "A",
+   "spell": 1276452,
+   "target": 72,
+   "target_name": "TARGET_DEST_CASTER_RANDOM"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "radius+angle",
+   "effect": 0,
+   "name": "Tattered Amani War Banner",
+   "order": "radius, angle",
+   "radius_path": "entry 224 of A, resolved selector 72",
+   "slot": "A",
+   "spell": 1293326,
+   "target": 72,
+   "target_name": "TARGET_DEST_CASTER_RANDOM"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "angle",
+   "effect": 0,
+   "name": "Soulcoiler Ritual Vessel",
+   "order": "angle",
+   "radius_path": "entry 29 of B, resolved selector 73",
+   "slot": "B",
+   "spell": 1307599,
+   "target": 73,
+   "target_name": "TARGET_DEST_CASTER_RADIUS"
+  },
+  {
+   "consumer": "SpellInfo.cpp:128-129, 783-829; Spell.cpp:1608-1609/1672-1673/1724-1725",
+   "draws": "radius+angle",
+   "effect": 0,
+   "name": "Answered Calling",
+   "order": "angle, radius",
+   "radius_path": "entry 32 of B, resolved selector 86",
+   "slot": "B",
+   "spell": 1308399,
+   "target": 86,
+   "target_name": "TARGET_DEST_DEST_RANDOM"
+  }
+ ],
+ "retail_experiments": [
+  {
+   "fidelity": "approximate",
+   "id": "TG-D-X20",
+   "model_a": "uniform k-subset (RandomResize)",
+   "model_b": "nearest-first / priority-based cap",
+   "observable": "hit frequency per dummy (combat log)",
+   "question": "Are capped area recipients uniform over candidates (Trinity selection sampling)?",
+   "setup": "Capped AoE (e.g. MaxTargets 5) over 10 stacked dummies at fixed distances, 50 casts."
+  }
+ ],
+ "schema": "targeting-rng/1",
+ "script_sites_in_reach": [
+  {
+   "call": "frand(",
+   "class": "spell_dh_chaos_theory",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_dh.cpp",
+   "hook": "AfterCast",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 420,
+   "method": "ChaosTheory",
+   "role": "non-targeting-rng",
+   "spells": [
+    188499,
+    210152
+   ],
+   "spells_in_reach": [
+    188499
+   ],
+   "spells_script_extended": [],
+   "text": "SpellEffectValue critChance = frand(min->GetAmount(), max->GetAmount());"
+  },
+  {
+   "call": "frand(",
+   "class": "spell_dh_darkglare_boon",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_dh.cpp",
+   "hook": "OnEffectRemove",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PERIODIC_TRIGGER_SPELL",
+   "line": 816,
+   "method": "HandleEffectRemove",
+   "role": "non-targeting-rng",
+   "spells": [
+    212084
+   ],
+   "spells_in_reach": [
+    212084
+   ],
+   "spells_script_extended": [],
+   "text": "SpellEffectValue reductionPct = frand(darkglareBoon->GetEffect(EFFECT_0)->GetAmount(), darkglareBoon->GetEffect(EFFECT_1)->GetAmount());"
+  },
+  {
+   "call": "frand(",
+   "class": "spell_dh_darkglare_boon",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_dh.cpp",
+   "hook": "OnEffectRemove",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PERIODIC_TRIGGER_SPELL",
+   "line": 819,
+   "method": "HandleEffectRemove",
+   "role": "non-targeting-rng",
+   "spells": [
+    212084
+   ],
+   "spells_in_reach": [
+    212084
+   ],
+   "spells_script_extended": [],
+   "text": "SpellEffectValue energizeValue = frand(darkglareBoon->GetEffect(EFFECT_2)->GetAmount(), darkglareBoon->GetEffect(EFFECT_3)->GetAmount());"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_dh_demonic_appetite",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_dh.cpp",
+   "hook": "OnProc",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 1000,
+   "method": "ShatterLesserSoulFragment",
+   "role": "spell-choice",
+   "spells": [
+    206478
+   ],
+   "spells_in_reach": [
+    206478
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::SelectRandomContainerElement(std::array{ SPELL_DH_SHATTERED_SOUL_LESSER_RIGHT, SPELL_DH_SHATTERED_SOUL_LESSER_LEFT }),"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dh_shattered_souls_devourer",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_dh.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 2119,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    1227619
+   ],
+   "spells_in_reach": [
+    1227619
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dk_frost_fever_proc",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_dk.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PROC_TRIGGER_SPELL",
+   "line": 811,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    195621
+   ],
+   "spells_in_reach": [
+    195621
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dk_obliteration",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_dk.cpp",
+   "hook": "AfterEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1082,
+   "method": "HandleProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    207256
+   ],
+   "spells_in_reach": [
+    207256
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(oblitaration->GetAmount()))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dk_rime",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_dk.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PROC_TRIGGER_SPELL",
+   "line": 1265,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    59057
+   ],
+   "spells_in_reach": [
+    59057
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(chance);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_dream_of_cenarius_guardian",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 513,
+   "method": "CheckEffectProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    372119
+   ],
+   "spells_in_reach": [
+    372119
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(GetUnitOwner()->GetUnitCriticalChanceDone(BASE_ATTACK));"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_embrace_of_the_dream",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 865,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    392124
+   ],
+   "spells_in_reach": [
+    392124
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(GetEffectInfo(EFFECT_2).CalcValue(GetCaster()));"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_galactic_guardian",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1165,
+   "method": "CheckEffectProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    203964
+   ],
+   "spells_in_reach": [
+    203964
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_gore",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1291,
+   "method": "CheckEffectProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    210706
+   ],
+   "spells_in_reach": [
+    210706
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_omen_of_clarity_restoration",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PROC_TRIGGER_SPELL",
+   "line": 1876,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    113043
+   ],
+   "spells_in_reach": [
+    113043
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_shooting_stars",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 2196,
+   "method": "ProcessDoT",
+   "role": "target-count",
+   "spells": [
+    202342
+   ],
+   "spells_in_reach": [
+    202342
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(std::modf(chance / 100.0f, &procs) * 100.0f))"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_dru_shooting_stars",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 2202,
+   "method": "ProcessDoT",
+   "role": "target",
+   "spells": [
+    202342
+   ],
+   "spells_in_reach": [
+    202342
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, procs);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_shooting_stars",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 2207,
+   "method": "ProcessDoT",
+   "role": "non-targeting-rng",
+   "spells": [
+    202342
+   ],
+   "spells_in_reach": [
+    202342
+   ],
+   "spells_script_extended": [],
+   "text": "if (crashingStarTalent && roll_chance(crashingStarTalent->GetAmount()))"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_dru_starfall_dummy",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 2274,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    50286
+   ],
+   "spells_in_reach": [
+    50286
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, 2);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_dru_sudden_ambush",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PROC_TRIGGER_SPELL",
+   "line": 2336,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    340694,
+    384667
+   ],
+   "spells_in_reach": [
+    384667
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(*comboPoints * aurEff->GetAmount());"
+  },
+  {
+   "call": "SelectRandomInjuredTargets",
+   "class": "spell_dru_wild_growth",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_druid.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 3031,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    48438
+   ],
+   "spells_in_reach": [
+    48438
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::SelectRandomInjuredTargets(targets, maxTargets, true, caster);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_evo_burnout",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_evoker.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 171,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    375801
+   ],
+   "spells_in_reach": [
+    375801
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_hun_lock_and_load",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_hunter.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 642,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    194595
+   ],
+   "spells_in_reach": [
+    194595
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_hun_shrapnel_shot",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_hunter.cpp",
+   "hook": "OnProc",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 1142,
+   "method": "HandleProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    473520
+   ],
+   "spells_in_reach": [
+    473520
+   ],
+   "spells_script_extended": [],
+   "text": "if (!roll_chance(GetEffect(EFFECT_0)->GetAmount()))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_mage_fingers_of_frost",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_mage.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 736,
+   "method": "CheckFrostboltProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    112965
+   ],
+   "spells_in_reach": [
+    112965
+   ],
+   "spells_script_extended": [],
+   "text": "&& roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_mage_fingers_of_frost",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_mage.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 742,
+   "method": "CheckFrozenOrbProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    112965
+   ],
+   "spells_in_reach": [
+    112965
+   ],
+   "spells_script_extended": [],
+   "text": "&& roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "randtime",
+   "class": "spell_mage_flurry",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_mage.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 931,
+   "method": null,
+   "role": "timing",
+   "spells": [
+    44614
+   ],
+   "spells_in_reach": [
+    44614
+   ],
+   "spells_script_extended": [],
+   "text": "_caster->m_Events.AddEvent(this, Milliseconds(time) + randtime(300ms, 400ms));"
+  },
+  {
+   "call": "randtime",
+   "class": "spell_mage_flurry",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_mage.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_EFFECT_DUMMY",
+   "line": 949,
+   "method": "EffectHit",
+   "role": "timing",
+   "spells": [
+    44614
+   ],
+   "spells_in_reach": [
+    44614
+   ],
+   "spells_script_extended": [],
+   "text": "GetCaster()->m_Events.AddEventAtOffset(new FlurryEvent(GetCaster(), GetHitUnit()->GetGUID(), GetSpell()->m_castId, GetEffectValueAsInt() - 1), randtime(300ms, 4"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_pal_divine_purpose",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_paladin.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 561,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    223817
+   ],
+   "spells_in_reach": [
+    223817
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_pal_final_verdict",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_paladin.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "SPELL_EFFECT_DUMMY",
+   "line": 830,
+   "method": "HandleDummy",
+   "role": "non-targeting-rng",
+   "spells": [
+    383328
+   ],
+   "spells_in_reach": [
+    383328
+   ],
+   "spells_script_extended": [],
+   "text": "if (!roll_chance(GetEffectValue()))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_pri_dark_indulgence",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnEffectHit",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_EFFECT_SCHOOL_DAMAGE",
+   "line": 1031,
+   "method": "HandleEffectHit",
+   "role": "non-targeting-rng",
+   "spells": [
+    8092
+   ],
+   "spells_in_reach": [
+    8092
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(aurEff->GetAmount()))"
+  },
+  {
+   "call": "GetRandomNearPosition",
+   "class": "spell_pri_divine_image",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1246,
+   "method": "HandleProc",
+   "role": "dest",
+   "spells": [
+    392988
+   ],
+   "spells_in_reach": [
+    392988
+   ],
+   "spells_script_extended": [],
+   "text": "divineImage->NearTeleportTo(target->GetRandomNearPosition(3.0f));"
+  },
+  {
+   "call": "min_element",
+   "class": "spell_pri_divine_procession",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 3555,
+   "method": "HandleProc",
+   "role": "target",
+   "spells": [
+    472361
+   ],
+   "spells_in_reach": [
+    472361
+   ],
+   "spells_script_extended": [],
+   "text": "auto it = std::ranges::min_element(atonementTargets, std::ranges::less(), [caster](ObjectGuid const& guidA)"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_pri_epiphany",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1940,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    414553
+   ],
+   "spells_in_reach": [
+    414553
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "ranges::min",
+   "class": "spell_pri_insidious_ire",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnProc",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 2660,
+   "method": "HandleProc",
+   "role": "value",
+   "spells": [
+    373212
+   ],
+   "spells_in_reach": [
+    373212
+   ],
+   "spells_script_extended": [],
+   "text": "int32 shortestDuration = std::ranges::min(requiredAuras, {}, [](Aura const* a) { return a->GetDuration(); })->GetDuration();"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_pri_mind_devourer",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_EFFECT_SCHOOL_DAMAGE",
+   "line": 2903,
+   "method": "HandleEffectHitTarget",
+   "role": "non-targeting-rng",
+   "spells": [
+    8092
+   ],
+   "spells_in_reach": [
+    8092
+   ],
+   "spells_script_extended": [],
+   "text": "if (aurEff && roll_chance(aurEff->GetAmount()))"
+  },
+  {
+   "call": "SortTargetsWithPriorityRules",
+   "class": "spell_pri_power_word_radiance",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ALLY",
+   "line": 3369,
+   "method": "FilterTargets",
+   "role": "target",
+   "spells": [
+    194509
+   ],
+   "spells_in_reach": [
+    194509
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::SortTargetsWithPriorityRules(targets, maxTargets, GetRadianceRules(caster, explTarget));"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_pri_surge_of_light",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_priest.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 4652,
+   "method": "HandleEffectProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    109186
+   ],
+   "spells_in_reach": [
+    109186
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(aurEff->GetAmount()))"
+  },
+  {
+   "call": "SelectNearbyTarget",
+   "class": "spell_rog_blade_flurry",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_rogue.cpp",
+   "hook": "DoCheckProc",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 285,
+   "method": "CheckProc",
+   "role": "draw-no-recipient",
+   "spells": [
+    13877,
+    33735,
+    51211,
+    65956
+   ],
+   "spells_in_reach": [
+    13877
+   ],
+   "spells_script_extended": [],
+   "text": "_procTarget = GetTarget()->SelectNearbyTarget(eventInfo.GetActionTarget());"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_rog_killing_spree_aura",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_rogue.cpp",
+   "hook": "OnEffectPeriodic",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PERIODIC_DUMMY",
+   "line": 668,
+   "method": "HandleEffectPeriodic",
+   "role": "dead",
+   "spells": [
+    51690
+   ],
+   "spells_in_reach": [
+    51690
+   ],
+   "spells_script_extended": [],
+   "text": "ObjectGuid guid = Trinity::Containers::SelectRandomContainerElement(_targets);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_rog_ruthlessness",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_rogue.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1089,
+   "method": "HandleProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    14161
+   ],
+   "spells_in_reach": [
+    14161
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(aurEff->GetSpellEffectInfo().PointsPerResource * *cost))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_sha_aftershock",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 236,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    273221
+   ],
+   "spells_in_reach": [
+    273221
+   ],
+   "spells_script_extended": [],
+   "text": "return cost > 0 && roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_sha_deeply_rooted_elements",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_3",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 663,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    378270
+   ],
+   "spells_in_reach": [
+    378270
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(_procAttempts++ - 2);"
+  },
+  {
+   "call": "SelectRandomWeightedContainerElement",
+   "class": "spell_sha_elemental_blast",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "AfterCast",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 1066,
+   "method": "TriggerBuff",
+   "role": "spell-choice",
+   "spells": [
+    117014,
+    120588
+   ],
+   "spells_in_reach": [
+    117014
+   ],
+   "spells_script_extended": [
+    120588
+   ],
+   "text": "return *Trinity::Containers::SelectRandomWeightedContainerElement(BuffSpells, weights);"
+  },
+  {
+   "call": "SelectRandomContainerElement",
+   "class": "spell_sha_elemental_blast",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "AfterCast",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 1069,
+   "method": "TriggerBuff",
+   "role": "spell-choice",
+   "spells": [
+    117014,
+    120588
+   ],
+   "spells_in_reach": [
+    117014
+   ],
+   "spells_script_extended": [
+    120588
+   ],
+   "text": "return Trinity::Containers::SelectRandomContainerElement(BuffSpells);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_sha_lava_surge",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1827,
+   "method": "CheckProcChance",
+   "role": "non-targeting-rng",
+   "spells": [
+    77756
+   ],
+   "spells_in_reach": [
+    77756
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(procChance);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_sha_mastery_elemental_overload",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 2162,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    168534
+   ],
+   "spells_in_reach": [
+    168534
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(chance);"
+  },
+  {
+   "call": "std::partition",
+   "class": "spell_sha_molten_assault",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_2",
+   "hook_target": "SPELL_EFFECT_DUMMY",
+   "line": 2261,
+   "method": "TriggerFlameShocks",
+   "role": "non-targeting-rng",
+   "spells": [
+    60103
+   ],
+   "spells_in_reach": [
+    60103
+   ],
+   "spells_script_extended": [],
+   "text": "auto withoutFlameShockItr = std::partition(targets.begin(), targets.end(), Trinity::UnitAuraCheck(true, SPELL_SHAMAN_FLAME_SHOCK, GetCaster()->GetGUID()));"
+  },
+  {
+   "call": "RandomShuffle",
+   "class": "spell_sha_molten_assault",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_2",
+   "hook_target": "SPELL_EFFECT_DUMMY",
+   "line": 2265,
+   "method": "TriggerFlameShocks",
+   "role": "target",
+   "spells": [
+    60103
+   ],
+   "spells_in_reach": [
+    60103
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomShuffle(withoutFlameShockItr, targets.end());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_sha_molten_thunder_sundering",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "AfterCast",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 2328,
+   "method": "RollReset",
+   "role": "non-targeting-rng",
+   "spells": [
+    197214
+   ],
+   "spells_in_reach": [
+    197214
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(procChance))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_sha_stormflurry",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_shaman.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_1",
+   "hook_target": "SPELL_EFFECT_TRIGGER_SPELL",
+   "line": 2672,
+   "method": "HandleProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    17364,
+    115356
+   ],
+   "spells_in_reach": [
+    17364
+   ],
+   "spells_script_extended": [],
+   "text": "if (!roll_chance(procChance))"
+  },
+  {
+   "call": "frand(",
+   "class": "spell_warl_chaotic_energies",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warlock.cpp",
+   "hook": "OnEffectAbsorb",
+   "hook_effect": "EFFECT_2",
+   "hook_target": null,
+   "line": 472,
+   "method": "HandleAbsorb",
+   "role": "non-targeting-rng",
+   "spells": [
+    77220
+   ],
+   "spells_in_reach": [
+    77220
+   ],
+   "spells_script_extended": [],
+   "text": "damageReductionPct += frand(0.0f, damageReductionPct);"
+  },
+  {
+   "call": "RandomResize",
+   "class": "spell_warl_seed_of_corruption_dummy",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warlock.cpp",
+   "hook": "OnObjectAreaTargetSelect",
+   "hook_effect": "EFFECT_2",
+   "hook_target": "TARGET_UNIT_DEST_AREA_ENEMY",
+   "line": 1140,
+   "method": "SelectTarget",
+   "role": "target",
+   "spells": [
+    27243
+   ],
+   "spells_in_reach": [
+    27243
+   ],
+   "spells_script_extended": [],
+   "text": "Trinity::Containers::RandomResize(targets, 1);"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_warr_bloodsurge",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": "OnEffectPeriodic",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PERIODIC_DUMMY",
+   "line": 303,
+   "method": "HandlePeriodic",
+   "role": "non-targeting-rng",
+   "spells": [
+    384361
+   ],
+   "spells_in_reach": [
+    384361
+   ],
+   "spells_script_extended": [],
+   "text": "if (!roll_chance(chance))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_warr_bloodthirst_enrage",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": null,
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 374,
+   "method": "CheckEnrageProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    23881,
+    335096
+   ],
+   "spells_in_reach": [
+    23881
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(GetEffectInfo(EFFECT_2).CalcValue(caster)))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_warr_devastator",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": "OnEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PROC_TRIGGER_SPELL",
+   "line": 698,
+   "method": "OnProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    236279
+   ],
+   "spells_in_reach": [
+    236279
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(GetEffectInfo(EFFECT_1).CalcValue()))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_warr_raging_blow_cooldown_reset",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": "OnEffectHitTarget",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_EFFECT_DUMMY",
+   "line": 1639,
+   "method": "HandleResetCooldown",
+   "role": "non-targeting-rng",
+   "spells": [
+    85288,
+    335097
+   ],
+   "spells_in_reach": [
+    85288
+   ],
+   "spells_script_extended": [],
+   "text": "if (roll_chance(value))"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_warr_strategist",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 1869,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    384041
+   ],
+   "spells_in_reach": [
+    384041
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_warr_tactician",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_PROC_TRIGGER_SPELL",
+   "line": 1996,
+   "method": "CheckEffectProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    184783
+   ],
+   "spells_in_reach": [
+    184783
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_warr_thunder_blast_aura",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": "DoCheckEffectProc",
+   "hook_effect": "EFFECT_0",
+   "hook_target": "SPELL_AURA_DUMMY",
+   "line": 2079,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    435607
+   ],
+   "spells_in_reach": [
+    435607
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(aurEff->GetAmount());"
+  },
+  {
+   "call": "roll_chance",
+   "class": "spell_warr_unbridled_ferocity",
+   "evidence": "script-consumer",
+   "file": "src/server/scripts/Spells/spell_warrior.cpp",
+   "hook": "DoCheckProc",
+   "hook_effect": null,
+   "hook_target": null,
+   "line": 2246,
+   "method": "CheckProc",
+   "role": "non-targeting-rng",
+   "spells": [
+    389603
+   ],
+   "spells_in_reach": [
+    389603
+   ],
+   "spells_script_extended": [],
+   "text": "return roll_chance(GetEffect(EFFECT_0)->GetAmount());"
+  }
+ ],
+ "spell_hit_order": {
+  "consumers": [
+   "Spell.cpp:2443-2556",
+   "Object.cpp:1949-1996",
+   "Object.cpp:1853-1942",
+   "Unit.cpp:2621-2720",
+   "Spell.cpp:8490-8563",
+   "Spell.cpp:3816",
+   "Spell.cpp:3880-3884"
+  ],
+  "cross_refs": [
+   "docs/research/proc-pipeline-archaeology.md §8 (one rand_chance per aura passing pre-RNG checks)",
+   "docs/research/auto-attack-weapon-archaeology.md §7.3 (melee/ranged spell: reflect, urand(0,9999), crit)"
+  ],
+  "evidence": "trinity-consumer",
+  "finding": "Hit/miss draws are consumed during target selection, not at hit time: AddUnitTarget (Spell.cpp:2443) calls SpellHitResult (2485) for every *new* unique target, immediately after that target is chosen, so within one cast the stream reads: group-1 selection draws, hit draws of group-1's new targets (in AddUnitTarget order), group-2 selection draws, ... ; then HandleLaunchPhase crit draws (8563) for every target whose MissCondition is NONE (or a successful reflect), in m_UniqueTargetInfo order; then payload/proc draws. A target already in m_UniqueTargetInfo only ORs its effect mask (2463-2469): no second hit draw.",
+  "reflect": "SPELL_MISS_REFLECT computes ReflectResult with caster->SpellHitResult(caster, ..., canReflect=false) (Spell.cpp:2525-2528): this == victim returns NONE before any draw -> no extra draw."
+ },
+ "trinity_defects": [
+  {
+   "description": "The effect-grouping radius comparison calls CalcRadius, which consumes rand_norm for random-radius selectors and makes the comparison effectively random.",
+   "effect_on_recipients": "Effects that would share a selection are selected separately (and draw extra RNG).",
+   "file_line": "Spell.cpp:773-774",
+   "id": "TG-D-DEF-20",
+   "oracle_behaviour": "Track F's selection_plan calls radius_fn lazily, so the draws are reproduced when a fixture supplies them."
+  }
+ ],
+ "unknowns": [
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-probe",
+   "id": "TG-D-20",
+   "known": "libstdc++13 forward Fisher-Yates index sequence (probe-checked); floor(n/2) distribution calls.",
+   "reopen_condition": "only if a bit-exact Trinity replay is required",
+   "subject": "engine-word consumption of RandomShuffle / uniform_int_distribution",
+   "unknown": "How many engine words each distribution call costs (rejection sampling).",
+   "why_unresolved": "Library implementation detail; Retail does not run this code."
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-D-21",
+   "known": "draw count and order per selector path; Min not added back.",
+   "reopen_condition": "fixture states the collided point",
+   "subject": "random destinations (TARGET_DIR_RANDOM, *_RANDOM radius)",
+   "unknown": "the final point: MovePositionToFirstCollision / height are world geometry.",
+   "why_unresolved": "no VMAP/MMAP model"
+  },
+  {
+   "build_skew": false,
+   "evidence": "trinity-consumer",
+   "id": "TG-D-22",
+   "known": "Spell.cpp:773-774 calls CalcRadius (drawing) for each compared pair; a drawn radius almost never compares equal.",
+   "reopen_condition": "compiler-specific probe if ever needed",
+   "subject": "grouping radius comparison with random-radius selectors",
+   "unknown": "evaluation order of the two operands of != (unspecified in C++), hence which draw feeds which effect.",
+   "why_unresolved": "unspecified behaviour"
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-probe",
+   "id": "TG-D-24",
+   "known": "libstdc++ 13: forward Fisher-Yates, ascending swap positions, floor(n/2) uniform_int_distribution calls (one per pair, one extra first when n is even); probe-logged swaps.",
+   "reopen_condition": "a build of Trinity with another standard library must be replayed",
+   "subject": "standard-library dependence of the RandomShuffle index model",
+   "unknown": "Swap order / index mapping under libc++ or MSVC builds of Trinity (different shuffle implementations).",
+   "why_unresolved": "Implementation-defined; the oracle's fixture draws are swap indices for libstdc++ 13 only."
+  },
+  {
+   "build_skew": "n/a",
+   "evidence": "trinity-consumer",
+   "id": "TG-D-23",
+   "known": "two rand_norm() calls as arguments of one MovePosition call (Object.cpp:2779).",
+   "reopen_condition": "compiler-specific probe",
+   "subject": "GetRandomNearPosition argument evaluation order",
+   "unknown": "which draw is the distance and which the angle (unspecified order).",
+   "why_unresolved": "unspecified behaviour"
+  }
+ ],
+ "worked_example": {
+  "consumed": 9,
+  "consumers": [
+   "Containers.h:67-87",
+   "Spell.cpp:1448",
+   "Spell.cpp:2485",
+   "Object.cpp:1919",
+   "Spell.cpp:8563"
+  ],
+  "evidence": "trinity-consumer",
+  "fixture": "area cap 2 of [t1..t5]; draws 5,1,3,1,1 (RandomResize), 4200,17 (irand hit t2,t4), 55.5,3.25 (crit t2,t4)",
+  "kept": [
+   "t2",
+   "t4"
+  ],
+  "sequence": [
+   {
+    "consumer": "Containers.h:76",
+    "draw": "urand(1,5)",
+    "n": 0,
+    "phase": "select",
+    "value": 5
+   },
+   {
+    "consumer": "Containers.h:76",
+    "draw": "urand(1,4)",
+    "n": 1,
+    "phase": "select",
+    "value": 1
+   },
+   {
+    "consumer": "Containers.h:76",
+    "draw": "urand(1,3)",
+    "n": 2,
+    "phase": "select",
+    "value": 3
+   },
+   {
+    "consumer": "Containers.h:76",
+    "draw": "urand(1,2)",
+    "n": 3,
+    "phase": "select",
+    "value": 1
+   },
+   {
+    "consumer": "Containers.h:76",
+    "draw": "urand(1,1)",
+    "n": 4,
+    "phase": "select",
+    "value": 1
+   },
+   {
+    "consumer": "Object.cpp:1919",
+    "draw": "irand(0,9999)",
+    "n": 5,
+    "phase": "select/AddUnitTarget",
+    "target": "t2",
+    "value": 4200
+   },
+   {
+    "consumer": "Object.cpp:1919",
+    "draw": "irand(0,9999)",
+    "n": 6,
+    "phase": "select/AddUnitTarget",
+    "target": "t4",
+    "value": 17
+   },
+   {
+    "consumer": "Spell.cpp:8563",
+    "crit": false,
+    "draw": "rand_chance",
+    "n": 7,
+    "phase": "launch/PreprocessSpellLaunch",
+    "target": "t2",
+    "value": 55.5
+   },
+   {
+    "consumer": "Spell.cpp:8563",
+    "crit": true,
+    "draw": "rand_chance",
+    "n": 8,
+    "phase": "launch/PreprocessSpellLaunch",
+    "target": "t4",
+    "value": 3.25
+   }
+  ]
+ }
+}
