@@ -1,0 +1,603 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 weapon_combat.py sources",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2"
+ },
+ "constants": {
+  "BASE_MINDAMAGE": 1.0,
+  "BASE_MAXDAMAGE": 2.0,
+  "BASE_ATTACK_TIME_ms": 2000,
+  "AP_DIVISOR": 3.5,
+  "AP_MULTIPLIER_FLOOR": 0.25,
+  "NO_WEAPON_AP_MULTIPLIER": 2.0,
+  "WEAPON_AP_PER_DPS": 6.0,
+  "OFFHAND_PCT_FACTOR": 0.5,
+  "MAX_LEVEL": 90,
+  "normalized_speed_by_subclass": {
+   "AXE": 2.4000000953674316,
+   "AXE2": 3.299999952316284,
+   "MACE": 2.4000000953674316,
+   "MACE2": 3.299999952316284,
+   "POLEARM": 3.299999952316284,
+   "SWORD": 2.4000000953674316,
+   "SWORD2": 3.299999952316284,
+   "WARGLAIVES": 2.4000000953674316,
+   "STAFF": 3.299999952316284,
+   "EXOTIC": 2.4000000953674316,
+   "EXOTIC2": 2.4000000953674316,
+   "FIST_WEAPON": 2.4000000953674316,
+   "DAGGER": 1.7000000476837158,
+   "THROWN": 2.0,
+   "FISHING_POLE": 3.299999952316284
+  },
+  "types": "all float literals are C++ `float`; BASE_ATTACK_TIME is uint32 ms; CombatRoundTime int16"
+ },
+ "sources": [
+  {
+   "field": "ItemSparse.ItemDelay",
+   "source_type": "uint16 (DB2)",
+   "consumer": "ItemTemplate::GetDelay -> Player::_ApplyWeaponDamage SetBaseAttackTime; Unit::GetAPMultiplier / 1000.0f",
+   "intermediate_type": "uint32 -> float",
+   "units": "ms",
+   "coordinates": [
+    "Player.cpp:8160-8161",
+    "Unit.cpp:11061"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "ItemSparse.DmgVariance / ItemDamage*<ilvl>.Quality[q]",
+   "source_type": "float (DB2 / GameTable)",
+   "consumer": "ItemTemplate::GetDamage -> Player::SetBaseWeaponDamage(float m_weaponDamage[attType][MINDAMAGE/MAXDAMAGE])",
+   "intermediate_type": "float",
+   "rounding": "max: floor(x+0.5f); min: none (gearing archaeology s5)",
+   "units": "damage",
+   "coordinates": [
+    "Player.cpp:8146-8157",
+    "Unit.h:1573",
+    "Unit.h:1940"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "ItemTemplate::GetDPS",
+   "source_type": "float",
+   "consumer": "int32(dps * 6.0f) -> UnitData::MainHand/OffHand/RangedWeaponAttackPower",
+   "intermediate_type": "float -> int32 (truncation)",
+   "units": "attack power",
+   "coordinates": [
+    "Player.cpp:8163-8176"
+   ],
+   "evidence_class": "trinity-consumer",
+   "note": "excluded from white-swing damage: CalculateMinMaxDamage calls GetTotalAttackPowerValue(attType, false) (StatSystem.cpp:447); included in GetTotalAttackPowerValue(attType) used by SpellDamageBonusDone AP coefficients (Unit.cpp:6873)"
+  },
+  {
+   "field": "Item.SubclassID (weapon)",
+   "source_type": "uint8",
+   "consumer": "Unit::GetAPMultiplier normalized table; ItemTemplate::IsRangedWeapon; CanTitanGrip subclass mask",
+   "intermediate_type": "float constants 3.3f/2.4f/1.7f/2.0f",
+   "units": "seconds",
+   "coordinates": [
+    "Unit.cpp:11063-11088",
+    "ItemTemplate.h:940-953",
+    "Player.cpp:13125-13147"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "Item.InventoryType",
+   "source_type": "uint8",
+   "consumer": "Player::GetAttackBySlot (MAINHAND: RANGED/RANGEDRIGHT -> RANGED_ATTACK else BASE_ATTACK; OFFHAND -> OFF_ATTACK); IsTwoHandUsed; CanEquipItem gates",
+   "coordinates": [
+    "Player.cpp:9649-9657",
+    "Player.cpp:13189-13198",
+    "Player.cpp:10850-10877"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "ItemSparse.DamageType",
+   "source_type": "uint8",
+   "consumer": "Player::GetMeleeDamageSchoolMask = SpellSchoolMask(1 << DamageType)",
+   "coordinates": [
+    "Player.cpp:8183-8189"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "ItemSparse.Flags_2 & 0x80000 (ITEM_FLAG3_ALWAYS_ALLOW_DUAL_WIELD)",
+   "source_type": "int32 bit",
+   "consumer": "off-hand equip gate and OFF_ATTACK refresh",
+   "coordinates": [
+    "Player.cpp:10861",
+    "StatSystem.cpp:411"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "SpellShapeshiftForm.CombatRoundTime",
+   "source_type": "int16 (DB2)",
+   "consumer": "Player::InitDataForForm -> SetBaseAttackTime(BASE/OFF); _ApplyWeaponDamage skips attack time; CalculateMinMaxDamage weapon * CRT / 1000.0f / attackPowerMod",
+   "intermediate_type": "int16 -> uint32 / float",
+   "units": "ms",
+   "coordinates": [
+    "Player.cpp:23388-23393",
+    "Player.cpp:8160",
+    "StatSystem.cpp:459-464"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "SpellShapeshiftForm.Flags & 0x20",
+   "source_type": "int32 bit",
+   "consumer": "Player::UpdateAttackPowerAndDamage adds AGI * AttackPowerPerStrength",
+   "coordinates": [
+    "StatSystem.cpp:362-365"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "ShapeshiftForm in {CAT 1, BEAR 5, DIRE_BEAR 8, GHOST_WOLF 16}",
+   "source_type": "enum",
+   "consumer": "Unit::IsInFeralForm -> GetAPMultiplier uses base attack time; CalculateDamage adds off-hand range",
+   "coordinates": [
+    "Unit.cpp:9539-9543",
+    "Unit.cpp:11053-11054",
+    "Unit.cpp:2509-2516",
+    "Unit.cpp:2528-2532"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "ChrClasses.AttackPowerPerStrength / AttackPowerPerAgility / RangedAttackPowerPerAgility",
+   "source_type": "float (DB2)",
+   "consumer": "Player::UpdateAttackPowerAndDamage -> SetStatFlatModifier(UNIT_MOD_ATTACK_POWER[_RANGED], BASE_VALUE)",
+   "intermediate_type": "float",
+   "coordinates": [
+    "StatSystem.cpp:356-373"
+   ],
+   "evidence_class": "trinity-consumer",
+   "note": "already covered by character-stat-pipeline-archaeology.md s5; reused, not re-derived"
+  },
+  {
+   "field": "UnitData.AttackPower / AttackPowerModPos / AttackPowerModNeg / AttackPowerMultiplier (+Ranged*)",
+   "source_type": "int32 / int32 / int32 / float",
+   "consumer": "Unit::GetTotalAttackPowerValue: float ap = int32 sum; (+weapon AP; OFF: /2) ; ap * (1.0f + mult)",
+   "intermediate_type": "int32 sum -> float",
+   "coordinates": [
+    "Unit.cpp:9919-9947",
+    "UpdateFields.h:401-413",
+    "StatSystem.cpp:379-393"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "UNIT_MOD_DAMAGE_{MAINHAND,OFFHAND,RANGED} BASE_VALUE / BASE_PCT",
+   "source_type": "float modifier",
+   "consumer": "CalculateMinMaxDamage baseValue / basePct",
+   "coordinates": [
+    "StatSystem.cpp:447-448"
+   ],
+   "evidence_class": "structural-inference",
+   "note": "no Player/StatSystem setter for the damage BASE_VALUE/BASE_PCT: players see 0.0f / 1.0f"
+  },
+  {
+   "field": "UNIT_MOD_DAMAGE_* TOTAL_VALUE",
+   "source_type": "float modifier",
+   "consumer": "Unit::UpdateDamageDoneMods: SPELL_AURA_MOD_DAMAGE_DONE (physical, CheckAttackFitToAuraRequirement) + Player: ITEM_ENCHANTMENT_TYPE_DAMAGE EffectScalingPoints (+TOTEM for shaman * delay/1000)",
+   "coordinates": [
+    "Unit.cpp:9745-9773",
+    "Player.cpp:4921-4973"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "UNIT_MOD_DAMAGE_* TOTAL_PCT",
+   "source_type": "float modifier",
+   "consumer": "Unit::UpdateDamagePctDoneMods: factor (OFF_ATTACK 0.5f) * prod SPELL_AURA_MOD_DAMAGE_PERCENT_DONE(physical) * (OFF) prod SPELL_AURA_MOD_OFFHAND_DAMAGE_PCT",
+   "intermediate_type": "float product",
+   "coordinates": [
+    "Unit.cpp:9781-9819"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "CR_VERSATILITY_DAMAGE_DONE rating + SPELL_AURA_MOD_VERSATILITY",
+   "source_type": "float pct + int32",
+   "consumer": "CalculateMinMaxDamage AddPct(versaDmgMod, rating + float(aura))",
+   "coordinates": [
+    "StatSystem.cpp:455-457"
+   ],
+   "evidence_class": "trinity-consumer",
+   "note": "versatility is folded into the prepared min/max, not into MeleeDamageBonusDone"
+  },
+  {
+   "field": "UNIT_FLAG_DISARMED / UNIT_FLAG2_DISARM_OFFHAND / _RANGED",
+   "source_type": "unit flags",
+   "consumer": "Unit::CanUseAttackType -> BASE_MINDAMAGE/BASE_MAXDAMAGE or 0/0",
+   "coordinates": [
+    "Unit.cpp:2605-2618",
+    "StatSystem.cpp:465-476"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "SPELL_EFFECT_DUAL_WIELD (40) / SPELL_EFFECT_TITAN_GRIP (155)",
+   "source_type": "spell effect",
+   "consumer": "Spell::EffectDualWield -> SetCanDualWield(true); Spell::EffectTitanGrip -> SetCanTitanGrip(true, MiscValue penalty, EquippedItemClass, SubClassMask); unlearn resets",
+   "coordinates": [
+    "SpellEffects.cpp:2237-2243",
+    "SpellEffects.cpp:4954-4961",
+    "Player.cpp:3344-3357"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "GetMaxLevelForExpansion(EXPANSION_MIDNIGHT) = 90",
+   "source_type": "constexpr",
+   "consumer": "CalcArmorReducedDamage item-level diminishing gate",
+   "coordinates": [
+    "SharedDefines.h:109-140",
+    "Unit.cpp:1758-1760"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "field": "ExpectedStat.ArmorConstant (Lvl, ExpansionID=-2)",
+   "source_type": "float (DB2)",
+   "consumer": "DB2Manager::EvaluateExpectedStat(ArmorConstant, attackerLevel, -2, 0, class, 0) -- class mod only for creature attackers",
+   "coordinates": [
+    "Unit.cpp:1755",
+    "DB2Stores.cpp EvaluateExpectedStat",
+    "DB2Stores.cpp:1319"
+   ],
+   "evidence_class": "db2-fact",
+   "value_level_90": 3430.0
+  },
+  {
+   "field": "GameTable ItemLevelByLevel.txt",
+   "source_type": "GameTable float",
+   "consumer": "itemLevelDelta = AvgItemLevel[EquippedBase] - ItemLevelByLevel[90].ItemLevel -> GlobalCurve 18 (CurveID 27400)",
+   "coordinates": [
+    "Unit.cpp:1762-1764",
+    "GameTables.cpp:127"
+   ],
+   "evidence_class": "unresolved",
+   "note": "ItemLevelByLevel.txt is absent from data/tables (14 GameTables present); ASSERT_NOTNULL in Trinity"
+  }
+ ],
+ "capability_by_spec": {
+  "dual_wield": {
+   "72": [
+    {
+     "spell": 231842,
+     "name": "Dual Wield",
+     "scope": "default"
+    }
+   ],
+   "251": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default"
+    }
+   ],
+   "253": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 131,
+     "race_restricted": false
+    }
+   ],
+   "254": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 131,
+     "race_restricted": false
+    }
+   ],
+   "255": [
+    {
+     "spell": 1277760,
+     "name": "Dual Wield",
+     "scope": "default"
+    },
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 131,
+     "race_restricted": false
+    }
+   ],
+   "259": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 131,
+     "race_restricted": false
+    }
+   ],
+   "260": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 131,
+     "race_restricted": false
+    }
+   ],
+   "261": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 131,
+     "race_restricted": false
+    }
+   ],
+   "263": [
+    {
+     "spell": 86629,
+     "name": "Dual Wield",
+     "scope": "default"
+    }
+   ],
+   "268": [
+    {
+     "spell": 124146,
+     "name": "Dual Wield",
+     "scope": "default"
+    }
+   ],
+   "269": [
+    {
+     "spell": 124146,
+     "name": "Dual Wield",
+     "scope": "default"
+    }
+   ],
+   "577": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 1661,
+     "race_restricted": true
+    }
+   ],
+   "581": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 1661,
+     "race_restricted": true
+    }
+   ],
+   "1480": [
+    {
+     "spell": 674,
+     "name": "Dual Wield",
+     "scope": "default_skill",
+     "skill_line": 118,
+     "skill_race_class_info": 1661,
+     "race_restricted": true
+    }
+   ]
+  },
+  "titan_grip": {
+   "72": [
+    {
+     "spell": 46917,
+     "name": "Titan's Grip",
+     "penalty_spell": 0,
+     "equipped_item_class": -1,
+     "equipped_item_subclass_mask": 0,
+     "scope": "default"
+    }
+   ]
+  }
+ },
+ "capability_by_spec_default_scope": {
+  "dual_wield": {
+   "72": [
+    {
+     "spell": 231842,
+     "name": "Dual Wield"
+    }
+   ],
+   "251": [
+    {
+     "spell": 674,
+     "name": "Dual Wield"
+    }
+   ],
+   "255": [
+    {
+     "spell": 1277760,
+     "name": "Dual Wield"
+    }
+   ],
+   "263": [
+    {
+     "spell": 86629,
+     "name": "Dual Wield"
+    }
+   ],
+   "268": [
+    {
+     "spell": 124146,
+     "name": "Dual Wield"
+    }
+   ],
+   "269": [
+    {
+     "spell": 124146,
+     "name": "Dual Wield"
+    }
+   ]
+  },
+  "titan_grip": {
+   "72": [
+    {
+     "spell": 46917,
+     "name": "Titan's Grip",
+     "penalty_spell": 0,
+     "equipped_item_class": -1,
+     "equipped_item_subclass_mask": 0
+    }
+   ]
+  }
+ },
+ "capability_by_spec_learned_only": {
+  "dual_wield": {
+   "71": [
+    {
+     "spell": 296087,
+     "name": "Dual Wield",
+     "scope": "learned_spell_state",
+     "acquire_method": "Learned",
+     "skill_line_ability": [
+      40461
+     ],
+     "coordinates": [
+      "Player.cpp:25404-25417",
+      "DBCEnums.h:2362"
+     ]
+    }
+   ],
+   "72": [
+    {
+     "spell": 296087,
+     "name": "Dual Wield",
+     "scope": "learned_spell_state",
+     "acquire_method": "Learned",
+     "skill_line_ability": [
+      40461
+     ],
+     "coordinates": [
+      "Player.cpp:25404-25417",
+      "DBCEnums.h:2362"
+     ]
+    }
+   ],
+   "73": [
+    {
+     "spell": 296087,
+     "name": "Dual Wield",
+     "scope": "learned_spell_state",
+     "acquire_method": "Learned",
+     "skill_line_ability": [
+      40461
+     ],
+     "coordinates": [
+      "Player.cpp:25404-25417",
+      "DBCEnums.h:2362"
+     ]
+    }
+   ]
+  },
+  "titan_grip": {}
+ },
+ "capability_learned_only_note": "grants reachable only through a class skill line whose every SkillLineAbility row has AcquireMethod 0 (Learned): LearnSkillRewardedSpells never learns them (Player.cpp:25404-25417), so they are learned-spell character state (e.g. 296087 Dual Wield, taught only by 296088 'Learn Dual Wield'; no automatic source in the snapshot). They are NOT counted by `weapon`, the Track C hook or the witnesses unless the caller supplies the spell as learned (--learned-spell / identity.learned_spells). See character-preparation-closure.md lead reconciliation.",
+ "capability_note": "specs reaching SPELL_EFFECT_DUAL_WIELD / SPELL_EFFECT_TITAN_GRIP; each grant is tagged with the path that reaches it: `default` (class trees + spec spells + current gear, dummy_semantics.scope.Scope), `class_skill_lines` (only the extended Scope(include_class_skills=True): SkillLine CategoryID 7 class lines with an automatic AcquireMethod; AcquireMethod-0 grants are moved to capability_by_spec_learned_only) or `default_skill` (Trinity's default-skill path, see default_skill_grants: SkillRaceClassInfo Availability 1 -> LearnDefaultSkills -> LearnSkillRewardedSpells; e.g. 674 Dual Wield on SkillLine 118 (CategoryID 6, so outside both Scope modes) for classes 3/4/12). Specs absent from all three have no grant and `weapon` reports EQUIP_ERR_2HSKILLNOTFOUND for a one-hand off-hand weapon",
+ "default_skill_grants_by_class": {
+  "3": [
+   {
+    "spell": 674,
+    "name": "Dual Wield",
+    "kind": "dual_wield",
+    "skill_line": 118,
+    "skill_line_ability": 610,
+    "skill_race_class_info": 131,
+    "acquire_method": "AutomaticCharLevel",
+    "conditional": false,
+    "required_level": 0,
+    "race_masks": [
+     -1,
+     -1
+    ],
+    "race_restricted": false,
+    "coordinates": [
+     "ObjectMgr.cpp:4061-4070",
+     "Player.cpp:25259-25275",
+     "Player.cpp:25391-25440"
+    ],
+    "evidence_class": "trinity-consumer"
+   }
+  ],
+  "4": [
+   {
+    "spell": 674,
+    "name": "Dual Wield",
+    "kind": "dual_wield",
+    "skill_line": 118,
+    "skill_line_ability": 610,
+    "skill_race_class_info": 131,
+    "acquire_method": "AutomaticCharLevel",
+    "conditional": false,
+    "required_level": 0,
+    "race_masks": [
+     -1,
+     -1
+    ],
+    "race_restricted": false,
+    "coordinates": [
+     "ObjectMgr.cpp:4061-4070",
+     "Player.cpp:25259-25275",
+     "Player.cpp:25391-25440"
+    ],
+    "evidence_class": "trinity-consumer"
+   }
+  ],
+  "12": [
+   {
+    "spell": 674,
+    "name": "Dual Wield",
+    "kind": "dual_wield",
+    "skill_line": 118,
+    "skill_line_ability": 610,
+    "skill_race_class_info": 1661,
+    "acquire_method": "AutomaticCharLevel",
+    "conditional": false,
+    "required_level": 0,
+    "race_masks": [
+     268435976,
+     0
+    ],
+    "race_restricted": true,
+    "coordinates": [
+     "ObjectMgr.cpp:4061-4070",
+     "Player.cpp:25259-25275",
+     "Player.cpp:25391-25440"
+    ],
+    "evidence_class": "trinity-consumer"
+   }
+  ]
+ },
+ "scope_summary": {
+  "default": {
+   "reachable": 4836,
+   "specs": 40
+  },
+  "class_skill_lines": {
+   "reachable": 8975
+  }
+ }
+}

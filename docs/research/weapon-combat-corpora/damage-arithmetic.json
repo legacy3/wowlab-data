@@ -1,0 +1,375 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 weapon_combat.py arithmetic",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2"
+ },
+ "stages": [
+  {
+   "order": 1,
+   "stage": "weapon roll",
+   "function": "Unit::CalculateDamage",
+   "coordinates": [
+    "Unit.cpp:2501-2551"
+   ],
+   "input_type": "float min/max (UnitData::MinDamage/MaxDamage, or CalculateMinMaxDamage for normalized/!addTotalPct)",
+   "arithmetic_type": "float clamp/swap",
+   "rounding": "truncation",
+   "integer_conversion": "urand(uint32(minDamage), uint32(maxDamage)) -> uint32 uniform_int_distribution (Random.cpp:42-47)",
+   "units": "damage",
+   "evidence_class": "trinity-probe",
+   "notes": "feral BASE_ATTACK adds the off-hand range (Unit.cpp:2509-2516 / 2528-2532)"
+  },
+  {
+   "order": 2,
+   "stage": "bonus done",
+   "function": "Unit::MeleeDamageBonusDone(victim, int32 damage, attType, DIRECT_DAMAGE, nullptr, nullptr, MECHANIC_NONE, school)",
+   "coordinates": [
+    "Unit.cpp:1383",
+    "Unit.cpp:8020-8127"
+   ],
+   "input_type": "uint32 roll -> int32 parameter (implicit)",
+   "arithmetic_type": "int32 flat (DoneFlatBenefit incl. int32(APbonus / 3.5f * GetAPMultiplier)); float DoneTotalMod product; float(damage + flat) * mod",
+   "rounding": "truncation",
+   "integer_conversion": "int32(std::max(damageF, 0.0f)) Unit.cpp:8126",
+   "aggregation_precision": "GetTotalAuraMultiplier* = float product; GetTotalAuraModifier* = int32 sum; AddPct per SPELL_AURA_MOD_AUTOATTACK_DAMAGE",
+   "units": "damage",
+   "evidence_class": "trinity-consumer",
+   "notes": "physical SPELL_AURA_MOD_DAMAGE_PERCENT_DONE is NOT here (already in TOTAL_PCT of the prepared min/max, Unit.cpp:8062-8064); versatility is NOT here for white swings (StatSystem.cpp:457)"
+  },
+  {
+   "order": 3,
+   "stage": "bonus taken",
+   "function": "Unit::MeleeDamageBonusTaken",
+   "coordinates": [
+    "Unit.cpp:1384",
+    "Unit.cpp:8132-8240"
+   ],
+   "input_type": "int32",
+   "arithmetic_type": "int32 flat; float TakenTotalMod product; AddPct versatility (player victims only) ; 'Sanctified Wrath' reduction rewrite",
+   "rounding": "truncation",
+   "integer_conversion": "int32(std::max(tmpDamage, 0.0f)) Unit.cpp:8239",
+   "units": "damage",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "order": 4,
+   "stage": "armor",
+   "function": "Unit::CalcArmorReducedDamage(attacker, victim, uint32 damage, nullptr, attType)",
+   "coordinates": [
+    "Unit.cpp:1390-1396",
+    "Unit.cpp:1684-1774"
+   ],
+   "input_type": "uint32",
+   "arithmetic_type": "float armor pipeline; mitigation = min(armor/(armor+constant), 0.85f); damage * (1.0f - mitigation)",
+   "rounding": "truncation; std::floor per MOD_IGNORE_TARGET_RESIST",
+   "integer_conversion": "uint32(std::max(damage * (1.0f - mitigation), 0.0f)) Unit.cpp:1773",
+   "units": "damage",
+   "evidence_class": "trinity-probe",
+   "notes": "armorConstant = ExpectedStat.ArmorConstant(attackerLevel, -2) = 3430 at 90 (db2-fact); at max level the constant is scaled by Curve 27400 of (AvgItemLevel - ItemLevelByLevel[90]) -- GameTable absent from snapshot: unresolved; G3D::fuzzyLe compares in double with eps 5e-7*(|a|+1); CR_ARMOR_PENETRATION rating: legacy-only (no current rating source)"
+  },
+  {
+   "order": 5,
+   "stage": "outcome roll",
+   "function": "Unit::RollMeleeOutcomeAgainst",
+   "coordinates": [
+    "Unit.cpp:1398",
+    "Unit.cpp:2389-2499"
+   ],
+   "owner": "agent D",
+   "evidence_class": "trinity-consumer",
+   "notes": "glancing requires attackerLevel + 3 < victimLevel and a creature victim (Unit.cpp:2458-2466); crushing requires !IsControlledByPlayer() (Unit.cpp:2485-2497): both legacy-only for a player attacker at 90 unless a creature answers GetLevelForTarget >= 94"
+  },
+  {
+   "order": 6,
+   "stage": "crit",
+   "function": "case MELEE_HIT_CRIT",
+   "coordinates": [
+    "Unit.cpp:1424-1440"
+   ],
+   "input_type": "uint32",
+   "arithmetic_type": "Damage *= 2 (uint32); mod = (GetTotalAuraMultiplierByMiscMask(SPELL_AURA_MOD_CRIT_DAMAGE_BONUS, school) - 1.0f) * 100 (float); AddPct<uint32,float>",
+   "rounding": "truncation (CalculatePct casts float(base)*pct/100.0f back to uint32)",
+   "integer_conversion": "uint32(float) inside CalculatePct",
+   "units": "damage",
+   "evidence_class": "trinity-probe",
+   "notes": "2.0 multiplier for everyone: no player/NPC distinction here (SPELL_AURA_MOD_CRIT_DAMAGE_BONUS is the only modifier)"
+  },
+  {
+   "order": 6,
+   "stage": "block",
+   "function": "case MELEE_HIT_BLOCK",
+   "coordinates": [
+    "Unit.cpp:1455-1469",
+    "Unit.h:987",
+    "Player.cpp:26822-26831"
+   ],
+   "input_type": "uint32",
+   "arithmetic_type": "Blocked = CalculatePct(Damage, Target->GetBlockPercent(GetLevel())); if Target->IsBlockCritical(): Blocked *= 2; Blocked *= GetTotalAuraMultiplier(SPELL_AURA_MOD_CRITICAL_BLOCK_AMOUNT) -- called on the ATTACKER (this), not the blocking victim",
+   "rounding": "truncation",
+   "integer_conversion": "uint32(float) in CalculatePct and in the *= float",
+   "units": "creature victim: percent 30.0f; player victim: FRACTION min(ShieldBlock/(ShieldBlock+ArmorConstant), 0.85f) fed to CalculatePct unchanged",
+   "evidence_class": "trinity-probe",
+   "notes": "consumer quirk: a player victim blocks <= 0.85% of the hit under this code (fraction passed where percent is expected); Trinity is the consumer oracle, not Retail truth"
+  },
+  {
+   "order": 6,
+   "stage": "glancing",
+   "function": "case MELEE_HIT_GLANCING",
+   "coordinates": [
+    "Unit.cpp:1470-1483"
+   ],
+   "input_type": "uint32",
+   "arithmetic_type": "leveldif = min(victim - attacker, 3) int32; reducePercent = 1.f - leveldif * 0.1f; Damage = uint32(reducePercent * Damage)",
+   "rounding": "truncation",
+   "integer_conversion": "uint32(float)",
+   "evidence_class": "legacy-only",
+   "notes": "reachable only via RollMeleeOutcomeAgainst glancing branch (attacker+3 < victim, creature victim)"
+  },
+  {
+   "order": 6,
+   "stage": "crushing",
+   "function": "case MELEE_HIT_CRUSHING",
+   "coordinates": [
+    "Unit.cpp:1484-1490"
+   ],
+   "input_type": "uint32",
+   "arithmetic_type": "Damage += Damage / 2 (uint32 division)",
+   "rounding": "integer division",
+   "evidence_class": "legacy-only",
+   "notes": "creature attackers only (!IsControlledByPlayer())"
+  },
+  {
+   "order": 6,
+   "stage": "parry/dodge/miss/evade",
+   "function": "cases",
+   "coordinates": [
+    "Unit.cpp:1404-1454"
+   ],
+   "arithmetic_type": "Damage = 0; parry/dodge move Damage into CleanDamage (rage only)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "order": 7,
+   "stage": "resilience",
+   "function": "Unit::CanApplyResilience / ApplyResilience",
+   "coordinates": [
+    "Unit.cpp:1499-1505",
+    "Unit.cpp:12416-12438",
+    "Unit.h:1190"
+   ],
+   "evidence_class": "legacy-only",
+   "notes": "player attacker: GetOwnerGUID() empty -> never applied; creature victim without player owner -> no-op"
+  },
+  {
+   "order": 8,
+   "stage": "absorb/resist",
+   "function": "Unit::CalcAbsorbResist(DamageInfo)",
+   "coordinates": [
+    "Unit.cpp:1510-1524"
+   ],
+   "input_type": "uint32 via DamageInfo copy",
+   "evidence_class": "trinity-consumer",
+   "notes": "victim auras; out of the weapon model (no input modelled)"
+  },
+  {
+   "order": 9,
+   "stage": "deal",
+   "function": "Unit::DealMeleeDamage -> Unit::DealDamage(this, victim, uint32 Damage, &cleanDamage, DIRECT_DAMAGE, school, nullptr, durabilityLoss)",
+   "coordinates": [
+    "Unit.cpp:1529-1571"
+   ],
+   "input_type": "uint32",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "order": "special-taken",
+   "stage": "special weapon attack: damage taken",
+   "function": "Unit::CalculateSpellDamageTaken (DmgClass MELEE/RANGED branch) via Spell.cpp:2924",
+   "coordinates": [
+    "Unit.cpp:1193-1257",
+    "Spell.cpp:2924",
+    "Spell.cpp:2763"
+   ],
+   "input_type": "int32 m_damage",
+   "arithmetic_type": "armor (with spellInfo: TargetResistance spellmod, ATTR0_CU_IGNORE_ARMOR); crit: uint32 crit_bonus = damage (+CritDamageAndHealing spellmod), damage += crit_bonus, AddPct<int32,float>(MOD_CRIT_DAMAGE_BONUS); block: uint32 value = GetBlockPercent(attacker level) [creature 30, player fraction -> 0], critical block: value *= 2, value *= ATTACKER MOD_CRITICAL_BLOCK_AMOUNT; blocked = CalculatePct(damage, value); damage <= blocked -> fullBlock",
+   "rounding": "truncation at uint32 value (Unit.cpp:1239) before the percent is used",
+   "integer_conversion": "Unit.cpp:1239, 1243, 1246",
+   "units": "percent (uint32)",
+   "evidence_class": "trinity-consumer",
+   "notes": "a player victim never blocks any damage of a weapon special under this consumer (fraction truncates to 0); a partial block still deals damage unless SPELL_ATTR3_COMPLETELY_BLOCKED (Spell.cpp:2763); cross-checked with agent D attack-table.json numeric_rules (Unit.cpp:1239)"
+  },
+  {
+   "order": "school",
+   "stage": "school conversion",
+   "function": "Player::GetMeleeDamageSchoolMask(attType) = 1 << ItemSparse.DamageType",
+   "coordinates": [
+    "Player.cpp:8183-8189",
+    "Unit.cpp:1332"
+   ],
+   "evidence_class": "trinity-consumer",
+   "notes": "no SPELL_AURA_MOD_MELEE_DAMAGE_SCHOOL consumer in CalculateMeleeDamage at 7f3d43b; non-physical school skips armor (Unit.cpp:1678) and enables ModDamageDonePercent[school] in MeleeDamageBonusDone (Unit.cpp:8062-8079)"
+  },
+  {
+   "order": "special",
+   "stage": "special weapon attacks",
+   "function": "Spell::EffectWeaponDmg",
+   "coordinates": [
+    "SpellEffects.cpp:2812-2949"
+   ],
+   "input_type": "SpellEffectValue = double (SpellDefines.h:490)",
+   "arithmetic_type": "fixed_bonus (double) += CalcValue; ApplyPct(float weaponDamagePercentMod, double); weaponDamage = double(CalculateDamage(attType, normalized, addPctMods)) ; (+fixed) (* pct) ; std::round; then int32 parameter of MeleeDamageBonusDone",
+   "rounding": "std::round (half away from zero) on double then int32 truncation at the call",
+   "integer_conversion": "MeleeDamageBonusDone(int32 damage) call site SpellEffects.cpp:2947 and MeleeDamageBonusTaken SpellEffects.cpp:2948; m_damage is int32 (Spell.h:818)",
+   "evidence_class": "trinity-probe",
+   "notes": "effect loop 2 runs in effect-index order and re-applies the SUMMED fixed_bonus once per 58/17/121 effect and the PRODUCT pct once per 31 effect (SpellEffects.cpp:2911-2935): multi-effect spells double-count; addPctMods=false (ATTR6_IGNORE_CASTER_DAMAGE_MODIFIERS or non-physical school, :2883) recomputes the roll with totalPct=1, which also drops the 0.5 off-hand factor; CalcValue already std::round-ed each effect value and clamped to Min/MaxValue (SpellInfo.cpp:622, 659)"
+  }
+ ],
+ "type_boundaries": [
+  {
+   "boundary": "float -> uint32",
+   "sites": [
+    "Unit.cpp:2550 urand bounds",
+    "Unit.cpp:1773 armor",
+    "Util.h:74 CalculatePct<uint32>",
+    "Unit.cpp:1480 glancing",
+    "Unit.cpp:1463 critical block *= float"
+   ],
+   "rule": "truncation toward zero after a max(.., 0) clamp"
+  },
+  {
+   "boundary": "uint32 -> int32",
+   "sites": [
+    "Unit.cpp:1383 MeleeDamageBonusDone(int32 damage)",
+    "Unit.cpp:1384 MeleeDamageBonusTaken(int32)"
+   ],
+   "rule": "implicit; values < 2**31 in practice"
+  },
+  {
+   "boundary": "int32 -> float",
+   "sites": [
+    "Unit.cpp:8118 float(damage + DoneFlatBenefit)",
+    "Unit.cpp:8238",
+    "Unit.cpp:9923/9932 int32 AP sum -> float",
+    "Unit.cpp:1686 float(GetArmor())"
+   ],
+   "rule": "exact below 2**24, round-to-nearest above"
+  },
+  {
+   "boundary": "float -> double",
+   "sites": [
+    "Unit.cpp:1741 G3D::fuzzyLe(armor, 0.0f)",
+    "SpellEffects.cpp:2908 SpellEffectValue weaponDamage = uint32 CalculateDamage(...)"
+   ],
+   "rule": "exact widening"
+  },
+  {
+   "boundary": "double -> int32",
+   "sites": [
+    "SpellEffects.cpp:2947 MeleeDamageBonusDone(unitTarget, weaponDamage, ...)"
+   ],
+   "rule": "std::round first (SpellEffects.cpp:2944), then truncating conversion"
+  },
+  {
+   "boundary": "int16 -> float",
+   "sites": [
+    "StatSystem.cpp:461-462 CombatRoundTime"
+   ],
+   "rule": "exact"
+  }
+ ],
+ "discriminating_inputs": [
+  {
+   "case": "uint32 above 2**24 into CalculatePct",
+   "input": {
+    "base": 16777219,
+    "pct": 30.0
+   },
+   "why": "binary32 gives 5033166, a double oracle 5033165 (123456789 at 30: 37037040 vs 37037036); 16777217 at 30 does NOT discriminate (5033164.8 rounds to 5033165.0f)"
+  },
+  {
+   "case": "versatility AddPct in float",
+   "input": {
+    "base": 1.0,
+    "pct": 3.25
+   },
+   "why": "1 + 0.0325 in binary32 is 1.0325000286..; min*max products differ from double in the last ulp and can flip a uint32 truncation"
+  },
+  {
+   "case": "AP term",
+   "input": {
+    "ap": 12345,
+    "speed": 2.6
+   },
+   "why": "12345/3.5f*2.6f in float vs double differs by ~1e-3, enough to move uint32(minDamage) when the fraction is near .0"
+  },
+  {
+   "case": "armor mitigation",
+   "input": {
+    "damage": 100000,
+    "armor": 5000,
+    "constant": 3430
+   },
+   "why": "5000/8430 in float = 0.5931198 vs double 0.59311981..; damage*(1-m) truncation can differ by 1"
+  },
+  {
+   "case": "crit multiplier 1.3 truncation",
+   "input": {
+    "damage": 1000,
+    "crit_damage_bonus_mult": 1.3
+   },
+   "why": "(1.3f - 1.0f) * 100 = 29.9999962f; CalculatePct(2000, 29.9999962f) = 599 -> 2599, not 2600 (probe; agent D pins the same at Unit.cpp:1433)"
+  },
+  {
+   "case": "special effect order",
+   "input": {
+    "roll": 1234,
+    "effects": [
+     [
+      31,
+      150
+     ],
+     [
+      58,
+      10
+     ]
+    ]
+   },
+   "why": "(1234*1.5)+10 = 1861 vs (1234+10)*1.5 = 1866"
+  },
+  {
+   "case": "special double count",
+   "input": {
+    "roll": 1234,
+    "effects": [
+     [
+      58,
+      10
+     ],
+     [
+      58,
+      10
+     ]
+    ]
+   },
+   "why": "summed fixed_bonus 20 re-added per effect: 1274, not 1254"
+  },
+  {
+   "case": "off-hand special without pct mods",
+   "input": {
+    "attType": "OFF_ATTACK",
+    "attr6_ignore_caster_damage_modifiers": true,
+    "total_pct": 0.5
+   },
+   "why": "the recompute passes addTotalPct=false: the 0.5 factor is lost (probe: 2710 for wmin 100, AP 3500, 2.6 s, +10)"
+  },
+  {
+   "case": "std::round tie below 0.5",
+   "input": {
+    "x": 0.49999999999999994
+   },
+   "why": "floor(x + 0.5) = 1 in double; std::round = 0"
+  }
+ ]
+}

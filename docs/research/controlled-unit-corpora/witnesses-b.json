@@ -1,0 +1,4785 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "world_database": "TDB_full_world_1200.26021_2026_02_06.sql (via docs/research/world-db-corpora/player-base-stats.json)",
+  "generator": "python3 controlled_units.py witnesses-b",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2",
+  "world_database_corpora": [
+   "docs/research/world-db-corpora/creature-templates.json",
+   "docs/research/world-db-corpora/pet-witness-templates.json"
+  ],
+  "scope": "dummy_semantics.scope.Scope(Bundle(), include_class_skills=False)"
+ },
+ "standard_owner": {
+  "level": 90,
+  "stats": [
+   1000,
+   1000,
+   20000,
+   1000,
+   0
+  ],
+  "armor": 5000,
+  "attack_power_melee": 10000.0,
+  "attack_power_ranged": 10000.0,
+  "sp": 10000
+ },
+ "witnesses": [
+  {
+   "id": "hunter-pet",
+   "label": "Hunter pet (Call Pet 1, tamed family Wolf 1)",
+   "cast_spell": 883,
+   "cast_name": "Call Pet 1",
+   "cast_in_player_scope": false,
+   "summon_spell": 883,
+   "link": {
+    "status": "direct",
+    "evidence_class": "db2-fact"
+   },
+   "summons": [
+    {
+     "spell": 883,
+     "name": "Call Pet 1",
+     "resolution": {
+      "status": "ok",
+      "entry": 0,
+      "trinity_unit_class": "Pet/HUNTER_PET",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 366,
+       "effect_index": 0,
+       "effect": 56,
+       "entry": 0,
+       "base_points": 0.0,
+       "route": "Spell::EffectSummonPet -> Player::SummonPet(0, slot=effect value) -> Pet::LoadPetFromDB (call pet)",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+       "trinity_unit_class": "Pet",
+       "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "HUNTER_PET",
+      "pet_levelstats": "pet_levelstats creature_entry=1 level=90: gap-filled from level 89 (highest authored level 85)",
+      "stats": {
+       "strength": 1,
+       "agility": 1,
+       "stamina": 6001,
+       "intellect": 1,
+       "spirit": 1
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 1,
+      "max_health": 60001,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 1,
+       "bonus": 3500
+      },
+      "attack_power": 2182,
+      "bonus_spell_damage": 1287,
+      "weapon_damage": [
+       68.0,
+       112.0
+      ],
+      "min_damage": 1314.857177734375,
+      "max_damage": 1358.857177734375,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "status": "unresolved",
+       "reason": "unresolved: creature_template.unit_class not available"
+      },
+      "source_notes": {
+       "world": "creature_template 0 not in world-db corpus (present)",
+       "display_power": "unresolved: creature_template.unit_class not available"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=HUNTER_PET createHealth=1 createMana=1 createStats=[1.0, 1.0, 1.0, 1.0, 1.0] [pet_levelstats(creature_entry=1, level=90)]",
+       "UpdateMaxHealth: (uint32)-9.0 is undefined behaviour; x86-64 result 4294967287",
+       "UpdateMaxHealth: stamina=-1.0 mult=10.0 value=-9.0 -> 4294967287",
+       "UpdateStats(strength): total=1.0 ownersBonus=0.0 -> Stats[0]=1",
+       "UpdateAttackPowerAndDamage: val=-18.0 bonusAP=2200.0 [hunter: ranged AP * 0.22 -> AP; * 0.1287 -> bonus damage] -> AP=2182 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=1246.857177734375 bonusDamage=0.0 -> [1314.857177734375, 1358.857177734375]",
+       "UpdateStats(agility): total=1.0 ownersBonus=0.0 -> Stats[1]=1",
+       "UpdateArmor: bonus_armor=3500.0 base=1.0 value=3501.0 -> armor=(1, 3500)",
+       "UpdateStats(stamina): total=6001.0 ownersBonus=6000.0 -> Stats[2]=6001",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=60001.0 -> 60001",
+       "UpdateStats(intellect): total=1.0 ownersBonus=0.0 -> Stats[3]=1",
+       "UpdateMaxPower(0): value=1.0 -> 1",
+       "UpdateStats(spirit): total=1.0 ownersBonus=0.0 -> Stats[4]=1",
+       "UpdateMaxPower(0): value=1.0 -> 1",
+       "UpdateArmor: bonus_armor=3500.0 base=1.0 value=3501.0 -> armor=(1, 3500)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "pet type branch",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": null,
+      "unit_class": null,
+      "family": null,
+      "type": null,
+      "AIName": null,
+      "ScriptName": null,
+      "BaseAttackTime": null
+     },
+     "ai": "PetAI (IsPet, CreatureAISelector.cpp:88-91)",
+     "template_spells": []
+    }
+   ],
+   "family_spells": [
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 208,
+     "skill_line_name": "Pet - Wolf",
+     "sla_id": 9744,
+     "spell": 17253,
+     "name": "Bite",
+     "acquire_method": 2,
+     "spell_level": 10,
+     "passive": false,
+     "paths": [
+      "levelup"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 208,
+     "skill_line_name": "Pet - Wolf",
+     "sla_id": 39156,
+     "spell": 263840,
+     "name": "Furious Bite",
+     "acquire_method": 2,
+     "spell_level": 14,
+     "passive": false,
+     "paths": [
+      "levelup"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 12898,
+     "spell": 24394,
+     "name": "Intimidation",
+     "acquire_method": 0,
+     "spell_level": 0,
+     "passive": false,
+     "paths": [],
+     "no_path_reason": [
+      "AcquireMethod 0 != 2"
+     ]
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 12899,
+     "spell": 19577,
+     "name": "Intimidation",
+     "acquire_method": 0,
+     "spell_level": 33,
+     "passive": false,
+     "paths": [],
+     "no_path_reason": [
+      "AcquireMethod 0 != 2"
+     ]
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 13018,
+     "spell": 2649,
+     "name": "Growl",
+     "acquire_method": 2,
+     "spell_level": 1,
+     "passive": false,
+     "paths": [
+      "levelup"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 15275,
+     "spell": 8875,
+     "name": "Pet Damage",
+     "acquire_method": 2,
+     "spell_level": 0,
+     "passive": true,
+     "paths": [
+      "family-passive"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 15277,
+     "spell": 19581,
+     "name": "Pet Health",
+     "acquire_method": 2,
+     "spell_level": 0,
+     "passive": true,
+     "paths": [
+      "family-passive"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 15286,
+     "spell": 34902,
+     "name": "Hunter Pet",
+     "acquire_method": 2,
+     "spell_level": 0,
+     "passive": true,
+     "paths": [
+      "family-passive"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 21344,
+     "spell": 65220,
+     "name": "Avoidance",
+     "acquire_method": 2,
+     "spell_level": 0,
+     "passive": true,
+     "paths": [
+      "family-passive"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 26313,
+     "spell": 115043,
+     "name": "",
+     "acquire_method": 2,
+     "spell_level": null,
+     "passive": null,
+     "paths": [],
+     "no_path_reason": [
+      "no SpellInfo (no SpellName row)"
+     ]
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 26963,
+     "spell": 88680,
+     "name": "Kindred Spirits",
+     "acquire_method": 2,
+     "spell_level": 0,
+     "passive": true,
+     "paths": [
+      "family-passive"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 31458,
+     "spell": 142689,
+     "name": "",
+     "acquire_method": 2,
+     "spell_level": null,
+     "passive": null,
+     "paths": [],
+     "no_path_reason": [
+      "no SpellInfo (no SpellName row)"
+     ]
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 33868,
+     "spell": 178839,
+     "name": "",
+     "acquire_method": 2,
+     "spell_level": null,
+     "passive": null,
+     "paths": [],
+     "no_path_reason": [
+      "no SpellInfo (no SpellName row)"
+     ]
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 33889,
+     "spell": 178840,
+     "name": "",
+     "acquire_method": 2,
+     "spell_level": null,
+     "passive": null,
+     "paths": [],
+     "no_path_reason": [
+      "no SpellInfo (no SpellName row)"
+     ]
+    },
+    {
+     "family": 1,
+     "family_name": "Wolf",
+     "skill_line": 270,
+     "skill_line_name": "Pet - Generic Hunter",
+     "sla_id": 39137,
+     "spell": 61684,
+     "name": "Dash",
+     "acquire_method": 2,
+     "spell_level": 10,
+     "passive": false,
+     "paths": [
+      "levelup"
+     ],
+     "no_path_reason": []
+    }
+   ],
+   "tame_chain": [
+    {
+     "spell": 1515,
+     "name": "Tame Beast",
+     "effects": [
+      {
+       "index": 0,
+       "effect": 6,
+       "aura": 4,
+       "trigger": 0,
+       "misc0": 0,
+       "misc1": 0,
+       "base_points": 0.0
+      },
+      {
+       "index": 1,
+       "effect": 6,
+       "aura": 23,
+       "trigger": 13481,
+       "misc0": 0,
+       "misc1": 0,
+       "base_points": 0.0
+      }
+     ],
+     "script_bindings": [
+      "spell_hun_tame_beast"
+     ]
+    },
+    {
+     "spell": 13481,
+     "name": "Tame Beast",
+     "effects": [
+      {
+       "index": 0,
+       "effect": 55,
+       "aura": 0,
+       "trigger": 0,
+       "misc0": 0,
+       "misc1": 0,
+       "base_points": 10.0
+      }
+     ],
+     "script_bindings": []
+    }
+   ]
+  },
+  {
+   "id": "warlock-imp",
+   "label": "Warlock Imp",
+   "cast_spell": 688,
+   "cast_name": "Summon Imp",
+   "cast_in_player_scope": false,
+   "summon_spell": 688,
+   "link": {
+    "status": "direct",
+    "evidence_class": "db2-fact"
+   },
+   "summons": [
+    {
+     "spell": 688,
+     "name": "Summon Imp",
+     "resolution": {
+      "status": "ok",
+      "entry": 416,
+      "trinity_unit_class": "Pet/SUMMON_PET",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 270,
+       "effect_index": 0,
+       "effect": 56,
+       "entry": 416,
+       "base_points": 0.0,
+       "route": "Spell::EffectSummonPet -> Player::SummonPet",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+       "trinity_unit_class": "Pet",
+       "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "SUMMON_PET",
+      "pet_levelstats": "pet_levelstats creature_entry=416 level=90: gap-filled from level 89 (highest authored level 85)",
+      "stats": {
+       "strength": 196,
+       "agility": 64,
+       "stamina": 6127,
+       "intellect": 743,
+       "spirit": 363
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 300.0,
+       "spirit": 0.0
+      },
+      "create_health": 2547,
+      "max_health": 52946,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 3574,
+       "bonus": 5000
+      },
+      "attack_power": 5886,
+      "bonus_spell_damage": 1500,
+      "weapon_damage": [
+       68.0,
+       112.0
+      ],
+      "min_damage": 3431.428466796875,
+      "max_damage": 3475.428466796875,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 3,
+       "value": 100
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.0,
+       "ManaModifier": 2.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+       },
+       "creature_classlevelstats": "row",
+       "display_power": "ChrClasses[4].DisplayPower=3"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=SUMMON_PET createHealth=2547 createMana=3668 createStats=[196.0, 64.0, 127.0, 443.0, 363.0] [pet_levelstats(creature_entry=416, level=90)]",
+       "UpdateMaxHealth: stamina=-127.0 mult=8.399999618530273 value=1480.2000732421875 -> 1480",
+       "UpdateStats(strength): total=196.0 ownersBonus=0.0 -> Stats[0]=196",
+       "UpdateAttackPowerAndDamage: val=186.0 bonusAP=5700.0 [pet: max(fire,shadow) SP * 0.57 -> AP; * 0.15 -> bonus damage] -> AP=5886 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=3363.428466796875 bonusDamage=0.0 -> [3431.428466796875, 3475.428466796875]",
+       "UpdateStats(agility): total=64.0 ownersBonus=0.0 -> Stats[1]=64",
+       "UpdateArmor: bonus_armor=5000.0 base=3574.0 value=8574.0 -> armor=(3574, 5000)",
+       "UpdateStats(stamina): total=6127.0 ownersBonus=6000.0 -> Stats[2]=6127",
+       "UpdateMaxHealth: stamina=6000.0 mult=8.399999618530273 value=52946.99609375 -> 52946",
+       "UpdateStats(intellect): total=743.0 ownersBonus=300.0 -> Stats[3]=743",
+       "UpdateStats(spirit): total=363.0 ownersBonus=0.0 -> Stats[4]=363",
+       "UpdateMaxPower(3): value=100.0 -> 100",
+       "UpdateArmor: bonus_armor=5000.0 base=3574.0 value=8574.0 -> armor=(3574, 5000)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 8.4,
+      "init_stats_entry_branch": "pet type branch",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Imp",
+      "unit_class": 4,
+      "family": 23,
+      "type": 3,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 2000
+     },
+     "ai": "PetAI (IsPet, CreatureAISelector.cpp:88-91)",
+     "template_spells": [
+      {
+       "spell": 3110,
+       "exists": true,
+       "name": "Firebolt",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 23,
+         "level": 1
+        },
+        {
+         "path": "levelup",
+         "family": 100,
+         "level": 1
+        },
+        {
+         "path": "default",
+         "entry": 416,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 416,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 416,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 416,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "default",
+         "entry": 416,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 416,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 416,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 3110,
+       "exists": true,
+       "name": "Firebolt",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 23,
+         "level": 1
+        },
+        {
+         "path": "levelup",
+         "family": 100,
+         "level": 1
+        },
+        {
+         "path": "default",
+         "entry": 416,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 416,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 416,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 416,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "default",
+         "entry": 416,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 416,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 416,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "warlock-felguard",
+   "label": "Warlock Felguard",
+   "cast_spell": 30146,
+   "cast_name": "Summon Felguard",
+   "cast_in_player_scope": true,
+   "summon_spell": 30146,
+   "link": {
+    "status": "direct",
+    "evidence_class": "db2-fact"
+   },
+   "summons": [
+    {
+     "spell": 30146,
+     "name": "Summon Felguard",
+     "resolution": {
+      "status": "ok",
+      "entry": 17252,
+      "trinity_unit_class": "Pet/SUMMON_PET",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 19732,
+       "effect_index": 0,
+       "effect": 56,
+       "entry": 17252,
+       "base_points": 1.0,
+       "route": "Spell::EffectSummonPet -> Player::SummonPet",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+       "trinity_unit_class": "Pet",
+       "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "SUMMON_PET",
+      "pet_levelstats": "pet_levelstats creature_entry=17252 level=90: gap-filled from level 89 (highest authored level 85)",
+      "stats": {
+       "strength": 189,
+       "agility": 144,
+       "stamina": 6482,
+       "intellect": 614,
+       "spirit": 171
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 300.0,
+       "spirit": 0.0
+      },
+      "create_health": 7497,
+      "max_health": 73497,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 13219,
+       "bonus": 5000
+      },
+      "attack_power": 6058,
+      "bonus_spell_damage": 1500,
+      "weapon_damage": [
+       68.0,
+       112.0
+      ],
+      "min_damage": 3529.71435546875,
+      "max_damage": 3573.71435546875,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 3,
+       "value": 100
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.0,
+       "ManaModifier": 2.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+       },
+       "creature_classlevelstats": "row",
+       "display_power": "ChrClasses[4].DisplayPower=3"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=SUMMON_PET createHealth=7497 createMana=5823 createStats=[189.0, 144.0, 482.0, 314.0, 171.0] [pet_levelstats(creature_entry=17252, level=90)]",
+       "UpdateMaxHealth: stamina=-482.0 mult=11.0 value=2195.0 -> 2195",
+       "UpdateStats(strength): total=189.0 ownersBonus=0.0 -> Stats[0]=189",
+       "UpdateAttackPowerAndDamage: val=358.0 bonusAP=5700.0 [pet: max(fire,shadow) SP * 0.57 -> AP; * 0.15 -> bonus damage] -> AP=6058 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=3461.71435546875 bonusDamage=0.0 -> [3529.71435546875, 3573.71435546875]",
+       "UpdateStats(agility): total=144.0 ownersBonus=0.0 -> Stats[1]=144",
+       "UpdateArmor: bonus_armor=5000.0 base=13219.0 value=18219.0 -> armor=(13219, 5000)",
+       "UpdateStats(stamina): total=6482.0 ownersBonus=6000.0 -> Stats[2]=6482",
+       "UpdateMaxHealth: stamina=6000.0 mult=11.0 value=73497.0 -> 73497",
+       "UpdateStats(intellect): total=614.0 ownersBonus=300.0 -> Stats[3]=614",
+       "UpdateStats(spirit): total=171.0 ownersBonus=0.0 -> Stats[4]=171",
+       "UpdateMaxPower(3): value=100.0 -> 100",
+       "UpdateArmor: bonus_armor=5000.0 base=13219.0 value=18219.0 -> armor=(13219, 5000)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 11.0,
+      "init_stats_entry_branch": "pet type branch",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Felguard",
+      "unit_class": 4,
+      "family": 29,
+      "type": 3,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 2000
+     },
+     "ai": "PetAI (IsPet, CreatureAISelector.cpp:88-91)",
+     "template_spells": []
+    }
+   ],
+   "family_spells": [
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 14304,
+     "spell": 30151,
+     "name": "Pursuit",
+     "acquire_method": 2,
+     "spell_level": 14,
+     "passive": false,
+     "paths": [
+      "levelup"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 14305,
+     "spell": 30153,
+     "name": "Pursuit",
+     "acquire_method": 0,
+     "spell_level": 0,
+     "passive": false,
+     "paths": [],
+     "no_path_reason": [
+      "AcquireMethod 0 != 2"
+     ]
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 14314,
+     "spell": 30213,
+     "name": "Legion Strike",
+     "acquire_method": 2,
+     "spell_level": 1,
+     "passive": false,
+     "paths": [
+      "levelup"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 14811,
+     "spell": 32233,
+     "name": "Avoidance",
+     "acquire_method": 2,
+     "spell_level": 1,
+     "passive": true,
+     "paths": [
+      "levelup"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 23472,
+     "spell": 89751,
+     "name": "Felstorm",
+     "acquire_method": 2,
+     "spell_level": 0,
+     "passive": false,
+     "paths": [],
+     "no_path_reason": [
+      "SpellLevel 0 and not passive: neither levelup (SpellMgr.cpp:2186) nor family passive (:5573)"
+     ]
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 23475,
+     "spell": 89766,
+     "name": "Axe Toss",
+     "acquire_method": 2,
+     "spell_level": 17,
+     "passive": false,
+     "paths": [
+      "levelup"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 26173,
+     "spell": 117225,
+     "name": "Void Reflexes",
+     "acquire_method": 2,
+     "spell_level": 0,
+     "passive": true,
+     "paths": [
+      "family-passive"
+     ],
+     "no_path_reason": []
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 26339,
+     "spell": 115043,
+     "name": "",
+     "acquire_method": 2,
+     "spell_level": null,
+     "passive": null,
+     "paths": [],
+     "no_path_reason": [
+      "no SpellInfo (no SpellName row)"
+     ]
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 30979,
+     "spell": 134477,
+     "name": "Threatening Presence",
+     "acquire_method": 2,
+     "spell_level": 0,
+     "passive": false,
+     "paths": [],
+     "no_path_reason": [
+      "SpellLevel 0 and not passive: neither levelup (SpellMgr.cpp:2186) nor family passive (:5573)"
+     ]
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 31462,
+     "spell": 142689,
+     "name": "",
+     "acquire_method": 2,
+     "spell_level": null,
+     "passive": null,
+     "paths": [],
+     "no_path_reason": [
+      "no SpellInfo (no SpellName row)"
+     ]
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 33879,
+     "spell": 178839,
+     "name": "",
+     "acquire_method": 2,
+     "spell_level": null,
+     "passive": null,
+     "paths": [],
+     "no_path_reason": [
+      "no SpellInfo (no SpellName row)"
+     ]
+    },
+    {
+     "family": 29,
+     "family_name": "Felguard",
+     "skill_line": 761,
+     "skill_line_name": "Pet - Felguard",
+     "sla_id": 33900,
+     "spell": 178840,
+     "name": "",
+     "acquire_method": 2,
+     "spell_level": null,
+     "passive": null,
+     "paths": [],
+     "no_path_reason": [
+      "no SpellInfo (no SpellName row)"
+     ]
+    }
+   ],
+   "spotlight": [
+    {
+     "spell": 30213,
+     "exists": true,
+     "name": "Legion Strike",
+     "passive": false,
+     "autocastable": true,
+     "autocast_enabled_by_default": true,
+     "not_available_while_charmed": false,
+     "spell_level": 1,
+     "pet_default_active_state": "ACT_ENABLED",
+     "script_bindings": [],
+     "in_player_scope": false,
+     "build_skew_newer_than_trinity": false,
+     "paths": [
+      {
+       "path": "levelup",
+       "family": 29,
+       "level": 1
+      },
+      {
+       "path": "levelup",
+       "family": 104,
+       "level": 1
+      },
+      {
+       "path": "charm",
+       "entry": 15184,
+       "index": 0,
+       "summoned_as": [],
+       "skipped_attr5": false,
+       "applicable": false
+      },
+      {
+       "path": "totem",
+       "entry": 15184,
+       "index": 0,
+       "summoned_as": [],
+       "applicable": false
+      },
+      {
+       "path": "template-ai",
+       "entry": 15184,
+       "index": 0,
+       "summoned_as": [],
+       "applicable": false
+      }
+     ],
+     "status": "has-path"
+    },
+    {
+     "spell": 89751,
+     "exists": true,
+     "name": "Felstorm",
+     "passive": false,
+     "autocastable": true,
+     "autocast_enabled_by_default": true,
+     "not_available_while_charmed": false,
+     "spell_level": 0,
+     "pet_default_active_state": "ACT_ENABLED",
+     "script_bindings": [],
+     "in_player_scope": false,
+     "build_skew_newer_than_trinity": false,
+     "paths": [],
+     "status": "unresolved"
+    },
+    {
+     "spell": 89766,
+     "exists": true,
+     "name": "Axe Toss",
+     "passive": false,
+     "autocastable": false,
+     "autocast_enabled_by_default": true,
+     "not_available_while_charmed": false,
+     "spell_level": 17,
+     "pet_default_active_state": "ACT_PASSIVE",
+     "script_bindings": [],
+     "in_player_scope": false,
+     "build_skew_newer_than_trinity": false,
+     "paths": [
+      {
+       "path": "levelup",
+       "family": 29,
+       "level": 17
+      },
+      {
+       "path": "levelup",
+       "family": 104,
+       "level": 17
+      }
+     ],
+     "status": "has-path"
+    },
+    {
+     "spell": 30151,
+     "exists": true,
+     "name": "Pursuit",
+     "passive": false,
+     "autocastable": true,
+     "autocast_enabled_by_default": true,
+     "not_available_while_charmed": false,
+     "spell_level": 14,
+     "pet_default_active_state": "ACT_ENABLED",
+     "script_bindings": [],
+     "in_player_scope": false,
+     "build_skew_newer_than_trinity": false,
+     "paths": [
+      {
+       "path": "levelup",
+       "family": 29,
+       "level": 14
+      },
+      {
+       "path": "levelup",
+       "family": 104,
+       "level": 14
+      }
+     ],
+     "status": "has-path"
+    },
+    {
+     "spell": 134477,
+     "exists": true,
+     "name": "Threatening Presence",
+     "passive": false,
+     "autocastable": true,
+     "autocast_enabled_by_default": false,
+     "not_available_while_charmed": false,
+     "spell_level": 0,
+     "pet_default_active_state": "ACT_DISABLED",
+     "script_bindings": [],
+     "in_player_scope": false,
+     "build_skew_newer_than_trinity": false,
+     "paths": [],
+     "status": "unresolved"
+    },
+    {
+     "spell": 117225,
+     "exists": true,
+     "name": "Void Reflexes",
+     "passive": true,
+     "autocastable": false,
+     "autocast_enabled_by_default": true,
+     "not_available_while_charmed": false,
+     "spell_level": 0,
+     "pet_default_active_state": "ACT_PASSIVE",
+     "script_bindings": [],
+     "in_player_scope": false,
+     "build_skew_newer_than_trinity": false,
+     "paths": [
+      {
+       "path": "family-passive",
+       "family": 29
+      },
+      {
+       "path": "family-passive",
+       "family": 104
+      }
+     ],
+     "status": "has-path"
+    }
+   ]
+  },
+  {
+   "id": "warlock-wild-imp",
+   "label": "Warlock Wild Imp (Hand of Gul'dan)",
+   "cast_spell": 105174,
+   "cast_name": "Hand of Gul'dan",
+   "cast_in_player_scope": true,
+   "summon_spell": 104317,
+   "link": {
+    "status": "no-trinity-edge",
+    "script_bindings": [],
+    "script_hook_refs": [],
+    "pet_script_refs": [],
+    "summon_in_player_scope": false,
+    "scope_chain": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 3.0
+     }
+    ],
+    "evidence_class": "unresolved",
+    "inert_reason": null,
+    "reopen": "a spell_linked_spell / spell_script_names row or a script that casts the summon spell"
+   },
+   "summons": [
+    {
+     "spell": 104317,
+     "name": "Wild Imp",
+     "resolution": {
+      "status": "ok",
+      "entry": 55659,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 113739,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 55659,
+       "base_points": 1.0,
+       "summon_properties": 3210,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 2,
+        "Slot": 0,
+        "Flags_0": 4196866,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=55659 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 328,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 300.0,
+       "spirit": 0.0
+      },
+      "create_health": 8488,
+      "max_health": 76977,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 0
+      },
+      "attack_power": 24,
+      "bonus_spell_damage": 0,
+      "weapon_damage": [
+       6855.703125,
+       10283.5546875
+      ],
+      "min_damage": 6869.41748046875,
+      "max_damage": 10297.2685546875,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 3,
+       "value": 100
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 0.05999999865889549,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 6,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+        "basehp": 8489,
+        "health": 8489
+       },
+       "display_power": "ChrClasses[4].DisplayPower=3"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=8488 createMana=0 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=16727.0 -> 16727",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=0.0 [none] -> AP=24 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=13.714285850524902 bonusDamage=0.0 -> [6869.41748046875, 10297.2685546875]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=76977.0 -> 76977",
+       "UpdateStats(intellect): total=328.0 ownersBonus=300.0 -> Stats[3]=328",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(3): value=100.0 -> 100",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Wild Imp",
+      "unit_class": 4,
+      "family": 0,
+      "type": 3,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 0
+     },
+     "ai": "highest-permit generic AI (not resolved here)",
+     "template_spells": []
+    }
+   ]
+  },
+  {
+   "id": "dk-ghoul-talent",
+   "label": "DK Raise Dead (46584) -> ghoul",
+   "cast_spell": 46584,
+   "cast_name": "Raise Dead",
+   "cast_in_player_scope": true,
+   "summon_spell": 52150,
+   "link": {
+    "status": "script-hook-inert",
+    "script_bindings": [
+     "spell_dk_raise_dead"
+    ],
+    "script_hook_refs": [
+     {
+      "script": "spell_dk_raise_dead",
+      "hook": "OnEffectHitTarget",
+      "line": 1213,
+      "executes": false
+     }
+    ],
+    "pet_script_refs": [],
+    "summon_in_player_scope": false,
+    "scope_chain": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 64,
+      "aura": 0,
+      "trigger": 1242866,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 1.0
+     }
+    ],
+    "evidence_class": "unresolved",
+    "inert_reason": "the bound hook's effect index/type does not match the 12.1 SpellEffect row, so Trinity never runs it (SpellScript.cpp:292 'did not match dbc effect data'); dummy-corpora/bindings.json executes=false",
+    "reopen": "a spell_linked_spell / spell_script_names row or a script that casts the summon spell"
+   },
+   "summons": [
+    {
+     "spell": 52150,
+     "name": "Raise Dead",
+     "resolution": {
+      "status": "ok",
+      "entry": 26125,
+      "trinity_unit_class": "Pet/SUMMON_PET",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 44572,
+       "effect_index": 0,
+       "effect": 56,
+       "entry": 26125,
+       "base_points": 0.0,
+       "route": "Spell::EffectSummonPet -> Player::SummonPet",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+       "trinity_unit_class": "Pet",
+       "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "SUMMON_PET",
+      "pet_levelstats": "pet_levelstats creature_entry=26125 level=90: gap-filled from level 89 (highest authored level 80)",
+      "stats": {
+       "strength": 1031,
+       "agility": 95,
+       "stamina": 6092,
+       "intellect": 99,
+       "spirit": 87
+      },
+      "stat_from_owner": {
+       "strength": 700.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 4551,
+      "max_health": 64551,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4513,
+       "bonus": 5000
+      },
+      "attack_power": 4242,
+      "bonus_spell_damage": 1287,
+      "weapon_damage": [
+       68.0,
+       112.0
+      ],
+      "min_damage": 2492.0,
+      "max_damage": 2536.0,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 3,
+       "value": 100
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.0,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+       },
+       "creature_classlevelstats": "row",
+       "display_power": "ChrClasses[4].DisplayPower=3"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=SUMMON_PET createHealth=4551 createMana=2134 createStats=[331.0, 95.0, 92.0, 99.0, 87.0] [pet_levelstats(creature_entry=26125, level=90)]",
+       "UpdateMaxHealth: stamina=-92.0 mult=10.0 value=3631.0 -> 3631",
+       "UpdateStats(strength): total=1031.0 ownersBonus=700.0 -> Stats[0]=1031",
+       "UpdateAttackPowerAndDamage: val=2042.0 bonusAP=2200.0 [ghoul: melee AP * 0.22 -> AP; * 0.1287 -> bonus damage] -> AP=4242 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=2424.0 bonusDamage=0.0 -> [2492.0, 2536.0]",
+       "UpdateStats(agility): total=95.0 ownersBonus=0.0 -> Stats[1]=95",
+       "UpdateArmor: bonus_armor=5000.0 base=4513.0 value=9513.0 -> armor=(4513, 5000)",
+       "UpdateStats(stamina): total=6092.0 ownersBonus=6000.0 -> Stats[2]=6092",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=64551.0 -> 64551",
+       "UpdateStats(intellect): total=99.0 ownersBonus=0.0 -> Stats[3]=99",
+       "UpdateStats(spirit): total=87.0 ownersBonus=0.0 -> Stats[4]=87",
+       "UpdateMaxPower(3): value=100.0 -> 100",
+       "UpdateArmor: bonus_armor=5000.0 base=4513.0 value=9513.0 -> armor=(4513, 5000)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "pet type branch",
+      "ghoul_or_wolf_ap_branch": true
+     },
+     "creature": {
+      "name": "Risen Ghoul",
+      "unit_class": 4,
+      "family": 40,
+      "type": 6,
+      "AIName": "",
+      "ScriptName": "npc_pet_dk_risen_ghoul",
+      "BaseAttackTime": 2000
+     },
+     "ai": "PetAI (IsPet, CreatureAISelector.cpp:88-91)",
+     "template_spells": [
+      {
+       "spell": 47468,
+       "exists": true,
+       "name": "Claw",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 22,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 22
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 26125,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47484,
+       "exists": true,
+       "name": "Huddle",
+       "passive": false,
+       "autocastable": false,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 22,
+       "pet_default_active_state": "ACT_PASSIVE",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 22
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 5,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47481,
+       "exists": true,
+       "name": "Gnaw",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 22,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 22
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47482,
+       "exists": true,
+       "name": "Leap",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 1
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 4,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47482,
+       "exists": true,
+       "name": "Leap",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 1
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 4,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47484,
+       "exists": true,
+       "name": "Huddle",
+       "passive": false,
+       "autocastable": false,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 22,
+       "pet_default_active_state": "ACT_PASSIVE",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 22
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 5,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      }
+     ]
+    },
+    {
+     "spell": 46585,
+     "name": "Raise Dead",
+     "resolution": {
+      "status": "ok",
+      "entry": 26125,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 38713,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 26125,
+       "base_points": 1.0,
+       "summon_properties": 4973,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 2,
+        "Slot": 1,
+        "Flags_0": 1538,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "pet_levelstats creature_entry=26125 level=90: gap-filled from level 89 (highest authored level 80)",
+      "stats": {
+       "strength": 1031,
+       "agility": 95,
+       "stamina": 6092,
+       "intellect": 99,
+       "spirit": 87
+      },
+      "stat_from_owner": {
+       "strength": 700.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 4551,
+      "max_health": 206034,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4513,
+       "bonus": 0
+      },
+      "attack_power": 4242,
+      "bonus_spell_damage": 1287,
+      "weapon_damage": [
+       6855.703125,
+       10283.5546875
+      ],
+      "min_damage": 9279.703125,
+      "max_damage": 12707.5546875,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 3,
+       "value": 100
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.0,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+        "basehp": 141483,
+        "health": 141483
+       },
+       "display_power": "ChrClasses[4].DisplayPower=3"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=4551 createMana=2134 createStats=[331.0, 95.0, 92.0, 99.0, 87.0] [pet_levelstats(creature_entry=26125, level=90)]",
+       "UpdateMaxHealth: stamina=-92.0 mult=10.0 value=145114.0 -> 145114",
+       "UpdateStats(strength): total=1031.0 ownersBonus=700.0 -> Stats[0]=1031",
+       "UpdateAttackPowerAndDamage: val=2042.0 bonusAP=2200.0 [ghoul: melee AP * 0.22 -> AP; * 0.1287 -> bonus damage] -> AP=4242 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=2424.0 bonusDamage=0.0 -> [9279.703125, 12707.5546875]",
+       "UpdateStats(agility): total=95.0 ownersBonus=0.0 -> Stats[1]=95",
+       "UpdateArmor: bonus_armor=0.0 base=4513.0 value=4513.0 -> armor=(4513, 0)",
+       "UpdateStats(stamina): total=6092.0 ownersBonus=6000.0 -> Stats[2]=6092",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=206034.0 -> 206034",
+       "UpdateStats(intellect): total=99.0 ownersBonus=0.0 -> Stats[3]=99",
+       "UpdateStats(spirit): total=87.0 ownersBonus=0.0 -> Stats[4]=87",
+       "UpdateMaxPower(3): value=100.0 -> 100",
+       "UpdateArmor: bonus_armor=0.0 base=4513.0 value=4513.0 -> armor=(4513, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": true
+     },
+     "creature": {
+      "name": "Risen Ghoul",
+      "unit_class": 4,
+      "family": 40,
+      "type": 6,
+      "AIName": "",
+      "ScriptName": "npc_pet_dk_risen_ghoul",
+      "BaseAttackTime": 2000
+     },
+     "ai": "ScriptName npc_pet_dk_risen_ghoul",
+     "template_spells": [
+      {
+       "spell": 47468,
+       "exists": true,
+       "name": "Claw",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 22,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 22
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 26125,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 0,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47484,
+       "exists": true,
+       "name": "Huddle",
+       "passive": false,
+       "autocastable": false,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 22,
+       "pet_default_active_state": "ACT_PASSIVE",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 22
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 5,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47481,
+       "exists": true,
+       "name": "Gnaw",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 22,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 22
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 2,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47482,
+       "exists": true,
+       "name": "Leap",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 1
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 4,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47482,
+       "exists": true,
+       "name": "Leap",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 1
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 3,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 4,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 47484,
+       "exists": true,
+       "name": "Huddle",
+       "passive": false,
+       "autocastable": false,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 22,
+       "pet_default_active_state": "ACT_PASSIVE",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "levelup",
+         "family": 40,
+         "level": 22
+        },
+        {
+         "path": "default",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": true
+        },
+        {
+         "path": "charm",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 1,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "template-ai",
+         "entry": 26125,
+         "index": 5,
+         "summoned_as": [
+          "Guardian",
+          "Pet"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dk-army-ghoul",
+   "label": "DK Army of the Dead ghoul",
+   "cast_spell": 42650,
+   "cast_name": "Army of the Dead",
+   "cast_in_player_scope": true,
+   "summon_spell": 42651,
+   "link": {
+    "status": "no-trinity-edge",
+    "script_bindings": [],
+    "script_hook_refs": [],
+    "pet_script_refs": [],
+    "summon_in_player_scope": false,
+    "scope_chain": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 6,
+      "aura": 4,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 8.0
+     },
+     {
+      "index": 1,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 15.0
+     },
+     {
+      "index": 2,
+      "effect": 30,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 6,
+      "misc1": 0,
+      "base_points": 400.0
+     },
+     {
+      "index": 3,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 100.0
+     },
+     {
+      "index": 4,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 15.0
+     },
+     {
+      "index": 5,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 5.0
+     }
+    ],
+    "evidence_class": "unresolved",
+    "inert_reason": null,
+    "reopen": "a spell_linked_spell / spell_script_names row or a script that casts the summon spell"
+   },
+   "summons": [
+    {
+     "spell": 42651,
+     "name": "Army of the Dead",
+     "resolution": {
+      "status": "ok",
+      "entry": 24207,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 34356,
+       "effect_index": 1,
+       "effect": 28,
+       "entry": 24207,
+       "base_points": 0.0,
+       "summon_properties": 687,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 3,
+        "Slot": 0,
+        "Flags_0": 4719106,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=24207 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 28,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 42623,
+      "max_health": 145247,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 0
+      },
+      "attack_power": 24,
+      "bonus_spell_damage": 0,
+      "weapon_damage": [
+       6855.703125,
+       10283.5546875
+      ],
+      "min_damage": 6869.41748046875,
+      "max_damage": 10297.2685546875,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 3,
+       "value": 100
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 0.30126500129699707,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 6,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+        "basehp": 42624,
+        "health": 42624
+       },
+       "display_power": "ChrClasses[4].DisplayPower=3"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=42623 createMana=0 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=84997.0 -> 84997",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=0.0 [none] -> AP=24 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=13.714285850524902 bonusDamage=0.0 -> [6869.41748046875, 10297.2685546875]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=145247.0 -> 145247",
+       "UpdateStats(intellect): total=28.0 ownersBonus=0.0 -> Stats[3]=28",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(3): value=100.0 -> 100",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Army of the Dead",
+      "unit_class": 4,
+      "family": 0,
+      "type": 6,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 2000
+     },
+     "ai": "highest-permit generic AI (not resolved here)",
+     "template_spells": []
+    }
+   ]
+  },
+  {
+   "id": "mage-mirror-image",
+   "label": "Mage Mirror Image",
+   "cast_spell": 55342,
+   "cast_name": "Mirror Image",
+   "cast_in_player_scope": true,
+   "summon_spell": 321686,
+   "link": {
+    "status": "no-trinity-edge",
+    "script_bindings": [],
+    "script_hook_refs": [],
+    "pet_script_refs": [],
+    "summon_in_player_scope": false,
+    "scope_chain": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 6,
+      "aura": 103,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": -90000000.0
+     },
+     {
+      "index": 1,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 3.0
+     }
+    ],
+    "evidence_class": "unresolved",
+    "inert_reason": null,
+    "reopen": "a spell_linked_spell / spell_script_names row or a script that casts the summon spell"
+   },
+   "summons": [
+    {
+     "spell": 321686,
+     "name": "Mirror Image",
+     "resolution": {
+      "status": "ok",
+      "entry": 31216,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 809560,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 31216,
+       "base_points": 0.0,
+       "summon_properties": 1021,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 0,
+        "Slot": 0,
+        "Flags_0": 2562,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 0,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "level 0: no pet_levelstats rows for 31216 -> nullptr (ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 328,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 300.0,
+       "spirit": 0.0
+      },
+      "create_health": 28,
+      "max_health": 60047,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 0,
+       "bonus": 0
+      },
+      "attack_power": 24,
+      "bonus_spell_damage": 3300,
+      "weapon_damage": [
+       4.397017002105713,
+       6.595525741577148
+      ],
+      "min_damage": 18.111303329467773,
+      "max_damage": 20.309810638427734,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 28
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 0,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 0.30000001192092896,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "no ExpectedStat row for level 0 -> 1.0f (DB2Stores.cpp:2482-2483)",
+        "CreatureAutoAttackDps": "no ExpectedStat row for level 0 -> 1.0f (DB2Stores.cpp:2482-2483)"
+       },
+       "creature_classlevelstats": "absent for (level 0, class 8) -> 0",
+       "content_tuning_levels": null,
+       "select_level": 1,
+       "tempsummon_level": 0,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=1, ExpansionID=-2 fallback) ID=1 CreatureHealth=78; ContentTuningXExpected mods []; class mod 1",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=1, ExpansionID=-2 fallback) ID=1 CreatureAutoAttackDps=4.75353193283; ContentTuningXExpected mods []; class mod 1",
+        "basehp": 19,
+        "health": 19
+       },
+       "display_power": "ChrClasses[8].DisplayPower=0"
+      },
+      "trace": [
+       "InitStatsForLevel(0): petType=MAX_PET_TYPE(none) createHealth=1 createMana=0 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: (uint32)-203.0 is undefined behaviour; x86-64 result 4294967093",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=-203.0 -> 4294967093",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=0.0 [none] -> AP=24 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=13.714285850524902 bonusDamage=0.0 -> [18.111303329467773, 20.309810638427734]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=0.0 value=0.0 -> armor=(0, 0)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=60047.0 -> 60047",
+       "UpdateStats(intellect): total=328.0 ownersBonus=300.0 -> Stats[3]=328",
+       "UpdateMaxPower(0): value=28.0 -> 28",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=28.0 -> 28",
+       "UpdateArmor: bonus_armor=0.0 base=0.0 value=0.0 -> armor=(0, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "Mirror Image (current entry for 321686)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Mirror Image",
+      "unit_class": 8,
+      "family": 0,
+      "type": 7,
+      "AIName": "",
+      "ScriptName": "npc_pet_mage_mirror_image",
+      "BaseAttackTime": 2000
+     },
+     "ai": "ScriptName npc_pet_mage_mirror_image",
+     "template_spells": [
+      {
+       "spell": 59638,
+       "exists": true,
+       "name": "Frostbolt",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "default",
+         "entry": 31216,
+         "index": 0,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": false
+        },
+        {
+         "path": "charm",
+         "entry": 31216,
+         "index": 0,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 31216,
+         "index": 0,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 31216,
+         "index": 0,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "applicable": true
+        },
+        {
+         "path": "script",
+         "reference": "src/server/scripts/Pet/pet_mage.cpp:SPELL_MAGE_FROST_BOLT"
+        }
+       ],
+       "status": "has-path"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mage-water-elemental",
+   "label": "Mage Water Elemental",
+   "cast_spell": 31687,
+   "cast_name": "Summon Water Elemental",
+   "cast_in_player_scope": true,
+   "summon_spell": 31687,
+   "link": {
+    "status": "direct",
+    "evidence_class": "db2-fact"
+   },
+   "summons": [
+    {
+     "spell": 31687,
+     "name": "Summon Water Elemental",
+     "resolution": {
+      "status": "ok",
+      "entry": 78116,
+      "trinity_unit_class": "Pet/SUMMON_PET",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 21314,
+       "effect_index": 0,
+       "effect": 56,
+       "entry": 78116,
+       "base_points": 1.0,
+       "route": "Spell::EffectSummonPet -> Player::SummonPet",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+       "trinity_unit_class": "Pet",
+       "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=78116 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 328,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 300.0,
+       "spirit": 0.0
+      },
+      "create_health": 84889,
+      "max_health": 144889,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 5000
+      },
+      "attack_power": 5724,
+      "bonus_spell_damage": 1500,
+      "weapon_damage": [
+       6341.525390625,
+       9512.2880859375
+      ],
+      "min_damage": 9612.3828125,
+      "max_damage": 12783.1455078125,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 21262
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 0,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 0.75,
+       "ManaModifier": 0.33,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 1",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 1"
+       },
+       "creature_classlevelstats": "row",
+       "display_power": "ChrClasses[8].DisplayPower=0"
+      },
+      "trace": [
+       "InitStatsForLevel: TC_LOG_ERROR 'Unknown type pet 78116 is summoned by player class 8' (Pet.cpp:863) -> petType stays MAX_PET_TYPE",
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=84889 createMana=21262 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=84639.0 -> 84639",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=5700.0 [pet: max(fire,shadow) SP * 0.57 -> AP; * 0.15 -> bonus damage] -> AP=5724 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=3270.857177734375 bonusDamage=0.0 -> [9612.3828125, 12783.1455078125]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=5000.0 base=4500.0 value=9500.0 -> armor=(4500, 5000)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=144889.0 -> 144889",
+       "UpdateStats(intellect): total=328.0 ownersBonus=300.0 -> Stats[3]=328",
+       "UpdateMaxPower(0): value=21262.0 -> 21262",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=21262.0 -> 21262",
+       "UpdateArmor: bonus_armor=5000.0 base=4500.0 value=9500.0 -> armor=(4500, 5000)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Water Elemental",
+      "unit_class": 8,
+      "family": 49,
+      "type": 4,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 0
+     },
+     "ai": "PetAI (IsPet, CreatureAISelector.cpp:88-91)",
+     "template_spells": []
+    }
+   ]
+  },
+  {
+   "id": "priest-shadowfiend",
+   "label": "Priest Shadowfiend",
+   "cast_spell": 34433,
+   "cast_name": "Shadowfiend",
+   "cast_in_player_scope": true,
+   "summon_spell": 1280172,
+   "link": {
+    "status": "no-trinity-edge",
+    "script_bindings": [
+     "spell_pri_shadow_covenant"
+    ],
+    "script_hook_refs": [],
+    "pet_script_refs": [],
+    "summon_in_player_scope": false,
+    "scope_chain": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 6,
+      "aura": 4,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 5.0
+     },
+     {
+      "index": 1,
+      "effect": 6,
+      "aura": 4,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 20.0
+     },
+     {
+      "index": 2,
+      "effect": 6,
+      "aura": 4,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 40.0
+     }
+    ],
+    "evidence_class": "unresolved",
+    "inert_reason": null,
+    "reopen": "a spell_linked_spell / spell_script_names row or a script that casts the summon spell"
+   },
+   "summons": [
+    {
+     "spell": 1280172,
+     "name": "Shadowfiend",
+     "resolution": {
+      "status": "ok",
+      "entry": 19668,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 1292999,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 19668,
+       "base_points": 0.0,
+       "summon_properties": 3255,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 3,
+        "Slot": -1,
+        "Flags_0": 4196866,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "pet_levelstats creature_entry=19668 level=90: gap-filled from level 89 (highest authored level 85)",
+      "stats": {
+       "strength": 241,
+       "agility": 172,
+       "stamina": 6095,
+       "intellect": 380,
+       "spirit": 248
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 3205,
+      "max_health": 303725,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 0
+      },
+      "attack_power": 462,
+      "bonus_spell_damage": 0,
+      "weapon_damage": [
+       3270.0,
+       3450.0
+      ],
+      "min_damage": 3534.0,
+      "max_damage": 3714.0,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 6011
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.7000000476837158,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 2",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 2"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 2",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 2",
+        "basehp": 240520,
+        "health": 240520
+       },
+       "display_power": "ChrClasses[2].DisplayPower=0"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=3205 createMana=6011 createStats=[241.0, 172.0, 95.0, 380.0, 248.0] [pet_levelstats(creature_entry=19668, level=90)]",
+       "UpdateMaxHealth: stamina=-95.0 mult=10.0 value=242775.0 -> 242775",
+       "UpdateStats(strength): total=241.0 ownersBonus=0.0 -> Stats[0]=241",
+       "UpdateAttackPowerAndDamage: val=462.0 bonusAP=0.0 [none] -> AP=462 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=264.0 bonusDamage=0.0 -> [3534.0, 3714.0]",
+       "UpdateStats(agility): total=172.0 ownersBonus=0.0 -> Stats[1]=172",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "UpdateStats(stamina): total=6095.0 ownersBonus=6000.0 -> Stats[2]=6095",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=303725.0 -> 303725",
+       "UpdateStats(intellect): total=380.0 ownersBonus=0.0 -> Stats[3]=380",
+       "UpdateMaxPower(0): value=6011.0 -> 6011",
+       "UpdateStats(spirit): total=248.0 ownersBonus=0.0 -> Stats[4]=248",
+       "UpdateMaxPower(0): value=6011.0 -> 6011",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "Shadowfiend (current entry; 12.1 summons via 1280172)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Shadowfiend",
+      "unit_class": 2,
+      "family": 0,
+      "type": 15,
+      "AIName": "",
+      "ScriptName": "npc_pet_pri_shadowfiend_mindbender",
+      "BaseAttackTime": 1500
+     },
+     "ai": "ScriptName npc_pet_pri_shadowfiend_mindbender",
+     "template_spells": [
+      {
+       "spell": 63619,
+       "exists": true,
+       "name": "Shadowcrawl",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "default",
+         "entry": 19668,
+         "index": 0,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": false
+        },
+        {
+         "path": "charm",
+         "entry": 19668,
+         "index": 0,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 19668,
+         "index": 0,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 19668,
+         "index": 0,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "priest-mindbender",
+   "label": "Priest Mindbender",
+   "cast_spell": 123040,
+   "cast_name": "Mindbender",
+   "cast_in_player_scope": false,
+   "summon_spell": 123040,
+   "link": {
+    "status": "direct",
+    "evidence_class": "db2-fact"
+   },
+   "summons": [
+    {
+     "spell": 123040,
+     "name": "Mindbender",
+     "resolution": {
+      "status": "ok",
+      "entry": 62982,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 155077,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 62982,
+       "base_points": 0.0,
+       "summon_properties": 4449,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 3,
+        "Slot": -1,
+        "Flags_0": 4196866,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=62982 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 28,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 240519,
+      "max_health": 541039,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 0
+      },
+      "attack_power": 24,
+      "bonus_spell_damage": 0,
+      "weapon_damage": [
+       6855.703125,
+       10283.5546875
+      ],
+      "min_damage": 6869.41748046875,
+      "max_damage": 10297.2685546875,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 9916
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.7000000476837158,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 2",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 2"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 2",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 2",
+        "basehp": 240520,
+        "health": 240520
+       },
+       "display_power": "ChrClasses[2].DisplayPower=0"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=240519 createMana=9916 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=480789.0 -> 480789",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=0.0 [none] -> AP=24 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=13.714285850524902 bonusDamage=0.0 -> [6869.41748046875, 10297.2685546875]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=541039.0 -> 541039",
+       "UpdateStats(intellect): total=28.0 ownersBonus=0.0 -> Stats[3]=28",
+       "UpdateMaxPower(0): value=9916.0 -> 9916",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=9916.0 -> 9916",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Mindbender",
+      "unit_class": 2,
+      "family": 0,
+      "type": 15,
+      "AIName": "",
+      "ScriptName": "npc_pet_pri_shadowfiend_mindbender",
+      "BaseAttackTime": 835
+     },
+     "ai": "ScriptName npc_pet_pri_shadowfiend_mindbender",
+     "template_spells": []
+    }
+   ]
+  },
+  {
+   "id": "shaman-fire-elemental",
+   "label": "Shaman Fire Elemental",
+   "cast_spell": 198067,
+   "cast_name": "Fire Elemental",
+   "cast_in_player_scope": true,
+   "summon_spell": 188592,
+   "link": {
+    "status": "no-trinity-edge",
+    "script_bindings": [],
+    "script_hook_refs": [],
+    "pet_script_refs": [],
+    "summon_in_player_scope": false,
+    "scope_chain": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 0.0
+     },
+     {
+      "index": 1,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 100.0
+     }
+    ],
+    "evidence_class": "unresolved",
+    "inert_reason": null,
+    "reopen": "a spell_linked_spell / spell_script_names row or a script that casts the summon spell"
+   },
+   "summons": [
+    {
+     "spell": 188592,
+     "name": "Fire Elemental",
+     "resolution": {
+      "status": "ok",
+      "entry": 95061,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 275512,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 95061,
+       "base_points": 1.0,
+       "summon_properties": 3213,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 2,
+        "Slot": -1,
+        "Flags_0": 4344330,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=95061 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 28,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 8310654,
+      "max_health": 16681309,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 0
+      },
+      "attack_power": 24,
+      "bonus_spell_damage": 0,
+      "weapon_damage": [
+       6341.525390625,
+       9512.2880859375
+      ],
+      "min_damage": 6355.23974609375,
+      "max_damage": 9526.001953125,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 862529
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 73.42500305175781,
+       "ManaModifier": 40.5667,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 1",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 1"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 1",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 1",
+        "basehp": 8310655,
+        "health": 8310655
+       },
+       "display_power": "ChrClasses[8].DisplayPower=0"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=8310654 createMana=21262 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=16621059.0 -> 16621059",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=0.0 [none] -> AP=24 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=13.714285850524902 bonusDamage=0.0 -> [6355.23974609375, 9526.001953125]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=16681309.0 -> 16681309",
+       "UpdateStats(intellect): total=28.0 ownersBonus=0.0 -> Stats[3]=28",
+       "UpdateMaxPower(0): value=862529.1875 -> 862529",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=862529.1875 -> 862529",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Greater Fire Elemental",
+      "unit_class": 8,
+      "family": 0,
+      "type": 4,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 0
+     },
+     "ai": "highest-permit generic AI (not resolved here)",
+     "template_spells": []
+    },
+    {
+     "spell": 372335,
+     "name": "Summon Fire Elemental",
+     "resolution": {
+      "status": "ok",
+      "entry": 95061,
+      "trinity_unit_class": "Pet/SUMMON_PET",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 1110897,
+       "effect_index": 0,
+       "effect": 56,
+       "entry": 95061,
+       "base_points": 1.0,
+       "route": "Spell::EffectSummonPet -> Player::SummonPet",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+       "trinity_unit_class": "Pet",
+       "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "SUMMON_PET",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=95061 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 28,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 8310654,
+      "max_health": 8370654,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 5000
+      },
+      "attack_power": 5724,
+      "bonus_spell_damage": 1500,
+      "weapon_damage": [
+       68.0,
+       112.0
+      ],
+      "min_damage": 3338.857177734375,
+      "max_damage": 3382.857177734375,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 21262
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 73.42500305175781,
+       "ManaModifier": 40.5667,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 1",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 1"
+       },
+       "creature_classlevelstats": "row",
+       "display_power": "ChrClasses[8].DisplayPower=0"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=SUMMON_PET createHealth=8310654 createMana=21262 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=8310404.0 -> 8310404",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=5700.0 [pet: max(fire,shadow) SP * 0.57 -> AP; * 0.15 -> bonus damage] -> AP=5724 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=3270.857177734375 bonusDamage=0.0 -> [3338.857177734375, 3382.857177734375]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=5000.0 base=4500.0 value=9500.0 -> armor=(4500, 5000)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=8370654.0 -> 8370654",
+       "UpdateStats(intellect): total=28.0 ownersBonus=0.0 -> Stats[3]=28",
+       "UpdateMaxPower(0): value=21262.0 -> 21262",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=21262.0 -> 21262",
+       "UpdateArmor: bonus_armor=5000.0 base=4500.0 value=9500.0 -> armor=(4500, 5000)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "pet type branch",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Greater Fire Elemental",
+      "unit_class": 8,
+      "family": 0,
+      "type": 4,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 0
+     },
+     "ai": "PetAI (IsPet, CreatureAISelector.cpp:88-91)",
+     "template_spells": []
+    }
+   ]
+  },
+  {
+   "id": "shaman-earth-elemental",
+   "label": "Shaman Earth Elemental",
+   "cast_spell": 198103,
+   "cast_name": "Earth Elemental",
+   "cast_in_player_scope": true,
+   "summon_spell": 188616,
+   "link": {
+    "status": "no-trinity-edge",
+    "script_bindings": [],
+    "script_hook_refs": [],
+    "pet_script_refs": [],
+    "summon_in_player_scope": false,
+    "scope_chain": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 0.0
+     },
+     {
+      "index": 1,
+      "effect": 6,
+      "aura": 4,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 0.0
+     }
+    ],
+    "evidence_class": "unresolved",
+    "inert_reason": null,
+    "reopen": "a spell_linked_spell / spell_script_names row or a script that casts the summon spell"
+   },
+   "summons": [
+    {
+     "spell": 188616,
+     "name": "Earth Elemental",
+     "resolution": {
+      "status": "ok",
+      "entry": 95072,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 275537,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 95072,
+       "base_points": 1.0,
+       "summon_properties": 3215,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 2,
+        "Slot": -1,
+        "Flags_0": 133640,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=95072 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 28,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 183926,
+      "max_health": 427853,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 0
+      },
+      "attack_power": 24,
+      "bonus_spell_damage": 0,
+      "weapon_damage": [
+       6855.703125,
+       10283.5546875
+      ],
+      "min_damage": 6869.41748046875,
+      "max_damage": 10297.2685546875,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 0
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.2999999523162842,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4",
+        "basehp": 183927,
+        "health": 183927
+       },
+       "display_power": "power 1 lacks PowerTypeFlags::IsUsedByNPCs -> SetPowerType returns, DisplayPower stays 0 (mana)"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=183926 createMana=0 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=367603.0 -> 367603",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=0.0 [none] -> AP=24 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=13.714285850524902 bonusDamage=0.0 -> [6869.41748046875, 10297.2685546875]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=427853.0 -> 427853",
+       "UpdateStats(intellect): total=28.0 ownersBonus=0.0 -> Stats[3]=28",
+       "UpdateMaxPower(0): value=0.0 -> 0",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=0.0 -> 0",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Greater Earth Elemental",
+      "unit_class": 1,
+      "family": 0,
+      "type": 4,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 0
+     },
+     "ai": "highest-permit generic AI (not resolved here)",
+     "template_spells": []
+    }
+   ]
+  },
+  {
+   "id": "shaman-feral-spirit",
+   "label": "Shaman Feral Spirit",
+   "cast_spell": 51533,
+   "cast_name": "Feral Spirit",
+   "cast_in_player_scope": true,
+   "summon_spell": 228562,
+   "link": {
+    "status": "no-trinity-edge",
+    "script_bindings": [],
+    "script_hook_refs": [],
+    "pet_script_refs": [],
+    "summon_in_player_scope": false,
+    "scope_chain": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 3,
+      "aura": 0,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 0.0
+     }
+    ],
+    "evidence_class": "unresolved",
+    "inert_reason": null,
+    "reopen": "a spell_linked_spell / spell_script_names row or a script that casts the summon spell"
+   },
+   "summons": [
+    {
+     "spell": 228562,
+     "name": "Feral Spirit",
+     "resolution": {
+      "status": "ok",
+      "entry": 29264,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 344190,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 29264,
+       "base_points": 2.0,
+       "summon_properties": 1161,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 2,
+        "Slot": 0,
+        "Flags_0": 138430976,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+       "trinity_unit_class": "Guardian",
+       "controllable": false,
+       "use_creature_level": false,
+       "num_summons": "max(effect value, 1) = 2"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=29264 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 12025,
+       "intellect": 28,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 2700,
+      "max_health": 264183,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 1750,
+       "bonus": 0
+      },
+      "attack_power": 3124,
+      "bonus_spell_damage": 3100,
+      "weapon_damage": [
+       270.0,
+       450.0
+      ],
+      "min_damage": 1608.857177734375,
+      "max_damage": 1788.857177734375,
+      "base_attack_time_ms": 1500,
+      "max_power": {
+       "power": 0,
+       "value": 0
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.0,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4",
+        "basehp": 141483,
+        "health": 141483
+       },
+       "display_power": "power 1 lacks PowerTypeFlags::IsUsedByNPCs -> SetPowerType returns, DisplayPower stays 0 (mana)"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=141482 createMana=0 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "InitStatsForLevel: AddAura(58877 Spirit Hunt) (Pet.cpp:1031)",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=143933.0 -> 143933",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=3100.0 [spirit wolf: melee AP * 0.31 -> AP and bonus damage] -> AP=3124 mult=0.0",
+       "UpdateDamagePhysical: att_speed=1.5 base_value=1338.857177734375 bonusDamage=0.0 -> [1608.857177734375, 1788.857177734375]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=1750.0 value=1750.0 -> armor=(1750, 0)",
+       "UpdateStats(stamina): total=12025.0 ownersBonus=6000.0 -> Stats[2]=12025",
+       "UpdateMaxHealth: stamina=12000.0 mult=10.0 value=264183.0 -> 264183",
+       "UpdateStats(intellect): total=28.0 ownersBonus=0.0 -> Stats[3]=28",
+       "UpdateMaxPower(0): value=0.0 -> 0",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=0.0 -> 0",
+       "UpdateArmor: bonus_armor=0.0 base=1750.0 value=1750.0 -> armor=(1750, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "Feral Spirit wolf (current entry for 228562/363941)",
+      "ghoul_or_wolf_ap_branch": true
+     },
+     "creature": {
+      "name": "Spirit Wolf",
+      "unit_class": 1,
+      "family": 0,
+      "type": 1,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 1500
+     },
+     "ai": "highest-permit generic AI (not resolved here)",
+     "template_spells": [
+      {
+       "spell": 58875,
+       "exists": true,
+       "name": "Spirit Walk",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 44,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": true,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "default",
+         "entry": 29264,
+         "index": 1,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": false
+        },
+        {
+         "path": "charm",
+         "entry": 29264,
+         "index": 1,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "totem",
+         "entry": 29264,
+         "index": 1,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 29264,
+         "index": 1,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      },
+      {
+       "spell": 58867,
+       "exists": true,
+       "name": "Spirit Leap",
+       "passive": false,
+       "autocastable": true,
+       "autocast_enabled_by_default": true,
+       "not_available_while_charmed": false,
+       "spell_level": 1,
+       "pet_default_active_state": "ACT_ENABLED",
+       "script_bindings": [],
+       "in_player_scope": false,
+       "build_skew_newer_than_trinity": false,
+       "paths": [
+        {
+         "path": "default",
+         "entry": 29264,
+         "index": 2,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "note": "dropped if the entry's family levelup set holds it (LoadPetDefaultSpells_helper)",
+         "applicable": false
+        },
+        {
+         "path": "charm",
+         "entry": 29264,
+         "index": 2,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "skipped_attr5": false,
+         "applicable": false
+        },
+        {
+         "path": "template-ai",
+         "entry": 29264,
+         "index": 2,
+         "summoned_as": [
+          "Guardian"
+         ],
+         "applicable": true
+        }
+       ],
+       "status": "has-path"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "shaman-healing-stream-totem",
+   "label": "Shaman Healing Stream Totem",
+   "cast_spell": 5394,
+   "cast_name": "Healing Stream Totem",
+   "cast_in_player_scope": true,
+   "summon_spell": 5394,
+   "link": {
+    "status": "direct",
+    "evidence_class": "db2-fact"
+   },
+   "summons": [
+    {
+     "spell": 5394,
+     "name": "Healing Stream Totem",
+     "resolution": {
+      "status": "unresolved",
+      "entry": 3527,
+      "trinity_unit_class": "Totem",
+      "reason": "Totem: no Guardian stat code; plain Creature::UpdateLevelDependantStats values (independent), the prepared-stat oracle covers only Pet/Guardian",
+      "summon_effect": null
+     }
+    }
+   ]
+  },
+  {
+   "id": "druid-treant",
+   "label": "Druid Force of Nature treant",
+   "cast_spell": 205636,
+   "cast_name": "Force of Nature",
+   "cast_in_player_scope": true,
+   "summon_spell": 248280,
+   "link": {
+    "status": "authored-trigger",
+    "effects": [
+     {
+      "index": 1,
+      "effect": 64,
+      "aura": 0,
+      "trigger": 248280,
+      "misc0": 10,
+      "misc1": 0,
+      "base_points": 0.0
+     },
+     {
+      "index": 2,
+      "effect": 64,
+      "aura": 0,
+      "trigger": 248280,
+      "misc0": 155,
+      "misc1": 0,
+      "base_points": 0.0
+     },
+     {
+      "index": 3,
+      "effect": 64,
+      "aura": 0,
+      "trigger": 248280,
+      "misc0": 300,
+      "misc1": 0,
+      "base_points": 0.0
+     }
+    ],
+    "evidence_class": "db2-fact"
+   },
+   "summons": [
+    {
+     "spell": 248280,
+     "name": "Force of Nature",
+     "resolution": {
+      "status": "ok",
+      "entry": 103822,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 465060,
+       "effect_index": 0,
+       "effect": 28,
+       "entry": 103822,
+       "base_points": 1.0,
+       "summon_properties": 3097,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 1,
+        "Slot": 0,
+        "Flags_0": 4213250,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+       "trinity_unit_class": "Guardian",
+       "controllable": true,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 90,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "no pet_levelstats rows for creature_entry=103822 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 28,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 707410,
+      "max_health": 1474821,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 4500,
+       "bonus": 0
+      },
+      "attack_power": 24,
+      "bonus_spell_damage": 0,
+      "weapon_damage": [
+       6855.703125,
+       10283.5546875
+      ],
+      "min_damage": 6869.41748046875,
+      "max_damage": 10297.2685546875,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 0
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 482,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 5.0,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4"
+       },
+       "creature_classlevelstats": "row",
+       "content_tuning_levels": {
+        "MinLevel": 1,
+        "MaxLevel": 90
+       },
+       "select_level": 90,
+       "tempsummon_level": 90,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4",
+        "basehp": 707411,
+        "health": 707411
+       },
+       "display_power": "power 1 lacks PowerTypeFlags::IsUsedByNPCs -> SetPowerType returns, DisplayPower stays 0 (mana)"
+      },
+      "trace": [
+       "InitStatsForLevel(90): petType=MAX_PET_TYPE(none) createHealth=707410 createMana=0 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=1414571.0 -> 1414571",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=0.0 [none] -> AP=24 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=13.714285850524902 bonusDamage=0.0 -> [6869.41748046875, 10297.2685546875]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=1474821.0 -> 1474821",
+       "UpdateStats(intellect): total=28.0 ownersBonus=0.0 -> Stats[3]=28",
+       "UpdateMaxPower(0): value=0.0 -> 0",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=0.0 -> 0",
+       "UpdateArmor: bonus_armor=0.0 base=4500.0 value=4500.0 -> armor=(4500, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Treant",
+      "unit_class": 1,
+      "family": 0,
+      "type": 4,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 0
+     },
+     "ai": "PetAI by permit (CONTROLABLE_GUARDIAN)",
+     "template_spells": []
+    },
+    {
+     "spell": 102693,
+     "name": "Grove Guardians",
+     "resolution": {
+      "status": "ok",
+      "entry": 54983,
+      "trinity_unit_class": "Guardian",
+      "reason": null,
+      "summon_effect": {
+       "effect_row_id": 111576,
+       "effect_index": 1,
+       "effect": 28,
+       "entry": 54983,
+       "base_points": 1.0,
+       "summon_properties": 5734,
+       "summon_properties_row": {
+        "Control": 1,
+        "Title": 1,
+        "Slot": -1,
+        "Flags_0": 37767682,
+        "Flags_1": 0
+       },
+       "route": "SummonGuardian",
+       "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+       "unit_mask": "UNIT_MASK_GUARDIAN",
+       "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+       "trinity_unit_class": "Guardian",
+       "controllable": true,
+       "use_creature_level": false,
+       "num_summons": "1"
+      }
+     },
+     "oracle": {
+      "status": "ok",
+      "level": 0,
+      "pet_type": "MAX_PET_TYPE(none)",
+      "pet_levelstats": "level 0: no pet_levelstats rows for 54983 -> nullptr (ObjectMgr.cpp:3775-3776)",
+      "stats": {
+       "strength": 22,
+       "agility": 22,
+       "stamina": 6025,
+       "intellect": 28,
+       "spirit": 0
+      },
+      "stat_from_owner": {
+       "strength": 0.0,
+       "agility": 0.0,
+       "stamina": 6000.0,
+       "intellect": 0.0,
+       "spirit": 0.0
+      },
+      "create_health": 1,
+      "max_health": 60079,
+      "max_health_undefined_behaviour": false,
+      "armor": {
+       "base": 0,
+       "bonus": 0
+      },
+      "attack_power": 24,
+      "bonus_spell_damage": 0,
+      "weapon_damage": [
+       1.0,
+       1.5
+      ],
+      "min_damage": 14.714285850524902,
+      "max_damage": 15.214285850524902,
+      "base_attack_time_ms": 2000,
+      "max_power": {
+       "power": 0,
+       "value": 0
+      },
+      "source_notes": {
+       "world_sources": [
+        "docs/research/world-db-corpora/creature-templates.json",
+        "docs/research/world-db-corpora/pet-witness-templates.json"
+       ],
+       "ContentTuningID": 0,
+       "HealthScalingExpansion": 11,
+       "HealthModifier": 1.0,
+       "ManaModifier": 1.0,
+       "DeltaLevelMin": 0,
+       "DeltaLevelMax": 0,
+       "Classification": 0,
+       "expected_stat_petlevel": {
+        "CreatureHealth": "no ExpectedStat row for level 0 -> 1.0f (DB2Stores.cpp:2482-2483)",
+        "CreatureAutoAttackDps": "no ExpectedStat row for level 0 -> 1.0f (DB2Stores.cpp:2482-2483)"
+       },
+       "creature_classlevelstats": "absent for (level 0, class 2) -> 0",
+       "content_tuning_levels": null,
+       "select_level": 1,
+       "tempsummon_level": 0,
+       "expected_stat_select_level": {
+        "CreatureHealth": "ExpectedStat(Lvl=1, ExpansionID=-2 fallback) ID=1 CreatureHealth=78; ContentTuningXExpected mods []; class mod 2",
+        "CreatureAutoAttackDps": "ExpectedStat(Lvl=1, ExpansionID=-2 fallback) ID=1 CreatureAutoAttackDps=4.75353193283; ContentTuningXExpected mods []; class mod 2",
+        "basehp": 78,
+        "health": 78
+       },
+       "display_power": "ChrClasses[2].DisplayPower=0"
+      },
+      "trace": [
+       "InitStatsForLevel(0): petType=MAX_PET_TYPE(none) createHealth=1 createMana=0 createStats=[22.0, 22.0, 25.0, 28.0, 0.0] [fake defaults (Pet.cpp:913-916) + ExpectedStat health]",
+       "UpdateMaxHealth: (uint32)-171.0 is undefined behaviour; x86-64 result 4294967125",
+       "UpdateMaxHealth: stamina=-25.0 mult=10.0 value=-171.0 -> 4294967125",
+       "UpdateStats(strength): total=22.0 ownersBonus=0.0 -> Stats[0]=22",
+       "UpdateAttackPowerAndDamage: val=24.0 bonusAP=0.0 [none] -> AP=24 mult=0.0",
+       "UpdateDamagePhysical: att_speed=2.0 base_value=13.714285850524902 bonusDamage=0.0 -> [14.714285850524902, 15.214285850524902]",
+       "UpdateStats(agility): total=22.0 ownersBonus=0.0 -> Stats[1]=22",
+       "UpdateArmor: bonus_armor=0.0 base=0.0 value=0.0 -> armor=(0, 0)",
+       "UpdateStats(stamina): total=6025.0 ownersBonus=6000.0 -> Stats[2]=6025",
+       "UpdateMaxHealth: stamina=6000.0 mult=10.0 value=60079.0 -> 60079",
+       "UpdateStats(intellect): total=28.0 ownersBonus=0.0 -> Stats[3]=28",
+       "UpdateMaxPower(0): value=0.0 -> 0",
+       "UpdateStats(spirit): total=0.0 ownersBonus=0.0 -> Stats[4]=0",
+       "UpdateMaxPower(0): value=0.0 -> 0",
+       "UpdateArmor: bonus_armor=0.0 base=0.0 value=0.0 -> armor=(0, 0)",
+       "InitStatsForLevel: SetFullHealth(); SetFullPower(POWER_MANA) (Pet.cpp:1087-1088)"
+      ]
+     },
+     "entry_switches": {
+      "health_multiplier": 10.0,
+      "init_stats_entry_branch": "default (ExpectedStat)",
+      "ghoul_or_wolf_ap_branch": false
+     },
+     "creature": {
+      "name": "Treant",
+      "unit_class": 2,
+      "family": 0,
+      "type": 4,
+      "AIName": "",
+      "ScriptName": "",
+      "BaseAttackTime": 0
+     },
+     "ai": "PetAI by permit (CONTROLABLE_GUARDIAN)",
+     "template_spells": []
+    }
+   ]
+  },
+  {
+   "id": "paladin-goak",
+   "label": "Paladin Guardian of Ancient Kings",
+   "cast_spell": 86659,
+   "cast_name": "Guardian of Ancient Kings",
+   "cast_in_player_scope": true,
+   "summon_spell": null,
+   "link": {
+    "status": "unresolved",
+    "reason": "no summon spell identified"
+   },
+   "summons": [],
+   "entry_search": {
+    "entry": 46499,
+    "summoning_spells_12_1": [],
+    "cast_effects": [
+     {
+      "index": 0,
+      "effect": 6,
+      "aura": 56,
+      "trigger": 0,
+      "misc0": 46490,
+      "misc1": 7,
+      "base_points": 1.0
+     },
+     {
+      "index": 1,
+      "effect": 6,
+      "aura": 4,
+      "trigger": 0,
+      "misc0": 0,
+      "misc1": 0,
+      "base_points": 0.0
+     },
+     {
+      "index": 2,
+      "effect": 6,
+      "aura": 87,
+      "trigger": 0,
+      "misc0": 127,
+      "misc1": 0,
+      "base_points": -50.0
+     }
+    ],
+    "script_refs": "scripts/Spells/spell_paladin.cpp:83 names 86659 only as a cooldown target (:1482-1500)",
+    "status": "unresolved"
+   }
+  }
+ ],
+ "interactions": {
+  "pet_owner_forward_cast": {
+   "rows": [
+    {
+     "spell_id": 8092,
+     "script": "spell_pri_inescapable_torment",
+     "cls": "spell_pri_inescapable_torment",
+     "file": "src/server/scripts/Spells/spell_priest.cpp",
+     "handler": "HandleEffectHit",
+     "line": 2635,
+     "list": "OnEffectHitTarget",
+     "family": "pet-owner-forward-cast",
+     "sub": null,
+     "executes": true,
+     "prevent_default": false,
+     "actions": [
+      "cast",
+      "pet-owner"
+     ],
+     "secondary_actions": [],
+     "cross_script": [],
+     "cross_class": [],
+     "children": [
+      373441
+     ],
+     "amount_sources": [
+      "effect-value"
+     ],
+     "rng": false,
+     "delayed": false,
+     "loops": 1,
+     "runtime_reads": [
+      "GetCaster",
+      "GetEffect",
+      "GetHitUnit",
+      "GetSpell"
+     ],
+     "queries_other_aura": [],
+     "refs": [
+      19668,
+      62982,
+      224466,
+      373427,
+      373441
+     ]
+    },
+    {
+     "spell_id": 32379,
+     "script": "spell_pri_inescapable_torment",
+     "cls": "spell_pri_inescapable_torment",
+     "file": "src/server/scripts/Spells/spell_priest.cpp",
+     "handler": "HandleEffectHit",
+     "line": 2635,
+     "list": "OnEffectHitTarget",
+     "family": "pet-owner-forward-cast",
+     "sub": null,
+     "executes": true,
+     "prevent_default": false,
+     "actions": [
+      "cast",
+      "pet-owner"
+     ],
+     "secondary_actions": [],
+     "cross_script": [],
+     "cross_class": [],
+     "children": [
+      373441
+     ],
+     "amount_sources": [
+      "effect-value"
+     ],
+     "rng": false,
+     "delayed": false,
+     "loops": 1,
+     "runtime_reads": [
+      "GetCaster",
+      "GetEffect",
+      "GetHitUnit",
+      "GetSpell"
+     ],
+     "queries_other_aura": [],
+     "refs": [
+      19668,
+      62982,
+      224466,
+      373427,
+      373441
+     ]
+    },
+    {
+     "spell_id": 136511,
+     "script": "spell_mage_ring_of_frost",
+     "cls": "spell_mage_ring_of_frost",
+     "file": "src/server/scripts/Spells/spell_mage.cpp",
+     "handler": "HandleEffectPeriodic",
+     "line": 1826,
+     "list": "OnEffectPeriodic",
+     "family": "pet-owner-forward-cast",
+     "sub": null,
+     "executes": true,
+     "prevent_default": false,
+     "actions": [
+      "cast",
+      "pet-owner"
+     ],
+     "secondary_actions": [],
+     "cross_script": [],
+     "cross_class": [],
+     "children": [
+      82691
+     ],
+     "amount_sources": [],
+     "rng": false,
+     "delayed": false,
+     "loops": 0,
+     "runtime_reads": [
+      "GetPosition",
+      "GetTarget"
+     ],
+     "queries_other_aura": [],
+     "refs": [
+      82691
+     ]
+    }
+   ],
+   "count": 3,
+   "trinity": "spell_pri_inescapable_torment (scripts/Spells/spell_priest.cpp:2593-2637): loads only with 373427; finds the Shadowfiend/Mindbender in m_Controlled by entry (19668/62982/224466, :316-318), makes it cast 373441 and extends its timer by 373427 EFFECT_1",
+   "evidence_class": "trinity-consumer"
+  },
+  "pet_only_damage_multiplier": {
+   "aura": {
+    "aura": 429,
+    "name": "SPELL_AURA_MOD_SUMMON_DAMAGE",
+    "handler": "HandleNULL",
+    "note": null,
+    "define": "src/server/game/Spells/Auras/SpellAuraDefines.h:516",
+    "handler_row": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:501",
+    "implemented": false,
+    "spells_12_1": 393,
+    "spells_in_player_scope": 63,
+    "in_scope_examples": [
+     {
+      "spell": 76657,
+      "name": "Mastery: Master of Beasts"
+     },
+     {
+      "spell": 77219,
+      "name": "Mastery: Master Demonologist"
+     },
+     {
+      "spell": 77515,
+      "name": "Mastery: Dreadblade"
+     },
+     {
+      "spell": 137006,
+      "name": "Frost Death Knight"
+     },
+     {
+      "spell": 137007,
+      "name": "Unholy Death Knight"
+     },
+     {
+      "spell": 137008,
+      "name": "Blood Death Knight"
+     },
+     {
+      "spell": 137010,
+      "name": "Guardian Druid"
+     },
+     {
+      "spell": 137011,
+      "name": "Feral Druid"
+     },
+     {
+      "spell": 137012,
+      "name": "Restoration Druid"
+     },
+     {
+      "spell": 137013,
+      "name": "Balance Druid"
+     },
+     {
+      "spell": 137015,
+      "name": "Beast Mastery Hunter"
+     },
+     {
+      "spell": 137016,
+      "name": "Marksmanship Hunter"
+     }
+    ]
+   },
+   "evidence_class": "trinity-consumer",
+   "claim": "SPELL_AURA_MOD_SUMMON_DAMAGE (429) is HandleNULL: every 12.1 pet damage mastery / spec aura carrying it is inert in Trinity (unsupported by research != inert in Retail)"
+  }
+ }
+}

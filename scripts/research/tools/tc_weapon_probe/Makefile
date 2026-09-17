@@ -1,0 +1,17 @@
+# Weapon-combat differential probe.  `make` regenerates the extracted Trinity
+# code from the sibling checkout and builds the probe.  Override TC_ROOT to
+# point elsewhere (e.g. `make TC_ROOT=/path/to/TrinityCore`).
+TC_ROOT ?= $(abspath ../../../../../TrinityCore)
+CXX ?= g++
+CXXFLAGS ?= -std=c++20 -O0 -ffp-contract=off -Wall -Wno-unused-variable -Wno-unused-function -Wno-unused-but-set-variable
+
+probe: probe.cpp tc_weapon_decls.inc tc_weapon_bodies.inc
+	$(CXX) $(CXXFLAGS) -o probe probe.cpp
+
+tc_weapon_decls.inc tc_weapon_bodies.inc: extract.py
+	python3 extract.py $(TC_ROOT)
+
+clean:
+	rm -f probe tc_weapon_decls.inc tc_weapon_bodies.inc
+
+.PHONY: clean

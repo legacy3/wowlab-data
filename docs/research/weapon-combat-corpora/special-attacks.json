@@ -1,0 +1,5546 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 weapon_combat.py special",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2"
+ },
+ "context": {
+  "snapshot_wide_weapon_effect_rows": {
+   "NORMALIZED_WEAPON_DMG": 116,
+   "WEAPON_DAMAGE": 307,
+   "WEAPON_DAMAGE_NOSCHOOL": 6,
+   "WEAPON_PERCENT_DAMAGE": 7814
+  },
+  "snapshot_wide_weapon_effect_spells": 7937,
+  "weapon_effect_spells_newer_than_trinity_build": 91,
+  "snapshot_wide_multi_fixed_or_multi_pct_spells": 9,
+  "snapshot_wide_multi_fixed_or_multi_pct_sample": [
+   56920,
+   110956,
+   129375,
+   131976,
+   246092,
+   251601,
+   316037,
+   324836,
+   332292
+  ],
+  "multi_note": "DifficultyID 0 rows; ignores per-target effect masks (effects with different implicit targets are not in the same EffectMask)",
+  "note": "snapshot-wide rows are dominated by creature/NPC spells; the census below is the current-player scope only"
+ },
+ "default_scope": {
+  "counts": {
+   "reachable_spells": 4836,
+   "weapon_effect_spells": 2,
+   "by_weapon_effect": {
+    "WEAPON_PERCENT_DAMAGE": 2
+   },
+   "by_attack_type": {
+    "BASE_ATTACK": 1,
+    "RANGED_ATTACK": 1
+   },
+   "by_spec_and_effect": {
+    "253 Beast Mastery": {
+     "WEAPON_PERCENT_DAMAGE": 1
+    },
+    "254 Marksmanship": {
+     "WEAPON_PERCENT_DAMAGE": 1
+    },
+    "263 Enhancement": {
+     "WEAPON_PERCENT_DAMAGE": 1
+    }
+   },
+   "by_equipped_item_requirement": {
+    "class=2 subclass_mask=8337 invtype_mask=0": 1,
+    "class=2 subclass_mask=262156 invtype_mask=0": 1
+   },
+   "add_pct_mods_false": 1,
+   "multi_fixed_or_multi_pct": 0,
+   "fixed_and_pct": 0,
+   "offhand_without_pct_mods": 0,
+   "next_swing_spells_in_scope": 0,
+   "next_swing_with_weapon_effect": 0,
+   "ap_coefficient_spells": 210,
+   "ap_coefficient_without_weapon_effect": 210
+  },
+  "weapon_spells": [
+   {
+    "spell": 114089,
+    "name": "Windlash",
+    "family": 11,
+    "dmg_class": "MELEE",
+    "attack_type": "BASE_ATTACK",
+    "attack_type_reason": "DmgClass MELEE (SpellInfo.cpp:1940)",
+    "school_mask": 1,
+    "add_pct_mods": true,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 8337,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:31"
+    ],
+    "fixed_effect_count": 0,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      31,
+      416.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 416.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     263
+    ],
+    "spec_names": [
+     "Enhancement"
+    ],
+    "depth": 1,
+    "root_kinds": [],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": []
+   },
+   {
+    "spell": 467718,
+    "name": "Bleak Arrows",
+    "family": 9,
+    "dmg_class": "RANGED",
+    "attack_type": "RANGED_ATTACK",
+    "attack_type_reason": "DmgClass RANGED + IsRangedWeaponSpell (SpellInfo.cpp:1943)",
+    "school_mask": 32,
+    "add_pct_mods": false,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 262156,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:31"
+    ],
+    "fixed_effect_count": 0,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      31,
+      300.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 300.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     253,
+     254
+    ],
+    "spec_names": [
+     "Beast Mastery",
+     "Marksmanship"
+    ],
+    "depth": 1,
+    "root_kinds": [],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "addPctMods=false: TOTAL_PCT is skipped in CalculateDamage and school ModDamageDonePercent applies in MeleeDamageBonusDone instead (SpellEffects.cpp:2883-2884, Unit.cpp:8062-8079)",
+     "RANGED_ATTACK: UNIT_MOD_DAMAGE_RANGED and RangedAttackPower fields"
+    ]
+   }
+  ],
+  "next_swing": []
+ },
+ "class_skill_lines_scope": {
+  "counts": {
+   "reachable_spells": 8975,
+   "weapon_effect_spells": 11,
+   "by_weapon_effect": {
+    "NORMALIZED_WEAPON_DMG": 8,
+    "WEAPON_PERCENT_DAMAGE": 11
+   },
+   "by_attack_type": {
+    "BASE_ATTACK": 6,
+    "OFF_ATTACK": 3,
+    "RANGED_ATTACK": 2
+   },
+   "by_spec_and_effect": {
+    "1480 Devourer": {
+     "NORMALIZED_WEAPON_DMG": 2,
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "250 Blood": {
+     "NORMALIZED_WEAPON_DMG": 2,
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "251 Frost": {
+     "NORMALIZED_WEAPON_DMG": 2,
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "252 Unholy": {
+     "NORMALIZED_WEAPON_DMG": 2,
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "253 Beast Mastery": {
+     "NORMALIZED_WEAPON_DMG": 1,
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "254 Marksmanship": {
+     "NORMALIZED_WEAPON_DMG": 1,
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "255 Survival": {
+     "NORMALIZED_WEAPON_DMG": 1,
+     "WEAPON_PERCENT_DAMAGE": 1
+    },
+    "262 Elemental": {
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "263 Enhancement": {
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "264 Restoration": {
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "577 Havoc": {
+     "NORMALIZED_WEAPON_DMG": 2,
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "581 Vengeance": {
+     "NORMALIZED_WEAPON_DMG": 2,
+     "WEAPON_PERCENT_DAMAGE": 2
+    },
+    "71 Arms": {
+     "NORMALIZED_WEAPON_DMG": 3,
+     "WEAPON_PERCENT_DAMAGE": 3
+    },
+    "72 Fury": {
+     "NORMALIZED_WEAPON_DMG": 3,
+     "WEAPON_PERCENT_DAMAGE": 3
+    },
+    "73 Protection": {
+     "NORMALIZED_WEAPON_DMG": 3,
+     "WEAPON_PERCENT_DAMAGE": 3
+    }
+   },
+   "by_equipped_item_requirement": {
+    "class=-1 subclass_mask=0 invtype_mask=0": 4,
+    "class=2 subclass_mask=173555 invtype_mask=0": 3,
+    "class=2 subclass_mask=8337 invtype_mask=0": 2,
+    "class=2 subclass_mask=262156 invtype_mask=0": 2
+   },
+   "add_pct_mods_false": 4,
+   "multi_fixed_or_multi_pct": 0,
+   "fixed_and_pct": 8,
+   "offhand_without_pct_mods": 1,
+   "next_swing_spells_in_scope": 0,
+   "next_swing_with_weapon_effect": 0,
+   "ap_coefficient_spells": 288,
+   "ap_coefficient_without_weapon_effect": 287
+  },
+  "weapon_spells": [
+   {
+    "spell": 114089,
+    "name": "Windlash",
+    "family": 11,
+    "dmg_class": "MELEE",
+    "attack_type": "BASE_ATTACK",
+    "attack_type_reason": "DmgClass MELEE (SpellInfo.cpp:1940)",
+    "school_mask": 1,
+    "add_pct_mods": true,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 8337,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:31"
+    ],
+    "fixed_effect_count": 0,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      31,
+      416.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 416.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "spec_names": [
+     "Elemental",
+     "Enhancement",
+     "Restoration"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [],
+    "scope": "default"
+   },
+   {
+    "spell": 114093,
+    "name": "Windlash Off-Hand",
+    "family": 11,
+    "dmg_class": "MELEE",
+    "attack_type": "OFF_ATTACK",
+    "attack_type_reason": "DmgClass MELEE + SPELL_ATTR3_REQUIRES_OFF_HAND_WEAPON (SpellInfo.cpp:1937-1938)",
+    "school_mask": 1,
+    "add_pct_mods": true,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 8337,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:31"
+    ],
+    "fixed_effect_count": 0,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      31,
+      416.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 416.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "spec_names": [
+     "Elemental",
+     "Enhancement",
+     "Restoration"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "OFF_ATTACK: off-hand weapon range; UNIT_MOD_DAMAGE_OFFHAND TOTAL_PCT (incl. the 0.5 factor) via UnitData::MinOffHandDamage (SpellEffects.cpp:2891, Unit.cpp:2535-2537)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 201628,
+    "name": "Fury of the Illidari",
+    "family": 107,
+    "dmg_class": "MELEE",
+    "attack_type": "BASE_ATTACK",
+    "attack_type_reason": "DmgClass MELEE (SpellInfo.cpp:1940)",
+    "school_mask": 127,
+    "add_pct_mods": true,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": -1,
+    "equipped_item_subclass_mask": 0,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "NORMALIZED_WEAPON_DMG",
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:121",
+     "1:31"
+    ],
+    "fixed_effect_count": 1,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      121,
+      0.0
+     ],
+     [
+      31,
+      38.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 121,
+      "effect_name": "SPELL_EFFECT_NORMALIZED_WEAPON_DMG",
+      "is_weapon_effect": true,
+      "base_points_f": 0.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 1,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 38.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     577,
+     581,
+     1480
+    ],
+    "spec_names": [
+     "Havoc",
+     "Vengeance",
+     "Devourer"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "normalized: GetAPMultiplier(attType, true) subclass table and CalculateMinMaxDamage recomputed (Unit.cpp:2506-2516)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 201789,
+    "name": "Fury of the Illidari",
+    "family": 107,
+    "dmg_class": "MELEE",
+    "attack_type": "OFF_ATTACK",
+    "attack_type_reason": "DmgClass MELEE + SPELL_ATTR3_REQUIRES_OFF_HAND_WEAPON (SpellInfo.cpp:1937-1938)",
+    "school_mask": 127,
+    "add_pct_mods": true,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": -1,
+    "equipped_item_subclass_mask": 0,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "NORMALIZED_WEAPON_DMG",
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:121",
+     "1:31"
+    ],
+    "fixed_effect_count": 1,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      121,
+      0.0
+     ],
+     [
+      31,
+      38.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 121,
+      "effect_name": "SPELL_EFFECT_NORMALIZED_WEAPON_DMG",
+      "is_weapon_effect": true,
+      "base_points_f": 0.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 1,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 38.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     577,
+     581,
+     1480
+    ],
+    "spec_names": [
+     "Havoc",
+     "Vengeance",
+     "Devourer"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "OFF_ATTACK: off-hand weapon range; UNIT_MOD_DAMAGE_OFFHAND TOTAL_PCT (incl. the 0.5 factor) via UnitData::MinOffHandDamage (SpellEffects.cpp:2891, Unit.cpp:2535-2537)",
+     "normalized: GetAPMultiplier(attType, true) subclass table and CalculateMinMaxDamage recomputed (Unit.cpp:2506-2516)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 204147,
+    "name": "Windburst",
+    "family": 9,
+    "dmg_class": "RANGED",
+    "attack_type": "RANGED_ATTACK",
+    "attack_type_reason": "DmgClass RANGED + IsRangedWeaponSpell (SpellInfo.cpp:1943)",
+    "school_mask": 1,
+    "add_pct_mods": true,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 262156,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "WEAPON_PERCENT_DAMAGE",
+     "NORMALIZED_WEAPON_DMG"
+    ],
+    "weapon_effect_order": [
+     "0:31",
+     "1:121"
+    ],
+    "fixed_effect_count": 1,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      31,
+      272.0
+     ],
+     [
+      121,
+      0.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 272.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 1,
+      "effect": 121,
+      "effect_name": "SPELL_EFFECT_NORMALIZED_WEAPON_DMG",
+      "is_weapon_effect": true,
+      "base_points_f": 0.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     253,
+     254,
+     255
+    ],
+    "spec_names": [
+     "Beast Mastery",
+     "Marksmanship",
+     "Survival"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "RANGED_ATTACK: UNIT_MOD_DAMAGE_RANGED and RangedAttackPower fields",
+     "normalized: GetAPMultiplier(attType, true) subclass table and CalculateMinMaxDamage recomputed (Unit.cpp:2506-2516)",
+     "percent effect precedes the fixed effect: (roll * pct) + fixed (SpellEffects.cpp:2911-2935 index order); numerically inert while the fixed EffectBasePointsF is 0 (only `normalized` matters)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 205223,
+    "name": "Consumption",
+    "family": 15,
+    "dmg_class": "MELEE",
+    "attack_type": "BASE_ATTACK",
+    "attack_type_reason": "DmgClass MELEE (SpellInfo.cpp:1940)",
+    "school_mask": 1,
+    "add_pct_mods": true,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 173555,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "NORMALIZED_WEAPON_DMG",
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:121",
+     "1:31"
+    ],
+    "fixed_effect_count": 1,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      121,
+      0.0
+     ],
+     [
+      31,
+      87.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 121,
+      "effect_name": "SPELL_EFFECT_NORMALIZED_WEAPON_DMG",
+      "is_weapon_effect": true,
+      "base_points_f": 0.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 1,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 87.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 2,
+      "effect": 3,
+      "effect_name": "SPELL_EFFECT_DUMMY",
+      "is_weapon_effect": false,
+      "base_points_f": 100.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 3,
+      "effect": 3,
+      "effect_name": "SPELL_EFFECT_DUMMY",
+      "is_weapon_effect": false,
+      "base_points_f": 12.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 4,
+      "effect": 3,
+      "effect_name": "SPELL_EFFECT_DUMMY",
+      "is_weapon_effect": false,
+      "base_points_f": 14.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 5,
+      "effect": 64,
+      "effect_name": "SPELL_EFFECT_TRIGGER_SPELL",
+      "is_weapon_effect": false,
+      "base_points_f": 0.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     250,
+     251,
+     252
+    ],
+    "spec_names": [
+     "Blood",
+     "Frost",
+     "Unholy"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "normalized: GetAPMultiplier(attType, true) subclass table and CalculateMinMaxDamage recomputed (Unit.cpp:2506-2516)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 205546,
+    "name": "Odyn's Fury",
+    "family": 4,
+    "dmg_class": "MELEE",
+    "attack_type": "BASE_ATTACK",
+    "attack_type_reason": "DmgClass MELEE (SpellInfo.cpp:1940)",
+    "school_mask": 4,
+    "add_pct_mods": false,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 173555,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "NORMALIZED_WEAPON_DMG",
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:121",
+     "1:31"
+    ],
+    "fixed_effect_count": 1,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      121,
+      0.0
+     ],
+     [
+      31,
+      91.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 121,
+      "effect_name": "SPELL_EFFECT_NORMALIZED_WEAPON_DMG",
+      "is_weapon_effect": true,
+      "base_points_f": 0.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 1,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 91.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 2,
+      "effect": 6,
+      "effect_name": "SPELL_EFFECT_APPLY_AURA",
+      "is_weapon_effect": false,
+      "base_points_f": 1.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.20999999344,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     71,
+     72,
+     73
+    ],
+    "spec_names": [
+     "Arms",
+     "Fury",
+     "Protection"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "addPctMods=false: TOTAL_PCT is skipped in CalculateDamage and school ModDamageDonePercent applies in MeleeDamageBonusDone instead (SpellEffects.cpp:2883-2884, Unit.cpp:8062-8079)",
+     "normalized: GetAPMultiplier(attType, true) subclass table and CalculateMinMaxDamage recomputed (Unit.cpp:2506-2516)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 205547,
+    "name": "Odyn's Fury",
+    "family": 4,
+    "dmg_class": "MELEE",
+    "attack_type": "OFF_ATTACK",
+    "attack_type_reason": "DmgClass MELEE + SPELL_ATTR3_REQUIRES_OFF_HAND_WEAPON (SpellInfo.cpp:1937-1938)",
+    "school_mask": 4,
+    "add_pct_mods": false,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 173555,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "NORMALIZED_WEAPON_DMG",
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:121",
+     "1:31"
+    ],
+    "fixed_effect_count": 1,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      121,
+      0.0
+     ],
+     [
+      31,
+      91.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 121,
+      "effect_name": "SPELL_EFFECT_NORMALIZED_WEAPON_DMG",
+      "is_weapon_effect": true,
+      "base_points_f": 0.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 1,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 91.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     71,
+     72,
+     73
+    ],
+    "spec_names": [
+     "Arms",
+     "Fury",
+     "Protection"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "addPctMods=false: TOTAL_PCT is skipped in CalculateDamage and school ModDamageDonePercent applies in MeleeDamageBonusDone instead (SpellEffects.cpp:2883-2884, Unit.cpp:8062-8079)",
+     "OFF_ATTACK with addPctMods=false: CalculateDamage recomputes with totalPct=1, so the 0.5 off-hand factor (it lives in TOTAL_PCT, Unit.cpp:9793) is NOT applied (SpellEffects.cpp:2908, StatSystem.cpp:450)",
+     "normalized: GetAPMultiplier(attType, true) subclass table and CalculateMinMaxDamage recomputed (Unit.cpp:2506-2516)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 209577,
+    "name": "Warbreaker",
+    "family": 4,
+    "dmg_class": "MELEE",
+    "attack_type": "BASE_ATTACK",
+    "attack_type_reason": "DmgClass MELEE (SpellInfo.cpp:1940)",
+    "school_mask": 32,
+    "add_pct_mods": false,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": -1,
+    "equipped_item_subclass_mask": 0,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "WEAPON_PERCENT_DAMAGE",
+     "NORMALIZED_WEAPON_DMG"
+    ],
+    "weapon_effect_order": [
+     "0:31",
+     "1:121"
+    ],
+    "fixed_effect_count": 1,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      31,
+      119.0
+     ],
+     [
+      121,
+      0.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 119.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 1,
+      "effect": 121,
+      "effect_name": "SPELL_EFFECT_NORMALIZED_WEAPON_DMG",
+      "is_weapon_effect": true,
+      "base_points_f": 0.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     71,
+     72,
+     73
+    ],
+    "spec_names": [
+     "Arms",
+     "Fury",
+     "Protection"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "addPctMods=false: TOTAL_PCT is skipped in CalculateDamage and school ModDamageDonePercent applies in MeleeDamageBonusDone instead (SpellEffects.cpp:2883-2884, Unit.cpp:8062-8079)",
+     "normalized: GetAPMultiplier(attType, true) subclass table and CalculateMinMaxDamage recomputed (Unit.cpp:2506-2516)",
+     "percent effect precedes the fixed effect: (roll * pct) + fixed (SpellEffects.cpp:2911-2935 index order); numerically inert while the fixed EffectBasePointsF is 0 (only `normalized` matters)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 220143,
+    "name": "Apocalypse",
+    "family": 15,
+    "dmg_class": "MELEE",
+    "attack_type": "BASE_ATTACK",
+    "attack_type_reason": "DmgClass MELEE (SpellInfo.cpp:1940)",
+    "school_mask": 1,
+    "add_pct_mods": true,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": -1,
+    "equipped_item_subclass_mask": 0,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "NORMALIZED_WEAPON_DMG",
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:121",
+     "1:31"
+    ],
+    "fixed_effect_count": 1,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      121,
+      1.0
+     ],
+     [
+      31,
+      306.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 121,
+      "effect_name": "SPELL_EFFECT_NORMALIZED_WEAPON_DMG",
+      "is_weapon_effect": true,
+      "base_points_f": 1.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 1,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 306.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 2,
+      "effect": 3,
+      "effect_name": "SPELL_EFFECT_DUMMY",
+      "is_weapon_effect": false,
+      "base_points_f": 6.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     },
+     {
+      "index": 3,
+      "effect": 30,
+      "effect_name": "SPELL_EFFECT_ENERGIZE",
+      "is_weapon_effect": false,
+      "base_points_f": 2.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     250,
+     251,
+     252
+    ],
+    "spec_names": [
+     "Blood",
+     "Frost",
+     "Unholy"
+    ],
+    "depth": 0,
+    "root_kinds": [
+     "class-skill"
+    ],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "normalized: GetAPMultiplier(attType, true) subclass table and CalculateMinMaxDamage recomputed (Unit.cpp:2506-2516)"
+    ],
+    "scope": "class_skill_lines"
+   },
+   {
+    "spell": 467718,
+    "name": "Bleak Arrows",
+    "family": 9,
+    "dmg_class": "RANGED",
+    "attack_type": "RANGED_ATTACK",
+    "attack_type_reason": "DmgClass RANGED + IsRangedWeaponSpell (SpellInfo.cpp:1943)",
+    "school_mask": 32,
+    "add_pct_mods": false,
+    "ignore_caster_damage_modifiers": false,
+    "next_swing": false,
+    "equipped_item_class": 2,
+    "equipped_item_subclass_mask": 262156,
+    "equipped_item_inventory_type_mask": 0,
+    "weapon_effects": [
+     "WEAPON_PERCENT_DAMAGE"
+    ],
+    "weapon_effect_order": [
+     "0:31"
+    ],
+    "fixed_effect_count": 0,
+    "pct_effect_count": 1,
+    "effect_values_for_oracle": [
+     [
+      31,
+      300.0
+     ]
+    ],
+    "effects": [
+     {
+      "index": 0,
+      "effect": 31,
+      "effect_name": "SPELL_EFFECT_WEAPON_PERCENT_DAMAGE",
+      "is_weapon_effect": true,
+      "base_points_f": 300.0,
+      "scaling_coefficient": 0.0,
+      "bonus_coefficient_from_ap": 0.0,
+      "mechanic": 0
+     }
+    ],
+    "specs": [
+     253,
+     254
+    ],
+    "spec_names": [
+     "Beast Mastery",
+     "Marksmanship"
+    ],
+    "depth": 1,
+    "root_kinds": [],
+    "shares_primitive": "Unit::CalculateDamage + MeleeDamageBonusDone/Taken (SpellEffects.cpp:2908, 2947-2948)",
+    "divergences": [
+     "addPctMods=false: TOTAL_PCT is skipped in CalculateDamage and school ModDamageDonePercent applies in MeleeDamageBonusDone instead (SpellEffects.cpp:2883-2884, Unit.cpp:8062-8079)",
+     "RANGED_ATTACK: UNIT_MOD_DAMAGE_RANGED and RangedAttackPower fields"
+    ],
+    "scope": "default"
+   }
+  ],
+  "next_swing": [],
+  "note": "Scope(include_class_skills=True): adds SkillLineAbility class lines (baseline class abilities such as 1752 Sinister Strike are learned there, not through SpecializationSpells)"
+ },
+ "ap_coefficient_spells_default_scope": [
+  {
+   "spell": 53,
+   "name": "Backstab",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    261
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.07309997082,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 703,
+   "name": "Garrote",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.45149999857,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 772,
+   "name": "Rend",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.24581003189,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 845,
+   "name": "Cleave",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.32814002037,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1079,
+   "name": "Rip",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    102,
+    103,
+    104,
+    105
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.31130000949,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1464,
+   "name": "Slam",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.03484988213,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1822,
+   "name": "Rake",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    102,
+    103,
+    104,
+    105
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.29100000858,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1943,
+   "name": "Rupture",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.3365739882,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 2098,
+   "name": "Dispatch",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    260
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.61159998178,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 2818,
+   "name": "Deadly Poison",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.11373999715,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 5374,
+   "name": "Mutilate",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.14999997616,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 5938,
+   "name": "Shiv",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    259,
+    260,
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.2539999485,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 6343,
+   "name": "Thunder Clap",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.35680007935,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 6572,
+   "name": "Revenge",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.81663990021,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 6807,
+   "name": "Maul",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    104
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.125,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 7384,
+   "name": "Overpower",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.8561398983,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 12294,
+   "name": "Mortal Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 5.20121002197,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 19434,
+   "name": "Aimed Shot",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    254
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 9.72000026703,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 20243,
+   "name": "Devastate",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.28100001812,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 22570,
+   "name": "Maim",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    102,
+    103,
+    104,
+    105
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.1439999938,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 23881,
+   "name": "Bloodthirst",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.24203014374,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 27576,
+   "name": "Mutilate",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.14999997616,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 31935,
+   "name": "Avenger's Shield",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    66
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.0,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 68,
+     "effect_name": "SPELL_EFFECT_INTERRUPT_CAST",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.2678129971,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 2,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 27,
+     "bonus_coefficient_from_ap": 0.2678129971,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 32175,
+   "name": "Stormstrike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.52324008942,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 32176,
+   "name": "Stormstrike Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.52324008942,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 32645,
+   "name": "Envenom",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.39500001073,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 44949,
+   "name": "Whirlwind Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.50398898125,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 46968,
+   "name": "Shockwave",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.20000000298,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 47568,
+   "name": "Empower Rune Weapon",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.59999990463,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 49184,
+   "name": "Howling Blast",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.4407120049,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 49998,
+   "name": "Death Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250,
+    251,
+    252
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.53120005131,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 50622,
+   "name": "Bladestorm",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.71635007858,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 50842,
+   "name": "Blood Boil",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.63999998569,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 51723,
+   "name": "Fan of Knives",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.05879998207,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 53351,
+   "name": "Kill Shot",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    254
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 10.5,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 53385,
+   "name": "Divine Storm",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.63423991203,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 53595,
+   "name": "Hammer of the Righteous",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    66
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 55078,
+   "name": "Blood Plague",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 53,
+     "bonus_coefficient_from_ap": 0.33480000496,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "bonus_coefficient_from_ap": 0.05176079646,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 55090,
+   "name": "Scourge Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    252
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.35000002384,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 60103,
+   "name": "Lava Lash",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.38717007637,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 66196,
+   "name": "Frost Strike Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.16089999676,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 66198,
+   "name": "Obliterate Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.54005402327,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 85384,
+   "name": "Raging Blow",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.06997990608,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 85948,
+   "name": "Festering Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    252
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.02500009537,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 95738,
+   "name": "Bladestorm Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    71,
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.71635007858,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 96103,
+   "name": "Raging Blow",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.06997990608,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 100780,
+   "name": "Tiger Palm",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.89999997616,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 107270,
+   "name": "Spinning Crane Kick",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.10000000149,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 107570,
+   "name": "Storm Bolt",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.28499999642,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 113656,
+   "name": "Fists of Fury",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    269
+   ],
+   "effects": [
+    {
+     "index": 4,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.20749998093,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 114014,
+   "name": "Shuriken Toss",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.23783800006,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 30,
+     "effect_name": "SPELL_EFFECT_ENERGIZE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.19655999541,
+     "base_points_f": 1.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 115181,
+   "name": "Breath of Fire",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 117418,
+   "name": "Fists of Fury",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    269
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.60820007324,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 121253,
+   "name": "Keg Smash",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.89999997616,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 148187,
+   "name": "Rushing Jade Wind",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268,
+    269
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.13300000131,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 155166,
+   "name": "Breath of Sindragosa",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.11829996109,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 155722,
+   "name": "Rake",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    102,
+    103,
+    104,
+    105
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.29399999976,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 162243,
+   "name": "Demon's Bite",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.05050003529,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 163558,
+   "name": "Execute Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.85267996788,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 167105,
+   "name": "Colossus Smash",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.06262993813,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 179057,
+   "name": "Chaos Nova",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577,
+    581
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.27481600642,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 184575,
+   "name": "Blade of Justice",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.9287699461,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 184707,
+   "name": "Rampage",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.03064990044,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 184709,
+   "name": "Rampage",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.18455004692,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 185099,
+   "name": "Rising Sun Kick",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268,
+    269,
+    270
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.43799996376,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 185438,
+   "name": "Shadowstrike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 5.59000015259,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 185565,
+   "name": "Poisoned Knife",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.23231999576,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 185763,
+   "name": "Pistol Shot",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    260
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.83399999142,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 30,
+     "effect_name": "SPELL_EFFECT_ENERGIZE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.19655999541,
+     "base_points_f": 1.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 186270,
+   "name": "Raptor Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    255
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.93249988556,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 187874,
+   "name": "Crash Lightning",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.83616995811,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 190456,
+   "name": "Ignore Pain",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 69,
+     "bonus_coefficient_from_ap": 16.12400054932,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 191587,
+   "name": "Virulent Plague",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    252
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.25356799364,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 193265,
+   "name": "Hatchet Toss",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    255
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 193315,
+   "name": "Sinister Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    260
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.22300004959,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 193455,
+   "name": "Cobra Shot",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    253
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.90400004387,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 195182,
+   "name": "Marrowrend",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.20650005341,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 195292,
+   "name": "Death's Caress",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.43740001321,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 196608,
+   "name": "Eye of the Tiger",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268,
+    269,
+    270
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 8,
+     "bonus_coefficient_from_ap": 0.07043399662,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.07043399662,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 196771,
+   "name": "Remorseless Winter",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.12646199763,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 197214,
+   "name": "Sundering",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.53920006752,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 197835,
+   "name": "Shuriken Storm",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.62999999523,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 198137,
+   "name": "Divine Hammer",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    66,
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.44000005722,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 198813,
+   "name": "Vengeful Retreat",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577,
+    581,
+    1480
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.15999999642,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 199547,
+   "name": "Chaos Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.15670001507,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 199552,
+   "name": "Blade Dance",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.24750000238,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 199667,
+   "name": "Whirlwind",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.50398898125,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 199851,
+   "name": "Whirlwind Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.50398898125,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 199852,
+   "name": "Whirlwind",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.50398898125,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 200685,
+   "name": "Blade Dance",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.74199998379,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 200758,
+   "name": "Gloomblade",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.23000001907,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 201363,
+   "name": "Rampage",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.52300000191,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 201364,
+   "name": "Rampage",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.70756006241,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 202168,
+   "name": "Impending Victory",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.58999997377,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 203796,
+   "name": "Demon Blades",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.46399998665,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 203953,
+   "name": "Brambles",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    104
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 69,
+     "bonus_coefficient_from_ap": 0.25,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 204021,
+   "name": "Fiery Brand",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.15999984741,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 204066,
+   "name": "Lunar Beam",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    104
+   ],
+   "effects": [
+    {
+     "index": 4,
+     "effect": 64,
+     "effect_name": "SPELL_EFFECT_TRIGGER_SPELL",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.10647000372,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 205523,
+   "name": "Blackout Kick",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.06560003757,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 206930,
+   "name": "Heart Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.96700000763,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 207230,
+   "name": "Frostscythe",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.47999998927,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 207407,
+   "name": "Soul Carver",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 1.0,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.63500022888,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 212105,
+   "name": "Fel Devastation",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.41100001335,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 212431,
+   "name": "Explosive Shot",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    254
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 3.06999993324,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 214743,
+   "name": "Soul Carver",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.63500022888,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 217200,
+   "name": "Barbed Shot",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    253
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.85699999332,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 222024,
+   "name": "Obliterate",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.54005402327,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 222026,
+   "name": "Frost Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.16089999676,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 222031,
+   "name": "Chaos Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.73600000143,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 225919,
+   "name": "Fracture",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.03499996662,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 225921,
+   "name": "Fracture",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.06999993324,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 228477,
+   "name": "Soul Cleave",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 3,
+     "effect": 10,
+     "effect_name": "SPELL_EFFECT_HEAL",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 228478,
+   "name": "Soul Cleave",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.07999992371,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 228920,
+   "name": "Ravager",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.24581003189,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 236282,
+   "name": "Devastator",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.31400001049,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 255937,
+   "name": "Wake of Ashes",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.21860003471,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 257620,
+   "name": "Multi-Shot",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    254
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.13599991798,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 258860,
+   "name": "Essence Break",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.61999988556,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 258883,
+   "name": "Trail of Ruin",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.72000002861,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 259387,
+   "name": "Mongoose Bite",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    255
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.75729990005,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 260643,
+   "name": "Skullsplitter",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.0248799324,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 260798,
+   "name": "Execute",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.4212501049,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 262115,
+   "name": "Deep Wounds",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.2424660027,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 262161,
+   "name": "Warbreaker",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.06262993813,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 267964,
+   "name": "Soul Strike",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    266
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 280849,
+   "name": "Execute",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.85267996788,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 285381,
+   "name": "Primal Wrath",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    103
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.15500000119,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 315341,
+   "name": "Between the Eyes",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    260
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.75099998713,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 317483,
+   "name": "Condemn",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.40419995785,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 317488,
+   "name": "Condemn",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.82899999619,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 317489,
+   "name": "Condemn Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.93300002813,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 319175,
+   "name": "Black Powder",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.18500000238,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 322507,
+   "name": "Celestial Brew",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 69,
+     "bonus_coefficient_from_ap": 56.70000076294,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 325153,
+   "name": "Exploding Keg",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.79999995232,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 3,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 42,
+     "bonus_coefficient_from_ap": 0.20000000298,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 325461,
+   "name": "Obliterate",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.79947698116,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 325464,
+   "name": "Frost Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.65074002743,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 342240,
+   "name": "Ice Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.85660004616,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 343294,
+   "name": "Soul Reaper",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    252
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.5,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 344548,
+   "name": "Ascendance",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.15625,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 346665,
+   "name": "Throw Glaive",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    581
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.21151000261,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 360194,
+   "name": "Deathmark",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.40000000596,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 370966,
+   "name": "The Hunt",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 7.44239997864,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 370969,
+   "name": "The Hunt",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 1.60199999809,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 374606,
+   "name": "Blood Draw",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250,
+    251,
+    252
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 9,
+     "effect_name": "SPELL_EFFECT_HEALTH_LEECH",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.20000004768,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 376080,
+   "name": "Champion's Spear",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.39249992371,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 3,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.54374998808,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 378286,
+   "name": "Tyr's Enforcer",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    66
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.11999999732,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 383328,
+   "name": "Final Verdict",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.65069007874,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 383346,
+   "name": "Expurgation",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.22949999571,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 383414,
+   "name": "Amplifying Poison",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259,
+    260,
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.08139999956,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 383915,
+   "name": "Annihilator",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.13224999607,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 384090,
+   "name": "Titanic Throw",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.34999999404,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 384318,
+   "name": "Thunderous Roar",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.50559997559,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 384391,
+   "name": "Sidearm",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.69999998808,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 385060,
+   "name": "Odyn's Fury",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.82597994804,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 1.29999995232,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 385061,
+   "name": "Odyn's Fury Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.82597994804,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 385062,
+   "name": "Odyn's Fury",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.82597994804,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 385627,
+   "name": "Kingsbane",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.46899998188,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 3,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.28999999166,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 388539,
+   "name": "Rend",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.38093098998,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 388867,
+   "name": "Exploding Keg",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.30000001192,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 389578,
+   "name": "Resonant Fists",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268,
+    269,
+    270
+   ],
+   "effects": [
+    {
+     "index": 2,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 4,
+     "bonus_coefficient_from_ap": 0.15000000596,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 391191,
+   "name": "Burning Wound",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.14689999819,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 391400,
+   "name": "Resonant Fists",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268,
+    269,
+    270
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.15000000596,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 393056,
+   "name": "Chi Explosion",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    269
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.50999999046,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 393786,
+   "name": "Chi Surge",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.99900001287,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 394062,
+   "name": "Rend",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.39162001014,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 394352,
+   "name": "Shattering Throw",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 6.0,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 6.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 394354,
+   "name": "Wrecking Throw",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 6.0,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 6.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 395519,
+   "name": "Strike of the Windlord",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    269
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 10.07999992371,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 395521,
+   "name": "Strike of the Windlord",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    269
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 5.03999996185,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 396718,
+   "name": "Onslaught",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.13867998123,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 397364,
+   "name": "Thunderous Roar",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71,
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.6263999939,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 400254,
+   "name": "Raze",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    104
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.125,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.15600001812,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 403460,
+   "name": "Lightforged Blessing",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    65,
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 10,
+     "effect_name": "SPELL_EFFECT_HEAL",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.25,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 403695,
+   "name": "Truth's Wake",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.65280002356,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 2,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 345,
+     "bonus_coefficient_from_ap": 0.54400002956,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 404358,
+   "name": "Blade of Justice",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.58519500494,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 405345,
+   "name": "Wake of Ashes",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.27173995972,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 405350,
+   "name": "Wake of Ashes",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.27173995972,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 407467,
+   "name": "Lightforged Blessing",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    65,
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 10,
+     "effect_name": "SPELL_EFFECT_HEAL",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.25,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 407480,
+   "name": "Templar Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.875,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 408385,
+   "name": "Crusading Strikes",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.34731006622,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 415091,
+   "name": "Shield of the Righteous",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    65
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.98000001907,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 426592,
+   "name": "Goremaw's Bite",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 6.30000019073,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 426593,
+   "name": "Goremaw's Bite",
+   "dmg_class": "NONE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    261
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 1.58000004292,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 428078,
+   "name": "Tempest Strikes",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.40250000358,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 435222,
+   "name": "Thunder Blast",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    72,
+    73
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.34295010567,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 439843,
+   "name": "Reaper's Mark",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250,
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 4.42259979248,
+     "base_points_f": 0.0
+    },
+    {
+     "index": 3,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.33999991417,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 444979,
+   "name": "Preemptive Strike",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    577,
+    581
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.20000000298,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 466930,
+   "name": "Black Arrow",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    253
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.48399996758,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 467745,
+   "name": "Shadow Dagger",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    253,
+    254
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.00499999989,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 468179,
+   "name": "Rushing Wind Kick",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    270
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.79750001431,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 469270,
+   "name": "Doom Winds",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    263
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.20000004768,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 473728,
+   "name": "Void Ray",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    1480
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 23,
+     "bonus_coefficient_from_ap": 2.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1240996,
+   "name": "Dread Plague",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    252
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.54888701439,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1241059,
+   "name": "Celestial Infusion",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 69,
+     "bonus_coefficient_from_ap": 56.70000076294,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1241413,
+   "name": "Hammer of Wrath",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    66
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.23749995232,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1244258,
+   "name": "Chomp",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    103
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 11.69999980927,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1247227,
+   "name": "Crimson Tempest",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    259
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.10000002384,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1253799,
+   "name": "Sundering Roar",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    104
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 2.79999995232,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1260251,
+   "name": "Execution Sentence",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 5.05312013626,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1261215,
+   "name": "Boomstick",
+   "dmg_class": "RANGED",
+   "ap_attack_type": "RANGED_ATTACK",
+   "specs": [
+    255
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 6.07499980927,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1263566,
+   "name": "Abomination Limb",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    250
+   ],
+   "effects": [
+    {
+     "index": 1,
+     "effect": 3,
+     "effect_name": "SPELL_EFFECT_DUMMY",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.2840000093,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1263631,
+   "name": "Awakening Spirit",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    268
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 69,
+     "bonus_coefficient_from_ap": 6.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1264082,
+   "name": "Obliterate",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.54005402327,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1264083,
+   "name": "Obliterate Off-Hand",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.54005402327,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1264084,
+   "name": "Obliterate",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    251
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 0.79947698116,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1265595,
+   "name": "Brought to Light",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    65,
+    66,
+    70
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 10,
+     "effect_name": "SPELL_EFFECT_HEAL",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 6.25,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1265862,
+   "name": "Gravedigger",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    260
+   ],
+   "effects": [
+    {
+     "index": 2,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.60000002384,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1270292,
+   "name": "Lunar Beam",
+   "dmg_class": "MAGIC",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    104
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 3,
+     "bonus_coefficient_from_ap": 0.40000000596,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1277297,
+   "name": "Ignore Pain",
+   "dmg_class": "NONE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    71
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 6,
+     "effect_name": "SPELL_EFFECT_APPLY_AURA",
+     "aura": 69,
+     "bonus_coefficient_from_ap": 20.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1299944,
+   "name": "Rampaging Ruin",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "OFF_ATTACK",
+   "specs": [
+    72
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 2,
+     "effect_name": "SPELL_EFFECT_SCHOOL_DAMAGE",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 3.72288990021,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  },
+  {
+   "spell": 1308399,
+   "name": "Answered Calling",
+   "dmg_class": "MELEE",
+   "ap_attack_type": "BASE_ATTACK",
+   "specs": [
+    104
+   ],
+   "effects": [
+    {
+     "index": 0,
+     "effect": 28,
+     "effect_name": "SPELL_EFFECT_SUMMON",
+     "aura": 0,
+     "bonus_coefficient_from_ap": 1.0,
+     "base_points_f": 0.0
+    }
+   ],
+   "has_weapon_effect": false
+  }
+ ],
+ "ap_coefficient_count_class_skill_lines_scope": 288,
+ "consumer": {
+  "Spell::EffectWeaponDmg": "SpellEffects.cpp:2812-2949",
+  "SpellInfo::GetAttackType": "SpellInfo.cpp:1931-1955",
+  "SpellInfo::IsRangedWeaponSpell": "SpellInfo.cpp:1904-1909",
+  "SpellInfo::IsNextMeleeSwingSpell": "SpellInfo.cpp:1899-1902",
+  "Spell::GetCurrentContainer -> CURRENT_MELEE_SPELL": "Spell.cpp:8157-8160",
+  "Unit::AttackerStateUpdate casts CURRENT_MELEE_SPELL": "Unit.cpp:2292-2293",
+  "Item::IsFitToSpellRequirements": "Item.cpp (EquippedItemClass/SubClassMask; InventoryTypeMask only for enchant spells)",
+  "AP coefficient path": "Unit.cpp:6851-6874 DoneTotal += int32(stack * BonusCoefficientFromAP * (attackerBonus + GetTotalAttackPowerValue(attType)))",
+  "SpellEffectValue": "double (SpellDefines.h:490); Spell::m_damage int32 (Spell.h:818)"
+ },
+ "scope": "dummy_semantics.scope.Scope(include_class_skills=False) and Scope(include_class_skills=True)"
+}

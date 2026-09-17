@@ -1,0 +1,2177 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 controlled_units.py lifecycle --write",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2"
+ },
+ "phases": {
+  "CREATE_TEMPSUMMON": [
+   {
+    "phase": 1,
+    "function": "Spell::EffectSummonType",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:1869-1881",
+    "what": "LAUNCH phase only; entry = MiscValue, properties = SummonProperties[MiscValueB] (return if missing)"
+   },
+   {
+    "phase": 2,
+    "function": "Spell::EffectSummonType",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:1883-1902",
+    "what": "caster = m_originalCaster or m_caster; privateObjectOwner from OnlyVisibleToSummoner[Group]; duration = SpellInfo::CalcDuration(caster)",
+    "identity_control_snapshot": "duration snapshot (owner Duration spell mods applied through GetSpellModOwner)"
+   },
+   {
+    "phase": 3,
+    "function": "Spell::EffectSummonType",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:1915-1937",
+    "what": "numSummons = effect value for the MiscValueB list, else 1"
+   },
+   {
+    "phase": 4,
+    "function": "Spell::EffectSummonType",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:1939-2078",
+    "what": "switch(Control) / switch(Title): SummonGuardian or Map::SummonCreature (see vocabulary.branch_table)"
+   },
+   {
+    "phase": 5,
+    "function": "Spell::SummonGuardian",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:5015-5037",
+    "what": "unitCaster (totem -> owner); duration = CalcDuration(m_originalCaster); Map::SummonCreature per count at dest / random point (radius 5)"
+   },
+   {
+    "phase": 6,
+    "function": "Map::SummonCreature",
+    "coordinate": "src/server/game/Entities/Object/Object.cpp:1195-1263",
+    "what": "UnitTypeMask from Control/Title -> new TempSummon/Guardian/Puppet/Totem/Minion (Minion ctor: m_owner, InitCharmInfo T:446-454; Guardian ctor: CONTROLABLE_GUARDIAN for Title::Pet or Control::PET T:513-523)"
+   },
+   {
+    "phase": 7,
+    "function": "Map::SummonCreature -> Creature::Create",
+    "coordinate": "src/server/game/Entities/Object/Object.cpp:1265-1269",
+    "what": "GUID = GenerateLowGuid<HighGuid::Creature>; fails (nullptr) without a creature_template",
+    "identity_control_snapshot": "generation identity: fresh low GUID per summon, no reuse counter"
+   },
+   {
+    "phase": 8,
+    "function": "Map::SummonCreature",
+    "coordinate": "src/server/game/Entities/Object/Object.cpp:1271-1283",
+    "what": "transport passenger; PhasingHandler::InheritPhaseShift unless IgnoreSummonerPhase; SetCreatedBySpell(spellId); SetHomePosition",
+    "identity_control_snapshot": "CreatedBySpell snapshot"
+   },
+   {
+    "phase": 9,
+    "function": "TempSummon::InitStats",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:188-203",
+    "what": "m_timer = m_lifetime = duration; TempSummonType from duration/UseDemonTimeout when still MANUAL_DESPAWN",
+    "identity_control_snapshot": "duration policy snapshot"
+   },
+   {
+    "phase": 10,
+    "function": "TempSummon::InitStats",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:205-218",
+    "what": "player summoner: trigger creatures with a spell become m_ControlledByPlayer; creature_summoned_data visible-to-summoner ids"
+   },
+   {
+    "phase": 11,
+    "function": "TempSummon::InitStats",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:224-239",
+    "what": "slot bookkeeping: Slot -1 -> FindUsableTotemSlot; Slot != 0 -> UnSummon the previous occupant, m_SummonSlot[slot] = this",
+    "identity_control_snapshot": "replacement rule (slot)"
+   },
+   {
+    "phase": 12,
+    "function": "TempSummon::InitStats",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:241-255",
+    "what": "SetLevel(clamp(summoner level, scaling min/max)) unless UseCreatureLevel; faction from properties or summoner (UseSummonerFaction)",
+    "identity_control_snapshot": "level + faction snapshot"
+   },
+   {
+    "phase": 13,
+    "function": "Minion::InitStats",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:456-466",
+    "what": "REACT_PASSIVE; SetCreatorGUID(owner); SetFaction(owner faction); owner->SetMinion(this, true)",
+    "identity_control_snapshot": "creator + faction snapshot; enters m_Controlled"
+   },
+   {
+    "phase": 14,
+    "function": "Unit::SetMinion(apply)",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:6264-6336",
+    "what": "OwnerGUID; m_Controlled; PLAYER_CONTROLLED flag; guardian-pet single-slot rule (6274-6295); MinionGUID for controllable guardians; Critter for Companions; PvP flags copy; speed copy for Pets; cooldown-started-on-event",
+    "identity_control_snapshot": "owner, PvP flags, controlled-by-player snapshot; replacement rule (pet slot)"
+   },
+   {
+    "phase": 15,
+    "function": "Guardian::InitStats",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:525-535",
+    "what": "InitStatsForLevel(GetLevel()) [Track B]; InitCharmCreateSpells for player-owned controllable guardians; REACT_AGGRESSIVE"
+   },
+   {
+    "phase": 16,
+    "function": "Totem::InitStats / Puppet::InitStats",
+    "coordinate": "src/server/game/Entities/Totem/Totem.cpp:53-88; src/server/game/Entities/Creature/TemporarySummon.cpp:563-567",
+    "what": "totem: SMSG_TOTEM_CREATED for slots 1-4, race model, Minion::InitStats, TOTEM_ACTIVE if the totem spell has a cast time, m_duration = duration; puppet: Minion::InitStats + REACT_PASSIVE"
+   },
+   {
+    "phase": 17,
+    "function": "Map::SummonCreature",
+    "coordinate": "src/server/game/Entities/Object/Object.cpp:1287-1314",
+    "what": "SetPrivateObjectOwner; smooth phasing; AddToMap (failure deletes the summon)"
+   },
+   {
+    "phase": 18,
+    "function": "TempSummon::InitSummon",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:261-278",
+    "what": "summoner creature/gameobject AI JustSummoned; own AI IsSummonedBy"
+   },
+   {
+    "phase": 19,
+    "function": "Guardian::InitSummon / Totem::InitSummon / Puppet::InitSummon",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:537-547; src/server/game/Entities/Totem/Totem.cpp:90-98; src/server/game/Entities/Creature/TemporarySummon.cpp:569-574",
+    "what": "guardian: CharmSpellInitialize when it is the player's MinionGUID and no charm; totem: cast passive totem spell(s); puppet: SetCharmedBy(owner, CHARM_TYPE_POSSESS)"
+   },
+   {
+    "phase": 20,
+    "function": "Spell::EffectSummonType (default arm)",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:2022-2028",
+    "what": "SetTempSummonType(computed); ALLY -> SetOwnerGUID(caster); WILD by player -> SetDemonCreatorGUID(caster); no CreatorGUID (early return :2030)",
+    "identity_control_snapshot": "owner/demon-creator snapshot (ALLY/WILD only)"
+   },
+   {
+    "phase": 21,
+    "function": "Spell::SummonGuardian (post)",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:5041-5066",
+    "what": "engineering-skill level for guardians summoned by an engineering item; follow angle for minions with a dest; 27893 weapon display; ExecuteLogEffectSummonObject"
+   },
+   {
+    "phase": 22,
+    "function": "Spell::EffectSummonType (post)",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:2080-2084",
+    "what": "for the non-SummonGuardian arms with a summon: SetCreatorGUID(caster)",
+    "identity_control_snapshot": "creator snapshot"
+   }
+  ],
+  "CREATE_SUMMON_PET": [
+   {
+    "phase": 1,
+    "function": "Spell::EffectSummonPet",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:2658-2677",
+    "what": "HIT phase; owner = caster player (totem -> its player); non-player -> SummonGuardian(properties 67)"
+   },
+   {
+    "phase": 2,
+    "function": "Spell::EffectSummonPet",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:2679-2712",
+    "what": "existing Pet: same entry (or entry 0) -> teleport + PetSpellInitialize, return; other entry -> Player::RemovePet(PET_SAVE_NOT_IN_SLOT)",
+    "identity_control_snapshot": "replacement rule (one Pet per player)"
+   },
+   {
+    "phase": 3,
+    "function": "Spell::EffectSummonPet",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:2714-2721",
+    "what": "entry 0 -> PetSaveMode = effect value (Call Pet N); Player::SummonPet(entry, slot, pos, duration = 0)"
+   },
+   {
+    "phase": 4,
+    "function": "Player::SummonPet -> new Pet(SUMMON_PET)",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:30440-30444; src/server/game/Entities/Pet/Pet.cpp:46-65",
+    "what": "Pet ctor: UNIT_MASK_PET (+HUNTER_PET), CONTROLABLE_GUARDIAN, InitCharmInfo; LoadPetFromDB(entry, 0, current=false, slot)"
+   },
+   {
+    "phase": 5,
+    "function": "Pet::LoadPetFromDB",
+    "coordinate": "src/server/game/Entities/Pet/Pet.cpp:205-449",
+    "what": "stable lookup (GetLoadPetInfo); HighGuid::Pet GUID; setPetType; faction = owner; SetCreatedBySpell(saved); SetPetNumber; SUMMON_PET level = owner level; SetCreatorGUID(owner); InitStatsForLevel [B]; SynchronizeLevelWithOwner; ReactState from save; health/mana from save unless !current summon pet; current-pet index; owner->SetMinion; LoadPetActionBar; AddToMap; async: _LoadAuras, _LoadSpells, cooldowns, LearnPetPassives, InitLevelupSpellsForLevel, CastPetAuras, SetSpecialization, PetSpellInitialize",
+    "identity_control_snapshot": "identity: PetNumber, CreatedBySpell, spec, action bar, react state come from character_pet (Track C input)"
+   },
+   {
+    "phase": 6,
+    "function": "Player::SummonPet (fresh)",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:30462-30522",
+    "what": "Create(HighGuid::Pet, GeneratePetNumber); RemovePet(current); InheritPhaseShift; SetCreatorGUID; SetFaction(owner); InitStatsForLevel(owner level) [B]; SetMinion; SetPetNumber; SetClass(CLASS_MAGE); XP fields; full health/mana; AddToMap; unslotted stable index; FillPetInfo; InitPetCreateSpells; SavePetToDB(AS_CURRENT); PetSpellInitialize",
+    "identity_control_snapshot": "generation identity: new PetNumber (sObjectMgr->GeneratePetNumber) per fresh summon"
+   },
+   {
+    "phase": 7,
+    "function": "Spell::EffectSummonPet (post)",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:2725-2743",
+    "what": "isNew: react state from caster type; SetCreatedBySpell(m_spellInfo->Id); generated name; ExecuteLogEffectSummonObject",
+    "identity_control_snapshot": "CreatedBySpell snapshot"
+   }
+  ],
+  "CREATE_HUNTER_PET": [
+   {
+    "phase": 1,
+    "function": "Spell::EffectTameCreature",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:2603-2626",
+    "what": "HIT_TARGET; caster without pet, target creature not a pet, caster class hunter; finish()"
+   },
+   {
+    "phase": 2,
+    "function": "Unit::CreateTamedPetFrom(Creature*)",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:11089-11111",
+    "what": "new Pet(HUNTER_PET); Pet::CreateBaseAtCreature (P:768-799: CreateBaseAtTamed -> Create(HighGuid::Pet, GeneratePetNumber), display id, family name); level = target level (min owner-5); InitTamedPet"
+   },
+   {
+    "phase": 3,
+    "function": "Unit::InitTamedPet",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:11133-11168",
+    "what": "free active stable slot required; SetCreatorGUID; SetFaction(owner); SetCreatedBySpell(tame spell); UNIT_FLAG_PLAYER_CONTROLLED; InitStatsForLevel [B]; phase; SetPetNumber; InitPetCreateSpells; full health; stable index; FillPetInfo; AddPetToUpdateFields",
+    "identity_control_snapshot": "creator, faction, CreatedBySpell, pet number snapshot"
+   },
+   {
+    "phase": 4,
+    "function": "Spell::EffectTameCreature (post)",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:2633-2653",
+    "what": "DespawnOrUnsummon target; level-1 then level; AddToMap; caster->SetMinion; SavePetToDB(AS_CURRENT); PetSpellInitialize"
+   },
+   {
+    "phase": 5,
+    "function": "Spell::EffectCreateTamedPet",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:4911-4940",
+    "what": "same through CreateTamedPetFrom(entry) (U:11113-11131) on the target hunter player"
+   }
+  ],
+  "CHARM": [
+   {
+    "phase": 1,
+    "function": "AuraEffect::HandleModCharm / HandleModPossess / HandleCharmConvert / HandleModPossessPet",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:3238-3331",
+    "what": "REAL apply: target->SetCharmedBy(Aura::GetCaster(), type, aurApp); remove: RemoveCharmedBy"
+   },
+   {
+    "phase": 2,
+    "function": "Unit::SetCharmedBy",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:11790-11858",
+    "what": "guards: POSSESS needs a player charmer; not self; not already charmed; CastStop/AttackStop; charmer StopCastingCharm/BindSight; aura not already removed"
+   },
+   {
+    "phase": 3,
+    "function": "Unit::SetCharmedBy",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:11860-11879",
+    "what": "_oldFactionId saved; SetFaction(charmer); movement cleared; charmer->SetCharm(this, true) (U:6442-6470: Charm/CharmedBy, PLAYER_CONTROLLED, PvP copy)",
+    "identity_control_snapshot": "faction + PvP snapshot"
+   },
+   {
+    "phase": 4,
+    "function": "Unit::SetCharmedBy",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:11900-11908",
+    "what": "InitCharmInfo + InitPossessCreateSpells / InitCharmCreateSpells unless a CharmInfo exists (pets keep theirs)"
+   },
+   {
+    "phase": 5,
+    "function": "Unit::SetCharmedBy",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:11910-11961",
+    "what": "player charmer: VEHICLE/POSSESS -> UNIT_FLAG_POSSESSED + client control; CHARM -> warlock demon class hack, CharmSpellInitialize; UNIT_STATE_CHARMED; AI OnCharmed/ScheduleAIChange"
+   },
+   {
+    "phase": 6,
+    "function": "Unit::RemoveCharmedBy",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:11964-12072",
+    "what": "type from state; faction restored (_oldFactionId / RestoreFaction); LastCharmerGUID; charmer->SetCharm(false); client control back; DeleteCharmInfo unless IsGuardian; AI change"
+   }
+  ],
+  "UPDATE_DESPAWN": [
+   {
+    "phase": 1,
+    "function": "TempSummon::Update",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:73-81",
+    "what": "m_deathState == DEAD -> UnSummon (every type)"
+   },
+   {
+    "phase": 2,
+    "function": "TempSummon::Update",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:84-185",
+    "what": "per TempSummonType: TIMED_DESPAWN counts down always; TIMED_DESPAWN_OUT_OF_COMBAT counts down only out of combat and resets m_timer = m_lifetime while in combat; CORPSE_* wait for CORPSE; TIMED_OR_DEAD/CORPSE combine; MANUAL/DEAD never time out"
+   },
+   {
+    "phase": 3,
+    "function": "Totem::Update",
+    "coordinate": "src/server/game/Entities/Totem/Totem.cpp:34-51",
+    "what": "ignores TempSummonType: UnSummon when owner or totem dead, or when m_duration <= diff (signed Milliseconds, Totem.h:57): a Totem-class unit created with duration 0 or -1 is removed on its first update"
+   },
+   {
+    "phase": 4,
+    "function": "Puppet::Update",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:576-588",
+    "what": "UnSummon when not alive"
+   },
+   {
+    "phase": 5,
+    "function": "Pet::Update",
+    "coordinate": "src/server/game/Entities/Pet/Pet.cpp:619-709",
+    "what": "CORPSE: Remove(NOT_IN_SLOT) unless hunter pet corpse timer; ALIVE: removed when owner out of visibility range or owner->GetPetGUID() lost; m_duration countdown -> Remove(AS_DELETED for non-SUMMON_PET, else NOT_IN_SLOT); focus regen"
+   },
+   {
+    "phase": 6,
+    "function": "TempSummon::UnSummon",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:332-357",
+    "what": "msTime -> ForcedDespawnDelayEvent; Pet -> Pet::Remove(NOT_IN_SLOT); summoner AI SummonedCreatureDespawn; AddObjectToRemoveList"
+   },
+   {
+    "phase": 7,
+    "function": "Totem::UnSummon",
+    "coordinate": "src/server/game/Entities/Totem/Totem.cpp:100-143",
+    "what": "CombatStop; remove totem spell auras from self, owner and same-subgroup members; clear owner's totem slot; cooldown event; AddObjectToRemoveList"
+   },
+   {
+    "phase": 8,
+    "function": "TempSummon::RemoveFromWorld",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:359-374",
+    "what": "clear any m_SummonSlot of the summoner holding this GUID (Slot != 0)"
+   },
+   {
+    "phase": 9,
+    "function": "Minion::RemoveFromWorld -> Unit::SetMinion(remove)",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:468-475; src/server/game/Entities/Unit/Unit.cpp:6338-6416",
+    "what": "m_Controlled.erase; Critter/Pet GUID cleared; totem -> RemoveAllMinionsByEntry of its summon effects; cooldown event; MinionGUID handed to another controllable guardian (PetSpellInitialize / CharmSpellInitialize)",
+    "identity_control_snapshot": "replacement rule (minion succession)"
+   },
+   {
+    "phase": 10,
+    "function": "Pet::Remove -> Player::RemovePet",
+    "coordinate": "src/server/game/Entities/Pet/Pet.cpp:711-714; src/server/game/Entities/Player/Player.cpp:22035-22128",
+    "what": "reagent return; CombatStop; ExitAllAreaTriggers; SavePetToDB(mode); stable index per PetSaveMode; SetMinion(false); AddObjectToRemoveList; m_removed; PetSpells packet"
+   }
+  ],
+  "DEATH": [
+   {
+    "phase": 1,
+    "function": "Creature::setDeathState(JUST_DIED)",
+    "coordinate": "src/server/game/Entities/Creature/Creature.cpp:2207-2213",
+    "what": "m_corpseRemoveTime = now + m_corpseDelay"
+   },
+   {
+    "phase": 2,
+    "function": "Unit::setDeathState",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:9160-9180",
+    "what": "CombatStop; interrupt; ExitVehicle; UnsummonAllTotems; RemoveAllControlled; RemoveAllAurasOnDeath (applies to the dying summon's own minions/totems)"
+   },
+   {
+    "phase": 3,
+    "function": "Minion::setDeathState",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:477-497",
+    "what": "JUST_DIED of a guardian pet that is the player's MinionGUID: another alive controlled unit of the same entry becomes MinionGUID/PetGUID (CharmSpellInitialize)",
+    "identity_control_snapshot": "replacement rule (same-entry succession on death)"
+   },
+   {
+    "phase": 4,
+    "function": "Pet::setDeathState",
+    "coordinate": "src/server/game/Entities/Pet/Pet.cpp:598-617",
+    "what": "CORPSE hunter pet: non-lootable/skinnable; ALIVE: CastPetAuras(true)"
+   },
+   {
+    "phase": 5,
+    "function": "TempSummon::Update",
+    "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:77-81",
+    "what": "DEAD -> UnSummon; CORPSE handled per type (CORPSE_DESPAWN immediate, CORPSE_TIMED_DESPAWN timer, TIMED_OR_CORPSE)"
+   }
+  ],
+  "OWNER_EVENTS": [
+   {
+    "phase": 1,
+    "function": "Unit::setDeathState (owner dies)",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:9167-9180",
+    "what": "UnsummonAllTotems (U:6743-6754: every m_SummonSlot summon UnSummon'd); RemoveAllControlled (U:6612-6637: charmed -> RemoveCharmAuras, owned summons -> UnSummon; FATAL logs if Pet/Minion/Charm GUIDs survive)"
+   },
+   {
+    "phase": 2,
+    "function": "Player::setDeathState(JUST_DIED)",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:1157",
+    "what": "RemovePet(nullptr, PET_SAVE_NOT_IN_SLOT, returnreagent=true)"
+   },
+   {
+    "phase": 3,
+    "function": "Totem::Update (owner dead)",
+    "coordinate": "src/server/game/Entities/Totem/Totem.cpp:36-40",
+    "what": "UnSummon"
+   },
+   {
+    "phase": 4,
+    "function": "WorldSession::LogoutPlayer",
+    "coordinate": "src/server/game/Server/WorldSession.cpp:619",
+    "what": "RemovePet(nullptr, PET_SAVE_AS_CURRENT)"
+   },
+   {
+    "phase": 5,
+    "function": "Player::RemoveFromWorld",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:1538-1540",
+    "what": "StopCastingCharm; UnsummonPetTemporaryIfAny (PL:27931-27944: remembers PetNumber + CreatedBySpell, RemovePet(AS_CURRENT))"
+   },
+   {
+    "phase": 6,
+    "function": "Unit::RemoveFromWorld (owner)",
+    "coordinate": "src/server/game/Entities/Unit/Unit.cpp:10273-10299",
+    "what": "RemoveCharmAuras; RemoveBindSightAuras; RemoveAllGameObjects; ExitVehicle; UnsummonAllTotems; RemoveAllControlled; a summon being removed is erased from its owner's m_Controlled (10297-10299)"
+   },
+   {
+    "phase": 7,
+    "function": "Player::TeleportTo",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:1311; src/server/game/Entities/Player/Player.cpp:1402",
+    "what": "UnsummonPetTemporaryIfAny on far teleports"
+   },
+   {
+    "phase": 8,
+    "function": "Player::IsPetNeedBeTemporaryUnsummoned",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:27994-27997",
+    "what": "not in world / dead / flying / advanced flying -> temporary unsummon; ResummonPetTemporaryUnSummonedIfAny (27946-27963) reloads by PetNumber"
+   },
+   {
+    "phase": 9,
+    "function": "Player::Update (pet out of range)",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:1094-1097",
+    "what": "RemovePet(NOT_IN_SLOT, returnreagent) when the pet is beyond visibility range and not possessed"
+   },
+   {
+    "phase": 10,
+    "function": "Player::ActivateTalentGroup (spec change)",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:28801-28807",
+    "what": "RemovePet(NOT_IN_SLOT); UnsummonAllTotems; ExitVehicle; RemoveAllControlled"
+   },
+   {
+    "phase": 11,
+    "function": "Player::ResetTalents",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:3458",
+    "what": "RemovePet(NOT_IN_SLOT, returnreagent)"
+   },
+   {
+    "phase": 12,
+    "function": "Player::GiveLevel / InitStatsForLevel",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:2259-2261; src/server/game/Entities/Player/Player.cpp:2497",
+    "what": "pet->SynchronizeLevelWithOwner (dynamic level for Pet only)"
+   },
+   {
+    "phase": 13,
+    "function": "Player::AddPetAura / RemovePetAura",
+    "coordinate": "src/server/game/Entities/Player/Player.cpp:22179-22191",
+    "what": "spell_pet_auras rows: cast/remove on the current Pet; Pet::CastPetAuras on load and revive (P:408, 615)"
+   }
+  ]
+ },
+ "replacement_rules": [
+  {
+   "rule": "slot",
+   "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:224-239",
+   "statement": "SummonProperties.Slot != 0: the previous occupant of m_SummonSlot[slot] is UnSummon'd and replaced; Slot == 0 (SUMMON_SLOT_PET) does NO slot bookkeeping here",
+   "slots": {
+    "-1": "SUMMON_SLOT_ANY_TOTEM",
+    "0": "SUMMON_SLOT_PET",
+    "1": "SUMMON_SLOT_TOTEM",
+    "2": "SUMMON_SLOT_TOTEM_2",
+    "3": "SUMMON_SLOT_TOTEM_3",
+    "4": "SUMMON_SLOT_TOTEM_4",
+    "5": "SUMMON_SLOT_MINIPET",
+    "6": "SUMMON_SLOT_QUEST"
+   },
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "any-totem-slot",
+   "coordinate": "src/server/game/Entities/Creature/TemporarySummon.cpp:376-405",
+   "statement": "Slot == -1: (1) slot already holding this GUID, (2) slot whose summon shares a TotemCategory / Totem id with this summon spell (IsSharingTotemSlotWith :407-434, SpellInfo::TotemCategory/Totem), (3) first empty totem slot, (4) slot holding the same creature entry, else no slot at all",
+   "totem_slots": [
+    "SUMMON_SLOT_TOTEM",
+    "SUMMON_SLOT_TOTEM_2",
+    "SUMMON_SLOT_TOTEM_3",
+    "SUMMON_SLOT_TOTEM_4"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "guardian-pet",
+   "coordinate": "src/server/game/Entities/Unit/Unit.cpp:6274-6295",
+   "statement": "IsGuardianPet (IsPet() or Control == SUMMON_CATEGORY_PET): an existing guardian pet is removed when either is a Pet or the entries differ; two same-entry non-Pet guardian pets coexist; PetGUID = new minion",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "one-pet-per-player",
+   "coordinate": "src/server/game/Spells/SpellEffects.cpp:2679-2712; src/server/game/Entities/Player/Player.cpp:30481-30482; src/server/game/Entities/Pet/Pet.cpp:222-223",
+   "statement": "SUMMON_PET: same entry active -> no new unit (teleport); other entry -> RemovePet(NOT_IN_SLOT); LoadPetFromDB refuses to reload the current pet",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "minion-succession",
+   "coordinate": "src/server/game/Entities/Unit/Unit.cpp:6379-6413; src/server/game/Entities/Creature/TemporarySummon.cpp:480-496",
+   "statement": "when the MinionGUID unit is removed or a guardian pet dies, another controllable guardian (or same-entry alive unit) becomes MinionGUID/PetGUID",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "num-summons",
+   "coordinate": "src/server/game/Spells/SpellEffects.cpp:1915-1937",
+   "statement": "for MiscValueB in the hard-coded list the effect value is the number of units; every other summon effect creates exactly one",
+   "list": [
+    64,
+    61,
+    1101,
+    66,
+    648,
+    2301,
+    1061,
+    1261,
+    629,
+    181,
+    715,
+    1562,
+    833,
+    1161,
+    713
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "by-entry-removal",
+   "coordinate": "src/server/game/Entities/Unit/Unit.cpp:6429-6440",
+   "statement": "Unit::RemoveAllMinionsByEntry UnSummons every m_Controlled summon with the entry; used by totem removal (U:6357-6370) and scripts (e.g. Ring of Frost spell_mage.cpp:1803-1817)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "totem-duration",
+   "coordinate": "src/server/game/Entities/Totem/Totem.cpp:42-48; src/server/game/Entities/Totem/Totem.h:57; src/server/game/Entities/Totem/Totem.cpp:87",
+   "statement": "Totem-class units (Title Totem or Lightwell under WILD/ALLY) are timed by Totem::m_duration = the InitStats duration, never by TempSummonType; duration <= 0 means removal on the first Totem::Update",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "pet-not-tempsummon-timed",
+   "coordinate": "src/server/game/Entities/Pet/Pet.cpp:619-709; src/server/game/Entities/Pet/Pet.h:151; src/server/game/Entities/Player/Player.cpp:30446, 30514",
+   "statement": "Pet::Update calls Creature::Update (never TempSummon::Update); the only Pet timer is Pet::m_duration (int32), set only when Player::SummonPet gets duration > 0 -- both callers pass 0 (SpellEffects.cpp:2721 EffectSummonPet, 4298 EffectResurrectPet)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "rule": "timer-mutation",
+   "coordinate": "src/server/game/Entities/Creature/TemporarySummon.h:64-65",
+   "statement": "RefreshTimer (m_timer = m_lifetime) / ModifyTimer (both) are script-only mutations (e.g. Inescapable Torment spell_priest.cpp:2630)",
+   "evidence_class": "trinity-consumer"
+  }
+ ],
+ "numeric": [
+  {
+   "quantity": "summon duration",
+   "source_type": "SpellDuration.Duration int32 (DurationEntry)",
+   "reader": "SpellInfo::GetDuration (SpellInfo.cpp:3986-3991): no entry -> IsPassive ? -1 : 0; -1 kept; else abs()",
+   "intermediate_type": "int32 base; double(base) + int32 flat, times float (binary32) totalmul, in Player::ApplySpellMod<int32> (Player.cpp:22844-22852)",
+   "aggregation_precision": "totalmul is a float product accumulated in Player::GetSpellModValues (Player.cpp:22627); promoted to double only for the final multiply",
+   "rounding": "int32() cast = truncation toward zero",
+   "integer_conversion": "T(...) with T=int32 at Player.cpp:22851; reachable for any summon spell with a SpellModOp::Duration modifier on a Player/Pet/Totem caster (GetSpellModOwner)",
+   "units": "milliseconds",
+   "consumers": [
+    "src/server/game/Spells/SpellEffects.cpp:1902 (EffectSummonType, caster = original caster or m_caster)",
+    "src/server/game/Spells/SpellEffects.cpp:5024 (SummonGuardian, m_originalCaster)"
+   ],
+   "notes": [
+    "same binary32-product pattern as the op-11 cooldown 41,999 vs 42,000 ms divergence; a Python double product can differ by 1 ms after truncation",
+    "the -1 (permanent) sentinel also passes through ApplySpellMod: a flat or pct Duration mod would turn it into a finite/other value (not guarded)"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "quantity": "TempSummon timer",
+   "source_type": "Milliseconds (std::chrono, signed 64-bit)",
+   "reader": "TempSummon::InitStats m_timer = m_lifetime = duration (TemporarySummon.cpp:192-193)",
+   "intermediate_type": "Milliseconds; update diff uint32 ms converted to Milliseconds (TemporarySummon.cpp:83)",
+   "aggregation_precision": "exact integer ms",
+   "rounding": "none",
+   "integer_conversion": "Milliseconds(int32 CalcDuration) at SpellEffects.cpp:1902/5024",
+   "units": "milliseconds",
+   "notes": [
+    "UnSummon when m_timer <= diff (not < diff): a summon lives for the number of whole updates whose cumulative diff first reaches the duration"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "quantity": "Totem timer",
+   "source_type": "Milliseconds",
+   "reader": "Totem::InitStats m_duration = duration (Totem.cpp:87)",
+   "intermediate_type": "Milliseconds",
+   "aggregation_precision": "exact",
+   "rounding": "none",
+   "integer_conversion": "none",
+   "units": "milliseconds",
+   "notes": [
+    "m_duration <= diff -> UnSummon (Totem.cpp:42-46); duration <= 0 -> first update"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "quantity": "Pet timer",
+   "source_type": "uint32 duration argument of Player::SummonPet -> int32 Pet::m_duration",
+   "reader": "Pet::SetDuration (Pet.h:88)",
+   "intermediate_type": "int32",
+   "aggregation_precision": "exact",
+   "rounding": "none",
+   "integer_conversion": "uint32 -> int32 in SetDuration; unreachable from spells (both callers pass 0)",
+   "units": "milliseconds",
+   "notes": [
+    "Pet::Update: uint32(m_duration) > diff -> subtract, else Remove (Pet.cpp:660-668)"
+   ],
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "quantity": "summon level",
+   "source_type": "UnitData ScalingLevelMin/Max/Delta (int32) and summoner level (uint8)",
+   "reader": "TempSummon::InitStats (TemporarySummon.cpp:241-247)",
+   "intermediate_type": "int32 clamp",
+   "aggregation_precision": "exact",
+   "rounding": "none",
+   "integer_conversion": "std::clamp<int32> result stored in uint8 level (TemporarySummon.cpp:245): truncation modulo 256, unreachable while player levels <= 90",
+   "units": "level",
+   "notes": [
+    "skipped with SummonPropertiesFlags::UseCreatureLevel"
+   ],
+   "evidence_class": "trinity-consumer"
+  }
+ ],
+ "tempsummon_type_timers": {
+  "TEMPSUMMON_TIMED_DESPAWN": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+  "TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT": "counts down only out of combat; in combat m_timer is reset to m_lifetime (TemporarySummon.cpp:100-116)",
+  "TEMPSUMMON_DEAD_DESPAWN": "no timer; UnSummon when m_deathState == DEAD (TemporarySummon.cpp:77-81, 86-88)",
+  "TEMPSUMMON_MANUAL_DESPAWN": "no timer; script/owner UnSummon only (TemporarySummon.cpp:86-88)",
+  "TEMPSUMMON_CORPSE_DESPAWN": "UnSummon when CORPSE (132-142)",
+  "TEMPSUMMON_CORPSE_TIMED_DESPAWN": "timer runs while CORPSE (118-131)",
+  "TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN": "CORPSE or out-of-combat timer (143-164)",
+  "TEMPSUMMON_TIMED_OR_DEAD_DESPAWN": "out-of-combat+alive timer (165-180)"
+ },
+ "player_scope": [
+  {
+   "spell": 605,
+   "name": "Mind Control",
+   "effect_index": 0,
+   "category": "possessed",
+   "cxx_class": "-",
+   "duration_ms_spellduration": 30000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CHARM",
+   "duration_source": "the control aura's duration (SpellDuration + owner mods); removal -> RemoveCharmedBy",
+   "tempsummon_type": null,
+   "timer": "aura timer",
+   "slot": "none (Charm GUID)",
+   "replacement": [
+    "a player can hold one charm (ASSERT Unit.cpp:6448); StopCastingCharm before a new one (11837)"
+   ],
+   "death": "charm auras removed on death (RemoveAllAurasOnDeath) / RemoveAllControlled",
+   "owner_death": "Unit::setDeathState -> RemoveAllControlled -> RemoveCharmAuras (Unit.cpp:6622-6623)",
+   "owner_logout": "Player::RemoveFromWorld -> StopCastingCharm (Player.cpp:1538)",
+   "level": "unchanged",
+   "reset": "faction restored, CharmInfo deleted unless guardian (Unit.cpp:12059-12060)"
+  },
+  {
+   "spell": 1122,
+   "name": "Summon Infernal",
+   "effect_index": 0,
+   "category": "wild-summon",
+   "cxx_class": "TempSummon",
+   "duration_ms_spellduration": 250,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "not owned: survives the summoner's death unless slotted (UnsummonAllTotems walks m_SummonSlot) -- DespawnOnSummonerDeath flag is NYI",
+   "owner_logout": "DespawnOnSummonerLogout flag is NYI: an unowned summon persists until its timer (only slotted ones fall to UnsummonAllTotems, Unit.cpp:10284)",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 5394,
+   "name": "Healing Stream Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 15000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 8143,
+   "name": "Tremor Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 10000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 8512,
+   "name": "Windfury Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 120000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 16191,
+   "name": "Mana Tide Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 8000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 26573,
+   "name": "Consecration",
+   "effect_index": 2,
+   "category": "ally-summon",
+   "cxx_class": "TempSummon",
+   "duration_ms_spellduration": 12000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_TOTEM (slot)",
+   "replacement": [
+    "slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "not owned: survives the summoner's death unless slotted (UnsummonAllTotems walks m_SummonSlot) -- DespawnOnSummonerDeath flag is NYI",
+   "owner_logout": "DespawnOnSummonerLogout flag is NYI: an unowned summon persists until its timer (only slotted ones fall to UnsummonAllTotems, Unit.cpp:10284)",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 30146,
+   "name": "Summon Felguard",
+   "effect_index": 0,
+   "category": "permanent-class-pet",
+   "cxx_class": "Pet",
+   "duration_ms_spellduration": -1,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_SUMMON_PET",
+   "duration_source": "none: EffectSummonPet passes duration 0 to Player::SummonPet (SpellEffects.cpp:2721); SpellDuration of the summon spell only marks isTemporarySummon for spell/action-bar loading (Pet.cpp:227)",
+   "tempsummon_type": null,
+   "timer": "Pet::m_duration == 0 (no countdown)",
+   "slot": "SUMMON_SLOT_PET via SetPetGUID (guardian-pet rule)",
+   "replacement": [
+    "one-pet-per-player",
+    "guardian-pet"
+   ],
+   "death": "Pet::Update CORPSE -> Remove(NOT_IN_SLOT) (Pet.cpp:629-637); CastPetAuras on revive",
+   "owner_death": "Player::setDeathState -> RemovePet(NOT_IN_SLOT, returnreagent) (Player.cpp:1157)",
+   "owner_logout": "RemovePet(PET_SAVE_AS_CURRENT) (WorldSession.cpp:619)",
+   "level": "dynamic: SynchronizeLevelWithOwner",
+   "reset": "re-summon reloads character_pet state (LoadPetFromDB) -- Track C input"
+  },
+  {
+   "spell": 31687,
+   "name": "Summon Water Elemental",
+   "effect_index": 0,
+   "category": "permanent-class-pet",
+   "cxx_class": "Pet",
+   "duration_ms_spellduration": -1,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_SUMMON_PET",
+   "duration_source": "none: EffectSummonPet passes duration 0 to Player::SummonPet (SpellEffects.cpp:2721); SpellDuration of the summon spell only marks isTemporarySummon for spell/action-bar loading (Pet.cpp:227)",
+   "tempsummon_type": null,
+   "timer": "Pet::m_duration == 0 (no countdown)",
+   "slot": "SUMMON_SLOT_PET via SetPetGUID (guardian-pet rule)",
+   "replacement": [
+    "one-pet-per-player",
+    "guardian-pet"
+   ],
+   "death": "Pet::Update CORPSE -> Remove(NOT_IN_SLOT) (Pet.cpp:629-637); CastPetAuras on revive",
+   "owner_death": "Player::setDeathState -> RemovePet(NOT_IN_SLOT, returnreagent) (Player.cpp:1157)",
+   "owner_logout": "RemovePet(PET_SAVE_AS_CURRENT) (WorldSession.cpp:619)",
+   "level": "dynamic: SynchronizeLevelWithOwner",
+   "reset": "re-summon reloads character_pet state (LoadPetFromDB) -- Track C input"
+  },
+  {
+   "spell": 46585,
+   "name": "Raise Dead",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 60000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_TOTEM (slot)",
+   "replacement": [
+    "slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 49028,
+   "name": "Dancing Rune Weapon",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 8000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 51485,
+   "name": "Earthgrab Totem",
+   "effect_index": 1,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 20000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 98008,
+   "name": "Spirit Link Totem",
+   "effect_index": 1,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 6000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 101643,
+   "name": "Transcendence",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 900000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 102693,
+   "name": "Grove Guardians",
+   "effect_index": 1,
+   "category": "controllable-guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 8000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "minion-succession"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 108280,
+   "name": "Healing Tide Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 10000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 108287,
+   "name": "Totemic Projection",
+   "effect_index": 0,
+   "category": "wild-summon",
+   "cxx_class": "TempSummon",
+   "duration_ms_spellduration": 1000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "not owned: survives the summoner's death unless slotted (UnsummonAllTotems walks m_SummonSlot) -- DespawnOnSummonerDeath flag is NYI",
+   "owner_logout": "DespawnOnSummonerLogout flag is NYI: an unowned summon persists until its timer (only slotted ones fall to UnsummonAllTotems, Unit.cpp:10284)",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 111673,
+   "name": "Control Undead",
+   "effect_index": 0,
+   "category": "charmed",
+   "cxx_class": "-",
+   "duration_ms_spellduration": 300000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CHARM",
+   "duration_source": "the control aura's duration (SpellDuration + owner mods); removal -> RemoveCharmedBy",
+   "tempsummon_type": null,
+   "timer": "aura timer",
+   "slot": "none (Charm GUID)",
+   "replacement": [
+    "a player can hold one charm (ASSERT Unit.cpp:6448); StopCastingCharm before a new one (11837)"
+   ],
+   "death": "charm auras removed on death (RemoveAllAurasOnDeath) / RemoveAllControlled",
+   "owner_death": "Unit::setDeathState -> RemoveAllControlled -> RemoveCharmAuras (Unit.cpp:6622-6623)",
+   "owner_logout": "Player::RemoveFromWorld -> StopCastingCharm (Player.cpp:1538)",
+   "level": "unchanged",
+   "reset": "faction restored, CharmInfo deleted unless guardian (Unit.cpp:12059-12060)"
+  },
+  {
+   "spell": 111685,
+   "name": "Summon Infernal",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 30000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 111771,
+   "name": "Demonic Gateway",
+   "effect_index": 0,
+   "category": "wild-summon",
+   "cxx_class": "TempSummon",
+   "duration_ms_spellduration": 1,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "not owned: survives the summoner's death unless slotted (UnsummonAllTotems walks m_SummonSlot) -- DespawnOnSummonerDeath flag is NYI",
+   "owner_logout": "DespawnOnSummonerLogout flag is NYI: an unowned summon persists until its timer (only slotted ones fall to UnsummonAllTotems, Unit.cpp:10284)",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 111898,
+   "name": "Grimoire: Felguard",
+   "effect_index": 1,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 17000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 113724,
+   "name": "Ring of Frost",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 10000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "creature template level (UseCreatureLevel)",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 115313,
+   "name": "Summon Jade Serpent Statue",
+   "effect_index": 0,
+   "category": "ally-summon",
+   "cxx_class": "TempSummon",
+   "duration_ms_spellduration": 900000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "not owned: survives the summoner's death unless slotted (UnsummonAllTotems walks m_SummonSlot) -- DespawnOnSummonerDeath flag is NYI",
+   "owner_logout": "DespawnOnSummonerLogout flag is NYI: an unowned summon persists until its timer (only slotted ones fall to UnsummonAllTotems, Unit.cpp:10284)",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 115315,
+   "name": "Summon Black Ox Statue",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 900000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 123904,
+   "name": "Invoke Xuen, the White Tiger",
+   "effect_index": 0,
+   "category": "controllable-guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 20000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "guardian-pet",
+    "minion-succession"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 132578,
+   "name": "Invoke Niuzao, the Black Ox",
+   "effect_index": 0,
+   "category": "controllable-guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 25000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "guardian-pet",
+    "minion-succession"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 145205,
+   "name": "Efflorescence",
+   "effect_index": 1,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 30000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 192058,
+   "name": "Capacitor Totem",
+   "effect_index": 1,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 3000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 192077,
+   "name": "Wind Rush Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 15000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 192222,
+   "name": "Liquid Magma Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 6000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 196361,
+   "name": "Bloodworm",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 16000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 198838,
+   "name": "Earthen Wall Totem",
+   "effect_index": 1,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 15000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 200174,
+   "name": "Mindbender",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 10000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 205180,
+   "name": "Summon Darkglare",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 20000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 205364,
+   "name": "Dominate Mind",
+   "effect_index": 0,
+   "category": "charmed",
+   "cxx_class": "-",
+   "duration_ms_spellduration": 30000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CHARM",
+   "duration_source": "the control aura's duration (SpellDuration + owner mods); removal -> RemoveCharmedBy",
+   "tempsummon_type": null,
+   "timer": "aura timer",
+   "slot": "none (Charm GUID)",
+   "replacement": [
+    "a player can hold one charm (ASSERT Unit.cpp:6448); StopCastingCharm before a new one (11837)"
+   ],
+   "death": "charm auras removed on death (RemoveAllAurasOnDeath) / RemoveAllControlled",
+   "owner_death": "Unit::setDeathState -> RemoveAllControlled -> RemoveCharmAuras (Unit.cpp:6622-6623)",
+   "owner_logout": "Player::RemoveFromWorld -> StopCastingCharm (Player.cpp:1538)",
+   "level": "unchanged",
+   "reset": "faction restored, CharmInfo deleted unless guardian (Unit.cpp:12059-12060)"
+  },
+  {
+   "spell": 207399,
+   "name": "Ancestral Protection Totem",
+   "effect_index": 1,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 30000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 248280,
+   "name": "Force of Nature",
+   "effect_index": 0,
+   "category": "controllable-guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 10000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "minion-succession"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 264119,
+   "name": "Summon Vilefiend",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 15000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 265187,
+   "name": "Summon Demonic Tyrant",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 15000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 265187,
+   "name": "Summon Demonic Tyrant",
+   "effect_index": 3,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 15000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 273277,
+   "name": "Summon Animal Companion",
+   "effect_index": 0,
+   "category": "no-consumer",
+   "cxx_class": "-",
+   "duration_ms_spellduration": null,
+   "evidence_class": "trinity-consumer",
+   "creation": "none",
+   "notes": [
+    "SPELL_EFFECT_SUMMON_STABLED_PET dispatches to Spell::EffectNULL: no server behaviour in the pinned checkout"
+   ]
+  },
+  {
+   "spell": 321297,
+   "name": "Eyes of the Beast",
+   "effect_index": 0,
+   "category": "possessed-own-pet",
+   "cxx_class": "-",
+   "duration_ms_spellduration": 60000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CHARM",
+   "duration_source": "the control aura's duration (SpellDuration + owner mods); removal -> RemoveCharmedBy",
+   "tempsummon_type": null,
+   "timer": "aura timer",
+   "slot": "none (Charm GUID)",
+   "replacement": [
+    "a player can hold one charm (ASSERT Unit.cpp:6448); StopCastingCharm before a new one (11837)"
+   ],
+   "death": "charm auras removed on death (RemoveAllAurasOnDeath) / RemoveAllControlled",
+   "owner_death": "Unit::setDeathState -> RemoveAllControlled -> RemoveCharmAuras (Unit.cpp:6622-6623)",
+   "owner_logout": "Player::RemoveFromWorld -> StopCastingCharm (Player.cpp:1538)",
+   "level": "unchanged",
+   "reset": "faction restored, CharmInfo deleted unless guardian (Unit.cpp:12059-12060)"
+  },
+  {
+   "spell": 322118,
+   "name": "Invoke Yu'lon, the Jade Serpent",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 25000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 325197,
+   "name": "Invoke Chi-Ji, the Red Crane",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 25000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 342245,
+   "name": "Alter Time",
+   "effect_index": 0,
+   "category": "ally-summon",
+   "cxx_class": "TempSummon",
+   "duration_ms_spellduration": 20000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "not owned: survives the summoner's death unless slotted (UnsummonAllTotems walks m_SummonSlot) -- DespawnOnSummonerDeath flag is NYI",
+   "owner_logout": "DespawnOnSummonerLogout flag is NYI: an unowned summon persists until its timer (only slotted ones fall to UnsummonAllTotems, Unit.cpp:10284)",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 376081,
+   "name": "Champion's Spear",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 6000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 383013,
+   "name": "Poison Cleansing Totem",
+   "effect_index": 1,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 6000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 383017,
+   "name": "Stoneskin Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 15000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 383019,
+   "name": "Tranquil Air Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 20000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 434587,
+   "name": "Summon Overfiend",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 8000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 444995,
+   "name": "Surging Totem",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 25000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_ANY_TOTEM (any-totem-slot)",
+   "replacement": [
+    "any-totem-slot",
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 458101,
+   "name": "Lively Totems",
+   "effect_index": 0,
+   "category": "totem",
+   "cxx_class": "Totem",
+   "duration_ms_spellduration": 8000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "Totem::m_duration (Totem.cpp:87) counted in Totem::Update regardless of TempSummonType; owner death -> UnSummon",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "totem-duration"
+   ],
+   "death": "Totem::Update !IsAlive -> UnSummon",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1232285,
+   "name": "Efflorescence",
+   "effect_index": 1,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 30000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1250385,
+   "name": "Spectral Illusion",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 4000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1254168,
+   "name": "Waking Nightmare",
+   "effect_index": 0,
+   "category": "ally-summon",
+   "cxx_class": "TempSummon",
+   "duration_ms_spellduration": 12000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "not owned: survives the summoner's death unless slotted (UnsummonAllTotems walks m_SummonSlot) -- DespawnOnSummonerDeath flag is NYI",
+   "owner_logout": "DespawnOnSummonerLogout flag is NYI: an unowned summon persists until its timer (only slotted ones fall to UnsummonAllTotems, Unit.cpp:10284)",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1262094,
+   "name": "Summon Desperate Soul",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 12000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1263077,
+   "name": "Uprooted Lasher",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 15000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1276452,
+   "name": "Grimoire: Imp Lord",
+   "effect_index": 1,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 20000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1276467,
+   "name": "Grimoire: Fel Ravager",
+   "effect_index": 1,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 20000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1276672,
+   "name": "Summon Doomguard",
+   "effect_index": 0,
+   "category": "guardian",
+   "cxx_class": "Guardian",
+   "duration_ms_spellduration": 12000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "SummonGuardian",
+   "duration_source": "SpellInfo::CalcDuration(m_originalCaster) in SummonGuardian (SpellEffects.cpp:5024)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1304581,
+   "name": "Soulcoil Remnant",
+   "effect_index": 0,
+   "category": "companion-minion",
+   "cxx_class": "Minion",
+   "duration_ms_spellduration": -1,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_DEAD_DESPAWN",
+   "timer": "no timer; UnSummon when m_deathState == DEAD (TemporarySummon.cpp:77-81, 86-88)",
+   "slot": "SUMMON_SLOT_MINIPET (slot)",
+   "replacement": [
+    "slot"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "UnsummonAllTotems (slotted) + RemoveAllControlled (owned) in Unit::setDeathState (Unit.cpp:9177-9178)",
+   "owner_logout": "Player::RemoveFromWorld -> Unit::RemoveFromWorld: RemoveCharmAuras, UnsummonAllTotems, RemoveAllControlled (Unit.cpp:10273-10285) remove every owned summon with the owner",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  },
+  {
+   "spell": 1308399,
+   "name": "Answered Calling",
+   "effect_index": 0,
+   "category": "ally-summon",
+   "cxx_class": "TempSummon",
+   "duration_ms_spellduration": 8000,
+   "evidence_class": "trinity-consumer",
+   "creation": "CREATE_TEMPSUMMON",
+   "summon_path": "Map::SummonCreature",
+   "duration_source": "SpellInfo::CalcDuration(caster) in EffectSummonType (SpellEffects.cpp:1902)",
+   "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+   "timer": "m_timer counts down every update; UnSummon at 0 (TemporarySummon.cpp:89-99)",
+   "slot": "SUMMON_SLOT_PET (none (Slot 0: no m_SummonSlot bookkeeping))",
+   "replacement": [
+    "none"
+   ],
+   "death": "TempSummon::Update DEAD -> UnSummon; CORPSE per TempSummonType; Minion::setDeathState succession for guardian pets",
+   "owner_death": "not owned: survives the summoner's death unless slotted (UnsummonAllTotems walks m_SummonSlot) -- DespawnOnSummonerDeath flag is NYI",
+   "owner_logout": "DespawnOnSummonerLogout flag is NYI: an unowned summon persists until its timer (only slotted ones fall to UnsummonAllTotems, Unit.cpp:10284)",
+   "level": "snapshot at TempSummon::InitStats (summoner level clamp) unless UseCreatureLevel",
+   "reset": "no reset: a new cast creates a new GUID; slot/pet rules remove the previous unit; scripts may RefreshTimer/ModifyTimer",
+   "num_summons": "1",
+   "in_combat_timer_reset": false
+  }
+ ]
+}

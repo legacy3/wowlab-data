@@ -1,0 +1,2112 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 controlled_units.py vocabulary",
+  "note": "transcribed enums; every block names its header coordinate"
+ },
+ "SummonPropertiesFlags": {
+  "coordinate": "src/server/game/DataStores/DBCEnums.h:2754-2790",
+  "values": {
+   "AttackSummoner": {
+    "bit": 1,
+    "implemented": false,
+    "consumers": []
+   },
+   "HelpWhenSummonedInCombat": {
+    "bit": 2,
+    "implemented": false,
+    "consumers": []
+   },
+   "UseLevelOffset": {
+    "bit": 4,
+    "implemented": false,
+    "consumers": []
+   },
+   "DespawnOnSummonerDeath": {
+    "bit": 8,
+    "implemented": false,
+    "consumers": []
+   },
+   "OnlyVisibleToSummoner": {
+    "bit": 16,
+    "implemented": true,
+    "consumers": [
+     "src/server/game/Spells/SpellEffects.cpp:1889"
+    ]
+   },
+   "CannotDismissPet": {
+    "bit": 32,
+    "implemented": false,
+    "consumers": []
+   },
+   "UseDemonTimeout": {
+    "bit": 64,
+    "implemented": true,
+    "consumers": [
+     "src/server/game/Spells/SpellEffects.cpp:2006",
+     "src/server/game/Entities/Creature/TemporarySummon.cpp:199"
+    ]
+   },
+   "UnlimitedSummons": {
+    "bit": 128,
+    "implemented": false,
+    "consumers": []
+   },
+   "UseCreatureLevel": {
+    "bit": 256,
+    "implemented": true,
+    "consumers": [
+     "src/server/game/Entities/Creature/TemporarySummon.cpp:241"
+    ]
+   },
+   "JoinSummonerSpawnGroup": {
+    "bit": 512,
+    "implemented": false,
+    "consumers": [
+     "src/server/game/Spells/SpellEffects.cpp:1944",
+     "src/server/game/Entities/Object/Object.cpp:1232"
+    ]
+   },
+   "DoNotToggle": {
+    "bit": 1024,
+    "implemented": false,
+    "consumers": []
+   },
+   "DespawnWhenExpired": {
+    "bit": 2048,
+    "implemented": false,
+    "consumers": []
+   },
+   "UseSummonerFaction": {
+    "bit": 4096,
+    "implemented": true,
+    "consumers": [
+     "src/server/game/Entities/Creature/TemporarySummon.cpp:251"
+    ]
+   },
+   "DoNotFollowMountedSummoner": {
+    "bit": 8192,
+    "implemented": false,
+    "consumers": []
+   },
+   "SavePetAutocast": {
+    "bit": 16384,
+    "implemented": false,
+    "consumers": []
+   },
+   "IgnoreSummonerPhase": {
+    "bit": 32768,
+    "implemented": true,
+    "consumers": [
+     "src/server/game/Entities/Object/Object.cpp:1278"
+    ]
+   },
+   "OnlyVisibleToSummonerGroup": {
+    "bit": 65536,
+    "implemented": true,
+    "consumers": [
+     "src/server/game/Spells/SpellEffects.cpp:1889",
+     "src/server/game/Spells/SpellEffects.cpp:1895"
+    ]
+   },
+   "DespawnOnSummonerLogout": {
+    "bit": 131072,
+    "implemented": false,
+    "consumers": []
+   },
+   "CastRideVehicleSpellOnSummoner": {
+    "bit": 262144,
+    "implemented": false,
+    "consumers": []
+   },
+   "GuardianActsLikePet": {
+    "bit": 524288,
+    "implemented": false,
+    "consumers": []
+   },
+   "DontSnapSessileToGround": {
+    "bit": 1048576,
+    "implemented": false,
+    "consumers": []
+   },
+   "SummonFromBattlePetJournal": {
+    "bit": 2097152,
+    "implemented": true,
+    "consumers": [
+     "src/server/game/Entities/Creature/TemporarySummon.cpp:257",
+     "src/server/game/Entities/Unit/Unit.cpp:6309",
+     "src/server/game/Spells/SpellMgr.cpp:2521"
+    ]
+   },
+   "UnitClutter": {
+    "bit": 4194304,
+    "implemented": false,
+    "consumers": []
+   },
+   "DefaultNameColor": {
+    "bit": 8388608,
+    "implemented": false,
+    "consumers": []
+   },
+   "UseOwnInvisibilityDetection": {
+    "bit": 16777216,
+    "implemented": false,
+    "consumers": []
+   },
+   "DespawnWhenReplaced": {
+    "bit": 33554432,
+    "implemented": false,
+    "consumers": []
+   },
+   "DespawnWhenTeleportingOutOfRange": {
+    "bit": 67108864,
+    "implemented": false,
+    "consumers": []
+   },
+   "SummonedAtGroupFormationPosition": {
+    "bit": 134217728,
+    "implemented": false,
+    "consumers": []
+   },
+   "DontDespawnOnSummonerDeath": {
+    "bit": 268435456,
+    "implemented": false,
+    "consumers": []
+   },
+   "UseTitleAsCreatureName": {
+    "bit": 536870912,
+    "implemented": false,
+    "consumers": []
+   },
+   "AttackableBySummoner": {
+    "bit": 1073741824,
+    "implemented": false,
+    "consumers": []
+   },
+   "DontDismissWhenEncounterIsAborted": {
+    "bit": 2147483648,
+    "implemented": false,
+    "consumers": []
+   }
+  },
+  "reader": "SummonPropertiesEntry::GetFlags reads Flags[0] only (DB2Structure.h:4317-4326)"
+ },
+ "SummonCategory": {
+  "coordinate": "src/server/game/Miscellaneous/SharedDefines.h:6656-6663",
+  "values": {
+   "0": "SUMMON_CATEGORY_WILD",
+   "1": "SUMMON_CATEGORY_ALLY",
+   "2": "SUMMON_CATEGORY_PET",
+   "3": "SUMMON_CATEGORY_PUPPET",
+   "4": "SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "5": "SUMMON_CATEGORY_VEHICLE"
+  }
+ },
+ "SummonTitle": {
+  "coordinate": "src/server/game/Miscellaneous/SharedDefines.h:6666-6711",
+  "values": {
+   "0": "None",
+   "1": "Pet",
+   "2": "Guardian",
+   "3": "Minion",
+   "4": "Totem",
+   "5": "Companion",
+   "6": "Runeblade",
+   "7": "Construct",
+   "8": "Opponent",
+   "9": "Vehicle",
+   "10": "Mount",
+   "11": "Lightwell",
+   "12": "Butler",
+   "13": "aka",
+   "14": "Gateway",
+   "15": "Hatred",
+   "16": "Statue",
+   "17": "Spirit",
+   "18": "WarBanner",
+   "19": "Heartwarmer",
+   "20": "HiredBy",
+   "21": "PurchasedBy",
+   "22": "Pride",
+   "23": "TwistedImage",
+   "24": "NoodleCart",
+   "25": "InnerDemon",
+   "26": "Bodyguard",
+   "27": "Name",
+   "28": "Squire",
+   "29": "Champion",
+   "30": "TheBetrayer",
+   "31": "EruptingReflection",
+   "32": "HopelessReflection",
+   "33": "MalignantReflection",
+   "34": "WailingReflection",
+   "35": "Assistant",
+   "36": "Enforcer",
+   "37": "Recruit",
+   "38": "Admirer",
+   "39": "EvilTwin",
+   "40": "Greed",
+   "41": "LostMind",
+   "44": "ServantOfNZoth"
+  }
+ },
+ "SummonSlot": {
+  "coordinate": "src/server/game/Miscellaneous/SharedDefines.h:6713-6725",
+  "values": {
+   "-1": "SUMMON_SLOT_ANY_TOTEM",
+   "0": "SUMMON_SLOT_PET",
+   "1": "SUMMON_SLOT_TOTEM",
+   "2": "SUMMON_SLOT_TOTEM_2",
+   "3": "SUMMON_SLOT_TOTEM_3",
+   "4": "SUMMON_SLOT_TOTEM_4",
+   "5": "SUMMON_SLOT_MINIPET",
+   "6": "SUMMON_SLOT_QUEST"
+  },
+  "MAX_SUMMON_SLOT": 7,
+  "MAX_TOTEM_SLOT": 5
+ },
+ "UnitTypeMask": {
+  "coordinate": "src/server/game/Entities/Unit/Unit.h:354-367",
+  "values": {
+   "UNIT_MASK_SUMMON": 1,
+   "UNIT_MASK_MINION": 2,
+   "UNIT_MASK_GUARDIAN": 4,
+   "UNIT_MASK_TOTEM": 8,
+   "UNIT_MASK_PET": 16,
+   "UNIT_MASK_VEHICLE": 32,
+   "UNIT_MASK_PUPPET": 64,
+   "UNIT_MASK_HUNTER_PET": 128,
+   "UNIT_MASK_CONTROLABLE_GUARDIAN": 256,
+   "UNIT_MASK_ACCESSORY": 512
+  }
+ },
+ "TempSummonType": {
+  "coordinate": "src/server/game/Entities/Object/ObjectDefines.h:61-71",
+  "values": {
+   "1": "TEMPSUMMON_TIMED_OR_DEAD_DESPAWN",
+   "2": "TEMPSUMMON_TIMED_OR_CORPSE_DESPAWN",
+   "3": "TEMPSUMMON_TIMED_DESPAWN",
+   "4": "TEMPSUMMON_TIMED_DESPAWN_OUT_OF_COMBAT",
+   "5": "TEMPSUMMON_CORPSE_DESPAWN",
+   "6": "TEMPSUMMON_CORPSE_TIMED_DESPAWN",
+   "7": "TEMPSUMMON_DEAD_DESPAWN",
+   "8": "TEMPSUMMON_MANUAL_DESPAWN"
+  }
+ },
+ "CharmType": {
+  "coordinate": "src/server/game/Entities/Unit/CharmInfo.h:67-73",
+  "values": {
+   "0": "CHARM_TYPE_CHARM",
+   "1": "CHARM_TYPE_POSSESS",
+   "2": "CHARM_TYPE_VEHICLE",
+   "3": "CHARM_TYPE_CONVERT"
+  }
+ },
+ "PetType": {
+  "coordinate": "src/server/game/Entities/Pet/PetDefines.h:29-34",
+  "values": {
+   "0": "SUMMON_PET",
+   "1": "HUNTER_PET"
+  }
+ },
+ "PetSaveMode": {
+  "coordinate": "src/server/game/Entities/Pet/PetDefines.h:40-49",
+  "values": {
+   "-3": "PET_SAVE_AS_CURRENT",
+   "-2": "PET_SAVE_AS_DELETED",
+   "-1": "PET_SAVE_NOT_IN_SLOT",
+   "0": "PET_SAVE_FIRST_ACTIVE_SLOT",
+   "5": "PET_SAVE_FIRST_STABLE_SLOT"
+  },
+  "MAX_ACTIVE_PETS": 5,
+  "MAX_PET_STABLES": 200,
+  "PET_SAVE_LAST_ACTIVE_SLOT_exclusive": 5,
+  "PET_SAVE_LAST_STABLE_SLOT_exclusive": 205
+ },
+ "ReactStates": {
+  "coordinate": "src/server/game/Entities/Unit/UnitDefines.h:539-545",
+  "values": {
+   "0": "REACT_PASSIVE",
+   "1": "REACT_DEFENSIVE",
+   "2": "REACT_AGGRESSIVE",
+   "3": "REACT_ASSIST"
+  }
+ },
+ "CommandStates": {
+  "coordinate": "src/server/game/Entities/Unit/UnitDefines.h:559-566",
+  "values": {
+   "0": "COMMAND_STAY",
+   "1": "COMMAND_FOLLOW",
+   "2": "COMMAND_ATTACK",
+   "3": "COMMAND_ABANDON",
+   "4": "COMMAND_MOVE_TO"
+  }
+ },
+ "UnitFlagsControl": {
+  "coordinate": "src/server/game/Entities/Unit/UnitDefines.h:170,178,191",
+  "values": {
+   "UNIT_FLAG_PLAYER_CONTROLLED": 8,
+   "UNIT_FLAG_PET_IN_COMBAT": 2048,
+   "UNIT_FLAG_POSSESSED": 16777216
+  }
+ },
+ "PetEntry": {
+  "coordinate": "src/server/game/Entities/Creature/TemporarySummon.h:23-39",
+  "values": {
+   "PET_IMP": 416,
+   "PET_FEL_HUNTER": 691,
+   "PET_VOID_WALKER": 1860,
+   "PET_SUCCUBUS": 1863,
+   "PET_DOOMGUARD": 18540,
+   "PET_FELGUARD": 30146,
+   "PET_INCUBUS": 184600,
+   "PET_GHOUL": 26125,
+   "PET_SPIRIT_WOLF": 29264
+  }
+ },
+ "HardcodedCreatureSwitch": {
+  "510": "mage Water Elemental (Pet.cpp:958)",
+  "1964": "force of nature (Pet.cpp:963)",
+  "15352": "earth elemental (Pet.cpp:972)",
+  "15438": "fire elemental (Pet.cpp:980)",
+  "19668": "Shadowfiend (Pet.cpp:992); NPC_PRIEST_SHADOWFIEND (scripts/Spells/spell_priest.cpp:317)",
+  "19833": "Snake Trap - Venomous Snake (Pet.cpp:1005)",
+  "19921": "Snake Trap - Viper (Pet.cpp:1011)",
+  "29264": "Feral Spirit (Pet.cpp:1017)",
+  "31216": "Mirror Image (Pet.cpp:1034)",
+  "27829": "Ebon Gargoyle (Pet.cpp:1045)",
+  "28017": "Bloodworms (Pet.cpp:1057)",
+  "27893": "Dancing Rune Weapon: weapon display copied from owner (SpellEffects.cpp:5054-5064); NPC_DK_DANCING_RUNE_WEAPON (scripts/Spells/spell_dk.cpp:117)",
+  "62982": "NPC_PRIEST_MINDBENDER (scripts/Spells/spell_priest.cpp:316)",
+  "224466": "NPC_PRIEST_VOIDWRAITH (scripts/Spells/spell_priest.cpp:318)",
+  "198236": "NPC_PRIEST_DIVINE_IMAGE (scripts/Spells/spell_priest.cpp:315)"
+ },
+ "EffectHandlers": {
+  "coordinate": "src/server/game/Spells/SpellEffects.cpp:120-352",
+  "values": {
+   "28": {
+    "name": "SPELL_EFFECT_SUMMON",
+    "handler": "Spell::EffectSummonType",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:120"
+   },
+   "34": {
+    "name": "SPELL_EFFECT_SUMMON_CHANGE_ITEM",
+    "handler": "Spell::EffectSummonChangeItem",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:126"
+   },
+   "55": {
+    "name": "SPELL_EFFECT_TAMECREATURE",
+    "handler": "Spell::EffectTameCreature",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:147"
+   },
+   "56": {
+    "name": "SPELL_EFFECT_SUMMON_PET",
+    "handler": "Spell::EffectSummonPet",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:148"
+   },
+   "76": {
+    "name": "SPELL_EFFECT_SUMMON_OBJECT_WILD",
+    "handler": "Spell::EffectSummonObjectWild",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:168"
+   },
+   "85": {
+    "name": "SPELL_EFFECT_SUMMON_PLAYER",
+    "handler": "Spell::EffectSummonPlayer",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:177"
+   },
+   "102": {
+    "name": "SPELL_EFFECT_DISMISS_PET",
+    "handler": "Spell::EffectDismissPet",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:194"
+   },
+   "104": {
+    "name": "SPELL_EFFECT_SUMMON_OBJECT_SLOT1",
+    "handler": "Spell::EffectSummonObject",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:196"
+   },
+   "119": {
+    "name": "SPELL_EFFECT_APPLY_AREA_AURA_PET",
+    "handler": "Spell::EffectUnused",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:211"
+   },
+   "135": {
+    "name": "SPELL_EFFECT_CALL_PET",
+    "handler": "Spell::EffectNULL",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:227"
+   },
+   "152": {
+    "name": "SPELL_EFFECT_SUMMON_RAF_FRIEND",
+    "handler": "Spell::EffectSummonRaFFriend",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:244"
+   },
+   "153": {
+    "name": "SPELL_EFFECT_CREATE_TAMED_PET",
+    "handler": "Spell::EffectCreateTamedPet",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:245"
+   },
+   "168": {
+    "name": "SPELL_EFFECT_ALLOW_CONTROL_PET",
+    "handler": "Spell::EffectNULL",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:260"
+   },
+   "188": {
+    "name": "SPELL_EFFECT_SUMMON_STABLED_PET_AS_GUARDIAN",
+    "handler": "Spell::EffectNULL",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:280"
+   },
+   "199": {
+    "name": "SPELL_EFFECT_DESPAWN_SUMMON",
+    "handler": "Spell::EffectNULL",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:291"
+   },
+   "202": {
+    "name": "SPELL_EFFECT_APPLY_AREA_AURA_SUMMONS",
+    "handler": "Spell::EffectUnused",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:294"
+   },
+   "260": {
+    "name": "SPELL_EFFECT_SUMMON_STABLED_PET",
+    "handler": "Spell::EffectNULL",
+    "coordinate": "src/server/game/Spells/SpellEffects.cpp:352"
+   }
+  },
+  "unit_creating": [
+   28,
+   55,
+   56,
+   153
+  ],
+  "lifecycle": [
+   102,
+   135,
+   168,
+   188,
+   199,
+   260
+  ]
+ },
+ "AuraHandlers": {
+  "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:74-501",
+  "values": {
+   "2": {
+    "name": "SPELL_AURA_MOD_POSSESS",
+    "handler": "AuraEffect::HandleModPossess",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:74"
+   },
+   "6": {
+    "name": "SPELL_AURA_MOD_CHARM",
+    "handler": "AuraEffect::HandleModCharm",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:78"
+   },
+   "146": {
+    "name": "SPELL_AURA_ALLOW_TAME_PET_TYPE",
+    "handler": "AuraEffect::HandleNoImmediateEffect",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:218"
+   },
+   "157": {
+    "name": "SPELL_AURA_PET_DAMAGE_MULTI",
+    "handler": "AuraEffect::HandleNULL",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:229"
+   },
+   "177": {
+    "name": "SPELL_AURA_AOE_CHARM",
+    "handler": "AuraEffect::HandleCharmConvert",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:249"
+   },
+   "339": {
+    "name": "SPELL_AURA_MOD_CRIT_CHANCE_FOR_CASTER_PET",
+    "handler": "AuraEffect::HandleNoImmediateEffect",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:411"
+   },
+   "378": {
+    "name": "SPELL_AURA_MOD_POSSESS_PET",
+    "handler": "AuraEffect::HandleModPossessPet",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:450"
+   },
+   "381": {
+    "name": "SPELL_AURA_MOD_DAMAGE_TAKEN_FROM_CASTER_PET",
+    "handler": "AuraEffect::HandleNULL",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:453"
+   },
+   "382": {
+    "name": "SPELL_AURA_MOD_PET_STAT_PCT",
+    "handler": "AuraEffect::HandleNULL",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:454"
+   },
+   "429": {
+    "name": "SPELL_AURA_MOD_SUMMON_DAMAGE",
+    "handler": "AuraEffect::HandleNULL",
+    "coordinate": "src/server/game/Spells/Auras/SpellAuraEffects.cpp:501"
+   }
+  },
+  "control": [
+   2,
+   6,
+   177,
+   378
+  ]
+ },
+ "NumSummonsFromEffectValue": {
+  "coordinate": "src/server/game/Spells/SpellEffects.cpp:1915-1937",
+  "values": [
+   64,
+   61,
+   1101,
+   66,
+   648,
+   2301,
+   1061,
+   1261,
+   629,
+   181,
+   715,
+   1562,
+   833,
+   1161,
+   713
+  ]
+ },
+ "branch_table": [
+  {
+   "control": 0,
+   "title": 0,
+   "join_spawn_group": false,
+   "branch": "wild+default",
+   "category": "wild-summon",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 0,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 1,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Pet",
+   "category": "wild-summon-via-SummonGuardian",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 1,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 0,
+   "title": 2,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Guardian",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 2,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 3,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Minion",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 3,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 4,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Totem",
+   "category": "totem",
+   "class": "Totem",
+   "unit_mask": "UNIT_MASK_TOTEM",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 4,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "totem",
+   "class": "Totem",
+   "unit_mask": "UNIT_MASK_TOTEM",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 5,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Companion",
+   "category": "companion-minion",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 5,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "minion",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 6,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Runeblade",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 6,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 9,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Vehicle",
+   "category": "vehicle-summon",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 9,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "wild-summon-via-SummonGuardian",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 10,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Mount",
+   "category": "vehicle-summon",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 10,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "wild-summon-via-SummonGuardian",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 11,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Lightwell",
+   "category": "lightwell-totem",
+   "class": "Totem",
+   "unit_mask": "UNIT_MASK_TOTEM",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 11,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "totem",
+   "class": "Totem",
+   "unit_mask": "UNIT_MASK_TOTEM",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 17,
+   "join_spawn_group": false,
+   "branch": "wild+default",
+   "category": "wild-summon",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 0,
+   "title": 17,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 0,
+   "join_spawn_group": false,
+   "branch": "ally+default",
+   "category": "ally-summon",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 0,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 1,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Pet",
+   "category": "wild-summon-via-SummonGuardian",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 1,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 1,
+   "title": 2,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Guardian",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 2,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 3,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Minion",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 3,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 4,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Totem",
+   "category": "totem",
+   "class": "Totem",
+   "unit_mask": "UNIT_MASK_TOTEM",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 4,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "totem",
+   "class": "Totem",
+   "unit_mask": "UNIT_MASK_TOTEM",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 5,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Companion",
+   "category": "companion-minion",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 5,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "minion",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 6,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Runeblade",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 6,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 9,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Vehicle",
+   "category": "vehicle-summon",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 9,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "wild-summon-via-SummonGuardian",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 10,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Mount",
+   "category": "vehicle-summon",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 10,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "wild-summon-via-SummonGuardian",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 11,
+   "join_spawn_group": false,
+   "branch": "wild/ally+Title::Lightwell",
+   "category": "lightwell-totem",
+   "class": "Totem",
+   "unit_mask": "UNIT_MASK_TOTEM",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 11,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "totem",
+   "class": "Totem",
+   "unit_mask": "UNIT_MASK_TOTEM",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 17,
+   "join_spawn_group": false,
+   "branch": "ally+default",
+   "category": "ally-summon",
+   "class": "TempSummon",
+   "unit_mask": "UNIT_MASK_SUMMON",
+   "controllable_guardian": false
+  },
+  {
+   "control": 1,
+   "title": 17,
+   "join_spawn_group": true,
+   "branch": "wild/ally+JoinSummonerSpawnGroup",
+   "category": "guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": false
+  },
+  {
+   "control": 2,
+   "title": 0,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 0,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 1,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 1,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 2,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 2,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 3,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 3,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 4,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 4,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 5,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 5,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 6,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 6,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 9,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 9,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 10,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 10,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 11,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 11,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 17,
+   "join_spawn_group": false,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 2,
+   "title": 17,
+   "join_spawn_group": true,
+   "branch": "Control::PET",
+   "category": "controllable-guardian",
+   "class": "Guardian",
+   "unit_mask": "UNIT_MASK_GUARDIAN",
+   "controllable_guardian": true
+  },
+  {
+   "control": 3,
+   "title": 0,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 0,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 1,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 1,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 2,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 2,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 3,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 3,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 4,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 4,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 5,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 5,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 6,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 6,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 9,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 9,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 10,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 10,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 11,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 11,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 17,
+   "join_spawn_group": false,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 3,
+   "title": 17,
+   "join_spawn_group": true,
+   "branch": "Control::PUPPET",
+   "category": "puppet",
+   "class": "Puppet",
+   "unit_mask": "UNIT_MASK_PUPPET",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 0,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 0,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 1,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 1,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 2,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 2,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 3,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 3,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 4,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 4,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 5,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 5,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 6,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 6,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 9,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 9,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 10,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 10,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 11,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 11,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 17,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 4,
+   "title": 17,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_POSSESSED_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 0,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 0,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 1,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 1,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 2,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 2,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 3,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 3,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 4,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 4,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 5,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 5,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 6,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 6,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 9,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 9,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 10,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 10,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 11,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 11,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 17,
+   "join_spawn_group": false,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 5,
+   "title": 17,
+   "join_spawn_group": true,
+   "branch": "Control::SUMMON_CATEGORY_VEHICLE",
+   "category": "vehicle",
+   "class": "Minion",
+   "unit_mask": "UNIT_MASK_MINION",
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 0,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 0,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 1,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 1,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 2,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 2,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 3,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 3,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 4,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 4,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 5,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 5,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 6,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 6,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 9,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 9,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 10,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 10,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 11,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 11,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 17,
+   "join_spawn_group": false,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  },
+  {
+   "control": 6,
+   "title": 17,
+   "join_spawn_group": true,
+   "branch": "Control::6",
+   "category": "unresolved",
+   "class": "nullptr",
+   "unit_mask": null,
+   "controllable_guardian": false
+  }
+ ]
+}

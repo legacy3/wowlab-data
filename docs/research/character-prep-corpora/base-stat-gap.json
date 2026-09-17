@@ -1,0 +1,3144 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 character_prep.py base-stat-gap --tdb <TDB> --probe --out ../../docs/research/character-prep-corpora/base-stat-gap.json",
+  "wowlab_data_commit": "2773a88",
+  "world_database": "TDB_full_world_1200.26021_2026_02_06.sql"
+ },
+ "corpus": {
+  "path": "docs/research/world-db-corpora/player-base-stats.json",
+  "provenance": {
+   "tool": "scripts/research/tools/tdb_world_extract.py",
+   "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "base_world_database": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "base_world_database_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_release": "TDB1200.26021 (TDB_full_1200.26021_2026_02_06.7z, sha256 48f0e2af7620ca70ec7054ff19d356255bc50e11d7829932015f28918f195588)",
+   "update_directory": "sql/updates/world/master",
+   "update_files_total": 522,
+   "update_files_touching_tracked_tables": [
+    "2026_03_07_01_world.sql"
+   ],
+   "base_row_counts": {
+    "pet_levelstats": 2715,
+    "player_classlevelstats": 1032,
+    "player_racestats": 29
+   },
+   "final_row_counts": {
+    "pet_levelstats": 2715,
+    "player_classlevelstats": 1032,
+    "player_racestats": 31
+   },
+   "applied": {
+    "base / pet_levelstats / INSERT": 2715,
+    "base / player_classlevelstats / INSERT": 1032,
+    "base / player_racestats / INSERT": 29,
+    "update / DELETE": 0,
+    "update / INSERT": 2
+   },
+   "unparsed_statement_count": 0,
+   "tables_requested": [
+    "pet_levelstats",
+    "player_classlevelstats",
+    "player_racestats"
+   ],
+   "tables_missing_from_dump": [],
+   "note": "schema-driven restricted replay; see tools/tdb_replay.py. Rows are Trinity authoring for the pinned TDB, not client data and not Retail truth."
+  },
+  "schemas": {
+   "pet_levelstats": {
+    "columns": [
+     "creature_entry",
+     "level",
+     "hp",
+     "mana",
+     "armor",
+     "str",
+     "agi",
+     "sta",
+     "inte",
+     "spi"
+    ],
+    "key": [
+     "creature_entry",
+     "level"
+    ],
+    "types": {
+     "creature_entry": "int",
+     "level": "tinyint",
+     "hp": "smallint",
+     "mana": "smallint",
+     "armor": "int",
+     "str": "smallint",
+     "agi": "smallint",
+     "sta": "smallint",
+     "inte": "smallint",
+     "spi": "smallint"
+    }
+   },
+   "player_classlevelstats": {
+    "columns": [
+     "class",
+     "level",
+     "str",
+     "agi",
+     "sta",
+     "inte",
+     "spi",
+     "VerifiedBuild"
+    ],
+    "key": [
+     "class",
+     "level"
+    ],
+    "types": {
+     "class": "tinyint",
+     "level": "tinyint",
+     "str": "int",
+     "agi": "int",
+     "sta": "int",
+     "inte": "int",
+     "spi": "smallint",
+     "VerifiedBuild": "int"
+    }
+   },
+   "player_racestats": {
+    "columns": [
+     "race",
+     "str",
+     "agi",
+     "sta",
+     "inte",
+     "spi"
+    ],
+    "key": [
+     "race"
+    ],
+    "types": {
+     "race": "tinyint",
+     "str": "smallint",
+     "agi": "smallint",
+     "sta": "smallint",
+     "inte": "smallint",
+     "spi": "smallint"
+    }
+   }
+  }
+ },
+ "trinity_fill_rule": {
+  "coordinates": {
+   "ignore_rows_above_max": "src/server/game/Globals/ObjectMgr.cpp:4309-4317",
+   "level_info_array": "src/server/game/Globals/ObjectMgr.cpp:4319-4330",
+   "level_info_struct": "src/server/game/Globals/ObjectMgr.h:628-631",
+   "fill_gaps": "src/server/game/Globals/ObjectMgr.cpp:4336-4356",
+   "get_player_level_info": "src/server/game/Globals/ObjectMgr.cpp:4437-4450",
+   "build_player_level_info": "src/server/game/Globals/ObjectMgr.cpp:4452-4530",
+   "max_player_level_default": "src/server/game/World/World.cpp:750",
+   "max_player_level_conf": "src/server/worldserver/worldserver.conf.dist:912",
+   "get_max_level_for_expansion": "src/server/game/Miscellaneous/SharedDefines.h:109-137"
+  },
+  "config_max_player_level": 90,
+  "rule": [
+   "rows with level > MaxPlayerLevel are ignored at load (TC_LOG_INFO)",
+   "levelInfo = array of MaxPlayerLevel zero-initialised PlayerLevelInfo per (race, class) from playercreateinfo",
+   "levelInfo[level-1].stats[i] = row.stat[i] + player_racestats[race].StatModifier[i]",
+   "level 1 missing (levelInfo null or stats[0] == 0) -> ABORT()",
+   "for index 1..MaxPlayerLevel-1: if stats[0] (race-modified Strength) == 0: copy index-1, TC_LOG_ERROR",
+   "GetPlayerLevelInfo(level <= MaxPlayerLevel) reads levelInfo[level-1]; only level > MaxPlayerLevel reaches BuildPlayerLevelInfo"
+  ],
+  "sentinel": "stats[0] == 0 on the race-modified Strength; a row is not 'present' to Trinity if its race-modified Strength is 0",
+  "evidence_class": "trinity-consumer"
+ },
+ "class_coverage": {
+  "1": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Warrior",
+   "playercreateinfo_races": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34,
+    35,
+    36,
+    37,
+    52,
+    70,
+    84,
+    85,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "2": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Paladin",
+   "playercreateinfo_races": [
+    1,
+    3,
+    6,
+    10,
+    11,
+    30,
+    31,
+    34,
+    84,
+    85
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "3": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Hunter",
+   "playercreateinfo_races": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34,
+    35,
+    36,
+    37,
+    52,
+    70,
+    84,
+    85,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "4": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Rogue",
+   "playercreateinfo_races": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34,
+    35,
+    36,
+    37,
+    52,
+    70,
+    84,
+    85,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "5": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Priest",
+   "playercreateinfo_races": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34,
+    35,
+    36,
+    37,
+    52,
+    70,
+    84,
+    85,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "6": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Death Knight",
+   "playercreateinfo_races": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    22,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34,
+    35,
+    36,
+    37
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "7": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Shaman",
+   "playercreateinfo_races": [
+    2,
+    3,
+    6,
+    8,
+    9,
+    11,
+    24,
+    25,
+    26,
+    28,
+    31,
+    32,
+    34,
+    35,
+    36,
+    84,
+    85,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "8": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Mage",
+   "playercreateinfo_races": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34,
+    35,
+    36,
+    37,
+    52,
+    70,
+    84,
+    85,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "9": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Warlock",
+   "playercreateinfo_races": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34,
+    35,
+    36,
+    37,
+    52,
+    70,
+    84,
+    85,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "10": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Monk",
+   "playercreateinfo_races": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    22,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    34,
+    35,
+    36,
+    37,
+    84,
+    85,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "11": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Druid",
+   "playercreateinfo_races": [
+    4,
+    6,
+    8,
+    22,
+    28,
+    31,
+    32,
+    86,
+    91
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "12": {
+   "rows": 80,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Demon Hunter",
+   "playercreateinfo_races": [
+    4,
+    10
+   ],
+   "filled_cells_trinity_rule": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  },
+  "13": {
+   "rows": 72,
+   "min_level": 1,
+   "max_level": 80,
+   "gaps_within_rows": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+   ],
+   "gaps_above_rows_to_config_max": [
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ],
+   "rows_ignored_above_config_max": [],
+   "level_1_present": true,
+   "zero_strength_rows": [],
+   "verified_build_values": [
+    0
+   ],
+   "name": "Evoker",
+   "playercreateinfo_races": [
+    52,
+    70
+   ],
+   "filled_cells_trinity_rule": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90
+   ]
+  }
+ },
+ "classes_in_chrclasses_without_rows": [
+  14,
+  15
+ ],
+ "verified_build_values": [
+  0
+ ],
+ "row_count": 1032,
+ "race_coverage": {
+  "chrraces_total": 59,
+  "playable_by_db2": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   22,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   34,
+   35,
+   36,
+   37,
+   52,
+   70,
+   84,
+   85,
+   86,
+   91
+  ],
+  "playable_race_bit_but_npc_only": [
+   95,
+   96
+  ],
+  "player_racestats_rows": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   22,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   34,
+   35,
+   36,
+   37,
+   52,
+   70,
+   84,
+   85,
+   86,
+   91
+  ],
+  "playable_without_row": [],
+  "rows_without_playable_flag": [],
+  "trinity_missing_row_behaviour": "ABORT() at ObjectMgr.cpp:4342-4346 if the race has any playercreateinfo pair; otherwise the race simply has no PlayerInfo (Player::Create refuses)",
+  "race_modifier_profile": {
+   "1": {
+    "nonzero": false,
+    "mods": {
+     "Strength": 0,
+     "Agility": 0,
+     "Stamina": 0,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Human"
+   },
+   "2": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 3,
+     "Agility": -3,
+     "Stamina": 1,
+     "Intellect": -1,
+     "Spirit": 0
+    },
+    "name": "Orc"
+   },
+   "3": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 2,
+     "Agility": -2,
+     "Stamina": 1,
+     "Intellect": -1,
+     "Spirit": 0
+    },
+    "name": "Dwarf"
+   },
+   "4": {
+    "nonzero": true,
+    "mods": {
+     "Strength": -2,
+     "Agility": 2,
+     "Stamina": 0,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Night Elf"
+   },
+   "5": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 2,
+     "Agility": -1,
+     "Stamina": 1,
+     "Intellect": -2,
+     "Spirit": 0
+    },
+    "name": "Undead"
+   },
+   "6": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 2,
+     "Agility": -2,
+     "Stamina": 2,
+     "Intellect": -2,
+     "Spirit": 0
+    },
+    "name": "Tauren"
+   },
+   "7": {
+    "nonzero": true,
+    "mods": {
+     "Strength": -3,
+     "Agility": 1,
+     "Stamina": -1,
+     "Intellect": 3,
+     "Spirit": 0
+    },
+    "name": "Gnome"
+   },
+   "8": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 1,
+     "Agility": 2,
+     "Stamina": 0,
+     "Intellect": -3,
+     "Spirit": 0
+    },
+    "name": "Troll"
+   },
+   "9": {
+    "nonzero": true,
+    "mods": {
+     "Strength": -3,
+     "Agility": 1,
+     "Stamina": -1,
+     "Intellect": 3,
+     "Spirit": 0
+    },
+    "name": "Goblin"
+   },
+   "10": {
+    "nonzero": true,
+    "mods": {
+     "Strength": -3,
+     "Agility": 1,
+     "Stamina": 0,
+     "Intellect": 2,
+     "Spirit": 0
+    },
+    "name": "Blood Elf"
+   },
+   "11": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 1,
+     "Agility": -3,
+     "Stamina": 2,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Draenei"
+   },
+   "22": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 2,
+     "Agility": 1,
+     "Stamina": 0,
+     "Intellect": -3,
+     "Spirit": 0
+    },
+    "name": "Worgen"
+   },
+   "24": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 0,
+     "Agility": -2,
+     "Stamina": 2,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Pandaren"
+   },
+   "25": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 0,
+     "Agility": -2,
+     "Stamina": 2,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Pandaren"
+   },
+   "26": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 0,
+     "Agility": -2,
+     "Stamina": 2,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Pandaren"
+   },
+   "27": {
+    "nonzero": true,
+    "mods": {
+     "Strength": -2,
+     "Agility": 1,
+     "Stamina": -1,
+     "Intellect": 2,
+     "Spirit": 0
+    },
+    "name": "Nightborne"
+   },
+   "28": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 1,
+     "Agility": -2,
+     "Stamina": 2,
+     "Intellect": -1,
+     "Spirit": 0
+    },
+    "name": "Highmountain Tauren"
+   },
+   "29": {
+    "nonzero": true,
+    "mods": {
+     "Strength": -3,
+     "Agility": 1,
+     "Stamina": 0,
+     "Intellect": 2,
+     "Spirit": 0
+    },
+    "name": "Void Elf"
+   },
+   "30": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 0,
+     "Agility": -1,
+     "Stamina": 1,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Lightforged Draenei"
+   },
+   "31": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 1,
+     "Agility": 2,
+     "Stamina": 0,
+     "Intellect": -3,
+     "Spirit": 0
+    },
+    "name": "Zandalari Troll"
+   },
+   "32": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 1,
+     "Agility": -2,
+     "Stamina": 2,
+     "Intellect": -1,
+     "Spirit": 0
+    },
+    "name": "Kul Tiran"
+   },
+   "34": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 2,
+     "Agility": -2,
+     "Stamina": 1,
+     "Intellect": -1,
+     "Spirit": 0
+    },
+    "name": "Dark Iron Dwarf"
+   },
+   "35": {
+    "nonzero": true,
+    "mods": {
+     "Strength": -3,
+     "Agility": 3,
+     "Stamina": -1,
+     "Intellect": 1,
+     "Spirit": 0
+    },
+    "name": "Vulpera"
+   },
+   "36": {
+    "nonzero": true,
+    "mods": {
+     "Strength": 3,
+     "Agility": -3,
+     "Stamina": 1,
+     "Intellect": -1,
+     "Spirit": 0
+    },
+    "name": "Mag'har Orc"
+   },
+   "37": {
+    "nonzero": true,
+    "mods": {
+     "Strength": -2,
+     "Agility": 1,
+     "Stamina": -1,
+     "Intellect": 2,
+     "Spirit": 0
+    },
+    "name": "Mechagnome"
+   },
+   "52": {
+    "nonzero": false,
+    "mods": {
+     "Strength": 0,
+     "Agility": 0,
+     "Stamina": 0,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Dracthyr"
+   },
+   "70": {
+    "nonzero": false,
+    "mods": {
+     "Strength": 0,
+     "Agility": 0,
+     "Stamina": 0,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Dracthyr"
+   },
+   "84": {
+    "nonzero": false,
+    "mods": {
+     "Strength": 0,
+     "Agility": 0,
+     "Stamina": 0,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Earthen"
+   },
+   "85": {
+    "nonzero": false,
+    "mods": {
+     "Strength": 0,
+     "Agility": 0,
+     "Stamina": 0,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Earthen"
+   },
+   "86": {
+    "nonzero": false,
+    "mods": {
+     "Strength": 0,
+     "Agility": 0,
+     "Stamina": 0,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Haranir"
+   },
+   "91": {
+    "nonzero": false,
+    "mods": {
+     "Strength": 0,
+     "Agility": 0,
+     "Stamina": 0,
+     "Intellect": 0,
+     "Spirit": 0
+    },
+    "name": "Haranir"
+   }
+  },
+  "playercreateinfo_races": [
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   22,
+   24,
+   25,
+   26,
+   27,
+   28,
+   29,
+   30,
+   31,
+   32,
+   34,
+   35,
+   36,
+   37,
+   52,
+   70,
+   84,
+   85,
+   86,
+   91
+  ],
+  "playercreateinfo_races_without_racestats_row": [],
+  "racestats_rows_without_playercreateinfo": [],
+  "playercreateinfo_races_not_playable_by_db2": []
+ },
+ "playercreateinfo_pairs": {
+  "count": 281,
+  "pairs": [
+   [
+    1,
+    1
+   ],
+   [
+    1,
+    2
+   ],
+   [
+    1,
+    3
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    1,
+    5
+   ],
+   [
+    1,
+    6
+   ],
+   [
+    1,
+    8
+   ],
+   [
+    1,
+    9
+   ],
+   [
+    1,
+    10
+   ],
+   [
+    2,
+    1
+   ],
+   [
+    2,
+    3
+   ],
+   [
+    2,
+    4
+   ],
+   [
+    2,
+    5
+   ],
+   [
+    2,
+    6
+   ],
+   [
+    2,
+    7
+   ],
+   [
+    2,
+    8
+   ],
+   [
+    2,
+    9
+   ],
+   [
+    2,
+    10
+   ],
+   [
+    3,
+    1
+   ],
+   [
+    3,
+    2
+   ],
+   [
+    3,
+    3
+   ],
+   [
+    3,
+    4
+   ],
+   [
+    3,
+    5
+   ],
+   [
+    3,
+    6
+   ],
+   [
+    3,
+    7
+   ],
+   [
+    3,
+    8
+   ],
+   [
+    3,
+    9
+   ],
+   [
+    3,
+    10
+   ],
+   [
+    4,
+    1
+   ],
+   [
+    4,
+    3
+   ],
+   [
+    4,
+    4
+   ],
+   [
+    4,
+    5
+   ],
+   [
+    4,
+    6
+   ],
+   [
+    4,
+    8
+   ],
+   [
+    4,
+    9
+   ],
+   [
+    4,
+    10
+   ],
+   [
+    4,
+    11
+   ],
+   [
+    4,
+    12
+   ],
+   [
+    5,
+    1
+   ],
+   [
+    5,
+    3
+   ],
+   [
+    5,
+    4
+   ],
+   [
+    5,
+    5
+   ],
+   [
+    5,
+    6
+   ],
+   [
+    5,
+    8
+   ],
+   [
+    5,
+    9
+   ],
+   [
+    5,
+    10
+   ],
+   [
+    6,
+    1
+   ],
+   [
+    6,
+    2
+   ],
+   [
+    6,
+    3
+   ],
+   [
+    6,
+    4
+   ],
+   [
+    6,
+    5
+   ],
+   [
+    6,
+    6
+   ],
+   [
+    6,
+    7
+   ],
+   [
+    6,
+    8
+   ],
+   [
+    6,
+    9
+   ],
+   [
+    6,
+    10
+   ],
+   [
+    6,
+    11
+   ],
+   [
+    7,
+    1
+   ],
+   [
+    7,
+    3
+   ],
+   [
+    7,
+    4
+   ],
+   [
+    7,
+    5
+   ],
+   [
+    7,
+    6
+   ],
+   [
+    7,
+    8
+   ],
+   [
+    7,
+    9
+   ],
+   [
+    7,
+    10
+   ],
+   [
+    8,
+    1
+   ],
+   [
+    8,
+    3
+   ],
+   [
+    8,
+    4
+   ],
+   [
+    8,
+    5
+   ],
+   [
+    8,
+    6
+   ],
+   [
+    8,
+    7
+   ],
+   [
+    8,
+    8
+   ],
+   [
+    8,
+    9
+   ],
+   [
+    8,
+    10
+   ],
+   [
+    8,
+    11
+   ],
+   [
+    9,
+    1
+   ],
+   [
+    9,
+    3
+   ],
+   [
+    9,
+    4
+   ],
+   [
+    9,
+    5
+   ],
+   [
+    9,
+    6
+   ],
+   [
+    9,
+    7
+   ],
+   [
+    9,
+    8
+   ],
+   [
+    9,
+    9
+   ],
+   [
+    9,
+    10
+   ],
+   [
+    10,
+    1
+   ],
+   [
+    10,
+    2
+   ],
+   [
+    10,
+    3
+   ],
+   [
+    10,
+    4
+   ],
+   [
+    10,
+    5
+   ],
+   [
+    10,
+    6
+   ],
+   [
+    10,
+    8
+   ],
+   [
+    10,
+    9
+   ],
+   [
+    10,
+    10
+   ],
+   [
+    10,
+    12
+   ],
+   [
+    11,
+    1
+   ],
+   [
+    11,
+    2
+   ],
+   [
+    11,
+    3
+   ],
+   [
+    11,
+    4
+   ],
+   [
+    11,
+    5
+   ],
+   [
+    11,
+    6
+   ],
+   [
+    11,
+    7
+   ],
+   [
+    11,
+    8
+   ],
+   [
+    11,
+    9
+   ],
+   [
+    11,
+    10
+   ],
+   [
+    22,
+    1
+   ],
+   [
+    22,
+    3
+   ],
+   [
+    22,
+    4
+   ],
+   [
+    22,
+    5
+   ],
+   [
+    22,
+    6
+   ],
+   [
+    22,
+    8
+   ],
+   [
+    22,
+    9
+   ],
+   [
+    22,
+    10
+   ],
+   [
+    22,
+    11
+   ],
+   [
+    24,
+    1
+   ],
+   [
+    24,
+    3
+   ],
+   [
+    24,
+    4
+   ],
+   [
+    24,
+    5
+   ],
+   [
+    24,
+    7
+   ],
+   [
+    24,
+    8
+   ],
+   [
+    24,
+    9
+   ],
+   [
+    24,
+    10
+   ],
+   [
+    25,
+    1
+   ],
+   [
+    25,
+    3
+   ],
+   [
+    25,
+    4
+   ],
+   [
+    25,
+    5
+   ],
+   [
+    25,
+    6
+   ],
+   [
+    25,
+    7
+   ],
+   [
+    25,
+    8
+   ],
+   [
+    25,
+    9
+   ],
+   [
+    25,
+    10
+   ],
+   [
+    26,
+    1
+   ],
+   [
+    26,
+    3
+   ],
+   [
+    26,
+    4
+   ],
+   [
+    26,
+    5
+   ],
+   [
+    26,
+    6
+   ],
+   [
+    26,
+    7
+   ],
+   [
+    26,
+    8
+   ],
+   [
+    26,
+    9
+   ],
+   [
+    26,
+    10
+   ],
+   [
+    27,
+    1
+   ],
+   [
+    27,
+    3
+   ],
+   [
+    27,
+    4
+   ],
+   [
+    27,
+    5
+   ],
+   [
+    27,
+    6
+   ],
+   [
+    27,
+    8
+   ],
+   [
+    27,
+    9
+   ],
+   [
+    27,
+    10
+   ],
+   [
+    28,
+    1
+   ],
+   [
+    28,
+    3
+   ],
+   [
+    28,
+    4
+   ],
+   [
+    28,
+    5
+   ],
+   [
+    28,
+    6
+   ],
+   [
+    28,
+    7
+   ],
+   [
+    28,
+    8
+   ],
+   [
+    28,
+    9
+   ],
+   [
+    28,
+    10
+   ],
+   [
+    28,
+    11
+   ],
+   [
+    29,
+    1
+   ],
+   [
+    29,
+    3
+   ],
+   [
+    29,
+    4
+   ],
+   [
+    29,
+    5
+   ],
+   [
+    29,
+    6
+   ],
+   [
+    29,
+    8
+   ],
+   [
+    29,
+    9
+   ],
+   [
+    29,
+    10
+   ],
+   [
+    30,
+    1
+   ],
+   [
+    30,
+    2
+   ],
+   [
+    30,
+    3
+   ],
+   [
+    30,
+    4
+   ],
+   [
+    30,
+    5
+   ],
+   [
+    30,
+    6
+   ],
+   [
+    30,
+    8
+   ],
+   [
+    30,
+    9
+   ],
+   [
+    30,
+    10
+   ],
+   [
+    31,
+    1
+   ],
+   [
+    31,
+    2
+   ],
+   [
+    31,
+    3
+   ],
+   [
+    31,
+    4
+   ],
+   [
+    31,
+    5
+   ],
+   [
+    31,
+    6
+   ],
+   [
+    31,
+    7
+   ],
+   [
+    31,
+    8
+   ],
+   [
+    31,
+    9
+   ],
+   [
+    31,
+    10
+   ],
+   [
+    31,
+    11
+   ],
+   [
+    32,
+    1
+   ],
+   [
+    32,
+    3
+   ],
+   [
+    32,
+    4
+   ],
+   [
+    32,
+    5
+   ],
+   [
+    32,
+    6
+   ],
+   [
+    32,
+    7
+   ],
+   [
+    32,
+    8
+   ],
+   [
+    32,
+    9
+   ],
+   [
+    32,
+    10
+   ],
+   [
+    32,
+    11
+   ],
+   [
+    34,
+    1
+   ],
+   [
+    34,
+    2
+   ],
+   [
+    34,
+    3
+   ],
+   [
+    34,
+    4
+   ],
+   [
+    34,
+    5
+   ],
+   [
+    34,
+    6
+   ],
+   [
+    34,
+    7
+   ],
+   [
+    34,
+    8
+   ],
+   [
+    34,
+    9
+   ],
+   [
+    34,
+    10
+   ],
+   [
+    35,
+    1
+   ],
+   [
+    35,
+    3
+   ],
+   [
+    35,
+    4
+   ],
+   [
+    35,
+    5
+   ],
+   [
+    35,
+    6
+   ],
+   [
+    35,
+    7
+   ],
+   [
+    35,
+    8
+   ],
+   [
+    35,
+    9
+   ],
+   [
+    35,
+    10
+   ],
+   [
+    36,
+    1
+   ],
+   [
+    36,
+    3
+   ],
+   [
+    36,
+    4
+   ],
+   [
+    36,
+    5
+   ],
+   [
+    36,
+    6
+   ],
+   [
+    36,
+    7
+   ],
+   [
+    36,
+    8
+   ],
+   [
+    36,
+    9
+   ],
+   [
+    36,
+    10
+   ],
+   [
+    37,
+    1
+   ],
+   [
+    37,
+    3
+   ],
+   [
+    37,
+    4
+   ],
+   [
+    37,
+    5
+   ],
+   [
+    37,
+    6
+   ],
+   [
+    37,
+    8
+   ],
+   [
+    37,
+    9
+   ],
+   [
+    37,
+    10
+   ],
+   [
+    52,
+    1
+   ],
+   [
+    52,
+    3
+   ],
+   [
+    52,
+    4
+   ],
+   [
+    52,
+    5
+   ],
+   [
+    52,
+    8
+   ],
+   [
+    52,
+    9
+   ],
+   [
+    52,
+    13
+   ],
+   [
+    70,
+    1
+   ],
+   [
+    70,
+    3
+   ],
+   [
+    70,
+    4
+   ],
+   [
+    70,
+    5
+   ],
+   [
+    70,
+    8
+   ],
+   [
+    70,
+    9
+   ],
+   [
+    70,
+    13
+   ],
+   [
+    84,
+    1
+   ],
+   [
+    84,
+    2
+   ],
+   [
+    84,
+    3
+   ],
+   [
+    84,
+    4
+   ],
+   [
+    84,
+    5
+   ],
+   [
+    84,
+    7
+   ],
+   [
+    84,
+    8
+   ],
+   [
+    84,
+    9
+   ],
+   [
+    84,
+    10
+   ],
+   [
+    85,
+    1
+   ],
+   [
+    85,
+    2
+   ],
+   [
+    85,
+    3
+   ],
+   [
+    85,
+    4
+   ],
+   [
+    85,
+    5
+   ],
+   [
+    85,
+    7
+   ],
+   [
+    85,
+    8
+   ],
+   [
+    85,
+    9
+   ],
+   [
+    85,
+    10
+   ],
+   [
+    86,
+    1
+   ],
+   [
+    86,
+    3
+   ],
+   [
+    86,
+    4
+   ],
+   [
+    86,
+    5
+   ],
+   [
+    86,
+    7
+   ],
+   [
+    86,
+    8
+   ],
+   [
+    86,
+    9
+   ],
+   [
+    86,
+    10
+   ],
+   [
+    86,
+    11
+   ],
+   [
+    91,
+    1
+   ],
+   [
+    91,
+    3
+   ],
+   [
+    91,
+    4
+   ],
+   [
+    91,
+    5
+   ],
+   [
+    91,
+    7
+   ],
+   [
+    91,
+    8
+   ],
+   [
+    91,
+    9
+   ],
+   [
+    91,
+    10
+   ],
+   [
+    91,
+    11
+   ]
+  ],
+  "source": "pinned TDB + sql/updates/world/master (2026_03_07_00_world.sql added Haranir 86/91)"
+ },
+ "zero_strength_crossings_all_races": [
+  {
+   "race_id": 7,
+   "class_id": 13,
+   "level": 1
+  },
+  {
+   "race_id": 9,
+   "class_id": 13,
+   "level": 1
+  },
+  {
+   "race_id": 10,
+   "class_id": 13,
+   "level": 1
+  },
+  {
+   "race_id": 29,
+   "class_id": 13,
+   "level": 1
+  },
+  {
+   "race_id": 35,
+   "class_id": 13,
+   "level": 1
+  }
+ ],
+ "zero_strength_crossings_created_pairs": [],
+ "monotonicity_anomalies": {
+  "Stamina": [
+   {
+    "class_id": 1,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 2,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 3,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 4,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 5,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 6,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 7,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 8,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 9,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 10,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 11,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 12,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   },
+   {
+    "class_id": 13,
+    "level": 69,
+    "value": 6655,
+    "next_level": 70,
+    "next_value": 6397
+   }
+  ]
+ },
+ "filled_cells_total": 138,
+ "level_90_verdict": {
+  "1": {
+   "name": "Warrior",
+   "level_80_row": {
+    "Strength": 17647,
+    "Agility": 12176,
+    "Stamina": 86452,
+    "Intellect": 12000,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 17647,
+    "Agility": 12176,
+    "Stamina": 86452,
+    "Intellect": 12000,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 17647,
+     "Agility": 12176,
+     "Stamina": 86452,
+     "Intellect": 12000,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "2": {
+   "name": "Paladin",
+   "level_80_row": {
+    "Strength": 17647,
+    "Agility": 6176,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 17647,
+    "Agility": 6176,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 17647,
+     "Agility": 6176,
+     "Stamina": 86452,
+     "Intellect": 17647,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "3": {
+   "name": "Hunter",
+   "level_80_row": {
+    "Strength": 10765,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 14471,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 10765,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 14471,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 10765,
+     "Agility": 17647,
+     "Stamina": 86452,
+     "Intellect": 14471,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "4": {
+   "name": "Rogue",
+   "level_80_row": {
+    "Strength": 14647,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 12000,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 14647,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 12000,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 14647,
+     "Agility": 17647,
+     "Stamina": 86452,
+     "Intellect": 12000,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "5": {
+   "name": "Priest",
+   "level_80_row": {
+    "Strength": 10235,
+    "Agility": 14647,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 10235,
+    "Agility": 14647,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 10235,
+     "Agility": 14647,
+     "Stamina": 86452,
+     "Intellect": 17647,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "6": {
+   "name": "Death Knight",
+   "level_80_row": {
+    "Strength": 17647,
+    "Agility": 14647,
+    "Stamina": 86452,
+    "Intellect": 9529,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 17647,
+    "Agility": 14647,
+    "Stamina": 86452,
+    "Intellect": 9529,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 17647,
+     "Agility": 14647,
+     "Stamina": 86452,
+     "Intellect": 9529,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "7": {
+   "name": "Shaman",
+   "level_80_row": {
+    "Strength": 7588,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 7588,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 7591,
+     "Agility": 17644,
+     "Stamina": 86453,
+     "Intellect": 17646,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 2,
+   "probe_matches_adapter": true
+  },
+  "8": {
+   "name": "Mage",
+   "level_80_row": {
+    "Strength": 7765,
+    "Agility": 12000,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 7765,
+    "Agility": 12000,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 7765,
+     "Agility": 12000,
+     "Stamina": 86452,
+     "Intellect": 17647,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "9": {
+   "name": "Warlock",
+   "level_80_row": {
+    "Strength": 6706,
+    "Agility": 13588,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 6706,
+    "Agility": 13588,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 6706,
+     "Agility": 13588,
+     "Stamina": 86452,
+     "Intellect": 17647,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "10": {
+   "name": "Monk",
+   "level_80_row": {
+    "Strength": 7588,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 7588,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 7588,
+     "Agility": 17647,
+     "Stamina": 86452,
+     "Intellect": 17647,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 1,
+   "probe_matches_adapter": true
+  },
+  "11": {
+   "name": "Druid",
+   "level_80_row": {
+    "Strength": 7588,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 7588,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 7586,
+     "Agility": 17649,
+     "Stamina": 86452,
+     "Intellect": 17647,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 4,
+   "probe_matches_adapter": true
+  },
+  "12": {
+   "name": "Demon Hunter",
+   "level_80_row": {
+    "Strength": 14647,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 12000,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 14647,
+    "Agility": 17647,
+    "Stamina": 86452,
+    "Intellect": 12000,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 10,
+    "stats": {
+     "Strength": 14645,
+     "Agility": 17649,
+     "Stamina": 86452,
+     "Intellect": 12000,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 4,
+   "probe_matches_adapter": true
+  },
+  "13": {
+   "name": "Evoker",
+   "level_80_row": {
+    "Strength": 7765,
+    "Agility": 12000,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "level_90_trinity": {
+    "Strength": 7765,
+    "Agility": 12000,
+    "Stamina": 86452,
+    "Intellect": 17647,
+    "Spirit": 0
+   },
+   "evidence_class": "trinity-consumer(fill-rule)",
+   "retail_truth": "unresolved",
+   "arithmetic": "levelInfo[89] = levelInfo[88] = ... = levelInfo[79] (copy, no extrapolation); 10 TC_LOG_ERROR lines per (race, class)",
+   "probe": {
+    "tc_log_error_count": 18,
+    "stats": {
+     "Strength": 7765,
+     "Agility": 12000,
+     "Stamina": 86452,
+     "Intellect": 17647,
+     "Spirit": 0
+    },
+    "evidence_class": "trinity-probe"
+   },
+   "probe_race_id": 52,
+   "probe_matches_adapter": true
+  }
+ },
+ "race_unlock_requirement": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8,
+  9,
+  10,
+  11,
+  22,
+  24,
+  25,
+  26,
+  27,
+  28,
+  29,
+  30,
+  31,
+  32,
+  34,
+  35,
+  36,
+  37,
+  52,
+  70,
+  84,
+  85,
+  86,
+  91
+ ],
+ "class_expansion_requirement": {
+  "rows": 230,
+  "pairs": 230
+ }
+}

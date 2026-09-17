@@ -1,0 +1,3119 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 weapon_combat.py table-corpus",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2"
+ },
+ "order_white": [
+  "evade (pre-roll)",
+  "miss",
+  "sitting player auto-crit",
+  "dodge",
+  "parry",
+  "glancing",
+  "block",
+  "crit",
+  "crushing",
+  "normal"
+ ],
+ "order_spell": [
+  "immune/positive/self/evade/reflect/always-hit (SpellHitResult)",
+  "no-avoidance",
+  "miss",
+  "resist",
+  "no-active-defense",
+  "deflect (ranged)",
+  "dodge",
+  "parry",
+  "block",
+  "none; crit separately"
+ ],
+ "constants": {
+  "base_miss_pct": {
+   "value": 5.0,
+   "type": "float",
+   "coord": "Unit.cpp:2836-2841 Unit::GetUnitMissChance"
+  },
+  "dual_wield_miss_penalty_pct": {
+   "value": 19.0,
+   "type": "float",
+   "coord": "Unit.cpp:12463-12465 Unit::MeleeSpellMissChance"
+  },
+  "player_base_melee_hit_pct": {
+   "value": 7.5,
+   "type": "float",
+   "coord": "StatSystem.cpp:753-756 Player::UpdateMeleeHitChances (7.5f + CR_HIT_MELEE bonus)"
+  },
+  "player_base_ranged_hit_pct": {
+   "value": 7.5,
+   "type": "float",
+   "coord": "StatSystem.cpp:758-761 Player::UpdateRangedHitChances"
+  },
+  "creature_mod_melee_hit_pct": {
+   "value": 0.0,
+   "type": "float",
+   "coord": "Unit.cpp:364-365 Unit::Unit (m_modMeleeHitChance = 0.0f, never updated for creatures)"
+  },
+  "player_base_expertise_pct": {
+   "value": 7.5,
+   "type": "float",
+   "coord": "Player.cpp:5216-5229 Player::GetExpertiseDodgeOrParryReduction (7.5f + Expertise / 4.0f; 0 for RANGED)"
+  },
+  "creature_expertise_divisor": {
+   "value": 4.0,
+   "type": "float",
+   "coord": "Unit.cpp:2792, 2832 (GetTotalAuraModifier(SPELL_AURA_MOD_EXPERTISE) / 4.0f)"
+  },
+  "npc_base_dodge_pct": {
+   "value": 3.0,
+   "type": "float",
+   "coord": "Unit.cpp:2772-2776 Unit::GetUnitDodgeChance (non-totem creature victim)"
+  },
+  "npc_base_parry_pct": {
+   "value": 6.0,
+   "type": "float",
+   "coord": "Unit.cpp:2816-2822 Unit::GetUnitParryChance (creature victim without CREATURE_FLAG_EXTRA_NO_PARRY)"
+  },
+  "npc_base_block_pct": {
+   "value": 3.0,
+   "type": "float",
+   "coord": "Unit.cpp:2860-2866 Unit::GetUnitBlockChance (creature victim without CREATURE_FLAG_EXTRA_NO_BLOCK)"
+  },
+  "npc_level_bonus_per_level_pct": {
+   "value": 1.5,
+   "type": "float",
+   "coord": "Unit.cpp:2776, 2822, 2866 (levelBonus = 1.5f * levelDiff, only when levelDiff > 0)"
+  },
+  "creature_base_crit_pct": {
+   "value": 5.0,
+   "type": "float",
+   "coord": "Unit.cpp:2898-2902 Unit::GetUnitCriticalChanceDone (creature attacker without CREATURE_FLAG_EXTRA_NO_CRIT)"
+  },
+  "roll_range": {
+   "value": [
+    0,
+    9999
+   ],
+   "type": "int32 (white) / uint32 (spell)",
+   "coord": "Unit.cpp:2410 (int32 roll = urand(0, 9999)); Unit.cpp:2633 (uint32 roll = urand(0, 9999))"
+  },
+  "glancing_level_gap": {
+   "value": 3,
+   "type": "int32",
+   "coord": "Unit.cpp:2456-2459 (attackerLevel + 3 < victimLevel)"
+  },
+  "glancing_chance_bp": {
+   "value": "(10 + 10 * (victimLevel - attackerLevel)) * 100",
+   "type": "int32",
+   "coord": "Unit.cpp:2462 (no cap despite the 40% comment at :2456)"
+  },
+  "crushing_level_gap": {
+   "value": 4,
+   "type": "int32",
+   "coord": "Unit.cpp:2483 (attackerLevel >= victimLevel + 4)"
+  },
+  "crushing_chance_bp": {
+   "value": "attackerLevel - victimLevel * 1000 - 1500",
+   "type": "int32",
+   "coord": "Unit.cpp:2489 -- operator precedence: victimLevel * 1000 binds first; the value is always negative for any level >= 2, so the roll test at :2491 can never pass"
+  },
+  "creature_block_percent": {
+   "value": 30.0,
+   "type": "float",
+   "coord": "Unit.h:987 virtual Unit::GetBlockPercent (returns 30.0f; only Player overrides)"
+  },
+  "block_percent_cap": {
+   "value": 0.85,
+   "type": "float",
+   "coord": "Player.cpp:26822-26831 Player::GetBlockPercent (std::min(blockArmor / (blockArmor + armorConstant), 0.85f))"
+  },
+  "crit_damage_multiplier_white": {
+   "value": 2,
+   "type": "uint32 (Damage *= 2)",
+   "coord": "Unit.cpp:1424-1440 CalculateMeleeDamage MELEE_HIT_CRIT"
+  },
+  "crushing_damage": {
+   "value": "Damage += Damage / 2",
+   "type": "uint32",
+   "coord": "Unit.cpp:1484-1490"
+  },
+  "glancing_damage": {
+   "value": "uint32((1.f - min(leveldif,3) * 0.1f) * Damage)",
+   "type": "float -> uint32",
+   "coord": "Unit.cpp:1470-1483"
+  }
+ },
+ "numeric_rules": [
+  {
+   "value": "miss/dodge/parry/block/crit chance",
+   "source_type": "float (Unit member functions), player fields are UpdateField<float>",
+   "intermediate_type": "float",
+   "aggregation_precision": "binary32, left-to-right as written",
+   "rounding": "std::max(x, 0.0f) clamp then int32(x * 100.0f) truncation",
+   "integer_conversion": "Unit.cpp:2395-2402 (white), :2635-2646, :2726-2748 (spell) -- reachable on every swing",
+   "units": "percent -> basis points (1/100 percent)"
+  },
+  {
+   "value": "roll",
+   "source_type": "urand(0, 9999) (Random.cpp:42-47, std::uniform_int_distribution<uint32>)",
+   "intermediate_type": "int32 (white) / uint32 (spell)",
+   "aggregation_precision": "exact integer cumulative sum",
+   "rounding": "none",
+   "integer_conversion": "n/a",
+   "units": "basis points"
+  },
+  {
+   "value": "level difference",
+   "source_type": "uint8 GetLevelForTarget",
+   "intermediate_type": "int32",
+   "aggregation_precision": "exact",
+   "rounding": "none",
+   "integer_conversion": "Unit.cpp:2412-2413, :2762, :2798, :2845",
+   "units": "levels"
+  },
+  {
+   "value": "glancing chance",
+   "source_type": "int32 arithmetic",
+   "intermediate_type": "int32",
+   "aggregation_precision": "exact",
+   "rounding": "none",
+   "integer_conversion": "n/a (already int)",
+   "units": "basis points; (10 + 10 * diff) * 100"
+  },
+  {
+   "value": "crushing chance",
+   "source_type": "int32 arithmetic",
+   "intermediate_type": "int32",
+   "aggregation_precision": "exact",
+   "rounding": "none",
+   "integer_conversion": "n/a",
+   "units": "basis points as written: attackerLevel - victimLevel * 1000 - 1500 (negative)"
+  },
+  {
+   "value": "spell crit / block crit",
+   "source_type": "float chance vs float rand_chance()",
+   "intermediate_type": "float chance, float draw (uniform_real_distribution<float>(0, 100))",
+   "aggregation_precision": "binary32 on both sides (Random.cpp:81-85)",
+   "rounding": "none",
+   "integer_conversion": "none",
+   "units": "percent",
+   "coord": "Spell.cpp:8563, Unit.cpp:2575-2580, Random.h:54-58"
+  },
+  {
+   "value": "block percent",
+   "source_type": "player: int32 ShieldBlock, float ArmorConstant (ExpectedStat); creature: constant 30.0f (Unit.h:987)",
+   "intermediate_type": "float",
+   "aggregation_precision": "binary32",
+   "rounding": "player: std::min(q, 0.85f); white: CalculatePct<uint32,float> truncation (Unit.cpp:1459); spell: uint32 value = GetBlockPercent() truncation first (Unit.cpp:1239) then CalculatePct<int32?,uint32>",
+   "integer_conversion": "Unit.cpp:1459 (white), Unit.cpp:1239 (spell; truncates a player's fraction to 0)",
+   "units": "player: fraction returned, consumed as percent; creature: percent"
+  },
+  {
+   "value": "expertise",
+   "source_type": "int32 MainhandExpertise/OffhandExpertise (UpdateField)",
+   "intermediate_type": "float",
+   "aggregation_precision": "binary32",
+   "rounding": "int32(GetRatingBonusValue(CR_EXPERTISE)) truncation at StatSystem.cpp:774; then / 4.0f",
+   "integer_conversion": "StatSystem.cpp:774",
+   "units": "expertise points -> percent"
+  }
+ ],
+ "paths": {
+  "white_mh": {
+   "entry": "Unit::DoMeleeAttackIfReady -> AttackerStateUpdate(BASE_ATTACK) -> CalculateMeleeDamage -> RollMeleeOutcomeAgainst",
+   "coords": [
+    "Unit.cpp:2176-2251",
+    "Unit.cpp:2262-2363",
+    "Unit.cpp:1327-1527",
+    "Unit.cpp:2389-2499"
+   ],
+   "draw": "one urand(0,9999) (Unit.cpp:2410) after the damage draw urand(min,max) (Unit.cpp:2550; both skipped on physical immunity, Unit.cpp:1371-1380; only the outcome draw is skipped on evade); block-crit roll_chance(float) only on MELEE_HIT_BLOCK (Unit.cpp:2575-2580, 1460); later draws on the same engine in the same swing: CalcSpellResistedDamage rand_norm() only for a magic-school weapon (Unit.cpp:1777-1799), DealDamage durability roll_chance(float RATE_DURABILITY_LOSS_DAMAGE, default 0.5) for a player victim and again for a player attacker when damage > 0 and the victim survives, each + urand(0, EQUIPMENT_SLOT_END-1) on success (Unit.cpp:1090-1107, World.cpp:1015), creature daze roll_chance(float) (Unit.cpp:1573-1594), then item/aura proc rolls (CastItemCombatSpell, ProcSkillsAndAuras); counts are distribution calls, not engine outputs (uniform_int_distribution may consume more than one)"
+  },
+  "white_oh": {
+   "entry": "same with OFF_ATTACK; HITINFO_OFFHAND (Unit.cpp:1365); miss adds 19% while dual wielding (Unit.cpp:12463-12465) regardless of hand",
+   "coords": [
+    "Unit.cpp:2231-2247"
+   ],
+   "draw": "as white_mh"
+  },
+  "ranged_auto": {
+   "entry": "Unit::_UpdateAutoRepeatSpell -> Spell::prepare -> Spell::SelectSpellTargets -> AddUnitTarget -> WorldObject::SpellHitResult -> Unit::MeleeSpellHitResult(RANGED_ATTACK)",
+   "coords": [
+    "Unit.cpp:3019-3055",
+    "Spell.cpp:2478-2489",
+    "Object.cpp:1949-1993",
+    "Unit.cpp:2621-2758",
+    "Spell.cpp:8555-8563"
+   ],
+   "draw": "reflect roll_chance (only if canReflect and aura present), urand(0,9999) for miss/resist/deflect/block, roll_chance(float) for crit; damage rolled later by Spell::EffectWeaponDmg"
+  },
+  "melee_spell": {
+   "entry": "as ranged_auto with DmgClass MELEE -> attType BASE_ATTACK (dodge/parry/block tested)",
+   "coords": [
+    "Unit.cpp:2626-2631"
+   ],
+   "draw": "as ranged_auto"
+  },
+  "ranged_spell": {
+   "entry": "as ranged_auto (any DmgClass RANGED spell)",
+   "coords": [
+    "Unit.cpp:2666-2679"
+   ],
+   "draw": "as ranged_auto"
+  }
+ },
+ "outcome_application": {
+  "evade": {
+   "hit_info": "HITINFO_MISS | HITINFO_SWINGNOHITSOUND",
+   "target_state": "VICTIMSTATE_EVADES",
+   "damage": "0",
+   "clean_damage": "0",
+   "returns_early": true,
+   "coord": "Unit.cpp:1404-1411"
+  },
+  "miss": {
+   "hit_info": "HITINFO_MISS",
+   "target_state": "VICTIMSTATE_INTACT",
+   "damage": "0",
+   "clean_damage": "0",
+   "coord": "Unit.cpp:1412-1419"
+  },
+  "normal": {
+   "hit_info": "-",
+   "target_state": "VICTIMSTATE_HIT",
+   "damage": "unchanged",
+   "coord": "Unit.cpp:1420-1423"
+  },
+  "crit": {
+   "hit_info": "HITINFO_CRITICALHIT",
+   "target_state": "VICTIMSTATE_HIT",
+   "damage": "Damage *= 2; AddPct(Damage, (MOD_CRIT_DAMAGE_BONUS multiplier - 1) * 100) [uint32 AddPct]",
+   "coord": "Unit.cpp:1424-1440"
+  },
+  "parry": {
+   "hit_info": "-",
+   "target_state": "VICTIMSTATE_PARRY",
+   "damage": "0 (CleanDamage += Damage)",
+   "coord": "Unit.cpp:1441-1447"
+  },
+  "dodge": {
+   "hit_info": "-",
+   "target_state": "VICTIMSTATE_DODGE",
+   "damage": "0 (CleanDamage += Damage)",
+   "coord": "Unit.cpp:1448-1454"
+  },
+  "block": {
+   "hit_info": "HITINFO_BLOCK",
+   "target_state": "VICTIMSTATE_HIT (never VICTIMSTATE_BLOCKS)",
+   "damage": "Blocked = CalculatePct(Damage, victim->GetBlockPercent(attacker GetLevel())) [creature victim: 30.0f percent; player victim: a fraction <= 0.85 consumed as a percent]; if IsBlockCritical (roll_chance(float aura 253 sum)): Blocked *= 2, Blocked *= MOD_CRITICAL_BLOCK_AMOUNT multiplier (uint32 *= float); Damage -= Blocked",
+   "coord": "Unit.cpp:1455-1469, Unit.h:987, Player.cpp:26822-26831, Unit.cpp:2575-2580"
+  },
+  "glancing": {
+   "hit_info": "HITINFO_GLANCING",
+   "target_state": "VICTIMSTATE_HIT",
+   "damage": "uint32((1.f - min(victimLevel - attackerLevel, 3) * 0.1f) * Damage)",
+   "coord": "Unit.cpp:1470-1483"
+  },
+  "crushing": {
+   "hit_info": "HITINFO_CRUSHING",
+   "target_state": "VICTIMSTATE_HIT",
+   "damage": "Damage += Damage / 2",
+   "coord": "Unit.cpp:1484-1490"
+  }
+ },
+ "examples": [
+  {
+   "id": "W1",
+   "label": "dual-wield player L90 vs boss NPC L93 (front)",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": true,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 16.5,
+       "chance_bp": 1650,
+       "lo": 0,
+       "hi": 1650,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 3.0,
+       "chance_bp": 300,
+       "lo": 1650,
+       "hi": 1950,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 7.5,
+       "chance_bp": 750,
+       "lo": 1950,
+       "hi": 2700,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 2700,
+       "hi": 4700,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.1,
+       "chance_bp": -94410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 4700,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.075,
+      "crit": 0.2,
+      "miss": 0.165,
+      "normal": 0.53,
+      "parry": 0.03
+     }
+    },
+    "off": {
+     "attack_type": "off",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 16.5,
+       "chance_bp": 1650,
+       "lo": 0,
+       "hi": 1650,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 3.0,
+       "chance_bp": 300,
+       "lo": 1650,
+       "hi": 1950,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 7.5,
+       "chance_bp": 750,
+       "lo": 1950,
+       "hi": 2700,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 2700,
+       "hi": 4700,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.1,
+       "chance_bp": -94410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 4700,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.075,
+      "crit": 0.2,
+      "miss": 0.165,
+      "normal": 0.53,
+      "parry": 0.03
+     }
+    }
+   }
+  },
+  {
+   "id": "W1b",
+   "label": "dual-wield player L90 vs boss NPC L93, behind",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": true,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": false,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 16.5,
+       "chance_bp": 1650,
+       "lo": 0,
+       "hi": 1650,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": false,
+       "chance_pct": 3.0,
+       "chance_bp": 300,
+       "lo": null,
+       "hi": null,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": false,
+       "chance_pct": 7.5,
+       "chance_bp": 750,
+       "lo": null,
+       "hi": null,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 1650,
+       "hi": 3650,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.1,
+       "chance_bp": -94410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 3650,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "crit": 0.2,
+      "miss": 0.165,
+      "normal": 0.635
+     }
+    },
+    "off": {
+     "attack_type": "off",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 16.5,
+       "chance_bp": 1650,
+       "lo": 0,
+       "hi": 1650,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": false,
+       "chance_pct": 3.0,
+       "chance_bp": 300,
+       "lo": null,
+       "hi": null,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": false,
+       "chance_pct": 7.5,
+       "chance_bp": 750,
+       "lo": null,
+       "hi": null,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 1650,
+       "hi": 3650,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.1,
+       "chance_bp": -94410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 3650,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "crit": 0.2,
+      "miss": 0.165,
+      "normal": 0.635
+     }
+    }
+   }
+  },
+  {
+   "id": "W1c",
+   "label": "Fury with Enrage (458) vs boss NPC L93",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": true,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": true,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 3.0,
+       "chance_bp": 300,
+       "lo": 0,
+       "hi": 300,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 7.5,
+       "chance_bp": 750,
+       "lo": 300,
+       "hi": 1050,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 1050,
+       "hi": 3050,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.1,
+       "chance_bp": -94410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 3050,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.075,
+      "crit": 0.2,
+      "normal": 0.695,
+      "parry": 0.03
+     }
+    },
+    "off": {
+     "attack_type": "off",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 3.0,
+       "chance_bp": 300,
+       "lo": 0,
+       "hi": 300,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 7.5,
+       "chance_bp": 750,
+       "lo": 300,
+       "hi": 1050,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 1050,
+       "hi": 3050,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.1,
+       "chance_bp": -94410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 3050,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.075,
+      "crit": 0.2,
+      "normal": 0.695,
+      "parry": 0.03
+     }
+    }
+   }
+  },
+  {
+   "id": "W2",
+   "label": "two-hand player L90 vs boss NPC L93 (front)",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 3.0,
+       "chance_bp": 300,
+       "lo": 0,
+       "hi": 300,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 7.5,
+       "chance_bp": 750,
+       "lo": 300,
+       "hi": 1050,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 1050,
+       "hi": 3050,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.1,
+       "chance_bp": -94410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 3050,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.075,
+      "crit": 0.2,
+      "normal": 0.695,
+      "parry": 0.03
+     }
+    }
+   }
+  },
+  {
+   "id": "W2b",
+   "label": "tank spec (MOD_EXPERTISE 3) vs boss NPC L93 (front)",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 3,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 2.25,
+       "chance_bp": 225,
+       "lo": 0,
+       "hi": 225,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 7.5,
+       "chance_bp": 750,
+       "lo": 225,
+       "hi": 975,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 975,
+       "hi": 2975,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.1,
+       "chance_bp": -94410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 2975,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.075,
+      "crit": 0.2,
+      "normal": 0.7025,
+      "parry": 0.0225
+     }
+    }
+   }
+  },
+  {
+   "id": "W3",
+   "label": "ranged auto-shot (75 / 467718) vs boss NPC L93 (front)",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "spell": {
+    "spell_id": 75,
+    "dmg_class_ranged": true,
+    "no_avoidance": false,
+    "no_active_defense": false,
+    "no_attack_dodge": false,
+    "no_attack_parry": false,
+    "no_attack_block": false,
+    "no_attack_miss": false,
+    "req_caster_behind_target": false,
+    "hit_chance_spellmod_pct": 0.0,
+    "always_hit": false,
+    "can_crit": true,
+    "positive": false
+   },
+   "table": {
+    "attack_type": "ranged",
+    "roll": "urand(0, 9999) once (Unit.cpp:2633)",
+    "bands": [
+     {
+      "result": "miss",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "uint32(MeleeSpellMissChance * 100.0f) (:2635-2640)"
+     },
+     {
+      "result": "resist",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "int32 resist_chance = GetMechanicResistChance * 100.0f (:2643-2646)"
+     },
+     {
+      "result": "deflect",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "ranged only, victim in front (or IGNORE_HIT_DIRECTION), not UNIT_STATE_CONTROLLED -- casting does not remove deflect (:2670-2676)"
+     },
+     {
+      "result": "dodge",
+      "eligible": false,
+      "chance_pct": 7.5,
+      "chance_bp": 750,
+      "lo": null,
+      "hi": null,
+      "reason": "canDodge (:2724-2731)"
+     },
+     {
+      "result": "parry",
+      "eligible": false,
+      "chance_pct": 10.5,
+      "chance_bp": 1050,
+      "lo": null,
+      "hi": null,
+      "reason": "canParry (:2735-2743)"
+     },
+     {
+      "result": "block",
+      "eligible": true,
+      "chance_pct": 7.5,
+      "chance_bp": 750,
+      "lo": 0,
+      "hi": 750,
+      "reason": "canBlock (:2746-2754); a blocked spell is a full block (createProcHitMask, Unit.cpp:10435-10437)"
+     }
+    ],
+    "short_circuit": null,
+    "crit": {
+     "chance_pct": 20.0,
+     "draw": "roll_chance(float critChance): critChance > rand_chance(), rand_chance() = std::uniform_real_distribution<float>(0, 100) (binary32) -- Spell.cpp:8563, Random.h:54-58, Random.cpp:81-85",
+     "note": "SpellModOp::CritChance spellmods applied in SpellCritChanceDone (Unit.cpp:7168-7169) are a supplied input here"
+    },
+    "notes": [],
+    "probabilities": {
+     "block": 0.075,
+     "none": 0.925
+    }
+   }
+  },
+  {
+   "id": "W3b",
+   "label": "ranged auto-shot vs boss NPC L93, behind",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": false,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "spell": {
+    "spell_id": 75,
+    "dmg_class_ranged": true,
+    "no_avoidance": false,
+    "no_active_defense": false,
+    "no_attack_dodge": false,
+    "no_attack_parry": false,
+    "no_attack_block": false,
+    "no_attack_miss": false,
+    "req_caster_behind_target": false,
+    "hit_chance_spellmod_pct": 0.0,
+    "always_hit": false,
+    "can_crit": true,
+    "positive": false
+   },
+   "table": {
+    "attack_type": "ranged",
+    "roll": "urand(0, 9999) once (Unit.cpp:2633)",
+    "bands": [
+     {
+      "result": "miss",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "uint32(MeleeSpellMissChance * 100.0f) (:2635-2640)"
+     },
+     {
+      "result": "resist",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "int32 resist_chance = GetMechanicResistChance * 100.0f (:2643-2646)"
+     },
+     {
+      "result": "deflect",
+      "eligible": false,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": null,
+      "hi": null,
+      "reason": "ranged only, victim in front (or IGNORE_HIT_DIRECTION), not UNIT_STATE_CONTROLLED -- casting does not remove deflect (:2670-2676)"
+     },
+     {
+      "result": "dodge",
+      "eligible": false,
+      "chance_pct": 7.5,
+      "chance_bp": 750,
+      "lo": null,
+      "hi": null,
+      "reason": "canDodge (:2724-2731)"
+     },
+     {
+      "result": "parry",
+      "eligible": false,
+      "chance_pct": 10.5,
+      "chance_bp": 1050,
+      "lo": null,
+      "hi": null,
+      "reason": "canParry (:2735-2743)"
+     },
+     {
+      "result": "block",
+      "eligible": false,
+      "chance_pct": 7.5,
+      "chance_bp": 750,
+      "lo": null,
+      "hi": null,
+      "reason": "canBlock (:2746-2754); a blocked spell is a full block (createProcHitMask, Unit.cpp:10435-10437)"
+     }
+    ],
+    "short_circuit": null,
+    "crit": {
+     "chance_pct": 20.0,
+     "draw": "roll_chance(float critChance): critChance > rand_chance(), rand_chance() = std::uniform_real_distribution<float>(0, 100) (binary32) -- Spell.cpp:8563, Random.h:54-58, Random.cpp:81-85",
+     "note": "SpellModOp::CritChance spellmods applied in SpellCritChanceDone (Unit.cpp:7168-7169) are a supplied input here"
+    },
+    "notes": [],
+    "probabilities": {
+     "none": 1.0
+    }
+   }
+  },
+  {
+   "id": "W4",
+   "label": "player L90 vs player L90 (front, shield, CanParry/CanBlock)",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": true,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 90,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 8.0,
+    "parry_percentage": 10.0,
+    "block_percentage": 30.0,
+    "can_parry": true,
+    "can_block": true,
+    "has_useable_weapon": true,
+    "has_useable_shield": true,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": true,
+       "chance_pct": 0.5,
+       "chance_bp": 50,
+       "lo": 0,
+       "hi": 50,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 2.5,
+       "chance_bp": 250,
+       "lo": 50,
+       "hi": 300,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 30.0,
+       "chance_bp": 3000,
+       "lo": 300,
+       "hi": 3300,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 3300,
+       "hi": 5300,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -914.1,
+       "chance_bp": -91410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 5300,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.3,
+      "crit": 0.2,
+      "dodge": 0.005,
+      "normal": 0.47,
+      "parry": 0.025
+     }
+    }
+   }
+  },
+  {
+   "id": "W4b",
+   "label": "player L90 vs player L90, sitting",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": true,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 90,
+    "evading": false,
+    "stand_state": false,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 8.0,
+    "parry_percentage": 10.0,
+    "block_percentage": 30.0,
+    "can_parry": true,
+    "can_block": true,
+    "has_useable_weapon": true,
+    "has_useable_shield": true,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": true,
+       "chance_pct": 0.5,
+       "chance_bp": 50,
+       "lo": 0,
+       "hi": 50,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 2.5,
+       "chance_bp": 250,
+       "lo": 50,
+       "hi": 300,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 30.0,
+       "chance_bp": 3000,
+       "lo": 300,
+       "hi": 3300,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 3300,
+       "hi": 5300,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -914.1,
+       "chance_bp": -91410,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 5300,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": true,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "crit": 1.0
+     }
+    }
+   }
+  },
+  {
+   "id": "W5",
+   "label": "boss NPC L93 attacking player L90 (front)",
+   "attacker": {
+    "is_player": false,
+    "is_pet": false,
+    "is_controlled_by_player": false,
+    "level_for_target": 93,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 5.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": true,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 90,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 8.0,
+    "parry_percentage": 10.0,
+    "block_percentage": 30.0,
+    "can_parry": true,
+    "can_block": true,
+    "has_useable_weapon": true,
+    "has_useable_shield": true,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 5.0,
+       "chance_bp": 500,
+       "lo": 0,
+       "hi": 500,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": true,
+       "chance_pct": 8.0,
+       "chance_bp": 800,
+       "lo": 500,
+       "hi": 1300,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 10.0,
+       "chance_bp": 1000,
+       "lo": 1300,
+       "hi": 2300,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 30.0,
+       "chance_bp": 3000,
+       "lo": 2300,
+       "hi": 5300,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 5.0,
+       "chance_bp": 500,
+       "lo": 5300,
+       "hi": 5800,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -914.07,
+       "chance_bp": -91407,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 5800,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.3,
+      "crit": 0.05,
+      "dodge": 0.08,
+      "miss": 0.05,
+      "normal": 0.42,
+      "parry": 0.1
+     }
+    }
+   }
+  },
+  {
+   "id": "W5b",
+   "label": "boss NPC L93 dual-wielding attacking player L90",
+   "attacker": {
+    "is_player": false,
+    "is_pet": false,
+    "is_controlled_by_player": false,
+    "level_for_target": 93,
+    "have_offhand_weapon": true,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 5.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": true,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 90,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 8.0,
+    "parry_percentage": 10.0,
+    "block_percentage": 30.0,
+    "can_parry": true,
+    "can_block": true,
+    "has_useable_weapon": true,
+    "has_useable_shield": true,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 24.0,
+       "chance_bp": 2400,
+       "lo": 0,
+       "hi": 2400,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": true,
+       "chance_pct": 8.0,
+       "chance_bp": 800,
+       "lo": 2400,
+       "hi": 3200,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 10.0,
+       "chance_bp": 1000,
+       "lo": 3200,
+       "hi": 4200,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 30.0,
+       "chance_bp": 3000,
+       "lo": 4200,
+       "hi": 7200,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 5.0,
+       "chance_bp": 500,
+       "lo": 7200,
+       "hi": 7700,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -914.07,
+       "chance_bp": -91407,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 7700,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.3,
+      "crit": 0.05,
+      "dodge": 0.08,
+      "miss": 0.24,
+      "normal": 0.23,
+      "parry": 0.1
+     }
+    },
+    "off": {
+     "attack_type": "off",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 24.0,
+       "chance_bp": 2400,
+       "lo": 0,
+       "hi": 2400,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": true,
+       "chance_pct": 8.0,
+       "chance_bp": 800,
+       "lo": 2400,
+       "hi": 3200,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 10.0,
+       "chance_bp": 1000,
+       "lo": 3200,
+       "hi": 4200,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 30.0,
+       "chance_bp": 3000,
+       "lo": 4200,
+       "hi": 7200,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 5.0,
+       "chance_bp": 500,
+       "lo": 7200,
+       "hi": 7700,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -914.07,
+       "chance_bp": -91407,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 7700,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.3,
+      "crit": 0.05,
+      "dodge": 0.08,
+      "miss": 0.24,
+      "normal": 0.23,
+      "parry": 0.1
+     }
+    }
+   }
+  },
+  {
+   "id": "W6",
+   "label": "boss NPC L93 attacking Protection Warrior L90 (187: -6 crit)",
+   "attacker": {
+    "is_player": false,
+    "is_pet": false,
+    "is_controlled_by_player": false,
+    "level_for_target": 93,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 5.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": true,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 90,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 8.0,
+    "parry_percentage": 15.0,
+    "block_percentage": 30.0,
+    "can_parry": true,
+    "can_block": true,
+    "has_useable_weapon": true,
+    "has_useable_shield": true,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": -6.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 5.0,
+       "chance_bp": 500,
+       "lo": 0,
+       "hi": 500,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": true,
+       "chance_pct": 8.0,
+       "chance_bp": 800,
+       "lo": 500,
+       "hi": 1300,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 15.0,
+       "chance_bp": 1500,
+       "lo": 1300,
+       "hi": 2800,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 30.0,
+       "chance_bp": 3000,
+       "lo": 2800,
+       "hi": 5800,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -914.07,
+       "chance_bp": -91407,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": 5800,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [],
+     "probabilities": {
+      "block": 0.3,
+      "dodge": 0.08,
+      "miss": 0.05,
+      "normal": 0.42,
+      "parry": 0.15
+     }
+    }
+   }
+  },
+  {
+   "id": "W7",
+   "label": "melee-class spell (dmg class MELEE) vs boss NPC L93 (front)",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "spell": {
+    "spell_id": 0,
+    "dmg_class_ranged": false,
+    "no_avoidance": false,
+    "no_active_defense": false,
+    "no_attack_dodge": false,
+    "no_attack_parry": false,
+    "no_attack_block": false,
+    "no_attack_miss": false,
+    "req_caster_behind_target": false,
+    "hit_chance_spellmod_pct": 0.0,
+    "always_hit": false,
+    "can_crit": true,
+    "positive": false
+   },
+   "table": {
+    "attack_type": "base",
+    "roll": "urand(0, 9999) once (Unit.cpp:2633)",
+    "bands": [
+     {
+      "result": "miss",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "uint32(MeleeSpellMissChance * 100.0f) (:2635-2640)"
+     },
+     {
+      "result": "resist",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "int32 resist_chance = GetMechanicResistChance * 100.0f (:2643-2646)"
+     },
+     {
+      "result": "dodge",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "canDodge (:2724-2731)"
+     },
+     {
+      "result": "parry",
+      "eligible": true,
+      "chance_pct": 3.0,
+      "chance_bp": 300,
+      "lo": 0,
+      "hi": 300,
+      "reason": "canParry (:2735-2743)"
+     },
+     {
+      "result": "block",
+      "eligible": true,
+      "chance_pct": 7.5,
+      "chance_bp": 750,
+      "lo": 300,
+      "hi": 1050,
+      "reason": "canBlock (:2746-2754); a blocked spell is a full block (createProcHitMask, Unit.cpp:10435-10437)"
+     }
+    ],
+    "short_circuit": null,
+    "crit": {
+     "chance_pct": 20.0,
+     "draw": "roll_chance(float critChance): critChance > rand_chance(), rand_chance() = std::uniform_real_distribution<float>(0, 100) (binary32) -- Spell.cpp:8563, Random.h:54-58, Random.cpp:81-85",
+     "note": "SpellModOp::CritChance spellmods applied in SpellCritChanceDone (Unit.cpp:7168-7169) are a supplied input here"
+    },
+    "notes": [],
+    "probabilities": {
+     "block": 0.075,
+     "none": 0.895,
+     "parry": 0.03
+    }
+   }
+  },
+  {
+   "id": "W7b",
+   "label": "melee-class spell with NO_ATTACK_DODGE|PARRY|BLOCK vs boss",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 90,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "spell": {
+    "spell_id": 0,
+    "dmg_class_ranged": false,
+    "no_avoidance": false,
+    "no_active_defense": false,
+    "no_attack_dodge": true,
+    "no_attack_parry": true,
+    "no_attack_block": true,
+    "no_attack_miss": false,
+    "req_caster_behind_target": false,
+    "hit_chance_spellmod_pct": 0.0,
+    "always_hit": false,
+    "can_crit": true,
+    "positive": false
+   },
+   "table": {
+    "attack_type": "base",
+    "roll": "urand(0, 9999) once (Unit.cpp:2633)",
+    "bands": [
+     {
+      "result": "miss",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "uint32(MeleeSpellMissChance * 100.0f) (:2635-2640)"
+     },
+     {
+      "result": "resist",
+      "eligible": true,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": 0,
+      "hi": 0,
+      "reason": "int32 resist_chance = GetMechanicResistChance * 100.0f (:2643-2646)"
+     },
+     {
+      "result": "dodge",
+      "eligible": false,
+      "chance_pct": 0.0,
+      "chance_bp": 0,
+      "lo": null,
+      "hi": null,
+      "reason": "canDodge (:2724-2731)"
+     },
+     {
+      "result": "parry",
+      "eligible": false,
+      "chance_pct": 3.0,
+      "chance_bp": 300,
+      "lo": null,
+      "hi": null,
+      "reason": "canParry (:2735-2743)"
+     },
+     {
+      "result": "block",
+      "eligible": false,
+      "chance_pct": 7.5,
+      "chance_bp": 750,
+      "lo": null,
+      "hi": null,
+      "reason": "canBlock (:2746-2754); a blocked spell is a full block (createProcHitMask, Unit.cpp:10435-10437)"
+     }
+    ],
+    "short_circuit": null,
+    "crit": {
+     "chance_pct": 20.0,
+     "draw": "roll_chance(float critChance): critChance > rand_chance(), rand_chance() = std::uniform_real_distribution<float>(0, 100) (binary32) -- Spell.cpp:8563, Random.h:54-58, Random.cpp:81-85",
+     "note": "SpellModOp::CritChance spellmods applied in SpellCritChanceDone (Unit.cpp:7168-7169) are a supplied input here"
+    },
+    "notes": [],
+    "probabilities": {
+     "none": 1.0
+    }
+   }
+  },
+  {
+   "id": "W8",
+   "label": "glancing probe: player L86 vs NPC L93 (unreachable at cap; shows the constant)",
+   "attacker": {
+    "is_player": true,
+    "is_pet": false,
+    "is_controlled_by_player": true,
+    "level_for_target": 86,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 20.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": false,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 93,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 0.0,
+    "parry_percentage": 0.0,
+    "block_percentage": 0.0,
+    "can_parry": false,
+    "can_block": false,
+    "has_useable_weapon": true,
+    "has_useable_shield": false,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": true,
+       "chance_pct": 6.0,
+       "chance_bp": 600,
+       "lo": 0,
+       "hi": 600,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 9.0,
+       "chance_bp": 900,
+       "lo": 600,
+       "hi": 1500,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": true,
+       "chance_pct": 80.0,
+       "chance_bp": 8000,
+       "lo": 1500,
+       "hi": 9500,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 13.5,
+       "chance_bp": 1350,
+       "lo": 9500,
+       "hi": 10850,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 20.0,
+       "chance_bp": 2000,
+       "lo": 10850,
+       "hi": 12850,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": false,
+       "chance_pct": -944.14,
+       "chance_bp": -94414,
+       "lo": null,
+       "hi": null,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [
+      "sum of eligible bands = 12850 > 10000: later bands are partially/fully unreachable"
+     ],
+     "probabilities": {
+      "block": 0.05,
+      "dodge": 0.06,
+      "glancing": 0.8,
+      "parry": 0.09
+     }
+    }
+   }
+  },
+  {
+   "id": "W9",
+   "label": "crushing probe: NPC L97 vs player L90 (eligible, arithmetically dead)",
+   "attacker": {
+    "is_player": false,
+    "is_pet": false,
+    "is_controlled_by_player": false,
+    "level_for_target": 97,
+    "have_offhand_weapon": false,
+    "in_feral_form": false,
+    "current_melee_spell": false,
+    "ignore_dual_wield_penalty": false,
+    "mod_melee_hit_chance": null,
+    "mod_ranged_hit_chance": null,
+    "mod_hit_chance_aura": 0.0,
+    "crit_done_pct": 5.0,
+    "creature_no_crit": false,
+    "creature_weapon_crit_aura": 0.0,
+    "creature_crit_pct_aura": 0.0,
+    "autoattack_crit_aura": 0.0,
+    "expertise_mainhand": 0,
+    "expertise_offhand": 0,
+    "creature_expertise_aura": 0.0,
+    "mod_combat_result_dodge_aura": 0.0,
+    "mod_enemy_dodge_aura": 0.0,
+    "creature_no_crushing": false,
+    "is_temp_summon": false,
+    "ignore_combat_result": [],
+    "has_spell_mod_owner": false
+   },
+   "victim": {
+    "is_player": true,
+    "is_pet": false,
+    "is_totem": false,
+    "level_for_target": 90,
+    "evading": false,
+    "stand_state": true,
+    "facing_attacker": true,
+    "ignore_hit_direction": false,
+    "casting": false,
+    "controlled": false,
+    "dodge_percentage": 8.0,
+    "parry_percentage": 10.0,
+    "block_percentage": 30.0,
+    "can_parry": true,
+    "can_block": true,
+    "has_useable_weapon": true,
+    "has_useable_shield": true,
+    "creature_no_parry": false,
+    "creature_no_block": false,
+    "mod_dodge_percent_aura": 0.0,
+    "mod_parry_percent_aura": 0.0,
+    "mod_block_percent_aura": 0.0,
+    "attacker_melee_crit_aura": 0.0,
+    "crit_vs_target_health_aura": 0.0,
+    "crit_for_caster_aura": 0.0,
+    "crit_for_caster_pet_aura": 0.0,
+    "spell_and_weapon_crit_aura": 0.0,
+    "attacker_melee_hit_aura": 0.0,
+    "attacker_ranged_hit_aura": 0.0,
+    "mechanic_resist_pct": 0.0,
+    "deflect_aura": 0.0,
+    "block_crit_chance_aura": 0.0
+   },
+   "tables": {
+    "base": {
+     "attack_type": "base",
+     "roll": "urand(0, 9999) once (Unit.cpp:2410); damage was drawn first by CalculateDamage (Unit.cpp:1383 -> :2550)",
+     "bands": [
+      {
+       "outcome": "miss",
+       "eligible": true,
+       "chance_pct": 5.0,
+       "chance_bp": 500,
+       "lo": 0,
+       "hi": 500,
+       "reason": "always tested; tmp > 0 required (:2429-2431)"
+      },
+      {
+       "outcome": "dodge",
+       "eligible": true,
+       "chance_pct": 8.0,
+       "chance_bp": 800,
+       "lo": 500,
+       "hi": 1300,
+       "reason": "canDodge: creature victim, or player victim facing / IGNORE_HIT_DIRECTION; not casting/controlled (:2437-2443)"
+      },
+      {
+       "outcome": "parry",
+       "eligible": true,
+       "chance_pct": 10.0,
+       "chance_bp": 1000,
+       "lo": 1300,
+       "hi": 2300,
+       "reason": "canParryOrBlock: victim HasInArc(pi) or IGNORE_HIT_DIRECTION; not casting/controlled (:2446-2452)"
+      },
+      {
+       "outcome": "glancing",
+       "eligible": false,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": null,
+       "hi": null,
+       "reason": "attacker player/pet, victim creature non-pet, attackerLevel + 3 < victimLevel (:2456-2464)"
+      },
+      {
+       "outcome": "block",
+       "eligible": true,
+       "chance_pct": 30.0,
+       "chance_bp": 3000,
+       "lo": 2300,
+       "hi": 5300,
+       "reason": "canParryOrBlock (:2467-2473)"
+      },
+      {
+       "outcome": "crit",
+       "eligible": true,
+       "chance_pct": 5.0,
+       "chance_bp": 500,
+       "lo": 5300,
+       "hi": 5800,
+       "reason": "always tested; tmp > 0 required (:2476-2479)"
+      },
+      {
+       "outcome": "crushing",
+       "eligible": true,
+       "chance_pct": -914.03,
+       "chance_bp": -91403,
+       "lo": 5800,
+       "hi": -85603,
+       "reason": "attackerLevel >= victimLevel + 4, attacker not player-controlled, no NO_CRUSHING_BLOWS flag (:2483-2486); tmp = attackerLevel - victimLevel * 1000 - 1500 is negative for every level >= 2 (:2489) -> never selected"
+      },
+      {
+       "outcome": "normal",
+       "eligible": true,
+       "chance_pct": 0.0,
+       "chance_bp": 0,
+       "lo": -85603,
+       "hi": 10000,
+       "reason": "remainder (:2497-2498)"
+      }
+     ],
+     "sitting_auto_crit": false,
+     "evade": false,
+     "notes": [
+      "crushing eligible but arithmetically unreachable: tmp < 0 (Unit.cpp:2489)"
+     ],
+     "probabilities": {
+      "block": 0.3,
+      "crit": 0.05,
+      "dodge": 0.08,
+      "miss": 0.05,
+      "normal": 0.42,
+      "parry": 0.1
+     }
+    }
+   }
+  }
+ ]
+}

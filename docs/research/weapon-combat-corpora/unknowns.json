@@ -1,0 +1,746 @@
+[
+ {
+  "id": "C-1",
+  "track": "B",
+  "topic": "armor",
+  "claim_or_gap": "Max-level armor constant for players and player-owned pets needs ItemLevelByLevel[90]; the GameTable is absent from the snapshot",
+  "evidence_class": "unresolved",
+  "reopen_condition": "add ItemLevelByLevel.txt to data/tables and evaluate Curve 27400 at AvgItemLevel - ItemLevelByLevel[90]",
+  "witnesses": [
+   "ExpectedStat 475 ArmorConstant 3430",
+   "GlobalCurve 18 -> Curve 27400"
+  ],
+  "coordinates": [
+   "Unit.cpp:1756-1765",
+   "GameTables.cpp:127"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-2",
+  "track": "B",
+  "topic": "attack power",
+  "claim_or_gap": "Level-90 prepared attack power is not derivable: player_classlevelstats covers levels <= 80",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a level-90 base-stat source (Track F) or a supplied UnitData::AttackPower",
+  "witnesses": [
+   "witnesses-c.json (15)"
+  ],
+  "coordinates": [
+   "StatSystem.cpp:347-425"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-3",
+  "track": "B",
+  "topic": "glancing",
+  "claim_or_gap": "Glancing reachability for a level-90 player: 599 scalable creature_template_difficulty rows have LevelScalingDelta >= 4; ContentTuning level ranges not evaluated",
+  "evidence_class": "unresolved",
+  "reopen_condition": "evaluate DB2Manager::GetContentTuningData for those ContentTuningIDs and test 90+3 < clamp(90+delta_p, CTmin, CTmax)+delta",
+  "witnesses": [
+   "(385,0,4,CT81)",
+   "(23234,1,9,CT371)"
+  ],
+  "coordinates": [
+   "Unit.cpp:2458-2466",
+   "Creature.cpp:3131-3160",
+   "Creature.cpp:3059-3074"
+  ],
+  "owner": "part C",
+  "notes": "G2 closeout: superseded by part D's level census (witnesses-d.json legacy_verdicts.glancing.level_census): the ContentTuning ranges were evaluated; 19 rows / 13 entries reach +4 against a level-90 player, none on an ExpansionID-11 ContentTuning; current raid bosses are absent from the TDB (D-1). 599 counts rows with a ContentTuningID and delta >= 4 before the clamp.",
+  "related": [
+   "D-1",
+   "R2-5"
+  ]
+ },
+ {
+  "id": "C-4",
+  "track": "B",
+  "topic": "crushing",
+  "claim_or_gap": "Crushing blows need !IsControlledByPlayer(): unreachable for player and pet attackers",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "none for player attackers; creature attackers are agent D scope",
+  "witnesses": [],
+  "coordinates": [
+   "Unit.cpp:2485-2497",
+   "Unit.cpp:1483-1489"
+  ],
+  "owner": "part C",
+  "notes": "G2 closeout: incomplete rather than wrong. Independently of the IsControlledByPlayer() gate, the chance expression at Unit.cpp:2489 is negative for every attacker (levels are uint8 <= 255), so crushing is unselectable for creature attackers too (D-2, R2-3).",
+  "related": [
+   "D-2",
+   "R2-3"
+  ]
+ },
+ {
+  "id": "C-5",
+  "track": "B",
+  "topic": "armor penetration rating",
+  "claim_or_gap": "CR_ARMOR_PENETRATION is fed only by ITEM_MOD_ARMOR_PENETRATION_RATING (44); 0 ItemSparse rows carry it",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "an item or enchant with stat 44",
+  "witnesses": [],
+  "coordinates": [
+   "Player.cpp:8037",
+   "Unit.cpp:1715-1738"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-6",
+  "track": "B",
+  "topic": "resilience",
+  "claim_or_gap": "White-swing resilience needs GetOwnerGUID().IsPlayer(); a player's SummonedBy is empty, and PvE victims are a no-op",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "a PvP victim study",
+  "witnesses": [],
+  "coordinates": [
+   "Unit.cpp:1497-1504",
+   "Unit.cpp:12416-12438",
+   "Unit.h:1190"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-7",
+  "track": "B",
+  "topic": "offhand pct aura",
+  "claim_or_gap": "SPELL_AURA_MOD_OFFHAND_DAMAGE_PCT (122) has no carrier in either scope, so OFF TOTAL_PCT = 0.5 x physical DAMAGE_PERCENT_DONE",
+  "evidence_class": "structural-inference",
+  "reopen_condition": "a current player-scope spell with aura 122",
+  "witnesses": [],
+  "coordinates": [
+   "Unit.cpp:9781-9819"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-8",
+  "track": "B",
+  "topic": "player block",
+  "claim_or_gap": "Player::GetBlockPercent returns a fraction (<= 0.85) consumed as a percent: a player victim blocks <= 0.85% of a white swing (Unit.cpp:1459) and 0 of a weapon special, because the spell path truncates the percent to uint32 first (Unit.cpp:1239); agrees with agent D attack-table.json",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "an independent Retail oracle for player block amount",
+  "witnesses": [
+   "ShieldBlock 2000, C 3430: 368 of 100000"
+  ],
+  "coordinates": [
+   "Player.cpp:26822-26831",
+   "Unit.cpp:1459",
+   "Unit.cpp:1239",
+   "Unit.cpp:1246-1252"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-9",
+  "track": "B",
+  "topic": "critical block",
+  "claim_or_gap": "SPELL_AURA_MOD_CRITICAL_BLOCK_AMOUNT is read from the attacker (this), not from the blocking victim; 429638 Martial Expert (specs 71/73) never scales the warrior's own blocks",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "an independent oracle for aura 638 ownership",
+  "witnesses": [
+   "429638",
+   "76857"
+  ],
+  "coordinates": [
+   "Unit.cpp:1460-1464",
+   "Unit.cpp:2575-2580",
+   "Unit.cpp:1242-1243"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-10",
+  "track": "B",
+  "topic": "special addPctMods",
+  "claim_or_gap": "addPctMods=false (ATTR6 or a non-physical school) recomputes the weapon range with totalPct=1, which also drops the 0.5 off-hand factor (205547 Odyn's Fury OH)",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "Retail combat-log evidence for off-hand non-physical weapon specials",
+  "witnesses": [
+   "205546",
+   "205547",
+   "209577",
+   "467718"
+  ],
+  "coordinates": [
+   "SpellEffects.cpp:2887-2908",
+   "Unit.cpp:2506-2516",
+   "StatSystem.cpp:450"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-11",
+  "track": "B",
+  "topic": "special double count",
+  "claim_or_gap": "The second EffectWeaponDmg loop re-adds the summed fixed_bonus per fixed effect and re-multiplies the pct product per pct effect, in index order",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "a player-scope spell with two fixed or two pct effects on one target (0 now; 9 snapshot-wide at DifficultyID 0)",
+  "witnesses": [
+   "56920",
+   "110956",
+   "129375",
+   "131976",
+   "246092",
+   "251601",
+   "316037",
+   "324836",
+   "332292"
+  ],
+  "coordinates": [
+   "SpellEffects.cpp:2911-2935"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-12",
+  "track": "B",
+  "topic": "special order",
+  "claim_or_gap": "31 before 58/121 gives (roll*pct)+fixed; in scope only with fixed base points 0 (inert): 204147 Windburst, 209577 Warbreaker",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "a scope spell with pct before a non-zero fixed effect",
+  "witnesses": [
+   "204147",
+   "209577",
+   "220143"
+  ],
+  "coordinates": [
+   "SpellEffects.cpp:2911-2935"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-13",
+  "track": "B",
+  "topic": "crit UB",
+  "claim_or_gap": "A MOD_CRIT_DAMAGE_BONUS product < 1 makes CalculatePct<uint32,float> convert a negative float to uint32 (UB); g++13 x86-64 wraps",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "an in-scope negative aura-163 amount (only 139883, 154429 snapshot-wide)",
+  "witnesses": [
+   "139883",
+   "154429"
+  ],
+  "coordinates": [
+   "Unit.cpp:1428-1434",
+   "Util.h:71-75"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-14",
+  "track": "B",
+  "topic": "ghost wolf",
+  "claim_or_gap": "Current Ghost Wolf (2645) applies SpellShapeshiftForm 48; Trinity's IsInFeralForm tests FORM_GHOST_WOLF = 16",
+  "evidence_class": "unresolved",
+  "reopen_condition": "12.0.7 SpellEffect for 2645 (build-skew check) or a Trinity enum update",
+  "witnesses": [
+   "2645"
+  ],
+  "coordinates": [
+   "Unit.cpp:9539-9543",
+   "SpellAuraDefines.h:778"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-15",
+  "track": "B",
+  "topic": "non-feral CRT forms",
+  "claim_or_gap": "Forms 44/45/46/49 carry CombatRoundTime (44 Xuen = 1) and would scale every hand; only 426268 applies form 46 and it is not in scope",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "a current in-scope applier of forms 44-49",
+  "witnesses": [
+   "426268"
+  ],
+  "coordinates": [
+   "StatSystem.cpp:458-464",
+   "Player.cpp:23384-23393"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-16",
+  "track": "B",
+  "topic": "feral normalized",
+  "claim_or_gap": "A feral normalized special recomputes BASE+OFF ranges and would add the halved OFF AP term; no druid spec reaches a weapon-effect spell",
+  "evidence_class": "structural-inference",
+  "reopen_condition": "a druid weapon-effect spell in scope",
+  "witnesses": [],
+  "coordinates": [
+   "Unit.cpp:2506-2516"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-17",
+  "track": "B",
+  "topic": "special spellmods",
+  "claim_or_gap": "Spell::CalculateDamage spellmods / ApplyEffectModifiers are not modelled; effect values are supplied base points",
+  "evidence_class": "unresolved",
+  "reopen_condition": "model SpellModOp for the 11 class-line weapon spells",
+  "witnesses": [
+   "special-attacks.json"
+  ],
+  "coordinates": [
+   "Spell.cpp:7196",
+   "SpellInfo.cpp:602-622"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-18",
+  "track": "B",
+  "topic": "absorb and scripts",
+  "claim_or_gap": "CalcAbsorbResist and ScriptMgr::ModifyMeleeDamage are not modelled",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a victim-aura model; script index lookups",
+  "witnesses": [],
+  "coordinates": [
+   "Unit.cpp:1387",
+   "Unit.cpp:1507-1524"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-19",
+  "track": "B",
+  "topic": "build skew",
+  "claim_or_gap": "91 weapon-effect spells are newer than the pinned client build and have no possible consumer",
+  "evidence_class": "build-skew",
+  "reopen_condition": "a Trinity update supporting 12.1",
+  "witnesses": [],
+  "coordinates": [
+   "docs/research/dummy-corpora/build-skew.json"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-20",
+  "track": "B",
+  "topic": "default skill grants",
+  "claim_or_gap": "dummy_semantics Scope misses default-skill spells (SkillLine CategoryID != 7), e.g. 674 Dual Wield for Hunter/Rogue/Demon Hunter",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "extend Scope with the SkillRaceClassInfo Availability==1 path",
+  "witnesses": [
+   "674",
+   "SRCI 131",
+   "SRCI 1661",
+   "SLA 610"
+  ],
+  "coordinates": [
+   "ObjectMgr.cpp:4061-4070",
+   "Player.cpp:25259-25300",
+   "Player.cpp:25391-25440"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-21",
+  "track": "B",
+  "topic": "weapon AP destination",
+  "claim_or_gap": "Contradicts character-stat-pipeline-archaeology.md:298-300: weapon int32(dps*6) goes to UnitData::*WeaponAttackPower, not TOTAL_VALUE, and is excluded from white-swing min/max",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "none (source fact); correct the charstats report",
+  "witnesses": [],
+  "coordinates": [
+   "Player.cpp:8163-8176",
+   "Player.cpp:8022-8024",
+   "StatSystem.cpp:447",
+   "Unit.cpp:9919-9947"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "C-22",
+  "track": "B",
+  "topic": "creature armor",
+  "claim_or_gap": "The damage view uses ExpectedStat.CreatureArmor 1470 without creature_template_difficulty.ArmorModifier",
+  "evidence_class": "structural-inference",
+  "reopen_condition": "Track A/B creature armor derivation",
+  "witnesses": [],
+  "coordinates": [
+   "Creature.cpp:3120-3128"
+  ],
+  "owner": "part C"
+ },
+ {
+  "id": "D-1",
+  "track": "B",
+  "topic": "glancing vs current raid bosses",
+  "claim_or_gap": "Level delta (creature_template_difficulty.LevelScalingDeltaMin/Max) of the 9 encounters of JournalInstance 1317/1320 (maps 2987/3004) is unknown: the creatures are absent from TDB 1200.26021. Glancing needs a creature level >= 94 against a level-90 player; the pinned DB has 0 ExpansionID-11 rows reaching +4.",
+  "evidence_class": "build-skew",
+  "reopen_condition": "a TDB containing those creature_template_difficulty rows with LevelScalingDeltaMax >= 4",
+  "witnesses": [
+   "JournalEncounter 2849, 2871, 2874, 2882, 2883, 2887, 2888, 2894, 2895"
+  ],
+  "coordinates": [
+   "Unit.cpp:2455-2464",
+   "Creature.cpp:3060-3075",
+   "Creature.cpp:3130-3160"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-2",
+  "track": "B",
+  "topic": "crushing blows",
+  "claim_or_gap": "Crushing is eligible for a +4 non-player-controlled creature but unselectable: tmp = attackerLevel - victimLevel * 1000 - 1500 is negative and every earlier band already failed roll < sum.",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "TrinityCore changes Unit.cpp:2489 and a +4 creature exists",
+  "witnesses": [
+   "W9 (creature level 97 vs player level 90)"
+  ],
+  "coordinates": [
+   "Unit.cpp:2481-2494"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-3",
+  "track": "B",
+  "topic": "ContentTuning schema mapping",
+  "claim_or_gap": "12.1 ContentTuning columns (MinLevelSquish, MaxLevelSquish, MinLevelScalingOffset, MaxLevelScalingOffset, AllowedMin/MaxOffset, LfgMin/MaxLevel) are mapped positionally onto Trinity's ContentTuningEntry (MinLevel, MaxLevel, MinLevelType, MaxLevelType, TargetLevelDelta, TargetLevelMaxDelta, TargetLevelMin/Max).",
+  "evidence_class": "structural-inference",
+  "reopen_condition": "a 12.1-aware ContentTuningLoadInfo or an authoritative schema diff",
+  "witnesses": [
+   "ContentTuning 373, 846, 5850, 7359"
+  ],
+  "coordinates": [
+   "DB2Structure.h:984-1004",
+   "DB2Stores.cpp:2192-2237"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-4",
+  "track": "B",
+  "topic": "level census assumptions",
+  "claim_or_gap": "The +4 level census ignores ConditionalContentTuning redirects, MaxCreatureScalingLevel, ScalingPlayerLevelDelta and ScalingFactionGroup.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "model GetRedirectedContentTuningId and the player scaling fields",
+  "witnesses": [],
+  "coordinates": [
+   "Creature.cpp:3130-3160",
+   "DB2Stores.cpp:2194"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-5",
+  "track": "B",
+  "topic": "block amount units",
+  "claim_or_gap": "Player::GetBlockPercent returns a fraction (<= 0.85) that CalculatePct consumes as a percent (a player blocks ~0.37% of a white hit at ShieldBlock 2000) and that the spell path truncates to uint32 0; creatures return 30.0f. This is a consumer fact, not Retail truth.",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "an upstream Trinity fix or Retail block-amount evidence",
+  "witnesses": [
+   "Protection Warrior 1258163 / 386011 / 76857 / 429638",
+   "Protection Paladin 76671"
+  ],
+  "coordinates": [
+   "Player.cpp:26822-26831",
+   "Unit.h:987",
+   "Unit.cpp:1459",
+   "Unit.cpp:1239"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-6",
+  "track": "B",
+  "topic": "haste apply/remove drift",
+  "claim_or_gap": "binary32 ApplyPercentModFloatVar apply+remove leaves m_modAttackSpeedPct below 1.0 for many amounts (190/1000 integer cases; in scope: 3, 5, 15), so the period comes out 1 ms short (2600 -> 2599). The drift is bounded (a fixed point).",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "Retail swing-timer evidence, or an engine that stores haste differently",
+  "witnesses": [
+   "382889 Flurry",
+   "404542 Crusading Strikes",
+   "386196 Berserker Stance",
+   "390354 Furious Blows"
+  ],
+  "coordinates": [
+   "Unit.cpp:10978-11007"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-7",
+  "track": "B",
+  "topic": "auto-repeat exemptions keyed on spell 75",
+  "claim_or_gap": "Only spell 75 is exempt from cast/channel interruption; 467718 Bleak Arrows (the only auto-repeat spell in scope) is interrupted by any cast. Auto Shot 75 is learned via SkillLine 183 (category 12) and lies outside Scope.",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "Retail observation of Bleak Arrows vs casts",
+  "witnesses": [
+   "75",
+   "467718"
+  ],
+  "coordinates": [
+   "Unit.cpp:3028-3033",
+   "Unit.cpp:3104-3106",
+   "Unit.cpp:3119-3122",
+   "Unit.cpp:3133"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-8",
+  "track": "B",
+  "topic": "extra attacks / on-next-swing",
+  "claim_or_gap": "0 SPELL_EFFECT_ADD_EXTRA_ATTACKS and 0 ON_NEXT_SWING[_NO_DAMAGE] spells are reachable in scope or class skills (catalog 28 / 189 / 396, none build-skew).",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "a reachable spell with that effect or attribute (e.g. a Windfury-like current item effect)",
+  "witnesses": [
+   "32910",
+   "465660",
+   "465661",
+   "1270413"
+  ],
+  "coordinates": [
+   "Unit.cpp:441-454",
+   "Unit.cpp:2292-2293",
+   "SpellEffects.cpp:3688-3701"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-9",
+  "track": "B",
+  "topic": "hit / expertise / avoidance ratings",
+  "claim_or_gap": "No ExpansionID-11 item carries stat 13/14/15/31/37 and no in-scope MOD_RATING aura sets CR_HIT (5-7) or CR_EXPERTISE (23) bits; only aura 240 (+3, five tank passives) and the flat 7.5 base values are reachable.",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "an item stat or MOD_RATING bit providing those ratings",
+  "witnesses": [
+   "105805",
+   "137008",
+   "320380",
+   "1258153",
+   "1258163"
+  ],
+  "coordinates": [
+   "Player.cpp:7991-8021",
+   "StatSystem.cpp:753-796",
+   "Player.cpp:5216-5229"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-10",
+  "track": "B",
+  "topic": "zero-amount mastery-driven table auras",
+  "claim_or_gap": "Aura 253 (76857), aura 51 (76671, 76857) and aura 458 (184362) have DB2 base amount 0; the effective block-crit / block values come from mastery or scripts and are not derived here.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "part-C / charstats mastery scalar joined to these effects",
+  "witnesses": [
+   "76857",
+   "76671"
+  ],
+  "coordinates": [
+   "Unit.cpp:2575-2580",
+   "Unit.cpp:2863"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-11",
+  "track": "B",
+  "topic": "blocked weapon spells",
+  "claim_or_gap": "SPELL_MISS_BLOCK without SPELL_ATTR3_COMPLETELY_BLOCKED still runs effects and deals damage, but the proc hit mask is BLOCK|FULL_BLOCK and the crit roll is skipped (a blocked weapon spell never crits).",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "Retail evidence of crit+block on weapon abilities",
+  "witnesses": [
+   "1776 Gouge (COMPLETELY_BLOCKED)",
+   "Auto Shot 75"
+  ],
+  "coordinates": [
+   "Spell.cpp:2763-2766",
+   "Spell.cpp:8540-8563",
+   "Unit.cpp:10433-10438",
+   "Unit.cpp:1235-1252"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "D-12",
+  "track": "B",
+  "topic": "SpellModOp HitChance / CritChance",
+  "claim_or_gap": "The oracle treats the HitChance spellmod as an additive supplied input; flat-vs-pct ordering of ApplySpellMod is not modelled.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a spellmod oracle (proc/spellmod research)",
+  "witnesses": [],
+  "coordinates": [
+   "Unit.cpp:12468-12473",
+   "Unit.cpp:7168-7169"
+  ],
+  "owner": "part D"
+ },
+ {
+  "id": "R2-1",
+  "track": "B",
+  "topic": "white-swing RNG stream",
+  "claim_or_gap": "A white swing makes more distribution calls than the damage roll, the outcome roll and the block-crit roll: CalcSpellResistedDamage rand_norm() for a magic-school weapon, DealDamage durability roll_chance(float RATE_DURABILITY_LOSS_DAMAGE, default 0.5) once for a player victim and once for a player attacker when damage > 0 and the victim survives (each followed by urand(0, EQUIPMENT_SLOT_END-1) on success), the creature daze roll and the item/aura proc rolls. Engine-output consumption per call is not modelled (uniform_int_distribution may reject). A stream-exact replay of Trinity's SFMT RNG is therefore unresolved; the per-swing outcome probabilities are unaffected.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a requirement to reproduce Trinity's RNG stream exactly; then model every call site above with the host's World.conf rates and libstdc++'s distribution algorithms",
+  "witnesses": [
+   "DurabilityLossChance.Damage default 0.5"
+  ],
+  "coordinates": [
+   "Unit.cpp:1090-1107",
+   "Unit.cpp:1775-1799",
+   "Unit.cpp:1573-1594",
+   "Unit.cpp:2410",
+   "Unit.cpp:2550",
+   "Unit.cpp:2575-2580",
+   "World/World.cpp:1015",
+   "common/Utilities/Random.cpp:42-47"
+  ],
+  "related": [
+   "D-11"
+  ],
+  "owner": "G2 closeout"
+ },
+ {
+  "id": "R2-2",
+  "track": "B",
+  "topic": "Arms / Protection dual wield capability",
+  "claim_or_gap": "weapon-sources.json listed 296087 (SkillLineAbility 40461, skill 840, AcquireMethod 0) as a dual-wield grant for specs 71/72/73, so `weapon`, the Track C hook and witnesses-c reported dual_wield=true for Arms and Protection. Fixed: AcquireMethod-0 class-line grants now sit in capability_by_spec_learned_only and count only when the caller supplies the spell as learned (--learned-spell / identity.learned_spells). Arms/Protection dual wield is character state.",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "a Trinity consumer or snapshot data source that teaches 296087/296088 automatically, or a fixture that supplies learned spells",
+  "witnesses": [
+   "296087",
+   "296088",
+   "arms-warrior-plate-2h (compiled fixture still embeds the old hook capability until Track C fixtures are regenerated)"
+  ],
+  "coordinates": [
+   "Entities/Player/Player.cpp:25404-25417",
+   "DataStores/DBCEnums.h:2362"
+  ],
+  "related": [
+   "E-5",
+   "C-20"
+  ],
+  "owner": "G2 closeout"
+ },
+ {
+  "id": "R2-3",
+  "track": "B",
+  "topic": "crushing blows (all attackers)",
+  "claim_or_gap": "tmp = attackerLevel - victimLevel * 1000 - 1500 is int32 arithmetic on uint8 levels (<= 255), so tmp < 0 for every attacker type; because every earlier band that was added failed roll < sum, roll >= sum holds on entry and roll < sum + tmp is false. Crushing is dead code for creatures as well as players and pets, independent of data.",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "an upstream change to Unit.cpp:2489 (e.g. (attackerLevel - victimLevel) * 1000 + 1500) together with a creature >= victim + 4",
+  "witnesses": [
+   "W9 (97 vs 90) in attack-table.json"
+  ],
+  "coordinates": [
+   "Entities/Unit/Unit.cpp:2481-2494",
+   "Entities/Unit/Unit.cpp:2410-2413"
+  ],
+  "related": [
+   "C-4",
+   "D-2"
+  ],
+  "owner": "G2 closeout"
+ },
+ {
+  "id": "R2-4",
+  "track": "B",
+  "topic": "legacy rating inputs (all item sources)",
+  "claim_or_gap": "Hit (31), expertise (37), armor penetration (44) and block (15) rating are absent from every ItemSparse row and every SpellItemEnchantment stat effect; dodge (13) / parry (14) survive only on 1,785 legacy items (ExpansionID <= 10; one of each at ExpansionID 10), on 375 legacy enchants (IDs <= 5260, MaxLevel <= 35) and in the legacy bonus lists 6676 (block) / 6677 (dodge), none of which the current gear corpus uses. The §10 verdicts previously rested on the 7,812 ExpansionID-11 items only.",
+  "evidence_class": "db2-fact",
+  "reopen_condition": "a current item, bonus list, gem or enchant carrying stat 13/14/15/31/37/44, or a MOD_RATING aura in scope with bit 5-7, 2-4, 23 or 24",
+  "witnesses": [
+   "ItemBonus 12830/12831",
+   "SpellItemEnchantment 5260"
+  ],
+  "coordinates": [
+   "Entities/Player/Player.cpp:7991-8037",
+   "Entities/Unit/StatSystem.cpp:753-796"
+  ],
+  "related": [
+   "F-10"
+  ],
+  "owner": "G2 closeout"
+ },
+ {
+  "id": "R2-5",
+  "track": "B",
+  "topic": "glancing damage factor",
+  "claim_or_gap": "Whenever the chance path selects glancing (attacker GetLevelForTarget + 3 < victim GetLevelForTarget), the damage path's raw levels give leveldif >= 4, because a scalable creature's raw level is ScalingLevelMax + delta (Creature.cpp:1618) >= its GetLevelForTarget. leveldif is therefore capped to 3 and the factor is 1.f - 3*0.1f = 0.69999999f (1000 -> 700, probe). The negative-leveldif CleanDamage wrap is unreachable from that path.",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "a script or path that sets a creature's raw level below its GetLevelForTarget (Creature::SetLevel after SelectLevel), or a player attacker whose GetLevel differs from the level the victim scales to",
+  "witnesses": [
+   "probe: glancing 1000 90 94 -> 700 300"
+  ],
+  "coordinates": [
+   "Entities/Unit/Unit.cpp:1470-1483",
+   "Entities/Unit/Unit.cpp:2455-2464",
+   "Entities/Creature/Creature.cpp:1614-1620",
+   "Entities/Creature/Creature.cpp:3130-3160"
+  ],
+  "related": [
+   "C-3",
+   "D-1"
+  ],
+  "owner": "G2 closeout"
+ },
+ {
+  "id": "R2-6",
+  "track": "B",
+  "topic": "MH/OH same-update exception",
+  "claim_or_gap": "The 'MH and OH never swing in the same update' rule holds for DoMeleeAttackIfReady only. Queued extra attacks are drained earlier in the same Unit::Update as BASE_ATTACK swings without touching timers, so an extra MH swing and a regular OH swing can share an update.",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "a reachable SPELL_EFFECT_ADD_EXTRA_ATTACKS spell in scope (0 today; 28 in the catalog)",
+  "witnesses": [
+   "32910 Windfury (catalog only)"
+  ],
+  "coordinates": [
+   "Entities/Unit/Unit.cpp:441-454",
+   "Entities/Unit/Unit.cpp:2210-2242"
+  ],
+  "related": [],
+  "owner": "G2 closeout"
+ },
+ {
+  "id": "L-4",
+  "track": "B",
+  "topic": "Arms dual wield (lead ruling)",
+  "claim_or_gap": "Parts C and E disagreed on Arms dual wield. 296087 is SkillLineAbility 40461 with AcquireMethod 0 (Learned), skipped by Player::LearnSkillRewardedSpells; it is taught only by 296088 'Learn Dual Wield', which no DB2, world-DB or script path grants. Arms/Protection dual wield is learned-spell character state, supplied through the fixture's learned_spells section.",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "a Retail character export listing 296087 or 296088 as known, or a data source that grants 296088",
+  "witnesses": [
+   "296087",
+   "296088",
+   "SkillLineAbility 40461"
+  ],
+  "coordinates": [
+   "Entities/Player/Player.cpp:25404-25417",
+   "DataStores/DBCEnums.h:2360-2367"
+  ],
+  "related": [
+   "R2-2",
+   "E-5"
+  ],
+  "owner": "lead"
+ },
+ {
+  "id": "R4-3",
+  "track": "B",
+  "topic": "CalculatePct binary32 boundary",
+  "claim_or_gap": "CalculatePct<uint32,float>(base, 30) = uint32(base * 30.0f / 100.0f) first differs from the binary64 result at base 2,236,990 (671,096 vs 671,097; compiled tc_weapon_probe `pct` and a binary32 emulation agree). 16,777,219 is a discriminating value, not the lower bound, and not every larger base discriminates. Whether a white-swing or weapon-special amount fed to a 30 % CalculatePct (creature block, crit AddPct) reaches the millions in current content is not established.",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "a damage-magnitude census showing a CalculatePct input at or above 2,236,990 in current content, or a Trinity change of the template to double",
+  "witnesses": [
+   "CalculatePct(2236990, 30)",
+   "CalculatePct(16777219, 30)"
+  ],
+  "coordinates": [
+   "common/Utilities/Util.h:71-75",
+   "Entities/Unit/Unit.cpp:1459"
+  ],
+  "related": [
+   "C-8",
+   "C-13"
+  ],
+  "owner": "G4"
+ }
+]

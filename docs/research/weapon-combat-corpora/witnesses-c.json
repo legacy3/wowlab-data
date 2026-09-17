@@ -1,0 +1,3655 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 weapon_combat.py witnesses",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2",
+  "gear_corpus": "docs/research/gearing-corpora/current-gear-corpus.json",
+  "gear_corpus_sha256": "045f40955605361012d6560f6abd59d17dfd2e80416693130bc41889858f6286"
+ },
+ "level": 90,
+ "context": 3,
+ "witness_count": 15,
+ "witnesses": [
+  {
+   "spec": 72,
+   "class": 1,
+   "label": "Fury Warrior (Titan's Grip 2H + 2H)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268214,
+     "name": "Malignant Toothed Edge",
+     "class_id": 2,
+     "subclass": 8,
+     "subclass_name": "SWORD2",
+     "inventory_type": 17,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3600,
+     "dmg_variance": 0.5,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 259.119384765625,
+     "max_damage_f32": 432.0,
+     "min_damage_gearing": 259.11937408446,
+     "max_damage_gearing": 432,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268214, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47098 -> JournalEncounter 2882 ('Vashnik the Malignant') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    },
+    {
+     "slot": "off_hand",
+     "item_id": 268213,
+     "name": "Maze-roa, Warlord's Fury",
+     "class_id": 2,
+     "subclass": 1,
+     "subclass_name": "AXE2",
+     "inventory_type": 17,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3600,
+     "dmg_variance": 0.69999998808,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 224.57012939453125,
+     "max_damage_f32": 466.0,
+     "min_damage_gearing": 224.57012626566728,
+     "max_damage_gearing": 466,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268213, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47140 -> JournalEncounter 2883 ('The Coiled Altar') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": true,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [
+     296087
+    ],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": false,
+    "dual_wielding": true,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268214,
+      "name": "Malignant Toothed Edge",
+      "class_id": 2,
+      "subclass": 8,
+      "subclass_name": "SWORD2",
+      "inventory_type": 17,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3600,
+      "dmg_variance": 0.5,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 259.119384765625,
+      "max_damage_f32": 432.0,
+      "min_damage_gearing": 259.11937408446,
+      "max_damage_gearing": 432,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268214, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 259.119384765625,
+     "weapon_max": 432.0,
+     "base_attack_time_ms": 3600,
+     "attack_time_source": "ItemSparse.ItemDelay=3600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 3.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 3.299999952316284,
+     "normalized_speed_branch": "normalized table for subclass 8 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 1.0285714864730835,
+     "min_max": {
+      "min": 259.119384765625,
+      "max": 432.0,
+      "branch": "plain",
+      "ap_multiplier": 3.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 3.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 259.119384765625,
+      "weapon_max_used": 432.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      259,
+      432
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268214 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": {
+      "item_id": 268213,
+      "name": "Maze-roa, Warlord's Fury",
+      "class_id": 2,
+      "subclass": 1,
+      "subclass_name": "AXE2",
+      "inventory_type": 17,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3600,
+      "dmg_variance": 0.69999998808,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 224.57012939453125,
+      "max_damage_f32": 466.0,
+      "min_damage_gearing": 224.57012626566728,
+      "max_damage_gearing": 466,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268213, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 224.57012939453125,
+     "weapon_max": 466.0,
+     "base_attack_time_ms": 3600,
+     "attack_time_source": "ItemSparse.ItemDelay=3600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 3.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 3.299999952316284,
+     "normalized_speed_branch": "normalized table for subclass 1 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 1.0285714864730835,
+     "min_max": {
+      "min": 112.28506469726562,
+      "max": 233.0,
+      "branch": "plain",
+      "ap_multiplier": 3.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 3.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 224.57012939453125,
+      "weapon_max_used": 466.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      112,
+      233
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268213 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 259,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 181,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 71,
+   "class": 1,
+   "label": "Arms Warrior (2H sword)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268214,
+     "name": "Malignant Toothed Edge",
+     "class_id": 2,
+     "subclass": 8,
+     "subclass_name": "SWORD2",
+     "inventory_type": 17,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3600,
+     "dmg_variance": 0.5,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 259.119384765625,
+     "max_damage_f32": 432.0,
+     "min_damage_gearing": 259.11937408446,
+     "max_damage_gearing": 432,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268214, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47098 -> JournalEncounter 2882 ('Vashnik the Malignant') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": false,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [
+     296087
+    ],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": true,
+    "dual_wielding": false,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268214,
+      "name": "Malignant Toothed Edge",
+      "class_id": 2,
+      "subclass": 8,
+      "subclass_name": "SWORD2",
+      "inventory_type": 17,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3600,
+      "dmg_variance": 0.5,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 259.119384765625,
+      "max_damage_f32": 432.0,
+      "min_damage_gearing": 259.11937408446,
+      "max_damage_gearing": 432,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268214, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 259.119384765625,
+     "weapon_max": 432.0,
+     "base_attack_time_ms": 3600,
+     "attack_time_source": "ItemSparse.ItemDelay=3600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 3.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 3.299999952316284,
+     "normalized_speed_branch": "normalized table for subclass 8 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 1.0285714864730835,
+     "min_max": {
+      "min": 259.119384765625,
+      "max": 432.0,
+      "branch": "plain",
+      "ap_multiplier": 3.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 3.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 259.119384765625,
+      "weapon_max_used": 432.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      259,
+      432
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268214 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 259,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 181,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 260,
+   "class": 4,
+   "label": "Outlaw Rogue (1H sword + 1H axe)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268202,
+     "name": "Jaw of the Shackled Goddess",
+     "class_id": 2,
+     "subclass": 7,
+     "subclass_name": "SWORD",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.5,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 141.30487060546875,
+     "max_damage_f32": 236.0,
+     "min_damage_gearing": 141.30486831665098,
+     "max_damage_gearing": 236,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268202, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47122 -> JournalEncounter 2895 (\"Ula'tek\") -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    },
+    {
+     "slot": "off_hand",
+     "item_id": 268208,
+     "name": "Strongblood's Ceremonial Cleaver",
+     "class_id": 2,
+     "subclass": 0,
+     "subclass_name": "AXE",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.69999998808,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 122.46421813964844,
+     "max_damage_f32": 254.0,
+     "min_damage_gearing": 122.46422033066688,
+     "max_damage_gearing": 254,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268208, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47070 -> JournalEncounter 2888 (\"Nek'zali the Soulcoiler\") -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": false,
+    "dual_wielding": true,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268202,
+      "name": "Jaw of the Shackled Goddess",
+      "class_id": 2,
+      "subclass": 7,
+      "subclass_name": "SWORD",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.5,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 141.30487060546875,
+      "max_damage_f32": 236.0,
+      "min_damage_gearing": 141.30486831665098,
+      "max_damage_gearing": 236,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268202, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 141.30487060546875,
+     "weapon_max": 236.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 7 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 141.30487060546875,
+      "max": 236.0,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 141.30487060546875,
+      "weapon_max_used": 236.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      141,
+      236
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268202 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": {
+      "item_id": 268208,
+      "name": "Strongblood's Ceremonial Cleaver",
+      "class_id": 2,
+      "subclass": 0,
+      "subclass_name": "AXE",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.69999998808,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 122.46421813964844,
+      "max_damage_f32": 254.0,
+      "min_damage_gearing": 122.46422033066688,
+      "max_damage_gearing": 254,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268208, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 122.46421813964844,
+     "weapon_max": 254.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 0 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 61.23210906982422,
+      "max": 127.0,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 122.46421813964844,
+      "weapon_max_used": 254.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      61,
+      127
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268208 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 141,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 98,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 259,
+   "class": 4,
+   "label": "Assassination Rogue (dagger + dagger)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268204,
+     "name": "Ancient Construct's Venomshiv",
+     "class_id": 2,
+     "subclass": 15,
+     "subclass_name": "DAGGER",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 1800,
+     "dmg_variance": 0.5,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 97.82644653320312,
+     "max_damage_f32": 163.0,
+     "min_damage_gearing": 97.82644729614302,
+     "max_damage_gearing": 163,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268204, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47078 -> JournalEncounter 2874 ('Entombed Sentinels') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    },
+    {
+     "slot": "off_hand",
+     "item_id": 268264,
+     "name": "Ravenous Feaster's Fang",
+     "class_id": 2,
+     "subclass": 15,
+     "subclass_name": "DAGGER",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 1800,
+     "dmg_variance": 0.5,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 97.82644653320312,
+     "max_damage_f32": 163.0,
+     "min_damage_gearing": 97.82644729614302,
+     "max_damage_gearing": 163,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268264, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47058 -> JournalEncounter 2887 ('The Twin Fangs') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": false,
+    "dual_wielding": true,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268204,
+      "name": "Ancient Construct's Venomshiv",
+      "class_id": 2,
+      "subclass": 15,
+      "subclass_name": "DAGGER",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 1800,
+      "dmg_variance": 0.5,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 97.82644653320312,
+      "max_damage_f32": 163.0,
+      "min_damage_gearing": 97.82644729614302,
+      "max_damage_gearing": 163,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268204, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 97.82644653320312,
+     "weapon_max": 163.0,
+     "base_attack_time_ms": 1800,
+     "attack_time_source": "ItemSparse.ItemDelay=1800 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 1.7999999523162842,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 1.7000000476837158,
+     "normalized_speed_branch": "normalized table for subclass 15 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.5142857432365417,
+     "min_max": {
+      "min": 97.82644653320312,
+      "max": 163.0,
+      "branch": "plain",
+      "ap_multiplier": 1.7999999523162842,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 1.7999999523162842,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 97.82644653320312,
+      "weapon_max_used": 163.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      97,
+      163
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268204 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": {
+      "item_id": 268264,
+      "name": "Ravenous Feaster's Fang",
+      "class_id": 2,
+      "subclass": 15,
+      "subclass_name": "DAGGER",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 1800,
+      "dmg_variance": 0.5,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 97.82644653320312,
+      "max_damage_f32": 163.0,
+      "min_damage_gearing": 97.82644729614302,
+      "max_damage_gearing": 163,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268264, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 97.82644653320312,
+     "weapon_max": 163.0,
+     "base_attack_time_ms": 1800,
+     "attack_time_source": "ItemSparse.ItemDelay=1800 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 1.7999999523162842,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 1.7000000476837158,
+     "normalized_speed_branch": "normalized table for subclass 15 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.5142857432365417,
+     "min_max": {
+      "min": 48.91322326660156,
+      "max": 81.5,
+      "branch": "plain",
+      "ap_multiplier": 1.7999999523162842,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 1.7999999523162842,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 97.82644653320312,
+      "weapon_max_used": 163.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      48,
+      81
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268264 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 97,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 67,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 263,
+   "class": 7,
+   "label": "Enhancement Shaman (1H axe + 1H mace)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268208,
+     "name": "Strongblood's Ceremonial Cleaver",
+     "class_id": 2,
+     "subclass": 0,
+     "subclass_name": "AXE",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.69999998808,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 122.46421813964844,
+     "max_damage_f32": 254.0,
+     "min_damage_gearing": 122.46422033066688,
+     "max_damage_gearing": 254,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268208, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47070 -> JournalEncounter 2888 (\"Nek'zali the Soulcoiler\") -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    },
+    {
+     "slot": "off_hand",
+     "item_id": 268206,
+     "name": "Slithering Savage's Gavel",
+     "class_id": 2,
+     "subclass": 4,
+     "subclass_name": "MACE",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.25,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 164.85568237304688,
+     "max_damage_f32": 212.0,
+     "min_damage_gearing": 164.8556797027595,
+     "max_damage_gearing": 212,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268206, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47104 -> JournalEncounter 2871 ('Sszorak') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": false,
+    "dual_wielding": true,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268208,
+      "name": "Strongblood's Ceremonial Cleaver",
+      "class_id": 2,
+      "subclass": 0,
+      "subclass_name": "AXE",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.69999998808,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 122.46421813964844,
+      "max_damage_f32": 254.0,
+      "min_damage_gearing": 122.46422033066688,
+      "max_damage_gearing": 254,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268208, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 122.46421813964844,
+     "weapon_max": 254.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 0 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 122.46421813964844,
+      "max": 254.0,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 122.46421813964844,
+      "weapon_max_used": 254.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      122,
+      254
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268208 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": {
+      "item_id": 268206,
+      "name": "Slithering Savage's Gavel",
+      "class_id": 2,
+      "subclass": 4,
+      "subclass_name": "MACE",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.25,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 164.85568237304688,
+      "max_damage_f32": 212.0,
+      "min_damage_gearing": 164.8556797027595,
+      "max_damage_gearing": 212,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268206, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 164.85568237304688,
+     "weapon_max": 212.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 4 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 82.42784118652344,
+      "max": 106.0,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 164.85568237304688,
+      "weapon_max_used": 212.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      82,
+      106
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268206 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 122,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 85,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 251,
+   "class": 6,
+   "label": "Frost Death Knight (2H axe)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268213,
+     "name": "Maze-roa, Warlord's Fury",
+     "class_id": 2,
+     "subclass": 1,
+     "subclass_name": "AXE2",
+     "inventory_type": 17,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3600,
+     "dmg_variance": 0.69999998808,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 224.57012939453125,
+     "max_damage_f32": 466.0,
+     "min_damage_gearing": 224.57012626566728,
+     "max_damage_gearing": 466,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268213, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47140 -> JournalEncounter 2883 ('The Coiled Altar') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": true,
+    "dual_wielding": false,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268213,
+      "name": "Maze-roa, Warlord's Fury",
+      "class_id": 2,
+      "subclass": 1,
+      "subclass_name": "AXE2",
+      "inventory_type": 17,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3600,
+      "dmg_variance": 0.69999998808,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 224.57012939453125,
+      "max_damage_f32": 466.0,
+      "min_damage_gearing": 224.57012626566728,
+      "max_damage_gearing": 466,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268213, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 224.57012939453125,
+     "weapon_max": 466.0,
+     "base_attack_time_ms": 3600,
+     "attack_time_source": "ItemSparse.ItemDelay=3600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 3.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 3.299999952316284,
+     "normalized_speed_branch": "normalized table for subclass 1 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 1.0285714864730835,
+     "min_max": {
+      "min": 224.57012939453125,
+      "max": 466.0,
+      "branch": "plain",
+      "ap_multiplier": 3.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 3.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 224.57012939453125,
+      "weapon_max_used": 466.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      224,
+      466
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268213 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 224,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 156,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 251,
+   "class": 6,
+   "label": "Frost Death Knight (1H axe + 1H mace)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268208,
+     "name": "Strongblood's Ceremonial Cleaver",
+     "class_id": 2,
+     "subclass": 0,
+     "subclass_name": "AXE",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.69999998808,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 122.46421813964844,
+     "max_damage_f32": 254.0,
+     "min_damage_gearing": 122.46422033066688,
+     "max_damage_gearing": 254,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268208, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47070 -> JournalEncounter 2888 (\"Nek'zali the Soulcoiler\") -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    },
+    {
+     "slot": "off_hand",
+     "item_id": 268206,
+     "name": "Slithering Savage's Gavel",
+     "class_id": 2,
+     "subclass": 4,
+     "subclass_name": "MACE",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.25,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 164.85568237304688,
+     "max_damage_f32": 212.0,
+     "min_damage_gearing": 164.8556797027595,
+     "max_damage_gearing": 212,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268206, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47104 -> JournalEncounter 2871 ('Sszorak') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": false,
+    "dual_wielding": true,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268208,
+      "name": "Strongblood's Ceremonial Cleaver",
+      "class_id": 2,
+      "subclass": 0,
+      "subclass_name": "AXE",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.69999998808,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 122.46421813964844,
+      "max_damage_f32": 254.0,
+      "min_damage_gearing": 122.46422033066688,
+      "max_damage_gearing": 254,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268208, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 122.46421813964844,
+     "weapon_max": 254.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 0 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 122.46421813964844,
+      "max": 254.0,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 122.46421813964844,
+      "weapon_max_used": 254.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      122,
+      254
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268208 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": {
+      "item_id": 268206,
+      "name": "Slithering Savage's Gavel",
+      "class_id": 2,
+      "subclass": 4,
+      "subclass_name": "MACE",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.25,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 164.85568237304688,
+      "max_damage_f32": 212.0,
+      "min_damage_gearing": 164.8556797027595,
+      "max_damage_gearing": 212,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268206, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 164.85568237304688,
+     "weapon_max": 212.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 4 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 82.42784118652344,
+      "max": 106.0,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 164.85568237304688,
+      "weapon_max_used": 212.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      82,
+      106
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268206 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 122,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 85,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 269,
+   "class": 10,
+   "label": "Windwalker Monk (fist + fist)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 270930,
+     "name": "Tomb-Creeper's Claw",
+     "class_id": 2,
+     "subclass": 13,
+     "subclass_name": "FIST_WEAPON",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.34999999404,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 155.4353485107422,
+     "max_damage_f32": 221.0,
+     "min_damage_gearing": 155.43535570976744,
+     "max_damage_gearing": 221,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(270930, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47071 -> JournalEncounter 2888 (\"Nek'zali the Soulcoiler\") -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    },
+    {
+     "slot": "off_hand",
+     "item_id": 270930,
+     "name": "Tomb-Creeper's Claw",
+     "class_id": 2,
+     "subclass": 13,
+     "subclass_name": "FIST_WEAPON",
+     "inventory_type": 13,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.34999999404,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 155.4353485107422,
+     "max_damage_f32": 221.0,
+     "min_damage_gearing": 155.43535570976744,
+     "max_damage_gearing": 221,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(270930, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47071 -> JournalEncounter 2888 (\"Nek'zali the Soulcoiler\") -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": false,
+    "dual_wielding": true,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 270930,
+      "name": "Tomb-Creeper's Claw",
+      "class_id": 2,
+      "subclass": 13,
+      "subclass_name": "FIST_WEAPON",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.34999999404,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 155.4353485107422,
+      "max_damage_f32": 221.0,
+      "min_damage_gearing": 155.43535570976744,
+      "max_damage_gearing": 221,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(270930, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 155.4353485107422,
+     "weapon_max": 221.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 13 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 155.4353485107422,
+      "max": 221.0,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 155.4353485107422,
+      "weapon_max_used": 221.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      155,
+      221
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 270930 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": {
+      "item_id": 270930,
+      "name": "Tomb-Creeper's Claw",
+      "class_id": 2,
+      "subclass": 13,
+      "subclass_name": "FIST_WEAPON",
+      "inventory_type": 13,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.34999999404,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 155.4353485107422,
+      "max_damage_f32": 221.0,
+      "min_damage_gearing": 155.43535570976744,
+      "max_damage_gearing": 221,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(270930, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 155.4353485107422,
+     "weapon_max": 221.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 13 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 77.7176742553711,
+      "max": 110.5,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 155.4353485107422,
+      "weapon_max_used": 221.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      77,
+      110
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 270930 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 155,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 108,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 103,
+   "class": 11,
+   "label": "Feral Druid (staff, Cat Form)",
+   "level": 90,
+   "form": 1,
+   "form_name": "FORM_CAT_FORM",
+   "form_combat_round_time": 1000,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268199,
+     "name": "Tidepiercer's Bubble Popper",
+     "class_id": 2,
+     "subclass": 10,
+     "subclass_name": "STAFF",
+     "inventory_type": 17,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3600,
+     "dmg_variance": 0.30000001192,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 293.6686096191406,
+     "max_damage_f32": 397.0,
+     "min_damage_gearing": 293.66862190325276,
+     "max_damage_gearing": 397,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268199, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47006 -> JournalEncounter 2849 ('Nymrissa Wavecaller') -> JournalInstance 1317 ('The Tidebound Grotto') -> Map 2987"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": false,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": true,
+    "dual_wielding": false,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268199,
+      "name": "Tidepiercer's Bubble Popper",
+      "class_id": 2,
+      "subclass": 10,
+      "subclass_name": "STAFF",
+      "inventory_type": 17,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3600,
+      "dmg_variance": 0.30000001192,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 293.6686096191406,
+      "max_damage_f32": 397.0,
+      "min_damage_gearing": 293.66862190325276,
+      "max_damage_gearing": 397,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268199, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 293.6686096191406,
+     "weapon_max": 397.0,
+     "base_attack_time_ms": 1000,
+     "attack_time_source": "SpellShapeshiftForm.CombatRoundTime=1000 (Player.cpp:23391-23392)",
+     "ap_multiplier": 1.0,
+     "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+     "normalized_speed": 3.299999952316284,
+     "normalized_speed_branch": "normalized table for subclass 10 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.2857142984867096,
+     "min_max": {
+      "min": 293.66864013671875,
+      "max": 397.0,
+      "branch": "shapeshift CombatRoundTime",
+      "ap_multiplier": 1.0,
+      "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+      "attack_power_mod": 1.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 293.66864013671875,
+      "weapon_max_used": 397.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      293,
+      397
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268199 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 1000,
+     "attack_time_source": "SpellShapeshiftForm.CombatRoundTime=1000 (Player.cpp:23391-23392)",
+     "ap_multiplier": 1.0,
+     "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.2857142984867096,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "shapeshift CombatRoundTime",
+      "ap_multiplier": 1.0,
+      "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+      "attack_power_mod": 1.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 0.5,
+      "max": 1.0,
+      "branch": "shapeshift CombatRoundTime",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 0.5,
+      "weapon_max_used": 1.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      1
+     ],
+     "school_mask": 1,
+     "notes": [
+      "InitDataForForm sets RANGED_ATTACK base time to BASE_ATTACK_TIME (Player.cpp:23393); the CombatRoundTime branch of CalculateMinMaxDamage still applies to every attType (StatSystem.cpp:459)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 293,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 205,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 104,
+   "class": 11,
+   "label": "Guardian Druid (staff, Bear Form)",
+   "level": 90,
+   "form": 5,
+   "form_name": "FORM_BEAR_FORM",
+   "form_combat_round_time": 2500,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268199,
+     "name": "Tidepiercer's Bubble Popper",
+     "class_id": 2,
+     "subclass": 10,
+     "subclass_name": "STAFF",
+     "inventory_type": 17,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3600,
+     "dmg_variance": 0.30000001192,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 293.6686096191406,
+     "max_damage_f32": 397.0,
+     "min_damage_gearing": 293.66862190325276,
+     "max_damage_gearing": 397,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268199, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47006 -> JournalEncounter 2849 ('Nymrissa Wavecaller') -> JournalInstance 1317 ('The Tidebound Grotto') -> Map 2987"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": false,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": true,
+    "dual_wielding": false,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268199,
+      "name": "Tidepiercer's Bubble Popper",
+      "class_id": 2,
+      "subclass": 10,
+      "subclass_name": "STAFF",
+      "inventory_type": 17,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3600,
+      "dmg_variance": 0.30000001192,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 293.6686096191406,
+      "max_damage_f32": 397.0,
+      "min_damage_gearing": 293.66862190325276,
+      "max_damage_gearing": 397,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268199, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 293.6686096191406,
+     "weapon_max": 397.0,
+     "base_attack_time_ms": 2500,
+     "attack_time_source": "SpellShapeshiftForm.CombatRoundTime=2500 (Player.cpp:23391-23392)",
+     "ap_multiplier": 2.5,
+     "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+     "normalized_speed": 3.299999952316284,
+     "normalized_speed_branch": "normalized table for subclass 10 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7142857313156128,
+     "min_max": {
+      "min": 293.6686096191406,
+      "max": 397.0,
+      "branch": "shapeshift CombatRoundTime",
+      "ap_multiplier": 2.5,
+      "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+      "attack_power_mod": 2.5,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 293.6686096191406,
+      "weapon_max_used": 397.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      293,
+      397
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268199 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2500,
+     "attack_time_source": "SpellShapeshiftForm.CombatRoundTime=2500 (Player.cpp:23391-23392)",
+     "ap_multiplier": 2.5,
+     "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.7142857313156128,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "shapeshift CombatRoundTime",
+      "ap_multiplier": 2.5,
+      "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+      "attack_power_mod": 2.5,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.25,
+      "max": 2.5,
+      "branch": "shapeshift CombatRoundTime",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "GetBaseAttackTime(attType) / 1000.0f (Unit.cpp:11054)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.25,
+      "weapon_max_used": 2.5,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "InitDataForForm sets RANGED_ATTACK base time to BASE_ATTACK_TIME (Player.cpp:23393); the CombatRoundTime branch of CalculateMinMaxDamage still applies to every attType (StatSystem.cpp:459)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 293,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 205,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 253,
+   "class": 3,
+   "label": "Beast Mastery Hunter (bow)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268207,
+     "name": "Caustic Repose Greatbow",
+     "class_id": 2,
+     "subclass": 2,
+     "subclass_name": "BOW",
+     "inventory_type": 15,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3000,
+     "dmg_variance": 0.30000001192,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 244.72384643554688,
+     "max_damage_f32": 331.0,
+     "min_damage_gearing": 244.7238515860439,
+     "max_damage_gearing": 331,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": true,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268207, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47126 -> JournalEncounter 2895 (\"Ula'tek\") -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": true,
+    "dual_wielding": false,
+    "ranged_main_hand": true,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": {
+      "item_id": 268207,
+      "name": "Caustic Repose Greatbow",
+      "class_id": 2,
+      "subclass": 2,
+      "subclass_name": "BOW",
+      "inventory_type": 15,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3000,
+      "dmg_variance": 0.30000001192,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 244.72384643554688,
+      "max_damage_f32": 331.0,
+      "min_damage_gearing": 244.7238515860439,
+      "max_damage_gearing": 331,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": true,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268207, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 244.72384643554688,
+     "weapon_max": 331.0,
+     "base_attack_time_ms": 3000,
+     "attack_time_source": "ItemSparse.ItemDelay=3000 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 3.0,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 3.0,
+     "normalized_speed_branch": "normalized default: delay / 1000.0f (Unit.cpp:11087)",
+     "ap_term_per_point": 0.8571429252624512,
+     "min_max": {
+      "min": 244.72384643554688,
+      "max": 331.0,
+      "branch": "plain",
+      "ap_multiplier": 3.0,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 3.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 244.72384643554688,
+      "weapon_max_used": 331.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      244,
+      331
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268207 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "RANGED_ATTACK",
+    "roll": 244,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 170,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 254,
+   "class": 3,
+   "label": "Marksmanship Hunter (gun)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268200,
+     "name": "Gebbo's Backup Blaster",
+     "class_id": 2,
+     "subclass": 3,
+     "subclass_name": "GUN",
+     "inventory_type": 26,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3000,
+     "dmg_variance": 0.60000002384,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 201.53729248046875,
+     "max_damage_f32": 374.0,
+     "min_damage_gearing": 201.53728752268785,
+     "max_damage_gearing": 374,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": true,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268200, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47088 -> JournalEncounter 2894 ('The Lost Explorers') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": true,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": true,
+    "dual_wielding": false,
+    "ranged_main_hand": true,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": {
+      "item_id": 268200,
+      "name": "Gebbo's Backup Blaster",
+      "class_id": 2,
+      "subclass": 3,
+      "subclass_name": "GUN",
+      "inventory_type": 26,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3000,
+      "dmg_variance": 0.60000002384,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 201.53729248046875,
+      "max_damage_f32": 374.0,
+      "min_damage_gearing": 201.53728752268785,
+      "max_damage_gearing": 374,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": true,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268200, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 201.53729248046875,
+     "weapon_max": 374.0,
+     "base_attack_time_ms": 3000,
+     "attack_time_source": "ItemSparse.ItemDelay=3000 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 3.0,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 3.0,
+     "normalized_speed_branch": "normalized default: delay / 1000.0f (Unit.cpp:11087)",
+     "ap_term_per_point": 0.8571429252624512,
+     "min_max": {
+      "min": 201.53729248046875,
+      "max": 374.0,
+      "branch": "plain",
+      "ap_multiplier": 3.0,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 3.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 201.53729248046875,
+      "weapon_max_used": 374.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      201,
+      374
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268200 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "RANGED_ATTACK",
+    "roll": 201,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 140,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 70,
+   "class": 2,
+   "label": "Retribution Paladin (2H mace)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268198,
+     "name": "Caustic Keeper-Crusher",
+     "class_id": 2,
+     "subclass": 5,
+     "subclass_name": "MACE2",
+     "inventory_type": 17,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3600,
+     "dmg_variance": 0.25,
+     "dps": 95.97013854980469,
+     "min_damage_f32": 302.3059387207031,
+     "max_damage_f32": 389.0,
+     "min_damage_gearing": 302.30593643187,
+     "max_damage_gearing": 389,
+     "weapon_attack_power": 575,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268198, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47079 -> JournalEncounter 2874 ('Entombed Sentinels') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": false,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": true,
+    "dual_wielding": false,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268198,
+      "name": "Caustic Keeper-Crusher",
+      "class_id": 2,
+      "subclass": 5,
+      "subclass_name": "MACE2",
+      "inventory_type": 17,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3600,
+      "dmg_variance": 0.25,
+      "dps": 95.97013854980469,
+      "min_damage_f32": 302.3059387207031,
+      "max_damage_f32": 389.0,
+      "min_damage_gearing": 302.30593643187,
+      "max_damage_gearing": 389,
+      "weapon_attack_power": 575,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268198, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 302.3059387207031,
+     "weapon_max": 389.0,
+     "base_attack_time_ms": 3600,
+     "attack_time_source": "ItemSparse.ItemDelay=3600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 3.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 3.299999952316284,
+     "normalized_speed_branch": "normalized table for subclass 5 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 1.0285714864730835,
+     "min_max": {
+      "min": 302.3059387207031,
+      "max": 389.0,
+      "branch": "plain",
+      "ap_multiplier": 3.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 3.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 302.3059387207031,
+      "weapon_max_used": 389.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      302,
+      389
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268198 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 302,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 211,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 64,
+   "class": 8,
+   "label": "Frost Mage (caster staff, prepared but unused)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268205,
+     "name": "Venomancer's Winged Channeler",
+     "class_id": 2,
+     "subclass": 10,
+     "subclass_name": "STAFF",
+     "inventory_type": 17,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 3600,
+     "dmg_variance": 0.30000001192,
+     "dps": 47.985069274902344,
+     "min_damage_f32": 146.8343048095703,
+     "max_damage_f32": 199.0,
+     "min_damage_gearing": 146.83431095162638,
+     "max_damage_gearing": 199,
+     "weapon_attack_power": 287,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268205, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47101 -> JournalEncounter 2882 ('Vashnik the Malignant') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": false,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": true,
+    "dual_wielding": false,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268205,
+      "name": "Venomancer's Winged Channeler",
+      "class_id": 2,
+      "subclass": 10,
+      "subclass_name": "STAFF",
+      "inventory_type": 17,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 3600,
+      "dmg_variance": 0.30000001192,
+      "dps": 47.985069274902344,
+      "min_damage_f32": 146.8343048095703,
+      "max_damage_f32": 199.0,
+      "min_damage_gearing": 146.83431095162638,
+      "max_damage_gearing": 199,
+      "weapon_attack_power": 287,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268205, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 146.8343048095703,
+     "weapon_max": 199.0,
+     "base_attack_time_ms": 3600,
+     "attack_time_source": "ItemSparse.ItemDelay=3600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 3.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 3.299999952316284,
+     "normalized_speed_branch": "normalized table for subclass 10 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 1.0285714864730835,
+     "min_max": {
+      "min": 146.8343048095703,
+      "max": 199.0,
+      "branch": "plain",
+      "ap_multiplier": 3.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 3.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 146.8343048095703,
+      "weapon_max_used": 199.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      146,
+      199
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268205 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 146,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 102,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   }
+  },
+  {
+   "spec": 73,
+   "class": 1,
+   "label": "Protection Warrior (MH axe + shield)",
+   "level": 90,
+   "form": null,
+   "form_name": null,
+   "form_combat_round_time": 0,
+   "items": [
+    {
+     "slot": "main_hand",
+     "item_id": 268209,
+     "name": "Aman'muso, Warlord's Vengeance",
+     "class_id": 2,
+     "subclass": 0,
+     "subclass_name": "AXE",
+     "inventory_type": 21,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 2600,
+     "dmg_variance": 0.60000002384,
+     "dps": 72.46403503417969,
+     "min_damage_f32": 131.88453674316406,
+     "max_damage_f32": 245.0,
+     "min_damage_gearing": 131.88454151640224,
+     "max_damage_gearing": 245,
+     "weapon_attack_power": 434,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268209, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47134 -> JournalEncounter 2883 ('The Coiled Altar') -> JournalInstance 1320 ('The Venomous Abyss') -> Map 3004"
+     ]
+    },
+    {
+     "slot": "off_hand",
+     "item_id": 268262,
+     "name": "Bubblefin Splash Guard",
+     "class_id": 4,
+     "subclass": 6,
+     "subclass_name": "armor/6",
+     "inventory_type": 14,
+     "item_level": 292,
+     "context": 3,
+     "delay_ms": 0,
+     "dmg_variance": 0.0,
+     "dps": 0.0,
+     "min_damage_f32": 0.0,
+     "max_damage_f32": 0.0,
+     "min_damage_gearing": 0.0,
+     "max_damage_gearing": 0.0,
+     "weapon_attack_power": 0,
+     "damage_type": 0,
+     "school_mask": 1,
+     "always_allow_dual_wield": false,
+     "is_ranged_weapon": false,
+     "provenance": [
+      "gearing.resolver.GearResolver.resolve(268262, context=3, player_level=90) -> effective item level 292",
+      "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+      "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)",
+      "raid: JournalEncounterItem 47012 -> JournalEncounter 2849 ('Nymrissa Wavecaller') -> JournalInstance 1317 ('The Tidebound Grotto') -> Map 2987"
+     ]
+    }
+   ],
+   "capability": {
+    "dual_wield": false,
+    "titan_grip": false,
+    "titan_grip_subclass_mask": 0,
+    "learned_only_dual_wield": [
+     296087
+    ],
+    "source": "weapon-sources.json capability_by_spec"
+   },
+   "equip_state": {
+    "two_hand_used": false,
+    "dual_wielding": false,
+    "ranged_main_hand": false,
+    "equip_errors": []
+   },
+   "attack_power": {
+    "value": null,
+    "status": "unresolved",
+    "reason": "player_classlevelstats covers levels <= 80 only (world-db-corpora/player-base-stats.json); prepared AP at 90 is Track C/F scope",
+    "reopen": "a level-90 base-stat source or a supplied UnitData::AttackPower"
+   },
+   "hands": [
+    {
+     "attack_type": 0,
+     "attack_type_name": "BASE_ATTACK",
+     "weapon": {
+      "item_id": 268209,
+      "name": "Aman'muso, Warlord's Vengeance",
+      "class_id": 2,
+      "subclass": 0,
+      "subclass_name": "AXE",
+      "inventory_type": 21,
+      "item_level": 292,
+      "context": 3,
+      "delay_ms": 2600,
+      "dmg_variance": 0.60000002384,
+      "dps": 72.46403503417969,
+      "min_damage_f32": 131.88453674316406,
+      "max_damage_f32": 245.0,
+      "min_damage_gearing": 131.88454151640224,
+      "max_damage_gearing": 245,
+      "weapon_attack_power": 434,
+      "damage_type": 0,
+      "school_mask": 1,
+      "always_allow_dual_wield": false,
+      "is_ranged_weapon": false,
+      "provenance": [
+       "gearing.resolver.GearResolver.resolve(268209, context=3, player_level=90) -> effective item level 292",
+       "min/max/dps: ItemTemplate::GetDamage via gearing.scaling (double); rounded to binary32 here at the SetBaseWeaponDamage boundary (Unit.h:1573 `float m_weaponDamage[MAX_ATTACK][2]`, Player.cpp:8149-8156)",
+       "weapon attack power: Player.cpp:8163 int32(GetDPS * 6.0f)"
+      ]
+     },
+     "weapon_min": 131.88453674316406,
+     "weapon_max": 245.0,
+     "base_attack_time_ms": 2600,
+     "attack_time_source": "ItemSparse.ItemDelay=2600 (Player.cpp:5396, 8161)",
+     "ap_multiplier": 2.5999999046325684,
+     "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+     "normalized_speed": 2.4000000953674316,
+     "normalized_speed_branch": "normalized table for subclass 0 (Unit.cpp:11063-11085 (default: weapon delay / 1000.0f, Unit.cpp:11087))",
+     "ap_term_per_point": 0.7428571581840515,
+     "min_max": {
+      "min": 131.88453674316406,
+      "max": 245.0,
+      "branch": "plain",
+      "ap_multiplier": 2.5999999046325684,
+      "ap_multiplier_branch": "weapon->GetTemplate()->GetDelay() / 1000.0f (Unit.cpp:11061)",
+      "attack_power_mod": 2.5999999046325684,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 131.88453674316406,
+      "weapon_max_used": 245.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      131,
+      245
+     ],
+     "school_mask": 1,
+     "notes": [
+      "item 268209 via _ApplyWeaponDamage (Player.cpp:8146-8157)"
+     ]
+    },
+    {
+     "attack_type": 1,
+     "attack_type_name": "OFF_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 0.0,
+      "max": 0.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 0.5,
+      "weapon_min_used": 0.0,
+      "weapon_max_used": 0.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      0,
+      0
+     ],
+     "school_mask": 1,
+     "notes": [
+      "off-hand slot holds a non-weapon (shield/holdable): GetWeaponForAttack(OFF_ATTACK) is null (Player.cpp:9597)",
+      "UpdateAttackPowerAndDamage only refreshes OFF_ATTACK when an off-hand weapon is equipped (StatSystem.cpp:410-412); MinOffHandDamage stays at its Player::Create value 0.0f (Player.cpp:2400)",
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    },
+    {
+     "attack_type": 2,
+     "attack_type_name": "RANGED_ATTACK",
+     "weapon": null,
+     "weapon_min": 1.0,
+     "weapon_max": 2.0,
+     "base_attack_time_ms": 2000,
+     "attack_time_source": "BASE_ATTACK_TIME 2000 (Player.cpp:5399)",
+     "ap_multiplier": 2.0,
+     "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "normalized_speed": 2.0,
+     "normalized_speed_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+     "ap_term_per_point": 0.5714285969734192,
+     "min_max": {
+      "min": 1.0,
+      "max": 2.0,
+      "branch": "plain",
+      "ap_multiplier": 2.0,
+      "ap_multiplier_branch": "no weapon -> 2.0f (Unit.cpp:11058)",
+      "attack_power_mod": 2.0,
+      "ap_total_no_weapon": 0.0,
+      "ap_term": 0.0,
+      "base_value": 0.0,
+      "base_pct": 1.0,
+      "total_value": 0.0,
+      "total_pct": 1.0,
+      "weapon_min_used": 1.0,
+      "weapon_max_used": 2.0,
+      "versatility_mod": 1.0
+     },
+     "urand_bounds": [
+      1,
+      2
+     ],
+     "school_mask": 1,
+     "notes": [
+      "no weapon: Unit ctor BASE_MINDAMAGE/BASE_MAXDAMAGE (Unit.cpp:355-356)"
+     ]
+    }
+   ],
+   "damage_view": {
+    "hand": "BASE_ATTACK",
+    "roll": 131,
+    "outcome": "normal",
+    "victim_armor": 1470.0,
+    "victim_armor_source": "ExpectedStat.CreatureArmor Lvl 90 (db2-fact; creature_template multipliers are Track A/B scope)",
+    "armor_constant": 3430.0,
+    "result": null,
+    "status": "unresolved",
+    "unresolved": "ItemLevelByLevel.txt GameTable is absent from the snapshot; itemLevelDelta and the ArmorItemLevelDiminishing curve factor (GlobalCurve 18 -> Curve 27400) cannot be evaluated (Unit.cpp:1762-1764). Supply --armor-curve-factor to proceed.",
+    "conditional_result_if_curve_factor_is_1": 91,
+    "conditional_note": "Curve 27400 answers 1.0 for itemLevelDelta <= 17 (CurvePoint OrderIndex 0-2); the delta needs the absent ItemLevelByLevel GameTable"
+   },
+   "shield": {
+    "item": 268262,
+    "armor": 971,
+    "ShieldBlock": 2427,
+    "ShieldBlock_source": "Player.cpp:8127 int32(armor * 2.5f)",
+    "block_fraction_as_victim": 0.4143759608268738,
+    "note": "Player::GetBlockPercent returns this FRACTION and CalculateMeleeDamage feeds it to CalculatePct as if percent (Unit.cpp:1459, Player.cpp:26822-26831)"
+   }
+  }
+ ]
+}

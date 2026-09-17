@@ -1,0 +1,746 @@
+[
+ {
+  "id": "E-1",
+  "track": "C",
+  "topic": "base stats levels 81-90",
+  "claim_or_gap": "player_classlevelstats has no rows above level 80; the compiler reports /derived/stats unresolved at 81-90 and never interpolates (Trinity copies level 80)",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a TDB release with rows for levels 81-90, or an observed Retail value",
+  "witnesses": [
+   "arms-warrior-plate-2h-no-fill-rule"
+  ],
+  "coordinates": [
+   "src/server/game/Globals/ObjectMgr.cpp:4349-4356"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-2",
+  "track": "C",
+  "topic": "default-skill AcquireMethod 4",
+  "claim_or_gap": "SkillLineAbility rows with AcquireMethod 4 (LearnedOrAutomaticCharLevel) are learned only if ShowFutureSpellPlayerConditionID and the conditions table allow it; 2-10 per fixture remain unresolved (e.g. 54197, 163201, 2645, 783, 697)",
+  "evidence_class": "unresolved",
+  "reopen_condition": "PlayerCondition evaluation plus the world conditions table (CONDITION_SOURCE_TYPE_SKILL_LINE_ABILITY)",
+  "witnesses": [
+   "54197",
+   "163201",
+   "2645",
+   "783",
+   "697",
+   "2006",
+   "121128",
+   "322109"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:25409-25415"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-3",
+  "track": "C",
+  "topic": "SKILL_RANGE_RANK default skills",
+  "claim_or_gap": "a default skill with a SkillTierID needs world-DB skill_tiers for its value; it matters only for AutomaticSkillRank abilities",
+  "evidence_class": "unresolved",
+  "reopen_condition": "skill_tiers supplied from the pinned TDB",
+  "witnesses": [],
+  "coordinates": [
+   "src/server/game/Globals/ObjectMgr.cpp:9002-9023",
+   "src/server/game/Entities/Player/Player.cpp:25300-25310"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-4",
+  "track": "C",
+  "topic": "controlled-unit hook",
+  "claim_or_gap": "controlled_units.ownership exposes no CHARACTER_PREP_HOOK, so /derived/controlled_units is unresolved; hunter pet family 1 / pet spec 74 and demon summon 30146 in the fixtures are unverified identity values",
+  "evidence_class": "unresolved",
+  "reopen_condition": "Track A exposes CHARACTER_PREP_HOOK(context) -> dict and validates the section",
+  "witnesses": [
+   "bm-hunter-mail-ranged-pet",
+   "demonology-warlock-cloth-pet"
+  ],
+  "coordinates": [
+   "scripts/research/character_prep/compiler.py CLASS_HOOK"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-5",
+  "track": "C",
+  "topic": "Arms dual wield (296087)",
+  "claim_or_gap": "Track C's weapon-sources capability gives spec 71 dual wield through 296087 (SkillLineAbility 40461, skill 840, AcquireMethod 0 Learned); LearnSkillRewardedSpells skips AcquireMethod 0, so a fresh Arms warrior has no Dual Wield in Trinity unless 296087 is learned another way (character DB)",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "a Trinity consumer (trainer, quest, script) that teaches 296087, or character-DB spell state in the fixture",
+  "witnesses": [
+   "296087",
+   "arms-warrior-plate-2h"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:25404-25418"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-6",
+  "track": "C",
+  "topic": "armour specialization via class skill lines",
+  "claim_or_gap": "86092 Rogue, 86538 Hunter, 86091 Warlock, 89744 Mage, 89745 Priest, 366524 Evoker come from the class skill line, not SpecializationSpells; charstats applies none of them (contradicts character-stat-pipeline-archaeology.md:614)",
+  "evidence_class": "db2-fact",
+  "reopen_condition": "charstats discovery extended to default-skill spells",
+  "witnesses": [
+   "86092",
+   "86538",
+   "86091",
+   "89744",
+   "89745",
+   "366524"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:26203-26213",
+   "scripts/research/charstats/acquisition.py:178-246"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-7",
+  "track": "C",
+  "topic": "charstats racial race bit",
+  "claim_or_gap": "charstats.acquisition.racial_abilities uses bit race_id-1; Trinity RaceMask::GetRaceBit differs for races >= 34 (e.g. 36 -> 13) and charstats raises for 70/84/85/86/91; it also accepts AcquireMethod 0 (37 extra spells for Human Warrior)",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "charstats switches to RaceMask::GetRaceBit / ChrRaces.PlayableRaceBit and filters AcquireMethod",
+  "witnesses": [
+   "race 34",
+   "race 36",
+   "race 70",
+   "race 1 class 1"
+  ],
+  "coordinates": [
+   "src/server/game/Miscellaneous/RaceMask.h:97-146",
+   "scripts/research/charstats/acquisition.py:260-266",
+   "src/server/game/Entities/Player/Player.cpp:25416-25417"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-8",
+  "track": "C",
+  "topic": "mastery 114585",
+  "claim_or_gap": "every player learns 114585 (SPELL_AURA_MASTERY +8) through default skill 183; charstats mastery_value omits it (agent F differential); compiled fixtures record it as a blocked model-gap",
+  "evidence_class": "differential",
+  "reopen_condition": "charstats adds GetTotalAuraModifier(SPELL_AURA_MASTERY)",
+  "witnesses": [
+   "114585"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Unit/StatSystem.cpp:549-550",
+   "src/server/game/Entities/Player/Player.cpp:2916-2929"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-9",
+  "track": "C",
+  "topic": "percentage aura stages",
+  "claim_or_gap": "passives active at preparation are listed, but their BASE_PCT/TOTAL_PCT stages (other than armour specialization) are not applied; compiled stats are not ground truth",
+  "evidence_class": "unresolved",
+  "reopen_condition": "generic SPELL_AURA_MOD_*_PERCENT stage evaluation over derived.spells.passives_active_at_prep",
+  "witnesses": [],
+  "coordinates": [
+   "src/server/game/Entities/Unit/StatSystem.cpp:198-345"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-10",
+  "track": "C",
+  "topic": "crafted stat modifiers",
+  "claim_or_gap": "ItemBonus type 25 MODIFIED_CRAFTING_STAT is NYI in Trinity and ItemModifiedCraftingStat is absent from the snapshot; crafted stats are expressible only as bonus lists",
+  "evidence_class": "unresolved",
+  "reopen_condition": "Trinity implements type 25, or the table appears in the snapshot",
+  "witnesses": [],
+  "coordinates": [
+   "src/server/game/DataStores/DBCEnums.h:1273"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-11",
+  "track": "C",
+  "topic": "legacy azerite",
+  "claim_or_gap": "14 current-season M+ corpus items are AzeriteEmpoweredItem rows, but their powers apply only with Heart of Azeroth 158075 equipped, which no current fixture does",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "a fixture equips item 158075 (then power selections and heart level become identity inputs)",
+  "witnesses": [
+   "158075"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:8492-8514",
+   "src/server/game/Entities/Item/AzeriteItem/AzeriteItem.h:23"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-12",
+  "track": "C",
+  "topic": "trait quest/achievement conditions",
+  "claim_or_gap": "the 13 class trees use no TraitCond with QuestID/AchievementID/account element, and the 44 quest/achievement currency sources of their 12 currencies have Amount 0, so trait validity is decidable from spec+level+config",
+  "evidence_class": "db2-fact",
+  "reopen_condition": "a class-tree TraitCond gains a QuestID/AchievementID, or a quest-gated TraitCurrencySource gets Amount > 0",
+  "witnesses": [
+   "734 conditions",
+   "44 currency sources"
+  ],
+  "coordinates": [
+   "src/server/game/Spells/TraitMgr.cpp:605-609",
+   "src/server/game/Spells/TraitMgr.cpp:446-450"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-13",
+  "track": "C",
+  "topic": "starter builds are level-90 builds",
+  "claim_or_gap": "TraitTreeLoadoutEntry builds spend 34/34 points (level-90 budget). At level 80 a replay keeps 61 of 68 steps (test_level_90_build_is_over_budget_at_80); the committed fixtures are level 90 since the closeout review (R3-1) and keep all 68 steps. The fixtures are synthetic, not authored builds",
+  "evidence_class": "structural-inference",
+  "reopen_condition": "an authored level-80 loadout, or a Retail export",
+  "witnesses": [
+   "TraitTreeLoadout 913",
+   "915",
+   "909",
+   "996",
+   "911",
+   "992",
+   "987",
+   "958",
+   "918",
+   "949"
+  ],
+  "coordinates": [
+   "src/server/game/Spells/TraitMgr.cpp:409-473"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-14",
+  "track": "C",
+  "topic": "build-skew spells in fixtures",
+  "claim_or_gap": "marker/acquired spells newer than Trinity's supported client build (e.g. 1295219, 1295323, 1295328) are flagged blocked:build-skew",
+  "evidence_class": "build-skew",
+  "reopen_condition": "a Trinity revision supporting build 12.1.0.69497",
+  "witnesses": [
+   "1295219",
+   "1295323",
+   "1295328"
+  ],
+  "coordinates": [
+   "docs/research/dummy-corpora/build-skew.json"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "E-15",
+  "track": "C",
+  "topic": "hero sub-tree choice",
+  "claim_or_gap": "fixtures take the lowest-id selectable hero sub-tree and fill nodes greedily; a Retail export would carry the real choice",
+  "evidence_class": "structural-inference",
+  "reopen_condition": "Retail-exported fixtures",
+  "witnesses": [
+   "subtrees 60,32,43,54,51,23,57,19,64"
+  ],
+  "coordinates": [
+   "src/server/game/Spells/TraitMgr.cpp:928-964"
+  ],
+  "owner": "part E"
+ },
+ {
+  "id": "F-1",
+  "track": "C",
+  "topic": "base stats L81-90",
+  "claim_or_gap": "No player_classlevelstats row above 80 in the pinned TDB; Trinity (MaxPlayerLevel 90) serves a copy of the level-80 cell (fill rule, 10 TC_LOG_ERROR per pair, 138 filled class-level cells). Retail values unresolved.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a TDB release with rows 81-90, or naked Retail character-sheet observations at levels 81-90",
+  "witnesses": [
+   "warrior-arms-human-90-fill",
+   "priest-shadow-human-90-fill",
+   "naked-warrior-human-90-fill"
+  ],
+  "coordinates": [
+   "src/server/game/Globals/ObjectMgr.cpp:4309-4317",
+   "src/server/game/Globals/ObjectMgr.cpp:4324",
+   "src/server/game/Globals/ObjectMgr.cpp:4342-4346",
+   "src/server/game/Globals/ObjectMgr.cpp:4349-4356",
+   "src/server/game/World/World.cpp:750",
+   "src/server/worldserver/worldserver.conf.dist:912"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-2",
+  "track": "C",
+  "topic": "stamina 69->70 non-monotonic",
+  "claim_or_gap": "Stamina 6655 at level 69 and 6397 at level 70 in all 13 classes; VerifiedBuild=0 on all 1,032 rows gives no build attestation.",
+  "evidence_class": "world-db-fact",
+  "reopen_condition": "Retail naked observations at levels 69 and 70",
+  "witnesses": [
+   "player_classlevelstats class 1..13 levels 69/70"
+  ],
+  "coordinates": [
+   "src/server/game/Globals/ObjectMgr.cpp:4287"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-3",
+  "track": "C",
+  "topic": "zero race modifiers",
+  "claim_or_gap": "player_racestats rows for races 52, 70, 84, 85, 86, 91 are all zeros (86/91 written by 2026_03_07_01_world.sql DELETE+INSERT). Retail truth unresolved.",
+  "evidence_class": "world-db-fact",
+  "reopen_condition": "two naked Retail observations of the same class/level differing only in race",
+  "witnesses": [
+   "warrior-arms-haranir-80",
+   "evoker-devastation-dracthyr-80"
+  ],
+  "coordinates": [
+   "src/server/game/Globals/ObjectMgr.cpp:4263",
+   "src/server/game/Globals/ObjectMgr.cpp:4328",
+   "sql/updates/world/master/2026_03_07_01_world.sql"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-4",
+  "track": "C",
+  "topic": "Evoker levels 2-9",
+  "claim_or_gap": "Evoker has rows for 1 and 10..80 only; Trinity fills 2-9 with the level-1 cell; unreachable by creation (StartEvokerPlayerLevel 10).",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "a creation or boost path that yields an Evoker below level 10",
+  "witnesses": [
+   "evoker-devastation-dracthyr-5-fill"
+  ],
+  "coordinates": [
+   "src/server/game/Globals/ObjectMgr.cpp:4349-4356",
+   "src/server/worldserver/worldserver.conf.dist:951",
+   "src/server/game/World/World.cpp:755"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-5",
+  "track": "C",
+  "topic": "generic mastery 114585",
+  "claim_or_gap": "Every player learns passive 114585 (SPELL_AURA_MASTERY, 8 points) via skill line 183 (AutomaticCharLevel, SkillRaceClassInfo 5 Availability 1); Trinity UpdateMastery adds it, so Mastery is charstats' rating term + 8 whenever CanUseMastery. charstats and character-stat-pipeline-archaeology.md omit it. Static trace; runtime application not executed.",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "a Trinity character dump or Retail character sheet showing Mastery = 8 + rating term with zero mastery gear",
+  "witnesses": [
+   "all 13 built-in witnesses (mastery_value.charstats vs with_114585)",
+   "all 11 agent-E compiled fixtures"
+  ],
+  "coordinates": [
+   "src/server/game/Globals/ObjectMgr.cpp:4063-4070",
+   "src/server/game/Entities/Player/Player.cpp:25259",
+   "src/server/game/Entities/Player/Player.cpp:25391-25441",
+   "src/server/game/Entities/Player/Player.cpp:2919-2929",
+   "src/server/game/Entities/Player/Player.cpp:3079",
+   "src/server/game/Spells/Auras/SpellAuraEffects.cpp:5571",
+   "src/server/game/Entities/Unit/StatSystem.cpp:543-550",
+   "src/server/game/Entities/Player/Player.cpp:30525"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-6",
+  "track": "C",
+  "topic": "armour-spec float truncation",
+  "claim_or_gap": "TOTAL_PCT = static_cast<float>(double 1.05) = 1.0499999523; int32(float product) is one point lower than charstats' double for 4,045 of 120,000 pre-percent totals (all multiples of 20). Reachable: 17647+9993 Strength -> Trinity 29021 vs charstats 29022. Retail precision unresolved.",
+  "evidence_class": "differential",
+  "reopen_condition": "a Retail observation of an armour-specialised stat whose pre-percent total is an affected multiple of 20",
+  "witnesses": [
+   "warrior-arms-human-80-armorspec-crossing",
+   "armor_spec_truncation_sweep"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Unit/Unit.cpp:5016-5033",
+   "src/server/game/Entities/Unit/Unit.cpp:9828",
+   "src/server/game/Entities/Unit/StatSystem.cpp:110-112"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-7",
+  "track": "C",
+  "topic": "int16 rating accumulator",
+  "claim_or_gap": "m_baseRatingValue is int16; ApplyRatingMod(30000 + 5000) wraps to -30536 in the probe. Whether any single combat-rating slot can exceed 32,767 is not established.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "gearing census of the maximum per-CR rating total (after CombatRatingsMultByILvl) for a current character",
+  "witnesses": [
+   "type_witnesses: int16 rating accumulator"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.h:3254",
+   "src/server/game/Entities/Player/Player.cpp:5231-5235"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-8",
+  "track": "C",
+  "topic": "lroundf in UpdateMaxPower",
+  "claim_or_gap": "UpdateMaxPower rounds half away from zero (lroundf: 2.5 -> 3), unlike Python round(); charstats has no mana percent stage, so only a percent mana aura yielding an exact .5 could reach it.",
+  "evidence_class": "trinity-probe",
+  "reopen_condition": "a current in-scope percent-max-mana aura",
+  "witnesses": [
+   "type_witnesses: lroundf half-away"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Unit/StatSystem.cpp:344"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-9",
+  "track": "C",
+  "topic": "BuildPlayerLevelInfo",
+  "claim_or_gap": "Classic-era per-class extrapolation above MaxPlayerLevel; not reached with the default MaxPlayerLevel 90 (would give Warrior 80->90 17669/12187/86474/12005/0 on a MaxPlayerLevel=80 server).",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "a server configured with MaxPlayerLevel below the character level",
+  "witnesses": [
+   "type_witnesses: BuildPlayerLevelInfo"
+  ],
+  "coordinates": [
+   "src/server/game/Globals/ObjectMgr.cpp:4446-4449",
+   "src/server/game/Globals/ObjectMgr.cpp:4452-4530"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-10",
+  "track": "C",
+  "topic": "legacy dodge/hit",
+  "claim_or_gap": "GetDodgeFromAgility body fully commented out; melee/ranged hit 7.5f and spell hit 15.0f plus CR_HIT ratings, which no current gear supplies.",
+  "evidence_class": "legacy-only",
+  "reopen_condition": "current gear or auras supplying CR_HIT_* ratings",
+  "witnesses": [],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:5014",
+   "src/server/game/Entities/Unit/StatSystem.cpp:753-767"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-11",
+  "track": "C",
+  "topic": "caller-supplied server state",
+  "claim_or_gap": "Session expansion (MaxLevel update field) and a non-default MaxPlayerLevel are server/account state absent from both snapshot and TDB.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "the importing server's configuration and account expansion",
+  "witnesses": [],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:2334-2339",
+   "src/server/game/World/World.cpp:750"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-12",
+  "track": "C",
+  "topic": "compiler vs charstats armour spec",
+  "claim_or_gap": "Agent E's compiler applies armour specialisations reached through class skill lines (Hunter 86538, Rogue 86092, Warlock 86091, Priest 89745); charstats.acquisition searches SpecializationSpells only, so a plain charstats resolution omits the 5% (e.g. Hunter Agility 20,105 vs 19,148). Trinity arithmetic over the compiler's stages agrees.",
+  "evidence_class": "differential",
+  "reopen_condition": "charstats.acquisition extended to the full acquired spell set, or E's discovery adopted as the reference",
+  "witnesses": [
+   "bm-hunter-mail-ranged-pet",
+   "subtlety-rogue-leather-dw",
+   "demonology-warlock-cloth-pet",
+   "holy-priest-cloth-healer-tier4"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:26203-26213"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "F-13",
+  "track": "C",
+  "topic": "differential vs a changed E fixture set",
+  "claim_or_gap": "differential.json reflects the 11 agent-E compiled fixtures present at generation (all Trinity arithmetic over their stat stages matched); a later fixture change is not reflected until regeneration.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "agent E runs `python3 character_prep.py all`; then rerun `python3 character_prep.py differential --out ../../docs/research/character-prep-corpora/differential.json`",
+  "witnesses": [],
+  "coordinates": [],
+  "owner": "part F"
+ },
+ {
+  "id": "F-14",
+  "track": "C",
+  "topic": "NPC-only playable-bit races",
+  "claim_or_gap": "ChrRaces 95/96 carry PlayableRaceBit 32/33 and the NPCOnly flag; no racestats/playercreateinfo row; creation refuses them.",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "a snapshot where 95/96 lose NPCOnly, or a TDB adding rows for them",
+  "witnesses": [],
+  "coordinates": [
+   "src/server/game/Handlers/CharacterHandler.cpp:743",
+   "src/server/game/DataStores/DBCEnums.h:349"
+  ],
+  "owner": "part F"
+ },
+ {
+  "id": "R3-1",
+  "track": "C",
+  "topic": "item required level",
+  "claim_or_gap": "Every current-season item (ItemSparse.ExpansionID 11) resolves to required level 90 through ItemBonus 49 SCALING_CONFIG_AND_REQ_LEVEL (ItemScalingConfig 219/318 RequiredLevel 90). Player::CanUseItem refuses it below level 90 and _LoadInventory mails it, so the original level-80 fixtures were not loadable in Trinity although the compiler reported validation.ok. Fixed: the compiler checks the required level, and the synthetic fixtures are level 90. Items with a RequiredLevelCurve or a fixed scaling level are still reported unresolved (gearing does not evaluate them).",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "gearing evaluates RequiredLevelCurve / ITEM_MODIFIER_TIMEWALKER_LEVEL, or a fixture item carries ItemBonus type 27 or 13",
+  "witnesses": [
+   "268229",
+   "251126",
+   "ItemScalingConfig 219",
+   "ItemScalingConfig 318"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:11148-11149",
+   "src/server/game/Entities/Item/Item.cpp:2864-2874",
+   "src/server/game/Entities/Item/Item.cpp:3143-3163",
+   "src/server/game/Entities/Player/Player.cpp:19240",
+   "src/server/game/Entities/Player/Player.cpp:19295-19299"
+  ],
+  "related": [
+   "E-1",
+   "E-13"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-2",
+  "track": "C",
+  "topic": "learned-spell state",
+  "claim_or_gap": "The fixture format now has an optional identity section learned_spells (character_spell rows, Player::_LoadSpells -> AddSpell). The compiler roots those spells as learned-spell and passes them to the weapon hook. Class skill lines hold 3,789 AcquireMethod-0 'Learned' abilities (3,702 in the snapshot, 36 passive), which no automatic path teaches. Which of them a Retail character knows is character state. Not modelled: the active/disabled flags of character_spell and the spell_learn_spell dependents (5 world rows).",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a Retail character export listing known spells; a census of which AcquireMethod-0 class-line spells are combat-relevant for current specs",
+  "witnesses": [
+   "296087",
+   "arms-warrior-plate-dw-learned"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:18609",
+   "src/server/game/Entities/Player/Player.cpp:2690-2720",
+   "src/server/game/Entities/Player/Player.cpp:25404-25417"
+  ],
+  "related": [
+   "E-5",
+   "R2-2",
+   "C-20"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-3",
+  "track": "C",
+  "topic": "glyphs",
+  "claim_or_gap": "Player::_LoadGlyphs and _LoadGlyphAuras cast GlyphProperties.SpellID at login. The 686 glyph spells carry aura effects that are not all cosmetic: SPELL_AURA_DUMMY x103, OVERRIDE_SPELL_VISUAL x26, aura 332 x6, PROC_TRIGGER_SPELL x5, ADD_FLAT_MODIFIER x5, aura 285 x3, and others. The fixture format has no glyph section and the compiler applies none.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a glyph section in the fixture format, plus a census of which glyph spells change combat values for current specs",
+  "witnesses": [
+   "GlyphProperties (686 spells)"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:18614",
+   "src/server/game/Entities/Player/Player.cpp:18616",
+   "src/server/game/Entities/Player/Player.cpp:19110-19114",
+   "src/server/game/Entities/Player/Player.cpp:28410"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-4",
+  "track": "C",
+  "topic": "saved skills",
+  "claim_or_gap": "Player::_LoadSkills restores the saved skills of any SkillRaceClassInfo availability and runs LearnSkillRewardedSpells with the saved values. LearnDefaultSkills then skips those skills. The compiler assumes default-skill values only. Items with a RequiredSkill that is not a default skill are reported unresolved. The fixture format has no saved-skill section.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a saved-skill section in the fixture format, plus a census of AcquireMethod 1/2 combat spells on non-default skill lines (professions, riding, Availability-2 rows)",
+  "witnesses": [
+   "SkillRaceClassInfo 883 (skill 118, Availability 2)"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:18591",
+   "src/server/game/Entities/Player/Player.cpp:27228-27345",
+   "src/server/game/Entities/Player/Player.cpp:25267",
+   "src/server/game/DataStores/DB2Stores.cpp:2991-3004"
+  ],
+  "related": [
+   "E-3"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-5",
+  "track": "C",
+  "topic": "AcquireMethod 4 split",
+  "claim_or_gap": "Of the AcquireMethod-4 default-skill spells in the fixtures, 54197 and 50977 have no ShowFutureSpellPlayerConditionID, and the pinned TDB has no conditions row of source type 35 for their abilities (14 such rows exist, none for them). Trinity therefore learns them. The rest (e.g. 163201, 2645, 783, 697, 2006, 322109) and 121128 (a type-56 conditions row) depend on PlayerCondition 83446: Flags 0x21, ContentTuning 958, and ModifierTree 143919 = not on maps 2175/2236/2261/2369. That makes them depend on host location and level. The compiler keeps all of them unresolved and names the reason.",
+  "evidence_class": "world-db-fact",
+  "reopen_condition": "the conditions table becomes a compiler input, and a host-location input for PlayerCondition 83446",
+  "witnesses": [
+   "54197",
+   "50977",
+   "163201",
+   "121128",
+   "PlayerCondition 83446"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:25409-25415",
+   "src/server/game/Conditions/ConditionMgr.cpp:2881-2910"
+  ],
+  "related": [
+   "E-2"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-6",
+  "track": "C",
+  "topic": "initial health convention",
+  "claim_or_gap": "'Health starts full at the prepared maximum' is an encounter convention, not a Trinity construction path. Player::Create fills health before gear is applied, Unit::SetMaxHealth never refills, and LoadFromDB restores the saved value. Only GiveLevel fills after UpdateAllStats. The compiled evidence class was lowered to structural-inference.",
+  "evidence_class": "structural-inference",
+  "reopen_condition": "a host specification of the encounter start state",
+  "witnesses": [
+   "arms-warrior-plate-2h"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:497-498",
+   "src/server/game/Entities/Unit/Unit.cpp:10016-10030",
+   "src/server/game/Entities/Player/Player.cpp:18708",
+   "src/server/game/Entities/Player/Player.cpp:2254"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-7",
+  "track": "C",
+  "topic": "max charges aura term",
+  "claim_or_gap": "SpellHistory::GetMaxCharges adds SPELL_AURA_MOD_MAX_CHARGES. The compiled max_charges used to omit this term, for example for Arms 7384 (category 1680, raised by 385571). The compiler now adds the base points of passives active at preparation. Aura amount modifiers and gated passives are not evaluated.",
+  "evidence_class": "structural-inference",
+  "reopen_condition": "a spell-modifier evaluation of aura 411 amounts",
+  "witnesses": [
+   "7384",
+   "385571",
+   "34026",
+   "269737",
+   "2050",
+   "235587"
+  ],
+  "coordinates": [
+   "src/server/game/Spells/SpellHistory.cpp:964-973"
+  ],
+  "related": [
+   "E-9"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-8",
+  "track": "C",
+  "topic": "equip checks not modelled",
+  "claim_or_gap": "Several CanEquipUniqueItem checks are not evaluated. The allowed quantities of ItemLimitCategory (GetItemLimitCategoryQuantity, ItemLimitCategoryCondition) are not evaluated: more than one equipped item in a category is reported unresolved. Gem limit categories are not checked. Heirloom ContentTuning limits are not checked. The gearing-level durability / GetUseableItemByPos state is taken as usable.",
+  "evidence_class": "unresolved",
+  "reopen_condition": "a fixture with a limit-category item, or a unique-equipped gem pair",
+  "witnesses": [],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:27374-27437",
+   "src/server/game/Entities/Player/Player.cpp:10771-10777"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-9",
+  "track": "C",
+  "topic": "equip cooldown by construction path",
+  "claim_or_gap": "On-use item spells are ready only on the load path, where _LoadInventory uses QuickEquipItem. A host that equips through Player::EquipItem starts a 30 s cooldown on them, unless the item has ITEM_FLAG_NO_EQUIP_COOLDOWN.",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "a host specification of how the prepared character is equipped",
+  "witnesses": [
+   "270173"
+  ],
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:25146-25186",
+   "src/server/game/Entities/Player/Player.cpp:11567",
+   "src/server/game/Entities/Player/Player.cpp:11611"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "R3-10",
+  "track": "C",
+  "topic": "controlled-unit hook contract",
+  "claim_or_gap": "/derived/controlled_units correctly fails closed: controlled_units.ownership has no CHARACTER_PREP_HOOK, and call_hook records the miss. The hook would need to accept context {fixture, identity (+learned_spells), gear, spells, stats (null when unresolved), section, snapshot_build, trinitycore_commit} and return a dict with evidence_class, validate the section (hunter_pet creature_family_id / pet_specialization_id, active_demon summon_spell_id), and derive the pet level, stats and spells. Two identity values were verified (db2-fact): ChrSpecialization 74 = Ferocity (ClassID 0) and SpellName 30146 = Summon Felguard (acquired by the Demonology fixture).",
+  "evidence_class": "unresolved",
+  "reopen_condition": "Track A exposes CHARACTER_PREP_HOOK(context) -> dict",
+  "witnesses": [
+   "bm-hunter-mail-ranged-pet",
+   "demonology-warlock-cloth-pet"
+  ],
+  "coordinates": [
+   "scripts/research/character_prep/compiler.py call_hook / CLASS_HOOK"
+  ],
+  "related": [
+   "E-4"
+  ],
+  "owner": "closeout review G3"
+ },
+ {
+  "id": "L-2",
+  "track": "C",
+  "topic": "default-skill acquisition vs earlier scopes (lead)",
+  "claim_or_gap": "Default-skill learning (SkillRaceClassInfo -> LearnDefaultSkills -> LearnSkillRewardedSpells) grants spells through skill lines whose CategoryID is not 7 (skill 118 -> 674 Dual Wield; generic skill 183 -> 114585 Mastery +8). dummy_semantics.scope.Scope and the proc census follow only CategoryID 7, so their current-player populations exclude these spells. The earlier corpora were not changed by this pass.",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "re-run the Dummy and proc census with a scope that includes default-skill grants and compare the owner counts",
+  "witnesses": [
+   "674",
+   "114585",
+   "SkillLine 118",
+   "SkillLine 183"
+  ],
+  "coordinates": [
+   "Globals/ObjectMgr.cpp:4059-4072",
+   "Entities/Player/Player.cpp:25259-25441"
+  ],
+  "related": [
+   "C-20",
+   "E-8",
+   "F-5",
+   "E-2"
+  ],
+  "owner": "lead"
+ },
+ {
+  "id": "L-3",
+  "track": "C",
+  "topic": "errata against character-stat-pipeline-archaeology (lead)",
+  "claim_or_gap": "Five statements of the earlier character-stat report or its package are contradicted: base mastery is not 0 (114585 +8); armour specialization comes from the class skill line for six classes; the racial race bit is not race_id-1 for races >= 34 and AcquireMethod 0 abilities are not learned; weapon AP int32(dps*6) does not land in AttackPowerModPos; aura 429 MOD_SUMMON_DAMAGE has no Trinity consumer. Listed in combat-preparation-synthesis.md section 10; the earlier package and corpora were not modified.",
+  "evidence_class": "trinity-consumer",
+  "reopen_condition": "an update of the charstats package and report that adopts or refutes each correction",
+  "witnesses": [
+   "114585",
+   "86092",
+   "86538",
+   "86091",
+   "89744",
+   "89745",
+   "366524"
+  ],
+  "coordinates": [
+   "Entities/Unit/StatSystem.cpp:549-550",
+   "Entities/Player/Player.cpp:26203-26213",
+   "Entities/Player/Player.cpp:8163-8176",
+   "Spells/Auras/SpellAuraEffects.cpp:501"
+  ],
+  "related": [
+   "E-6",
+   "E-7",
+   "E-8",
+   "F-5",
+   "B-2"
+  ],
+  "owner": "lead"
+ }
+]

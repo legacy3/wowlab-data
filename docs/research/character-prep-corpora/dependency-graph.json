@@ -1,0 +1,505 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "world_database": "TDB_full_world_1200.26021_2026_02_06.sql",
+  "generator": "python3 character_prep.py graph --json"
+ },
+ "acyclic": true,
+ "node_count": 26,
+ "edge_count": 41,
+ "topological_order": [
+  "/fixture/controlled_units",
+  "/fixture/equipment",
+  "/fixture/identity",
+  "/fixture/learned_spells",
+  "/fixture/pvp_traits",
+  "/fixture/traits",
+  "/server_inputs/base_stats",
+  "hook:controlled_units",
+  "hook:weapon_combat",
+  "research:character_prep.default_skills",
+  "research:character_prep.initial_state",
+  "research:character_prep.trait_engine",
+  "research:charstats",
+  "/derived/identity",
+  "/derived/pvp_traits",
+  "/derived/traits",
+  "research:dummy_semantics.markers",
+  "research:gearing",
+  "/derived/gear",
+  "research:procs",
+  "/derived/spells",
+  "/derived/armor_specialization",
+  "/derived/stats",
+  "/derived/controlled_units",
+  "/derived/initial_state",
+  "/derived/weapon"
+ ],
+ "nodes": [
+  {
+   "id": "/fixture/controlled_units",
+   "kind": "input",
+   "label": "controlled-unit identity (hook section)",
+   "input_kind": "identity",
+   "owner": "caller",
+   "evidence_class": "structural-inference",
+   "status": "resolved"
+  },
+  {
+   "id": "/fixture/equipment",
+   "kind": "input",
+   "label": "slot -> item entry (context, bonus lists, gems, enchants)",
+   "input_kind": "identity",
+   "owner": "caller",
+   "evidence_class": "db2-fact",
+   "status": "resolved"
+  },
+  {
+   "id": "/fixture/identity",
+   "kind": "input",
+   "label": "race / class / spec / level",
+   "input_kind": "identity",
+   "owner": "caller",
+   "evidence_class": "db2-fact",
+   "status": "resolved"
+  },
+  {
+   "id": "/fixture/learned_spells",
+   "kind": "input",
+   "label": "explicitly learned spells (optional, character_spell)",
+   "input_kind": "identity",
+   "owner": "caller",
+   "evidence_class": "trinity-consumer",
+   "status": "resolved"
+  },
+  {
+   "id": "/fixture/pvp_traits",
+   "kind": "input",
+   "label": "PvP talents (optional)",
+   "input_kind": "identity",
+   "owner": "caller",
+   "evidence_class": "db2-fact",
+   "status": "resolved"
+  },
+  {
+   "id": "/fixture/traits",
+   "kind": "input",
+   "label": "trait selections + hero sub-tree",
+   "input_kind": "identity",
+   "owner": "caller",
+   "evidence_class": "db2-fact",
+   "status": "resolved"
+  },
+  {
+   "id": "/server_inputs/base_stats",
+   "kind": "input",
+   "label": "player_classlevelstats + player_racestats",
+   "input_kind": "server",
+   "owner": "agent F (server)",
+   "evidence_class": "world-db-fact",
+   "status": "resolved"
+  },
+  {
+   "id": "hook:controlled_units",
+   "kind": "hook",
+   "module": "controlled_units.ownership",
+   "owner": "Track A (parts/A.md, parts/B.md)",
+   "evidence_class": "unresolved",
+   "status": "unresolved",
+   "status_reason": "controlled_units.ownership has no CHARACTER_PREP_HOOK",
+   "attribute": "CHARACTER_PREP_HOOK",
+   "corpora": []
+  },
+  {
+   "id": "hook:weapon_combat",
+   "kind": "hook",
+   "module": "weapon_combat.weapon",
+   "owner": "Track B (parts/C.md, parts/D.md)",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok",
+   "attribute": "CHARACTER_PREP_HOOK",
+   "corpora": []
+  },
+  {
+   "id": "research:character_prep.default_skills",
+   "kind": "research",
+   "module": "character_prep.compiler",
+   "owner": "parts/E.md §3 (port of LearnDefaultSkills)",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok",
+   "attribute": null,
+   "corpora": []
+  },
+  {
+   "id": "research:character_prep.initial_state",
+   "kind": "research",
+   "module": "character_prep.inputs",
+   "owner": "parts/E.md §3",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok",
+   "attribute": null,
+   "corpora": []
+  },
+  {
+   "id": "research:character_prep.trait_engine",
+   "kind": "research",
+   "module": "character_prep.compiler",
+   "owner": "parts/E.md §5 (port of TraitMgr)",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok",
+   "attribute": null,
+   "corpora": []
+  },
+  {
+   "id": "research:charstats",
+   "kind": "research",
+   "module": "charstats.character",
+   "owner": "docs/research/character-stat-pipeline-archaeology.md",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok",
+   "attribute": null,
+   "corpora": []
+  },
+  {
+   "id": "/derived/identity",
+   "kind": "derived",
+   "owner": "charstats.identity",
+   "consumer": "Entities/Player/Player.cpp:387 Player::Create",
+   "evidence_class": "db2-fact",
+   "status": "resolved",
+   "status_reason": "ok"
+  },
+  {
+   "id": "/derived/pvp_traits",
+   "kind": "derived",
+   "owner": "character_prep.compiler",
+   "consumer": "Entities/Player/Player.cpp:28467 _LoadPvpTalents",
+   "evidence_class": "db2-fact",
+   "status": "resolved",
+   "status_reason": "ok"
+  },
+  {
+   "id": "/derived/traits",
+   "kind": "derived",
+   "owner": "character_prep.compiler.TraitEngine",
+   "consumer": "Spells/TraitMgr.cpp:838-1015 ValidateConfig; Player.cpp:29380-29409 ApplyTraitConfig",
+   "evidence_class": "db2-fact",
+   "status": "resolved",
+   "status_reason": "ok"
+  },
+  {
+   "id": "research:dummy_semantics.markers",
+   "kind": "research",
+   "module": "dummy_semantics.loaders",
+   "owner": "docs/research/dummy-server-semantics-archaeology.md",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok",
+   "attribute": null,
+   "corpora": [
+    "docs/research/dummy-corpora/markers.json",
+    "docs/research/dummy-corpora/bindings.json"
+   ]
+  },
+  {
+   "id": "research:gearing",
+   "kind": "research",
+   "module": "gearing.loadout",
+   "owner": "docs/research/gearing-pipeline-archaeology.md",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok",
+   "attribute": null,
+   "corpora": []
+  },
+  {
+   "id": "/derived/gear",
+   "kind": "derived",
+   "owner": "gearing.loadout",
+   "consumer": "Entities/Player/Player.cpp:7847 _ApplyItemBonuses; Entities/Player/Player.cpp:13417 ApplyEnchantment",
+   "evidence_class": "db2-fact",
+   "status": "resolved",
+   "status_reason": "ok"
+  },
+  {
+   "id": "research:procs",
+   "kind": "research",
+   "module": "procs.spells",
+   "owner": "docs/research/proc-pipeline-archaeology.md",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok",
+   "attribute": null,
+   "corpora": [
+    "docs/research/procs-corpora/census.json"
+   ]
+  },
+  {
+   "id": "/derived/spells",
+   "kind": "derived",
+   "owner": "charstats.acquisition + character_prep.compiler (default skills)",
+   "consumer": "Entities/Player/Player.cpp:30631-30648; Entities/Player/Player.cpp:25259-25441; Entities/Player/Player.cpp:3079-3104",
+   "evidence_class": "trinity-consumer",
+   "status": "resolved",
+   "status_reason": "ok"
+  },
+  {
+   "id": "/derived/armor_specialization",
+   "kind": "derived",
+   "owner": "charstats.acquisition (rule) + character_prep.compiler (spell set, gate)",
+   "consumer": "Entities/Player/Player.cpp:26203-26213 HasItemFitToSpellRequirements",
+   "evidence_class": "trinity-consumer",
+   "status": "resolved",
+   "status_reason": "ok"
+  },
+  {
+   "id": "/derived/stats",
+   "kind": "derived",
+   "owner": "charstats.character",
+   "consumer": "Entities/Unit/StatSystem.cpp:198-345 UpdateAllStats",
+   "evidence_class": "trinity-consumer",
+   "status": "resolved",
+   "status_reason": "ok"
+  },
+  {
+   "id": "/derived/controlled_units",
+   "kind": "derived",
+   "owner": "Track A (controlled_units)",
+   "consumer": "Entities/Pet/Pet.cpp (Track A)",
+   "evidence_class": "unresolved",
+   "status": "unresolved",
+   "status_reason": "computed by unresolved ['hook:controlled_units']"
+  },
+  {
+   "id": "/derived/initial_state",
+   "kind": "derived",
+   "owner": "character_prep.compiler",
+   "consumer": "Entities/Player/Player.cpp:2323-2498 InitStatsForLevel; Entities/Player/Player.cpp:490-502 Create; Spells/SpellHistory.cpp:147-179",
+   "evidence_class": "trinity-consumer",
+   "status": "resolved",
+   "status_reason": "ok"
+  },
+  {
+   "id": "/derived/weapon",
+   "kind": "derived",
+   "owner": "Track B/C (weapon_combat) + gearing weapon facts",
+   "consumer": "Entities/Unit/Unit.cpp:326 attack timers (Track B)",
+   "evidence_class": "structural-inference",
+   "status": "resolved",
+   "status_reason": "ok"
+  }
+ ],
+ "edges": [
+  {
+   "from": "/derived/armor_specialization",
+   "to": "/derived/stats",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/gear",
+   "to": "/derived/armor_specialization",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/gear",
+   "to": "/derived/initial_state",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/gear",
+   "to": "/derived/spells",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/gear",
+   "to": "/derived/stats",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/gear",
+   "to": "/derived/weapon",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/identity",
+   "to": "/derived/gear",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/identity",
+   "to": "/derived/initial_state",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/identity",
+   "to": "/derived/pvp_traits",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/identity",
+   "to": "/derived/spells",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/identity",
+   "to": "/derived/stats",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/identity",
+   "to": "/derived/traits",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/pvp_traits",
+   "to": "/derived/spells",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/spells",
+   "to": "/derived/armor_specialization",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/spells",
+   "to": "/derived/controlled_units",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/spells",
+   "to": "/derived/initial_state",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/stats",
+   "to": "/derived/controlled_units",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/stats",
+   "to": "/derived/initial_state",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/stats",
+   "to": "/derived/weapon",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/derived/traits",
+   "to": "/derived/spells",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/fixture/controlled_units",
+   "to": "/derived/controlled_units",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/fixture/equipment",
+   "to": "/derived/gear",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/fixture/identity",
+   "to": "/derived/identity",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/fixture/learned_spells",
+   "to": "/derived/spells",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/fixture/pvp_traits",
+   "to": "/derived/pvp_traits",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/fixture/traits",
+   "to": "/derived/traits",
+   "relation": "derived-from"
+  },
+  {
+   "from": "/server_inputs/base_stats",
+   "to": "/derived/stats",
+   "relation": "derived-from"
+  },
+  {
+   "from": "hook:controlled_units",
+   "to": "/derived/controlled_units",
+   "relation": "computed-by"
+  },
+  {
+   "from": "hook:weapon_combat",
+   "to": "/derived/weapon",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:character_prep.default_skills",
+   "to": "/derived/spells",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:character_prep.initial_state",
+   "to": "/derived/initial_state",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:character_prep.trait_engine",
+   "to": "/derived/pvp_traits",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:character_prep.trait_engine",
+   "to": "/derived/traits",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:charstats",
+   "to": "/derived/armor_specialization",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:charstats",
+   "to": "/derived/identity",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:charstats",
+   "to": "/derived/spells",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:charstats",
+   "to": "/derived/stats",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:dummy_semantics.markers",
+   "to": "/derived/spells",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:gearing",
+   "to": "/derived/gear",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:gearing",
+   "to": "/derived/weapon",
+   "relation": "computed-by"
+  },
+  {
+   "from": "research:procs",
+   "to": "/derived/spells",
+   "relation": "computed-by"
+  }
+ ]
+}

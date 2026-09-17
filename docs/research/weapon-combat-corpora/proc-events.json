@@ -1,0 +1,2306 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 weapon_combat.py proc-events-corpus",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2"
+ },
+ "facts": [
+  {
+   "id": "P01",
+   "fact": "White swing event site: Unit::AttackerStateUpdate -> Unit::ProcSkillsAndAuras(attacker, victim, ProcAttacker, ProcVictim, PROC_SPELL_TYPE_NONE, PROC_SPELL_PHASE_NONE, DamageInfo(CalcDamageInfo).GetHitMask(), spell=nullptr, &dmgInfo, healInfo=nullptr).",
+   "coord": "Unit.cpp:2346-2347"
+  },
+  {
+   "id": "P02",
+   "fact": "ProcAttacker: BASE_ATTACK -> PROC_FLAG_DEAL_MELEE_SWING | PROC_FLAG_MAIN_HAND_WEAPON_SWING; OFF_ATTACK -> PROC_FLAG_DEAL_MELEE_SWING | PROC_FLAG_OFF_HAND_WEAPON_SWING (and HITINFO_OFFHAND). ProcVictim: PROC_FLAG_TAKE_MELEE_SWING; | PROC_FLAG_TAKE_ANY_DAMAGE when int32(Damage) > 0 after armor/outcome/resilience and BEFORE absorb (a fully absorbed hit still carries TAKE_ANY_DAMAGE). RANGED_ATTACK returns from CalculateMeleeDamage with PROC_FLAG_NONE and AttackerStateUpdate returns before it anyway.",
+   "coord": "Unit.cpp:1356-1368, 1508-1510, 2285-2286"
+  },
+  {
+   "id": "P03",
+   "fact": "Hit mask for white swings is built by DamageInfo::DamageInfo(CalcDamageInfo const&): VICTIMSTATE_IS_IMMUNE -> IMMUNE; VICTIMSTATE_BLOCKS -> FULL_BLOCK (never produced by CalculateMeleeDamage, which sets VICTIMSTATE_HIT on block); HITINFO_PARTIAL/FULL_ABSORB -> ABSORB; HITINFO_FULL_RESIST -> FULL_RESIST; Blocked != 0 -> BLOCK; then outcome: MISS/DODGE/PARRY/EVADE map 1:1, BLOCK/CRUSHING/GLANCING/NORMAL -> NORMAL and CRIT -> CRITICAL unless damageNullified (FULL_ABSORB | FULL_RESIST | IMMUNE | FULL_BLOCK).",
+   "coord": "Unit.cpp:142-192"
+  },
+  {
+   "id": "P04",
+   "fact": "PROC_HIT_NORMAL does not require Damage > 0: a blocked/partially-absorbed swing that ends at 0 damage still reports NORMAL|BLOCK / NORMAL|ABSORB; only FULL_ABSORB nullifies it.",
+   "coord": "Unit.cpp:163-165, 181-191"
+  },
+  {
+   "id": "P05",
+   "fact": "Immune victim: CalculateMeleeDamage returns before the outcome roll with TargetState VICTIMSTATE_IS_IMMUNE while HitOutCome keeps its preset MELEE_HIT_EVADE, so the hit mask is IMMUNE | EVADE; ProcVictim has no TAKE_ANY_DAMAGE.",
+   "coord": "Unit.cpp:1347, 1371-1380, 150-153, 178-180"
+  },
+  {
+   "id": "P06",
+   "fact": "spellTypeMask = PROC_SPELL_TYPE_NONE and spellPhaseMask = PROC_SPELL_PHASE_NONE for every white swing; ProcEventInfo::GetSpellInfo() is nullptr (DamageInfo m_spellInfo = nullptr); GetProcSpell() is nullptr.",
+   "coord": "Unit.cpp:2347, 143"
+  },
+  {
+   "id": "P07",
+   "fact": "Extra attacks (HandleProcExtraAttackFor -> AttackerStateUpdate(victim, BASE_ATTACK, extra=true)) reach the same CalculateMeleeDamage/ProcSkillsAndAuras call with identical masks: `extra` only bypasses UNIT_STATE_CANNOT_AUTOATTACK and the CURRENT_MELEE_SPELL branch. No flag distinguishes an extra attack from a normal main-hand swing in the proc event.",
+   "coord": "Unit.cpp:2365-2372, 2267, 2292"
+  },
+  {
+   "id": "P08",
+   "fact": "Suppression on white swings: spellInfo == nullptr so SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS cannot apply; spell == nullptr so IsProcDisabled (TRIGGERED_DISALLOW_PROC_EVENTS) and ProcChainHardLimit cannot apply; Unit::CanProc (m_procDeep) is NOT consulted by AttackerStateUpdate (only Spell::TargetInfo::DoDamageAndTriggers checks unitTarget->CanProc()). SPELL_AURA_DISABLE_AUTOATTACK / DISABLE_ATTACKING_EXCEPT_ABILITIES / UNIT_FLAG_PACIFIED suppress the swing itself, hence the event.",
+   "coord": "Unit.cpp:5569-5600 (:5574-5578, :5591, :5594), Spell.cpp:8300-8303, Unit.cpp:10620-10624, Spell.cpp:2851, Unit.cpp:2264-2274"
+  },
+  {
+   "id": "P09",
+   "fact": "Owner vs pet: TriggerAurasProcOnEvent visits the actor's own applied auras; the spell-mod owner's auras are visited ONLY when `spell` is non-null and only those auras contained in spell->m_appliedMods (\"needed for example for Cobra Strikes\"). For a pet white swing (spell == nullptr) the owner's aura list is never visited; the owner receives no event.",
+   "coord": "Unit.cpp:10580-10617 (:10587-10604)"
+  },
+  {
+   "id": "P10",
+   "fact": "Weapon enchant / item ON_PROC effects on white swings are NOT proc events: Player::CastItemCombatSpell runs from DealMeleeDamage (before ProcSkillsAndAuras) gated on hitMask & (NORMAL | CRITICAL | ABSORB), with its own roll_chance per item/enchant (spell_enchant_proc_data).",
+   "coord": "Unit.cpp:1596-1600, Player.cpp:8596-8760"
+  },
+  {
+   "id": "P11",
+   "fact": "Auto-attack override (SPELL_AURA_OVERRIDE_AUTOATTACK_WITH_MELEE_SPELL): CastSpell(victim, id, TRIGGERED_FULL_MASK) replaces the swing; no white event; the replacement spell's own DmgClass decides its flags (DEAL_MELEE_ABILITY | hand flag for MELEE; the hand flag comes from Spell::m_attackType, i.e. the spell's own attack type, not the swing hand).",
+   "coord": "Unit.cpp:2354, Spell.cpp:2339-2357"
+  },
+  {
+   "id": "P12",
+   "fact": "Ranged auto-shot is a Spell: prepareDataForTriggerSystem gives DmgClass RANGED + SPELL_ATTR2_AUTO_REPEAT -> PROC_FLAG_DEAL_RANGED_ATTACK / PROC_FLAG_TAKE_RANGED_ATTACK; events: (1) Spell::_cast success (procAttacker | PROC_FLAG_2_CAST_SUCCESSFUL, PROC_SPELL_TYPE_MASK_ALL, PROC_SPELL_PHASE_CAST, hitMask | NORMAL unless CRITICAL), (2) per target DoDamageAndTriggers (phase HIT, spellType DAMAGE if damage else NO_DMG_HEAL, hit mask createProcHitMask(SpellNonMeleeDamage, MissCondition), | TAKE_ANY_DAMAGE when damage > 0 and not immune; CanProc gate; CastItemCombatSpell after unless SUPPRESS_WEAPON_PROCS / CANCELS_AUTO_ATTACK_COMBAT), (3) _handle_finish_phase (phase FINISH), (4) Spell::finish PROC_FLAG_CAST_ENDED.",
+   "coord": "Spell.cpp:2339-2371, 3898-3915, 2825-2989, 4218-4224, 4401 (see procs.events.EVENT_PRODUCERS)"
+  },
+  {
+   "id": "P13",
+   "fact": "A blocked weapon spell (SPELL_MISS_BLOCK from MeleeSpellHitResult) still hits unless SPELL_ATTR3_COMPLETELY_BLOCKED (0x8): effects run and damage is dealt minus CalculatePct(damage, uint32(victim->GetBlockPercent())) (0 for player victims, 30% for creatures), but the proc hit mask is always PROC_HIT_BLOCK | PROC_HIT_FULL_BLOCK (createProcHitMask ignores the amount when missCondition != NONE), so NORMAL/CRITICAL are never set; the crit roll is skipped for a blocked target (IsCrit only when MissCondition == NONE), so a blocked weapon spell never crits despite the 'CAN BE crit & blocked' comment. TAKE_ANY_DAMAGE is still added when damage > 0. A blocked white swing is partial (BLOCK | NORMAL/CRITICAL).",
+   "coord": "Spell.cpp:2763-2766, 4875, 8540-8563, 8570, 2924-2927; Unit.cpp:1235-1252, 10433-10438, 1455-1469; SharedDefines.h:551"
+  },
+  {
+   "id": "P14",
+   "fact": "No attribute turns an ability into a swing for proc purposes: PROC_FLAG_DEAL_MELEE_SWING is produced only by CalculateMeleeDamage. But every DmgClass MELEE spell carries PROC_FLAG_MAIN_HAND_WEAPON_SWING (or OFF_HAND_WEAPON_SWING when m_attackType == OFF_ATTACK) together with DEAL_MELEE_ABILITY, so a proc keyed only on the hand bits fires for white swings and melee abilities alike.",
+   "coord": "rg PROC_FLAG_DEAL_MELEE_SWING src/server/game -> Unit.cpp:1359,1363 only; Spell.cpp:2350-2357"
+  },
+  {
+   "id": "P16",
+   "fact": "Spell-path damage events: procVictim |= TAKE_ANY_DAMAGE whenever m_damage > 0 and the target is not damage-immune, even when the damage is then fully absorbed (HITINFO_FULL_ABSORB -> hit mask ABSORB only); damage immunity sets ProcHitMask = IMMUNE with spell type DAMAGE and no TAKE_ANY_DAMAGE; a missed target (miss/dodge/parry/deflect/evade/resist/spell immunity) goes through the no-damage branch: createProcHitMask(missCondition), spell type NO_DMG_HEAL.",
+   "coord": "Spell.cpp:2904-2950, Unit.cpp:1295, 10419-10470"
+  },
+  {
+   "id": "P15",
+   "fact": "Actor-side skills/reactives: ProcSkillsAndReactives(false, victim, typeMaskActor, hitMask, attType) for the actor and (true, actor, ...) for the target run before the aura procs (subject to the SUPPRESS_* attributes, which cannot apply to swings).",
+   "coord": "Unit.cpp:5591-5595"
+  }
+ ],
+ "flag_values": {
+  "PROC_FLAG_DEAL_MELEE_SWING": 4,
+  "PROC_FLAG_TAKE_MELEE_SWING": 8,
+  "PROC_FLAG_MAIN_HAND_WEAPON_SWING": 4194304,
+  "PROC_FLAG_OFF_HAND_WEAPON_SWING": 8388608,
+  "PROC_FLAG_TAKE_ANY_DAMAGE": 1048576,
+  "PROC_FLAG_DEAL_RANGED_ATTACK": 64,
+  "PROC_FLAG_TAKE_RANGED_ATTACK": 128,
+  "PROC_FLAG_DEAL_MELEE_ABILITY": 16,
+  "PROC_HIT_NORMAL": 1,
+  "PROC_HIT_CRITICAL": 2,
+  "PROC_HIT_MISS": 4,
+  "PROC_HIT_DODGE": 16,
+  "PROC_HIT_PARRY": 32,
+  "PROC_HIT_BLOCK": 64,
+  "PROC_HIT_EVADE": 128,
+  "PROC_HIT_IMMUNE": 256,
+  "PROC_HIT_ABSORB": 1024,
+  "PROC_HIT_FULL_BLOCK": 8192,
+  "PROC_HIT_FULL_RESIST": 8,
+  "PROC_HIT_DEFLECT": 512
+ },
+ "cross_check_contradictions": [],
+ "events": [
+  {
+   "path": "white_mh",
+   "outcome": "normal",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1,
+   "hit_flags": [
+    "NORMAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base normal"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "crit",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 2,
+   "hit_flags": [
+    "CRITICAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 2,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base crit"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "miss",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 4,
+   "hit_flags": [
+    "MISS"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 4,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base miss"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "dodge",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 16,
+   "hit_flags": [
+    "DODGE"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 16,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base dodge"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "parry",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 32,
+   "hit_flags": [
+    "PARRY"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 32,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base parry"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "block",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 65,
+   "hit_flags": [
+    "NORMAL",
+    "BLOCK"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 30,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 65,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base block"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "glancing",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1,
+   "hit_flags": [
+    "NORMAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base glancing"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "crushing",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1,
+   "hit_flags": [
+    "NORMAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base crushing"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "evade",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 128,
+   "hit_flags": [
+    "EVADE"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 128,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base evade"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "immune",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 384,
+   "hit_flags": [
+    "EVADE",
+    "IMMUNE"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 384,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base immune"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "normal",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1,
+   "hit_flags": [
+    "NORMAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off normal"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "crit",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 2,
+   "hit_flags": [
+    "CRITICAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 2,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off crit"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "miss",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 4,
+   "hit_flags": [
+    "MISS"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 4,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off miss"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "dodge",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 16,
+   "hit_flags": [
+    "DODGE"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 16,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off dodge"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "parry",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 32,
+   "hit_flags": [
+    "PARRY"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 32,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off parry"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "block",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 65,
+   "hit_flags": [
+    "NORMAL",
+    "BLOCK"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 30,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 65,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off block"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "glancing",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1,
+   "hit_flags": [
+    "NORMAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off glancing"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "crushing",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1,
+   "hit_flags": [
+    "NORMAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off crushing"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "evade",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 128,
+   "hit_flags": [
+    "EVADE"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 128,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off evade"
+   }
+  },
+  {
+   "path": "white_oh",
+   "outcome": "immune",
+   "actor_mask": 8388612,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "OFF_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 8,
+   "target_flags": [
+    "TAKE_MELEE_SWING"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 384,
+   "hit_flags": [
+    "EVADE",
+    "IMMUNE"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "off",
+    "damage_post_absorb": 0,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 8388612,
+    "target_mask": 8,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 384,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "off",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing off immune"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "normal",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1024,
+   "hit_flags": [
+    "ABSORB"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 0,
+    "absorb": 100,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1024,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base normal"
+   }
+  },
+  {
+   "path": "white_mh",
+   "outcome": "crit",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1026,
+   "hit_flags": [
+    "CRITICAL",
+    "ABSORB"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 150,
+    "absorb": 50,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1026,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 150,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base crit"
+   }
+  },
+  {
+   "path": "white_mh_extra",
+   "outcome": "normal",
+   "actor_mask": 4194308,
+   "actor_flags": [
+    "DEAL_MELEE_SWING",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 1048584,
+   "target_flags": [
+    "TAKE_MELEE_SWING",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 0,
+   "spell_phase_mask": 0,
+   "hit_mask": 1,
+   "hit_flags": [
+    "NORMAL"
+   ],
+   "spell": null,
+   "damage_info": {
+    "attack_type": "base",
+    "damage_post_absorb": 100,
+    "absorb": 0,
+    "resist": 0,
+    "block": 0,
+    "spell_info": null
+   },
+   "heal_info": null,
+   "suppression": [
+    "none reachable: spellInfo == nullptr, spell == nullptr, CanProc not consulted (P08)"
+   ],
+   "coords": [
+    "Unit.cpp:2346-2347",
+    "Unit.cpp:1356-1368",
+    "Unit.cpp:142-192",
+    "Unit.cpp:1508-1510",
+    "Unit.cpp:2365-2372"
+   ],
+   "proc_event": {
+    "actor_mask": 4194308,
+    "target_mask": 1048584,
+    "spell_type_mask": 0,
+    "spell_phase_mask": 0,
+    "hit_mask": 1,
+    "spell_id": null,
+    "has_proc_spell": false,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "base",
+    "school_mask": 1,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "white swing base normal (extra attack)"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "normal",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 1048704,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 1,
+   "spell_phase_mask": 2,
+   "hit_mask": 1,
+   "hit_flags": [
+    "NORMAL"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 1048704,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 2,
+    "hit_mask": 1,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 normal"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "crit",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 1048704,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 1,
+   "spell_phase_mask": 2,
+   "hit_mask": 2,
+   "hit_flags": [
+    "CRITICAL"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 1048704,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 2,
+    "hit_mask": 2,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 crit"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "miss",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 128,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK"
+   ],
+   "spell_type_mask": 4,
+   "spell_phase_mask": 2,
+   "hit_mask": 4,
+   "hit_flags": [
+    "MISS"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 128,
+    "spell_type_mask": 4,
+    "spell_phase_mask": 2,
+    "hit_mask": 4,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 miss"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "block",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 1048704,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 1,
+   "spell_phase_mask": 2,
+   "hit_mask": 8256,
+   "hit_flags": [
+    "BLOCK",
+    "FULL_BLOCK"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 1048704,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 2,
+    "hit_mask": 8256,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 100,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 block"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "deflect",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 128,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK"
+   ],
+   "spell_type_mask": 4,
+   "spell_phase_mask": 2,
+   "hit_mask": 512,
+   "hit_flags": [
+    "DEFLECT"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 128,
+    "spell_type_mask": 4,
+    "spell_phase_mask": 2,
+    "hit_mask": 512,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 deflect"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "resist",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 128,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK"
+   ],
+   "spell_type_mask": 4,
+   "spell_phase_mask": 2,
+   "hit_mask": 8,
+   "hit_flags": [
+    "FULL_RESIST"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 128,
+    "spell_type_mask": 4,
+    "spell_phase_mask": 2,
+    "hit_mask": 8,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 resist"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "evade",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 128,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK"
+   ],
+   "spell_type_mask": 4,
+   "spell_phase_mask": 2,
+   "hit_mask": 128,
+   "hit_flags": [
+    "EVADE"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 128,
+    "spell_type_mask": 4,
+    "spell_phase_mask": 2,
+    "hit_mask": 128,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 evade"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "immune",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 128,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK"
+   ],
+   "spell_type_mask": 1,
+   "spell_phase_mask": 2,
+   "hit_mask": 256,
+   "hit_flags": [
+    "IMMUNE"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 128,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 2,
+    "hit_mask": 256,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 immune"
+   }
+  },
+  {
+   "path": "ranged_auto",
+   "outcome": "normal",
+   "spell": 75,
+   "actor_mask": 64,
+   "actor_flags": [
+    "DEAL_RANGED_ATTACK"
+   ],
+   "target_mask": 1048704,
+   "target_flags": [
+    "TAKE_RANGED_ATTACK",
+    "TAKE_ANY_DAMAGE"
+   ],
+   "spell_type_mask": 1,
+   "spell_phase_mask": 2,
+   "hit_mask": 1024,
+   "hit_flags": [
+    "ABSORB"
+   ],
+   "additional_events": [
+    {
+     "phase": "CAST",
+     "actor": "DEAL_RANGED_ATTACK | 2_CAST_SUCCESSFUL",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "m_hitMask | NORMAL (or CRITICAL)",
+     "coord": "Spell.cpp:3898-3915"
+    },
+    {
+     "phase": "FINISH",
+     "actor": "DEAL_RANGED_ATTACK",
+     "target": "NONE",
+     "spell_type": "accumulated",
+     "hit": "accumulated",
+     "coord": "Spell.cpp:4218-4224"
+    },
+    {
+     "phase": "NONE",
+     "actor": "CAST_ENDED",
+     "target": "NONE",
+     "spell_type": "MASK_ALL",
+     "hit": "NONE",
+     "coord": "Spell.cpp:4401 (Spell::finish)"
+    }
+   ],
+   "suppression": [
+    "unitTarget->CanProc() (m_procDeep == 0) else no HIT event (Spell.cpp:2851)",
+    "SPELL_ATTR3_SUPPRESS_CASTER_PROCS / SUPPRESS_TARGET_PROCS on the auto-shot spell (Unit.cpp:5591-5595)",
+    "TRIGGERED_DISALLOW_PROC_EVENTS (not set: _UpdateAutoRepeatSpell uses TRIGGERED_IGNORE_GCD, Unit.cpp:3052)",
+    "CastItemCombatSpell skipped for SPELL_ATTR0_CANCELS_AUTO_ATTACK_COMBAT / SPELL_ATTR4_SUPPRESS_WEAPON_PROCS (Spell.cpp:2985-2987)"
+   ],
+   "coords": [
+    "Spell.cpp:2339-2371",
+    "Spell.cpp:2825-2989",
+    "Unit.cpp:10419-10470"
+   ],
+   "proc_event": {
+    "actor_mask": 64,
+    "target_mask": 1048704,
+    "spell_type_mask": 1,
+    "spell_phase_mask": 2,
+    "hit_mask": 1024,
+    "spell_id": 75,
+    "has_proc_spell": true,
+    "has_damage_info": true,
+    "has_heal_info": false,
+    "damage": 0,
+    "attack_type": "ranged",
+    "school_mask": null,
+    "has_action_target": true,
+    "spell_is_triggered": false,
+    "spell_triggered_by_aura": null,
+    "spell_cast_item": false,
+    "spell_power_cost_positive": null,
+    "spell_cast_time_nonzero": null,
+    "spell_applied_mod_auras": [],
+    "spell_proc_disabled": false,
+    "proc_chain_length": 0,
+    "label": "ranged auto 75 normal"
+   }
+  },
+  {
+   "path": "white_override",
+   "replacement_spell": 408385,
+   "dmg_class": 2,
+   "white_event": "none (CalculateMeleeDamage/ProcSkillsAndAuras skipped, Unit.cpp:2352-2361)",
+   "actor_mask": 4194320,
+   "actor_flags": [
+    "DEAL_MELEE_ABILITY",
+    "MAIN_HAND_WEAPON_SWING"
+   ],
+   "target_mask": 32,
+   "target_flags": [
+    "TAKE_MELEE_ABILITY"
+   ],
+   "note": "hand flag follows Spell::m_attackType of the replacement spell (Spell.cpp:2351-2355), which is derived from the spell, not from the swing hand",
+   "coords": [
+    "Unit.cpp:2299-2316",
+    "Unit.cpp:2352-2361",
+    "Spell.cpp:2339-2371"
+   ]
+  }
+ ]
+}

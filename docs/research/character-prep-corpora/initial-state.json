@@ -1,0 +1,493 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 character_prep.py initial-state",
+  "coordinates_root": "src/server/game"
+ },
+ "classes": [
+  {
+   "class": "immutable-facts",
+   "items": [
+    "race / class / spec / level",
+    "equipped items and their resolved stats",
+    "trait config",
+    "server base stats"
+   ],
+   "consumer": [
+    "Entities/Player/Player.cpp:17925 LoadFromDB",
+    "Entities/Player/Player.cpp:2323 InitStatsForLevel"
+   ],
+   "evidence_class": "trinity-consumer",
+   "derived_path": "/derived/identity"
+  },
+  {
+   "class": "compiled-program",
+   "items": [
+    "reachable spell set: spec spells, mastery, applied traits, default-skill spells, gear roots, PvP talents (selected vs possible)"
+   ],
+   "consumer": [
+    "Entities/Player/Player.cpp:30631-30648",
+    "Entities/Player/Player.cpp:29380-29409",
+    "Entities/Player/Player.cpp:25259-25441",
+    "Entities/Player/Player.cpp:8315 ApplyItemEquipSpell"
+   ],
+   "evidence_class": "trinity-consumer",
+   "derived_path": "/derived/spells",
+   "notes": "selected = applied config entries; possible = the whole class tree (TraitMgr::GetTreesForConfig)"
+  },
+  {
+   "class": "mutable-combat-state",
+   "items": [
+    "health",
+    "power per power type"
+   ],
+   "rule": {
+    "health": "full at the prepared maximum by convention (structural-inference): InitStatsForLevel SetFullHealth (Player.cpp:2487) and Create (:497-498) fill before gear is applied, SetMaxHealth never refills, login restores the saved value (:18708)",
+    "mana/energy/focus": "full (Player.cpp:2488-2492)",
+    "rage": "unchanged, clamped only if above max (:2490-2491)",
+    "runic power": "0 (:2493)",
+    "lunar power": "0 on login (:18725)",
+    "create": "PowerType flag SetToMaxOnInitialLogIn -> full (Player.cpp:500-502)",
+    "level-up": "PowerType flag SetToMaxOnLevelUp -> full (Player.cpp:2254-2257)",
+    "login": "saved values clamped to max (Player.cpp:18708-18723)"
+   },
+   "consumer": [
+    "Entities/Unit/StatSystem.cpp:90-99 GetCreatePowerValue",
+    "Entities/Unit/StatSystem.cpp:331-345 UpdateMaxPower"
+   ],
+   "evidence_class": "trinity-consumer",
+   "derived_path": "/derived/initial_state/value/powers"
+  },
+  {
+   "class": "active-at-start-passives",
+   "items": [
+    "learn -> cast passive",
+    "shapeshift gate",
+    "equipment gate (armour spec)",
+    "caster aura state gate",
+    "set thresholds",
+    "marker Dummy auras"
+   ],
+   "rule": {
+    "cast on learn": "Entities/Player/Player.cpp:2792-2794 / :2916-2929 -> HandlePassiveSpellLearn :3079-3104",
+    "shapeshift": "Stances with no form and no ATTR2_ALLOW_WHILE_NOT_SHAPESHIFTED -> not cast (:3083-3085)",
+    "equipment": "EquippedItemClass >= 0 with an aura effect -> AddAura only if HasItemFitToSpellRequirements (:3089-3099)",
+    "caster aura state": "not cast on learn unless the state holds (:3102-3103); health states are set on the first Unit::Update (Unit.cpp:474-483) and ModifyAuraState casts the passive then (Unit.cpp:6078-6098)",
+    "sets": "Player::ApplyEquipSpell via set thresholds (gearing.sets)"
+   },
+   "evidence_class": "trinity-consumer",
+   "derived_path": "/derived/initial_state/value/auras"
+  },
+  {
+   "class": "cooldowns-and-charges",
+   "items": [
+    "every cooldown ready",
+    "every charge category full"
+   ],
+   "rule": {
+    "cooldowns": "SpellHistory::LoadFromDB replays only persisted rows (Spells/SpellHistory.cpp:147-179); an in-game EquipItem starts a 30 s cooldown on on-use item spells (Player.cpp:25146-25186), QuickEquipItem at load does not",
+    "charges": "GetMaxCharges = SpellCategory.MaxCharges + SPELL_AURA_MOD_MAX_CHARGES (Spells/SpellHistory.cpp:964-973); the compiler adds the aura base points of passives active at preparation"
+   },
+   "evidence_class": "trinity-consumer",
+   "derived_path": "/derived/initial_state/value/charges"
+  },
+  {
+   "class": "weapon-swing-state",
+   "items": [
+    "base attack time per attack type",
+    "attack timers"
+   ],
+   "rule": {
+    "base": "InitStatsForLevel BASE_ATTACK_TIME for every type (Player.cpp:2394-2395); weapon delay on equip (:5396)",
+    "timers": "m_attackTimer = {} (Entities/Unit/Unit.cpp:326): ready"
+   },
+   "owner": "Track B (weapon_combat.swing)",
+   "evidence_class": "trinity-consumer",
+   "derived_path": "/derived/weapon"
+  },
+  {
+   "class": "pet-state",
+   "items": [
+    "summoned / active pet, pet stats and spells"
+   ],
+   "owner": "Track A (controlled_units)",
+   "evidence_class": "unresolved",
+   "derived_path": "/derived/controlled_units",
+   "notes": "hook degrades to unresolved until controlled_units exposes CHARACTER_PREP_HOOK"
+  },
+  {
+   "class": "rng-identity",
+   "items": [
+    "seed"
+   ],
+   "evidence_class": "structural-inference",
+   "derived_path": null,
+   "notes": "not needed for preparation; options.rng reserved and must be null"
+  },
+  {
+   "class": "encounter-only",
+   "items": [
+    "target",
+    "position",
+    "raid buffs",
+    "consumables",
+    "bloodlust",
+    "PvP item levels",
+    "PvP talent activation",
+    "area item-level scaling"
+   ],
+   "evidence_class": "structural-inference",
+   "derived_path": "/derived/initial_state/value/not_character_preparation",
+   "notes": "item context from difficulty is NOT here: it is ItemContext inside each equipment entry (an identity input)"
+  }
+ ],
+ "powers": {
+  "power_types": [
+   {
+    "power_type": 0,
+    "name": "Mana",
+    "min": 0,
+    "max_base": 0,
+    "center": 0,
+    "default": 0,
+    "flags": 12480,
+    "set_to_max_on_initial_login": true,
+    "set_to_max_on_level_up": true
+   },
+   {
+    "power_type": 1,
+    "name": "Rage",
+    "min": 0,
+    "max_base": 1000,
+    "center": 0,
+    "default": 0,
+    "flags": 8192,
+    "set_to_max_on_initial_login": true,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 2,
+    "name": "Focus",
+    "min": 0,
+    "max_base": 100,
+    "center": 0,
+    "default": 100,
+    "flags": 25728,
+    "set_to_max_on_initial_login": true,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 3,
+    "name": "Energy",
+    "min": 0,
+    "max_base": 100,
+    "center": 0,
+    "default": 100,
+    "flags": 29824,
+    "set_to_max_on_initial_login": true,
+    "set_to_max_on_level_up": true
+   },
+   {
+    "power_type": 4,
+    "name": "ComboPoints",
+    "min": 0,
+    "max_base": 5,
+    "center": 0,
+    "default": 0,
+    "flags": 65722,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 5,
+    "name": "Runes",
+    "min": 0,
+    "max_base": 6,
+    "center": 0,
+    "default": 6,
+    "flags": 75264,
+    "set_to_max_on_initial_login": true,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 6,
+    "name": "RunicPower",
+    "min": 0,
+    "max_base": 1000,
+    "center": 0,
+    "default": 0,
+    "flags": 0,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 7,
+    "name": "SoulShards",
+    "min": 0,
+    "max_base": 50,
+    "center": 30,
+    "default": 30,
+    "flags": 77907,
+    "set_to_max_on_initial_login": true,
+    "set_to_max_on_level_up": true
+   },
+   {
+    "power_type": 8,
+    "name": "LunarPower",
+    "min": 0,
+    "max_base": 1000,
+    "center": 0,
+    "default": 0,
+    "flags": 34,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 9,
+    "name": "HolyPower",
+    "min": 0,
+    "max_base": 3,
+    "center": 0,
+    "default": 0,
+    "flags": 65563,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 10,
+    "name": "AlternatePower",
+    "min": 0,
+    "max_base": 0,
+    "center": 0,
+    "default": 0,
+    "flags": 128,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 11,
+    "name": "Maelstrom",
+    "min": 0,
+    "max_base": 100,
+    "center": 0,
+    "default": 0,
+    "flags": 48,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 12,
+    "name": "Chi",
+    "min": 0,
+    "max_base": 4,
+    "center": 0,
+    "default": 0,
+    "flags": 65562,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 13,
+    "name": "Insanity",
+    "min": 0,
+    "max_base": 10000,
+    "center": 0,
+    "default": 0,
+    "flags": 546,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 16,
+    "name": "ArcaneCharges",
+    "min": 0,
+    "max_base": 4,
+    "center": 0,
+    "default": 0,
+    "flags": 65594,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 17,
+    "name": "Fury",
+    "min": 0,
+    "max_base": 100,
+    "center": 0,
+    "default": 0,
+    "flags": 0,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 18,
+    "name": "Pain",
+    "min": 0,
+    "max_base": 1000,
+    "center": 0,
+    "default": 0,
+    "flags": 0,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 19,
+    "name": "Essence",
+    "min": 0,
+    "max_base": 5,
+    "center": 0,
+    "default": 5,
+    "flags": 87552,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": true
+   },
+   {
+    "power_type": 23,
+    "name": "AlternateQuest",
+    "min": 0,
+    "max_base": 100,
+    "center": 0,
+    "default": 0,
+    "flags": 128,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 24,
+    "name": "AlternateEncounter",
+    "min": 0,
+    "max_base": 100,
+    "center": 0,
+    "default": 0,
+    "flags": 128,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   },
+   {
+    "power_type": 25,
+    "name": "AlternateMount",
+    "min": 0,
+    "max_base": 0,
+    "center": 0,
+    "default": 0,
+    "flags": 128,
+    "set_to_max_on_initial_login": false,
+    "set_to_max_on_level_up": false
+   }
+  ],
+  "class_powers": {
+   "1": [
+    1,
+    10,
+    23,
+    24,
+    25
+   ],
+   "2": [
+    0,
+    9,
+    10,
+    23,
+    24,
+    25
+   ],
+   "3": [
+    2,
+    10,
+    23,
+    24,
+    25
+   ],
+   "4": [
+    3,
+    4,
+    10,
+    23,
+    24,
+    25
+   ],
+   "5": [
+    0,
+    10,
+    13,
+    23,
+    24,
+    25
+   ],
+   "6": [
+    5,
+    6,
+    10,
+    23,
+    24,
+    25
+   ],
+   "7": [
+    0,
+    10,
+    11,
+    23,
+    24,
+    25
+   ],
+   "8": [
+    0,
+    10,
+    16,
+    23,
+    24,
+    25
+   ],
+   "9": [
+    0,
+    7,
+    10,
+    23,
+    24,
+    25
+   ],
+   "10": [
+    0,
+    3,
+    10,
+    12,
+    23,
+    24,
+    25
+   ],
+   "11": [
+    0,
+    1,
+    3,
+    4,
+    8,
+    10,
+    23,
+    24,
+    25
+   ],
+   "12": [
+    10,
+    17,
+    18,
+    23,
+    24,
+    25
+   ],
+   "13": [
+    0,
+    10,
+    19,
+    23,
+    24,
+    25
+   ],
+   "15": [
+    0,
+    3
+   ]
+  },
+  "source": "PowerType.db2, ChrClassesXPowerTypes.db2 (db2-fact)"
+ }
+}

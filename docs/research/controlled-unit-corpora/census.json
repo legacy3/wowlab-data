@@ -1,0 +1,5222 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "world_database": "TDB_full_world_1200.26021_2026_02_06.sql",
+  "generator": "python3 controlled_units.py census",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2"
+ },
+ "default": {
+  "counts": {
+   "records": 62,
+   "spells": 61,
+   "creature_entries": 53,
+   "by_category": {
+    "permanent-class-pet": 2,
+    "controllable-guardian": 4,
+    "guardian": 25,
+    "totem": 17,
+    "companion-minion": 1,
+    "ally-summon": 5,
+    "wild-summon": 3,
+    "charmed": 2,
+    "possessed": 1,
+    "possessed-own-pet": 1,
+    "no-consumer": 1
+   },
+   "by_cxx_class": {
+    "-": 5,
+    "Guardian": 29,
+    "Minion": 1,
+    "Pet": 2,
+    "TempSummon": 8,
+    "Totem": 17
+   },
+   "by_handler": {
+    "AuraEffect::HandleModCharm": 2,
+    "AuraEffect::HandleModPossess": 1,
+    "AuraEffect::HandleModPossessPet": 1,
+    "Spell::EffectNULL": 1,
+    "Spell::EffectSummonPet": 2,
+    "Spell::EffectSummonType": 55
+   },
+   "by_class": {
+    "Death Knight": 6,
+    "Demon Hunter": 2,
+    "Druid": 8,
+    "Evoker": 2,
+    "Hunter": 4,
+    "Mage": 5,
+    "Monk": 9,
+    "Paladin": 3,
+    "Priest": 6,
+    "Rogue": 2,
+    "Shaman": 20,
+    "Warlock": 16,
+    "Warrior": 3
+   },
+   "tdb_template": {
+    "absent": 2,
+    "not-applicable": 5,
+    "present": 55
+   },
+   "client_creature": {
+    "absent": 46,
+    "not-applicable": 5,
+    "present": 11
+   },
+   "build_skew_added_spells": 2,
+   "control_title_pairs": {
+    "SUMMON_CATEGORY_ALLY/Champion": 1,
+    "SUMMON_CATEGORY_ALLY/Companion": 1,
+    "SUMMON_CATEGORY_ALLY/Construct": 1,
+    "SUMMON_CATEGORY_ALLY/Enforcer": 2,
+    "SUMMON_CATEGORY_ALLY/Guardian": 11,
+    "SUMMON_CATEGORY_ALLY/Minion": 3,
+    "SUMMON_CATEGORY_ALLY/None": 8,
+    "SUMMON_CATEGORY_ALLY/Pet": 2,
+    "SUMMON_CATEGORY_ALLY/Runeblade": 1,
+    "SUMMON_CATEGORY_ALLY/Spirit": 1,
+    "SUMMON_CATEGORY_ALLY/Statue": 2,
+    "SUMMON_CATEGORY_ALLY/Totem": 17,
+    "SUMMON_CATEGORY_PET/Guardian": 2,
+    "SUMMON_CATEGORY_WILD/None": 3
+   },
+   "summon_flags_seen": {
+    "CannotDismissPet": 1,
+    "DespawnOnSummonerDeath": 12,
+    "DespawnOnSummonerLogout": 6,
+    "DespawnWhenExpired": 22,
+    "DespawnWhenReplaced": 1,
+    "DespawnWhenTeleportingOutOfRange": 3,
+    "DoNotToggle": 3,
+    "DontDespawnOnSummonerDeath": 1,
+    "DontSnapSessileToGround": 19,
+    "GuardianActsLikePet": 5,
+    "HelpWhenSummonedInCombat": 43,
+    "IgnoreSummonerPhase": 3,
+    "JoinSummonerSpawnGroup": 30,
+    "SavePetAutocast": 6,
+    "SummonFromBattlePetJournal": 1,
+    "UnitClutter": 13,
+    "UnlimitedSummons": 2,
+    "UseCreatureLevel": 1,
+    "UseSummonerFaction": 6
+   },
+   "summon_flags_seen_nyi_in_trinity": {
+    "CannotDismissPet": 1,
+    "DespawnOnSummonerDeath": 12,
+    "DespawnOnSummonerLogout": 6,
+    "DespawnWhenExpired": 22,
+    "DespawnWhenReplaced": 1,
+    "DespawnWhenTeleportingOutOfRange": 3,
+    "DoNotToggle": 3,
+    "DontDespawnOnSummonerDeath": 1,
+    "DontSnapSessileToGround": 19,
+    "GuardianActsLikePet": 5,
+    "HelpWhenSummonedInCombat": 43,
+    "JoinSummonerSpawnGroup": 30,
+    "SavePetAutocast": 6,
+    "UnitClutter": 13,
+    "UnlimitedSummons": 2
+   },
+   "slots": {
+    "SUMMON_SLOT_ANY_TOTEM": 30,
+    "SUMMON_SLOT_MINIPET": 1,
+    "SUMMON_SLOT_PET": 22,
+    "SUMMON_SLOT_TOTEM": 2
+   },
+   "tempsummon_types": {
+    "TEMPSUMMON_DEAD_DESPAWN": 1,
+    "TEMPSUMMON_TIMED_DESPAWN": 54
+   }
+  },
+  "identities": [
+   {
+    "spell": 605,
+    "name": "Mind Control",
+    "effect_index": 0,
+    "category": "possessed",
+    "class": "-",
+    "creature_entry": 0,
+    "creature_name": "",
+    "summon_properties_id": 0,
+    "control_title": "",
+    "slot": "",
+    "tdb": "not-applicable",
+    "tempsummon_type": null,
+    "duration_ms": 30000,
+    "specs": [
+     256,
+     257,
+     258
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1122,
+    "name": "Summon Infernal",
+    "effect_index": 0,
+    "category": "wild-summon",
+    "class": "TempSummon",
+    "creature_entry": 47319,
+    "creature_name": "",
+    "summon_properties_id": 1881,
+    "control_title": "SUMMON_CATEGORY_WILD/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 250,
+    "specs": [
+     267
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 5394,
+    "name": "Healing Stream Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 3527,
+    "creature_name": "",
+    "summon_properties_id": 3402,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 15000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 8143,
+    "name": "Tremor Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 5913,
+    "creature_name": "",
+    "summon_properties_id": 3406,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 10000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 8512,
+    "name": "Windfury Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 6112,
+    "creature_name": "",
+    "summon_properties_id": 3406,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 120000,
+    "specs": [
+     263
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 16191,
+    "name": "Mana Tide Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 10467,
+    "creature_name": "",
+    "summon_properties_id": 4841,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 8000,
+    "specs": [
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 26573,
+    "name": "Consecration",
+    "effect_index": 2,
+    "category": "ally-summon",
+    "class": "TempSummon",
+    "creature_entry": 43499,
+    "creature_name": "",
+    "summon_properties_id": 3002,
+    "control_title": "SUMMON_CATEGORY_ALLY/None",
+    "slot": "SUMMON_SLOT_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 12000,
+    "specs": [
+     70
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 30146,
+    "name": "Summon Felguard",
+    "effect_index": 0,
+    "category": "permanent-class-pet",
+    "class": "Pet",
+    "creature_entry": 17252,
+    "creature_name": "Felguard",
+    "summon_properties_id": 0,
+    "control_title": "",
+    "slot": "",
+    "tdb": "present",
+    "tempsummon_type": null,
+    "duration_ms": -1,
+    "specs": [
+     266
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 31687,
+    "name": "Summon Water Elemental",
+    "effect_index": 0,
+    "category": "permanent-class-pet",
+    "class": "Pet",
+    "creature_entry": 78116,
+    "creature_name": "",
+    "summon_properties_id": 0,
+    "control_title": "",
+    "slot": "",
+    "tdb": "present",
+    "tempsummon_type": null,
+    "duration_ms": -1,
+    "specs": [
+     64
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 46585,
+    "name": "Raise Dead",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 26125,
+    "creature_name": "",
+    "summon_properties_id": 4973,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 60000,
+    "specs": [
+     250,
+     251,
+     252
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 49028,
+    "name": "Dancing Rune Weapon",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 27893,
+    "creature_name": "",
+    "summon_properties_id": 3242,
+    "control_title": "SUMMON_CATEGORY_ALLY/Runeblade",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 8000,
+    "specs": [
+     250
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 51485,
+    "name": "Earthgrab Totem",
+    "effect_index": 1,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 60561,
+    "creature_name": "",
+    "summon_properties_id": 3404,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 20000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 98008,
+    "name": "Spirit Link Totem",
+    "effect_index": 1,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 53006,
+    "creature_name": "",
+    "summon_properties_id": 3399,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 6000,
+    "specs": [
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 101643,
+    "name": "Transcendence",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 54569,
+    "creature_name": "",
+    "summon_properties_id": 3234,
+    "control_title": "SUMMON_CATEGORY_ALLY/Spirit",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 900000,
+    "specs": [
+     268,
+     269,
+     270
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 102693,
+    "name": "Grove Guardians",
+    "effect_index": 1,
+    "category": "controllable-guardian",
+    "class": "Guardian",
+    "creature_entry": 54983,
+    "creature_name": "",
+    "summon_properties_id": 5734,
+    "control_title": "SUMMON_CATEGORY_ALLY/Pet",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 8000,
+    "specs": [
+     105
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 108280,
+    "name": "Healing Tide Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 59764,
+    "creature_name": "",
+    "summon_properties_id": 5204,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 10000,
+    "specs": [
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 108287,
+    "name": "Totemic Projection",
+    "effect_index": 0,
+    "category": "wild-summon",
+    "class": "TempSummon",
+    "creature_entry": 47319,
+    "creature_name": "",
+    "summon_properties_id": 1881,
+    "control_title": "SUMMON_CATEGORY_WILD/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 1000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 111673,
+    "name": "Control Undead",
+    "effect_index": 0,
+    "category": "charmed",
+    "class": "-",
+    "creature_entry": 0,
+    "creature_name": "",
+    "summon_properties_id": 0,
+    "control_title": "",
+    "slot": "",
+    "tdb": "not-applicable",
+    "tempsummon_type": null,
+    "duration_ms": 300000,
+    "specs": [
+     250,
+     251,
+     252
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 111685,
+    "name": "Summon Infernal",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 89,
+    "creature_name": "Infernal",
+    "summon_properties_id": 711,
+    "control_title": "SUMMON_CATEGORY_ALLY/Champion",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 30000,
+    "specs": [
+     267
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 111771,
+    "name": "Demonic Gateway",
+    "effect_index": 0,
+    "category": "wild-summon",
+    "class": "TempSummon",
+    "creature_entry": 47319,
+    "creature_name": "",
+    "summon_properties_id": 4991,
+    "control_title": "SUMMON_CATEGORY_WILD/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 1,
+    "specs": [
+     265,
+     266,
+     267
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 111898,
+    "name": "Grimoire: Felguard",
+    "effect_index": 1,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 17252,
+    "creature_name": "Felguard",
+    "summon_properties_id": 3313,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 17000,
+    "specs": [
+     266
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 113724,
+    "name": "Ring of Frost",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 44199,
+    "creature_name": "",
+    "summon_properties_id": 3018,
+    "control_title": "SUMMON_CATEGORY_ALLY/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 10000,
+    "specs": [
+     62,
+     63,
+     64
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 115313,
+    "name": "Summon Jade Serpent Statue",
+    "effect_index": 0,
+    "category": "ally-summon",
+    "class": "TempSummon",
+    "creature_entry": 60849,
+    "creature_name": "",
+    "summon_properties_id": 3216,
+    "control_title": "SUMMON_CATEGORY_ALLY/Statue",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 900000,
+    "specs": [
+     268,
+     269,
+     270
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 115315,
+    "name": "Summon Black Ox Statue",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 61146,
+    "creature_name": "",
+    "summon_properties_id": 3223,
+    "control_title": "SUMMON_CATEGORY_ALLY/Statue",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 900000,
+    "specs": [
+     268,
+     269,
+     270
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 123904,
+    "name": "Invoke Xuen, the White Tiger",
+    "effect_index": 0,
+    "category": "controllable-guardian",
+    "class": "Guardian",
+    "creature_entry": 63508,
+    "creature_name": "",
+    "summon_properties_id": 3262,
+    "control_title": "SUMMON_CATEGORY_PET/Guardian",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 20000,
+    "specs": [
+     269
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 132578,
+    "name": "Invoke Niuzao, the Black Ox",
+    "effect_index": 0,
+    "category": "controllable-guardian",
+    "class": "Guardian",
+    "creature_entry": 73967,
+    "creature_name": "",
+    "summon_properties_id": 3353,
+    "control_title": "SUMMON_CATEGORY_PET/Guardian",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 25000,
+    "specs": [
+     268
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 145205,
+    "name": "Efflorescence",
+    "effect_index": 1,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 47649,
+    "creature_name": "",
+    "summon_properties_id": 3456,
+    "control_title": "SUMMON_CATEGORY_ALLY/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 30000,
+    "specs": [
+     105
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 192058,
+    "name": "Capacitor Totem",
+    "effect_index": 1,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 61245,
+    "creature_name": "",
+    "summon_properties_id": 3407,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 3000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 192077,
+    "name": "Wind Rush Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 97285,
+    "creature_name": "",
+    "summon_properties_id": 3695,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 15000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 192222,
+    "name": "Liquid Magma Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 97369,
+    "creature_name": "",
+    "summon_properties_id": 3697,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 6000,
+    "specs": [
+     262
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 196361,
+    "name": "Bloodworm",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 99773,
+    "creature_name": "",
+    "summon_properties_id": 3715,
+    "control_title": "SUMMON_CATEGORY_ALLY/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 16000,
+    "specs": [
+     250
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 198838,
+    "name": "Earthen Wall Totem",
+    "effect_index": 1,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 100943,
+    "creature_name": "",
+    "summon_properties_id": 3737,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 15000,
+    "specs": [
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 200174,
+    "name": "Mindbender",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 62982,
+    "creature_name": "",
+    "summon_properties_id": 3254,
+    "control_title": "SUMMON_CATEGORY_ALLY/Minion",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 10000,
+    "specs": [
+     258
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 205180,
+    "name": "Summon Darkglare",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 103673,
+    "creature_name": "Darkglare",
+    "summon_properties_id": 3766,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 20000,
+    "specs": [
+     265
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 205364,
+    "name": "Dominate Mind",
+    "effect_index": 0,
+    "category": "charmed",
+    "class": "-",
+    "creature_entry": 0,
+    "creature_name": "",
+    "summon_properties_id": 0,
+    "control_title": "",
+    "slot": "",
+    "tdb": "not-applicable",
+    "tempsummon_type": null,
+    "duration_ms": 30000,
+    "specs": [
+     256,
+     257,
+     258
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 207399,
+    "name": "Ancestral Protection Totem",
+    "effect_index": 1,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 104818,
+    "creature_name": "",
+    "summon_properties_id": 3787,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 30000,
+    "specs": [
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 248280,
+    "name": "Force of Nature",
+    "effect_index": 0,
+    "category": "controllable-guardian",
+    "class": "Guardian",
+    "creature_entry": 103822,
+    "creature_name": "",
+    "summon_properties_id": 3097,
+    "control_title": "SUMMON_CATEGORY_ALLY/Pet",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 10000,
+    "specs": [
+     102
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 264119,
+    "name": "Summon Vilefiend",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 135816,
+    "creature_name": "",
+    "summon_properties_id": 4266,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 15000,
+    "specs": [
+     266
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 265187,
+    "name": "Summon Demonic Tyrant",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 135002,
+    "creature_name": "Demonic Tyrant",
+    "summon_properties_id": 4255,
+    "control_title": "SUMMON_CATEGORY_ALLY/Enforcer",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 15000,
+    "specs": [
+     266
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 265187,
+    "name": "Summon Demonic Tyrant",
+    "effect_index": 3,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 250289,
+    "creature_name": "Demonic Tyrant",
+    "summon_properties_id": 4255,
+    "control_title": "SUMMON_CATEGORY_ALLY/Enforcer",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 15000,
+    "specs": [
+     266
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 273277,
+    "name": "Summon Animal Companion",
+    "effect_index": 0,
+    "category": "no-consumer",
+    "class": "-",
+    "creature_entry": 0,
+    "creature_name": "",
+    "summon_properties_id": 0,
+    "control_title": "",
+    "slot": "",
+    "tdb": "not-applicable",
+    "tempsummon_type": null,
+    "duration_ms": null,
+    "specs": [
+     253
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 321297,
+    "name": "Eyes of the Beast",
+    "effect_index": 0,
+    "category": "possessed-own-pet",
+    "class": "-",
+    "creature_entry": 0,
+    "creature_name": "",
+    "summon_properties_id": 0,
+    "control_title": "",
+    "slot": "",
+    "tdb": "not-applicable",
+    "tempsummon_type": null,
+    "duration_ms": 60000,
+    "specs": [
+     253,
+     255
+    ],
+    "root_kinds": [
+     "spec-spell"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 322118,
+    "name": "Invoke Yu'lon, the Jade Serpent",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 165374,
+    "creature_name": "",
+    "summon_properties_id": 5055,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 25000,
+    "specs": [
+     270
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 325197,
+    "name": "Invoke Chi-Ji, the Red Crane",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 166949,
+    "creature_name": "",
+    "summon_properties_id": 3733,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 25000,
+    "specs": [
+     270
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 342245,
+    "name": "Alter Time",
+    "effect_index": 0,
+    "category": "ally-summon",
+    "class": "TempSummon",
+    "creature_entry": 58542,
+    "creature_name": "",
+    "summon_properties_id": 3189,
+    "control_title": "SUMMON_CATEGORY_ALLY/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 20000,
+    "specs": [
+     62,
+     63,
+     64
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 376081,
+    "name": "Champion's Spear",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 254386,
+    "creature_name": "",
+    "summon_properties_id": 6528,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 6000,
+    "specs": [
+     71,
+     72,
+     73
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 383013,
+    "name": "Poison Cleansing Totem",
+    "effect_index": 1,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 5923,
+    "creature_name": "",
+    "summon_properties_id": 5428,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 6000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 383017,
+    "name": "Stoneskin Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 194117,
+    "creature_name": "",
+    "summon_properties_id": 5430,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 15000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 383019,
+    "name": "Tranquil Air Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 194118,
+    "creature_name": "",
+    "summon_properties_id": 5431,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 20000,
+    "specs": [
+     262,
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 434587,
+    "name": "Summon Overfiend",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 217429,
+    "creature_name": "Overfiend",
+    "summon_properties_id": 6024,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 8000,
+    "specs": [
+     267
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 444995,
+    "name": "Surging Totem",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 225409,
+    "creature_name": "",
+    "summon_properties_id": 5967,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_ANY_TOTEM",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 25000,
+    "specs": [
+     263,
+     264
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 458101,
+    "name": "Lively Totems",
+    "effect_index": 0,
+    "category": "totem",
+    "class": "Totem",
+    "creature_entry": 2523,
+    "creature_name": "",
+    "summon_properties_id": 3211,
+    "control_title": "SUMMON_CATEGORY_ALLY/Totem",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 8000,
+    "specs": [
+     263,
+     264
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1232285,
+    "name": "Efflorescence",
+    "effect_index": 1,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 47649,
+    "creature_name": "",
+    "summon_properties_id": 3456,
+    "control_title": "SUMMON_CATEGORY_ALLY/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 30000,
+    "specs": [
+     105
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1250385,
+    "name": "Spectral Illusion",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 250373,
+    "creature_name": "",
+    "summon_properties_id": 6484,
+    "control_title": "SUMMON_CATEGORY_ALLY/Construct",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 4000,
+    "specs": [
+     256,
+     257,
+     258
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1254168,
+    "name": "Waking Nightmare",
+    "effect_index": 0,
+    "category": "ally-summon",
+    "class": "TempSummon",
+    "creature_entry": 251422,
+    "creature_name": "",
+    "summon_properties_id": 6501,
+    "control_title": "SUMMON_CATEGORY_ALLY/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 12000,
+    "specs": [
+     104
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1262094,
+    "name": "Summon Desperate Soul",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 254505,
+    "creature_name": "",
+    "summon_properties_id": 6532,
+    "control_title": "SUMMON_CATEGORY_ALLY/Minion",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 12000,
+    "specs": [
+     265
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1263077,
+    "name": "Uprooted Lasher",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 254697,
+    "creature_name": "",
+    "summon_properties_id": 6538,
+    "control_title": "SUMMON_CATEGORY_ALLY/Minion",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 15000,
+    "specs": [
+     62,
+     63,
+     64,
+     65,
+     66,
+     70,
+     71,
+     72,
+     73,
+     102,
+     103,
+     104,
+     105,
+     250,
+     251,
+     252,
+     253,
+     254,
+     255,
+     256,
+     257,
+     258,
+     259,
+     260,
+     261,
+     262,
+     263,
+     264,
+     265,
+     266,
+     267,
+     268,
+     269,
+     270,
+     577,
+     581,
+     1467,
+     1468,
+     1473,
+     1480
+    ],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1276452,
+    "name": "Grimoire: Imp Lord",
+    "effect_index": 1,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 258584,
+    "creature_name": "Imp Lord",
+    "summon_properties_id": 6629,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 20000,
+    "specs": [
+     266
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1276467,
+    "name": "Grimoire: Fel Ravager",
+    "effect_index": 1,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 258587,
+    "creature_name": "Fel Ravager",
+    "summon_properties_id": 6628,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 20000,
+    "specs": [
+     266
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1276672,
+    "name": "Summon Doomguard",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 250785,
+    "creature_name": "Doomguard",
+    "summon_properties_id": 5970,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 12000,
+    "specs": [
+     266
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1304581,
+    "name": "Soulcoil Remnant",
+    "effect_index": 0,
+    "category": "companion-minion",
+    "class": "Minion",
+    "creature_entry": 269501,
+    "creature_name": "Soulcoil Remnant",
+    "summon_properties_id": 3221,
+    "control_title": "SUMMON_CATEGORY_ALLY/Companion",
+    "slot": "SUMMON_SLOT_MINIPET",
+    "tdb": "absent",
+    "tempsummon_type": "TEMPSUMMON_DEAD_DESPAWN",
+    "duration_ms": -1,
+    "specs": [
+     62,
+     63,
+     64,
+     65,
+     66,
+     70,
+     71,
+     72,
+     73,
+     102,
+     103,
+     104,
+     105,
+     250,
+     251,
+     252,
+     253,
+     254,
+     255,
+     256,
+     257,
+     258,
+     259,
+     260,
+     261,
+     262,
+     263,
+     264,
+     265,
+     266,
+     267,
+     268,
+     269,
+     270,
+     577,
+     581,
+     1467,
+     1468,
+     1473,
+     1480
+    ],
+    "root_kinds": [
+     "current-gear"
+    ],
+    "build_skew": true,
+    "evidence_class": "trinity-consumer"
+   },
+   {
+    "spell": 1308399,
+    "name": "Answered Calling",
+    "effect_index": 0,
+    "category": "ally-summon",
+    "class": "TempSummon",
+    "creature_entry": 271402,
+    "creature_name": "",
+    "summon_properties_id": 6806,
+    "control_title": "SUMMON_CATEGORY_ALLY/None",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "absent",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 8000,
+    "specs": [
+     104
+    ],
+    "root_kinds": [],
+    "build_skew": true,
+    "evidence_class": "trinity-consumer"
+   }
+  ],
+  "per_spec": {
+   "62": {
+    "spec": 62,
+    "name": "Arcane",
+    "class_id": 8,
+    "class_name": "Mage",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1,
+     "ally-summon": 1
+    },
+    "units": [
+     {
+      "spell": 113724,
+      "name": "Ring of Frost",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 44199,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 10000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 342245,
+      "name": "Alter Time",
+      "effect_index": 0,
+      "category": "ally-summon",
+      "creature_entry": 58542,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "63": {
+    "spec": 63,
+    "name": "Fire",
+    "class_id": 8,
+    "class_name": "Mage",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1,
+     "ally-summon": 1
+    },
+    "units": [
+     {
+      "spell": 113724,
+      "name": "Ring of Frost",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 44199,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 10000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 342245,
+      "name": "Alter Time",
+      "effect_index": 0,
+      "category": "ally-summon",
+      "creature_entry": 58542,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "64": {
+    "spec": 64,
+    "name": "Frost",
+    "class_id": 8,
+    "class_name": "Mage",
+    "by_category": {
+     "permanent-class-pet": 1,
+     "guardian": 2,
+     "companion-minion": 1,
+     "ally-summon": 1
+    },
+    "units": [
+     {
+      "spell": 31687,
+      "name": "Summon Water Elemental",
+      "effect_index": 0,
+      "category": "permanent-class-pet",
+      "creature_entry": 78116,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Pet",
+      "duration_ms": -1,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 113724,
+      "name": "Ring of Frost",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 44199,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 10000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 342245,
+      "name": "Alter Time",
+      "effect_index": 0,
+      "category": "ally-summon",
+      "creature_entry": 58542,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "65": {
+    "spec": 65,
+    "name": "Holy",
+    "class_id": 2,
+    "class_name": "Paladin",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "66": {
+    "spec": 66,
+    "name": "Protection",
+    "class_id": 2,
+    "class_name": "Paladin",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "70": {
+    "spec": 70,
+    "name": "Retribution",
+    "class_id": 2,
+    "class_name": "Paladin",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1,
+     "ally-summon": 1
+    },
+    "units": [
+     {
+      "spell": 26573,
+      "name": "Consecration",
+      "effect_index": 2,
+      "category": "ally-summon",
+      "creature_entry": 43499,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 12000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "71": {
+    "spec": 71,
+    "name": "Arms",
+    "class_id": 1,
+    "class_name": "Warrior",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 376081,
+      "name": "Champion's Spear",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254386,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 6000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "72": {
+    "spec": 72,
+    "name": "Fury",
+    "class_id": 1,
+    "class_name": "Warrior",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 376081,
+      "name": "Champion's Spear",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254386,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 6000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "73": {
+    "spec": 73,
+    "name": "Protection",
+    "class_id": 1,
+    "class_name": "Warrior",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 376081,
+      "name": "Champion's Spear",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254386,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 6000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "102": {
+    "spec": 102,
+    "name": "Balance",
+    "class_id": 11,
+    "class_name": "Druid",
+    "by_category": {
+     "controllable-guardian": 1,
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 248280,
+      "name": "Force of Nature",
+      "effect_index": 0,
+      "category": "controllable-guardian",
+      "creature_entry": 103822,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 10000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "103": {
+    "spec": 103,
+    "name": "Feral",
+    "class_id": 11,
+    "class_name": "Druid",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "104": {
+    "spec": 104,
+    "name": "Guardian",
+    "class_id": 11,
+    "class_name": "Druid",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1,
+     "ally-summon": 2
+    },
+    "units": [
+     {
+      "spell": 1254168,
+      "name": "Waking Nightmare",
+      "effect_index": 0,
+      "category": "ally-summon",
+      "creature_entry": 251422,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 12000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     },
+     {
+      "spell": 1308399,
+      "name": "Answered Calling",
+      "effect_index": 0,
+      "category": "ally-summon",
+      "creature_entry": 271402,
+      "creature_name": "",
+      "tdb": "absent",
+      "class": "TempSummon",
+      "duration_ms": 8000,
+      "root_kinds": [],
+      "build_skew": true
+     }
+    ]
+   },
+   "105": {
+    "spec": 105,
+    "name": "Restoration",
+    "class_id": 11,
+    "class_name": "Druid",
+    "by_category": {
+     "controllable-guardian": 1,
+     "guardian": 3,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 102693,
+      "name": "Grove Guardians",
+      "effect_index": 1,
+      "category": "controllable-guardian",
+      "creature_entry": 54983,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 8000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 145205,
+      "name": "Efflorescence",
+      "effect_index": 1,
+      "category": "guardian",
+      "creature_entry": 47649,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 30000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1232285,
+      "name": "Efflorescence",
+      "effect_index": 1,
+      "category": "guardian",
+      "creature_entry": 47649,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 30000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "250": {
+    "spec": 250,
+    "name": "Blood",
+    "class_id": 6,
+    "class_name": "Death Knight",
+    "by_category": {
+     "guardian": 4,
+     "companion-minion": 1,
+     "charmed": 1
+    },
+    "units": [
+     {
+      "spell": 46585,
+      "name": "Raise Dead",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 26125,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 60000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 49028,
+      "name": "Dancing Rune Weapon",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 27893,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 8000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 111673,
+      "name": "Control Undead",
+      "effect_index": 0,
+      "category": "charmed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 300000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 196361,
+      "name": "Bloodworm",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 99773,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 16000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "251": {
+    "spec": 251,
+    "name": "Frost",
+    "class_id": 6,
+    "class_name": "Death Knight",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1,
+     "charmed": 1
+    },
+    "units": [
+     {
+      "spell": 46585,
+      "name": "Raise Dead",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 26125,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 60000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 111673,
+      "name": "Control Undead",
+      "effect_index": 0,
+      "category": "charmed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 300000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "252": {
+    "spec": 252,
+    "name": "Unholy",
+    "class_id": 6,
+    "class_name": "Death Knight",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1,
+     "charmed": 1
+    },
+    "units": [
+     {
+      "spell": 46585,
+      "name": "Raise Dead",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 26125,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 60000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 111673,
+      "name": "Control Undead",
+      "effect_index": 0,
+      "category": "charmed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 300000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "253": {
+    "spec": 253,
+    "name": "Beast Mastery",
+    "class_id": 3,
+    "class_name": "Hunter",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1,
+     "possessed-own-pet": 1,
+     "no-consumer": 1
+    },
+    "units": [
+     {
+      "spell": 273277,
+      "name": "Summon Animal Companion",
+      "effect_index": 0,
+      "category": "no-consumer",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": null,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 321297,
+      "name": "Eyes of the Beast",
+      "effect_index": 0,
+      "category": "possessed-own-pet",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 60000,
+      "root_kinds": [
+       "spec-spell"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "254": {
+    "spec": 254,
+    "name": "Marksmanship",
+    "class_id": 3,
+    "class_name": "Hunter",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "255": {
+    "spec": 255,
+    "name": "Survival",
+    "class_id": 3,
+    "class_name": "Hunter",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1,
+     "possessed-own-pet": 1
+    },
+    "units": [
+     {
+      "spell": 321297,
+      "name": "Eyes of the Beast",
+      "effect_index": 0,
+      "category": "possessed-own-pet",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 60000,
+      "root_kinds": [
+       "spec-spell"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "256": {
+    "spec": 256,
+    "name": "Discipline",
+    "class_id": 5,
+    "class_name": "Priest",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1,
+     "charmed": 1,
+     "possessed": 1
+    },
+    "units": [
+     {
+      "spell": 605,
+      "name": "Mind Control",
+      "effect_index": 0,
+      "category": "possessed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 30000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 205364,
+      "name": "Dominate Mind",
+      "effect_index": 0,
+      "category": "charmed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 30000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1250385,
+      "name": "Spectral Illusion",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 250373,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 4000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "257": {
+    "spec": 257,
+    "name": "Holy",
+    "class_id": 5,
+    "class_name": "Priest",
+    "by_category": {
+     "guardian": 2,
+     "companion-minion": 1,
+     "charmed": 1,
+     "possessed": 1
+    },
+    "units": [
+     {
+      "spell": 605,
+      "name": "Mind Control",
+      "effect_index": 0,
+      "category": "possessed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 30000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 205364,
+      "name": "Dominate Mind",
+      "effect_index": 0,
+      "category": "charmed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 30000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1250385,
+      "name": "Spectral Illusion",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 250373,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 4000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "258": {
+    "spec": 258,
+    "name": "Shadow",
+    "class_id": 5,
+    "class_name": "Priest",
+    "by_category": {
+     "guardian": 3,
+     "companion-minion": 1,
+     "charmed": 1,
+     "possessed": 1
+    },
+    "units": [
+     {
+      "spell": 605,
+      "name": "Mind Control",
+      "effect_index": 0,
+      "category": "possessed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 30000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 200174,
+      "name": "Mindbender",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 62982,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 10000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 205364,
+      "name": "Dominate Mind",
+      "effect_index": 0,
+      "category": "charmed",
+      "creature_entry": 0,
+      "creature_name": "",
+      "tdb": "not-applicable",
+      "class": "-",
+      "duration_ms": 30000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1250385,
+      "name": "Spectral Illusion",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 250373,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 4000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "259": {
+    "spec": 259,
+    "name": "Assassination",
+    "class_id": 4,
+    "class_name": "Rogue",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "260": {
+    "spec": 260,
+    "name": "Outlaw",
+    "class_id": 4,
+    "class_name": "Rogue",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "261": {
+    "spec": 261,
+    "name": "Subtlety",
+    "class_id": 4,
+    "class_name": "Rogue",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "262": {
+    "spec": 262,
+    "name": "Elemental",
+    "class_id": 7,
+    "class_name": "Shaman",
+    "by_category": {
+     "guardian": 1,
+     "totem": 9,
+     "companion-minion": 1,
+     "wild-summon": 1
+    },
+    "units": [
+     {
+      "spell": 5394,
+      "name": "Healing Stream Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 3527,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 8143,
+      "name": "Tremor Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 5913,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 10000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 51485,
+      "name": "Earthgrab Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 60561,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 108287,
+      "name": "Totemic Projection",
+      "effect_index": 0,
+      "category": "wild-summon",
+      "creature_entry": 47319,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 1000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 192058,
+      "name": "Capacitor Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 61245,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 3000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 192077,
+      "name": "Wind Rush Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 97285,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 192222,
+      "name": "Liquid Magma Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 97369,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 6000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383013,
+      "name": "Poison Cleansing Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 5923,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 6000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383017,
+      "name": "Stoneskin Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 194117,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383019,
+      "name": "Tranquil Air Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 194118,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "263": {
+    "spec": 263,
+    "name": "Enhancement",
+    "class_id": 7,
+    "class_name": "Shaman",
+    "by_category": {
+     "guardian": 1,
+     "totem": 11,
+     "companion-minion": 1,
+     "wild-summon": 1
+    },
+    "units": [
+     {
+      "spell": 5394,
+      "name": "Healing Stream Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 3527,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 8143,
+      "name": "Tremor Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 5913,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 10000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 8512,
+      "name": "Windfury Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 6112,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 120000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 51485,
+      "name": "Earthgrab Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 60561,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 108287,
+      "name": "Totemic Projection",
+      "effect_index": 0,
+      "category": "wild-summon",
+      "creature_entry": 47319,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 1000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 192058,
+      "name": "Capacitor Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 61245,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 3000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 192077,
+      "name": "Wind Rush Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 97285,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383013,
+      "name": "Poison Cleansing Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 5923,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 6000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383017,
+      "name": "Stoneskin Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 194117,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383019,
+      "name": "Tranquil Air Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 194118,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 444995,
+      "name": "Surging Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 225409,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 25000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 458101,
+      "name": "Lively Totems",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 2523,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 8000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "264": {
+    "spec": 264,
+    "name": "Restoration",
+    "class_id": 7,
+    "class_name": "Shaman",
+    "by_category": {
+     "guardian": 1,
+     "totem": 15,
+     "companion-minion": 1,
+     "wild-summon": 1
+    },
+    "units": [
+     {
+      "spell": 5394,
+      "name": "Healing Stream Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 3527,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 8143,
+      "name": "Tremor Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 5913,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 10000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 16191,
+      "name": "Mana Tide Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 10467,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 8000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 51485,
+      "name": "Earthgrab Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 60561,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 98008,
+      "name": "Spirit Link Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 53006,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 6000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 108280,
+      "name": "Healing Tide Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 59764,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 10000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 108287,
+      "name": "Totemic Projection",
+      "effect_index": 0,
+      "category": "wild-summon",
+      "creature_entry": 47319,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 1000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 192058,
+      "name": "Capacitor Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 61245,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 3000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 192077,
+      "name": "Wind Rush Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 97285,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 198838,
+      "name": "Earthen Wall Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 100943,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 207399,
+      "name": "Ancestral Protection Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 104818,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 30000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383013,
+      "name": "Poison Cleansing Totem",
+      "effect_index": 1,
+      "category": "totem",
+      "creature_entry": 5923,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 6000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383017,
+      "name": "Stoneskin Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 194117,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 383019,
+      "name": "Tranquil Air Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 194118,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 444995,
+      "name": "Surging Totem",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 225409,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 25000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 458101,
+      "name": "Lively Totems",
+      "effect_index": 0,
+      "category": "totem",
+      "creature_entry": 2523,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Totem",
+      "duration_ms": 8000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "265": {
+    "spec": 265,
+    "name": "Affliction",
+    "class_id": 9,
+    "class_name": "Warlock",
+    "by_category": {
+     "guardian": 3,
+     "companion-minion": 1,
+     "wild-summon": 1
+    },
+    "units": [
+     {
+      "spell": 111771,
+      "name": "Demonic Gateway",
+      "effect_index": 0,
+      "category": "wild-summon",
+      "creature_entry": 47319,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 1,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 205180,
+      "name": "Summon Darkglare",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 103673,
+      "creature_name": "Darkglare",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1262094,
+      "name": "Summon Desperate Soul",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254505,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 12000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "266": {
+    "spec": 266,
+    "name": "Demonology",
+    "class_id": 9,
+    "class_name": "Warlock",
+    "by_category": {
+     "permanent-class-pet": 1,
+     "guardian": 8,
+     "companion-minion": 1,
+     "wild-summon": 1
+    },
+    "units": [
+     {
+      "spell": 30146,
+      "name": "Summon Felguard",
+      "effect_index": 0,
+      "category": "permanent-class-pet",
+      "creature_entry": 17252,
+      "creature_name": "Felguard",
+      "tdb": "present",
+      "class": "Pet",
+      "duration_ms": -1,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 111771,
+      "name": "Demonic Gateway",
+      "effect_index": 0,
+      "category": "wild-summon",
+      "creature_entry": 47319,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 1,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 111898,
+      "name": "Grimoire: Felguard",
+      "effect_index": 1,
+      "category": "guardian",
+      "creature_entry": 17252,
+      "creature_name": "Felguard",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 17000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 264119,
+      "name": "Summon Vilefiend",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 135816,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 265187,
+      "name": "Summon Demonic Tyrant",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 135002,
+      "creature_name": "Demonic Tyrant",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 265187,
+      "name": "Summon Demonic Tyrant",
+      "effect_index": 3,
+      "category": "guardian",
+      "creature_entry": 250289,
+      "creature_name": "Demonic Tyrant",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1276452,
+      "name": "Grimoire: Imp Lord",
+      "effect_index": 1,
+      "category": "guardian",
+      "creature_entry": 258584,
+      "creature_name": "Imp Lord",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1276467,
+      "name": "Grimoire: Fel Ravager",
+      "effect_index": 1,
+      "category": "guardian",
+      "creature_entry": 258587,
+      "creature_name": "Fel Ravager",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1276672,
+      "name": "Summon Doomguard",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 250785,
+      "creature_name": "Doomguard",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 12000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "267": {
+    "spec": 267,
+    "name": "Destruction",
+    "class_id": 9,
+    "class_name": "Warlock",
+    "by_category": {
+     "guardian": 3,
+     "companion-minion": 1,
+     "wild-summon": 2
+    },
+    "units": [
+     {
+      "spell": 1122,
+      "name": "Summon Infernal",
+      "effect_index": 0,
+      "category": "wild-summon",
+      "creature_entry": 47319,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 250,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 111685,
+      "name": "Summon Infernal",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 89,
+      "creature_name": "Infernal",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 30000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 111771,
+      "name": "Demonic Gateway",
+      "effect_index": 0,
+      "category": "wild-summon",
+      "creature_entry": 47319,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 1,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 434587,
+      "name": "Summon Overfiend",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 217429,
+      "creature_name": "Overfiend",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 8000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "268": {
+    "spec": 268,
+    "name": "Brewmaster",
+    "class_id": 10,
+    "class_name": "Monk",
+    "by_category": {
+     "controllable-guardian": 1,
+     "guardian": 3,
+     "companion-minion": 1,
+     "ally-summon": 1
+    },
+    "units": [
+     {
+      "spell": 101643,
+      "name": "Transcendence",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 54569,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 115313,
+      "name": "Summon Jade Serpent Statue",
+      "effect_index": 0,
+      "category": "ally-summon",
+      "creature_entry": 60849,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 115315,
+      "name": "Summon Black Ox Statue",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 61146,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 132578,
+      "name": "Invoke Niuzao, the Black Ox",
+      "effect_index": 0,
+      "category": "controllable-guardian",
+      "creature_entry": 73967,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 25000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "269": {
+    "spec": 269,
+    "name": "Windwalker",
+    "class_id": 10,
+    "class_name": "Monk",
+    "by_category": {
+     "controllable-guardian": 1,
+     "guardian": 3,
+     "companion-minion": 1,
+     "ally-summon": 1
+    },
+    "units": [
+     {
+      "spell": 101643,
+      "name": "Transcendence",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 54569,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 115313,
+      "name": "Summon Jade Serpent Statue",
+      "effect_index": 0,
+      "category": "ally-summon",
+      "creature_entry": 60849,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 115315,
+      "name": "Summon Black Ox Statue",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 61146,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 123904,
+      "name": "Invoke Xuen, the White Tiger",
+      "effect_index": 0,
+      "category": "controllable-guardian",
+      "creature_entry": 63508,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 20000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "270": {
+    "spec": 270,
+    "name": "Mistweaver",
+    "class_id": 10,
+    "class_name": "Monk",
+    "by_category": {
+     "guardian": 5,
+     "companion-minion": 1,
+     "ally-summon": 1
+    },
+    "units": [
+     {
+      "spell": 101643,
+      "name": "Transcendence",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 54569,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 115313,
+      "name": "Summon Jade Serpent Statue",
+      "effect_index": 0,
+      "category": "ally-summon",
+      "creature_entry": 60849,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "TempSummon",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 115315,
+      "name": "Summon Black Ox Statue",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 61146,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 900000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 322118,
+      "name": "Invoke Yu'lon, the Jade Serpent",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 165374,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 25000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 325197,
+      "name": "Invoke Chi-Ji, the Red Crane",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 166949,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 25000,
+      "root_kinds": [
+       "class-trait"
+      ],
+      "build_skew": false
+     },
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "577": {
+    "spec": 577,
+    "name": "Havoc",
+    "class_id": 12,
+    "class_name": "Demon Hunter",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "581": {
+    "spec": 581,
+    "name": "Vengeance",
+    "class_id": 12,
+    "class_name": "Demon Hunter",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "1467": {
+    "spec": 1467,
+    "name": "Devastation",
+    "class_id": 13,
+    "class_name": "Evoker",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "1468": {
+    "spec": 1468,
+    "name": "Preservation",
+    "class_id": 13,
+    "class_name": "Evoker",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "1473": {
+    "spec": 1473,
+    "name": "Augmentation",
+    "class_id": 13,
+    "class_name": "Evoker",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   },
+   "1480": {
+    "spec": 1480,
+    "name": "Devourer",
+    "class_id": 12,
+    "class_name": "Demon Hunter",
+    "by_category": {
+     "guardian": 1,
+     "companion-minion": 1
+    },
+    "units": [
+     {
+      "spell": 1263077,
+      "name": "Uprooted Lasher",
+      "effect_index": 0,
+      "category": "guardian",
+      "creature_entry": 254697,
+      "creature_name": "",
+      "tdb": "present",
+      "class": "Guardian",
+      "duration_ms": 15000,
+      "root_kinds": [],
+      "build_skew": false
+     },
+     {
+      "spell": 1304581,
+      "name": "Soulcoil Remnant",
+      "effect_index": 0,
+      "category": "companion-minion",
+      "creature_entry": 269501,
+      "creature_name": "Soulcoil Remnant",
+      "tdb": "absent",
+      "class": "Minion",
+      "duration_ms": -1,
+      "root_kinds": [
+       "current-gear"
+      ],
+      "build_skew": true
+     }
+    ]
+   }
+  },
+  "unresolved": [
+   {
+    "spell": 273277,
+    "name": "Summon Animal Companion",
+    "effect_index": 0,
+    "category": "no-consumer",
+    "creature_entry": 0,
+    "tdb": "not-applicable",
+    "build_skew": false,
+    "reason": [
+     "SPELL_EFFECT_SUMMON_STABLED_PET dispatches to Spell::EffectNULL: no server behaviour in the pinned checkout"
+    ],
+    "absence_class": "no-consumer",
+    "reopen_condition": "a handler other than EffectNULL / a SummonProperties row for the effect"
+   },
+   {
+    "spell": 1304581,
+    "name": "Soulcoil Remnant",
+    "effect_index": 0,
+    "category": "companion-minion",
+    "creature_entry": 269501,
+    "tdb": "absent",
+    "build_skew": true,
+    "reason": [
+     "SetImmuneToAll(true) (SpellEffects.cpp:1994)",
+     "spell id newer than the last client build the pinned Trinity supports (build-skew.json): generic handler still applies, per-spell scripts cannot exist",
+     "creature entry absent from the pinned TDB: Map::SummonCreature -> Creature::Create fails without a template (build skew or unpopulated data)"
+    ],
+    "absence_class": "build-skew",
+    "reopen_condition": "a TrinityCore commit that supports the 12.1 client (spell/creature present)"
+   },
+   {
+    "spell": 1308399,
+    "name": "Answered Calling",
+    "effect_index": 0,
+    "category": "ally-summon",
+    "creature_entry": 271402,
+    "tdb": "absent",
+    "build_skew": true,
+    "reason": [
+     "caster = m_originalCaster if set else m_caster (SpellEffects.cpp:1883-1885); Map::SummonCreature summoner = unitCaster (GetUnitCasterForEffectHandlers, Spell.cpp:8353-8356)",
+     "ALLY owner is set by SetOwnerGUID only -- the unit is NOT inserted in owner->m_Controlled (no SetMinion on this arm)",
+     "spell id newer than the last client build the pinned Trinity supports (build-skew.json): generic handler still applies, per-spell scripts cannot exist",
+     "creature entry absent from the pinned TDB: Map::SummonCreature -> Creature::Create fails without a template (build skew or unpopulated data)"
+    ],
+    "absence_class": "build-skew",
+    "reopen_condition": "a TrinityCore commit that supports the 12.1 client (spell/creature present)"
+   }
+  ]
+ },
+ "script_cast": {
+  "counts": {
+   "records": 2,
+   "spells": 2,
+   "creature_entries": 1,
+   "by_category": {
+    "guardian": 1,
+    "script-summon": 1
+   },
+   "by_cxx_class": {
+    "-": 1,
+    "Guardian": 1
+   },
+   "by_handler": {
+    "Map::SummonCreature (script)": 1,
+    "Spell::EffectSummonType": 1
+   },
+   "by_class": {},
+   "tdb_template": {
+    "not-applicable": 1,
+    "present": 1
+   },
+   "client_creature": {
+    "absent": 1,
+    "not-applicable": 1
+   },
+   "build_skew_added_spells": 0,
+   "control_title_pairs": {
+    "SUMMON_CATEGORY_ALLY/Guardian": 1
+   },
+   "summon_flags_seen": {
+    "GuardianActsLikePet": 1,
+    "HelpWhenSummonedInCombat": 1,
+    "JoinSummonerSpawnGroup": 1,
+    "UnitClutter": 1
+   },
+   "summon_flags_seen_nyi_in_trinity": {
+    "GuardianActsLikePet": 1,
+    "HelpWhenSummonedInCombat": 1,
+    "JoinSummonerSpawnGroup": 1,
+    "UnitClutter": 1
+   },
+   "slots": {
+    "SUMMON_SLOT_PET": 1
+   },
+   "tempsummon_types": {
+    "TEMPSUMMON_TIMED_DESPAWN": 1
+   }
+  },
+  "identities": [
+   {
+    "spell": 73920,
+    "name": "Healing Rain",
+    "effect_index": -1,
+    "category": "script-summon",
+    "class": "-",
+    "creature_entry": 0,
+    "creature_name": "",
+    "summon_properties_id": 0,
+    "control_title": "",
+    "slot": "",
+    "tdb": "not-applicable",
+    "tempsummon_type": null,
+    "duration_ms": 18000,
+    "specs": [
+     263,
+     264
+    ],
+    "root_kinds": [
+     "class-trait"
+    ],
+    "build_skew": false,
+    "evidence_class": "structural-inference"
+   },
+   {
+    "spell": 392990,
+    "name": "Divine Image",
+    "effect_index": 0,
+    "category": "guardian",
+    "class": "Guardian",
+    "creature_entry": 198236,
+    "creature_name": "",
+    "summon_properties_id": 5504,
+    "control_title": "SUMMON_CATEGORY_ALLY/Guardian",
+    "slot": "SUMMON_SLOT_PET",
+    "tdb": "present",
+    "tempsummon_type": "TEMPSUMMON_TIMED_DESPAWN",
+    "duration_ms": 9000,
+    "specs": [],
+    "root_kinds": [],
+    "build_skew": false,
+    "evidence_class": "structural-inference"
+   }
+  ]
+ },
+ "class_skill": {
+  "counts": {
+   "records": 1711,
+   "spells": 1711,
+   "creature_entries": 1697,
+   "by_category": {
+    "permanent-class-pet": 9,
+    "hunter-pet": 1,
+    "guardian": 4,
+    "totem": 2,
+    "companion-minion": 1685,
+    "puppet": 1,
+    "ally-summon": 3,
+    "wild-summon": 1,
+    "charmed": 1,
+    "charmed-convert": 1,
+    "lifecycle-op": 1,
+    "no-consumer": 2
+   },
+   "by_cxx_class": {
+    "-": 5,
+    "Guardian": 4,
+    "Minion": 1685,
+    "Pet": 10,
+    "Puppet": 1,
+    "TempSummon": 4,
+    "Totem": 2
+   },
+   "by_handler": {
+    "AuraEffect::HandleCharmConvert": 1,
+    "AuraEffect::HandleModCharm": 1,
+    "Spell::EffectDismissPet": 1,
+    "Spell::EffectNULL": 2,
+    "Spell::EffectSummonPet": 9,
+    "Spell::EffectSummonType": 1696,
+    "Spell::EffectTameCreature": 1
+   },
+   "by_class": {
+    "Death Knight": 1691,
+    "Demon Hunter": 1691,
+    "Druid": 1692,
+    "Evoker": 1691,
+    "Hunter": 1699,
+    "Mage": 1691,
+    "Monk": 1692,
+    "Paladin": 1691,
+    "Priest": 1692,
+    "Rogue": 1691,
+    "Shaman": 1693,
+    "Warlock": 1698,
+    "Warrior": 1691
+   },
+   "tdb_template": {
+    "absent": 64,
+    "not-applicable": 11,
+    "present": 1636
+   },
+   "client_creature": {
+    "absent": 11,
+    "not-applicable": 11,
+    "present": 1689
+   },
+   "build_skew_added_spells": 55,
+   "control_title_pairs": {
+    "SUMMON_CATEGORY_ALLY/Companion": 1685,
+    "SUMMON_CATEGORY_ALLY/Guardian": 3,
+    "SUMMON_CATEGORY_ALLY/None": 3,
+    "SUMMON_CATEGORY_ALLY/Totem": 2,
+    "SUMMON_CATEGORY_ALLY/unknown(47)": 1,
+    "SUMMON_CATEGORY_PUPPET/None": 1,
+    "SUMMON_CATEGORY_WILD/None": 1
+   },
+   "summon_flags_seen": {
+    "DespawnOnSummonerDeath": 3,
+    "DespawnOnSummonerLogout": 2,
+    "DespawnWhenExpired": 1688,
+    "DontSnapSessileToGround": 2,
+    "GuardianActsLikePet": 1,
+    "HelpWhenSummonedInCombat": 7,
+    "JoinSummonerSpawnGroup": 1,
+    "OnlyVisibleToSummoner": 1,
+    "SummonFromBattlePetJournal": 1684,
+    "UnitClutter": 1,
+    "UseCreatureLevel": 1
+   },
+   "summon_flags_seen_nyi_in_trinity": {
+    "DespawnOnSummonerDeath": 3,
+    "DespawnOnSummonerLogout": 2,
+    "DespawnWhenExpired": 1688,
+    "DontSnapSessileToGround": 2,
+    "GuardianActsLikePet": 1,
+    "HelpWhenSummonedInCombat": 7,
+    "JoinSummonerSpawnGroup": 1,
+    "UnitClutter": 1
+   },
+   "slots": {
+    "SUMMON_SLOT_ANY_TOTEM": 2,
+    "SUMMON_SLOT_MINIPET": 1685,
+    "SUMMON_SLOT_PET": 9
+   },
+   "tempsummon_types": {
+    "TEMPSUMMON_DEAD_DESPAWN": 1681,
+    "TEMPSUMMON_TIMED_DESPAWN": 15
+   }
+  },
+  "unresolved_count": 66,
+  "unresolved_by_absence_class": {
+   "build-skew": 42,
+   "no-consumer": 2,
+   "world-db-gap": 22
+  },
+  "note": "extended scope (SkillLineAbility class lines): mounts, companions and pet-family abilities; reported separately per the brief"
+ },
+ "serverside": {
+  "summon_effects": 97,
+  "by_category": {
+   "permanent-class-pet": 7,
+   "vehicle": 1,
+   "wild-summon": 83,
+   "charmed": 2,
+   "charmed-convert": 1,
+   "unresolved": 3
+  },
+  "referenced_from_player_scope": [],
+  "class_pet_rows": [
+   {
+    "spell_id": 23500,
+    "difficulty": 0,
+    "name": "Summon Felhunter",
+    "effect_index": 0,
+    "effect": 56,
+    "effect_name": "SPELL_EFFECT_SUMMON_PET",
+    "aura": 0,
+    "creature_entry": 417,
+    "summon_properties_id": 0,
+    "category": "permanent-class-pet",
+    "referenced_by_player_hook": false,
+    "linked_from_player_scope": false,
+    "tdb_status": "present"
+   },
+   {
+    "spell_id": 23501,
+    "difficulty": 0,
+    "name": "Summon Voidwalker",
+    "effect_index": 0,
+    "effect": 56,
+    "effect_name": "SPELL_EFFECT_SUMMON_PET",
+    "aura": 0,
+    "creature_entry": 1860,
+    "summon_properties_id": 0,
+    "category": "permanent-class-pet",
+    "referenced_by_player_hook": false,
+    "linked_from_player_scope": false,
+    "tdb_status": "present"
+   },
+   {
+    "spell_id": 23502,
+    "difficulty": 0,
+    "name": "Summon Succubus",
+    "effect_index": 0,
+    "effect": 56,
+    "effect_name": "SPELL_EFFECT_SUMMON_PET",
+    "aura": 0,
+    "creature_entry": 1863,
+    "summon_properties_id": 0,
+    "category": "permanent-class-pet",
+    "referenced_by_player_hook": false,
+    "linked_from_player_scope": false,
+    "tdb_status": "present"
+   },
+   {
+    "spell_id": 23503,
+    "difficulty": 0,
+    "name": "Summon Imp",
+    "effect_index": 0,
+    "effect": 56,
+    "effect_name": "SPELL_EFFECT_SUMMON_PET",
+    "aura": 0,
+    "creature_entry": 416,
+    "summon_properties_id": 0,
+    "category": "permanent-class-pet",
+    "referenced_by_player_hook": false,
+    "linked_from_player_scope": false,
+    "tdb_status": "present"
+   },
+   {
+    "spell_id": 32782,
+    "difficulty": 0,
+    "name": "Summon Felguard",
+    "effect_index": 0,
+    "effect": 56,
+    "effect_name": "SPELL_EFFECT_SUMMON_PET",
+    "aura": 0,
+    "creature_entry": 17252,
+    "summon_properties_id": 0,
+    "category": "permanent-class-pet",
+    "referenced_by_player_hook": false,
+    "linked_from_player_scope": false,
+    "tdb_status": "present"
+   },
+   {
+    "spell_id": 34327,
+    "difficulty": 0,
+    "name": "Summon Snowsong",
+    "effect_index": 0,
+    "effect": 56,
+    "effect_name": "SPELL_EFFECT_SUMMON_PET",
+    "aura": 0,
+    "creature_entry": 19591,
+    "summon_properties_id": 0,
+    "category": "permanent-class-pet",
+    "referenced_by_player_hook": false,
+    "linked_from_player_scope": false,
+    "tdb_status": "present"
+   },
+   {
+    "spell_id": 34328,
+    "difficulty": 0,
+    "name": "Summon Duros",
+    "effect_index": 0,
+    "effect": 56,
+    "effect_name": "SPELL_EFFECT_SUMMON_PET",
+    "aura": 0,
+    "creature_entry": 19605,
+    "summon_properties_id": 0,
+    "category": "permanent-class-pet",
+    "referenced_by_player_hook": false,
+    "linked_from_player_scope": false,
+    "tdb_status": "present"
+   }
+  ]
+ },
+ "summon_flags_vocabulary": {
+  "AttackSummoner": 1,
+  "HelpWhenSummonedInCombat": 2,
+  "UseLevelOffset": 4,
+  "DespawnOnSummonerDeath": 8,
+  "OnlyVisibleToSummoner": 16,
+  "CannotDismissPet": 32,
+  "UseDemonTimeout": 64,
+  "UnlimitedSummons": 128,
+  "UseCreatureLevel": 256,
+  "JoinSummonerSpawnGroup": 512,
+  "DoNotToggle": 1024,
+  "DespawnWhenExpired": 2048,
+  "UseSummonerFaction": 4096,
+  "DoNotFollowMountedSummoner": 8192,
+  "SavePetAutocast": 16384,
+  "IgnoreSummonerPhase": 32768,
+  "OnlyVisibleToSummonerGroup": 65536,
+  "DespawnOnSummonerLogout": 131072,
+  "CastRideVehicleSpellOnSummoner": 262144,
+  "GuardianActsLikePet": 524288,
+  "DontSnapSessileToGround": 1048576,
+  "SummonFromBattlePetJournal": 2097152,
+  "UnitClutter": 4194304,
+  "DefaultNameColor": 8388608,
+  "UseOwnInvisibilityDetection": 16777216,
+  "DespawnWhenReplaced": 33554432,
+  "DespawnWhenTeleportingOutOfRange": 67108864,
+  "SummonedAtGroupFormationPosition": 134217728,
+  "DontDespawnOnSummonerDeath": 268435456,
+  "UseTitleAsCreatureName": 536870912,
+  "AttackableBySummoner": 1073741824,
+  "DontDismissWhenEncounterIsAborted": 2147483648
+ }
+}

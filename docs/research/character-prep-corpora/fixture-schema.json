@@ -1,0 +1,563 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "fixture_version": 1,
+  "generator": "python3 character_prep.py schema"
+ },
+ "field_classes": {
+  "identity": "must be supplied by the caller; nothing derives it",
+  "server": "Trinity-authored world-database fact absent from the DB2 snapshot; supplied by explicit reference or inline with provenance; never defaulted",
+  "derived": "never accepted as input; the compiler derives it (see input-inventory.json)",
+  "provenance": "opaque bookkeeping carried through untouched",
+  "hook": "extensible section whose contents another research track owns"
+ },
+ "equipment_slots": [
+  "HEAD",
+  "NECK",
+  "SHOULDERS",
+  "BODY",
+  "CHEST",
+  "WAIST",
+  "LEGS",
+  "FEET",
+  "WRISTS",
+  "HANDS",
+  "FINGER1",
+  "FINGER2",
+  "TRINKET1",
+  "TRINKET2",
+  "BACK",
+  "MAINHAND",
+  "OFFHAND",
+  "RANGED",
+  "TABARD"
+ ],
+ "slot_rules": {
+  "1": {
+   "slots": [
+    "HEAD"
+   ],
+   "line": 9199
+  },
+  "2": {
+   "slots": [
+    "NECK"
+   ],
+   "line": 9202
+  },
+  "3": {
+   "slots": [
+    "SHOULDERS"
+   ],
+   "line": 9205
+  },
+  "4": {
+   "slots": [
+    "BODY"
+   ],
+   "line": 9208
+  },
+  "5": {
+   "slots": [
+    "CHEST"
+   ],
+   "line": 9211
+  },
+  "20": {
+   "slots": [
+    "CHEST"
+   ],
+   "line": 9214
+  },
+  "6": {
+   "slots": [
+    "WAIST"
+   ],
+   "line": 9217
+  },
+  "7": {
+   "slots": [
+    "LEGS"
+   ],
+   "line": 9220
+  },
+  "8": {
+   "slots": [
+    "FEET"
+   ],
+   "line": 9223
+  },
+  "9": {
+   "slots": [
+    "WRISTS"
+   ],
+   "line": 9226
+  },
+  "10": {
+   "slots": [
+    "HANDS"
+   ],
+   "line": 9229
+  },
+  "11": {
+   "slots": [
+    "FINGER1",
+    "FINGER2"
+   ],
+   "line": 9232
+  },
+  "12": {
+   "slots": [
+    "TRINKET1",
+    "TRINKET2"
+   ],
+   "line": 9236
+  },
+  "16": {
+   "slots": [
+    "BACK"
+   ],
+   "line": 9240
+  },
+  "13": {
+   "slots": [
+    "MAINHAND",
+    "OFFHAND"
+   ],
+   "offhand_requires": "dual_wield",
+   "line": 9243
+  },
+  "14": {
+   "slots": [
+    "OFFHAND"
+   ],
+   "line": 9253
+  },
+  "15": {
+   "slots": [
+    "MAINHAND"
+   ],
+   "line": 9256
+  },
+  "17": {
+   "slots": [
+    "MAINHAND",
+    "OFFHAND"
+   ],
+   "offhand_requires": "titan_grip",
+   "line": 9259
+  },
+  "19": {
+   "slots": [
+    "TABARD"
+   ],
+   "line": 9264
+  },
+  "21": {
+   "slots": [
+    "MAINHAND"
+   ],
+   "line": 9267
+  },
+  "22": {
+   "slots": [
+    "OFFHAND"
+   ],
+   "line": 9270
+  },
+  "23": {
+   "slots": [
+    "OFFHAND"
+   ],
+   "line": 9273
+  },
+  "26": {
+   "slots": [
+    "MAINHAND"
+   ],
+   "line": 9276
+  }
+ },
+ "schema": {
+  "$comment": "JSON-Schema-like description validated by character_prep.fixture (stdlib only).",
+  "fixture_version": 1,
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+   "fixture_version": {
+    "type": "integer",
+    "class": "provenance",
+    "required": true,
+    "description": "must equal 1"
+   },
+   "provenance": {
+    "type": "object",
+    "class": "provenance",
+    "required": true,
+    "description": "where the description came from; carried through untouched",
+    "properties": {
+     "snapshot_build": {
+      "type": "string",
+      "class": "provenance",
+      "required": true,
+      "description": "data snapshot the ids refer to"
+     },
+     "source_kind": {
+      "type": "string",
+      "class": "provenance",
+      "required": true,
+      "description": "synthetic | retail-export | addon-export | simc-profile | armory | manual"
+     },
+     "captured_at": {
+      "type": "string|null",
+      "class": "provenance",
+      "required": false,
+      "description": "ISO-8601 capture time"
+     },
+     "external_ids": {
+      "type": "object",
+      "class": "provenance",
+      "required": false,
+      "description": "opaque ids in the source system"
+     },
+     "notes": {
+      "type": "array<string>",
+      "class": "provenance",
+      "required": false,
+      "description": "free text"
+     },
+     "generator": {
+      "type": "string|null",
+      "class": "provenance",
+      "required": false,
+      "description": "tool that produced the fixture"
+     }
+    }
+   },
+   "identity": {
+    "type": "object",
+    "class": "identity",
+    "required": true,
+    "properties": {
+     "race_id": {
+      "type": "integer",
+      "class": "identity",
+      "required": true,
+      "description": "ChrRaces.ID"
+     },
+     "class_id": {
+      "type": "integer",
+      "class": "identity",
+      "required": true,
+      "description": "ChrClasses.ID"
+     },
+     "spec_id": {
+      "type": "integer",
+      "class": "identity",
+      "required": true,
+      "description": "ChrSpecialization.ID"
+     },
+     "level": {
+      "type": "integer",
+      "class": "identity",
+      "required": true,
+      "description": "player level (1..MaxLevel)"
+     }
+    }
+   },
+   "traits": {
+    "type": "object",
+    "class": "identity",
+    "required": true,
+    "properties": {
+     "entries": {
+      "type": "array<object>",
+      "class": "identity",
+      "required": true,
+      "description": "selected (TraitNodeEntryID, rank) pairs; the tree and node are derived",
+      "items": {
+       "node_entry_id": {
+        "type": "integer",
+        "class": "identity",
+        "required": true,
+        "description": "TraitNodeEntry.ID"
+       },
+       "rank": {
+        "type": "integer",
+        "class": "identity",
+        "required": true,
+        "description": "purchased ranks (1..MaxRanks)"
+       }
+      }
+     },
+     "hero_subtree_id": {
+      "type": "integer|null",
+      "class": "identity",
+      "required": false,
+      "description": "TraitSubTree.ID of the active hero tree"
+     },
+     "loadout_string": {
+      "type": "string|null",
+      "class": "provenance",
+      "required": false,
+      "description": "the addon/Blizzard export string, kept opaque; never decoded here"
+     }
+    }
+   },
+   "pvp_traits": {
+    "type": "array<object>",
+    "class": "identity",
+    "required": false,
+    "description": "optional PvP talents; only acquired when options.enable_pvp_talents",
+    "items": {
+     "pvp_talent_id": {
+      "type": "integer",
+      "class": "identity",
+      "required": true,
+      "description": "PvpTalent.ID"
+     },
+     "slot": {
+      "type": "integer",
+      "class": "identity",
+      "required": true,
+      "description": "0..MAX_PVP_TALENT_SLOTS-1"
+     }
+    }
+   },
+   "learned_spells": {
+    "type": "array<integer>",
+    "class": "identity",
+    "required": false,
+    "description": "SpellIDs the character learned through a path no automatic grant reproduces (trainer, quest, item, SkillLineAbility AcquireMethod 0 'Learned', e.g. 296087 Dual Wield for an Arms warrior); character_spell rows restored by Player::_LoadSpells (Player.cpp:18609) -> AddSpell. Spells every character of the identity gets automatically are derived, never listed here"
+   },
+   "equipment": {
+    "type": "object",
+    "class": "identity",
+    "required": true,
+    "description": "slot name (Trinity EquipmentSlots) -> equipment entry",
+    "keys": [
+     "HEAD",
+     "NECK",
+     "SHOULDERS",
+     "BODY",
+     "CHEST",
+     "WAIST",
+     "LEGS",
+     "FEET",
+     "WRISTS",
+     "HANDS",
+     "FINGER1",
+     "FINGER2",
+     "TRINKET1",
+     "TRINKET2",
+     "BACK",
+     "MAINHAND",
+     "OFFHAND",
+     "RANGED",
+     "TABARD"
+    ],
+    "values": {
+     "type": "object",
+     "description": "One equipped item instance; identical to gearing.loadout.LoadoutEntry (the slot is the object key).",
+     "properties": {
+      "item_id": {
+       "type": "integer",
+       "class": "identity",
+       "required": true,
+       "description": "ItemSparse.ID"
+      },
+      "context": {
+       "type": "integer",
+       "class": "identity",
+       "required": false,
+       "description": "ItemContext (difficulty/source); default 0 = none. Carries the difficulty *inside* the loadout, so difficulty is never encounter state."
+      },
+      "bonus_list_ids": {
+       "type": "array<integer>",
+       "class": "identity",
+       "required": false,
+       "description": "explicit ItemBonusListIDs (upgrade steps, sockets, crafted-stat choices are all bonus lists)"
+      },
+      "gems": {
+       "type": "array<integer|object>",
+       "class": "identity",
+       "required": false,
+       "description": "gem item ids by socket index, or {socket_index, gem_item_id, bonus_list_ids}"
+      },
+      "enchant_ids": {
+       "type": "array<integer>",
+       "class": "identity",
+       "required": false,
+       "description": "SpellItemEnchantment ids (permanent enchants)"
+      },
+      "mythic_plus_keystone_level": {
+       "type": "integer|null",
+       "class": "identity",
+       "required": false,
+       "description": "keystone level for M+ contexts"
+      },
+      "pvp_tier": {
+       "type": "integer|null",
+       "class": "identity",
+       "required": false,
+       "description": "PvP tier for PvP contexts"
+      },
+      "label": {
+       "type": "string|null",
+       "class": "provenance",
+       "required": false,
+       "description": "free text"
+      },
+      "auto_bonus_lists": {
+       "type": "boolean",
+       "class": "identity",
+       "required": false,
+       "description": "let gearing derive the context bonus lists (default true)"
+      }
+     }
+    }
+   },
+   "server_inputs": {
+    "type": "object",
+    "class": "server",
+    "required": true,
+    "description": "Trinity-authored world-database facts, always explicit",
+    "properties": {
+     "base_stats": {
+      "type": "object",
+      "class": "server",
+      "required": true,
+      "properties": {
+       "source": {
+        "type": "string",
+        "class": "server",
+        "required": true,
+        "description": "world-db-corpus | inline | unsupplied"
+       },
+       "path": {
+        "type": "string|null",
+        "class": "server",
+        "required": false,
+        "description": "corpus path (world-db-corpus)"
+       },
+       "class_level_stats": {
+        "type": "object",
+        "class": "server",
+        "required": false,
+        "description": "inline: {class: {level: [str,agi,sta,int,spi]}}"
+       },
+       "race_stat_modifiers": {
+        "type": "object",
+        "class": "server",
+        "required": false,
+        "description": "inline: {race: [str,agi,sta,int,spi]}"
+       },
+       "provenance": {
+        "type": "string|null",
+        "class": "server",
+        "required": false,
+        "description": "where inline values came from"
+       },
+       "fill_rule": {
+        "type": "string|null",
+        "class": "server",
+        "required": false,
+        "description": "none (default) | trinity: explicit opt-in to ObjectMgr::LoadPlayerInfo's gap fill (ObjectMgr.cpp:4349-4356, a copy of the previous level's cell) for world-db-corpus base stats; filled cells are Trinity authoring, never Retail truth"
+       }
+      }
+     }
+    }
+   },
+   "controlled_units": {
+    "type": "object",
+    "class": "hook",
+    "required": false,
+    "description": "extensible; each key is an object owned by the controlled-unit research (hunter pet family/spec/creature, warlock active demon ...)"
+   },
+   "options": {
+    "type": "object",
+    "class": "identity",
+    "required": false,
+    "properties": {
+     "enable_pvp_talents": {
+      "type": "boolean",
+      "class": "identity",
+      "required": false,
+      "description": "acquire pvp_traits (default false)"
+     },
+     "include_class_skill_lines": {
+      "type": "boolean",
+      "class": "identity",
+      "required": false,
+      "description": "list the non-race-gated default-skill spells (class line, weapon / armour / language / generic lines) in derived.spells (default true); reporting only -- they always feed the dual-wield / titan-grip / proficiency / armour-spec checks"
+     },
+     "rng": {
+      "type": "null",
+      "class": "provenance",
+      "required": false,
+      "description": "reserved; preparation needs no RNG identity"
+     }
+    }
+   },
+   "observations": {
+    "type": "array<object>",
+    "class": "provenance",
+    "required": false,
+    "items": {
+     "type": "object",
+     "description": "An externally observed value attached to a derived-state path.  Designed so a future Retail client / WASM oracle can be compared without changing the format.",
+     "properties": {
+      "observer": {
+       "type": "string",
+       "class": "provenance",
+       "required": true,
+       "description": "who observed: retail-client | trinity-probe | core | addon | other"
+      },
+      "build": {
+       "type": "string",
+       "class": "provenance",
+       "required": true,
+       "description": "client/server build the observation was taken on"
+      },
+      "captured_at": {
+       "type": "string|null",
+       "class": "provenance",
+       "required": false,
+       "description": "ISO-8601 timestamp"
+      },
+      "path": {
+       "type": "string",
+       "class": "provenance",
+       "required": true,
+       "description": "JSON pointer into the compiled output, e.g. /derived/stats/value/Strength"
+      },
+      "value": {
+       "type": "any",
+       "class": "provenance",
+       "required": true,
+       "description": "observed value"
+      },
+      "units": {
+       "type": "string|null",
+       "class": "provenance",
+       "required": false,
+       "description": "points | percent | fraction | ms | seconds | count | id"
+      },
+      "precision": {
+       "type": "number|null",
+       "class": "provenance",
+       "required": false,
+       "description": "absolute tolerance used by the comparison (default exact)"
+      },
+      "notes": {
+       "type": "string|null",
+       "class": "provenance",
+       "required": false,
+       "description": "free text"
+      }
+     }
+    }
+   }
+  }
+ }
+}

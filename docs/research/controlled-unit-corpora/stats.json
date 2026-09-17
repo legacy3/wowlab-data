@@ -1,0 +1,2229 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "world_database": "TDB_full_world_1200.26021_2026_02_06.sql (via docs/research/world-db-corpora/player-base-stats.json)",
+  "generator": "python3 controlled_units.py stats",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2"
+ },
+ "unit_classes": {
+  "Pet/SUMMON_PET": "Pet class (Entities/Pet/Pet.cpp), PetType SUMMON_PET: created by Player::SummonPet (Player.cpp:30438) from SPELL_EFFECT_SUMMON_PET (SpellEffects.cpp:2656) or loaded by Pet::LoadPetFromDB (Pet.cpp:205); warlock demons, DK ghoul via 52150, mage 78116 (class-mismatch path)",
+  "Pet/HUNTER_PET": "Pet class, PetType HUNTER_PET: Unit::CreateTamedPetFrom (Unit.cpp:11089/11113) or Pet::LoadPetFromDB for Call Pet (883, MiscValue 0)",
+  "Guardian": "Guardian (TemporarySummon.h:129) allocated by Map::SummonCreature (Object.cpp:1251) for SummonProperties Control=PET or Control=WILD/ALLY with Title Minion/Guardian/Runeblade or JoinSummonerSpawnGroup; stats via Guardian::InitStats -> InitStatsForLevel (TemporarySummon.cpp:525-535)",
+  "Minion": "Minion (TemporarySummon.h:95) for Control=VEHICLE/POSSESSED_VEHICLE or Title Companion (Object.cpp:1206-1230); no Guardian stat code, plain Creature stats",
+  "Totem": "Totem (Entities/Totem) for Title Totem/Lightwell (Object.cpp:1220-1222); Creature stats, health overridden by the summon effect value when non-zero (SpellEffects.cpp:1978-1982)",
+  "Puppet": "Puppet (TemporarySummon.h:155) for Control=PUPPET (Object.cpp:1203-1204); Minion::InitStats + possess; plain Creature stats",
+  "TempSummon": "plain TempSummon (Object.cpp:1248-1249) for Title None/Vehicle/Mount without JoinSummonerSpawnGroup; plain Creature stats; owner set only for Control=ALLY (SpellEffects.cpp:2023-2024)"
+ },
+ "classification_vocabulary": {
+  "creation-snapshot": "fixed when the unit is created (InitStats/InitStatsForLevel) and never revisited",
+  "application-snapshot": "captured when an aura/spell is applied to the unit",
+  "dynamic-owner-lookup": "read from the owner at use time (cast/damage)",
+  "explicit-recalculation": "recomputed by an explicit Update* call; see triggers for what fires it",
+  "independent-pet-value": "the unit's own creature/world-db value, no owner dependency",
+  "legacy-only": "code exists but no 12.1 input reaches it",
+  "unresolved": "no consumer in the pinned checkout"
+ },
+ "consumers": [
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "level",
+   "consumer": "Pet::LoadPetFromDB / Player::SummonPet / Pet::SynchronizeLevelWithOwner",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:289-290",
+    "src/server/game/Entities/Pet/Pet.cpp:309",
+    "src/server/game/Entities/Player/Player.cpp:30491",
+    "src/server/game/Entities/Pet/Pet.cpp:1784-1798"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetLevel()",
+   "arithmetic": "petlevel = owner level; SynchronizeLevelWithOwner -> GivePetLevel(owner level) -> InitStatsForLevel + InitLevelupSpellsForLevel (Pet.cpp:753-766); re-run on owner level change via Player::GiveLevel",
+   "numeric": {
+    "source_type": "uint8",
+    "intermediate_type": "uint8",
+    "rounding": "none",
+    "units": "level"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "level",
+   "consumer": "Unit::CreateTamedPetFrom / Pet::GivePetXP / SynchronizeLevelWithOwner",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:11102",
+    "src/server/game/Entities/Pet/Pet.cpp:716-751",
+    "src/server/game/Entities/Pet/Pet.cpp:1791-1793"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "creature level for target, owner level, PetExperience",
+   "arithmetic": "tame: level = max(targetLevel, ownerLevel-5) (Unit.cpp:11102); XP path: PET_XP_FACTOR 0.05f * GetXPForLevel (Pet.cpp:44/761); load: GivePetLevel(owner level) (Pet.cpp:1793)",
+   "numeric": {
+    "source_type": "uint8",
+    "intermediate_type": "uint32 XP, uint8 level",
+    "rounding": "uint32() of float XP product",
+    "units": "level"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "level",
+   "consumer": "TempSummon::InitStats",
+   "coordinates": [
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:241-247",
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:529"
+   ],
+   "classification": "creation-snapshot",
+   "inputs": "summoner level, UnitData::ScalingLevelMin/Max/Delta (ContentTuning of creature_template_difficulty), SummonPropertiesFlags::UseCreatureLevel",
+   "arithmetic": "level = clamp(summoner level, ScalingLevelMin+Delta, ScalingLevelMax+Delta) unless UseCreatureLevel; then Guardian::InitStats calls InitStatsForLevel(GetLevel()); never re-synchronised",
+   "numeric": {
+    "source_type": "uint8",
+    "intermediate_type": "int32 clamp",
+    "rounding": "none",
+    "units": "level"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "level",
+   "consumer": "Creature::SelectLevel then TempSummon::InitStats",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1614-1623",
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:241-247"
+   ],
+   "classification": "creation-snapshot",
+   "inputs": "ContentTuning levels + creature_template_difficulty delta; summoner level",
+   "arithmetic": "SelectLevel sets level = ScalingLevelMax+Delta and computes stats at that level; TempSummon::InitStats then overwrites the level with the clamped summoner level WITHOUT recomputing stats (Unit::SetLevel only notifies players)",
+   "numeric": {
+    "source_type": "uint8",
+    "intermediate_type": "int32",
+    "rounding": "RoundToInterval(1..255)",
+    "units": "level"
+   },
+   "notes": "displayed level and stat level can differ below the ContentTuning maximum",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "level",
+   "consumer": "Creature::SelectLevel then TempSummon::InitStats",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1614-1623",
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:241-247"
+   ],
+   "classification": "creation-snapshot",
+   "inputs": "ContentTuning levels + creature_template_difficulty delta; summoner level",
+   "arithmetic": "SelectLevel sets level = ScalingLevelMax+Delta and computes stats at that level; TempSummon::InitStats then overwrites the level with the clamped summoner level WITHOUT recomputing stats (Unit::SetLevel only notifies players)",
+   "numeric": {
+    "source_type": "uint8",
+    "intermediate_type": "int32",
+    "rounding": "RoundToInterval(1..255)",
+    "units": "level"
+   },
+   "notes": "displayed level and stat level can differ below the ContentTuning maximum",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "level",
+   "consumer": "Creature::SelectLevel then TempSummon::InitStats",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1614-1623",
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:241-247"
+   ],
+   "classification": "creation-snapshot",
+   "inputs": "ContentTuning levels + creature_template_difficulty delta; summoner level",
+   "arithmetic": "SelectLevel sets level = ScalingLevelMax+Delta and computes stats at that level; TempSummon::InitStats then overwrites the level with the clamped summoner level WITHOUT recomputing stats (Unit::SetLevel only notifies players)",
+   "numeric": {
+    "source_type": "uint8",
+    "intermediate_type": "int32",
+    "rounding": "RoundToInterval(1..255)",
+    "units": "level"
+   },
+   "notes": "displayed level and stat level can differ below the ContentTuning maximum",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "level",
+   "consumer": "Creature::SelectLevel then TempSummon::InitStats",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1614-1623",
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:241-247"
+   ],
+   "classification": "creation-snapshot",
+   "inputs": "ContentTuning levels + creature_template_difficulty delta; summoner level",
+   "arithmetic": "SelectLevel sets level = ScalingLevelMax+Delta and computes stats at that level; TempSummon::InitStats then overwrites the level with the clamped summoner level WITHOUT recomputing stats (Unit::SetLevel only notifies players)",
+   "numeric": {
+    "source_type": "uint8",
+    "intermediate_type": "int32",
+    "rounding": "RoundToInterval(1..255)",
+    "units": "level"
+   },
+   "notes": "displayed level and stat level can differ below the ContentTuning maximum",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "strength/agility/intellect/spirit (base)",
+   "consumer": "Guardian::InitStatsForLevel -> SetCreateStat",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:890-917"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "pet_levelstats.str/agi/sta/inte/spi (uint16) for creature_entry (1 for HUNTER_PET) at petlevel, else fake 22/22/25/28",
+   "arithmetic": "m_createStats[stat] = float(pInfo->stats[stat]); GetTotalStatValue = (CalculatePct(flat BASE_VALUE, BASE_PCT_EXCLUDE_CREATE) + create) * BASE_PCT + TOTAL_VALUE) * TOTAL_PCT (Unit.cpp:9828-9842)",
+   "numeric": {
+    "source_type": "uint16 (world db)",
+    "intermediate_type": "float",
+    "rounding": "int32(value) at SetStat (StatSystem.cpp:1178)",
+    "units": "stat points"
+   },
+   "notes": "pet_levelstats authored to level 85 (entry 1 rows 81-85 are all-1 placeholders; entry 26125 ends at 80); Trinity gap-fills 86-90 from the last row (ObjectMgr.cpp:3756-3762)",
+   "evidence_class": "world-db-fact"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "stamina (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1146-1160"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_STAMINA) (float of int32)",
+   "arithmetic": "ghoul 26125: + float(ownerSta) * 0.3f; every other guardian: + CalculatePct(ownerSta, 30); recomputed only when Player::UpdateStats(STA) runs and only for GetPet() (StatSystem.cpp:114-119) or at InitStatsForLevel",
+   "numeric": {
+    "source_type": "int32 UnitData::Stats",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "strength (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1146-1155"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_STRENGTH)",
+   "arithmetic": "ghoul 26125 only: + float(ownerStr) * 0.7f; all other entries: no owner share (the 0.3 ghoul branch at :1170-1176 is commented out)",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "intellect (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1162-1169"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_INTELLECT), owner class",
+   "arithmetic": "warlock or mage owner: + CalculatePct(ownerInt, 30); otherwise none",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "strength/agility/intellect/spirit (base)",
+   "consumer": "Guardian::InitStatsForLevel -> SetCreateStat",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:890-917"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "pet_levelstats.str/agi/sta/inte/spi (uint16) for creature_entry (1 for HUNTER_PET) at petlevel, else fake 22/22/25/28",
+   "arithmetic": "m_createStats[stat] = float(pInfo->stats[stat]); GetTotalStatValue = (CalculatePct(flat BASE_VALUE, BASE_PCT_EXCLUDE_CREATE) + create) * BASE_PCT + TOTAL_VALUE) * TOTAL_PCT (Unit.cpp:9828-9842)",
+   "numeric": {
+    "source_type": "uint16 (world db)",
+    "intermediate_type": "float",
+    "rounding": "int32(value) at SetStat (StatSystem.cpp:1178)",
+    "units": "stat points"
+   },
+   "notes": "pet_levelstats authored to level 85 (entry 1 rows 81-85 are all-1 placeholders; entry 26125 ends at 80); Trinity gap-fills 86-90 from the last row (ObjectMgr.cpp:3756-3762)",
+   "evidence_class": "world-db-fact"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "stamina (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1146-1160"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_STAMINA) (float of int32)",
+   "arithmetic": "ghoul 26125: + float(ownerSta) * 0.3f; every other guardian: + CalculatePct(ownerSta, 30); recomputed only when Player::UpdateStats(STA) runs and only for GetPet() (StatSystem.cpp:114-119) or at InitStatsForLevel",
+   "numeric": {
+    "source_type": "int32 UnitData::Stats",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "strength (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1146-1155"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_STRENGTH)",
+   "arithmetic": "ghoul 26125 only: + float(ownerStr) * 0.7f; all other entries: no owner share (the 0.3 ghoul branch at :1170-1176 is commented out)",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "intellect (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1162-1169"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_INTELLECT), owner class",
+   "arithmetic": "warlock or mage owner: + CalculatePct(ownerInt, 30); otherwise none",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "strength/agility/intellect/spirit (base)",
+   "consumer": "Guardian::InitStatsForLevel -> SetCreateStat",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:890-917"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "pet_levelstats.str/agi/sta/inte/spi (uint16) for creature_entry (1 for HUNTER_PET) at petlevel, else fake 22/22/25/28",
+   "arithmetic": "m_createStats[stat] = float(pInfo->stats[stat]); GetTotalStatValue = (CalculatePct(flat BASE_VALUE, BASE_PCT_EXCLUDE_CREATE) + create) * BASE_PCT + TOTAL_VALUE) * TOTAL_PCT (Unit.cpp:9828-9842)",
+   "numeric": {
+    "source_type": "uint16 (world db)",
+    "intermediate_type": "float",
+    "rounding": "int32(value) at SetStat (StatSystem.cpp:1178)",
+    "units": "stat points"
+   },
+   "notes": "pet_levelstats authored to level 85 (entry 1 rows 81-85 are all-1 placeholders; entry 26125 ends at 80); Trinity gap-fills 86-90 from the last row (ObjectMgr.cpp:3756-3762)",
+   "evidence_class": "world-db-fact"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "stamina (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1146-1160"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_STAMINA) (float of int32)",
+   "arithmetic": "ghoul 26125: + float(ownerSta) * 0.3f; every other guardian: + CalculatePct(ownerSta, 30); recomputed only when Player::UpdateStats(STA) runs and only for GetPet() (StatSystem.cpp:114-119) or at InitStatsForLevel",
+   "numeric": {
+    "source_type": "int32 UnitData::Stats",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "strength (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1146-1155"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_STRENGTH)",
+   "arithmetic": "ghoul 26125 only: + float(ownerStr) * 0.7f; all other entries: no owner share (the 0.3 ghoul branch at :1170-1176 is commented out)",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "intellect (owner share)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1162-1169"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner->GetStat(STAT_INTELLECT), owner class",
+   "arithmetic": "warlock or mage owner: + CalculatePct(ownerInt, 30); otherwise none",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "int32(value)",
+    "units": "stat points"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "health",
+   "consumer": "Guardian::UpdateMaxHealth",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1253-1276",
+    "src/server/game/Entities/Pet/Pet.cpp:893",
+    "src/server/game/Entities/Pet/Pet.cpp:911"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "BaseHealth (pet_levelstats.hp or ExpectedStat), Stats[STA] - createSta, entry multiplier, UNIT_MOD_HEALTH modifiers",
+   "arithmetic": "(flat BASE_VALUE + BaseHealth) * BASE_PCT + (TOTAL_VALUE + (sta - createSta) * mult) then * TOTAL_PCT; mult = 8.4 imp, 11 voidwalker/felguard, 9.1 succubus, 9.5 felhunter, 1 bloodworm, 10 default; (uint32) truncation",
+   "numeric": {
+    "source_type": "uint16 hp / int32 stats",
+    "intermediate_type": "float",
+    "rounding": "(uint32)value truncation; 0 -> 1",
+    "units": "health"
+   },
+   "notes": "Pet::Create calls InitEntry only (Pet.cpp:1690): UNIT_MOD_HEALTH BASE_VALUE stays 0",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "health",
+   "consumer": "Guardian::UpdateMaxHealth",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1253-1276",
+    "src/server/game/Entities/Pet/Pet.cpp:893",
+    "src/server/game/Entities/Pet/Pet.cpp:911"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "BaseHealth (pet_levelstats.hp or ExpectedStat), Stats[STA] - createSta, entry multiplier, UNIT_MOD_HEALTH modifiers",
+   "arithmetic": "(flat BASE_VALUE + BaseHealth) * BASE_PCT + (TOTAL_VALUE + (sta - createSta) * mult) then * TOTAL_PCT; mult = 8.4 imp, 11 voidwalker/felguard, 9.1 succubus, 9.5 felhunter, 1 bloodworm, 10 default; (uint32) truncation",
+   "numeric": {
+    "source_type": "uint16 hp / int32 stats",
+    "intermediate_type": "float",
+    "rounding": "(uint32)value truncation; 0 -> 1",
+    "units": "health"
+   },
+   "notes": "Pet::Create calls InitEntry only (Pet.cpp:1690): UNIT_MOD_HEALTH BASE_VALUE stays 0",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "health",
+   "consumer": "Guardian::UpdateMaxHealth",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1253-1276",
+    "src/server/game/Entities/Pet/Pet.cpp:893",
+    "src/server/game/Entities/Pet/Pet.cpp:911"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "BaseHealth (pet_levelstats.hp or ExpectedStat), Stats[STA] - createSta, entry multiplier, UNIT_MOD_HEALTH modifiers",
+   "arithmetic": "(flat BASE_VALUE + BaseHealth) * BASE_PCT + (TOTAL_VALUE + (sta - createSta) * mult) then * TOTAL_PCT; mult = 8.4 imp, 11 voidwalker/felguard, 9.1 succubus, 9.5 felhunter, 1 bloodworm, 10 default; (uint32) truncation",
+   "numeric": {
+    "source_type": "uint16 hp / int32 stats",
+    "intermediate_type": "float",
+    "rounding": "(uint32)value truncation; 0 -> 1",
+    "units": "health"
+   },
+   "notes": "Guardian (non-Pet): flat BASE_VALUE is NOT zero -- Map::SummonCreature (Object.cpp:1265) -> Creature::Create -> CreateFromProto (Creature.cpp:1151) -> UpdateEntry -> SelectLevel -> UpdateLevelDependantStats stored uint32(ceil(ES*HealthModifier)) at the SelectLevel level (Creature.cpp:1643); the Guardian ctor already set UNIT_MASK_GUARDIAN (TemporarySummon.cpp:516) and InitStatsForLevel never resets it, so the ExpectedStat health is counted in addition to BaseHealth (confirmed by tools/tc_pet_probe, tests/test_cu_differential.py)",
+   "evidence_class": "differential"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "health",
+   "consumer": "Creature::UpdateLevelDependantStats / Creature::UpdateMaxHealth",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1632-1643",
+    "src/server/game/Entities/Creature/Creature.cpp:3077-3083",
+    "src/server/game/Entities/Unit/StatSystem.cpp:999-1003"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureHealth at SelectLevel level, creature_template_difficulty.HealthModifier, Rate.Creature.*.HP, classification",
+   "arithmetic": "health = uint32(ceil(ExpectedStat * HealthModifier) * healthmod); UNIT_MOD_HEALTH BASE_VALUE = health; MaxHealth = uint32(GetTotalAuraModValue(UNIT_MOD_HEALTH))",
+   "numeric": {
+    "source_type": "float ExpectedStat",
+    "intermediate_type": "double ceil, float rate",
+    "rounding": "ceil then uint32()",
+    "units": "health"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "health",
+   "consumer": "Creature::UpdateLevelDependantStats / Creature::UpdateMaxHealth",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1632-1643",
+    "src/server/game/Entities/Creature/Creature.cpp:3077-3083",
+    "src/server/game/Entities/Unit/StatSystem.cpp:999-1003"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureHealth at SelectLevel level, creature_template_difficulty.HealthModifier, Rate.Creature.*.HP, classification",
+   "arithmetic": "health = uint32(ceil(ExpectedStat * HealthModifier) * healthmod); UNIT_MOD_HEALTH BASE_VALUE = health; MaxHealth = uint32(GetTotalAuraModValue(UNIT_MOD_HEALTH))",
+   "numeric": {
+    "source_type": "float ExpectedStat",
+    "intermediate_type": "double ceil, float rate",
+    "rounding": "ceil then uint32()",
+    "units": "health"
+   },
+   "notes": "Totem: SpellEffects.cpp:1978-1982 overrides MaxHealth/Health with the summon effect value when non-zero (Healing Stream Totem 5394 bp=5 -> 5 health)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "health",
+   "consumer": "Creature::UpdateLevelDependantStats / Creature::UpdateMaxHealth",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1632-1643",
+    "src/server/game/Entities/Creature/Creature.cpp:3077-3083",
+    "src/server/game/Entities/Unit/StatSystem.cpp:999-1003"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureHealth at SelectLevel level, creature_template_difficulty.HealthModifier, Rate.Creature.*.HP, classification",
+   "arithmetic": "health = uint32(ceil(ExpectedStat * HealthModifier) * healthmod); UNIT_MOD_HEALTH BASE_VALUE = health; MaxHealth = uint32(GetTotalAuraModValue(UNIT_MOD_HEALTH))",
+   "numeric": {
+    "source_type": "float ExpectedStat",
+    "intermediate_type": "double ceil, float rate",
+    "rounding": "ceil then uint32()",
+    "units": "health"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "health",
+   "consumer": "Creature::UpdateLevelDependantStats / Creature::UpdateMaxHealth",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1632-1643",
+    "src/server/game/Entities/Creature/Creature.cpp:3077-3083",
+    "src/server/game/Entities/Unit/StatSystem.cpp:999-1003"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureHealth at SelectLevel level, creature_template_difficulty.HealthModifier, Rate.Creature.*.HP, classification",
+   "arithmetic": "health = uint32(ceil(ExpectedStat * HealthModifier) * healthmod); UNIT_MOD_HEALTH BASE_VALUE = health; MaxHealth = uint32(GetTotalAuraModValue(UNIT_MOD_HEALTH))",
+   "numeric": {
+    "source_type": "float ExpectedStat",
+    "intermediate_type": "double ceil, float rate",
+    "rounding": "ceil then uint32()",
+    "units": "health"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "armor",
+   "consumer": "Guardian::UpdateArmor + InitStatsForLevel",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1231-1251",
+    "src/server/game/Entities/Pet/Pet.cpp:872",
+    "src/server/game/Entities/Pet/Pet.cpp:898-899",
+    "src/server/game/Entities/Pet/Pet.cpp:1028"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "petlevel*50 or pet_levelstats.armor, owner->GetArmor() (uint32)",
+   "arithmetic": "HUNTER_PET: bonus = float(CalculatePct(ownerArmor, 70)) (comment says 35%); other Pet: bonus = ownerArmor; non-Pet Guardian: 0; value = BASE*BASE_PCT + TOTAL + bonus, * TOTAL_PCT; SetArmor(int32 base, int32(value-base)); recomputed by Player::UpdateArmor only for GetPet() (StatSystem.cpp:276-278)",
+   "numeric": {
+    "source_type": "uint32",
+    "intermediate_type": "float",
+    "rounding": "CalculatePct truncates to uint32 before float()",
+    "units": "armor"
+   },
+   "notes": "Feral Spirit 29264 InitStatsForLevel additionally sets BASE_VALUE = float(ownerArmor) * 0.35f (Pet.cpp:1028)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "armor",
+   "consumer": "Guardian::UpdateArmor + InitStatsForLevel",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1231-1251",
+    "src/server/game/Entities/Pet/Pet.cpp:872",
+    "src/server/game/Entities/Pet/Pet.cpp:898-899",
+    "src/server/game/Entities/Pet/Pet.cpp:1028"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "petlevel*50 or pet_levelstats.armor, owner->GetArmor() (uint32)",
+   "arithmetic": "HUNTER_PET: bonus = float(CalculatePct(ownerArmor, 70)) (comment says 35%); other Pet: bonus = ownerArmor; non-Pet Guardian: 0; value = BASE*BASE_PCT + TOTAL + bonus, * TOTAL_PCT; SetArmor(int32 base, int32(value-base)); recomputed by Player::UpdateArmor only for GetPet() (StatSystem.cpp:276-278)",
+   "numeric": {
+    "source_type": "uint32",
+    "intermediate_type": "float",
+    "rounding": "CalculatePct truncates to uint32 before float()",
+    "units": "armor"
+   },
+   "notes": "Feral Spirit 29264 InitStatsForLevel additionally sets BASE_VALUE = float(ownerArmor) * 0.35f (Pet.cpp:1028)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "armor",
+   "consumer": "Guardian::UpdateArmor + InitStatsForLevel",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1231-1251",
+    "src/server/game/Entities/Pet/Pet.cpp:872",
+    "src/server/game/Entities/Pet/Pet.cpp:898-899",
+    "src/server/game/Entities/Pet/Pet.cpp:1028"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "petlevel*50 or pet_levelstats.armor, owner->GetArmor() (uint32)",
+   "arithmetic": "HUNTER_PET: bonus = float(CalculatePct(ownerArmor, 70)) (comment says 35%); other Pet: bonus = ownerArmor; non-Pet Guardian: 0; value = BASE*BASE_PCT + TOTAL + bonus, * TOTAL_PCT; SetArmor(int32 base, int32(value-base)); recomputed by Player::UpdateArmor only for GetPet() (StatSystem.cpp:276-278)",
+   "numeric": {
+    "source_type": "uint32",
+    "intermediate_type": "float",
+    "rounding": "CalculatePct truncates to uint32 before float()",
+    "units": "armor"
+   },
+   "notes": "Feral Spirit 29264 InitStatsForLevel additionally sets BASE_VALUE = float(ownerArmor) * 0.35f (Pet.cpp:1028)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "armor",
+   "consumer": "Creature::UpdateLevelDependantStats / Creature::UpdateArmor",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1669-1670",
+    "src/server/game/Entities/Creature/Creature.cpp:3112-3118",
+    "src/server/game/Entities/Unit/StatSystem.cpp:992-997"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureArmor * ArmorModifier",
+   "arithmetic": "BASE_VALUE = ExpectedStat(CreatureArmor) * creature_template_difficulty.ArmorModifier; SetArmor(int32(base), int32(total-base))",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "armor"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "armor",
+   "consumer": "Creature::UpdateLevelDependantStats / Creature::UpdateArmor",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1669-1670",
+    "src/server/game/Entities/Creature/Creature.cpp:3112-3118",
+    "src/server/game/Entities/Unit/StatSystem.cpp:992-997"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureArmor * ArmorModifier",
+   "arithmetic": "BASE_VALUE = ExpectedStat(CreatureArmor) * creature_template_difficulty.ArmorModifier; SetArmor(int32(base), int32(total-base))",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "armor"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "armor",
+   "consumer": "Creature::UpdateLevelDependantStats / Creature::UpdateArmor",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1669-1670",
+    "src/server/game/Entities/Creature/Creature.cpp:3112-3118",
+    "src/server/game/Entities/Unit/StatSystem.cpp:992-997"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureArmor * ArmorModifier",
+   "arithmetic": "BASE_VALUE = ExpectedStat(CreatureArmor) * creature_template_difficulty.ArmorModifier; SetArmor(int32(base), int32(total-base))",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "armor"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "armor",
+   "consumer": "Creature::UpdateLevelDependantStats / Creature::UpdateArmor",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1669-1670",
+    "src/server/game/Entities/Creature/Creature.cpp:3112-3118",
+    "src/server/game/Entities/Unit/StatSystem.cpp:992-997"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureArmor * ArmorModifier",
+   "arithmetic": "BASE_VALUE = ExpectedStat(CreatureArmor) * creature_template_difficulty.ArmorModifier; SetArmor(int32(base), int32(total-base))",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "armor"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "attack_power",
+   "consumer": "Guardian::UpdateAttackPowerAndDamage",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1293-1355"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "Stats[STR]; owner GetTotalAttackPowerValue(RANGED|BASE) for hunter/ghoul/spirit wolf; owner ModDamageDonePos/Neg fire/shadow for other Pets",
+   "arithmetic": "val = STR-10 (imp 416) else 2*STR-20; bonusAP: hunter pet rangedAP*0.22, ghoul 26125 meleeAP*0.22, spirit wolf 29264 meleeAP*0.31, other Pet max(fire,shadow SP)*0.57, else 0; BASE_VALUE = val+bonusAP; AttackPower = int32(BASE_VALUE*BASE_PCT); multiplier = TOTAL_PCT-1",
+   "numeric": {
+    "source_type": "float/int32",
+    "intermediate_type": "float",
+    "rounding": "int32() at SetAttackPower",
+    "units": "attack power"
+   },
+   "notes": "triggers: Player::UpdateAttackPowerAndDamage (StatSystem.cpp:400-423) for GetPet() hunter (ranged) / ghoul (melee) and GetGuardianPet() spirit wolf; AuraEffect::HandleModDamageDone (SpellAuraEffects.cpp:4731-4732) for GetGuardianPet(); Guardian::UpdateStats(STR); NOT item spell power (Player::ApplySpellPowerBonus StatSystem.cpp:151-168 has no pet call)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "attack_power",
+   "consumer": "Guardian::UpdateAttackPowerAndDamage",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1293-1355"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "Stats[STR]; owner GetTotalAttackPowerValue(RANGED|BASE) for hunter/ghoul/spirit wolf; owner ModDamageDonePos/Neg fire/shadow for other Pets",
+   "arithmetic": "val = STR-10 (imp 416) else 2*STR-20; bonusAP: hunter pet rangedAP*0.22, ghoul 26125 meleeAP*0.22, spirit wolf 29264 meleeAP*0.31, other Pet max(fire,shadow SP)*0.57, else 0; BASE_VALUE = val+bonusAP; AttackPower = int32(BASE_VALUE*BASE_PCT); multiplier = TOTAL_PCT-1",
+   "numeric": {
+    "source_type": "float/int32",
+    "intermediate_type": "float",
+    "rounding": "int32() at SetAttackPower",
+    "units": "attack power"
+   },
+   "notes": "triggers: Player::UpdateAttackPowerAndDamage (StatSystem.cpp:400-423) for GetPet() hunter (ranged) / ghoul (melee) and GetGuardianPet() spirit wolf; AuraEffect::HandleModDamageDone (SpellAuraEffects.cpp:4731-4732) for GetGuardianPet(); Guardian::UpdateStats(STR); NOT item spell power (Player::ApplySpellPowerBonus StatSystem.cpp:151-168 has no pet call)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "attack_power",
+   "consumer": "Guardian::UpdateAttackPowerAndDamage",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1293-1355"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "Stats[STR]; owner GetTotalAttackPowerValue(RANGED|BASE) for hunter/ghoul/spirit wolf; owner ModDamageDonePos/Neg fire/shadow for other Pets",
+   "arithmetic": "val = STR-10 (imp 416) else 2*STR-20; bonusAP: hunter pet rangedAP*0.22, ghoul 26125 meleeAP*0.22, spirit wolf 29264 meleeAP*0.31, other Pet max(fire,shadow SP)*0.57, else 0; BASE_VALUE = val+bonusAP; AttackPower = int32(BASE_VALUE*BASE_PCT); multiplier = TOTAL_PCT-1",
+   "numeric": {
+    "source_type": "float/int32",
+    "intermediate_type": "float",
+    "rounding": "int32() at SetAttackPower",
+    "units": "attack power"
+   },
+   "notes": "triggers: Player::UpdateAttackPowerAndDamage (StatSystem.cpp:400-423) for GetPet() hunter (ranged) / ghoul (melee) and GetGuardianPet() spirit wolf; AuraEffect::HandleModDamageDone (SpellAuraEffects.cpp:4731-4732) for GetGuardianPet(); Guardian::UpdateStats(STR); NOT item spell power (Player::ApplySpellPowerBonus StatSystem.cpp:151-168 has no pet call)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "attack_power",
+   "consumer": "Creature::UpdateAttackPowerAndDamage",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1666-1667",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1042-1068"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "creature_classlevelstats.attackpower/rangedattackpower at SelectLevel level (default 0 when the row is missing, ObjectMgr.cpp:9997-10003)",
+   "arithmetic": "AttackPower = int32(BASE_VALUE * BASE_PCT); multiplier = TOTAL_PCT - 1",
+   "numeric": {
+    "source_type": "uint32",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "attack power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "attack_power",
+   "consumer": "Creature::UpdateAttackPowerAndDamage",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1666-1667",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1042-1068"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "creature_classlevelstats.attackpower/rangedattackpower at SelectLevel level (default 0 when the row is missing, ObjectMgr.cpp:9997-10003)",
+   "arithmetic": "AttackPower = int32(BASE_VALUE * BASE_PCT); multiplier = TOTAL_PCT - 1",
+   "numeric": {
+    "source_type": "uint32",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "attack power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "attack_power",
+   "consumer": "Creature::UpdateAttackPowerAndDamage",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1666-1667",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1042-1068"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "creature_classlevelstats.attackpower/rangedattackpower at SelectLevel level (default 0 when the row is missing, ObjectMgr.cpp:9997-10003)",
+   "arithmetic": "AttackPower = int32(BASE_VALUE * BASE_PCT); multiplier = TOTAL_PCT - 1",
+   "numeric": {
+    "source_type": "uint32",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "attack power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "attack_power",
+   "consumer": "Creature::UpdateAttackPowerAndDamage",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1666-1667",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1042-1068"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "creature_classlevelstats.attackpower/rangedattackpower at SelectLevel level (default 0 when the row is missing, ObjectMgr.cpp:9997-10003)",
+   "arithmetic": "AttackPower = int32(BASE_VALUE * BASE_PCT); multiplier = TOTAL_PCT - 1",
+   "numeric": {
+    "source_type": "uint32",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "attack power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "spell_power (m_bonusSpellDamage)",
+   "consumer": "Guardian::SetBonusDamage <- UpdateAttackPowerAndDamage / InitStatsForLevel",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1314",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1319",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1325",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1335",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1344",
+    "src/server/game/Entities/Pet/Pet.cpp:929-935",
+    "src/server/game/Entities/Unit/Unit.cpp:6845-6848"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner AP or owner ModDamageDonePos/Neg (client fields), owner SpellBaseDamageBonusDone for entry branches",
+   "arithmetic": "int32(rangedAP*0.1287) hunter; int32(meleeAP*0.1287) ghoul; int32(meleeAP*0.31) spirit wolf; int32(max(fire,shadow)*0.15) Pet; int32(frost*0.4) entry 510; consumed by Unit::SpellDamageBonusDone as DoneAdvertisedBenefit += GetBonusDamage() for UNIT_MASK_GUARDIAN (Unit.cpp:6847-6848)",
+   "numeric": {
+    "source_type": "int32 ModDamageDone*, float AP",
+    "intermediate_type": "float",
+    "rounding": "int32() truncation",
+    "units": "spell power"
+   },
+   "notes": "InitStatsForLevel's SUMMON_PET branch uses ModDamageDonePos only (Pet.cpp:929-930) whereas UpdateAttackPowerAndDamage subtracts ModDamageDoneNeg (:1330-1331); the Update value wins because UpdateAllStats runs last",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "spell_power (m_bonusSpellDamage)",
+   "consumer": "Guardian::SetBonusDamage <- UpdateAttackPowerAndDamage / InitStatsForLevel",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1314",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1319",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1325",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1335",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1344",
+    "src/server/game/Entities/Pet/Pet.cpp:929-935",
+    "src/server/game/Entities/Unit/Unit.cpp:6845-6848"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner AP or owner ModDamageDonePos/Neg (client fields), owner SpellBaseDamageBonusDone for entry branches",
+   "arithmetic": "int32(rangedAP*0.1287) hunter; int32(meleeAP*0.1287) ghoul; int32(meleeAP*0.31) spirit wolf; int32(max(fire,shadow)*0.15) Pet; int32(frost*0.4) entry 510; consumed by Unit::SpellDamageBonusDone as DoneAdvertisedBenefit += GetBonusDamage() for UNIT_MASK_GUARDIAN (Unit.cpp:6847-6848)",
+   "numeric": {
+    "source_type": "int32 ModDamageDone*, float AP",
+    "intermediate_type": "float",
+    "rounding": "int32() truncation",
+    "units": "spell power"
+   },
+   "notes": "InitStatsForLevel's SUMMON_PET branch uses ModDamageDonePos only (Pet.cpp:929-930) whereas UpdateAttackPowerAndDamage subtracts ModDamageDoneNeg (:1330-1331); the Update value wins because UpdateAllStats runs last",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "spell_power (m_bonusSpellDamage)",
+   "consumer": "Guardian::SetBonusDamage <- UpdateAttackPowerAndDamage / InitStatsForLevel",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1314",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1319",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1325",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1335",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1344",
+    "src/server/game/Entities/Pet/Pet.cpp:929-935",
+    "src/server/game/Entities/Unit/Unit.cpp:6845-6848"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "owner AP or owner ModDamageDonePos/Neg (client fields), owner SpellBaseDamageBonusDone for entry branches",
+   "arithmetic": "int32(rangedAP*0.1287) hunter; int32(meleeAP*0.1287) ghoul; int32(meleeAP*0.31) spirit wolf; int32(max(fire,shadow)*0.15) Pet; int32(frost*0.4) entry 510; consumed by Unit::SpellDamageBonusDone as DoneAdvertisedBenefit += GetBonusDamage() for UNIT_MASK_GUARDIAN (Unit.cpp:6847-6848)",
+   "numeric": {
+    "source_type": "int32 ModDamageDone*, float AP",
+    "intermediate_type": "float",
+    "rounding": "int32() truncation",
+    "units": "spell power"
+   },
+   "notes": "InitStatsForLevel's SUMMON_PET branch uses ModDamageDonePos only (Pet.cpp:929-930) whereas UpdateAttackPowerAndDamage subtracts ModDamageDoneNeg (:1330-1331); the Update value wins because UpdateAllStats runs last",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "spell_power",
+   "consumer": "Unit::SpellBaseDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:7083-7118",
+    "src/server/game/Entities/Unit/Unit.cpp:6833-6836"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_DONE auras; Totem: owner",
+   "arithmetic": "non-player: only GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_DAMAGE_DONE); Totem: SpellDamageBonusDone forwards the whole computation to the owner (Unit.cpp:6834-6836)",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "int32",
+    "rounding": "none",
+    "units": "spell power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "spell_power",
+   "consumer": "Unit::SpellBaseDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:7083-7118",
+    "src/server/game/Entities/Unit/Unit.cpp:6833-6836"
+   ],
+   "classification": "dynamic-owner-lookup",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_DONE auras; Totem: owner",
+   "arithmetic": "non-player: only GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_DAMAGE_DONE); Totem: SpellDamageBonusDone forwards the whole computation to the owner (Unit.cpp:6834-6836)",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "int32",
+    "rounding": "none",
+    "units": "spell power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "spell_power",
+   "consumer": "Unit::SpellBaseDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:7083-7118",
+    "src/server/game/Entities/Unit/Unit.cpp:6833-6836"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_DONE auras; Totem: owner",
+   "arithmetic": "non-player: only GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_DAMAGE_DONE); Totem: SpellDamageBonusDone forwards the whole computation to the owner (Unit.cpp:6834-6836)",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "int32",
+    "rounding": "none",
+    "units": "spell power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "spell_power",
+   "consumer": "Unit::SpellBaseDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:7083-7118",
+    "src/server/game/Entities/Unit/Unit.cpp:6833-6836"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_DONE auras; Totem: owner",
+   "arithmetic": "non-player: only GetTotalAuraModifierByMiscMask(SPELL_AURA_MOD_DAMAGE_DONE); Totem: SpellDamageBonusDone forwards the whole computation to the owner (Unit.cpp:6834-6836)",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "int32",
+    "rounding": "none",
+    "units": "spell power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "weapon_damage (synthetic)",
+   "consumer": "Guardian::InitStatsForLevel + Guardian::UpdateDamagePhysical",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:937-938",
+    "src/server/game/Entities/Pet/Pet.cpp:948-950",
+    "src/server/game/Entities/Pet/Pet.cpp:956-1079",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1361-1402"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "petlevel, entry branch, AP (no weapon), base attack time 2000ms, owner nature/fire SP for entries 1964/15438",
+   "arithmetic": "SUMMON/HUNTER: min = level - level/4, max = level + level/4 (integer division); entry branches per Pet.cpp:956-1079; default: ExpectedStat(CreatureAutoAttackDps) x1 / x1.5; MinDamage = ((base + AP/3.5*speed + bonus + weaponMin) * BASE_PCT + TOTAL) * TOTAL_PCT",
+   "numeric": {
+    "source_type": "uint8 level / float",
+    "intermediate_type": "float",
+    "rounding": "integer division before float()",
+    "units": "damage per swing (stored as float update field)"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "weapon_damage (synthetic)",
+   "consumer": "Guardian::InitStatsForLevel + Guardian::UpdateDamagePhysical",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:937-938",
+    "src/server/game/Entities/Pet/Pet.cpp:948-950",
+    "src/server/game/Entities/Pet/Pet.cpp:956-1079",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1361-1402"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "petlevel, entry branch, AP (no weapon), base attack time 2000ms, owner nature/fire SP for entries 1964/15438",
+   "arithmetic": "SUMMON/HUNTER: min = level - level/4, max = level + level/4 (integer division); entry branches per Pet.cpp:956-1079; default: ExpectedStat(CreatureAutoAttackDps) x1 / x1.5; MinDamage = ((base + AP/3.5*speed + bonus + weaponMin) * BASE_PCT + TOTAL) * TOTAL_PCT",
+   "numeric": {
+    "source_type": "uint8 level / float",
+    "intermediate_type": "float",
+    "rounding": "integer division before float()",
+    "units": "damage per swing (stored as float update field)"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "weapon_damage (synthetic)",
+   "consumer": "Guardian::InitStatsForLevel + Guardian::UpdateDamagePhysical",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:937-938",
+    "src/server/game/Entities/Pet/Pet.cpp:948-950",
+    "src/server/game/Entities/Pet/Pet.cpp:956-1079",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1361-1402"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "petlevel, entry branch, AP (no weapon), base attack time 2000ms, owner nature/fire SP for entries 1964/15438",
+   "arithmetic": "SUMMON/HUNTER: min = level - level/4, max = level + level/4 (integer division); entry branches per Pet.cpp:956-1079; default: ExpectedStat(CreatureAutoAttackDps) x1 / x1.5; MinDamage = ((base + AP/3.5*speed + bonus + weaponMin) * BASE_PCT + TOTAL) * TOTAL_PCT",
+   "numeric": {
+    "source_type": "uint8 level / float",
+    "intermediate_type": "float",
+    "rounding": "integer division before float()",
+    "units": "damage per swing (stored as float update field)"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "weapon_damage",
+   "consumer": "Creature::UpdateLevelDependantStats + Creature::CalculateMinMaxDamage",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1651-1664",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1070-1117"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureAutoAttackDps at SelectLevel level, creature_template.BaseVariance, creature_template_difficulty.DamageModifier",
+   "arithmetic": "weapon min = dps, max = dps*1.5; damage = ((weapon + BASE + AP/3.5*variance) * DamageModifier * BASE_PCT*speedMulti + TOTAL) * TOTAL_PCT",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "damage per swing"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "weapon_damage",
+   "consumer": "Creature::UpdateLevelDependantStats + Creature::CalculateMinMaxDamage",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1651-1664",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1070-1117"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureAutoAttackDps at SelectLevel level, creature_template.BaseVariance, creature_template_difficulty.DamageModifier",
+   "arithmetic": "weapon min = dps, max = dps*1.5; damage = ((weapon + BASE + AP/3.5*variance) * DamageModifier * BASE_PCT*speedMulti + TOTAL) * TOTAL_PCT",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "damage per swing"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "weapon_damage",
+   "consumer": "Creature::UpdateLevelDependantStats + Creature::CalculateMinMaxDamage",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1651-1664",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1070-1117"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureAutoAttackDps at SelectLevel level, creature_template.BaseVariance, creature_template_difficulty.DamageModifier",
+   "arithmetic": "weapon min = dps, max = dps*1.5; damage = ((weapon + BASE + AP/3.5*variance) * DamageModifier * BASE_PCT*speedMulti + TOTAL) * TOTAL_PCT",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "damage per swing"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "weapon_damage",
+   "consumer": "Creature::UpdateLevelDependantStats + Creature::CalculateMinMaxDamage",
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1651-1664",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1070-1117"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "ExpectedStat CreatureAutoAttackDps at SelectLevel level, creature_template.BaseVariance, creature_template_difficulty.DamageModifier",
+   "arithmetic": "weapon min = dps, max = dps*1.5; damage = ((weapon + BASE + AP/3.5*variance) * DamageModifier * BASE_PCT*speedMulti + TOTAL) * TOTAL_PCT",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "damage per swing"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "haste",
+   "consumer": "AuraEffect::HandleModMeleeSpeedPct / HandleModCastingSpeed on the unit itself",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4575-4592",
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4483-4523",
+    "src/server/game/Entities/Unit/Unit.cpp:10983-11007"
+   ],
+   "classification": "unresolved",
+   "inputs": "auras applied to the unit (none of the 12.1 family passives carries a haste aura)",
+   "arithmetic": "Trinity has no owner->pet haste propagation: haste is only m_modAttackSpeedPct/ModCastingSpeed changed by auras on the unit; Player::UpdateRating has no pet call",
+   "numeric": {
+    "source_type": "int32 aura amount",
+    "intermediate_type": "float",
+    "rounding": "ApplyPercentModFloatVar",
+    "units": "percent"
+   },
+   "notes": "Retail pets inherit owner haste; no consumer in the pinned checkout -> unresolved (absent from pinned Trinity != absent from Retail)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "crit",
+   "consumer": "Unit::GetUnitCriticalChanceDone / SpellCritChanceDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:2896-2903",
+    "src/server/game/Entities/Unit/Unit.cpp:7124-7125",
+    "src/server/game/Entities/Unit/Unit.cpp:7147",
+    "src/server/game/Entities/Unit/Unit.cpp:2927-2933"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "5.0f melee base + SPELL_AURA_MOD_WEAPON_CRIT_PERCENT/MOD_CRIT_PCT; spell crit m_baseSpellCritChance 5.0f only when GetSpellModOwner() != nullptr (Pet/Totem); victim's SPELL_AURA_MOD_CRIT_CHANCE_FOR_CASTER_PET by summoner GUID",
+   "arithmetic": "creature melee crit = 5 + auras; creature spell crit = 0 unless GetSpellModOwner() (Pet or Totem with player owner) then m_baseSpellCritChance (5.0f, Unit.cpp:367); no owner crit inheritance",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians cannot spell-crit at all in Trinity (Unit.cpp:7124-7125, GetSpellModOwner Object.cpp:1656 covers IsPet()||IsTotem() only)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "versatility",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone via GetSpellModOwner",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6926-6928",
+    "src/server/game/Entities/Unit/Unit.cpp:7018-7024",
+    "src/server/game/Entities/Unit/Unit.cpp:8211-8217",
+    "src/server/game/Entities/Object/Object.cpp:1648-1670"
+   ],
+   "classification": "dynamic-owner-lookup",
+   "inputs": "owner CR_VERSATILITY_DAMAGE_DONE rating bonus + SPELL_AURA_MOD_VERSATILITY, read at damage time",
+   "arithmetic": "AddPct(DoneTotalMod, modOwner->GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + auras) where modOwner = GetSpellModOwner() -> player owner only for IsPet()||IsTotem()",
+   "numeric": {
+    "source_type": "float rating bonus",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians (Wild Imp, elementals, Mirror Image ...) get no owner versatility in Trinity",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "mastery",
+   "consumer": "none",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:390"
+   ],
+   "classification": "unresolved",
+   "inputs": "n/a",
+   "arithmetic": "SPELL_AURA_MASTERY handler is player-only (Player::UpdateMastery StatSystem.cpp:541); no creature/pet mastery consumer",
+   "numeric": {},
+   "notes": "pet-affecting mastery effects reach pets only as ordinary auras cast on them by scripts",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)",
+   "consumer": "WorldObject::GetSpellModOwner -> Player::ApplySpellMod",
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1648-1670",
+    "src/server/game/Entities/Unit/Unit.cpp:6854-6858",
+    "src/server/game/Entities/Unit/Unit.cpp:6895-6896",
+    "src/server/game/Entities/Unit/Unit.cpp:7168-7169"
+   ],
+   "classification": "dynamic-owner-lookup",
+   "inputs": "owner's spell mods keyed by the pet spell's SpellClassOptions family/flags",
+   "arithmetic": "Pet and Totem casts apply the player's spellmods (coefficient, damage, crit chance ...) at cast/damage time; Guardian/Minion/TempSummon casts apply none",
+   "numeric": {
+    "source_type": "int32/float",
+    "intermediate_type": "float",
+    "rounding": "per ApplySpellMod",
+    "units": "percent/flat"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "damage_percent_done",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6922-6924",
+    "src/server/game/Entities/Unit/Unit.cpp:8078-8081"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_PERCENT_DONE auras; Creature::GetSpellDamageMod(classification) for non-Pet creatures",
+   "arithmetic": "non-Pet creature spell damage is multiplied by Rate.Creature.*.SpellDamage (Creature.cpp:1739-1760); Pet skips it (Unit.cpp:6923)",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "multiplier"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "haste",
+   "consumer": "AuraEffect::HandleModMeleeSpeedPct / HandleModCastingSpeed on the unit itself",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4575-4592",
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4483-4523",
+    "src/server/game/Entities/Unit/Unit.cpp:10983-11007"
+   ],
+   "classification": "unresolved",
+   "inputs": "auras applied to the unit (none of the 12.1 family passives carries a haste aura)",
+   "arithmetic": "Trinity has no owner->pet haste propagation: haste is only m_modAttackSpeedPct/ModCastingSpeed changed by auras on the unit; Player::UpdateRating has no pet call",
+   "numeric": {
+    "source_type": "int32 aura amount",
+    "intermediate_type": "float",
+    "rounding": "ApplyPercentModFloatVar",
+    "units": "percent"
+   },
+   "notes": "Retail pets inherit owner haste; no consumer in the pinned checkout -> unresolved (absent from pinned Trinity != absent from Retail)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "crit",
+   "consumer": "Unit::GetUnitCriticalChanceDone / SpellCritChanceDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:2896-2903",
+    "src/server/game/Entities/Unit/Unit.cpp:7124-7125",
+    "src/server/game/Entities/Unit/Unit.cpp:7147",
+    "src/server/game/Entities/Unit/Unit.cpp:2927-2933"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "5.0f melee base + SPELL_AURA_MOD_WEAPON_CRIT_PERCENT/MOD_CRIT_PCT; spell crit m_baseSpellCritChance 5.0f only when GetSpellModOwner() != nullptr (Pet/Totem); victim's SPELL_AURA_MOD_CRIT_CHANCE_FOR_CASTER_PET by summoner GUID",
+   "arithmetic": "creature melee crit = 5 + auras; creature spell crit = 0 unless GetSpellModOwner() (Pet or Totem with player owner) then m_baseSpellCritChance (5.0f, Unit.cpp:367); no owner crit inheritance",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians cannot spell-crit at all in Trinity (Unit.cpp:7124-7125, GetSpellModOwner Object.cpp:1656 covers IsPet()||IsTotem() only)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "versatility",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone via GetSpellModOwner",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6926-6928",
+    "src/server/game/Entities/Unit/Unit.cpp:7018-7024",
+    "src/server/game/Entities/Unit/Unit.cpp:8211-8217",
+    "src/server/game/Entities/Object/Object.cpp:1648-1670"
+   ],
+   "classification": "dynamic-owner-lookup",
+   "inputs": "owner CR_VERSATILITY_DAMAGE_DONE rating bonus + SPELL_AURA_MOD_VERSATILITY, read at damage time",
+   "arithmetic": "AddPct(DoneTotalMod, modOwner->GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + auras) where modOwner = GetSpellModOwner() -> player owner only for IsPet()||IsTotem()",
+   "numeric": {
+    "source_type": "float rating bonus",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians (Wild Imp, elementals, Mirror Image ...) get no owner versatility in Trinity",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "mastery",
+   "consumer": "none",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:390"
+   ],
+   "classification": "unresolved",
+   "inputs": "n/a",
+   "arithmetic": "SPELL_AURA_MASTERY handler is player-only (Player::UpdateMastery StatSystem.cpp:541); no creature/pet mastery consumer",
+   "numeric": {},
+   "notes": "pet-affecting mastery effects reach pets only as ordinary auras cast on them by scripts",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)",
+   "consumer": "WorldObject::GetSpellModOwner -> Player::ApplySpellMod",
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1648-1670",
+    "src/server/game/Entities/Unit/Unit.cpp:6854-6858",
+    "src/server/game/Entities/Unit/Unit.cpp:6895-6896",
+    "src/server/game/Entities/Unit/Unit.cpp:7168-7169"
+   ],
+   "classification": "dynamic-owner-lookup",
+   "inputs": "owner's spell mods keyed by the pet spell's SpellClassOptions family/flags",
+   "arithmetic": "Pet and Totem casts apply the player's spellmods (coefficient, damage, crit chance ...) at cast/damage time; Guardian/Minion/TempSummon casts apply none",
+   "numeric": {
+    "source_type": "int32/float",
+    "intermediate_type": "float",
+    "rounding": "per ApplySpellMod",
+    "units": "percent/flat"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "damage_percent_done",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6922-6924",
+    "src/server/game/Entities/Unit/Unit.cpp:8078-8081"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_PERCENT_DONE auras; Creature::GetSpellDamageMod(classification) for non-Pet creatures",
+   "arithmetic": "non-Pet creature spell damage is multiplied by Rate.Creature.*.SpellDamage (Creature.cpp:1739-1760); Pet skips it (Unit.cpp:6923)",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "multiplier"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "haste",
+   "consumer": "AuraEffect::HandleModMeleeSpeedPct / HandleModCastingSpeed on the unit itself",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4575-4592",
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4483-4523",
+    "src/server/game/Entities/Unit/Unit.cpp:10983-11007"
+   ],
+   "classification": "unresolved",
+   "inputs": "auras applied to the unit (none of the 12.1 family passives carries a haste aura)",
+   "arithmetic": "Trinity has no owner->pet haste propagation: haste is only m_modAttackSpeedPct/ModCastingSpeed changed by auras on the unit; Player::UpdateRating has no pet call",
+   "numeric": {
+    "source_type": "int32 aura amount",
+    "intermediate_type": "float",
+    "rounding": "ApplyPercentModFloatVar",
+    "units": "percent"
+   },
+   "notes": "Retail pets inherit owner haste; no consumer in the pinned checkout -> unresolved (absent from pinned Trinity != absent from Retail)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "crit",
+   "consumer": "Unit::GetUnitCriticalChanceDone / SpellCritChanceDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:2896-2903",
+    "src/server/game/Entities/Unit/Unit.cpp:7124-7125",
+    "src/server/game/Entities/Unit/Unit.cpp:7147",
+    "src/server/game/Entities/Unit/Unit.cpp:2927-2933"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "5.0f melee base + SPELL_AURA_MOD_WEAPON_CRIT_PERCENT/MOD_CRIT_PCT; spell crit m_baseSpellCritChance 5.0f only when GetSpellModOwner() != nullptr (Pet/Totem); victim's SPELL_AURA_MOD_CRIT_CHANCE_FOR_CASTER_PET by summoner GUID",
+   "arithmetic": "creature melee crit = 5 + auras; creature spell crit = 0 unless GetSpellModOwner() (Pet or Totem with player owner) then m_baseSpellCritChance (5.0f, Unit.cpp:367); no owner crit inheritance",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians cannot spell-crit at all in Trinity (Unit.cpp:7124-7125, GetSpellModOwner Object.cpp:1656 covers IsPet()||IsTotem() only)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "versatility",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone via GetSpellModOwner",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6926-6928",
+    "src/server/game/Entities/Unit/Unit.cpp:7018-7024",
+    "src/server/game/Entities/Unit/Unit.cpp:8211-8217",
+    "src/server/game/Entities/Object/Object.cpp:1648-1670"
+   ],
+   "classification": "unresolved",
+   "inputs": "owner CR_VERSATILITY_DAMAGE_DONE rating bonus + SPELL_AURA_MOD_VERSATILITY, read at damage time",
+   "arithmetic": "AddPct(DoneTotalMod, modOwner->GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + auras) where modOwner = GetSpellModOwner() -> player owner only for IsPet()||IsTotem()",
+   "numeric": {
+    "source_type": "float rating bonus",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians (Wild Imp, elementals, Mirror Image ...) get no owner versatility in Trinity",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "mastery",
+   "consumer": "none",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:390"
+   ],
+   "classification": "unresolved",
+   "inputs": "n/a",
+   "arithmetic": "SPELL_AURA_MASTERY handler is player-only (Player::UpdateMastery StatSystem.cpp:541); no creature/pet mastery consumer",
+   "numeric": {},
+   "notes": "pet-affecting mastery effects reach pets only as ordinary auras cast on them by scripts",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)",
+   "consumer": "WorldObject::GetSpellModOwner -> Player::ApplySpellMod",
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1648-1670",
+    "src/server/game/Entities/Unit/Unit.cpp:6854-6858",
+    "src/server/game/Entities/Unit/Unit.cpp:6895-6896",
+    "src/server/game/Entities/Unit/Unit.cpp:7168-7169"
+   ],
+   "classification": "unresolved",
+   "inputs": "owner's spell mods keyed by the pet spell's SpellClassOptions family/flags",
+   "arithmetic": "Pet and Totem casts apply the player's spellmods (coefficient, damage, crit chance ...) at cast/damage time; Guardian/Minion/TempSummon casts apply none",
+   "numeric": {
+    "source_type": "int32/float",
+    "intermediate_type": "float",
+    "rounding": "per ApplySpellMod",
+    "units": "percent/flat"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "damage_percent_done",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6922-6924",
+    "src/server/game/Entities/Unit/Unit.cpp:8078-8081"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_PERCENT_DONE auras; Creature::GetSpellDamageMod(classification) for non-Pet creatures",
+   "arithmetic": "non-Pet creature spell damage is multiplied by Rate.Creature.*.SpellDamage (Creature.cpp:1739-1760); Pet skips it (Unit.cpp:6923)",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "multiplier"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "haste",
+   "consumer": "AuraEffect::HandleModMeleeSpeedPct / HandleModCastingSpeed on the unit itself",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4575-4592",
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4483-4523",
+    "src/server/game/Entities/Unit/Unit.cpp:10983-11007"
+   ],
+   "classification": "unresolved",
+   "inputs": "auras applied to the unit (none of the 12.1 family passives carries a haste aura)",
+   "arithmetic": "Trinity has no owner->pet haste propagation: haste is only m_modAttackSpeedPct/ModCastingSpeed changed by auras on the unit; Player::UpdateRating has no pet call",
+   "numeric": {
+    "source_type": "int32 aura amount",
+    "intermediate_type": "float",
+    "rounding": "ApplyPercentModFloatVar",
+    "units": "percent"
+   },
+   "notes": "Retail pets inherit owner haste; no consumer in the pinned checkout -> unresolved (absent from pinned Trinity != absent from Retail)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "crit",
+   "consumer": "Unit::GetUnitCriticalChanceDone / SpellCritChanceDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:2896-2903",
+    "src/server/game/Entities/Unit/Unit.cpp:7124-7125",
+    "src/server/game/Entities/Unit/Unit.cpp:7147",
+    "src/server/game/Entities/Unit/Unit.cpp:2927-2933"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "5.0f melee base + SPELL_AURA_MOD_WEAPON_CRIT_PERCENT/MOD_CRIT_PCT; spell crit m_baseSpellCritChance 5.0f only when GetSpellModOwner() != nullptr (Pet/Totem); victim's SPELL_AURA_MOD_CRIT_CHANCE_FOR_CASTER_PET by summoner GUID",
+   "arithmetic": "creature melee crit = 5 + auras; creature spell crit = 0 unless GetSpellModOwner() (Pet or Totem with player owner) then m_baseSpellCritChance (5.0f, Unit.cpp:367); no owner crit inheritance",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians cannot spell-crit at all in Trinity (Unit.cpp:7124-7125, GetSpellModOwner Object.cpp:1656 covers IsPet()||IsTotem() only)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "versatility",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone via GetSpellModOwner",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6926-6928",
+    "src/server/game/Entities/Unit/Unit.cpp:7018-7024",
+    "src/server/game/Entities/Unit/Unit.cpp:8211-8217",
+    "src/server/game/Entities/Object/Object.cpp:1648-1670"
+   ],
+   "classification": "unresolved",
+   "inputs": "owner CR_VERSATILITY_DAMAGE_DONE rating bonus + SPELL_AURA_MOD_VERSATILITY, read at damage time",
+   "arithmetic": "AddPct(DoneTotalMod, modOwner->GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + auras) where modOwner = GetSpellModOwner() -> player owner only for IsPet()||IsTotem()",
+   "numeric": {
+    "source_type": "float rating bonus",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians (Wild Imp, elementals, Mirror Image ...) get no owner versatility in Trinity",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "mastery",
+   "consumer": "none",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:390"
+   ],
+   "classification": "unresolved",
+   "inputs": "n/a",
+   "arithmetic": "SPELL_AURA_MASTERY handler is player-only (Player::UpdateMastery StatSystem.cpp:541); no creature/pet mastery consumer",
+   "numeric": {},
+   "notes": "pet-affecting mastery effects reach pets only as ordinary auras cast on them by scripts",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)",
+   "consumer": "WorldObject::GetSpellModOwner -> Player::ApplySpellMod",
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1648-1670",
+    "src/server/game/Entities/Unit/Unit.cpp:6854-6858",
+    "src/server/game/Entities/Unit/Unit.cpp:6895-6896",
+    "src/server/game/Entities/Unit/Unit.cpp:7168-7169"
+   ],
+   "classification": "unresolved",
+   "inputs": "owner's spell mods keyed by the pet spell's SpellClassOptions family/flags",
+   "arithmetic": "Pet and Totem casts apply the player's spellmods (coefficient, damage, crit chance ...) at cast/damage time; Guardian/Minion/TempSummon casts apply none",
+   "numeric": {
+    "source_type": "int32/float",
+    "intermediate_type": "float",
+    "rounding": "per ApplySpellMod",
+    "units": "percent/flat"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Minion",
+   "stat": "damage_percent_done",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6922-6924",
+    "src/server/game/Entities/Unit/Unit.cpp:8078-8081"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_PERCENT_DONE auras; Creature::GetSpellDamageMod(classification) for non-Pet creatures",
+   "arithmetic": "non-Pet creature spell damage is multiplied by Rate.Creature.*.SpellDamage (Creature.cpp:1739-1760); Pet skips it (Unit.cpp:6923)",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "multiplier"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "haste",
+   "consumer": "AuraEffect::HandleModMeleeSpeedPct / HandleModCastingSpeed on the unit itself",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4575-4592",
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4483-4523",
+    "src/server/game/Entities/Unit/Unit.cpp:10983-11007"
+   ],
+   "classification": "unresolved",
+   "inputs": "auras applied to the unit (none of the 12.1 family passives carries a haste aura)",
+   "arithmetic": "Trinity has no owner->pet haste propagation: haste is only m_modAttackSpeedPct/ModCastingSpeed changed by auras on the unit; Player::UpdateRating has no pet call",
+   "numeric": {
+    "source_type": "int32 aura amount",
+    "intermediate_type": "float",
+    "rounding": "ApplyPercentModFloatVar",
+    "units": "percent"
+   },
+   "notes": "Retail pets inherit owner haste; no consumer in the pinned checkout -> unresolved (absent from pinned Trinity != absent from Retail)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "crit",
+   "consumer": "Unit::GetUnitCriticalChanceDone / SpellCritChanceDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:2896-2903",
+    "src/server/game/Entities/Unit/Unit.cpp:7124-7125",
+    "src/server/game/Entities/Unit/Unit.cpp:7147",
+    "src/server/game/Entities/Unit/Unit.cpp:2927-2933"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "5.0f melee base + SPELL_AURA_MOD_WEAPON_CRIT_PERCENT/MOD_CRIT_PCT; spell crit m_baseSpellCritChance 5.0f only when GetSpellModOwner() != nullptr (Pet/Totem); victim's SPELL_AURA_MOD_CRIT_CHANCE_FOR_CASTER_PET by summoner GUID",
+   "arithmetic": "creature melee crit = 5 + auras; creature spell crit = 0 unless GetSpellModOwner() (Pet or Totem with player owner) then m_baseSpellCritChance (5.0f, Unit.cpp:367); no owner crit inheritance",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians cannot spell-crit at all in Trinity (Unit.cpp:7124-7125, GetSpellModOwner Object.cpp:1656 covers IsPet()||IsTotem() only)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "versatility",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone via GetSpellModOwner",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6926-6928",
+    "src/server/game/Entities/Unit/Unit.cpp:7018-7024",
+    "src/server/game/Entities/Unit/Unit.cpp:8211-8217",
+    "src/server/game/Entities/Object/Object.cpp:1648-1670"
+   ],
+   "classification": "dynamic-owner-lookup",
+   "inputs": "owner CR_VERSATILITY_DAMAGE_DONE rating bonus + SPELL_AURA_MOD_VERSATILITY, read at damage time",
+   "arithmetic": "AddPct(DoneTotalMod, modOwner->GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + auras) where modOwner = GetSpellModOwner() -> player owner only for IsPet()||IsTotem()",
+   "numeric": {
+    "source_type": "float rating bonus",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians (Wild Imp, elementals, Mirror Image ...) get no owner versatility in Trinity",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "mastery",
+   "consumer": "none",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:390"
+   ],
+   "classification": "unresolved",
+   "inputs": "n/a",
+   "arithmetic": "SPELL_AURA_MASTERY handler is player-only (Player::UpdateMastery StatSystem.cpp:541); no creature/pet mastery consumer",
+   "numeric": {},
+   "notes": "pet-affecting mastery effects reach pets only as ordinary auras cast on them by scripts",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)",
+   "consumer": "WorldObject::GetSpellModOwner -> Player::ApplySpellMod",
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1648-1670",
+    "src/server/game/Entities/Unit/Unit.cpp:6854-6858",
+    "src/server/game/Entities/Unit/Unit.cpp:6895-6896",
+    "src/server/game/Entities/Unit/Unit.cpp:7168-7169"
+   ],
+   "classification": "dynamic-owner-lookup",
+   "inputs": "owner's spell mods keyed by the pet spell's SpellClassOptions family/flags",
+   "arithmetic": "Pet and Totem casts apply the player's spellmods (coefficient, damage, crit chance ...) at cast/damage time; Guardian/Minion/TempSummon casts apply none",
+   "numeric": {
+    "source_type": "int32/float",
+    "intermediate_type": "float",
+    "rounding": "per ApplySpellMod",
+    "units": "percent/flat"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Totem",
+   "stat": "damage_percent_done",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6922-6924",
+    "src/server/game/Entities/Unit/Unit.cpp:8078-8081"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_PERCENT_DONE auras; Creature::GetSpellDamageMod(classification) for non-Pet creatures",
+   "arithmetic": "non-Pet creature spell damage is multiplied by Rate.Creature.*.SpellDamage (Creature.cpp:1739-1760); Pet skips it (Unit.cpp:6923)",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "multiplier"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "haste",
+   "consumer": "AuraEffect::HandleModMeleeSpeedPct / HandleModCastingSpeed on the unit itself",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4575-4592",
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4483-4523",
+    "src/server/game/Entities/Unit/Unit.cpp:10983-11007"
+   ],
+   "classification": "unresolved",
+   "inputs": "auras applied to the unit (none of the 12.1 family passives carries a haste aura)",
+   "arithmetic": "Trinity has no owner->pet haste propagation: haste is only m_modAttackSpeedPct/ModCastingSpeed changed by auras on the unit; Player::UpdateRating has no pet call",
+   "numeric": {
+    "source_type": "int32 aura amount",
+    "intermediate_type": "float",
+    "rounding": "ApplyPercentModFloatVar",
+    "units": "percent"
+   },
+   "notes": "Retail pets inherit owner haste; no consumer in the pinned checkout -> unresolved (absent from pinned Trinity != absent from Retail)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "crit",
+   "consumer": "Unit::GetUnitCriticalChanceDone / SpellCritChanceDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:2896-2903",
+    "src/server/game/Entities/Unit/Unit.cpp:7124-7125",
+    "src/server/game/Entities/Unit/Unit.cpp:7147",
+    "src/server/game/Entities/Unit/Unit.cpp:2927-2933"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "5.0f melee base + SPELL_AURA_MOD_WEAPON_CRIT_PERCENT/MOD_CRIT_PCT; spell crit m_baseSpellCritChance 5.0f only when GetSpellModOwner() != nullptr (Pet/Totem); victim's SPELL_AURA_MOD_CRIT_CHANCE_FOR_CASTER_PET by summoner GUID",
+   "arithmetic": "creature melee crit = 5 + auras; creature spell crit = 0 unless GetSpellModOwner() (Pet or Totem with player owner) then m_baseSpellCritChance (5.0f, Unit.cpp:367); no owner crit inheritance",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians cannot spell-crit at all in Trinity (Unit.cpp:7124-7125, GetSpellModOwner Object.cpp:1656 covers IsPet()||IsTotem() only)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "versatility",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone via GetSpellModOwner",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6926-6928",
+    "src/server/game/Entities/Unit/Unit.cpp:7018-7024",
+    "src/server/game/Entities/Unit/Unit.cpp:8211-8217",
+    "src/server/game/Entities/Object/Object.cpp:1648-1670"
+   ],
+   "classification": "unresolved",
+   "inputs": "owner CR_VERSATILITY_DAMAGE_DONE rating bonus + SPELL_AURA_MOD_VERSATILITY, read at damage time",
+   "arithmetic": "AddPct(DoneTotalMod, modOwner->GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + auras) where modOwner = GetSpellModOwner() -> player owner only for IsPet()||IsTotem()",
+   "numeric": {
+    "source_type": "float rating bonus",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians (Wild Imp, elementals, Mirror Image ...) get no owner versatility in Trinity",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "mastery",
+   "consumer": "none",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:390"
+   ],
+   "classification": "unresolved",
+   "inputs": "n/a",
+   "arithmetic": "SPELL_AURA_MASTERY handler is player-only (Player::UpdateMastery StatSystem.cpp:541); no creature/pet mastery consumer",
+   "numeric": {},
+   "notes": "pet-affecting mastery effects reach pets only as ordinary auras cast on them by scripts",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)",
+   "consumer": "WorldObject::GetSpellModOwner -> Player::ApplySpellMod",
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1648-1670",
+    "src/server/game/Entities/Unit/Unit.cpp:6854-6858",
+    "src/server/game/Entities/Unit/Unit.cpp:6895-6896",
+    "src/server/game/Entities/Unit/Unit.cpp:7168-7169"
+   ],
+   "classification": "unresolved",
+   "inputs": "owner's spell mods keyed by the pet spell's SpellClassOptions family/flags",
+   "arithmetic": "Pet and Totem casts apply the player's spellmods (coefficient, damage, crit chance ...) at cast/damage time; Guardian/Minion/TempSummon casts apply none",
+   "numeric": {
+    "source_type": "int32/float",
+    "intermediate_type": "float",
+    "rounding": "per ApplySpellMod",
+    "units": "percent/flat"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Puppet",
+   "stat": "damage_percent_done",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6922-6924",
+    "src/server/game/Entities/Unit/Unit.cpp:8078-8081"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_PERCENT_DONE auras; Creature::GetSpellDamageMod(classification) for non-Pet creatures",
+   "arithmetic": "non-Pet creature spell damage is multiplied by Rate.Creature.*.SpellDamage (Creature.cpp:1739-1760); Pet skips it (Unit.cpp:6923)",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "multiplier"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "haste",
+   "consumer": "AuraEffect::HandleModMeleeSpeedPct / HandleModCastingSpeed on the unit itself",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4575-4592",
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4483-4523",
+    "src/server/game/Entities/Unit/Unit.cpp:10983-11007"
+   ],
+   "classification": "unresolved",
+   "inputs": "auras applied to the unit (none of the 12.1 family passives carries a haste aura)",
+   "arithmetic": "Trinity has no owner->pet haste propagation: haste is only m_modAttackSpeedPct/ModCastingSpeed changed by auras on the unit; Player::UpdateRating has no pet call",
+   "numeric": {
+    "source_type": "int32 aura amount",
+    "intermediate_type": "float",
+    "rounding": "ApplyPercentModFloatVar",
+    "units": "percent"
+   },
+   "notes": "Retail pets inherit owner haste; no consumer in the pinned checkout -> unresolved (absent from pinned Trinity != absent from Retail)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "crit",
+   "consumer": "Unit::GetUnitCriticalChanceDone / SpellCritChanceDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:2896-2903",
+    "src/server/game/Entities/Unit/Unit.cpp:7124-7125",
+    "src/server/game/Entities/Unit/Unit.cpp:7147",
+    "src/server/game/Entities/Unit/Unit.cpp:2927-2933"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "5.0f melee base + SPELL_AURA_MOD_WEAPON_CRIT_PERCENT/MOD_CRIT_PCT; spell crit m_baseSpellCritChance 5.0f only when GetSpellModOwner() != nullptr (Pet/Totem); victim's SPELL_AURA_MOD_CRIT_CHANCE_FOR_CASTER_PET by summoner GUID",
+   "arithmetic": "creature melee crit = 5 + auras; creature spell crit = 0 unless GetSpellModOwner() (Pet or Totem with player owner) then m_baseSpellCritChance (5.0f, Unit.cpp:367); no owner crit inheritance",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians cannot spell-crit at all in Trinity (Unit.cpp:7124-7125, GetSpellModOwner Object.cpp:1656 covers IsPet()||IsTotem() only)",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "versatility",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone via GetSpellModOwner",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6926-6928",
+    "src/server/game/Entities/Unit/Unit.cpp:7018-7024",
+    "src/server/game/Entities/Unit/Unit.cpp:8211-8217",
+    "src/server/game/Entities/Object/Object.cpp:1648-1670"
+   ],
+   "classification": "unresolved",
+   "inputs": "owner CR_VERSATILITY_DAMAGE_DONE rating bonus + SPELL_AURA_MOD_VERSATILITY, read at damage time",
+   "arithmetic": "AddPct(DoneTotalMod, modOwner->GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + auras) where modOwner = GetSpellModOwner() -> player owner only for IsPet()||IsTotem()",
+   "numeric": {
+    "source_type": "float rating bonus",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "percent"
+   },
+   "notes": "non-Pet Guardians (Wild Imp, elementals, Mirror Image ...) get no owner versatility in Trinity",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "mastery",
+   "consumer": "none",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:390"
+   ],
+   "classification": "unresolved",
+   "inputs": "n/a",
+   "arithmetic": "SPELL_AURA_MASTERY handler is player-only (Player::UpdateMastery StatSystem.cpp:541); no creature/pet mastery consumer",
+   "numeric": {},
+   "notes": "pet-affecting mastery effects reach pets only as ordinary auras cast on them by scripts",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)",
+   "consumer": "WorldObject::GetSpellModOwner -> Player::ApplySpellMod",
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1648-1670",
+    "src/server/game/Entities/Unit/Unit.cpp:6854-6858",
+    "src/server/game/Entities/Unit/Unit.cpp:6895-6896",
+    "src/server/game/Entities/Unit/Unit.cpp:7168-7169"
+   ],
+   "classification": "unresolved",
+   "inputs": "owner's spell mods keyed by the pet spell's SpellClassOptions family/flags",
+   "arithmetic": "Pet and Totem casts apply the player's spellmods (coefficient, damage, crit chance ...) at cast/damage time; Guardian/Minion/TempSummon casts apply none",
+   "numeric": {
+    "source_type": "int32/float",
+    "intermediate_type": "float",
+    "rounding": "per ApplySpellMod",
+    "units": "percent/flat"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "TempSummon",
+   "stat": "damage_percent_done",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6922-6924",
+    "src/server/game/Entities/Unit/Unit.cpp:8078-8081"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "own SPELL_AURA_MOD_DAMAGE_PERCENT_DONE auras; Creature::GetSpellDamageMod(classification) for non-Pet creatures",
+   "arithmetic": "non-Pet creature spell damage is multiplied by Rate.Creature.*.SpellDamage (Creature.cpp:1739-1760); Pet skips it (Unit.cpp:6923)",
+   "numeric": {
+    "source_type": "float",
+    "intermediate_type": "float",
+    "rounding": "none",
+    "units": "multiplier"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "mana/power",
+   "consumer": "Guardian::UpdateMaxPower",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1278-1291",
+    "src/server/game/Entities/Pet/Pet.cpp:894-896"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "pet_levelstats.mana or creature_classlevelstats.basemana; PowerType MaxBasePower for non-mana",
+   "arithmetic": "(BASE_VALUE + create power) * BASE_PCT + TOTAL, * TOTAL_PCT; int32(); only for the display power (Creature::GetPowerIndex)",
+   "numeric": {
+    "source_type": "uint16/uint32",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "mana/power",
+   "consumer": "Guardian::UpdateMaxPower",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1278-1291",
+    "src/server/game/Entities/Pet/Pet.cpp:894-896"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "pet_levelstats.mana or creature_classlevelstats.basemana; PowerType MaxBasePower for non-mana",
+   "arithmetic": "(BASE_VALUE + create power) * BASE_PCT + TOTAL, * TOTAL_PCT; int32(); only for the display power (Creature::GetPowerIndex)",
+   "numeric": {
+    "source_type": "uint16/uint32",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "mana/power",
+   "consumer": "Guardian::UpdateMaxPower",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1278-1291",
+    "src/server/game/Entities/Pet/Pet.cpp:894-896"
+   ],
+   "classification": "independent-pet-value",
+   "inputs": "pet_levelstats.mana or creature_classlevelstats.basemana; PowerType MaxBasePower for non-mana",
+   "arithmetic": "(BASE_VALUE + create power) * BASE_PCT + TOTAL, * TOTAL_PCT; int32(); only for the display power (Creature::GetPowerIndex)",
+   "numeric": {
+    "source_type": "uint16/uint32",
+    "intermediate_type": "float",
+    "rounding": "int32()",
+    "units": "power"
+   },
+   "notes": "",
+   "evidence_class": "trinity-consumer"
+  },
+  {
+   "unit_class": "Pet/SUMMON_PET",
+   "stat": "resistances",
+   "consumer": "Guardian::UpdateResistances",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1210-1229",
+    "src/server/game/Entities/Pet/Pet.cpp:883-885"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "creature_template.resistance (non-hunter), owner GetResistance/GetBonusResistanceMod",
+   "arithmetic": "Pet (UNIT_MASK_PET): base += CalculatePct(ownerRes, 40), bonus += CalculatePct(ownerBonusRes, 40); non-Pet Guardian: template only",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "CalculatePct int32 truncation, int32()",
+    "units": "resistance"
+   },
+   "notes": "no current-player-scope spell carries SPELL_AURA_MOD_RESISTANCE(22)/_PCT(101)/MOD_BASE_RESISTANCE(83)/_PCT(142) with a non-physical school bit (Scope include_class_skills=False); reopen with an item or in-scope aura granting fire..arcane resistance",
+   "evidence_class": "legacy-only"
+  },
+  {
+   "unit_class": "Pet/HUNTER_PET",
+   "stat": "resistances",
+   "consumer": "Guardian::UpdateResistances",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1210-1229",
+    "src/server/game/Entities/Pet/Pet.cpp:883-885"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "creature_template.resistance (non-hunter), owner GetResistance/GetBonusResistanceMod",
+   "arithmetic": "Pet (UNIT_MASK_PET): base += CalculatePct(ownerRes, 40), bonus += CalculatePct(ownerBonusRes, 40); non-Pet Guardian: template only",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "CalculatePct int32 truncation, int32()",
+    "units": "resistance"
+   },
+   "notes": "no current-player-scope spell carries SPELL_AURA_MOD_RESISTANCE(22)/_PCT(101)/MOD_BASE_RESISTANCE(83)/_PCT(142) with a non-physical school bit (Scope include_class_skills=False); reopen with an item or in-scope aura granting fire..arcane resistance",
+   "evidence_class": "legacy-only"
+  },
+  {
+   "unit_class": "Guardian",
+   "stat": "resistances",
+   "consumer": "Guardian::UpdateResistances",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1210-1229",
+    "src/server/game/Entities/Pet/Pet.cpp:883-885"
+   ],
+   "classification": "explicit-recalculation",
+   "inputs": "creature_template.resistance (non-hunter), owner GetResistance/GetBonusResistanceMod",
+   "arithmetic": "Pet (UNIT_MASK_PET): base += CalculatePct(ownerRes, 40), bonus += CalculatePct(ownerBonusRes, 40); non-Pet Guardian: template only",
+   "numeric": {
+    "source_type": "int32",
+    "intermediate_type": "float",
+    "rounding": "CalculatePct int32 truncation, int32()",
+    "units": "resistance"
+   },
+   "notes": "no current-player-scope spell carries SPELL_AURA_MOD_RESISTANCE(22)/_PCT(101)/MOD_BASE_RESISTANCE(83)/_PCT(142) with a non-physical school bit (Scope include_class_skills=False); reopen with an item or in-scope aura granting fire..arcane resistance",
+   "evidence_class": "legacy-only"
+  }
+ ],
+ "recalculation_triggers": [
+  {
+   "trigger": "Guardian::InitStatsForLevel -> UpdateAllStats",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:1085"
+   ],
+   "reaches": "any Guardian at creation / level change",
+   "classification": "creation-snapshot"
+  },
+  {
+   "trigger": "Player::UpdateStats(stat) -> GetPet()->UpdateStats(stat) for STA/INT/STR",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:114-119"
+   ],
+   "reaches": "Pet class only (GetPet())",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "trigger": "Player::UpdateArmor -> GetPet()->UpdateArmor",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:276-278"
+   ],
+   "reaches": "Pet class only",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "trigger": "Player::UpdateAttackPowerAndDamage(ranged) -> pet->UpdateAttackPowerAndDamage if IsHunterPet",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:403-407"
+   ],
+   "reaches": "HUNTER_PET",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "trigger": "Player::UpdateAttackPowerAndDamage(melee) -> pet->UpdateAttackPowerAndDamage if IsPetGhoul; guardian->... if IsSpiritWolf",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:419-423"
+   ],
+   "reaches": "Pet 26125; GetGuardianPet() 29264",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "trigger": "AuraEffect::HandleModDamageDone on the owner -> GetGuardianPet()->UpdateAttackPowerAndDamage",
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:4708-4733"
+   ],
+   "reaches": "the current guardian pet (Pet or Guardian in the pet slot)",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "trigger": "Player::ApplySpellPowerBonus (item spell power)",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:151-168"
+   ],
+   "reaches": "no pet call: item SP changes are not propagated until another trigger fires",
+   "classification": "no-trigger"
+  },
+  {
+   "trigger": "Player::UpdateSpellDamageAndHealingBonus",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:170-196"
+   ],
+   "reaches": "no pet call",
+   "classification": "no-trigger"
+  },
+  {
+   "trigger": "Player::UpdateMaxHealth / UpdateRating / UpdateAllCritPercentages / UpdateMastery / UpdateVersatilityDamageDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:314-324",
+    "src/server/game/Entities/Player/Player.cpp:5237"
+   ],
+   "reaches": "no pet call",
+   "classification": "no-trigger"
+  },
+  {
+   "trigger": "Unit::UpdateUnitMod gate: CanModifyStats()",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:9682-9685",
+    "src/server/game/Entities/Unit/Unit.cpp:340",
+    "src/server/game/Entities/Creature/Creature.cpp:657-670",
+    "src/server/game/Entities/Pet/Pet.cpp:326"
+   ],
+   "reaches": "m_canModifyStats defaults false; Creature::UpdateEntry sets it true only for !IsGuardian(); Pet::LoadPetFromDB sets it true (after InitStatsForLevel); Player::SummonPet / CreateTamedPetFrom / Guardian::InitStats never set it -> aura stat modifiers on a Map::SummonCreature guardian or a freshly summoned Pet update m_auraFlatModifiersGroup without re-running Guardian::Update* until another trigger fires",
+   "classification": "gate"
+  }
+ ],
+ "constants": {
+  "HEALTH_PER_STAMINA": {
+   "416": 8.4,
+   "1860": 11.0,
+   "1863": 9.1,
+   "417": 9.5,
+   "17252": 11.0,
+   "28017": 1.0
+  },
+  "HEALTH_PER_STAMINA_DEFAULT": 10.0,
+  "ENTRY_SWITCH_InitStatsForLevel": {
+   "510": "mage Water Elemental (legacy entry; 12.1 summons 78116)",
+   "1964": "force of nature treant (legacy entry; 12.1 Force of Nature summons 103822)",
+   "15352": "earth elemental (legacy entry; 12.1 Earth Elemental summons 95072)",
+   "15438": "fire elemental (legacy entry; 12.1 Fire Elemental summons 95061)",
+   "19668": "Shadowfiend (current entry; 12.1 summons via 1280172)",
+   "19833": "Snake Trap - Venomous Snake (legacy; no 12.1 player summon)",
+   "19921": "Snake Trap - Viper (legacy; no 12.1 player summon)",
+   "29264": "Feral Spirit wolf (current entry for 228562/363941)",
+   "31216": "Mirror Image (current entry for 321686)",
+   "27829": "Ebon Gargoyle (current entry for 49206)",
+   "28017": "Bloodworms (no 12.1 player summon found)"
+  },
+  "hardcoded_entries_StatSystem": {
+   "ENTRY_IMP": 416,
+   "ENTRY_VOIDWALKER": 1860,
+   "ENTRY_SUCCUBUS": 1863,
+   "ENTRY_FELHUNTER": 417,
+   "ENTRY_FELGUARD": 17252,
+   "ENTRY_WATER_ELEMENTAL": 510,
+   "ENTRY_TREANT": 1964,
+   "ENTRY_FIRE_ELEMENTAL": 15438,
+   "ENTRY_GHOUL": 26125,
+   "ENTRY_BLOODWORM": 28017
+  },
+  "PET_GHOUL": 26125,
+  "PET_SPIRIT_WOLF": 29264,
+  "BASE_ATTACK_TIME_ms": 2000,
+  "PET_XP_FACTOR": 0.05,
+  "MAX_PLAYER_LEVEL": 90
+ }
+}

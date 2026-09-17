@@ -1,0 +1,1932 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "generator": "python3 character_prep.py server-inputs --tdb <TDB> --out ../../docs/research/character-prep-corpora/server-inputs.json",
+  "wowlab_data_commit": "2773a88",
+  "world_database": "TDB_full_world_1200.26021_2026_02_06.sql"
+ },
+ "invariants": [
+  "absent from pinned Trinity != absent from Retail",
+  "unsupported by research != inert",
+  "structural similarity != semantic equivalence",
+  "Trinity is the best available consumer oracle, not unquestionable Retail truth"
+ ],
+ "phases": [
+  "prepared",
+  "identity-gate",
+  "creation-only",
+  "acquisition",
+  "runtime",
+  "irrelevant",
+  "reference-other-track"
+ ],
+ "inputs": [
+  {
+   "id": "player_classlevelstats",
+   "kind": "world-db-table",
+   "phase": "prepared",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:4287 (ObjectMgr::LoadPlayerInfo)",
+   "consumers": [
+    "src/server/game/Globals/ObjectMgr.cpp:4437-4450 (ObjectMgr::GetPlayerLevelInfo)",
+    "src/server/game/Entities/Player/Player.cpp:2332,2362-2366 (Player::InitStatsForLevel -> SetCreateStat/SetStat)",
+    "src/server/game/Entities/Player/Player.cpp:2373 (SetArmor(int32(createStats[AGILITY]*2), 0))"
+   ],
+   "touches": "create stats (Strength, Agility, Stamina, Intellect, Spirit) per (class, level); therefore base armor, base health-from-stamina, base AP/SP",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": "a Retail character-sheet observation of a naked character (no items, no auras) of that class at that level: UnitData::Stats[] minus the race modifier; one observation per (class, level) reached",
+   "fallback": "caller-supplied (charstats.MissingBaseStats); Trinity itself fills level gaps from the previous level (opt-in reproduction: basestats_tdb --fill-rule trinity)",
+   "notes": "rows above CONFIG_MAX_PLAYER_LEVEL ignored (ObjectMgr.cpp:4309-4317); gap fill 4336-4356 keyed on race-modified strength == 0; VerifiedBuild column not read by the loader",
+   "tdb": {
+    "player_classlevelstats": {
+     "rows": 1032,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "player_racestats",
+   "kind": "world-db-table",
+   "phase": "prepared",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:4263 (ObjectMgr::LoadPlayerInfo)",
+   "consumers": [
+    "src/server/game/Globals/ObjectMgr.cpp:4328 (levelInfo.stats[i] = row + raceStats.StatModifier[i])"
+   ],
+   "touches": "flat per-race delta added to every class row at every level",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": "two naked Retail observations of the same class/level differing only in race",
+   "fallback": "a race with no row: every (race, class) pair playercreateinfo created for it has a null levelInfo -> ABORT() at ObjectMgr.cpp:4342-4346 (server does not start)",
+   "notes": "int16 columns; 25 legacy races carry Classic-era +/-3 deltas, the 6 newest (52, 70, 84, 85, 86, 91) are authored as zeros -- internally inconsistent authoring, Retail truth unresolved",
+   "tdb": {
+    "player_racestats": {
+     "rows": 31,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "playercreateinfo",
+   "kind": "world-db-table",
+   "phase": "identity-gate",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:3813 (ObjectMgr::LoadPlayerInfo)",
+   "consumers": [
+    "src/server/game/Globals/ObjectMgr.cpp:4323 (only these (race, class) pairs receive levelInfo)",
+    "src/server/game/Entities/Player/Player.cpp:396-402 (Player::Create refuses an unknown pair)",
+    "src/server/game/Globals/ObjectMgr.cpp:10517-10520 (ObjectMgr::GetPlayerInfo)"
+   ],
+   "touches": "existence of the (race, class) identity; create/home position (non-combat)",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": "ChrClassRaceSex / ChrClasses + ChrRaces playable flags in DB2 (the pair set), but Trinity trusts the table, not DB2",
+   "fallback": "pair absent: no PlayerInfo -> creation refused; an existing character of that pair would get GetPlayerLevelInfo() returning without writing info (all-zero stats)",
+   "notes": "also requires a male and female ChrModel for the race (ObjectMgr.cpp:3861-3871)",
+   "tdb": {
+    "playercreateinfo": {
+     "rows": 281,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "playercreateinfo_item / _spell_custom / _cast_spell / _action",
+   "kind": "world-db-table",
+   "phase": "creation-only",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:3993, 4080, 4142, 4205",
+   "consumers": [
+    "src/server/game/Entities/Player/Player.cpp:509 (info->action), src/server/game/Entities/Player/Player.cpp:521-522 (info->item), Player::Create only"
+   ],
+   "touches": "starting items / spells / action bars at Player::Create; nothing after creation",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": null,
+   "fallback": "irrelevant post-creation: a prepared character's spells and gear are inputs, not recomputed from these tables",
+   "notes": "playercreateinfo_spell_custom has 0 rows and playercreateinfo_item 1 row in the pinned TDB",
+   "tdb": {
+    "playercreateinfo_item": {
+     "rows": 1,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "playercreateinfo_spell_custom": {
+     "rows": 0,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "playercreateinfo_cast_spell": {
+     "rows": 31,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "playercreateinfo_action": {
+     "rows": 1942,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "player_xp_for_level",
+   "kind": "world-db-table",
+   "phase": "irrelevant",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:4370 (ObjectMgr::LoadPlayerInfo)",
+   "consumers": [
+    "src/server/game/Globals/ObjectMgr.cpp:7916-7921 (GetXPForLevel)",
+    "src/server/game/Entities/Player/Player.cpp:2340 (ActivePlayerData::NextLevelXP)"
+   ],
+   "touches": "NextLevelXP only (level identity, not combat)",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": "xp.txt GameTable (client) -- Trinity pre-fills from sXpGameTable at ObjectMgr.cpp:4365-4367 and the table only overrides",
+   "fallback": "0 rows in the pinned TDB: the GameTable values are used unchanged",
+   "notes": "",
+   "tdb": {
+    "player_xp_for_level": {
+     "rows": 0,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "race_unlock_requirement / class_expansion_requirement",
+   "kind": "world-db-table",
+   "phase": "creation-only",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:10522, 10528, 10573 (LoadRaceAndClassExpansionRequirements)",
+   "consumers": [
+    "src/server/game/Handlers/CharacterHandler.cpp:700-760 (character creation checks)"
+   ],
+   "touches": "whether an account may create the (race, class); nothing after creation",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": null,
+   "fallback": "irrelevant post-creation",
+   "notes": "",
+   "tdb": {
+    "race_unlock_requirement": {
+     "rows": 31,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "class_expansion_requirement": {
+     "rows": 230,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "spell_learn_spell",
+   "kind": "world-db-table",
+   "phase": "acquisition",
+   "loader": "src/server/game/Spells/SpellMgr.cpp:1009 (SpellMgr::LoadSpellLearnSpells)",
+   "consumers": [
+    "src/server/game/Entities/Player/Player.cpp Player::AddSpell/LearnSpell chains"
+   ],
+   "touches": "which spells a character owns (acquisition), hence CanUseMastery and passive auras",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": "already in dummy-corpora/trinity-server-overlay.json (Track: dummy_semantics)",
+   "fallback": "reference: charstats.acquisition + dummy_semantics overlay",
+   "notes": "5 rows",
+   "tdb": {
+    "spell_learn_spell": {
+     "rows": 5,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "spell_proc / spell_custom_attr / spell_script_names / spell_pet_auras / serverside_spell_effect / spell_linked_spell / spell_area / spell_group(+stack_rules) / spell_required / spell_threat / spell_enchant_proc_data",
+   "kind": "world-db-table",
+   "phase": "reference-other-track",
+   "loader": "src/server/game/Spells/SpellMgr.cpp:1506, 2986; src/server/game/Globals/ObjectMgr.cpp:5971; src/server/game/Spells/SpellMgr.cpp:1972, 2752, 2081, 2307, 1274, 1355; src/server/game/Spells/SpellMgr.cpp:1920, 2038",
+   "consumers": [
+    "spell/aura/proc semantics (procs/, dummy_semantics/ passes)"
+   ],
+   "touches": "runtime spell semantics, not prepared stat values",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": "already extracted by earlier passes (proc overlay, server overlay)",
+   "fallback": "reference only",
+   "notes": "",
+   "tdb": {
+    "spell_proc": {
+     "rows": 1280,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_custom_attr": {
+     "rows": 141,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_script_names": {
+     "rows": 4016,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_pet_auras": {
+     "rows": 2,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "serverside_spell_effect": {
+     "rows": 3197,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_linked_spell": {
+     "rows": 223,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_area": {
+     "rows": 952,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_group": {
+     "rows": 297,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_group_stack_rules": {
+     "rows": 13,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_required": {
+     "rows": 21,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_threat": {
+     "rows": 21,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "spell_enchant_proc_data": {
+     "rows": 16,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "item_template_addon / item_random_bonus_list_template",
+   "kind": "world-db-table",
+   "phase": "irrelevant",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:3381 (LoadItemTemplateAddon); src/server/game/Entities/Item/ItemEnchantmentMgr.cpp:48",
+   "consumers": [
+    "Item::GenerateItemRandomBonusListId (random bonus lists at item creation)"
+   ],
+   "touches": "server-side random bonus lists for newly created items; nothing for a supplied loadout",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": "the fixture's explicit bonus list ids (gearing-pipeline-archaeology.md)",
+   "fallback": "RandomBonusListTemplateId is 0 on all 625 item_template_addon rows and item_random_bonus_list_template has 0 rows: nothing to reconstruct",
+   "notes": "",
+   "tdb": {
+    "item_template_addon": {
+     "rows": 625,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "item_random_bonus_list_template": {
+     "rows": 0,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "skill_tiers / skill_fishing_base_level / skill_* ",
+   "kind": "world-db-table",
+   "phase": "irrelevant",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:8936, 8900",
+   "consumers": [
+    "profession skill values"
+   ],
+   "touches": "profession/skill max values; no prepared combat stat",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": null,
+   "fallback": "irrelevant to preparation",
+   "notes": "weapon skill is legacy-only (Track B/C)",
+   "tdb": {
+    "skill_tiers": {
+     "rows": 59,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "skill_fishing_base_level": {
+     "rows": 105,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "creature_template / creature_template_spell / pet_levelstats",
+   "kind": "world-db-table",
+   "phase": "reference-other-track",
+   "loader": "src/server/game/Globals/ObjectMgr.cpp:347, 370 (LoadCreatureTemplates, WORLD_SEL_CREATURE_TEMPLATE), 3686 (LoadPetLevelInfo)",
+   "consumers": [
+    "Guardian::InitStatsForLevel (Track A/B)"
+   ],
+   "touches": "controlled-unit preparation, not the Player",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": "world-db-corpora/player-base-stats.json (pet_levelstats) + creature-templates.json",
+   "fallback": "reference only",
+   "notes": "",
+   "tdb": {
+    "creature_template_spell": {
+     "rows": 9586,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "pet_levelstats": {
+     "rows": 2715,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "spell_totem_model / player_factionchange_* / pet_name_generation / battle_pet_* / game_tele / exploration_basexp",
+   "kind": "world-db-table",
+   "phase": "irrelevant",
+   "loader": "ObjectMgr / SpellMgr loaders",
+   "consumers": [
+    "cosmetic, faction change, battle pets, GM teleports"
+   ],
+   "touches": "nothing in prepared combat state",
+   "evidence_class": "world-db-fact",
+   "reconstruct_from": null,
+   "fallback": "irrelevant",
+   "notes": "",
+   "tdb": {
+    "spell_totem_model": {
+     "rows": 342,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "player_factionchange_spells": {
+     "rows": 113,
+     "source": "pinned TDB + sql/updates/world/master"
+    },
+    "exploration_basexp": {
+     "rows": 80,
+     "source": "pinned TDB + sql/updates/world/master"
+    }
+   },
+   "conf": {}
+  },
+  {
+   "id": "MaxPlayerLevel",
+   "kind": "worldserver.conf",
+   "phase": "prepared",
+   "loader": "src/server/game/World/World.cpp:750 (default GetMaxLevelForExpansion(CURRENT_EXPANSION) = 90, Min 1, Max MAX_LEVEL 123)",
+   "consumers": [
+    "src/server/game/Globals/ObjectMgr.cpp:4309-4317 (rows above are ignored)",
+    "src/server/game/Globals/ObjectMgr.cpp:4324 (levelInfo array size)",
+    "src/server/game/Globals/ObjectMgr.cpp:4349 (fill loop bound)",
+    "src/server/game/Globals/ObjectMgr.cpp:4446-4449 (BuildPlayerLevelInfo above it)",
+    "src/server/game/Globals/ObjectMgr.cpp:4424-4425 (GetPlayerClassLevelInfo clamps base mana level)",
+    "src/server/game/Entities/Player/Player.cpp:2333-2338 (ActivePlayerData::MaxLevel)"
+   ],
+   "touches": "which levels have base-stat cells, and how levels above the last row are served",
+   "evidence_class": "trinity-consumer",
+   "reconstruct_from": "worldserver.conf.dist (value below); a deployed server may differ",
+   "fallback": "default 90",
+   "notes": "a server configured with MaxPlayerLevel=80 would serve 81-90 through BuildPlayerLevelInfo's Classic switch instead of the copy",
+   "tdb": {},
+   "conf": {
+    "MaxPlayerLevel": {
+     "value": "90",
+     "line": 912,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:912"
+    }
+   }
+  },
+  {
+   "id": "Expansion",
+   "kind": "worldserver.conf",
+   "phase": "identity-gate",
+   "loader": "src/server/game/World/World.cpp:795",
+   "consumers": [
+    "src/server/game/Entities/Player/Player.cpp:2334-2339 (MaxLevel by session expansion)"
+   ],
+   "touches": "ActivePlayerData::MaxLevel only",
+   "evidence_class": "trinity-consumer",
+   "reconstruct_from": "worldserver.conf.dist",
+   "fallback": "CURRENT_EXPANSION (11 = Midnight)",
+   "notes": "",
+   "tdb": {},
+   "conf": {
+    "Expansion": {
+     "value": "11",
+     "line": 718,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:718"
+    }
+   }
+  },
+  {
+   "id": "StartPlayerLevel / StartDeathKnightPlayerLevel / StartDemonHunterPlayerLevel / StartEvokerPlayerLevel",
+   "kind": "worldserver.conf",
+   "phase": "creation-only",
+   "loader": "src/server/game/World/World.cpp:752-755",
+   "consumers": [
+    "Player::Create (start level)"
+   ],
+   "touches": "which levels are reachable from creation; explains why Evoker rows 2-9 are absent",
+   "evidence_class": "trinity-consumer",
+   "reconstruct_from": "worldserver.conf.dist",
+   "fallback": "1 / 8 / 8 / 10",
+   "notes": "",
+   "tdb": {},
+   "conf": {
+    "StartPlayerLevel": {
+     "value": "1",
+     "line": 927,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:927"
+    },
+    "StartDeathKnightPlayerLevel": {
+     "value": "8",
+     "line": 935,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:935"
+    },
+    "StartDemonHunterPlayerLevel": {
+     "value": "8",
+     "line": 943,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:943"
+    },
+    "StartEvokerPlayerLevel": {
+     "value": "10",
+     "line": 951,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:951"
+    }
+   }
+  },
+  {
+   "id": "Rate.Health / Rate.Mana / Rate.Rage.* / Rate.Focus / Rate.Energy / Rate.* (power rates)",
+   "kind": "worldserver.conf",
+   "phase": "runtime",
+   "loader": "src/server/game/World/World.cpp:941-942 (RATE_HEALTH, RATE_POWER_MANA) and following",
+   "consumers": [
+    "src/server/game/Entities/Player/Player.cpp:1748 (Player::RegenerateHealth only)",
+    "src/server/game/Entities/Unit/StatSystem.cpp:809-835 (Player::UpdatePowerRegen, PowerRegenInfo)"
+   ],
+   "touches": "regeneration per tick; NOT max health / max power / any prepared value",
+   "evidence_class": "trinity-consumer",
+   "reconstruct_from": "worldserver.conf.dist",
+   "fallback": "1.0",
+   "notes": "grep of getRate(RATE_HEALTH|RATE_POWER_*) in Player.cpp/StatSystem.cpp: no multiplier in UpdateMaxHealth/UpdateMaxPower/InitStatsForLevel",
+   "tdb": {},
+   "conf": {
+    "Rate.Health": {
+     "value": "1",
+     "line": 2405,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:2405"
+    },
+    "Rate.Mana": {
+     "value": "1",
+     "line": 2406,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:2406"
+    }
+   }
+  },
+  {
+   "id": "Stats.Limits.Enable / Stats.Limits.Dodge / Parry / Block / Crit",
+   "kind": "worldserver.conf",
+   "phase": "prepared",
+   "loader": "src/server/game/World/World.cpp (CONFIG_STATS_LIMITS_ENABLE, CONFIG_STATS_LIMITS_*)",
+   "consumers": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:495-496 (UpdateBlockPercentage)",
+    "src/server/game/Entities/Unit/StatSystem.cpp:505-507 (UpdateCritPercentage)",
+    "src/server/game/Entities/Unit/StatSystem.cpp:665-666 (UpdateParryPercentage)",
+    "src/server/game/Entities/Unit/StatSystem.cpp:703-704 (UpdateDodgePercentage)"
+   ],
+   "touches": "caps the prepared crit/dodge/parry/block percentages when enabled",
+   "evidence_class": "trinity-consumer",
+   "reconstruct_from": "worldserver.conf.dist",
+   "fallback": "disabled (0) -> no cap",
+   "notes": "a configuration that clamps prepared values; off by default",
+   "tdb": {},
+   "conf": {
+    "Stats.Limits.Enable": {
+     "value": "0",
+     "line": 2727,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:2727"
+    },
+    "Stats.Limits.Dodge": {
+     "value": "95.0",
+     "line": 2734,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:2734"
+    },
+    "Stats.Limits.Parry": {
+     "value": "95.0",
+     "line": 2735,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:2735"
+    },
+    "Stats.Limits.Block": {
+     "value": "95.0",
+     "line": 2736,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:2736"
+    },
+    "Stats.Limits.Crit": {
+     "value": "95.0",
+     "line": 2737,
+     "coordinate": "src/server/worldserver/worldserver.conf.dist:2737"
+    }
+   }
+  },
+  {
+   "id": "session expansion (account state)",
+   "kind": "session-state",
+   "phase": "identity-gate",
+   "loader": "WorldSession::GetExpansion()",
+   "consumers": [
+    "src/server/game/Entities/Player/Player.cpp:2334-2339"
+   ],
+   "touches": "ActivePlayerData::MaxLevel; no stat",
+   "evidence_class": "trinity-consumer",
+   "reconstruct_from": null,
+   "fallback": "caller-supplied if the field matters",
+   "notes": "",
+   "tdb": {},
+   "conf": {}
+  }
+ ],
+ "worldserver_conf_dist": {
+  "Expansion": {
+   "value": "11",
+   "line": 718,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:718"
+  },
+  "CharacterCreating.Disabled.RaceMask": {
+   "value": "0",
+   "line": 822,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:822"
+  },
+  "CharacterCreating.Disabled.ClassMask": {
+   "value": "0",
+   "line": 843,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:843"
+  },
+  "MaxPlayerLevel": {
+   "value": "90",
+   "line": 912,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:912"
+  },
+  "StartPlayerLevel": {
+   "value": "1",
+   "line": 927,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:927"
+  },
+  "StartDeathKnightPlayerLevel": {
+   "value": "8",
+   "line": 935,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:935"
+  },
+  "StartDemonHunterPlayerLevel": {
+   "value": "8",
+   "line": 943,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:943"
+  },
+  "StartEvokerPlayerLevel": {
+   "value": "10",
+   "line": 951,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:951"
+  },
+  "Rate.Health": {
+   "value": "1",
+   "line": 2405,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:2405"
+  },
+  "Rate.Mana": {
+   "value": "1",
+   "line": 2406,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:2406"
+  },
+  "Stats.Limits.Enable": {
+   "value": "0",
+   "line": 2727,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:2727"
+  },
+  "Stats.Limits.Dodge": {
+   "value": "95.0",
+   "line": 2734,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:2734"
+  },
+  "Stats.Limits.Parry": {
+   "value": "95.0",
+   "line": 2735,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:2735"
+  },
+  "Stats.Limits.Block": {
+   "value": "95.0",
+   "line": 2736,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:2736"
+  },
+  "Stats.Limits.Crit": {
+   "value": "95.0",
+   "line": 2737,
+   "coordinate": "src/server/worldserver/worldserver.conf.dist:2737"
+  }
+ },
+ "tdb_row_counts": {
+  "class_expansion_requirement": 230,
+  "creature_template_spell": 9586,
+  "exploration_basexp": 80,
+  "item_random_bonus_list_template": 0,
+  "item_template_addon": 625,
+  "player_factionchange_spells": 113,
+  "player_xp_for_level": 0,
+  "playercreateinfo": 281,
+  "playercreateinfo_action": 1942,
+  "playercreateinfo_cast_spell": 31,
+  "playercreateinfo_item": 1,
+  "playercreateinfo_spell_custom": 0,
+  "race_unlock_requirement": 31,
+  "serverside_spell_effect": 3197,
+  "skill_fishing_base_level": 105,
+  "skill_tiers": 59,
+  "spell_area": 952,
+  "spell_custom_attr": 141,
+  "spell_enchant_proc_data": 16,
+  "spell_group": 297,
+  "spell_group_stack_rules": 13,
+  "spell_learn_spell": 5,
+  "spell_linked_spell": 223,
+  "spell_pet_auras": 2,
+  "spell_proc": 1280,
+  "spell_required": 21,
+  "spell_script_names": 4016,
+  "spell_threat": 21,
+  "spell_totem_model": 342,
+  "pet_levelstats": 2715,
+  "player_classlevelstats": 1032,
+  "player_racestats": 31
+ },
+ "tdb_extraction": {
+  "base_world_database": "TDB_full_world_1200.26021_2026_02_06.sql",
+  "base_world_database_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+  "update_files_total": 522,
+  "update_files_touching_tracked_tables": [
+   "2026_02_06_01_world.sql",
+   "2026_02_07_00_world.sql",
+   "2026_02_13_00_world.sql",
+   "2026_02_13_01_world.sql",
+   "2026_02_14_00_world.sql",
+   "2026_02_14_01_world.sql",
+   "2026_02_14_02_world.sql",
+   "2026_02_14_03_world.sql",
+   "2026_02_14_04_world.sql",
+   "2026_02_15_01_world.sql",
+   "2026_02_16_00_world.sql",
+   "2026_02_16_01_world.sql",
+   "2026_02_16_02_world.sql",
+   "2026_02_16_03_world.sql",
+   "2026_02_16_04_world.sql",
+   "2026_02_19_03_world.sql",
+   "2026_02_19_04_world.sql",
+   "2026_02_19_05_world.sql",
+   "2026_02_19_06_world.sql",
+   "2026_02_19_07_world.sql",
+   "2026_02_19_08_world.sql",
+   "2026_02_19_09_world.sql",
+   "2026_02_23_00_world.sql",
+   "2026_02_23_01_world.sql",
+   "2026_02_23_02_world.sql",
+   "2026_02_23_03_world.sql",
+   "2026_02_26_00_world.sql",
+   "2026_02_26_01_world.sql",
+   "2026_02_27_00_world.sql",
+   "2026_02_28_00_world.sql",
+   "2026_02_28_01_world.sql",
+   "2026_02_28_02_world.sql",
+   "2026_03_02_00_world.sql",
+   "2026_03_02_01_world.sql",
+   "2026_03_03_00_world.sql",
+   "2026_03_04_00_world.sql",
+   "2026_03_04_01_world.sql",
+   "2026_03_05_00_world.sql",
+   "2026_03_05_01_world.sql",
+   "2026_03_06_00_world.sql",
+   "2026_03_06_01_world.sql",
+   "2026_03_06_02_world.sql",
+   "2026_03_06_03_world.sql",
+   "2026_03_06_04_world.sql",
+   "2026_03_07_00_world.sql",
+   "2026_03_29_00_world.sql",
+   "2026_03_30_00_world.sql",
+   "2026_04_03_00_world.sql",
+   "2026_04_08_01_world.sql",
+   "2026_04_11_00_world.sql",
+   "2026_04_13_03_world.sql",
+   "2026_04_18_00_world.sql",
+   "2026_04_19_04_world.sql",
+   "2026_04_25_00_world.sql",
+   "2026_04_26_00_world.sql",
+   "2026_05_25_00_world.sql",
+   "2026_05_25_07_world.sql",
+   "2026_05_29_00_world_2024_02_23_01_world.sql",
+   "2026_05_30_00_world_2024_03_03_02_world.sql",
+   "2026_05_30_04_world_2024_03_13_00_world.sql",
+   "2026_05_30_05_world_2024_03_14_00_world.sql",
+   "2026_05_31_42_world_2024_04_09_00_world.sql",
+   "2026_05_31_49_world_2024_05_31_00_world.sql",
+   "2026_06_01_16_world_2024_10_06_00_world.sql",
+   "2026_06_07_17_world_2025_02_10_00_world.sql",
+   "2026_06_07_18_world_2025_02_13_00_world.sql",
+   "2026_06_07_31_world_2025_02_27_08_world.sql",
+   "2026_06_22_03_world_2025_05_08_00_world.sql",
+   "2026_06_22_04_world_2025_05_08_01_world.sql",
+   "2026_06_22_05_world_2025_05_09_00_world.sql",
+   "2026_06_22_06_world_2025_05_17_00_world.sql",
+   "2026_06_22_07_world_2025_05_17_01_world.sql",
+   "2026_06_22_09_world_2025_05_17_03_world.sql",
+   "2026_06_22_10_world_2025_05_17_04_world.sql",
+   "2026_06_22_11_world_2025_05_17_05_world.sql",
+   "2026_06_22_12_world_2025_05_17_06_world.sql",
+   "2026_06_22_13_world_2025_06_10_06_world.sql",
+   "2026_06_23_03_world_2025_05_27_01_world.sql",
+   "2026_06_23_08_world_2025_06_10_00_world.sql",
+   "2026_06_23_13_world_2025_06_10_05_world.sql",
+   "2026_06_23_14_world_2025_06_29_00_world.sql",
+   "2026_06_23_15_world_2025_07_05_00_world.sql",
+   "2026_06_23_17_world_2025_07_08_01_world.sql",
+   "2026_06_24_00_world_2025_07_12_00_world.sql",
+   "2026_06_24_01_world_2025_07_12_01_world.sql",
+   "2026_06_24_02_world_2025_07_12_02_world.sql",
+   "2026_06_24_03_world_2025_07_13_00_world.sql",
+   "2026_06_25_02_world_2025_07_22_00_world.sql",
+   "2026_06_25_03_world_2025_07_22_01_world.sql",
+   "2026_06_25_06_world_2025_07_24_01_world.sql",
+   "2026_06_25_07_world_2025_07_24_02_world.sql",
+   "2026_06_25_08_world_2025_07_27_00_world.sql",
+   "2026_06_25_09_world_2025_07_28_00_world.sql",
+   "2026_06_25_15_world_2025_08_05_00_world.sql",
+   "2026_06_25_16_world_2025_08_10_00_world.sql",
+   "2026_06_25_17_world_2025_08_10_01_world.sql",
+   "2026_06_25_18_world_2025_08_16_00_world.sql",
+   "2026_06_25_19_world_2025_08_16_01_world.sql",
+   "2026_06_25_21_world_2025_08_17_00_world.sql",
+   "2026_06_25_23_world_2025_09_04_00_world.sql",
+   "2026_06_26_03_world_2025_09_09_01_world.sql",
+   "2026_06_26_04_world_2025_09_09_02_world.sql",
+   "2026_06_26_05_world_2025_09_12_00_world.sql",
+   "2026_06_26_07_world_2025_09_13_01_world.sql",
+   "2026_06_26_08_world_2025_09_14_00_world.sql",
+   "2026_06_27_01_world_2025_09_18_00_world.sql",
+   "2026_06_27_02_world_2025_09_22_00_world.sql",
+   "2026_06_27_11_world_2025_10_10_01_world.sql",
+   "2026_06_27_13_world_2025_10_14_00_world.sql",
+   "2026_06_27_16_world_2025_10_16_00_world.sql",
+   "2026_06_28_02_world_2025_11_03_00_world.sql",
+   "2026_06_28_03_world_2025_11_04_00_world.sql",
+   "2026_06_28_04_world_2025_11_08_00_world.sql",
+   "2026_06_28_07_world_2025_11_09_00_world.sql",
+   "2026_06_28_10_world_2025_12_14_01_world.sql",
+   "2026_06_28_12_world_2025_12_17_00_world.sql",
+   "2026_06_28_13_world_2025_12_20_01_world.sql",
+   "2026_06_29_00_world_2025_12_31_00_world.sql",
+   "2026_06_29_01_world_2026_01_09_00_world.sql",
+   "2026_06_29_02_world.sql",
+   "2026_06_29_04_world_2026_01_16_00_world.sql",
+   "2026_06_29_07_world_2026_02_15_00_world.sql",
+   "2026_06_29_08_world_2026_02_16_00_world.sql",
+   "2026_06_30_09_world_2026_02_17_12_world.sql",
+   "2026_06_30_10_world_2026_02_17_13_world.sql",
+   "2026_06_30_11_world_2026_02_22_00_world.sql",
+   "2026_06_30_12_world_2026_03_03_00_world.sql",
+   "2026_06_30_14_world_2026_03_05_00_world.sql",
+   "2026_06_30_15_world_2026_03_09_00_world.sql",
+   "2026_06_30_17_world_2026_03_30_00_world.sql",
+   "2026_06_30_18_world_2026_04_11_00_world.sql",
+   "2026_06_30_19_world_2026_04_12_00_world.sql",
+   "2026_06_30_20_world_2026_04_27_00_world.sql",
+   "2026_06_30_22_world_2026_05_07_00_world.sql",
+   "2026_07_09_01_world.sql"
+  ],
+  "unparsed_statement_count": 0,
+  "tables_missing_from_dump": []
+ },
+ "item_template_addon_random_bonus_nonzero": 0,
+ "playercreateinfo_pairs": {
+  "count": 281,
+  "pairs": [
+   [
+    1,
+    1
+   ],
+   [
+    1,
+    2
+   ],
+   [
+    1,
+    3
+   ],
+   [
+    1,
+    4
+   ],
+   [
+    1,
+    5
+   ],
+   [
+    1,
+    6
+   ],
+   [
+    1,
+    8
+   ],
+   [
+    1,
+    9
+   ],
+   [
+    1,
+    10
+   ],
+   [
+    2,
+    1
+   ],
+   [
+    2,
+    3
+   ],
+   [
+    2,
+    4
+   ],
+   [
+    2,
+    5
+   ],
+   [
+    2,
+    6
+   ],
+   [
+    2,
+    7
+   ],
+   [
+    2,
+    8
+   ],
+   [
+    2,
+    9
+   ],
+   [
+    2,
+    10
+   ],
+   [
+    3,
+    1
+   ],
+   [
+    3,
+    2
+   ],
+   [
+    3,
+    3
+   ],
+   [
+    3,
+    4
+   ],
+   [
+    3,
+    5
+   ],
+   [
+    3,
+    6
+   ],
+   [
+    3,
+    7
+   ],
+   [
+    3,
+    8
+   ],
+   [
+    3,
+    9
+   ],
+   [
+    3,
+    10
+   ],
+   [
+    4,
+    1
+   ],
+   [
+    4,
+    3
+   ],
+   [
+    4,
+    4
+   ],
+   [
+    4,
+    5
+   ],
+   [
+    4,
+    6
+   ],
+   [
+    4,
+    8
+   ],
+   [
+    4,
+    9
+   ],
+   [
+    4,
+    10
+   ],
+   [
+    4,
+    11
+   ],
+   [
+    4,
+    12
+   ],
+   [
+    5,
+    1
+   ],
+   [
+    5,
+    3
+   ],
+   [
+    5,
+    4
+   ],
+   [
+    5,
+    5
+   ],
+   [
+    5,
+    6
+   ],
+   [
+    5,
+    8
+   ],
+   [
+    5,
+    9
+   ],
+   [
+    5,
+    10
+   ],
+   [
+    6,
+    1
+   ],
+   [
+    6,
+    2
+   ],
+   [
+    6,
+    3
+   ],
+   [
+    6,
+    4
+   ],
+   [
+    6,
+    5
+   ],
+   [
+    6,
+    6
+   ],
+   [
+    6,
+    7
+   ],
+   [
+    6,
+    8
+   ],
+   [
+    6,
+    9
+   ],
+   [
+    6,
+    10
+   ],
+   [
+    6,
+    11
+   ],
+   [
+    7,
+    1
+   ],
+   [
+    7,
+    3
+   ],
+   [
+    7,
+    4
+   ],
+   [
+    7,
+    5
+   ],
+   [
+    7,
+    6
+   ],
+   [
+    7,
+    8
+   ],
+   [
+    7,
+    9
+   ],
+   [
+    7,
+    10
+   ],
+   [
+    8,
+    1
+   ],
+   [
+    8,
+    3
+   ],
+   [
+    8,
+    4
+   ],
+   [
+    8,
+    5
+   ],
+   [
+    8,
+    6
+   ],
+   [
+    8,
+    7
+   ],
+   [
+    8,
+    8
+   ],
+   [
+    8,
+    9
+   ],
+   [
+    8,
+    10
+   ],
+   [
+    8,
+    11
+   ],
+   [
+    9,
+    1
+   ],
+   [
+    9,
+    3
+   ],
+   [
+    9,
+    4
+   ],
+   [
+    9,
+    5
+   ],
+   [
+    9,
+    6
+   ],
+   [
+    9,
+    7
+   ],
+   [
+    9,
+    8
+   ],
+   [
+    9,
+    9
+   ],
+   [
+    9,
+    10
+   ],
+   [
+    10,
+    1
+   ],
+   [
+    10,
+    2
+   ],
+   [
+    10,
+    3
+   ],
+   [
+    10,
+    4
+   ],
+   [
+    10,
+    5
+   ],
+   [
+    10,
+    6
+   ],
+   [
+    10,
+    8
+   ],
+   [
+    10,
+    9
+   ],
+   [
+    10,
+    10
+   ],
+   [
+    10,
+    12
+   ],
+   [
+    11,
+    1
+   ],
+   [
+    11,
+    2
+   ],
+   [
+    11,
+    3
+   ],
+   [
+    11,
+    4
+   ],
+   [
+    11,
+    5
+   ],
+   [
+    11,
+    6
+   ],
+   [
+    11,
+    7
+   ],
+   [
+    11,
+    8
+   ],
+   [
+    11,
+    9
+   ],
+   [
+    11,
+    10
+   ],
+   [
+    22,
+    1
+   ],
+   [
+    22,
+    3
+   ],
+   [
+    22,
+    4
+   ],
+   [
+    22,
+    5
+   ],
+   [
+    22,
+    6
+   ],
+   [
+    22,
+    8
+   ],
+   [
+    22,
+    9
+   ],
+   [
+    22,
+    10
+   ],
+   [
+    22,
+    11
+   ],
+   [
+    24,
+    1
+   ],
+   [
+    24,
+    3
+   ],
+   [
+    24,
+    4
+   ],
+   [
+    24,
+    5
+   ],
+   [
+    24,
+    7
+   ],
+   [
+    24,
+    8
+   ],
+   [
+    24,
+    9
+   ],
+   [
+    24,
+    10
+   ],
+   [
+    25,
+    1
+   ],
+   [
+    25,
+    3
+   ],
+   [
+    25,
+    4
+   ],
+   [
+    25,
+    5
+   ],
+   [
+    25,
+    6
+   ],
+   [
+    25,
+    7
+   ],
+   [
+    25,
+    8
+   ],
+   [
+    25,
+    9
+   ],
+   [
+    25,
+    10
+   ],
+   [
+    26,
+    1
+   ],
+   [
+    26,
+    3
+   ],
+   [
+    26,
+    4
+   ],
+   [
+    26,
+    5
+   ],
+   [
+    26,
+    6
+   ],
+   [
+    26,
+    7
+   ],
+   [
+    26,
+    8
+   ],
+   [
+    26,
+    9
+   ],
+   [
+    26,
+    10
+   ],
+   [
+    27,
+    1
+   ],
+   [
+    27,
+    3
+   ],
+   [
+    27,
+    4
+   ],
+   [
+    27,
+    5
+   ],
+   [
+    27,
+    6
+   ],
+   [
+    27,
+    8
+   ],
+   [
+    27,
+    9
+   ],
+   [
+    27,
+    10
+   ],
+   [
+    28,
+    1
+   ],
+   [
+    28,
+    3
+   ],
+   [
+    28,
+    4
+   ],
+   [
+    28,
+    5
+   ],
+   [
+    28,
+    6
+   ],
+   [
+    28,
+    7
+   ],
+   [
+    28,
+    8
+   ],
+   [
+    28,
+    9
+   ],
+   [
+    28,
+    10
+   ],
+   [
+    28,
+    11
+   ],
+   [
+    29,
+    1
+   ],
+   [
+    29,
+    3
+   ],
+   [
+    29,
+    4
+   ],
+   [
+    29,
+    5
+   ],
+   [
+    29,
+    6
+   ],
+   [
+    29,
+    8
+   ],
+   [
+    29,
+    9
+   ],
+   [
+    29,
+    10
+   ],
+   [
+    30,
+    1
+   ],
+   [
+    30,
+    2
+   ],
+   [
+    30,
+    3
+   ],
+   [
+    30,
+    4
+   ],
+   [
+    30,
+    5
+   ],
+   [
+    30,
+    6
+   ],
+   [
+    30,
+    8
+   ],
+   [
+    30,
+    9
+   ],
+   [
+    30,
+    10
+   ],
+   [
+    31,
+    1
+   ],
+   [
+    31,
+    2
+   ],
+   [
+    31,
+    3
+   ],
+   [
+    31,
+    4
+   ],
+   [
+    31,
+    5
+   ],
+   [
+    31,
+    6
+   ],
+   [
+    31,
+    7
+   ],
+   [
+    31,
+    8
+   ],
+   [
+    31,
+    9
+   ],
+   [
+    31,
+    10
+   ],
+   [
+    31,
+    11
+   ],
+   [
+    32,
+    1
+   ],
+   [
+    32,
+    3
+   ],
+   [
+    32,
+    4
+   ],
+   [
+    32,
+    5
+   ],
+   [
+    32,
+    6
+   ],
+   [
+    32,
+    7
+   ],
+   [
+    32,
+    8
+   ],
+   [
+    32,
+    9
+   ],
+   [
+    32,
+    10
+   ],
+   [
+    32,
+    11
+   ],
+   [
+    34,
+    1
+   ],
+   [
+    34,
+    2
+   ],
+   [
+    34,
+    3
+   ],
+   [
+    34,
+    4
+   ],
+   [
+    34,
+    5
+   ],
+   [
+    34,
+    6
+   ],
+   [
+    34,
+    7
+   ],
+   [
+    34,
+    8
+   ],
+   [
+    34,
+    9
+   ],
+   [
+    34,
+    10
+   ],
+   [
+    35,
+    1
+   ],
+   [
+    35,
+    3
+   ],
+   [
+    35,
+    4
+   ],
+   [
+    35,
+    5
+   ],
+   [
+    35,
+    6
+   ],
+   [
+    35,
+    7
+   ],
+   [
+    35,
+    8
+   ],
+   [
+    35,
+    9
+   ],
+   [
+    35,
+    10
+   ],
+   [
+    36,
+    1
+   ],
+   [
+    36,
+    3
+   ],
+   [
+    36,
+    4
+   ],
+   [
+    36,
+    5
+   ],
+   [
+    36,
+    6
+   ],
+   [
+    36,
+    7
+   ],
+   [
+    36,
+    8
+   ],
+   [
+    36,
+    9
+   ],
+   [
+    36,
+    10
+   ],
+   [
+    37,
+    1
+   ],
+   [
+    37,
+    3
+   ],
+   [
+    37,
+    4
+   ],
+   [
+    37,
+    5
+   ],
+   [
+    37,
+    6
+   ],
+   [
+    37,
+    8
+   ],
+   [
+    37,
+    9
+   ],
+   [
+    37,
+    10
+   ],
+   [
+    52,
+    1
+   ],
+   [
+    52,
+    3
+   ],
+   [
+    52,
+    4
+   ],
+   [
+    52,
+    5
+   ],
+   [
+    52,
+    8
+   ],
+   [
+    52,
+    9
+   ],
+   [
+    52,
+    13
+   ],
+   [
+    70,
+    1
+   ],
+   [
+    70,
+    3
+   ],
+   [
+    70,
+    4
+   ],
+   [
+    70,
+    5
+   ],
+   [
+    70,
+    8
+   ],
+   [
+    70,
+    9
+   ],
+   [
+    70,
+    13
+   ],
+   [
+    84,
+    1
+   ],
+   [
+    84,
+    2
+   ],
+   [
+    84,
+    3
+   ],
+   [
+    84,
+    4
+   ],
+   [
+    84,
+    5
+   ],
+   [
+    84,
+    7
+   ],
+   [
+    84,
+    8
+   ],
+   [
+    84,
+    9
+   ],
+   [
+    84,
+    10
+   ],
+   [
+    85,
+    1
+   ],
+   [
+    85,
+    2
+   ],
+   [
+    85,
+    3
+   ],
+   [
+    85,
+    4
+   ],
+   [
+    85,
+    5
+   ],
+   [
+    85,
+    7
+   ],
+   [
+    85,
+    8
+   ],
+   [
+    85,
+    9
+   ],
+   [
+    85,
+    10
+   ],
+   [
+    86,
+    1
+   ],
+   [
+    86,
+    3
+   ],
+   [
+    86,
+    4
+   ],
+   [
+    86,
+    5
+   ],
+   [
+    86,
+    7
+   ],
+   [
+    86,
+    8
+   ],
+   [
+    86,
+    9
+   ],
+   [
+    86,
+    10
+   ],
+   [
+    86,
+    11
+   ],
+   [
+    91,
+    1
+   ],
+   [
+    91,
+    3
+   ],
+   [
+    91,
+    4
+   ],
+   [
+    91,
+    5
+   ],
+   [
+    91,
+    7
+   ],
+   [
+    91,
+    8
+   ],
+   [
+    91,
+    9
+   ],
+   [
+    91,
+    10
+   ],
+   [
+    91,
+    11
+   ]
+  ]
+ },
+ "conf_multiplies_prepared_values": {
+  "verdict": "none of Rate.* multiplies a prepared maximum; Stats.Limits.* (disabled by default) caps four derived percentages; MaxPlayerLevel shapes the base-stat array",
+  "evidence_class": "trinity-consumer",
+  "coordinates": [
+   "src/server/game/Entities/Player/Player.cpp:1748",
+   "src/server/game/Entities/Unit/StatSystem.cpp:809-835",
+   "src/server/game/Entities/Unit/StatSystem.cpp:495-507,665-666,703-704"
+  ]
+ }
+}

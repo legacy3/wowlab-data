@@ -1,0 +1,3128 @@
+{
+ "provenance": {
+  "tool": "scripts/research/tools/merge_unknowns.py",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2",
+  "inputs": {
+   "docs/research/controlled-unit-corpora/unknowns.json": "753266826209657b1f62c17dfa1d00d789ccc79843918ac55e76a8ebd4932fc9",
+   "docs/research/weapon-combat-corpora/unknowns.json": "79caf7f82a452479cb0dd3014881fa4d12eaf5617055453a9e7469e7a5a34a68",
+   "docs/research/character-prep-corpora/unknowns.json": "2e297fd01c8855529c5bc5bfeadb5269f369ae4d733483b391be704c1b4217d0"
+  },
+  "evidence_classes": [
+   "db2-fact",
+   "world-db-fact",
+   "trinity-consumer",
+   "trinity-probe",
+   "differential",
+   "structural-inference",
+   "legacy-only",
+   "build-skew",
+   "unresolved"
+  ],
+  "note": "Every entry is an unresolved value, a build-skew population or a conclusion whose evidence class is weaker than a direct consumer, together with the exact observation that would resolve or falsify it. Entries are authored per track; cross-track links are declared, never inferred."
+ },
+ "summary": {
+  "entries": 138,
+  "per_track": {
+   "A": 55,
+   "B": 42,
+   "C": 41
+  },
+  "per_evidence_class": {
+   "build-skew": 6,
+   "db2-fact": 4,
+   "differential": 5,
+   "legacy-only": 14,
+   "structural-inference": 11,
+   "trinity-consumer": 27,
+   "trinity-probe": 12,
+   "unresolved": 50,
+   "world-db-fact": 9
+  },
+  "topics": {
+   "AcquireMethod 4 split": 1,
+   "Arms / Protection dual wield capability": 1,
+   "Arms dual wield (296087)": 1,
+   "Arms dual wield (lead ruling)": 1,
+   "BuildPlayerLevelInfo": 1,
+   "CalculatePct binary32 boundary": 1,
+   "ContentTuning schema mapping": 1,
+   "DK Raise Dead": 1,
+   "EffectNULL pet effects": 1,
+   "EffectSummonType private owner": 1,
+   "Evoker levels 2-9": 1,
+   "Guardian of Ancient Kings": 1,
+   "MH/OH same-update exception": 1,
+   "NPC-only playable-bit races": 1,
+   "NYI summon flags": 1,
+   "SKILL_RANGE_RANK default skills": 1,
+   "SpellModOp HitChance / CritChance": 1,
+   "TDB replay": 1,
+   "absorb and scripts": 1,
+   "armor": 1,
+   "armor penetration rating": 1,
+   "armour specialization via class skill lines": 1,
+   "armour-spec float truncation": 1,
+   "attack power": 1,
+   "auto-repeat exemptions keyed on spell 75": 1,
+   "base stats L81-90": 1,
+   "base stats levels 81-90": 1,
+   "block amount units": 1,
+   "blocked weapon spells": 1,
+   "build skew": 1,
+   "build-skew spells in fixtures": 1,
+   "caller-supplied server state": 1,
+   "cast to summon link": 1,
+   "charstats racial race bit": 1,
+   "compiler vs charstats armour spec": 1,
+   "content tuning layout": 1,
+   "controlled-unit hook": 1,
+   "controlled-unit hook contract": 1,
+   "crafted stat modifiers": 1,
+   "creature armor": 1,
+   "crit UB": 1,
+   "critical block": 1,
+   "crushing": 1,
+   "crushing blows": 1,
+   "crushing blows (all attackers)": 1,
+   "default population row without a working consumer": 3,
+   "default skill grants": 1,
+   "default-skill AcquireMethod 4": 1,
+   "default-skill acquisition vs earlier scopes (lead)": 1,
+   "differential vs a changed E fixture set": 1,
+   "duration spell mods": 1,
+   "equip checks not modelled": 1,
+   "equip cooldown by construction path": 1,
+   "errata against character-stat-pipeline-archaeology (lead)": 1,
+   "extended-scope creature coverage": 1,
+   "extra attacks / on-next-swing": 1,
+   "feral normalized": 1,
+   "generic family hides entry-specific behaviour": 1,
+   "generic mastery 114585": 1,
+   "ghost wolf": 1,
+   "glancing": 1,
+   "glancing damage factor": 1,
+   "glancing vs current raid bosses": 1,
+   "glyphs": 1,
+   "guardian health": 1,
+   "guardian level": 3,
+   "haste apply/remove drift": 1,
+   "hero sub-tree choice": 1,
+   "hit / expertise / avoidance ratings": 1,
+   "hunter pet base stats": 2,
+   "hunter pet identity": 1,
+   "identity regression": 1,
+   "initial health convention": 1,
+   "int16 rating accumulator": 1,
+   "item required level": 1,
+   "learned-spell state": 1,
+   "legacy azerite": 1,
+   "legacy dodge/hit": 1,
+   "legacy entry switches": 1,
+   "legacy pet scaling scripts": 1,
+   "legacy rating inputs (all item sources)": 1,
+   "level census assumptions": 1,
+   "level delta": 1,
+   "lroundf in UpdateMaxPower": 1,
+   "mastery 114585": 1,
+   "max charges aura term": 1,
+   "non-feral CRT forms": 1,
+   "offhand pct aura": 1,
+   "owner SP sign": 1,
+   "owner attribution": 1,
+   "owner stat inheritance": 2,
+   "percentage aura stages": 1,
+   "pet ability acquisition": 1,
+   "pet aura type": 4,
+   "pet resistances": 1,
+   "pet scaling spells": 1,
+   "pet-scoped auras without handler": 1,
+   "player block": 1,
+   "resilience": 1,
+   "saved skills": 1,
+   "server rates": 1,
+   "snapshot vs dynamic": 1,
+   "special addPctMods": 1,
+   "special double count": 1,
+   "special order": 1,
+   "special spellmods": 1,
+   "stamina 69->70 non-monotonic": 1,
+   "starter builds are level-90 builds": 1,
+   "stat recalculation gate": 1,
+   "stat recalculation trigger reach": 1,
+   "template AI spells": 1,
+   "trait quest/achievement conditions": 1,
+   "undefined behaviour": 1,
+   "weapon AP destination": 1,
+   "white-swing RNG stream": 1,
+   "witness summon semantics": 10,
+   "world-db coverage": 1,
+   "world-db coverage (lead)": 1,
+   "zero race modifiers": 1,
+   "zero-amount mastery-driven table auras": 1
+  },
+  "cross_track_linked": [
+   "L-1",
+   "L-4",
+   "R2-2",
+   "R2-4",
+   "L-2",
+   "L-3",
+   "R3-2"
+  ]
+ },
+ "by_topic": {
+  "AcquireMethod 4 split": [
+   "R3-5"
+  ],
+  "Arms / Protection dual wield capability": [
+   "R2-2"
+  ],
+  "Arms dual wield (296087)": [
+   "E-5"
+  ],
+  "Arms dual wield (lead ruling)": [
+   "L-4"
+  ],
+  "BuildPlayerLevelInfo": [
+   "F-9"
+  ],
+  "CalculatePct binary32 boundary": [
+   "R4-3"
+  ],
+  "ContentTuning schema mapping": [
+   "D-3"
+  ],
+  "DK Raise Dead": [
+   "B-9"
+  ],
+  "EffectNULL pet effects": [
+   "A-16"
+  ],
+  "EffectSummonType private owner": [
+   "A-20"
+  ],
+  "Evoker levels 2-9": [
+   "F-4"
+  ],
+  "Guardian of Ancient Kings": [
+   "B-10"
+  ],
+  "MH/OH same-update exception": [
+   "R2-6"
+  ],
+  "NPC-only playable-bit races": [
+   "F-14"
+  ],
+  "NYI summon flags": [
+   "A-15"
+  ],
+  "SKILL_RANGE_RANK default skills": [
+   "E-3"
+  ],
+  "SpellModOp HitChance / CritChance": [
+   "D-12"
+  ],
+  "TDB replay": [
+   "A-23"
+  ],
+  "absorb and scripts": [
+   "C-18"
+  ],
+  "armor": [
+   "C-1"
+  ],
+  "armor penetration rating": [
+   "C-5"
+  ],
+  "armour specialization via class skill lines": [
+   "E-6"
+  ],
+  "armour-spec float truncation": [
+   "F-6"
+  ],
+  "attack power": [
+   "C-2"
+  ],
+  "auto-repeat exemptions keyed on spell 75": [
+   "D-7"
+  ],
+  "base stats L81-90": [
+   "F-1"
+  ],
+  "base stats levels 81-90": [
+   "E-1"
+  ],
+  "block amount units": [
+   "D-5"
+  ],
+  "blocked weapon spells": [
+   "D-11"
+  ],
+  "build skew": [
+   "C-19"
+  ],
+  "build-skew spells in fixtures": [
+   "E-14"
+  ],
+  "caller-supplied server state": [
+   "F-11"
+  ],
+  "cast to summon link": [
+   "B-8"
+  ],
+  "charstats racial race bit": [
+   "E-7"
+  ],
+  "compiler vs charstats armour spec": [
+   "F-12"
+  ],
+  "content tuning layout": [
+   "B-16"
+  ],
+  "controlled-unit hook": [
+   "E-4"
+  ],
+  "controlled-unit hook contract": [
+   "R3-10"
+  ],
+  "crafted stat modifiers": [
+   "E-10"
+  ],
+  "creature armor": [
+   "C-22"
+  ],
+  "crit UB": [
+   "C-13"
+  ],
+  "critical block": [
+   "C-9"
+  ],
+  "crushing": [
+   "C-4"
+  ],
+  "crushing blows": [
+   "D-2"
+  ],
+  "crushing blows (all attackers)": [
+   "R2-3"
+  ],
+  "default population row without a working consumer": [
+   "A-11",
+   "A-12",
+   "A-13"
+  ],
+  "default skill grants": [
+   "C-20"
+  ],
+  "default-skill AcquireMethod 4": [
+   "E-2"
+  ],
+  "default-skill acquisition vs earlier scopes (lead)": [
+   "L-2"
+  ],
+  "differential vs a changed E fixture set": [
+   "F-13"
+  ],
+  "duration spell mods": [
+   "A-21"
+  ],
+  "equip checks not modelled": [
+   "R3-8"
+  ],
+  "equip cooldown by construction path": [
+   "R3-9"
+  ],
+  "errata against character-stat-pipeline-archaeology (lead)": [
+   "L-3"
+  ],
+  "extended-scope creature coverage": [
+   "A-22"
+  ],
+  "extra attacks / on-next-swing": [
+   "D-8"
+  ],
+  "feral normalized": [
+   "C-16"
+  ],
+  "generic family hides entry-specific behaviour": [
+   "R1-3"
+  ],
+  "generic mastery 114585": [
+   "F-5"
+  ],
+  "ghost wolf": [
+   "C-14"
+  ],
+  "glancing": [
+   "C-3"
+  ],
+  "glancing damage factor": [
+   "R2-5"
+  ],
+  "glancing vs current raid bosses": [
+   "D-1"
+  ],
+  "glyphs": [
+   "R3-3"
+  ],
+  "guardian health": [
+   "B-12"
+  ],
+  "guardian level": [
+   "B-13",
+   "R1-2",
+   "R4-2"
+  ],
+  "haste apply/remove drift": [
+   "D-6"
+  ],
+  "hero sub-tree choice": [
+   "E-15"
+  ],
+  "hit / expertise / avoidance ratings": [
+   "D-9"
+  ],
+  "hunter pet base stats": [
+   "B-14",
+   "R1-6"
+  ],
+  "hunter pet identity": [
+   "A-19"
+  ],
+  "identity regression": [
+   "A-14"
+  ],
+  "initial health convention": [
+   "R3-6"
+  ],
+  "int16 rating accumulator": [
+   "F-7"
+  ],
+  "item required level": [
+   "R3-1"
+  ],
+  "learned-spell state": [
+   "R3-2"
+  ],
+  "legacy azerite": [
+   "E-11"
+  ],
+  "legacy dodge/hit": [
+   "F-10"
+  ],
+  "legacy entry switches": [
+   "B-21"
+  ],
+  "legacy pet scaling scripts": [
+   "B-7"
+  ],
+  "legacy rating inputs (all item sources)": [
+   "R2-4"
+  ],
+  "level census assumptions": [
+   "D-4"
+  ],
+  "level delta": [
+   "B-17"
+  ],
+  "lroundf in UpdateMaxPower": [
+   "F-8"
+  ],
+  "mastery 114585": [
+   "E-8"
+  ],
+  "max charges aura term": [
+   "R3-7"
+  ],
+  "non-feral CRT forms": [
+   "C-15"
+  ],
+  "offhand pct aura": [
+   "C-7"
+  ],
+  "owner SP sign": [
+   "B-15"
+  ],
+  "owner attribution": [
+   "R1-4"
+  ],
+  "owner stat inheritance": [
+   "B-1",
+   "R1-1"
+  ],
+  "percentage aura stages": [
+   "E-9"
+  ],
+  "pet ability acquisition": [
+   "B-11"
+  ],
+  "pet aura type": [
+   "B-2",
+   "B-3",
+   "B-4",
+   "B-5"
+  ],
+  "pet resistances": [
+   "B-20"
+  ],
+  "pet scaling spells": [
+   "B-6"
+  ],
+  "pet-scoped auras without handler": [
+   "A-17"
+  ],
+  "player block": [
+   "C-8"
+  ],
+  "resilience": [
+   "C-6"
+  ],
+  "saved skills": [
+   "R3-4"
+  ],
+  "server rates": [
+   "B-22"
+  ],
+  "snapshot vs dynamic": [
+   "R1-5"
+  ],
+  "special addPctMods": [
+   "C-10"
+  ],
+  "special double count": [
+   "C-11"
+  ],
+  "special order": [
+   "C-12"
+  ],
+  "special spellmods": [
+   "C-17"
+  ],
+  "stamina 69->70 non-monotonic": [
+   "F-2"
+  ],
+  "starter builds are level-90 builds": [
+   "E-13"
+  ],
+  "stat recalculation gate": [
+   "B-19"
+  ],
+  "stat recalculation trigger reach": [
+   "R4-1"
+  ],
+  "template AI spells": [
+   "B-18"
+  ],
+  "trait quest/achievement conditions": [
+   "E-12"
+  ],
+  "undefined behaviour": [
+   "B-23"
+  ],
+  "weapon AP destination": [
+   "C-21"
+  ],
+  "white-swing RNG stream": [
+   "R2-1"
+  ],
+  "witness summon semantics": [
+   "A-1",
+   "A-10",
+   "A-2",
+   "A-3",
+   "A-4",
+   "A-5",
+   "A-6",
+   "A-7",
+   "A-8",
+   "A-9"
+  ],
+  "world-db coverage": [
+   "A-18"
+  ],
+  "world-db coverage (lead)": [
+   "L-1"
+  ],
+  "zero race modifiers": [
+   "F-3"
+  ],
+  "zero-amount mastery-driven table auras": [
+   "D-10"
+  ]
+ },
+ "by_evidence_class": {
+  "build-skew": [
+   "A-12",
+   "A-13",
+   "B-6",
+   "C-19",
+   "D-1",
+   "E-14"
+  ],
+  "db2-fact": [
+   "R4-2",
+   "R2-4",
+   "E-12",
+   "E-6"
+  ],
+  "differential": [
+   "B-12",
+   "B-15",
+   "E-8",
+   "F-12",
+   "F-6"
+  ],
+  "legacy-only": [
+   "B-20",
+   "B-21",
+   "B-7",
+   "C-15",
+   "C-4",
+   "C-5",
+   "C-6",
+   "D-2",
+   "D-8",
+   "D-9",
+   "R2-3",
+   "R2-6",
+   "E-11",
+   "F-10"
+  ],
+  "structural-inference": [
+   "A-20",
+   "B-16",
+   "B-18",
+   "C-16",
+   "C-22",
+   "C-7",
+   "D-3",
+   "E-13",
+   "E-15",
+   "R3-6",
+   "R3-7"
+  ],
+  "trinity-consumer": [
+   "A-11",
+   "A-14",
+   "A-16",
+   "A-19",
+   "A-21",
+   "B-19",
+   "B-9",
+   "R1-3",
+   "R1-4",
+   "R1-5",
+   "R4-1",
+   "C-20",
+   "C-21",
+   "D-11",
+   "D-7",
+   "L-4",
+   "R2-2",
+   "E-5",
+   "E-7",
+   "F-14",
+   "F-4",
+   "F-5",
+   "F-9",
+   "L-2",
+   "L-3",
+   "R3-1",
+   "R3-9"
+  ],
+  "trinity-probe": [
+   "B-23",
+   "C-10",
+   "C-11",
+   "C-12",
+   "C-13",
+   "C-8",
+   "C-9",
+   "D-5",
+   "D-6",
+   "R2-5",
+   "R4-3",
+   "F-8"
+  ],
+  "unresolved": [
+   "A-1",
+   "A-10",
+   "A-15",
+   "A-17",
+   "A-18",
+   "A-2",
+   "A-23",
+   "A-3",
+   "A-4",
+   "A-5",
+   "A-6",
+   "A-7",
+   "A-8",
+   "A-9",
+   "B-1",
+   "B-10",
+   "B-11",
+   "B-17",
+   "B-2",
+   "B-22",
+   "B-3",
+   "B-4",
+   "B-5",
+   "B-8",
+   "R1-1",
+   "C-1",
+   "C-14",
+   "C-17",
+   "C-18",
+   "C-2",
+   "C-3",
+   "D-10",
+   "D-12",
+   "D-4",
+   "R2-1",
+   "E-1",
+   "E-10",
+   "E-2",
+   "E-3",
+   "E-4",
+   "E-9",
+   "F-1",
+   "F-11",
+   "F-13",
+   "F-7",
+   "R3-10",
+   "R3-2",
+   "R3-3",
+   "R3-4",
+   "R3-8"
+  ],
+  "world-db-fact": [
+   "A-22",
+   "B-13",
+   "B-14",
+   "L-1",
+   "R1-2",
+   "R1-6",
+   "F-2",
+   "F-3",
+   "R3-5"
+  ]
+ },
+ "entries": [
+  {
+   "id": "A-1",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "105174 Hand of Gul'dan: client effect(s) [0] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    105174
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-10",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "86659 Guardian of Ancient Kings: client effect(s) [1] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    86659
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-11",
+   "track": "A",
+   "topic": "default population row without a working consumer",
+   "claim_or_gap": "273277 Summon Animal Companion effect 0: category no-consumer, tdb not-applicable; SPELL_EFFECT_SUMMON_STABLED_PET dispatches to Spell::EffectNULL: no server behaviour in the pinned checkout",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a handler other than EffectNULL / a SummonProperties row for the effect",
+   "witnesses": [
+    273277
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:352"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-12",
+   "track": "A",
+   "topic": "default population row without a working consumer",
+   "claim_or_gap": "1304581 Soulcoil Remnant effect 0: category companion-minion, tdb absent; SetImmuneToAll(true) (SpellEffects.cpp:1994); spell id newer than the last client build the pinned Trinity supports (build-skew.json): generic handler still applies, per-spell scripts cannot exist; creature entry absent from the pinned TDB: Map::SummonCreature -> Creature::Create fails without a template (build skew or unpopulated data)",
+   "evidence_class": "build-skew",
+   "reopen_condition": "a TrinityCore commit that supports the 12.1 client (spell/creature present)",
+   "witnesses": [
+    1304581,
+    269501
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1265-1269"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-13",
+   "track": "A",
+   "topic": "default population row without a working consumer",
+   "claim_or_gap": "1308399 Answered Calling effect 0: category ally-summon, tdb absent; caster = m_originalCaster if set else m_caster (SpellEffects.cpp:1883-1885); Map::SummonCreature summoner = unitCaster (GetUnitCasterForEffectHandlers, Spell.cpp:8353-8356); ALLY owner is set by SetOwnerGUID only -- the unit is NOT inserted in owner->m_Controlled (no SetMinion on this arm); spell id newer than the last client build the pinned Trinity supports (build-skew.json): generic handler still applies, per-spell scripts cannot exist; creature entry absent from the pinned TDB: Map::SummonCreature -> Creature::Create fails without a template (build skew or unpopulated data)",
+   "evidence_class": "build-skew",
+   "reopen_condition": "a TrinityCore commit that supports the 12.1 client (spell/creature present)",
+   "witnesses": [
+    1308399,
+    271402
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1265-1269"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-14",
+   "track": "A",
+   "topic": "identity regression",
+   "claim_or_gap": "WorldObject::GetCharmerOrOwnerOrOwnGUID returns the own GUID when a charmer/owner exists (inverted by refactor 4ba5e27055c); IsCharmedOwnedByPlayerOrPlayer is false for players and player pets, true for creature-charmed players",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "upstream fix of Object.cpp:1600-1602, or a probe proving the intended pre-refactor semantics are what Retail does",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1597-1603",
+    "src/server/game/Entities/Unit/Unit.h:1216",
+    "src/server/game/Spells/Spell.cpp:2774"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-15",
+   "track": "A",
+   "topic": "NYI summon flags",
+   "claim_or_gap": "DespawnOnSummonerDeath, DespawnOnSummonerLogout, DespawnWhenReplaced, GuardianActsLikePet (and 20 others; 24 of 32 flags have no reader) have no reader: unowned summons survive owner death/logout unless slotted",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore consumer of these SummonPropertiesFlags bits",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/DataStores/DBCEnums.h:2754-2790"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-16",
+   "track": "A",
+   "topic": "EffectNULL pet effects",
+   "claim_or_gap": "SPELL_EFFECT_CALL_PET(135), ALLOW_CONTROL_PET(168), SUMMON_STABLED_PET_AS_GUARDIAN(188), DESPAWN_SUMMON(199), SUMMON_STABLED_PET(260) dispatch to EffectNULL; 273277 Summon Animal Companion (BM hunter) is the default-scope witness",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a handler other than Spell::EffectNULL",
+   "witnesses": [
+    273277
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:227, 260, 280, 291, 352"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-17",
+   "track": "A",
+   "topic": "pet-scoped auras without handler",
+   "claim_or_gap": "SPELL_AURA_PET_DAMAGE_MULTI(157), MOD_DAMAGE_TAKEN_FROM_CASTER_PET(381), MOD_PET_STAT_PCT(382), MOD_SUMMON_DAMAGE(429) are HandleNULL (unsupported by research != inert)",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore consumer (Track B owns the stat meaning)",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:229, 453, 454, 501"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-18",
+   "track": "A",
+   "topic": "world-db coverage",
+   "claim_or_gap": "creature_template_difficulty not extracted by Track A (22,774 UPDATE statements in sql/updates/world/master; tdb_replay scans every row per statement); level/ContentTuning of summons not joined",
+   "evidence_class": "unresolved",
+   "reopen_condition": "an index-accelerated tools/tdb_replay.py, or Track B/D difficulty extract",
+   "witnesses": [],
+   "coordinates": [
+    "scripts/research/tools/tdb_replay.py:390-410"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-19",
+   "track": "A",
+   "topic": "hunter pet identity",
+   "claim_or_gap": "tamed pet CreatureId/Type/CreatedBySpell/Specialization/slot live in characters DB (character_pet), not DB2 or world DB",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "Track C fixture supplies them",
+   "witnesses": [
+    883,
+    1515,
+    13481
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Pet/PetDefines.h:147-164",
+    "src/server/game/Entities/Pet/Pet.cpp:205-448"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-2",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "104316 Call Dreadstalkers: client effect(s) [0] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    104316
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-20",
+   "track": "A",
+   "topic": "EffectSummonType private owner",
+   "claim_or_gap": "OnlyVisibleToSummonerGroup path tests caster->IsPlayer() but dereferences m_originalCaster->ToPlayer() (possible null deref)",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "a probe or upstream fix",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:1896"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-21",
+   "track": "A",
+   "topic": "duration spell mods",
+   "claim_or_gap": "summon duration passes through Player::ApplySpellMod<int32> with a binary32 multiplier and int32 truncation; the -1 permanent sentinel is not guarded; no Track A probe",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a differential probe on a summon spell with a pct Duration mod (reuse the op-11 cooldown probe pattern)",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Spells/SpellInfo.cpp:3975-3991",
+    "src/server/game/Entities/Player/Player.cpp:22844-22852"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-22",
+   "track": "A",
+   "topic": "extended-scope creature coverage",
+   "claim_or_gap": "64 class-skill-line companion summons have no pinned creature_template (42 on build-skew spells, 22 on older spells = world-db gap); Map::SummonCreature fails without a template",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "a later TDB authoring these entries",
+   "witnesses": [
+    1254822,
+    1256380,
+    1266976,
+    1269627,
+    1282832,
+    1286610,
+    1286634,
+    1287339,
+    1287374,
+    1287376,
+    1287380,
+    1287849,
+    1287856,
+    1288378,
+    1288380,
+    1288381,
+    1288774,
+    1289296,
+    1291667,
+    1293499,
+    1297417,
+    1297418
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Object/Object.cpp:1265-1269"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-23",
+   "track": "A",
+   "topic": "TDB replay",
+   "claim_or_gap": "3 statements unparsed by the restricted replay: a duplicate-key creature_summon_groups INSERT (base dump; no Track A row affected), `UPDATE creature_template_addon SET PathId = @PATH` (2026_04_07_00_world.sql), and an `INSERT ... ON DUPLICATE KEY UPDATE PvPFlags` (2026_06_07_08_world_2024_12_06_00_world.sql) -> creature_template_addon.PvPFlags may be stale for affected entries",
+   "evidence_class": "unresolved",
+   "reopen_condition": "tools/tdb_replay.py support for ON DUPLICATE KEY UPDATE and @vars",
+   "witnesses": [],
+   "coordinates": [
+    "docs/research/world-db-corpora/creature-templates.json#unparsed"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-3",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "42650 Army of the Dead: client effect(s) [0, 1, 3, 4, 5] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    42650
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-4",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "275699 Apocalypse: client effect(s) [1] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    275699
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-5",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "55342 Mirror Image: client effect(s) [1] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    55342
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-6",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "34433 Shadowfiend: client effect(s) [0, 1, 2] are Dummy (server-side semantics); spell_script_names binding: ['spell_pri_shadow_covenant']; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    34433
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-7",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "198067 Fire Elemental: client effect(s) [0, 1] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    198067
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-8",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "198103 Earth Elemental: client effect(s) [0, 1] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    198103
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "A-9",
+   "track": "A",
+   "topic": "witness summon semantics",
+   "claim_or_gap": "51533 Feral Spirit: client effect(s) [0] are Dummy (server-side semantics); spell_script_names binding: none; no bound script creates a unit in the pinned checkout",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TrinityCore revision binding a script to this spell that calls SummonCreature/CastSpell of a summon spell",
+   "witnesses": [
+    51533
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellEffects.cpp:120 (no Dummy summon handler)"
+   ],
+   "owner": "part A"
+  },
+  {
+   "id": "B-1",
+   "track": "A",
+   "topic": "owner stat inheritance",
+   "claim_or_gap": "owner haste, crit and mastery are never propagated to any controlled unit in pinned Trinity",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a Trinity consumer, or Retail evidence for the pet inheritance rule",
+   "witnesses": [
+    "688",
+    "30146",
+    "52150"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:108-424",
+    "src/server/game/Entities/Player/Player.cpp:5237"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-10",
+   "track": "A",
+   "topic": "Guardian of Ancient Kings",
+   "claim_or_gap": "no 12.1 DIFFICULTY_NONE summon effect targets entry 46499; 86659 carries only auras 56/4/87",
+   "evidence_class": "unresolved",
+   "reopen_condition": "any 12.1 spell summoning 46499, or a script",
+   "witnesses": [
+    "86659"
+   ],
+   "coordinates": [
+    "src/server/scripts/Spells/spell_paladin.cpp:83"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-11",
+   "track": "A",
+   "topic": "pet ability acquisition",
+   "claim_or_gap": "17 pet abilities have no applicable Trinity acquisition path, including Felstorm 89751 (SpellLevel 0, not passive, no creature_template_spell for 17252) and 134477",
+   "evidence_class": "unresolved",
+   "reopen_condition": "creature_template_spell rows, a SkillLineAbility SpellLevel, or a script",
+   "witnesses": [
+    "89751",
+    "134477",
+    "19647",
+    "30153"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellMgr.cpp:2186",
+    "src/server/game/Spells/SpellMgr.cpp:5573"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-12",
+   "track": "A",
+   "topic": "guardian health",
+   "claim_or_gap": "A non-Pet Guardian counts the ExpectedStat health twice: UNIT_MOD_HEALTH BASE_VALUE from UpdateLevelDependantStats plus BaseHealth",
+   "evidence_class": "differential",
+   "reopen_condition": "n/a (confirmed by tc_pet_probe); reopen if Trinity resets BASE_VALUE in InitStatsForLevel",
+   "witnesses": [
+    "46585",
+    "111859",
+    "188592"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1643",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1270",
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:516"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-13",
+   "track": "A",
+   "topic": "guardian level",
+   "claim_or_gap": "Guardians with ContentTuningID 0 (Mirror Image 31216, Grove Guardians treant 54983) are prepared at level 0 (ScalingLevelMin/Max default 0)",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "a TDB ContentTuningID, or the UseCreatureLevel flag on their SummonProperties",
+   "witnesses": [
+    "321686",
+    "102693"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:243-246",
+    "src/server/game/Entities/Object/Updates/UpdateField.h:921"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-14",
+   "track": "A",
+   "topic": "hunter pet base stats",
+   "claim_or_gap": "pet_levelstats creature 1 rows 81-85 are all 1s and are gap-filled to 90, so a hunter pet at 81-90 has CreateHealth 1, armor base 1 and stats 1",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "a TDB update with real level 81-90 rows",
+   "witnesses": [
+    "883"
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:3756-3762"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-15",
+   "track": "A",
+   "topic": "owner SP sign",
+   "claim_or_gap": "ModDamageDoneNeg is stored negative and the Pet branch computes Pos-Neg, so a negative owner spell-power aura raises the pet bonus",
+   "evidence_class": "differential",
+   "reopen_condition": "n/a",
+   "witnesses": [
+    "688"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:180-188",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1330"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-16",
+   "track": "A",
+   "topic": "content tuning layout",
+   "claim_or_gap": "The 12.1 ContentTuning.csv renames the columns Trinity's ContentTuningLoadInfo reads positionally; the mapping is positional (19 columns)",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "a Trinity DB2 layout for 12.1",
+   "witnesses": [
+    "482"
+   ],
+   "coordinates": [
+    "src/server/game/DataStores/DB2LoadInfo.h:1360-1383"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-17",
+   "track": "A",
+   "topic": "level delta",
+   "claim_or_gap": "Guardians whose LevelScalingDeltaMin != Max get irand level deltas; the oracle fails closed",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a fixed delta",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:3071"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-18",
+   "track": "A",
+   "topic": "template AI spells",
+   "claim_or_gap": "657 creature_template_spell spells are reachable only through the selected AI; smart_scripts was not extracted",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "extract smart_scripts and resolve the AI per entry",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/AI/CreatureAISelector.cpp:86-105"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-19",
+   "track": "A",
+   "topic": "stat recalculation gate",
+   "claim_or_gap": "Map::SummonCreature guardians and freshly summoned Pets never set CanModifyStats, so their own stat auras do not re-run Guardian::Update* until an explicit trigger",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "an explicit Update* trigger",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:9682-9685",
+    "src/server/game/Entities/Creature/Creature.cpp:657-670",
+    "src/server/game/Entities/Pet/Pet.cpp:326"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-2",
+   "track": "A",
+   "topic": "pet aura type",
+   "claim_or_gap": "SPELL_AURA_MOD_SUMMON_DAMAGE (429) is HandleNULL; 393 12.1 spells, 63 in current player scope (65 effect rows), including masteries 76657/77219/77515 and spec auras 137006-137011",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a handler for aura 429, or scripts on the witness spells",
+   "witnesses": [
+    "76657",
+    "77219",
+    "77515",
+    "137006"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:501",
+    "src/server/game/Spells/Auras/SpellAuraDefines.h:516"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-20",
+   "track": "A",
+   "topic": "pet resistances",
+   "claim_or_gap": "The Pet 40% owner school-resistance share has no current-scope input",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "an item or in-scope aura granting non-physical resistance",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1210-1229"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-21",
+   "track": "A",
+   "topic": "legacy entry switches",
+   "claim_or_gap": "InitStatsForLevel/Update* branches for entries 510, 1964, 15352, 15438, 19833, 19921 and 28017 are reached by no 12.1 summon",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "a 12.1 summon of those entries",
+   "witnesses": [
+    "31687",
+    "205636",
+    "188592"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:956-1064",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1339-1382"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-22",
+   "track": "A",
+   "topic": "server rates",
+   "claim_or_gap": "The oracle assumes Rate.Creature.HP.* = 1 (worldserver.conf default)",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a non-default server configuration",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:1687-1708"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-23",
+   "track": "A",
+   "topic": "undefined behaviour",
+   "claim_or_gap": "(uint32) of a negative float is reached transiently in Guardian::UpdateMaxHealth (hunter pet, first UpdateAllStats call); the x86-64 g++ result is overwritten by the next call",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "a different compiler or architecture",
+   "witnesses": [
+    "883"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1197",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1275"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-3",
+   "track": "A",
+   "topic": "pet aura type",
+   "claim_or_gap": "SPELL_AURA_MOD_PET_STAT_PCT (382) is HandleNULL; 14 spells, 6 in scope (16 rows)",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a handler for aura 382",
+   "witnesses": [
+    "386617",
+    "378241"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:454"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-4",
+   "track": "A",
+   "topic": "pet aura type",
+   "claim_or_gap": "SPELL_AURA_MOD_DAMAGE_TAKEN_FROM_CASTER_PET (381) is HandleNULL; 62 spells, 7 in scope",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a handler for aura 381",
+   "witnesses": [
+    "48181",
+    "55078",
+    "191587"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:453"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-5",
+   "track": "A",
+   "topic": "pet aura type",
+   "claim_or_gap": "SPELL_AURA_PET_DAMAGE_MULTI (157) is HandleNULL; 26 spells, 1 in scope (400533 Wild Synthesis)",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a handler for aura 157",
+   "witnesses": [
+    "400533"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:229"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-6",
+   "track": "A",
+   "topic": "pet scaling spells",
+   "claim_or_gap": "10 '[DNT] Periodic Scaling Summons' spells have no Trinity consumer; 1288017 is newer than 12.0.7",
+   "evidence_class": "build-skew",
+   "reopen_condition": "a script binding or aura handler for these spells",
+   "witnesses": [
+    "432343",
+    "1288017"
+   ],
+   "coordinates": [
+    "docs/research/dummy-corpora/build-skew.json"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-7",
+   "track": "A",
+   "topic": "legacy pet scaling scripts",
+   "claim_or_gap": "spell_pet.cpp scaling AuraScripts are never registered (AddSC_pet_spell_scripts has no caller) and reference spell IDs absent from 12.1",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "a registration call plus 12.1 spell IDs",
+   "witnesses": [
+    "34902",
+    "34903",
+    "35696"
+   ],
+   "coordinates": [
+    "src/server/scripts/Spells/spell_pet.cpp:1628",
+    "src/server/scripts/Spells/spell_script_loader.cpp"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-8",
+   "track": "A",
+   "topic": "cast to summon link",
+   "claim_or_gap": "No Trinity edge (linked spell, binding, script constant or authored trigger) from the player cast to the summon spell: 105174->104317, 42650->42651, 55342->321686, 34433->1280172, 198067->188592, 198103->188616, 51533->228562",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a spell_linked_spell / spell_script_names row or a script casting the summon spell",
+   "witnesses": [
+    "105174",
+    "42650",
+    "55342",
+    "34433",
+    "198067",
+    "198103",
+    "51533"
+   ],
+   "coordinates": [
+    "docs/research/controlled-unit-corpora/witnesses-b.json"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "B-9",
+   "track": "A",
+   "topic": "DK Raise Dead",
+   "claim_or_gap": "46584 eff0 is TRIGGER_SPELL -> 1242866 (APPLY_AURA DUMMY), identical in 12.0.7; spell_dk_raise_dead's EFFECT_0 DUMMY hook is dropped, so the player's Raise Dead summons nothing in Trinity",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "the script updated to the current effect layout",
+   "witnesses": [
+    "46584",
+    "52150",
+    "1242866"
+   ],
+   "coordinates": [
+    "src/server/scripts/Spells/spell_dk.cpp:1198-1215",
+    "src/server/game/Spells/SpellScript.cpp:292"
+   ],
+   "owner": "part B"
+  },
+  {
+   "id": "L-1",
+   "track": "A",
+   "topic": "world-db coverage (lead)",
+   "claim_or_gap": "creature_template_difficulty is now extracted twice with the indexed extractor: filtered to controlled-unit witnesses (world-db-corpora/pet-witness-templates.json) and projected over all 320,629 rows (weapon-combat-corpora/creature-level-deltas.json). One INSERT in sql/updates/world/master/2026_05_01_00_world.sql stays unparsed because its values contain a constant bitwise-OR expression (268435456 | 0x02000000); it covers 12 creature entries, none of which is in any census of this pass.",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "a census that reaches one of the 12 entries of 2026_05_01_00_world.sql, or a replay that folds constant integer expressions (recorded, not guessed, until then)",
+   "witnesses": [
+    "2026_05_01_00_world.sql"
+   ],
+   "coordinates": [
+    "scripts/research/tools/tdb_world_extract.py",
+    "scripts/research/tools/tdb_replay.py"
+   ],
+   "related": [
+    "A-18",
+    "A-23",
+    "D-1",
+    "C-3"
+   ],
+   "owner": "lead"
+  },
+  {
+   "id": "R1-1",
+   "track": "A",
+   "topic": "owner stat inheritance",
+   "claim_or_gap": "SPELL_ATTR4_OWNER_POWER_SCALING (0x02000000) is declared but has no reader in the pinned checkout; the hunter-pet family passive 34902 'Hunter Pet' (applied to every hunter pet) carries it. 12 12.1 spells carry the bit, none in current-player scope",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a Trinity consumer of SPELL_ATTR4_OWNER_POWER_SCALING, or Retail evidence of what the attribute scales",
+   "witnesses": [
+    34902
+   ],
+   "coordinates": [
+    "src/server/game/Miscellaneous/SharedDefines.h:610",
+    "src/server/game/Miscellaneous/enuminfo_SharedDefines.cpp:821"
+   ],
+   "related": [
+    "B-1"
+   ],
+   "owner": "closeout review G1"
+  },
+  {
+   "id": "R1-2",
+   "track": "A",
+   "topic": "guardian level",
+   "claim_or_gap": "The level-0 preparation of Mirror Image 31216 depends on map difficulty: its creature_template_difficulty rows 1 and 2 carry ContentTuningID 482, row 0 carries 0. CreatureTemplate::GetDifficulty follows Difficulty.FallbackDifficultyID, so 5-player difficulties 1/2/8/23/24 select CT 482 and open world, raids (14/15/16/17) and delves (208) select CT 0. 54983 has only row 0. The oracle and probe use row 0 only",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "an oracle input for map difficulty, or a TDB revision that changes the 31216/54983 difficulty rows",
+   "witnesses": [
+    31216,
+    54983,
+    321686,
+    102693
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Creature/Creature.cpp:511",
+    "src/server/game/Entities/Creature/Creature.cpp:252-261",
+    "src/server/game/Entities/Creature/Creature.cpp:3059-3075",
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:241-247"
+   ],
+   "related": [
+    "B-13"
+   ],
+   "owner": "closeout review G1"
+  },
+  {
+   "id": "R1-3",
+   "track": "A",
+   "topic": "generic family hides entry-specific behaviour",
+   "claim_or_gap": "npc_pet_pri_divine_image::IsSummonedBy sets the Divine Image Guardian's bonus damage to the summoner's SpellBaseHealingBonusDone(HOLY), a creation snapshot of owner spell power that the generic non-Pet Guardian rule (no owner SP) does not show. Only SetBonusDamage/stat-setter calls in scripts/Pet and scripts/Spells were audited; AI scripts can change other inputs",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a full audit of creature scripts bound to summoned entries (ScriptName in creature-templates.json) for stat, level or owner reads",
+   "witnesses": [
+    392990,
+    198236
+   ],
+   "coordinates": [
+    "src/server/scripts/Pet/pet_priest.cpp:43-49"
+   ],
+   "related": [
+    "B-21"
+   ],
+   "owner": "closeout review G1"
+  },
+  {
+   "id": "R1-4",
+   "track": "A",
+   "topic": "owner attribution",
+   "claim_or_gap": "Owner paths that are not limited to Pet/Totem are missing from ownership.json consumers: SPELL_ATTR6_ORIGINATE_FROM_CONTROLLER (m_caster = charmer/owner, any class; no current-scope spell), PvP resilience for any player-owned unit and owned victim, SpellHealingBonusDone reading the owner's OVERRIDE_CLASS_SCRIPTS (misc 3736 only) for any owned unit, and the Pet combat-rating reduction taken from the owner",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "ownership.json consumers extended with these rows, or a current-scope input (ATTR6 spell, PvP context, aura 112 misc 3736) that reaches them",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Spells/Spell.cpp:475",
+    "src/server/game/Entities/Unit/Unit.cpp:12416-12440",
+    "src/server/game/Entities/Unit/Unit.cpp:7342-7357",
+    "src/server/game/Entities/Unit/Unit.cpp:12548-12557"
+   ],
+   "related": [
+    "A-14"
+   ],
+   "owner": "closeout review G1"
+  },
+  {
+   "id": "R1-5",
+   "track": "A",
+   "topic": "snapshot vs dynamic",
+   "claim_or_gap": "PvP/FFA flags are copied at SetMinion but a player owner re-applies later changes to every m_Controlled unit, so they are dynamic for player-owned controlled units, not a creation snapshot",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "lifecycle.json SetMinion snapshot list updated to mark PvP flags as owner-propagated",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6325",
+    "src/server/game/Entities/Player/Player.cpp:24027-24035",
+    "src/server/game/Entities/Player/Player.cpp:24052-24057"
+   ],
+   "owner": "closeout review G1"
+  },
+  {
+   "id": "R1-6",
+   "track": "A",
+   "topic": "hunter pet base stats",
+   "claim_or_gap": "The hunter-pet placeholder stats at levels 86-90 come from the pet_levelstats loader's gap fill up to worldserver.conf MaxPlayerLevel (default 90); only levels 81-85 are authored as 1s. The level range therefore depends on server configuration",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "a server configuration with MaxPlayerLevel != 90, or a TDB revision with real level 81-90 rows for creature 1",
+   "witnesses": [
+    883
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:3708-3762",
+    "src/server/worldserver/worldserver.conf.dist:912"
+   ],
+   "related": [
+    "B-14",
+    "B-22"
+   ],
+   "owner": "closeout review G1"
+  },
+  {
+   "id": "R4-1",
+   "track": "A",
+   "topic": "stat recalculation trigger reach",
+   "claim_or_gap": "Owner-side recalculation reaches a non-Pet Guardian only through Unit::GetGuardianPet(), which returns the owner's PetGUID holder. PetGUID is set only for guardian pets (IsPet() or SummonProperties.Control == PET). In the default scope that is Invoke Xuen 123904 (SummonProperties 3262) and Invoke Niuzao 132578 (3353): an owner SPELL_AURA_MOD_DAMAGE_DONE change re-runs their Guardian::UpdateAttackPowerAndDamage. The spirit-wolf melee-AP trigger never fires in 12.1 data: both summons of entry 29264 (228562, 363941) use SummonProperties 1161 (Control ALLY), so the wolf never holds PetGUID. The synthesis previously said the owner never triggers a non-Pet Guardian's recalculation.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a 12.1 summon of entry 29264 with Control PET, a runtime trace in which a Feral Spirit wolf is the owner's PetGUID, or a Guardian::Update* branch that reads an owner value for Xuen/Niuzao",
+   "witnesses": [
+    "123904",
+    "132578",
+    "228562",
+    "363941",
+    "SummonProperties 3262",
+    "SummonProperties 3353",
+    "SummonProperties 1161"
+   ],
+   "coordinates": [
+    "Entities/Unit/Unit.cpp:6230-6243",
+    "Entities/Unit/Unit.cpp:6274-6295",
+    "Entities/Creature/TemporarySummon.cpp:499-502",
+    "Spells/Auras/SpellAuraEffects.cpp:4731-4732",
+    "Entities/Unit/StatSystem.cpp:400-424"
+   ],
+   "related": [
+    "B-19",
+    "R1-2"
+   ],
+   "owner": "G4"
+  },
+  {
+   "id": "R4-2",
+   "track": "A",
+   "topic": "guardian level",
+   "claim_or_gap": "Mirror Image 31216 has creature_template_difficulty rows 0 (ContentTuning 0), 1 and 2 (ContentTuning 482). Resolving FallbackDifficultyID in the 12.1 Difficulty.csv, maps of difficulty 1, 205 (Follower) and 216 (Quest) select row 1, and 2, 8, 23 and 24 select row 2. Every other difficulty falls back to row 0 (level 0), including the party-instance difficulties 19, 150, 232 and 236. The controlled-unit report lists only 1/2/8/23/24. Trinity's own 12.0.7 Difficulty store was not compared.",
+   "evidence_class": "db2-fact",
+   "reopen_condition": "a Difficulty.db2 of client build 12.0.7.68453 whose FallbackDifficultyID chain differs for 205/216, or a Trinity map-difficulty path that bypasses CreatureTemplate::GetDifficulty",
+   "witnesses": [
+    "31216",
+    "321686",
+    "Difficulty 205",
+    "Difficulty 216",
+    "Difficulty 150"
+   ],
+   "coordinates": [
+    "Entities/Creature/Creature.cpp:252-261",
+    "Entities/Creature/Creature.cpp:511",
+    "Entities/Creature/TemporarySummon.cpp:241-247"
+   ],
+   "related": [
+    "R1-2",
+    "B-13"
+   ],
+   "owner": "G4"
+  },
+  {
+   "id": "C-1",
+   "track": "B",
+   "topic": "armor",
+   "claim_or_gap": "Max-level armor constant for players and player-owned pets needs ItemLevelByLevel[90]; the GameTable is absent from the snapshot",
+   "evidence_class": "unresolved",
+   "reopen_condition": "add ItemLevelByLevel.txt to data/tables and evaluate Curve 27400 at AvgItemLevel - ItemLevelByLevel[90]",
+   "witnesses": [
+    "ExpectedStat 475 ArmorConstant 3430",
+    "GlobalCurve 18 -> Curve 27400"
+   ],
+   "coordinates": [
+    "Unit.cpp:1756-1765",
+    "GameTables.cpp:127"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-10",
+   "track": "B",
+   "topic": "special addPctMods",
+   "claim_or_gap": "addPctMods=false (ATTR6 or a non-physical school) recomputes the weapon range with totalPct=1, which also drops the 0.5 off-hand factor (205547 Odyn's Fury OH)",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "Retail combat-log evidence for off-hand non-physical weapon specials",
+   "witnesses": [
+    "205546",
+    "205547",
+    "209577",
+    "467718"
+   ],
+   "coordinates": [
+    "SpellEffects.cpp:2887-2908",
+    "Unit.cpp:2506-2516",
+    "StatSystem.cpp:450"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-11",
+   "track": "B",
+   "topic": "special double count",
+   "claim_or_gap": "The second EffectWeaponDmg loop re-adds the summed fixed_bonus per fixed effect and re-multiplies the pct product per pct effect, in index order",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "a player-scope spell with two fixed or two pct effects on one target (0 now; 9 snapshot-wide at DifficultyID 0)",
+   "witnesses": [
+    "56920",
+    "110956",
+    "129375",
+    "131976",
+    "246092",
+    "251601",
+    "316037",
+    "324836",
+    "332292"
+   ],
+   "coordinates": [
+    "SpellEffects.cpp:2911-2935"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-12",
+   "track": "B",
+   "topic": "special order",
+   "claim_or_gap": "31 before 58/121 gives (roll*pct)+fixed; in scope only with fixed base points 0 (inert): 204147 Windburst, 209577 Warbreaker",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "a scope spell with pct before a non-zero fixed effect",
+   "witnesses": [
+    "204147",
+    "209577",
+    "220143"
+   ],
+   "coordinates": [
+    "SpellEffects.cpp:2911-2935"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-13",
+   "track": "B",
+   "topic": "crit UB",
+   "claim_or_gap": "A MOD_CRIT_DAMAGE_BONUS product < 1 makes CalculatePct<uint32,float> convert a negative float to uint32 (UB); g++13 x86-64 wraps",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "an in-scope negative aura-163 amount (only 139883, 154429 snapshot-wide)",
+   "witnesses": [
+    "139883",
+    "154429"
+   ],
+   "coordinates": [
+    "Unit.cpp:1428-1434",
+    "Util.h:71-75"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-14",
+   "track": "B",
+   "topic": "ghost wolf",
+   "claim_or_gap": "Current Ghost Wolf (2645) applies SpellShapeshiftForm 48; Trinity's IsInFeralForm tests FORM_GHOST_WOLF = 16",
+   "evidence_class": "unresolved",
+   "reopen_condition": "12.0.7 SpellEffect for 2645 (build-skew check) or a Trinity enum update",
+   "witnesses": [
+    "2645"
+   ],
+   "coordinates": [
+    "Unit.cpp:9539-9543",
+    "SpellAuraDefines.h:778"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-15",
+   "track": "B",
+   "topic": "non-feral CRT forms",
+   "claim_or_gap": "Forms 44/45/46/49 carry CombatRoundTime (44 Xuen = 1) and would scale every hand; only 426268 applies form 46 and it is not in scope",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "a current in-scope applier of forms 44-49",
+   "witnesses": [
+    "426268"
+   ],
+   "coordinates": [
+    "StatSystem.cpp:458-464",
+    "Player.cpp:23384-23393"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-16",
+   "track": "B",
+   "topic": "feral normalized",
+   "claim_or_gap": "A feral normalized special recomputes BASE+OFF ranges and would add the halved OFF AP term; no druid spec reaches a weapon-effect spell",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "a druid weapon-effect spell in scope",
+   "witnesses": [],
+   "coordinates": [
+    "Unit.cpp:2506-2516"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-17",
+   "track": "B",
+   "topic": "special spellmods",
+   "claim_or_gap": "Spell::CalculateDamage spellmods / ApplyEffectModifiers are not modelled; effect values are supplied base points",
+   "evidence_class": "unresolved",
+   "reopen_condition": "model SpellModOp for the 11 class-line weapon spells",
+   "witnesses": [
+    "special-attacks.json"
+   ],
+   "coordinates": [
+    "Spell.cpp:7196",
+    "SpellInfo.cpp:602-622"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-18",
+   "track": "B",
+   "topic": "absorb and scripts",
+   "claim_or_gap": "CalcAbsorbResist and ScriptMgr::ModifyMeleeDamage are not modelled",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a victim-aura model; script index lookups",
+   "witnesses": [],
+   "coordinates": [
+    "Unit.cpp:1387",
+    "Unit.cpp:1507-1524"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-19",
+   "track": "B",
+   "topic": "build skew",
+   "claim_or_gap": "91 weapon-effect spells are newer than the pinned client build and have no possible consumer",
+   "evidence_class": "build-skew",
+   "reopen_condition": "a Trinity update supporting 12.1",
+   "witnesses": [],
+   "coordinates": [
+    "docs/research/dummy-corpora/build-skew.json"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-2",
+   "track": "B",
+   "topic": "attack power",
+   "claim_or_gap": "Level-90 prepared attack power is not derivable: player_classlevelstats covers levels <= 80",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a level-90 base-stat source (Track F) or a supplied UnitData::AttackPower",
+   "witnesses": [
+    "witnesses-c.json (15)"
+   ],
+   "coordinates": [
+    "StatSystem.cpp:347-425"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-20",
+   "track": "B",
+   "topic": "default skill grants",
+   "claim_or_gap": "dummy_semantics Scope misses default-skill spells (SkillLine CategoryID != 7), e.g. 674 Dual Wield for Hunter/Rogue/Demon Hunter",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "extend Scope with the SkillRaceClassInfo Availability==1 path",
+   "witnesses": [
+    "674",
+    "SRCI 131",
+    "SRCI 1661",
+    "SLA 610"
+   ],
+   "coordinates": [
+    "ObjectMgr.cpp:4061-4070",
+    "Player.cpp:25259-25300",
+    "Player.cpp:25391-25440"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-21",
+   "track": "B",
+   "topic": "weapon AP destination",
+   "claim_or_gap": "Contradicts character-stat-pipeline-archaeology.md:298-300: weapon int32(dps*6) goes to UnitData::*WeaponAttackPower, not TOTAL_VALUE, and is excluded from white-swing min/max",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "none (source fact); correct the charstats report",
+   "witnesses": [],
+   "coordinates": [
+    "Player.cpp:8163-8176",
+    "Player.cpp:8022-8024",
+    "StatSystem.cpp:447",
+    "Unit.cpp:9919-9947"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-22",
+   "track": "B",
+   "topic": "creature armor",
+   "claim_or_gap": "The damage view uses ExpectedStat.CreatureArmor 1470 without creature_template_difficulty.ArmorModifier",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "Track A/B creature armor derivation",
+   "witnesses": [],
+   "coordinates": [
+    "Creature.cpp:3120-3128"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-3",
+   "track": "B",
+   "topic": "glancing",
+   "claim_or_gap": "Glancing reachability for a level-90 player: 599 scalable creature_template_difficulty rows have LevelScalingDelta >= 4; ContentTuning level ranges not evaluated",
+   "evidence_class": "unresolved",
+   "reopen_condition": "evaluate DB2Manager::GetContentTuningData for those ContentTuningIDs and test 90+3 < clamp(90+delta_p, CTmin, CTmax)+delta",
+   "witnesses": [
+    "(385,0,4,CT81)",
+    "(23234,1,9,CT371)"
+   ],
+   "coordinates": [
+    "Unit.cpp:2458-2466",
+    "Creature.cpp:3131-3160",
+    "Creature.cpp:3059-3074"
+   ],
+   "owner": "part C",
+   "notes": "G2 closeout: superseded by part D's level census (witnesses-d.json legacy_verdicts.glancing.level_census): the ContentTuning ranges were evaluated; 19 rows / 13 entries reach +4 against a level-90 player, none on an ExpansionID-11 ContentTuning; current raid bosses are absent from the TDB (D-1). 599 counts rows with a ContentTuningID and delta >= 4 before the clamp.",
+   "related": [
+    "D-1",
+    "R2-5"
+   ]
+  },
+  {
+   "id": "C-4",
+   "track": "B",
+   "topic": "crushing",
+   "claim_or_gap": "Crushing blows need !IsControlledByPlayer(): unreachable for player and pet attackers",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "none for player attackers; creature attackers are agent D scope",
+   "witnesses": [],
+   "coordinates": [
+    "Unit.cpp:2485-2497",
+    "Unit.cpp:1483-1489"
+   ],
+   "owner": "part C",
+   "notes": "G2 closeout: incomplete rather than wrong. Independently of the IsControlledByPlayer() gate, the chance expression at Unit.cpp:2489 is negative for every attacker (levels are uint8 <= 255), so crushing is unselectable for creature attackers too (D-2, R2-3).",
+   "related": [
+    "D-2",
+    "R2-3"
+   ]
+  },
+  {
+   "id": "C-5",
+   "track": "B",
+   "topic": "armor penetration rating",
+   "claim_or_gap": "CR_ARMOR_PENETRATION is fed only by ITEM_MOD_ARMOR_PENETRATION_RATING (44); 0 ItemSparse rows carry it",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "an item or enchant with stat 44",
+   "witnesses": [],
+   "coordinates": [
+    "Player.cpp:8037",
+    "Unit.cpp:1715-1738"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-6",
+   "track": "B",
+   "topic": "resilience",
+   "claim_or_gap": "White-swing resilience needs GetOwnerGUID().IsPlayer(); a player's SummonedBy is empty, and PvE victims are a no-op",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "a PvP victim study",
+   "witnesses": [],
+   "coordinates": [
+    "Unit.cpp:1497-1504",
+    "Unit.cpp:12416-12438",
+    "Unit.h:1190"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-7",
+   "track": "B",
+   "topic": "offhand pct aura",
+   "claim_or_gap": "SPELL_AURA_MOD_OFFHAND_DAMAGE_PCT (122) has no carrier in either scope, so OFF TOTAL_PCT = 0.5 x physical DAMAGE_PERCENT_DONE",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "a current player-scope spell with aura 122",
+   "witnesses": [],
+   "coordinates": [
+    "Unit.cpp:9781-9819"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-8",
+   "track": "B",
+   "topic": "player block",
+   "claim_or_gap": "Player::GetBlockPercent returns a fraction (<= 0.85) consumed as a percent: a player victim blocks <= 0.85% of a white swing (Unit.cpp:1459) and 0 of a weapon special, because the spell path truncates the percent to uint32 first (Unit.cpp:1239); agrees with agent D attack-table.json",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "an independent Retail oracle for player block amount",
+   "witnesses": [
+    "ShieldBlock 2000, C 3430: 368 of 100000"
+   ],
+   "coordinates": [
+    "Player.cpp:26822-26831",
+    "Unit.cpp:1459",
+    "Unit.cpp:1239",
+    "Unit.cpp:1246-1252"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "C-9",
+   "track": "B",
+   "topic": "critical block",
+   "claim_or_gap": "SPELL_AURA_MOD_CRITICAL_BLOCK_AMOUNT is read from the attacker (this), not from the blocking victim; 429638 Martial Expert (specs 71/73) never scales the warrior's own blocks",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "an independent oracle for aura 638 ownership",
+   "witnesses": [
+    "429638",
+    "76857"
+   ],
+   "coordinates": [
+    "Unit.cpp:1460-1464",
+    "Unit.cpp:2575-2580",
+    "Unit.cpp:1242-1243"
+   ],
+   "owner": "part C"
+  },
+  {
+   "id": "D-1",
+   "track": "B",
+   "topic": "glancing vs current raid bosses",
+   "claim_or_gap": "Level delta (creature_template_difficulty.LevelScalingDeltaMin/Max) of the 9 encounters of JournalInstance 1317/1320 (maps 2987/3004) is unknown: the creatures are absent from TDB 1200.26021. Glancing needs a creature level >= 94 against a level-90 player; the pinned DB has 0 ExpansionID-11 rows reaching +4.",
+   "evidence_class": "build-skew",
+   "reopen_condition": "a TDB containing those creature_template_difficulty rows with LevelScalingDeltaMax >= 4",
+   "witnesses": [
+    "JournalEncounter 2849, 2871, 2874, 2882, 2883, 2887, 2888, 2894, 2895"
+   ],
+   "coordinates": [
+    "Unit.cpp:2455-2464",
+    "Creature.cpp:3060-3075",
+    "Creature.cpp:3130-3160"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-10",
+   "track": "B",
+   "topic": "zero-amount mastery-driven table auras",
+   "claim_or_gap": "Aura 253 (76857), aura 51 (76671, 76857) and aura 458 (184362) have DB2 base amount 0; the effective block-crit / block values come from mastery or scripts and are not derived here.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "part-C / charstats mastery scalar joined to these effects",
+   "witnesses": [
+    "76857",
+    "76671"
+   ],
+   "coordinates": [
+    "Unit.cpp:2575-2580",
+    "Unit.cpp:2863"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-11",
+   "track": "B",
+   "topic": "blocked weapon spells",
+   "claim_or_gap": "SPELL_MISS_BLOCK without SPELL_ATTR3_COMPLETELY_BLOCKED still runs effects and deals damage, but the proc hit mask is BLOCK|FULL_BLOCK and the crit roll is skipped (a blocked weapon spell never crits).",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "Retail evidence of crit+block on weapon abilities",
+   "witnesses": [
+    "1776 Gouge (COMPLETELY_BLOCKED)",
+    "Auto Shot 75"
+   ],
+   "coordinates": [
+    "Spell.cpp:2763-2766",
+    "Spell.cpp:8540-8563",
+    "Unit.cpp:10433-10438",
+    "Unit.cpp:1235-1252"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-12",
+   "track": "B",
+   "topic": "SpellModOp HitChance / CritChance",
+   "claim_or_gap": "The oracle treats the HitChance spellmod as an additive supplied input; flat-vs-pct ordering of ApplySpellMod is not modelled.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a spellmod oracle (proc/spellmod research)",
+   "witnesses": [],
+   "coordinates": [
+    "Unit.cpp:12468-12473",
+    "Unit.cpp:7168-7169"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-2",
+   "track": "B",
+   "topic": "crushing blows",
+   "claim_or_gap": "Crushing is eligible for a +4 non-player-controlled creature but unselectable: tmp = attackerLevel - victimLevel * 1000 - 1500 is negative and every earlier band already failed roll < sum.",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "TrinityCore changes Unit.cpp:2489 and a +4 creature exists",
+   "witnesses": [
+    "W9 (creature level 97 vs player level 90)"
+   ],
+   "coordinates": [
+    "Unit.cpp:2481-2494"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-3",
+   "track": "B",
+   "topic": "ContentTuning schema mapping",
+   "claim_or_gap": "12.1 ContentTuning columns (MinLevelSquish, MaxLevelSquish, MinLevelScalingOffset, MaxLevelScalingOffset, AllowedMin/MaxOffset, LfgMin/MaxLevel) are mapped positionally onto Trinity's ContentTuningEntry (MinLevel, MaxLevel, MinLevelType, MaxLevelType, TargetLevelDelta, TargetLevelMaxDelta, TargetLevelMin/Max).",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "a 12.1-aware ContentTuningLoadInfo or an authoritative schema diff",
+   "witnesses": [
+    "ContentTuning 373, 846, 5850, 7359"
+   ],
+   "coordinates": [
+    "DB2Structure.h:984-1004",
+    "DB2Stores.cpp:2192-2237"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-4",
+   "track": "B",
+   "topic": "level census assumptions",
+   "claim_or_gap": "The +4 level census ignores ConditionalContentTuning redirects, MaxCreatureScalingLevel, ScalingPlayerLevelDelta and ScalingFactionGroup.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "model GetRedirectedContentTuningId and the player scaling fields",
+   "witnesses": [],
+   "coordinates": [
+    "Creature.cpp:3130-3160",
+    "DB2Stores.cpp:2194"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-5",
+   "track": "B",
+   "topic": "block amount units",
+   "claim_or_gap": "Player::GetBlockPercent returns a fraction (<= 0.85) that CalculatePct consumes as a percent (a player blocks ~0.37% of a white hit at ShieldBlock 2000) and that the spell path truncates to uint32 0; creatures return 30.0f. This is a consumer fact, not Retail truth.",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "an upstream Trinity fix or Retail block-amount evidence",
+   "witnesses": [
+    "Protection Warrior 1258163 / 386011 / 76857 / 429638",
+    "Protection Paladin 76671"
+   ],
+   "coordinates": [
+    "Player.cpp:26822-26831",
+    "Unit.h:987",
+    "Unit.cpp:1459",
+    "Unit.cpp:1239"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-6",
+   "track": "B",
+   "topic": "haste apply/remove drift",
+   "claim_or_gap": "binary32 ApplyPercentModFloatVar apply+remove leaves m_modAttackSpeedPct below 1.0 for many amounts (190/1000 integer cases; in scope: 3, 5, 15), so the period comes out 1 ms short (2600 -> 2599). The drift is bounded (a fixed point).",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "Retail swing-timer evidence, or an engine that stores haste differently",
+   "witnesses": [
+    "382889 Flurry",
+    "404542 Crusading Strikes",
+    "386196 Berserker Stance",
+    "390354 Furious Blows"
+   ],
+   "coordinates": [
+    "Unit.cpp:10978-11007"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-7",
+   "track": "B",
+   "topic": "auto-repeat exemptions keyed on spell 75",
+   "claim_or_gap": "Only spell 75 is exempt from cast/channel interruption; 467718 Bleak Arrows (the only auto-repeat spell in scope) is interrupted by any cast. Auto Shot 75 is learned via SkillLine 183 (category 12) and lies outside Scope.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "Retail observation of Bleak Arrows vs casts",
+   "witnesses": [
+    "75",
+    "467718"
+   ],
+   "coordinates": [
+    "Unit.cpp:3028-3033",
+    "Unit.cpp:3104-3106",
+    "Unit.cpp:3119-3122",
+    "Unit.cpp:3133"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-8",
+   "track": "B",
+   "topic": "extra attacks / on-next-swing",
+   "claim_or_gap": "0 SPELL_EFFECT_ADD_EXTRA_ATTACKS and 0 ON_NEXT_SWING[_NO_DAMAGE] spells are reachable in scope or class skills (catalog 28 / 189 / 396, none build-skew).",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "a reachable spell with that effect or attribute (e.g. a Windfury-like current item effect)",
+   "witnesses": [
+    "32910",
+    "465660",
+    "465661",
+    "1270413"
+   ],
+   "coordinates": [
+    "Unit.cpp:441-454",
+    "Unit.cpp:2292-2293",
+    "SpellEffects.cpp:3688-3701"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "D-9",
+   "track": "B",
+   "topic": "hit / expertise / avoidance ratings",
+   "claim_or_gap": "No ExpansionID-11 item carries stat 13/14/15/31/37 and no in-scope MOD_RATING aura sets CR_HIT (5-7) or CR_EXPERTISE (23) bits; only aura 240 (+3, five tank passives) and the flat 7.5 base values are reachable.",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "an item stat or MOD_RATING bit providing those ratings",
+   "witnesses": [
+    "105805",
+    "137008",
+    "320380",
+    "1258153",
+    "1258163"
+   ],
+   "coordinates": [
+    "Player.cpp:7991-8021",
+    "StatSystem.cpp:753-796",
+    "Player.cpp:5216-5229"
+   ],
+   "owner": "part D"
+  },
+  {
+   "id": "L-4",
+   "track": "B",
+   "topic": "Arms dual wield (lead ruling)",
+   "claim_or_gap": "Parts C and E disagreed on Arms dual wield. 296087 is SkillLineAbility 40461 with AcquireMethod 0 (Learned), skipped by Player::LearnSkillRewardedSpells; it is taught only by 296088 'Learn Dual Wield', which no DB2, world-DB or script path grants. Arms/Protection dual wield is learned-spell character state, supplied through the fixture's learned_spells section.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a Retail character export listing 296087 or 296088 as known, or a data source that grants 296088",
+   "witnesses": [
+    "296087",
+    "296088",
+    "SkillLineAbility 40461"
+   ],
+   "coordinates": [
+    "Entities/Player/Player.cpp:25404-25417",
+    "DataStores/DBCEnums.h:2360-2367"
+   ],
+   "related": [
+    "R2-2",
+    "E-5"
+   ],
+   "owner": "lead"
+  },
+  {
+   "id": "R2-1",
+   "track": "B",
+   "topic": "white-swing RNG stream",
+   "claim_or_gap": "A white swing makes more distribution calls than the damage roll, the outcome roll and the block-crit roll: CalcSpellResistedDamage rand_norm() for a magic-school weapon, DealDamage durability roll_chance(float RATE_DURABILITY_LOSS_DAMAGE, default 0.5) once for a player victim and once for a player attacker when damage > 0 and the victim survives (each followed by urand(0, EQUIPMENT_SLOT_END-1) on success), the creature daze roll and the item/aura proc rolls. Engine-output consumption per call is not modelled (uniform_int_distribution may reject). A stream-exact replay of Trinity's SFMT RNG is therefore unresolved; the per-swing outcome probabilities are unaffected.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a requirement to reproduce Trinity's RNG stream exactly; then model every call site above with the host's World.conf rates and libstdc++'s distribution algorithms",
+   "witnesses": [
+    "DurabilityLossChance.Damage default 0.5"
+   ],
+   "coordinates": [
+    "Unit.cpp:1090-1107",
+    "Unit.cpp:1775-1799",
+    "Unit.cpp:1573-1594",
+    "Unit.cpp:2410",
+    "Unit.cpp:2550",
+    "Unit.cpp:2575-2580",
+    "World/World.cpp:1015",
+    "common/Utilities/Random.cpp:42-47"
+   ],
+   "related": [
+    "D-11"
+   ],
+   "owner": "G2 closeout"
+  },
+  {
+   "id": "R2-2",
+   "track": "B",
+   "topic": "Arms / Protection dual wield capability",
+   "claim_or_gap": "weapon-sources.json listed 296087 (SkillLineAbility 40461, skill 840, AcquireMethod 0) as a dual-wield grant for specs 71/72/73, so `weapon`, the Track C hook and witnesses-c reported dual_wield=true for Arms and Protection. Fixed: AcquireMethod-0 class-line grants now sit in capability_by_spec_learned_only and count only when the caller supplies the spell as learned (--learned-spell / identity.learned_spells). Arms/Protection dual wield is character state.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a Trinity consumer or snapshot data source that teaches 296087/296088 automatically, or a fixture that supplies learned spells",
+   "witnesses": [
+    "296087",
+    "296088",
+    "arms-warrior-plate-2h (compiled fixture still embeds the old hook capability until Track C fixtures are regenerated)"
+   ],
+   "coordinates": [
+    "Entities/Player/Player.cpp:25404-25417",
+    "DataStores/DBCEnums.h:2362"
+   ],
+   "related": [
+    "E-5",
+    "C-20"
+   ],
+   "owner": "G2 closeout"
+  },
+  {
+   "id": "R2-3",
+   "track": "B",
+   "topic": "crushing blows (all attackers)",
+   "claim_or_gap": "tmp = attackerLevel - victimLevel * 1000 - 1500 is int32 arithmetic on uint8 levels (<= 255), so tmp < 0 for every attacker type; because every earlier band that was added failed roll < sum, roll >= sum holds on entry and roll < sum + tmp is false. Crushing is dead code for creatures as well as players and pets, independent of data.",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "an upstream change to Unit.cpp:2489 (e.g. (attackerLevel - victimLevel) * 1000 + 1500) together with a creature >= victim + 4",
+   "witnesses": [
+    "W9 (97 vs 90) in attack-table.json"
+   ],
+   "coordinates": [
+    "Entities/Unit/Unit.cpp:2481-2494",
+    "Entities/Unit/Unit.cpp:2410-2413"
+   ],
+   "related": [
+    "C-4",
+    "D-2"
+   ],
+   "owner": "G2 closeout"
+  },
+  {
+   "id": "R2-4",
+   "track": "B",
+   "topic": "legacy rating inputs (all item sources)",
+   "claim_or_gap": "Hit (31), expertise (37), armor penetration (44) and block (15) rating are absent from every ItemSparse row and every SpellItemEnchantment stat effect; dodge (13) / parry (14) survive only on 1,785 legacy items (ExpansionID <= 10; one of each at ExpansionID 10), on 375 legacy enchants (IDs <= 5260, MaxLevel <= 35) and in the legacy bonus lists 6676 (block) / 6677 (dodge), none of which the current gear corpus uses. The §10 verdicts previously rested on the 7,812 ExpansionID-11 items only.",
+   "evidence_class": "db2-fact",
+   "reopen_condition": "a current item, bonus list, gem or enchant carrying stat 13/14/15/31/37/44, or a MOD_RATING aura in scope with bit 5-7, 2-4, 23 or 24",
+   "witnesses": [
+    "ItemBonus 12830/12831",
+    "SpellItemEnchantment 5260"
+   ],
+   "coordinates": [
+    "Entities/Player/Player.cpp:7991-8037",
+    "Entities/Unit/StatSystem.cpp:753-796"
+   ],
+   "related": [
+    "F-10"
+   ],
+   "owner": "G2 closeout"
+  },
+  {
+   "id": "R2-5",
+   "track": "B",
+   "topic": "glancing damage factor",
+   "claim_or_gap": "Whenever the chance path selects glancing (attacker GetLevelForTarget + 3 < victim GetLevelForTarget), the damage path's raw levels give leveldif >= 4, because a scalable creature's raw level is ScalingLevelMax + delta (Creature.cpp:1618) >= its GetLevelForTarget. leveldif is therefore capped to 3 and the factor is 1.f - 3*0.1f = 0.69999999f (1000 -> 700, probe). The negative-leveldif CleanDamage wrap is unreachable from that path.",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "a script or path that sets a creature's raw level below its GetLevelForTarget (Creature::SetLevel after SelectLevel), or a player attacker whose GetLevel differs from the level the victim scales to",
+   "witnesses": [
+    "probe: glancing 1000 90 94 -> 700 300"
+   ],
+   "coordinates": [
+    "Entities/Unit/Unit.cpp:1470-1483",
+    "Entities/Unit/Unit.cpp:2455-2464",
+    "Entities/Creature/Creature.cpp:1614-1620",
+    "Entities/Creature/Creature.cpp:3130-3160"
+   ],
+   "related": [
+    "C-3",
+    "D-1"
+   ],
+   "owner": "G2 closeout"
+  },
+  {
+   "id": "R2-6",
+   "track": "B",
+   "topic": "MH/OH same-update exception",
+   "claim_or_gap": "The 'MH and OH never swing in the same update' rule holds for DoMeleeAttackIfReady only. Queued extra attacks are drained earlier in the same Unit::Update as BASE_ATTACK swings without touching timers, so an extra MH swing and a regular OH swing can share an update.",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "a reachable SPELL_EFFECT_ADD_EXTRA_ATTACKS spell in scope (0 today; 28 in the catalog)",
+   "witnesses": [
+    "32910 Windfury (catalog only)"
+   ],
+   "coordinates": [
+    "Entities/Unit/Unit.cpp:441-454",
+    "Entities/Unit/Unit.cpp:2210-2242"
+   ],
+   "related": [],
+   "owner": "G2 closeout"
+  },
+  {
+   "id": "R4-3",
+   "track": "B",
+   "topic": "CalculatePct binary32 boundary",
+   "claim_or_gap": "CalculatePct<uint32,float>(base, 30) = uint32(base * 30.0f / 100.0f) first differs from the binary64 result at base 2,236,990 (671,096 vs 671,097; compiled tc_weapon_probe `pct` and a binary32 emulation agree). 16,777,219 is a discriminating value, not the lower bound, and not every larger base discriminates. Whether a white-swing or weapon-special amount fed to a 30 % CalculatePct (creature block, crit AddPct) reaches the millions in current content is not established.",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "a damage-magnitude census showing a CalculatePct input at or above 2,236,990 in current content, or a Trinity change of the template to double",
+   "witnesses": [
+    "CalculatePct(2236990, 30)",
+    "CalculatePct(16777219, 30)"
+   ],
+   "coordinates": [
+    "common/Utilities/Util.h:71-75",
+    "Entities/Unit/Unit.cpp:1459"
+   ],
+   "related": [
+    "C-8",
+    "C-13"
+   ],
+   "owner": "G4"
+  },
+  {
+   "id": "E-1",
+   "track": "C",
+   "topic": "base stats levels 81-90",
+   "claim_or_gap": "player_classlevelstats has no rows above level 80; the compiler reports /derived/stats unresolved at 81-90 and never interpolates (Trinity copies level 80)",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TDB release with rows for levels 81-90, or an observed Retail value",
+   "witnesses": [
+    "arms-warrior-plate-2h-no-fill-rule"
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:4349-4356"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-10",
+   "track": "C",
+   "topic": "crafted stat modifiers",
+   "claim_or_gap": "ItemBonus type 25 MODIFIED_CRAFTING_STAT is NYI in Trinity and ItemModifiedCraftingStat is absent from the snapshot; crafted stats are expressible only as bonus lists",
+   "evidence_class": "unresolved",
+   "reopen_condition": "Trinity implements type 25, or the table appears in the snapshot",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/DataStores/DBCEnums.h:1273"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-11",
+   "track": "C",
+   "topic": "legacy azerite",
+   "claim_or_gap": "14 current-season M+ corpus items are AzeriteEmpoweredItem rows, but their powers apply only with Heart of Azeroth 158075 equipped, which no current fixture does",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "a fixture equips item 158075 (then power selections and heart level become identity inputs)",
+   "witnesses": [
+    "158075"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:8492-8514",
+    "src/server/game/Entities/Item/AzeriteItem/AzeriteItem.h:23"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-12",
+   "track": "C",
+   "topic": "trait quest/achievement conditions",
+   "claim_or_gap": "the 13 class trees use no TraitCond with QuestID/AchievementID/account element, and the 44 quest/achievement currency sources of their 12 currencies have Amount 0, so trait validity is decidable from spec+level+config",
+   "evidence_class": "db2-fact",
+   "reopen_condition": "a class-tree TraitCond gains a QuestID/AchievementID, or a quest-gated TraitCurrencySource gets Amount > 0",
+   "witnesses": [
+    "734 conditions",
+    "44 currency sources"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/TraitMgr.cpp:605-609",
+    "src/server/game/Spells/TraitMgr.cpp:446-450"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-13",
+   "track": "C",
+   "topic": "starter builds are level-90 builds",
+   "claim_or_gap": "TraitTreeLoadoutEntry builds spend 34/34 points (level-90 budget). At level 80 a replay keeps 61 of 68 steps (test_level_90_build_is_over_budget_at_80); the committed fixtures are level 90 since the closeout review (R3-1) and keep all 68 steps. The fixtures are synthetic, not authored builds",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "an authored level-80 loadout, or a Retail export",
+   "witnesses": [
+    "TraitTreeLoadout 913",
+    "915",
+    "909",
+    "996",
+    "911",
+    "992",
+    "987",
+    "958",
+    "918",
+    "949"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/TraitMgr.cpp:409-473"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-14",
+   "track": "C",
+   "topic": "build-skew spells in fixtures",
+   "claim_or_gap": "marker/acquired spells newer than Trinity's supported client build (e.g. 1295219, 1295323, 1295328) are flagged blocked:build-skew",
+   "evidence_class": "build-skew",
+   "reopen_condition": "a Trinity revision supporting build 12.1.0.69497",
+   "witnesses": [
+    "1295219",
+    "1295323",
+    "1295328"
+   ],
+   "coordinates": [
+    "docs/research/dummy-corpora/build-skew.json"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-15",
+   "track": "C",
+   "topic": "hero sub-tree choice",
+   "claim_or_gap": "fixtures take the lowest-id selectable hero sub-tree and fill nodes greedily; a Retail export would carry the real choice",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "Retail-exported fixtures",
+   "witnesses": [
+    "subtrees 60,32,43,54,51,23,57,19,64"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/TraitMgr.cpp:928-964"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-2",
+   "track": "C",
+   "topic": "default-skill AcquireMethod 4",
+   "claim_or_gap": "SkillLineAbility rows with AcquireMethod 4 (LearnedOrAutomaticCharLevel) are learned only if ShowFutureSpellPlayerConditionID and the conditions table allow it; 2-10 per fixture remain unresolved (e.g. 54197, 163201, 2645, 783, 697)",
+   "evidence_class": "unresolved",
+   "reopen_condition": "PlayerCondition evaluation plus the world conditions table (CONDITION_SOURCE_TYPE_SKILL_LINE_ABILITY)",
+   "witnesses": [
+    "54197",
+    "163201",
+    "2645",
+    "783",
+    "697",
+    "2006",
+    "121128",
+    "322109"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:25409-25415"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-3",
+   "track": "C",
+   "topic": "SKILL_RANGE_RANK default skills",
+   "claim_or_gap": "a default skill with a SkillTierID needs world-DB skill_tiers for its value; it matters only for AutomaticSkillRank abilities",
+   "evidence_class": "unresolved",
+   "reopen_condition": "skill_tiers supplied from the pinned TDB",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:9002-9023",
+    "src/server/game/Entities/Player/Player.cpp:25300-25310"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-4",
+   "track": "C",
+   "topic": "controlled-unit hook",
+   "claim_or_gap": "controlled_units.ownership exposes no CHARACTER_PREP_HOOK, so /derived/controlled_units is unresolved; hunter pet family 1 / pet spec 74 and demon summon 30146 in the fixtures are unverified identity values",
+   "evidence_class": "unresolved",
+   "reopen_condition": "Track A exposes CHARACTER_PREP_HOOK(context) -> dict and validates the section",
+   "witnesses": [
+    "bm-hunter-mail-ranged-pet",
+    "demonology-warlock-cloth-pet"
+   ],
+   "coordinates": [
+    "scripts/research/character_prep/compiler.py CLASS_HOOK"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-5",
+   "track": "C",
+   "topic": "Arms dual wield (296087)",
+   "claim_or_gap": "Track C's weapon-sources capability gives spec 71 dual wield through 296087 (SkillLineAbility 40461, skill 840, AcquireMethod 0 Learned); LearnSkillRewardedSpells skips AcquireMethod 0, so a fresh Arms warrior has no Dual Wield in Trinity unless 296087 is learned another way (character DB)",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a Trinity consumer (trainer, quest, script) that teaches 296087, or character-DB spell state in the fixture",
+   "witnesses": [
+    "296087",
+    "arms-warrior-plate-2h"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:25404-25418"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-6",
+   "track": "C",
+   "topic": "armour specialization via class skill lines",
+   "claim_or_gap": "86092 Rogue, 86538 Hunter, 86091 Warlock, 89744 Mage, 89745 Priest, 366524 Evoker come from the class skill line, not SpecializationSpells; charstats applies none of them (contradicts character-stat-pipeline-archaeology.md:614)",
+   "evidence_class": "db2-fact",
+   "reopen_condition": "charstats discovery extended to default-skill spells",
+   "witnesses": [
+    "86092",
+    "86538",
+    "86091",
+    "89744",
+    "89745",
+    "366524"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:26203-26213",
+    "scripts/research/charstats/acquisition.py:178-246"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-7",
+   "track": "C",
+   "topic": "charstats racial race bit",
+   "claim_or_gap": "charstats.acquisition.racial_abilities uses bit race_id-1; Trinity RaceMask::GetRaceBit differs for races >= 34 (e.g. 36 -> 13) and charstats raises for 70/84/85/86/91; it also accepts AcquireMethod 0 (37 extra spells for Human Warrior)",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "charstats switches to RaceMask::GetRaceBit / ChrRaces.PlayableRaceBit and filters AcquireMethod",
+   "witnesses": [
+    "race 34",
+    "race 36",
+    "race 70",
+    "race 1 class 1"
+   ],
+   "coordinates": [
+    "src/server/game/Miscellaneous/RaceMask.h:97-146",
+    "scripts/research/charstats/acquisition.py:260-266",
+    "src/server/game/Entities/Player/Player.cpp:25416-25417"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-8",
+   "track": "C",
+   "topic": "mastery 114585",
+   "claim_or_gap": "every player learns 114585 (SPELL_AURA_MASTERY +8) through default skill 183; charstats mastery_value omits it (agent F differential); compiled fixtures record it as a blocked model-gap",
+   "evidence_class": "differential",
+   "reopen_condition": "charstats adds GetTotalAuraModifier(SPELL_AURA_MASTERY)",
+   "witnesses": [
+    "114585"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:549-550",
+    "src/server/game/Entities/Player/Player.cpp:2916-2929"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "E-9",
+   "track": "C",
+   "topic": "percentage aura stages",
+   "claim_or_gap": "passives active at preparation are listed, but their BASE_PCT/TOTAL_PCT stages (other than armour specialization) are not applied; compiled stats are not ground truth",
+   "evidence_class": "unresolved",
+   "reopen_condition": "generic SPELL_AURA_MOD_*_PERCENT stage evaluation over derived.spells.passives_active_at_prep",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:198-345"
+   ],
+   "owner": "part E"
+  },
+  {
+   "id": "F-1",
+   "track": "C",
+   "topic": "base stats L81-90",
+   "claim_or_gap": "No player_classlevelstats row above 80 in the pinned TDB; Trinity (MaxPlayerLevel 90) serves a copy of the level-80 cell (fill rule, 10 TC_LOG_ERROR per pair, 138 filled class-level cells). Retail values unresolved.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a TDB release with rows 81-90, or naked Retail character-sheet observations at levels 81-90",
+   "witnesses": [
+    "warrior-arms-human-90-fill",
+    "priest-shadow-human-90-fill",
+    "naked-warrior-human-90-fill"
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:4309-4317",
+    "src/server/game/Globals/ObjectMgr.cpp:4324",
+    "src/server/game/Globals/ObjectMgr.cpp:4342-4346",
+    "src/server/game/Globals/ObjectMgr.cpp:4349-4356",
+    "src/server/game/World/World.cpp:750",
+    "src/server/worldserver/worldserver.conf.dist:912"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-10",
+   "track": "C",
+   "topic": "legacy dodge/hit",
+   "claim_or_gap": "GetDodgeFromAgility body fully commented out; melee/ranged hit 7.5f and spell hit 15.0f plus CR_HIT ratings, which no current gear supplies.",
+   "evidence_class": "legacy-only",
+   "reopen_condition": "current gear or auras supplying CR_HIT_* ratings",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:5014",
+    "src/server/game/Entities/Unit/StatSystem.cpp:753-767"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-11",
+   "track": "C",
+   "topic": "caller-supplied server state",
+   "claim_or_gap": "Session expansion (MaxLevel update field) and a non-default MaxPlayerLevel are server/account state absent from both snapshot and TDB.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "the importing server's configuration and account expansion",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:2334-2339",
+    "src/server/game/World/World.cpp:750"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-12",
+   "track": "C",
+   "topic": "compiler vs charstats armour spec",
+   "claim_or_gap": "Agent E's compiler applies armour specialisations reached through class skill lines (Hunter 86538, Rogue 86092, Warlock 86091, Priest 89745); charstats.acquisition searches SpecializationSpells only, so a plain charstats resolution omits the 5% (e.g. Hunter Agility 20,105 vs 19,148). Trinity arithmetic over the compiler's stages agrees.",
+   "evidence_class": "differential",
+   "reopen_condition": "charstats.acquisition extended to the full acquired spell set, or E's discovery adopted as the reference",
+   "witnesses": [
+    "bm-hunter-mail-ranged-pet",
+    "subtlety-rogue-leather-dw",
+    "demonology-warlock-cloth-pet",
+    "holy-priest-cloth-healer-tier4"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:26203-26213"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-13",
+   "track": "C",
+   "topic": "differential vs a changed E fixture set",
+   "claim_or_gap": "differential.json reflects the 11 agent-E compiled fixtures present at generation (all Trinity arithmetic over their stat stages matched); a later fixture change is not reflected until regeneration.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "agent E runs `python3 character_prep.py all`; then rerun `python3 character_prep.py differential --out ../../docs/research/character-prep-corpora/differential.json`",
+   "witnesses": [],
+   "coordinates": [],
+   "owner": "part F"
+  },
+  {
+   "id": "F-14",
+   "track": "C",
+   "topic": "NPC-only playable-bit races",
+   "claim_or_gap": "ChrRaces 95/96 carry PlayableRaceBit 32/33 and the NPCOnly flag; no racestats/playercreateinfo row; creation refuses them.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a snapshot where 95/96 lose NPCOnly, or a TDB adding rows for them",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Handlers/CharacterHandler.cpp:743",
+    "src/server/game/DataStores/DBCEnums.h:349"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-2",
+   "track": "C",
+   "topic": "stamina 69->70 non-monotonic",
+   "claim_or_gap": "Stamina 6655 at level 69 and 6397 at level 70 in all 13 classes; VerifiedBuild=0 on all 1,032 rows gives no build attestation.",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "Retail naked observations at levels 69 and 70",
+   "witnesses": [
+    "player_classlevelstats class 1..13 levels 69/70"
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:4287"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-3",
+   "track": "C",
+   "topic": "zero race modifiers",
+   "claim_or_gap": "player_racestats rows for races 52, 70, 84, 85, 86, 91 are all zeros (86/91 written by 2026_03_07_01_world.sql DELETE+INSERT). Retail truth unresolved.",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "two naked Retail observations of the same class/level differing only in race",
+   "witnesses": [
+    "warrior-arms-haranir-80",
+    "evoker-devastation-dracthyr-80"
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:4263",
+    "src/server/game/Globals/ObjectMgr.cpp:4328",
+    "sql/updates/world/master/2026_03_07_01_world.sql"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-4",
+   "track": "C",
+   "topic": "Evoker levels 2-9",
+   "claim_or_gap": "Evoker has rows for 1 and 10..80 only; Trinity fills 2-9 with the level-1 cell; unreachable by creation (StartEvokerPlayerLevel 10).",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a creation or boost path that yields an Evoker below level 10",
+   "witnesses": [
+    "evoker-devastation-dracthyr-5-fill"
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:4349-4356",
+    "src/server/worldserver/worldserver.conf.dist:951",
+    "src/server/game/World/World.cpp:755"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-5",
+   "track": "C",
+   "topic": "generic mastery 114585",
+   "claim_or_gap": "Every player learns passive 114585 (SPELL_AURA_MASTERY, 8 points) via skill line 183 (AutomaticCharLevel, SkillRaceClassInfo 5 Availability 1); Trinity UpdateMastery adds it, so Mastery is charstats' rating term + 8 whenever CanUseMastery. charstats and character-stat-pipeline-archaeology.md omit it. Static trace; runtime application not executed.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a Trinity character dump or Retail character sheet showing Mastery = 8 + rating term with zero mastery gear",
+   "witnesses": [
+    "all 13 built-in witnesses (mastery_value.charstats vs with_114585)",
+    "all 11 agent-E compiled fixtures"
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:4063-4070",
+    "src/server/game/Entities/Player/Player.cpp:25259",
+    "src/server/game/Entities/Player/Player.cpp:25391-25441",
+    "src/server/game/Entities/Player/Player.cpp:2919-2929",
+    "src/server/game/Entities/Player/Player.cpp:3079",
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:5571",
+    "src/server/game/Entities/Unit/StatSystem.cpp:543-550",
+    "src/server/game/Entities/Player/Player.cpp:30525"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-6",
+   "track": "C",
+   "topic": "armour-spec float truncation",
+   "claim_or_gap": "TOTAL_PCT = static_cast<float>(double 1.05) = 1.0499999523; int32(float product) is one point lower than charstats' double for 4,045 of 120,000 pre-percent totals (all multiples of 20). Reachable: 17647+9993 Strength -> Trinity 29021 vs charstats 29022. Retail precision unresolved.",
+   "evidence_class": "differential",
+   "reopen_condition": "a Retail observation of an armour-specialised stat whose pre-percent total is an affected multiple of 20",
+   "witnesses": [
+    "warrior-arms-human-80-armorspec-crossing",
+    "armor_spec_truncation_sweep"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:5016-5033",
+    "src/server/game/Entities/Unit/Unit.cpp:9828",
+    "src/server/game/Entities/Unit/StatSystem.cpp:110-112"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-7",
+   "track": "C",
+   "topic": "int16 rating accumulator",
+   "claim_or_gap": "m_baseRatingValue is int16; ApplyRatingMod(30000 + 5000) wraps to -30536 in the probe. Whether any single combat-rating slot can exceed 32,767 is not established.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "gearing census of the maximum per-CR rating total (after CombatRatingsMultByILvl) for a current character",
+   "witnesses": [
+    "type_witnesses: int16 rating accumulator"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.h:3254",
+    "src/server/game/Entities/Player/Player.cpp:5231-5235"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-8",
+   "track": "C",
+   "topic": "lroundf in UpdateMaxPower",
+   "claim_or_gap": "UpdateMaxPower rounds half away from zero (lroundf: 2.5 -> 3), unlike Python round(); charstats has no mana percent stage, so only a percent mana aura yielding an exact .5 could reach it.",
+   "evidence_class": "trinity-probe",
+   "reopen_condition": "a current in-scope percent-max-mana aura",
+   "witnesses": [
+    "type_witnesses: lroundf half-away"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:344"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "F-9",
+   "track": "C",
+   "topic": "BuildPlayerLevelInfo",
+   "claim_or_gap": "Classic-era per-class extrapolation above MaxPlayerLevel; not reached with the default MaxPlayerLevel 90 (would give Warrior 80->90 17669/12187/86474/12005/0 on a MaxPlayerLevel=80 server).",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a server configured with MaxPlayerLevel below the character level",
+   "witnesses": [
+    "type_witnesses: BuildPlayerLevelInfo"
+   ],
+   "coordinates": [
+    "src/server/game/Globals/ObjectMgr.cpp:4446-4449",
+    "src/server/game/Globals/ObjectMgr.cpp:4452-4530"
+   ],
+   "owner": "part F"
+  },
+  {
+   "id": "L-2",
+   "track": "C",
+   "topic": "default-skill acquisition vs earlier scopes (lead)",
+   "claim_or_gap": "Default-skill learning (SkillRaceClassInfo -> LearnDefaultSkills -> LearnSkillRewardedSpells) grants spells through skill lines whose CategoryID is not 7 (skill 118 -> 674 Dual Wield; generic skill 183 -> 114585 Mastery +8). dummy_semantics.scope.Scope and the proc census follow only CategoryID 7, so their current-player populations exclude these spells. The earlier corpora were not changed by this pass.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "re-run the Dummy and proc census with a scope that includes default-skill grants and compare the owner counts",
+   "witnesses": [
+    "674",
+    "114585",
+    "SkillLine 118",
+    "SkillLine 183"
+   ],
+   "coordinates": [
+    "Globals/ObjectMgr.cpp:4059-4072",
+    "Entities/Player/Player.cpp:25259-25441"
+   ],
+   "related": [
+    "C-20",
+    "E-8",
+    "F-5",
+    "E-2"
+   ],
+   "owner": "lead"
+  },
+  {
+   "id": "L-3",
+   "track": "C",
+   "topic": "errata against character-stat-pipeline-archaeology (lead)",
+   "claim_or_gap": "Five statements of the earlier character-stat report or its package are contradicted: base mastery is not 0 (114585 +8); armour specialization comes from the class skill line for six classes; the racial race bit is not race_id-1 for races >= 34 and AcquireMethod 0 abilities are not learned; weapon AP int32(dps*6) does not land in AttackPowerModPos; aura 429 MOD_SUMMON_DAMAGE has no Trinity consumer. Listed in combat-preparation-synthesis.md section 10; the earlier package and corpora were not modified.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "an update of the charstats package and report that adopts or refutes each correction",
+   "witnesses": [
+    "114585",
+    "86092",
+    "86538",
+    "86091",
+    "89744",
+    "89745",
+    "366524"
+   ],
+   "coordinates": [
+    "Entities/Unit/StatSystem.cpp:549-550",
+    "Entities/Player/Player.cpp:26203-26213",
+    "Entities/Player/Player.cpp:8163-8176",
+    "Spells/Auras/SpellAuraEffects.cpp:501"
+   ],
+   "related": [
+    "E-6",
+    "E-7",
+    "E-8",
+    "F-5",
+    "B-2"
+   ],
+   "owner": "lead"
+  },
+  {
+   "id": "R3-1",
+   "track": "C",
+   "topic": "item required level",
+   "claim_or_gap": "Every current-season item (ItemSparse.ExpansionID 11) resolves to required level 90 through ItemBonus 49 SCALING_CONFIG_AND_REQ_LEVEL (ItemScalingConfig 219/318 RequiredLevel 90). Player::CanUseItem refuses it below level 90 and _LoadInventory mails it, so the original level-80 fixtures were not loadable in Trinity although the compiler reported validation.ok. Fixed: the compiler checks the required level, and the synthetic fixtures are level 90. Items with a RequiredLevelCurve or a fixed scaling level are still reported unresolved (gearing does not evaluate them).",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "gearing evaluates RequiredLevelCurve / ITEM_MODIFIER_TIMEWALKER_LEVEL, or a fixture item carries ItemBonus type 27 or 13",
+   "witnesses": [
+    "268229",
+    "251126",
+    "ItemScalingConfig 219",
+    "ItemScalingConfig 318"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:11148-11149",
+    "src/server/game/Entities/Item/Item.cpp:2864-2874",
+    "src/server/game/Entities/Item/Item.cpp:3143-3163",
+    "src/server/game/Entities/Player/Player.cpp:19240",
+    "src/server/game/Entities/Player/Player.cpp:19295-19299"
+   ],
+   "related": [
+    "E-1",
+    "E-13"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-10",
+   "track": "C",
+   "topic": "controlled-unit hook contract",
+   "claim_or_gap": "/derived/controlled_units correctly fails closed: controlled_units.ownership has no CHARACTER_PREP_HOOK, and call_hook records the miss. The hook would need to accept context {fixture, identity (+learned_spells), gear, spells, stats (null when unresolved), section, snapshot_build, trinitycore_commit} and return a dict with evidence_class, validate the section (hunter_pet creature_family_id / pet_specialization_id, active_demon summon_spell_id), and derive the pet level, stats and spells. Two identity values were verified (db2-fact): ChrSpecialization 74 = Ferocity (ClassID 0) and SpellName 30146 = Summon Felguard (acquired by the Demonology fixture).",
+   "evidence_class": "unresolved",
+   "reopen_condition": "Track A exposes CHARACTER_PREP_HOOK(context) -> dict",
+   "witnesses": [
+    "bm-hunter-mail-ranged-pet",
+    "demonology-warlock-cloth-pet"
+   ],
+   "coordinates": [
+    "scripts/research/character_prep/compiler.py call_hook / CLASS_HOOK"
+   ],
+   "related": [
+    "E-4"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-2",
+   "track": "C",
+   "topic": "learned-spell state",
+   "claim_or_gap": "The fixture format now has an optional identity section learned_spells (character_spell rows, Player::_LoadSpells -> AddSpell). The compiler roots those spells as learned-spell and passes them to the weapon hook. Class skill lines hold 3,789 AcquireMethod-0 'Learned' abilities (3,702 in the snapshot, 36 passive), which no automatic path teaches. Which of them a Retail character knows is character state. Not modelled: the active/disabled flags of character_spell and the spell_learn_spell dependents (5 world rows).",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a Retail character export listing known spells; a census of which AcquireMethod-0 class-line spells are combat-relevant for current specs",
+   "witnesses": [
+    "296087",
+    "arms-warrior-plate-dw-learned"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:18609",
+    "src/server/game/Entities/Player/Player.cpp:2690-2720",
+    "src/server/game/Entities/Player/Player.cpp:25404-25417"
+   ],
+   "related": [
+    "E-5",
+    "R2-2",
+    "C-20"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-3",
+   "track": "C",
+   "topic": "glyphs",
+   "claim_or_gap": "Player::_LoadGlyphs and _LoadGlyphAuras cast GlyphProperties.SpellID at login. The 686 glyph spells carry aura effects that are not all cosmetic: SPELL_AURA_DUMMY x103, OVERRIDE_SPELL_VISUAL x26, aura 332 x6, PROC_TRIGGER_SPELL x5, ADD_FLAT_MODIFIER x5, aura 285 x3, and others. The fixture format has no glyph section and the compiler applies none.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a glyph section in the fixture format, plus a census of which glyph spells change combat values for current specs",
+   "witnesses": [
+    "GlyphProperties (686 spells)"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:18614",
+    "src/server/game/Entities/Player/Player.cpp:18616",
+    "src/server/game/Entities/Player/Player.cpp:19110-19114",
+    "src/server/game/Entities/Player/Player.cpp:28410"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-4",
+   "track": "C",
+   "topic": "saved skills",
+   "claim_or_gap": "Player::_LoadSkills restores the saved skills of any SkillRaceClassInfo availability and runs LearnSkillRewardedSpells with the saved values. LearnDefaultSkills then skips those skills. The compiler assumes default-skill values only. Items with a RequiredSkill that is not a default skill are reported unresolved. The fixture format has no saved-skill section.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a saved-skill section in the fixture format, plus a census of AcquireMethod 1/2 combat spells on non-default skill lines (professions, riding, Availability-2 rows)",
+   "witnesses": [
+    "SkillRaceClassInfo 883 (skill 118, Availability 2)"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:18591",
+    "src/server/game/Entities/Player/Player.cpp:27228-27345",
+    "src/server/game/Entities/Player/Player.cpp:25267",
+    "src/server/game/DataStores/DB2Stores.cpp:2991-3004"
+   ],
+   "related": [
+    "E-3"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-5",
+   "track": "C",
+   "topic": "AcquireMethod 4 split",
+   "claim_or_gap": "Of the AcquireMethod-4 default-skill spells in the fixtures, 54197 and 50977 have no ShowFutureSpellPlayerConditionID, and the pinned TDB has no conditions row of source type 35 for their abilities (14 such rows exist, none for them). Trinity therefore learns them. The rest (e.g. 163201, 2645, 783, 697, 2006, 322109) and 121128 (a type-56 conditions row) depend on PlayerCondition 83446: Flags 0x21, ContentTuning 958, and ModifierTree 143919 = not on maps 2175/2236/2261/2369. That makes them depend on host location and level. The compiler keeps all of them unresolved and names the reason.",
+   "evidence_class": "world-db-fact",
+   "reopen_condition": "the conditions table becomes a compiler input, and a host-location input for PlayerCondition 83446",
+   "witnesses": [
+    "54197",
+    "50977",
+    "163201",
+    "121128",
+    "PlayerCondition 83446"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:25409-25415",
+    "src/server/game/Conditions/ConditionMgr.cpp:2881-2910"
+   ],
+   "related": [
+    "E-2"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-6",
+   "track": "C",
+   "topic": "initial health convention",
+   "claim_or_gap": "'Health starts full at the prepared maximum' is an encounter convention, not a Trinity construction path. Player::Create fills health before gear is applied, Unit::SetMaxHealth never refills, and LoadFromDB restores the saved value. Only GiveLevel fills after UpdateAllStats. The compiled evidence class was lowered to structural-inference.",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "a host specification of the encounter start state",
+   "witnesses": [
+    "arms-warrior-plate-2h"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:497-498",
+    "src/server/game/Entities/Unit/Unit.cpp:10016-10030",
+    "src/server/game/Entities/Player/Player.cpp:18708",
+    "src/server/game/Entities/Player/Player.cpp:2254"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-7",
+   "track": "C",
+   "topic": "max charges aura term",
+   "claim_or_gap": "SpellHistory::GetMaxCharges adds SPELL_AURA_MOD_MAX_CHARGES. The compiled max_charges used to omit this term, for example for Arms 7384 (category 1680, raised by 385571). The compiler now adds the base points of passives active at preparation. Aura amount modifiers and gated passives are not evaluated.",
+   "evidence_class": "structural-inference",
+   "reopen_condition": "a spell-modifier evaluation of aura 411 amounts",
+   "witnesses": [
+    "7384",
+    "385571",
+    "34026",
+    "269737",
+    "2050",
+    "235587"
+   ],
+   "coordinates": [
+    "src/server/game/Spells/SpellHistory.cpp:964-973"
+   ],
+   "related": [
+    "E-9"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-8",
+   "track": "C",
+   "topic": "equip checks not modelled",
+   "claim_or_gap": "Several CanEquipUniqueItem checks are not evaluated. The allowed quantities of ItemLimitCategory (GetItemLimitCategoryQuantity, ItemLimitCategoryCondition) are not evaluated: more than one equipped item in a category is reported unresolved. Gem limit categories are not checked. Heirloom ContentTuning limits are not checked. The gearing-level durability / GetUseableItemByPos state is taken as usable.",
+   "evidence_class": "unresolved",
+   "reopen_condition": "a fixture with a limit-category item, or a unique-equipped gem pair",
+   "witnesses": [],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:27374-27437",
+    "src/server/game/Entities/Player/Player.cpp:10771-10777"
+   ],
+   "owner": "closeout review G3"
+  },
+  {
+   "id": "R3-9",
+   "track": "C",
+   "topic": "equip cooldown by construction path",
+   "claim_or_gap": "On-use item spells are ready only on the load path, where _LoadInventory uses QuickEquipItem. A host that equips through Player::EquipItem starts a 30 s cooldown on them, unless the item has ITEM_FLAG_NO_EQUIP_COOLDOWN.",
+   "evidence_class": "trinity-consumer",
+   "reopen_condition": "a host specification of how the prepared character is equipped",
+   "witnesses": [
+    "270173"
+   ],
+   "coordinates": [
+    "src/server/game/Entities/Player/Player.cpp:25146-25186",
+    "src/server/game/Entities/Player/Player.cpp:11567",
+    "src/server/game/Entities/Player/Player.cpp:11611"
+   ],
+   "owner": "closeout review G3"
+  }
+ ]
+}

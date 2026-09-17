@@ -1,0 +1,4237 @@
+{
+ "provenance": {
+  "snapshot_build": "12.1.0.69497",
+  "trinitycore_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "world_database": "TDB_full_world_1200.26021_2026_02_06.sql (via docs/research/world-db-corpora/player-base-stats.json)",
+  "generator": "python3 controlled_units.py inheritance",
+  "wowlab_data_commit": "2773a88b5222809af96cd7df4100d173e34b3cc2",
+  "world_database_corpora": [
+   "docs/research/world-db-corpora/creature-templates.json",
+   "docs/research/world-db-corpora/pet-witness-templates.json"
+  ],
+  "world_status": "present"
+ },
+ "routing_rules": {
+  "effect_56_SUMMON_PET": "player caster -> Player::SummonPet -> new Pet(SUMMON_PET) (Player.cpp:30438-30523); entry 0 -> LoadPetFromDB slot (call pet); non-player caster -> SummonGuardian with SummonProperties 67 (SpellEffects.cpp:2671-2677)",
+  "effect_28_SUMMON": [
+   {
+    "control": "WILD/ALLY",
+    "title": "any",
+    "flags": "JoinSummonerSpawnGroup 0x200",
+    "route": "SummonGuardian",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+    "unit_mask": "UNIT_MASK_GUARDIAN",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+    "trinity_unit_class": "Guardian",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "WILD/ALLY",
+    "title": "Pet (1)",
+    "flags": "no 0x200",
+    "route": "SummonGuardian",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1953-1958",
+    "unit_mask": "UNIT_MASK_SUMMON",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1194 (default mask)",
+    "trinity_unit_class": "TempSummon",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "WILD/ALLY",
+    "title": "Guardian/Minion/Runeblade (2/3/6)",
+    "flags": "no 0x200",
+    "route": "SummonGuardian",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1953-1958",
+    "unit_mask": "UNIT_MASK_GUARDIAN",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+    "trinity_unit_class": "Guardian",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "WILD/ALLY",
+    "title": "Totem (4)",
+    "flags": "no 0x200",
+    "route": "Map::SummonCreature + totem health override",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1970-1985",
+    "unit_mask": "UNIT_MASK_TOTEM",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1219-1222",
+    "trinity_unit_class": "Totem",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "WILD/ALLY",
+    "title": "Totem (4)",
+    "flags": "0x200",
+    "route": "SummonGuardian",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+    "unit_mask": "UNIT_MASK_TOTEM",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1219-1222",
+    "trinity_unit_class": "Totem",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "WILD/ALLY",
+    "title": "Lightwell (11)",
+    "flags": "no 0x200",
+    "route": "Map::SummonCreature",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1960-1969",
+    "unit_mask": "UNIT_MASK_TOTEM",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1219-1222",
+    "trinity_unit_class": "Totem",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "WILD/ALLY",
+    "title": "Companion (5)",
+    "flags": "no 0x200",
+    "route": "Map::SummonCreature + SetImmuneToAll",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1986-1996",
+    "unit_mask": "UNIT_MASK_MINION",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1227-1229",
+    "trinity_unit_class": "Minion",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "WILD/ALLY",
+    "title": "Vehicle/Mount (9/10)",
+    "flags": "no 0x200",
+    "route": "Map::SummonCreature",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1960-1969",
+    "unit_mask": "UNIT_MASK_SUMMON",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1223-1226",
+    "trinity_unit_class": "TempSummon",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "WILD/ALLY",
+    "title": "other (0, 7, 8, 12+)",
+    "flags": "no 0x200",
+    "route": "Map::SummonCreature x numSummons (owner GUID only for ALLY)",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1997-2031",
+    "unit_mask": "UNIT_MASK_SUMMON",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1194 (default mask)",
+    "trinity_unit_class": "TempSummon",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "PET (2)",
+    "title": "any",
+    "flags": "any",
+    "route": "SummonGuardian",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2036-2038",
+    "unit_mask": "UNIT_MASK_GUARDIAN",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1200-1202",
+    "trinity_unit_class": "Guardian",
+    "controllable": true,
+    "use_creature_level": false
+   },
+   {
+    "control": "PUPPET (3)",
+    "title": "any",
+    "flags": "any",
+    "route": "Map::SummonCreature (puppet)",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2039-2046",
+    "unit_mask": "UNIT_MASK_PUPPET",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1203-1205",
+    "trinity_unit_class": "Puppet",
+    "controllable": false,
+    "use_creature_level": false
+   },
+   {
+    "control": "VEHICLE / POSSESSED_VEHICLE (5/4)",
+    "title": "any",
+    "flags": "any",
+    "route": "Map::SummonCreature + ride vehicle",
+    "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2047-2075",
+    "unit_mask": "UNIT_MASK_MINION",
+    "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1206-1209",
+    "trinity_unit_class": "Minion",
+    "controllable": false,
+    "use_creature_level": false
+   }
+  ],
+  "notes": [
+   "Title Pet under WILD/ALLY without 0x200 is routed to SummonGuardian but Map::SummonCreature allocates a plain TempSummon (UNIT_MASK_SUMMON): no Guardian stat code, no owner inheritance (SpellEffects.cpp:1953-1958 vs Object.cpp:1230-1234)",
+   "Guardian ctor marks CONTROLABLE_GUARDIAN + InitCharmInfo for Title Pet or Control PET (TemporarySummon.cpp:513-523)",
+   "SummonGuardian re-runs InitStatsForLevel(skill/5) for engineering items (SpellEffects.cpp:5044-5048)"
+  ]
+ },
+ "classification_matrix": {
+  "Pet/SUMMON_PET": {
+   "level": "explicit-recalculation",
+   "strength/agility/intellect/spirit (base)": "independent-pet-value",
+   "stamina (owner share)": "explicit-recalculation",
+   "strength (owner share)": "explicit-recalculation",
+   "intellect (owner share)": "explicit-recalculation",
+   "health": "explicit-recalculation",
+   "armor": "explicit-recalculation",
+   "attack_power": "explicit-recalculation",
+   "spell_power (m_bonusSpellDamage)": "explicit-recalculation",
+   "weapon_damage (synthetic)": "explicit-recalculation",
+   "haste": "unresolved",
+   "crit": "independent-pet-value",
+   "versatility": "dynamic-owner-lookup",
+   "mastery": "unresolved",
+   "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)": "dynamic-owner-lookup",
+   "damage_percent_done": "independent-pet-value",
+   "mana/power": "independent-pet-value",
+   "resistances": "explicit-recalculation"
+  },
+  "Pet/HUNTER_PET": {
+   "level": "explicit-recalculation",
+   "strength/agility/intellect/spirit (base)": "independent-pet-value",
+   "stamina (owner share)": "explicit-recalculation",
+   "strength (owner share)": "explicit-recalculation",
+   "intellect (owner share)": "explicit-recalculation",
+   "health": "explicit-recalculation",
+   "armor": "explicit-recalculation",
+   "attack_power": "explicit-recalculation",
+   "spell_power (m_bonusSpellDamage)": "explicit-recalculation",
+   "weapon_damage (synthetic)": "explicit-recalculation",
+   "haste": "unresolved",
+   "crit": "independent-pet-value",
+   "versatility": "dynamic-owner-lookup",
+   "mastery": "unresolved",
+   "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)": "dynamic-owner-lookup",
+   "damage_percent_done": "independent-pet-value",
+   "mana/power": "independent-pet-value",
+   "resistances": "explicit-recalculation"
+  },
+  "Guardian": {
+   "level": "creation-snapshot",
+   "strength/agility/intellect/spirit (base)": "independent-pet-value",
+   "stamina (owner share)": "explicit-recalculation",
+   "strength (owner share)": "explicit-recalculation",
+   "intellect (owner share)": "explicit-recalculation",
+   "health": "explicit-recalculation",
+   "armor": "explicit-recalculation",
+   "attack_power": "explicit-recalculation",
+   "spell_power (m_bonusSpellDamage)": "explicit-recalculation",
+   "weapon_damage (synthetic)": "explicit-recalculation",
+   "haste": "unresolved",
+   "crit": "independent-pet-value",
+   "versatility": "unresolved",
+   "mastery": "unresolved",
+   "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)": "unresolved",
+   "damage_percent_done": "independent-pet-value",
+   "mana/power": "independent-pet-value",
+   "resistances": "explicit-recalculation"
+  },
+  "Minion": {
+   "level": "creation-snapshot",
+   "health": "independent-pet-value",
+   "armor": "independent-pet-value",
+   "attack_power": "independent-pet-value",
+   "spell_power": "independent-pet-value",
+   "weapon_damage": "independent-pet-value",
+   "haste": "unresolved",
+   "crit": "independent-pet-value",
+   "versatility": "unresolved",
+   "mastery": "unresolved",
+   "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)": "unresolved",
+   "damage_percent_done": "independent-pet-value"
+  },
+  "Totem": {
+   "level": "creation-snapshot",
+   "health": "independent-pet-value",
+   "armor": "independent-pet-value",
+   "attack_power": "independent-pet-value",
+   "spell_power": "dynamic-owner-lookup",
+   "weapon_damage": "independent-pet-value",
+   "haste": "unresolved",
+   "crit": "independent-pet-value",
+   "versatility": "dynamic-owner-lookup",
+   "mastery": "unresolved",
+   "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)": "dynamic-owner-lookup",
+   "damage_percent_done": "independent-pet-value"
+  },
+  "Puppet": {
+   "level": "creation-snapshot",
+   "health": "independent-pet-value",
+   "armor": "independent-pet-value",
+   "attack_power": "independent-pet-value",
+   "spell_power": "independent-pet-value",
+   "weapon_damage": "independent-pet-value",
+   "haste": "unresolved",
+   "crit": "independent-pet-value",
+   "versatility": "unresolved",
+   "mastery": "unresolved",
+   "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)": "unresolved",
+   "damage_percent_done": "independent-pet-value"
+  },
+  "TempSummon": {
+   "level": "creation-snapshot",
+   "health": "independent-pet-value",
+   "armor": "independent-pet-value",
+   "attack_power": "independent-pet-value",
+   "spell_power": "independent-pet-value",
+   "weapon_damage": "independent-pet-value",
+   "haste": "unresolved",
+   "crit": "independent-pet-value",
+   "versatility": "unresolved",
+   "mastery": "unresolved",
+   "spell_mods (owner talents/SPELL_AURA_ADD_PCT_MODIFIER)": "unresolved",
+   "damage_percent_done": "independent-pet-value"
+  }
+ },
+ "owner_facts_consumed": [
+  {
+   "owner_fact": "Stats[STAMINA] (UnitData int32 -> float)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1146-1160"
+   ],
+   "read_when": "every Guardian::UpdateStats(STA): InitStatsForLevel; Player::UpdateStats(STA) for GetPet() only",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "owner_fact": "Stats[STRENGTH]",
+   "consumer": "Guardian::UpdateStats (ghoul 26125 only)",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1146-1155"
+   ],
+   "read_when": "as above",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "owner_fact": "Stats[INTELLECT] (warlock/mage owner)",
+   "consumer": "Guardian::UpdateStats",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1162-1169"
+   ],
+   "read_when": "as above",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "owner_fact": "GetArmor() (Resistances[0] int32 -> uint32)",
+   "consumer": "Guardian::UpdateArmor (Pet only); InitStatsForLevel 29264",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1239-1242",
+    "src/server/game/Entities/Pet/Pet.cpp:1028"
+   ],
+   "read_when": "UpdateArmor: InitStatsForLevel, Player::UpdateArmor -> GetPet() (StatSystem.cpp:276-278); 29264: creation only",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "owner_fact": "GetTotalAttackPowerValue(RANGED_ATTACK)",
+   "consumer": "Guardian::UpdateAttackPowerAndDamage (hunter pet)",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1310-1315"
+   ],
+   "read_when": "InitStatsForLevel; Player::UpdateAttackPowerAndDamage(ranged) -> hunter GetPet() (StatSystem.cpp:403-407)",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "owner_fact": "GetTotalAttackPowerValue(BASE_ATTACK)",
+   "consumer": "Guardian::UpdateAttackPowerAndDamage (ghoul, spirit wolf); InitStatsForLevel 27829/28017",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1316-1326",
+    "src/server/game/Entities/Pet/Pet.cpp:1053",
+    "src/server/game/Entities/Pet/Pet.cpp:1060"
+   ],
+   "read_when": "Player::UpdateAttackPowerAndDamage(melee) -> ghoul GetPet() / spirit-wolf GetGuardianPet() (StatSystem.cpp:419-423); 27829/28017 creation only",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "owner_fact": "ActivePlayerData::ModDamageDonePos/Neg[FIRE,SHADOW,FROST,NATURE] (int32; Neg stored <= 0)",
+   "consumer": "Guardian::UpdateAttackPowerAndDamage (other Pet: max(fire,shadow)); UpdateDamagePhysical (1964/15438)",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:1328-1345",
+    "src/server/game/Entities/Unit/StatSystem.cpp:1370-1382",
+    "src/server/game/Entities/Unit/StatSystem.cpp:180-188"
+   ],
+   "read_when": "InitStatsForLevel; AuraEffect::HandleModDamageDone on the owner -> GetGuardianPet() (SpellAuraEffects.cpp:4731-4732); NOT Player::UpdateSpellDamageAndHealingBonus / ApplySpellPowerBonus (no pet call)",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "owner_fact": "ModDamageDonePos[FIRE/SHADOW] (Pos only)",
+   "consumer": "InitStatsForLevel SUMMON_PET bonus damage",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:929-935"
+   ],
+   "read_when": "creation; overwritten by UpdateAllStats -> UpdateAttackPowerAndDamage (Pos-Neg) in the same call",
+   "classification": "creation-snapshot"
+  },
+  {
+   "owner_fact": "SpellBaseDamageBonusDone(FROST/NATURE/FIRE/SHADOW)",
+   "consumer": "InitStatsForLevel entry branches 510/1964/15438/19668/31216",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:958-1044"
+   ],
+   "read_when": "creation only",
+   "classification": "creation-snapshot"
+  },
+  {
+   "owner_fact": "owner level",
+   "consumer": "Pet level (SUMMON_PET/HUNTER_PET sync) / TempSummon clamp",
+   "coordinates": [
+    "src/server/game/Entities/Pet/Pet.cpp:1784-1798",
+    "src/server/game/Entities/Creature/TemporarySummon.cpp:241-247"
+   ],
+   "read_when": "Pet: creation, load and SynchronizeLevelWithOwner; Guardian: creation",
+   "classification": "explicit-recalculation"
+  },
+  {
+   "owner_fact": "GetRatingBonusValue(CR_VERSATILITY_DAMAGE_DONE) + MOD_VERSATILITY",
+   "consumer": "Unit::SpellDamagePctDone / MeleeDamageBonusDone via GetSpellModOwner()",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6926-6928",
+    "src/server/game/Entities/Object/Object.cpp:1648-1670"
+   ],
+   "read_when": "at damage time, Pet and Totem only",
+   "classification": "dynamic-owner-lookup"
+  },
+  {
+   "owner_fact": "owner spell mods (SpellModifier list)",
+   "consumer": "Unit::SpellDamageBonusDone / Spell via GetSpellModOwner()",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6854-6858",
+    "src/server/game/Entities/Unit/Unit.cpp:6895-6896"
+   ],
+   "read_when": "at cast/damage time, Pet and Totem only",
+   "classification": "dynamic-owner-lookup"
+  },
+  {
+   "owner_fact": "Totem: the whole SpellDamageBonusDone",
+   "consumer": "Unit::SpellDamageBonusDone",
+   "coordinates": [
+    "src/server/game/Entities/Unit/Unit.cpp:6833-6836"
+   ],
+   "read_when": "at damage time",
+   "classification": "dynamic-owner-lookup"
+  },
+  {
+   "owner_fact": "owner haste / crit / mastery",
+   "consumer": "none",
+   "coordinates": [
+    "src/server/game/Entities/Unit/StatSystem.cpp:108-424",
+    "src/server/game/Entities/Player/Player.cpp:5237"
+   ],
+   "read_when": "never (no Player::Update* for these touches a controlled unit)",
+   "classification": "unresolved"
+  }
+ ],
+ "pet_scaling_spells": {
+  "query": "SpellName.Name_lang contains 'scaling' and one of pet/summon/guardian/minion (case-insensitive)",
+  "rows": [
+   {
+    "spell": 432343,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 6,
+      "aura": 23,
+      "base_points": 0.0,
+      "misc0": 0
+     }
+    ]
+   },
+   {
+    "spell": 432344,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 3,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 432345
+     },
+     {
+      "index": 1,
+      "effect": 3,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 432346
+     }
+    ]
+   },
+   {
+    "spell": 432345,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 28,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 216104
+     }
+    ]
+   },
+   {
+    "spell": 432346,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 28,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 216105
+     }
+    ]
+   },
+   {
+    "spell": 1288017,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 6,
+      "aura": 23,
+      "base_points": 0.0,
+      "misc0": 0
+     },
+     {
+      "index": 1,
+      "effect": 140,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 0
+     }
+    ]
+   },
+   {
+    "spell": 1288019,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 3,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 1288025
+     },
+     {
+      "index": 1,
+      "effect": 3,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 1288022
+     },
+     {
+      "index": 2,
+      "effect": 3,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 1288026
+     },
+     {
+      "index": 3,
+      "effect": 3,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 1288023
+     },
+     {
+      "index": 4,
+      "effect": 3,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 1298560
+     }
+    ]
+   },
+   {
+    "spell": 1288022,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 61,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 103269
+     }
+    ]
+   },
+   {
+    "spell": 1288023,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 61,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 103271
+     }
+    ]
+   },
+   {
+    "spell": 1288025,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 61,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 103270
+     }
+    ]
+   },
+   {
+    "spell": 1288026,
+    "name": "[DNT] Periodic Scaling Summons",
+    "effects": [
+     {
+      "index": 0,
+      "effect": 61,
+      "aura": 0,
+      "base_points": 0.0,
+      "misc0": 103272
+     }
+    ]
+   }
+  ],
+  "count": 10,
+  "trinity_application": {
+   "spell_pet_auras": "2 TDB rows: (20895 -> 24529) both absent from 12.1 SpellName; (28757 -> 28758) present (Stalker's Ally); loaded by SpellMgr::LoadSpellPetAuras (Spells/SpellMgr.cpp:1965-2029), cast by Pet::CastPetAuras only when IsPermanentPetFor (Pet.cpp:1657-1678, 1730-1747)",
+   "spell_pet.cpp": "legacy pet-scaling AuraScripts (scripts/Spells/spell_pet.cpp:89-1571) reference spell IDs absent from 12.1 and AddSC_pet_spell_scripts (spell_pet.cpp:1628) is never called by scripts/Spells/spell_script_loader.cpp (rg finds only the definition) -> never registered (trinity-consumer, static)",
+   "Guardian::Update*": "owner-derived stats come from hardcoded code (stats.json), not from any snapshot scaling aura"
+  },
+  "classification": "the 12.1 '[DNT] Periodic Scaling Summons' spells have no Trinity consumer: unresolved (absent from pinned Trinity != absent from Retail)"
+ },
+ "standard_owner_for_witness_runs": {
+  "level": 90,
+  "stats": [
+   1000,
+   1000,
+   20000,
+   1000,
+   0
+  ],
+  "armor": 5000,
+  "attack_power_melee": 10000.0,
+  "attack_power_ranged": 10000.0,
+  "sp": 10000
+ },
+ "witness_resolutions": [
+  {
+   "label": "Hunter pet (Call Pet 1)",
+   "resolution": {
+    "spell": 883,
+    "name": "Call Pet 1",
+    "owner_class_default": 3,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 0,
+    "trinity_unit_class": "Pet/HUNTER_PET",
+    "summon_effect": {
+     "effect_row_id": 366,
+     "effect_index": 0,
+     "effect": 56,
+     "entry": 0,
+     "base_points": 0.0,
+     "route": "Spell::EffectSummonPet -> Player::SummonPet(0, slot=effect value) -> Pet::LoadPetFromDB (call pet)",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+     "trinity_unit_class": "Pet",
+     "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+    },
+    "summons": [
+     {
+      "effect_row_id": 366,
+      "effect_index": 0,
+      "effect": 56,
+      "entry": 0,
+      "base_points": 0.0,
+      "route": "Spell::EffectSummonPet -> Player::SummonPet(0, slot=effect value) -> Pet::LoadPetFromDB (call pet)",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+      "trinity_unit_class": "Pet",
+      "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 0,
+    "unit_class": "Pet/HUNTER_PET",
+    "level": 90,
+    "pet_type": "HUNTER_PET",
+    "pet_levelstats": "pet_levelstats creature_entry=1 level=90: gap-filled from level 89 (highest authored level 85)",
+    "stats": {
+     "strength": 1,
+     "agility": 1,
+     "stamina": 6001,
+     "intellect": 1,
+     "spirit": 1
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 1.0,
+     "agility": 1.0,
+     "stamina": 1.0,
+     "intellect": 1.0,
+     "spirit": 1.0
+    },
+    "create_health": 1,
+    "create_mana": 1,
+    "max_health": 60001,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "status": "unresolved",
+     "reason": "unresolved: creature_template.unit_class not available"
+    },
+    "armor": {
+     "base": 1,
+     "bonus": 3500
+    },
+    "attack_power": 2182,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 1287,
+    "weapon_damage": [
+     68.0,
+     112.0
+    ],
+    "min_damage": 1314.857177734375,
+    "max_damage": 1358.857177734375,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     1,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": null,
+     "health_modifier": null,
+     "health_rate": 1.0,
+     "base_mana": null,
+     "base_damage_for_level": null,
+     "pre_health_base_value": null,
+     "pre_mana_base_pct": null,
+     "pre_weapon_damage": null
+    },
+    "source_notes": {
+     "world": "creature_template 0 not in world-db corpus (present)",
+     "display_power": "unresolved: creature_template.unit_class not available"
+    }
+   }
+  },
+  {
+   "label": "Warlock Imp",
+   "resolution": {
+    "spell": 688,
+    "name": "Summon Imp",
+    "owner_class_default": 9,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 416,
+    "trinity_unit_class": "Pet/SUMMON_PET",
+    "summon_effect": {
+     "effect_row_id": 270,
+     "effect_index": 0,
+     "effect": 56,
+     "entry": 416,
+     "base_points": 0.0,
+     "route": "Spell::EffectSummonPet -> Player::SummonPet",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+     "trinity_unit_class": "Pet",
+     "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+    },
+    "summons": [
+     {
+      "effect_row_id": 270,
+      "effect_index": 0,
+      "effect": 56,
+      "entry": 416,
+      "base_points": 0.0,
+      "route": "Spell::EffectSummonPet -> Player::SummonPet",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+      "trinity_unit_class": "Pet",
+      "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 416,
+    "unit_class": "Pet/SUMMON_PET",
+    "level": 90,
+    "pet_type": "SUMMON_PET",
+    "pet_levelstats": "pet_levelstats creature_entry=416 level=90: gap-filled from level 89 (highest authored level 85)",
+    "stats": {
+     "strength": 196,
+     "agility": 64,
+     "stamina": 6127,
+     "intellect": 743,
+     "spirit": 363
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 300.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 196.0,
+     "agility": 64.0,
+     "stamina": 127.0,
+     "intellect": 443.0,
+     "spirit": 363.0
+    },
+    "create_health": 2547,
+    "create_mana": 3668,
+    "max_health": 52946,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 3574,
+     "bonus": 5000
+    },
+    "attack_power": 5886,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 1500,
+    "weapon_damage": [
+     68.0,
+     112.0
+    ],
+    "min_damage": 3431.428466796875,
+    "max_damage": 3475.428466796875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     3574,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": null,
+     "pre_mana_base_pct": null,
+     "pre_weapon_damage": null
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 2.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "Warlock Grimoire: Imp",
+   "resolution": {
+    "spell": 111859,
+    "name": "Grimoire: Imp",
+    "owner_class_default": 9,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 416,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 124417,
+     "effect_index": 1,
+     "effect": 28,
+     "entry": 416,
+     "base_points": 0.0,
+     "summon_properties": 3314,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 2,
+      "Slot": 0,
+      "Flags_0": 2562,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 124417,
+      "effect_index": 1,
+      "effect": 28,
+      "entry": 416,
+      "base_points": 0.0,
+      "summon_properties": 3314,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 2,
+       "Slot": 0,
+       "Flags_0": 2562,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 416,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "pet_levelstats creature_entry=416 level=90: gap-filled from level 89 (highest authored level 85)",
+    "stats": {
+     "strength": 196,
+     "agility": 64,
+     "stamina": 6127,
+     "intellect": 743,
+     "spirit": 363
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 300.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 196.0,
+     "agility": 64.0,
+     "stamina": 127.0,
+     "intellect": 443.0,
+     "spirit": 363.0
+    },
+    "create_health": 2547,
+    "create_mana": 3668,
+    "max_health": 194430,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 3574,
+     "bonus": 0
+    },
+    "attack_power": 186,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 6961.98876953125,
+    "max_damage": 10389.8408203125,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     3574,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 141483.0,
+     "pre_mana_base_pct": 2.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 2.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+      "basehp": 141483,
+      "health": 141483
+     },
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "Warlock Felguard",
+   "resolution": {
+    "spell": 30146,
+    "name": "Summon Felguard",
+    "owner_class_default": 9,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 17252,
+    "trinity_unit_class": "Pet/SUMMON_PET",
+    "summon_effect": {
+     "effect_row_id": 19732,
+     "effect_index": 0,
+     "effect": 56,
+     "entry": 17252,
+     "base_points": 1.0,
+     "route": "Spell::EffectSummonPet -> Player::SummonPet",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+     "trinity_unit_class": "Pet",
+     "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+    },
+    "summons": [
+     {
+      "effect_row_id": 19732,
+      "effect_index": 0,
+      "effect": 56,
+      "entry": 17252,
+      "base_points": 1.0,
+      "route": "Spell::EffectSummonPet -> Player::SummonPet",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+      "trinity_unit_class": "Pet",
+      "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 17252,
+    "unit_class": "Pet/SUMMON_PET",
+    "level": 90,
+    "pet_type": "SUMMON_PET",
+    "pet_levelstats": "pet_levelstats creature_entry=17252 level=90: gap-filled from level 89 (highest authored level 85)",
+    "stats": {
+     "strength": 189,
+     "agility": 144,
+     "stamina": 6482,
+     "intellect": 614,
+     "spirit": 171
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 300.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 189.0,
+     "agility": 144.0,
+     "stamina": 482.0,
+     "intellect": 314.0,
+     "spirit": 171.0
+    },
+    "create_health": 7497,
+    "create_mana": 5823,
+    "max_health": 73497,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 13219,
+     "bonus": 5000
+    },
+    "attack_power": 6058,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 1500,
+    "weapon_damage": [
+     68.0,
+     112.0
+    ],
+    "min_damage": 3529.71435546875,
+    "max_damage": 3573.71435546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     13219,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": null,
+     "pre_mana_base_pct": null,
+     "pre_weapon_damage": null
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 2.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "Warlock Grimoire: Felguard",
+   "resolution": {
+    "spell": 111898,
+    "name": "Grimoire: Felguard",
+    "owner_class_default": 9,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 17252,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 124456,
+     "effect_index": 1,
+     "effect": 28,
+     "entry": 17252,
+     "base_points": 0.0,
+     "summon_properties": 3313,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 2,
+      "Slot": -1,
+      "Flags_0": 526850,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 124456,
+      "effect_index": 1,
+      "effect": 28,
+      "entry": 17252,
+      "base_points": 0.0,
+      "summon_properties": 3313,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 2,
+       "Slot": -1,
+       "Flags_0": 526850,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 17252,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "pet_levelstats creature_entry=17252 level=90: gap-filled from level 89 (highest authored level 85)",
+    "stats": {
+     "strength": 189,
+     "agility": 144,
+     "stamina": 6482,
+     "intellect": 614,
+     "spirit": 171
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 300.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 189.0,
+     "agility": 144.0,
+     "stamina": 482.0,
+     "intellect": 314.0,
+     "spirit": 171.0
+    },
+    "create_health": 7497,
+    "create_mana": 5823,
+    "max_health": 214980,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 13219,
+     "bonus": 0
+    },
+    "attack_power": 358,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 7060.2744140625,
+    "max_damage": 10488.1259765625,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     13219,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 141483.0,
+     "pre_mana_base_pct": 2.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 2.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+      "basehp": 141483,
+      "health": 141483
+     },
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "Warlock Wild Imp",
+   "resolution": {
+    "spell": 104317,
+    "name": "Wild Imp",
+    "owner_class_default": 9,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 55659,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 113739,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 55659,
+     "base_points": 1.0,
+     "summon_properties": 3210,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 2,
+      "Slot": 0,
+      "Flags_0": 4196866,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 113739,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 55659,
+      "base_points": 1.0,
+      "summon_properties": 3210,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 2,
+       "Slot": 0,
+       "Flags_0": 4196866,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 55659,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=55659 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 328,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 300.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 8488,
+    "create_mana": 0,
+    "max_health": 76977,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 6869.41748046875,
+    "max_damage": 10297.2685546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 0.05999999865889549,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 8489.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 0.05999999865889549,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 6,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+      "basehp": 8489,
+      "health": 8489
+     },
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "Warlock Wild Imp (Inner Demons)",
+   "resolution": {
+    "spell": 279910,
+    "name": "Wild Imp",
+    "owner_class_default": 9,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 143622,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 736536,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 143622,
+     "base_points": 1.0,
+     "summon_properties": 3210,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 2,
+      "Slot": 0,
+      "Flags_0": 4196866,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 736536,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 143622,
+      "base_points": 1.0,
+      "summon_properties": 3210,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 2,
+       "Slot": 0,
+       "Flags_0": 4196866,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 143622,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=143622 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 328,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 300.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 8488,
+    "create_mana": 0,
+    "max_health": 76977,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 6869.41748046875,
+    "max_damage": 10297.2685546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 0.05999999865889549,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 8489.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 0.05999999865889549,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 6,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+      "basehp": 8489,
+      "health": 8489
+     },
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "DK Raise Dead (talent spell)",
+   "resolution": {
+    "spell": 46584,
+    "name": "Raise Dead",
+    "owner_class_default": 6,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": [
+     {
+      "effect_index": 0,
+      "effect": 64,
+      "trigger_spell": 1242866
+     }
+    ]
+   }
+  },
+  {
+   "label": "DK Raise Dead pet summon",
+   "resolution": {
+    "spell": 52150,
+    "name": "Raise Dead",
+    "owner_class_default": 6,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 26125,
+    "trinity_unit_class": "Pet/SUMMON_PET",
+    "summon_effect": {
+     "effect_row_id": 44572,
+     "effect_index": 0,
+     "effect": 56,
+     "entry": 26125,
+     "base_points": 0.0,
+     "route": "Spell::EffectSummonPet -> Player::SummonPet",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+     "trinity_unit_class": "Pet",
+     "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+    },
+    "summons": [
+     {
+      "effect_row_id": 44572,
+      "effect_index": 0,
+      "effect": 56,
+      "entry": 26125,
+      "base_points": 0.0,
+      "route": "Spell::EffectSummonPet -> Player::SummonPet",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+      "trinity_unit_class": "Pet",
+      "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 26125,
+    "unit_class": "Pet/SUMMON_PET",
+    "level": 90,
+    "pet_type": "SUMMON_PET",
+    "pet_levelstats": "pet_levelstats creature_entry=26125 level=90: gap-filled from level 89 (highest authored level 80)",
+    "stats": {
+     "strength": 1031,
+     "agility": 95,
+     "stamina": 6092,
+     "intellect": 99,
+     "spirit": 87
+    },
+    "stat_from_owner": {
+     "strength": 700.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 331.0,
+     "agility": 95.0,
+     "stamina": 92.0,
+     "intellect": 99.0,
+     "spirit": 87.0
+    },
+    "create_health": 4551,
+    "create_mana": 2134,
+    "max_health": 64551,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 4513,
+     "bonus": 5000
+    },
+    "attack_power": 4242,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 1287,
+    "weapon_damage": [
+     68.0,
+     112.0
+    ],
+    "min_damage": 2492.0,
+    "max_damage": 2536.0,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4513,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": null,
+     "pre_mana_base_pct": null,
+     "pre_weapon_damage": null
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "DK Raise Dead guardian",
+   "resolution": {
+    "spell": 46585,
+    "name": "Raise Dead",
+    "owner_class_default": 6,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 26125,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 38713,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 26125,
+     "base_points": 1.0,
+     "summon_properties": 4973,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 2,
+      "Slot": 1,
+      "Flags_0": 1538,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 38713,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 26125,
+      "base_points": 1.0,
+      "summon_properties": 4973,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 2,
+       "Slot": 1,
+       "Flags_0": 1538,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 26125,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "pet_levelstats creature_entry=26125 level=90: gap-filled from level 89 (highest authored level 80)",
+    "stats": {
+     "strength": 1031,
+     "agility": 95,
+     "stamina": 6092,
+     "intellect": 99,
+     "spirit": 87
+    },
+    "stat_from_owner": {
+     "strength": 700.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 331.0,
+     "agility": 95.0,
+     "stamina": 92.0,
+     "intellect": 99.0,
+     "spirit": 87.0
+    },
+    "create_health": 4551,
+    "create_mana": 2134,
+    "max_health": 206034,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 4513,
+     "bonus": 0
+    },
+    "attack_power": 4242,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 1287,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 9279.703125,
+    "max_damage": 12707.5546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4513,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 141483.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+      "basehp": 141483,
+      "health": 141483
+     },
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "DK Army of the Dead (aura)",
+   "resolution": {
+    "spell": 42650,
+    "name": "Army of the Dead",
+    "owner_class_default": 6,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": [
+     {
+      "effect_index": 1,
+      "effect": 3,
+      "trigger_spell": 0
+     },
+     {
+      "effect_index": 3,
+      "effect": 3,
+      "trigger_spell": 0
+     },
+     {
+      "effect_index": 4,
+      "effect": 3,
+      "trigger_spell": 0
+     },
+     {
+      "effect_index": 5,
+      "effect": 3,
+      "trigger_spell": 0
+     }
+    ]
+   }
+  },
+  {
+   "label": "DK Army ghoul summon",
+   "resolution": {
+    "spell": 42651,
+    "name": "Army of the Dead",
+    "owner_class_default": 6,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 24207,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 34356,
+     "effect_index": 1,
+     "effect": 28,
+     "entry": 24207,
+     "base_points": 0.0,
+     "summon_properties": 687,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 3,
+      "Slot": 0,
+      "Flags_0": 4719106,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 34356,
+      "effect_index": 1,
+      "effect": 28,
+      "entry": 24207,
+      "base_points": 0.0,
+      "summon_properties": 687,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 3,
+       "Slot": 0,
+       "Flags_0": 4719106,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 24207,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=24207 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 42623,
+    "create_mana": 0,
+    "max_health": 145247,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 3,
+     "value": 100
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 6869.41748046875,
+    "max_damage": 10297.2685546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 0.30126500129699707,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 42624.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 0.30126500129699707,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 6,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 3",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 3",
+      "basehp": 42624,
+      "health": 42624
+     },
+     "display_power": "ChrClasses[4].DisplayPower=3"
+    }
+   }
+  },
+  {
+   "label": "DK Ebon Gargoyle",
+   "resolution": {
+    "spell": 49206,
+    "name": "Summon Gargoyle",
+    "owner_class_default": 6,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 27829,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 41320,
+     "effect_index": 1,
+     "effect": 28,
+     "entry": 27829,
+     "base_points": 1.0,
+     "summon_properties": 3238,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 3,
+      "Slot": 3,
+      "Flags_0": 4196874,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 41320,
+      "effect_index": 1,
+      "effect": 28,
+      "entry": 27829,
+      "base_points": 1.0,
+      "summon_properties": 3238,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 3,
+       "Slot": 3,
+       "Flags_0": 4196874,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 27829,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=27829 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 2728,
+    "create_mana": 928,
+    "max_health": 204211,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 928
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 5000,
+    "weapon_damage": [
+     68.0,
+     112.0
+    ],
+    "min_damage": 81.71428680419922,
+    "max_damage": 125.71428680419922,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 141483.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4",
+      "basehp": 141483,
+      "health": 141483
+     },
+     "display_power": "power 1 lacks PowerTypeFlags::IsUsedByNPCs -> SetPowerType returns, DisplayPower stays 0 (mana)"
+    }
+   }
+  },
+  {
+   "label": "Mage Mirror Image (cast)",
+   "resolution": {
+    "spell": 55342,
+    "name": "Mirror Image",
+    "owner_class_default": 8,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": [
+     {
+      "effect_index": 1,
+      "effect": 3,
+      "trigger_spell": 0
+     }
+    ]
+   }
+  },
+  {
+   "label": "Mage Mirror Image summon",
+   "resolution": {
+    "spell": 321686,
+    "name": "Mirror Image",
+    "owner_class_default": 8,
+    "owner_class_source": "supplied",
+    "status": "ok",
+    "entry": 31216,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 809560,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 31216,
+     "base_points": 0.0,
+     "summon_properties": 1021,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 0,
+      "Slot": 0,
+      "Flags_0": 2562,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 809560,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 31216,
+      "base_points": 0.0,
+      "summon_properties": 1021,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 0,
+       "Slot": 0,
+       "Flags_0": 2562,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 31216,
+    "unit_class": "Guardian",
+    "level": 0,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "level 0: no pet_levelstats rows for 31216 -> nullptr (ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 328,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 300.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 28,
+    "create_mana": 28,
+    "max_health": 60047,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 28
+    },
+    "armor": {
+     "base": 0,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 3300,
+    "weapon_damage": [
+     4.397017002105713,
+     6.595525741577148
+    ],
+    "min_damage": 18.111303329467773,
+    "max_damage": 20.309810638427734,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 1.0,
+     "health_modifier": 0.30000001192092896,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 1.0,
+     "pre_health_base_value": 19.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      4.397017002105713,
+      6.595525741577148
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 0,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 0.30000001192092896,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "no ExpectedStat row for level 0 -> 1.0f (DB2Stores.cpp:2482-2483)",
+      "CreatureAutoAttackDps": "no ExpectedStat row for level 0 -> 1.0f (DB2Stores.cpp:2482-2483)"
+     },
+     "creature_classlevelstats": "absent for (level 0, class 8) -> 0",
+     "content_tuning_levels": null,
+     "select_level": 1,
+     "tempsummon_level": 0,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=1, ExpansionID=-2 fallback) ID=1 CreatureHealth=78; ContentTuningXExpected mods []; class mod 1",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=1, ExpansionID=-2 fallback) ID=1 CreatureAutoAttackDps=4.75353193283; ContentTuningXExpected mods []; class mod 1",
+      "basehp": 19,
+      "health": 19
+     },
+     "display_power": "ChrClasses[8].DisplayPower=0"
+    }
+   }
+  },
+  {
+   "label": "Mage Water Elemental",
+   "resolution": {
+    "spell": 31687,
+    "name": "Summon Water Elemental",
+    "owner_class_default": 8,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 78116,
+    "trinity_unit_class": "Pet/SUMMON_PET",
+    "summon_effect": {
+     "effect_row_id": 21314,
+     "effect_index": 0,
+     "effect": 56,
+     "entry": 78116,
+     "base_points": 1.0,
+     "route": "Spell::EffectSummonPet -> Player::SummonPet",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+     "trinity_unit_class": "Pet",
+     "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+    },
+    "summons": [
+     {
+      "effect_row_id": 21314,
+      "effect_index": 0,
+      "effect": 56,
+      "entry": 78116,
+      "base_points": 1.0,
+      "route": "Spell::EffectSummonPet -> Player::SummonPet",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+      "trinity_unit_class": "Pet",
+      "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 78116,
+    "unit_class": "Pet/SUMMON_PET",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=78116 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 328,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 300.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 84889,
+    "create_mana": 21262,
+    "max_health": 144889,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 21262
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 5000
+    },
+    "attack_power": 5724,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 1500,
+    "weapon_damage": [
+     6341.525390625,
+     9512.2880859375
+    ],
+    "min_damage": 9612.3828125,
+    "max_damage": 12783.1455078125,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 113185.6171875,
+     "health_modifier": 0.75,
+     "health_rate": 1.0,
+     "base_mana": 21262,
+     "base_damage_for_level": 6341.525390625,
+     "pre_health_base_value": null,
+     "pre_mana_base_pct": null,
+     "pre_weapon_damage": null
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 0,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 0.75,
+     "ManaModifier": 0.33,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 1",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 1"
+     },
+     "creature_classlevelstats": "row",
+     "display_power": "ChrClasses[8].DisplayPower=0"
+    }
+   }
+  },
+  {
+   "label": "Priest Shadowfiend (cast)",
+   "resolution": {
+    "spell": 34433,
+    "name": "Shadowfiend",
+    "owner_class_default": 5,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": []
+   }
+  },
+  {
+   "label": "Priest Shadowfiend summon",
+   "resolution": {
+    "spell": 1280172,
+    "name": "Shadowfiend",
+    "owner_class_default": 5,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 19668,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 1292999,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 19668,
+     "base_points": 0.0,
+     "summon_properties": 3255,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 3,
+      "Slot": -1,
+      "Flags_0": 4196866,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 1292999,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 19668,
+      "base_points": 0.0,
+      "summon_properties": 3255,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 3,
+       "Slot": -1,
+       "Flags_0": 4196866,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 19668,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "pet_levelstats creature_entry=19668 level=90: gap-filled from level 89 (highest authored level 85)",
+    "stats": {
+     "strength": 241,
+     "agility": 172,
+     "stamina": 6095,
+     "intellect": 380,
+     "spirit": 248
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 241.0,
+     "agility": 172.0,
+     "stamina": 95.0,
+     "intellect": 380.0,
+     "spirit": 248.0
+    },
+    "create_health": 3205,
+    "create_mana": 6011,
+    "max_health": 303725,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 6011
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 462,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     3270.0,
+     3450.0
+    ],
+    "min_damage": 3534.0,
+    "max_damage": 3714.0,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.7000000476837158,
+     "health_rate": 1.0,
+     "base_mana": 9916,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 240520.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.7000000476837158,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 2",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 2"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 2",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 2",
+      "basehp": 240520,
+      "health": 240520
+     },
+     "display_power": "ChrClasses[2].DisplayPower=0"
+    }
+   }
+  },
+  {
+   "label": "Priest Mindbender",
+   "resolution": {
+    "spell": 123040,
+    "name": "Mindbender",
+    "owner_class_default": 5,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 62982,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 155077,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 62982,
+     "base_points": 0.0,
+     "summon_properties": 4449,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 3,
+      "Slot": -1,
+      "Flags_0": 4196866,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 155077,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 62982,
+      "base_points": 0.0,
+      "summon_properties": 4449,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 3,
+       "Slot": -1,
+       "Flags_0": 4196866,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 62982,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=62982 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 240519,
+    "create_mana": 9916,
+    "max_health": 541039,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 9916
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 6869.41748046875,
+    "max_damage": 10297.2685546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.7000000476837158,
+     "health_rate": 1.0,
+     "base_mana": 9916,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 240520.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.7000000476837158,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 2",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 2"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 2",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 2",
+      "basehp": 240520,
+      "health": 240520
+     },
+     "display_power": "ChrClasses[2].DisplayPower=0"
+    }
+   }
+  },
+  {
+   "label": "Shaman Fire Elemental (cast)",
+   "resolution": {
+    "spell": 198067,
+    "name": "Fire Elemental",
+    "owner_class_default": 7,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": [
+     {
+      "effect_index": 0,
+      "effect": 3,
+      "trigger_spell": 0
+     },
+     {
+      "effect_index": 1,
+      "effect": 3,
+      "trigger_spell": 0
+     }
+    ]
+   }
+  },
+  {
+   "label": "Shaman Fire Elemental summon",
+   "resolution": {
+    "spell": 188592,
+    "name": "Fire Elemental",
+    "owner_class_default": 7,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 95061,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 275512,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 95061,
+     "base_points": 1.0,
+     "summon_properties": 3213,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 2,
+      "Slot": -1,
+      "Flags_0": 4344330,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 275512,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 95061,
+      "base_points": 1.0,
+      "summon_properties": 3213,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 2,
+       "Slot": -1,
+       "Flags_0": 4344330,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 95061,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=95061 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 8310654,
+    "create_mana": 21262,
+    "max_health": 16681309,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 862529
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6341.525390625,
+     9512.2880859375
+    ],
+    "min_damage": 6355.23974609375,
+    "max_damage": 9526.001953125,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 113185.6171875,
+     "health_modifier": 73.42500305175781,
+     "health_rate": 1.0,
+     "base_mana": 21262,
+     "base_damage_for_level": 6341.525390625,
+     "pre_health_base_value": 8310655.0,
+     "pre_mana_base_pct": 40.56669998168945,
+     "pre_weapon_damage": [
+      6341.525390625,
+      9512.2880859375
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 73.42500305175781,
+     "ManaModifier": 40.5667,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 1",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 1"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 1",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 1",
+      "basehp": 8310655,
+      "health": 8310655
+     },
+     "display_power": "ChrClasses[8].DisplayPower=0"
+    }
+   }
+  },
+  {
+   "label": "Shaman Fire Elemental (pet variant)",
+   "resolution": {
+    "spell": 372335,
+    "name": "Summon Fire Elemental",
+    "owner_class_default": 7,
+    "owner_class_source": "supplied",
+    "status": "ok",
+    "entry": 95061,
+    "trinity_unit_class": "Pet/SUMMON_PET",
+    "summon_effect": {
+     "effect_row_id": 1110897,
+     "effect_index": 0,
+     "effect": 56,
+     "entry": 95061,
+     "base_points": 1.0,
+     "route": "Spell::EffectSummonPet -> Player::SummonPet",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+     "trinity_unit_class": "Pet",
+     "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+    },
+    "summons": [
+     {
+      "effect_row_id": 1110897,
+      "effect_index": 0,
+      "effect": 56,
+      "entry": 95061,
+      "base_points": 1.0,
+      "route": "Spell::EffectSummonPet -> Player::SummonPet",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2656-2721",
+      "trinity_unit_class": "Pet",
+      "unit_mask": "UNIT_MASK_PET|GUARDIAN|CONTROLABLE_GUARDIAN"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 95061,
+    "unit_class": "Pet/SUMMON_PET",
+    "level": 90,
+    "pet_type": "SUMMON_PET",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=95061 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 8310654,
+    "create_mana": 21262,
+    "max_health": 8370654,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 21262
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 5000
+    },
+    "attack_power": 5724,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 1500,
+    "weapon_damage": [
+     68.0,
+     112.0
+    ],
+    "min_damage": 3338.857177734375,
+    "max_damage": 3382.857177734375,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 113185.6171875,
+     "health_modifier": 73.42500305175781,
+     "health_rate": 1.0,
+     "base_mana": 21262,
+     "base_damage_for_level": 6341.525390625,
+     "pre_health_base_value": null,
+     "pre_mana_base_pct": null,
+     "pre_weapon_damage": null
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 73.42500305175781,
+     "ManaModifier": 40.5667,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 1",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 1"
+     },
+     "creature_classlevelstats": "row",
+     "display_power": "ChrClasses[8].DisplayPower=0"
+    }
+   }
+  },
+  {
+   "label": "Shaman Earth Elemental (cast)",
+   "resolution": {
+    "spell": 198103,
+    "name": "Earth Elemental",
+    "owner_class_default": 7,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": [
+     {
+      "effect_index": 0,
+      "effect": 3,
+      "trigger_spell": 0
+     }
+    ]
+   }
+  },
+  {
+   "label": "Shaman Earth Elemental summon",
+   "resolution": {
+    "spell": 188616,
+    "name": "Earth Elemental",
+    "owner_class_default": 7,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 95072,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 275537,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 95072,
+     "base_points": 1.0,
+     "summon_properties": 3215,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 2,
+      "Slot": -1,
+      "Flags_0": 133640,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 275537,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 95072,
+      "base_points": 1.0,
+      "summon_properties": 3215,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 2,
+       "Slot": -1,
+       "Flags_0": 133640,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 95072,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=95072 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 183926,
+    "create_mana": 0,
+    "max_health": 427853,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 0
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 6869.41748046875,
+    "max_damage": 10297.2685546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.2999999523162842,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 183927.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.2999999523162842,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4",
+      "basehp": 183927,
+      "health": 183927
+     },
+     "display_power": "power 1 lacks PowerTypeFlags::IsUsedByNPCs -> SetPowerType returns, DisplayPower stays 0 (mana)"
+    }
+   }
+  },
+  {
+   "label": "Shaman Feral Spirit (cast)",
+   "resolution": {
+    "spell": 51533,
+    "name": "Feral Spirit",
+    "owner_class_default": 7,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": [
+     {
+      "effect_index": 0,
+      "effect": 3,
+      "trigger_spell": 0
+     }
+    ]
+   }
+  },
+  {
+   "label": "Shaman Feral Spirit summon",
+   "resolution": {
+    "spell": 228562,
+    "name": "Feral Spirit",
+    "owner_class_default": 7,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 29264,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 344190,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 29264,
+     "base_points": 2.0,
+     "summon_properties": 1161,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 2,
+      "Slot": 0,
+      "Flags_0": 138430976,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+     "trinity_unit_class": "Guardian",
+     "controllable": false,
+     "use_creature_level": false,
+     "num_summons": "max(effect value, 1) = 2"
+    },
+    "summons": [
+     {
+      "effect_row_id": 344190,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 29264,
+      "base_points": 2.0,
+      "summon_properties": 1161,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 2,
+       "Slot": 0,
+       "Flags_0": 138430976,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1214-1218",
+      "trinity_unit_class": "Guardian",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "max(effect value, 1) = 2"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 29264,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=29264 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 12025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 2700,
+    "create_mana": 0,
+    "max_health": 264183,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 0
+    },
+    "armor": {
+     "base": 1750,
+     "bonus": 0
+    },
+    "attack_power": 3124,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 3100,
+    "weapon_damage": [
+     270.0,
+     450.0
+    ],
+    "min_damage": 1608.857177734375,
+    "max_damage": 1788.857177734375,
+    "base_attack_time_ms": 1500,
+    "resistances": [
+     1750,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 141483.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4",
+      "basehp": 141483,
+      "health": 141483
+     },
+     "display_power": "power 1 lacks PowerTypeFlags::IsUsedByNPCs -> SetPowerType returns, DisplayPower stays 0 (mana)"
+    }
+   }
+  },
+  {
+   "label": "Shaman Healing Stream Totem",
+   "resolution": {
+    "spell": 5394,
+    "name": "Healing Stream Totem",
+    "owner_class_default": 7,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "entry": 3527,
+    "trinity_unit_class": "Totem",
+    "summons": [
+     {
+      "effect_row_id": 1925,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 3527,
+      "base_points": 5.0,
+      "summon_properties": 3402,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 4,
+       "Slot": -1,
+       "Flags_0": 1048578,
+       "Flags_1": 0
+      },
+      "route": "Map::SummonCreature + totem health override",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1970-1985",
+      "unit_mask": "UNIT_MASK_TOTEM",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1219-1222",
+      "trinity_unit_class": "Totem",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ],
+    "reason": "Totem: no Guardian stat code; plain Creature::UpdateLevelDependantStats values (independent), the prepared-stat oracle covers only Pet/Guardian"
+   }
+  },
+  {
+   "label": "Druid Force of Nature (cast)",
+   "resolution": {
+    "spell": 205636,
+    "name": "Force of Nature",
+    "owner_class_default": 11,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": [
+     {
+      "effect_index": 0,
+      "effect": 3,
+      "trigger_spell": 0
+     },
+     {
+      "effect_index": 1,
+      "effect": 64,
+      "trigger_spell": 248280
+     },
+     {
+      "effect_index": 2,
+      "effect": 64,
+      "trigger_spell": 248280
+     },
+     {
+      "effect_index": 3,
+      "effect": 64,
+      "trigger_spell": 248280
+     }
+    ]
+   }
+  },
+  {
+   "label": "Druid Force of Nature summon",
+   "resolution": {
+    "spell": 248280,
+    "name": "Force of Nature",
+    "owner_class_default": 11,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 103822,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 465060,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 103822,
+     "base_points": 1.0,
+     "summon_properties": 3097,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 1,
+      "Slot": 0,
+      "Flags_0": 4213250,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+     "trinity_unit_class": "Guardian",
+     "controllable": true,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 465060,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 103822,
+      "base_points": 1.0,
+      "summon_properties": 3097,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 1,
+       "Slot": 0,
+       "Flags_0": 4213250,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+      "trinity_unit_class": "Guardian",
+      "controllable": true,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 103822,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=103822 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 707410,
+    "create_mana": 0,
+    "max_health": 1474821,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 0
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 6869.41748046875,
+    "max_damage": 10297.2685546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 5.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 707411.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 5.0,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4",
+      "basehp": 707411,
+      "health": 707411
+     },
+     "display_power": "power 1 lacks PowerTypeFlags::IsUsedByNPCs -> SetPowerType returns, DisplayPower stays 0 (mana)"
+    }
+   }
+  },
+  {
+   "label": "Druid Grove Guardians",
+   "resolution": {
+    "spell": 102693,
+    "name": "Grove Guardians",
+    "owner_class_default": 11,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 54983,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 111576,
+     "effect_index": 1,
+     "effect": 28,
+     "entry": 54983,
+     "base_points": 1.0,
+     "summon_properties": 5734,
+     "summon_properties_row": {
+      "Control": 1,
+      "Title": 1,
+      "Slot": -1,
+      "Flags_0": 37767682,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+     "trinity_unit_class": "Guardian",
+     "controllable": true,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 111576,
+      "effect_index": 1,
+      "effect": 28,
+      "entry": 54983,
+      "base_points": 1.0,
+      "summon_properties": 5734,
+      "summon_properties_row": {
+       "Control": 1,
+       "Title": 1,
+       "Slot": -1,
+       "Flags_0": 37767682,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1945-1949",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1230-1233",
+      "trinity_unit_class": "Guardian",
+      "controllable": true,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 54983,
+    "unit_class": "Guardian",
+    "level": 0,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "level 0: no pet_levelstats rows for 54983 -> nullptr (ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 1,
+    "create_mana": 0,
+    "max_health": 60079,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 0
+    },
+    "armor": {
+     "base": 0,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     1.0,
+     1.5
+    ],
+    "min_damage": 14.714285850524902,
+    "max_damage": 15.214285850524902,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 1.0,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 1.0,
+     "pre_health_base_value": 78.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      4.7535319328308105,
+      7.130297660827637
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 0,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "no ExpectedStat row for level 0 -> 1.0f (DB2Stores.cpp:2482-2483)",
+      "CreatureAutoAttackDps": "no ExpectedStat row for level 0 -> 1.0f (DB2Stores.cpp:2482-2483)"
+     },
+     "creature_classlevelstats": "absent for (level 0, class 2) -> 0",
+     "content_tuning_levels": null,
+     "select_level": 1,
+     "tempsummon_level": 0,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=1, ExpansionID=-2 fallback) ID=1 CreatureHealth=78; ContentTuningXExpected mods []; class mod 2",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=1, ExpansionID=-2 fallback) ID=1 CreatureAutoAttackDps=4.75353193283; ContentTuningXExpected mods []; class mod 2",
+      "basehp": 78,
+      "health": 78
+     },
+     "display_power": "ChrClasses[2].DisplayPower=0"
+    }
+   }
+  },
+  {
+   "label": "Paladin Guardian of Ancient Kings",
+   "resolution": {
+    "spell": 86659,
+    "name": "Guardian of Ancient Kings",
+    "owner_class_default": 2,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "reason": "no SPELL_EFFECT_SUMMON(28)/SUMMON_PET(56) at DIFFICULTY_NONE; the summon (if any) is reached through a trigger/dummy/script edge -- resolve the child spell instead",
+    "trigger_or_dummy_effects": []
+   }
+  },
+  {
+   "label": "Monk Xuen",
+   "resolution": {
+    "spell": 123904,
+    "name": "Invoke Xuen, the White Tiger",
+    "owner_class_default": 10,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "ok",
+    "entry": 63508,
+    "trinity_unit_class": "Guardian",
+    "summon_effect": {
+     "effect_row_id": 156549,
+     "effect_index": 0,
+     "effect": 28,
+     "entry": 63508,
+     "base_points": 0.0,
+     "summon_properties": 3262,
+     "summon_properties_row": {
+      "Control": 2,
+      "Title": 2,
+      "Slot": -1,
+      "Flags_0": 16898,
+      "Flags_1": 0
+     },
+     "route": "SummonGuardian",
+     "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2036-2038",
+     "unit_mask": "UNIT_MASK_GUARDIAN",
+     "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1200-1202",
+     "trinity_unit_class": "Guardian",
+     "controllable": true,
+     "use_creature_level": false,
+     "num_summons": "1"
+    },
+    "summons": [
+     {
+      "effect_row_id": 156549,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 63508,
+      "base_points": 0.0,
+      "summon_properties": 3262,
+      "summon_properties_row": {
+       "Control": 2,
+       "Title": 2,
+       "Slot": -1,
+       "Flags_0": 16898,
+       "Flags_1": 0
+      },
+      "route": "SummonGuardian",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:2036-2038",
+      "unit_mask": "UNIT_MASK_GUARDIAN",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1200-1202",
+      "trinity_unit_class": "Guardian",
+      "controllable": true,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ]
+   },
+   "oracle": {
+    "status": "ok",
+    "entry": 63508,
+    "unit_class": "Guardian",
+    "level": 90,
+    "pet_type": "MAX_PET_TYPE(none)",
+    "pet_levelstats": "no pet_levelstats rows for creature_entry=63508 (GetPetLevelInfo returns nullptr, ObjectMgr.cpp:3775-3776)",
+    "stats": {
+     "strength": 22,
+     "agility": 22,
+     "stamina": 6025,
+     "intellect": 28,
+     "spirit": 0
+    },
+    "stat_from_owner": {
+     "strength": 0.0,
+     "agility": 0.0,
+     "stamina": 6000.0,
+     "intellect": 0.0,
+     "spirit": 0.0
+    },
+    "create_stats": {
+     "strength": 22.0,
+     "agility": 22.0,
+     "stamina": 25.0,
+     "intellect": 28.0,
+     "spirit": 0.0
+    },
+    "create_health": 141482,
+    "create_mana": 0,
+    "max_health": 342965,
+    "max_health_undefined_behaviour": false,
+    "max_power": {
+     "power": 0,
+     "value": 0
+    },
+    "armor": {
+     "base": 4500,
+     "bonus": 0
+    },
+    "attack_power": 24,
+    "attack_power_multiplier": 0.0,
+    "bonus_spell_damage": 0,
+    "weapon_damage": [
+     6855.703125,
+     10283.5546875
+    ],
+    "min_damage": 6869.41748046875,
+    "max_damage": 10297.2685546875,
+    "base_attack_time_ms": 2000,
+    "resistances": [
+     4500,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "engine_inputs": {
+     "expected_health_at_petlevel": 141482.015625,
+     "health_modifier": 1.0,
+     "health_rate": 1.0,
+     "base_mana": 0,
+     "base_damage_for_level": 6855.703125,
+     "pre_health_base_value": 141483.0,
+     "pre_mana_base_pct": 1.0,
+     "pre_weapon_damage": [
+      6855.703125,
+      10283.5546875
+     ]
+    },
+    "source_notes": {
+     "world_sources": [
+      "docs/research/world-db-corpora/creature-templates.json",
+      "docs/research/world-db-corpora/pet-witness-templates.json"
+     ],
+     "ContentTuningID": 482,
+     "HealthScalingExpansion": 11,
+     "HealthModifier": 1.0,
+     "ManaModifier": 1.0,
+     "DeltaLevelMin": 0,
+     "DeltaLevelMax": 0,
+     "Classification": 0,
+     "expected_stat_petlevel": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4"
+     },
+     "creature_classlevelstats": "row",
+     "content_tuning_levels": {
+      "MinLevel": 1,
+      "MaxLevel": 90
+     },
+     "select_level": 90,
+     "tempsummon_level": 90,
+     "expected_stat_select_level": {
+      "CreatureHealth": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureHealth=141482.015625; ContentTuningXExpected mods []; class mod 4",
+      "CreatureAutoAttackDps": "ExpectedStat(Lvl=90, ExpansionID=-2 fallback) ID=475 CreatureAutoAttackDps=6855.703125; ContentTuningXExpected mods []; class mod 4",
+      "basehp": 141483,
+      "health": 141483
+     },
+     "display_power": "power 1 lacks PowerTypeFlags::IsUsedByNPCs -> SetPowerType returns, DisplayPower stays 0 (mana)"
+    }
+   }
+  },
+  {
+   "label": "Warlock Summon Infernal",
+   "resolution": {
+    "spell": 1122,
+    "name": "Summon Infernal",
+    "owner_class_default": 9,
+    "owner_class_source": "ChrClasses.SpellClassSet == SpellClassOptions.SpellClassSet (db2-fact)",
+    "status": "unresolved",
+    "entry": 47319,
+    "trinity_unit_class": "TempSummon",
+    "summons": [
+     {
+      "effect_row_id": 402,
+      "effect_index": 0,
+      "effect": 28,
+      "entry": 47319,
+      "base_points": 1.0,
+      "summon_properties": 1881,
+      "summon_properties_row": {
+       "Control": 0,
+       "Title": 0,
+       "Slot": 0,
+       "Flags_0": 32768,
+       "Flags_1": 0
+      },
+      "route": "Map::SummonCreature x numSummons (owner GUID only for ALLY)",
+      "route_coordinate": "src/server/game/Spells/SpellEffects.cpp:1997-2031",
+      "unit_mask": "UNIT_MASK_SUMMON",
+      "mask_coordinate": "src/server/game/Entities/Object/Object.cpp:1194 (default mask)",
+      "trinity_unit_class": "TempSummon",
+      "controllable": false,
+      "use_creature_level": false,
+      "num_summons": "1"
+     }
+    ],
+    "reason": "TempSummon: no Guardian stat code; plain Creature::UpdateLevelDependantStats values (independent), the prepared-stat oracle covers only Pet/Guardian"
+   }
+  }
+ ]
+}
