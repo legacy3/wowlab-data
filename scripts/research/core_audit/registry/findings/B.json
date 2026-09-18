@@ -1,0 +1,167 @@
+[
+ {
+  "id": "CSA-B-01",
+  "title": "raw-108 operation-3 class-mask PercentFirstEffect factor ignores overlapping class-mask bit multiplicity",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:537-583",
+   "crates/combat/src/program/passive_spell_modifier.rs:163-201",
+   "crates/combat/src/program/passive_spell_modifier.rs:477-483",
+   "crates/combat/src/program/passive_spell_modifier.rs:587-615",
+   "crates/combat/src/program/passive_spell_modifier.rs:617-691",
+   "crates/combat/src/program/selected_trait_package.rs:1125-1145",
+   "crates/combat/src/program/selected_trait_package.rs:888-891",
+   "crates/data/src/game_data.rs:590-612"
+  ],
+  "evidence": [
+   "core: every other class-mask SpellMod path uses the overlap popcount: Percent ops raise the binary32 factor to the count (:172-185, spellmod_percent_factor :477-483); flat cooldown and flat first-effect multiply points by count (:596, :673). compile_percent_first_effect_projections computes factor = 1 + points/100 once (:544) and only tests count > 0 (:574).",
+   "trinity: SpellInfo.cpp:2005-2008 returns the popcount as applyCount; Player.cpp GetSpellModValues multiplies pct by pow(1 + value/100, applyCount) for every SpellModOp including PointsIndex0 (Object.cpp:1678-1690 ApplyEffectModifiers applies PointsIndex0 to effect-0 values).",
+   "probe: provider +50% op 3 mask 0b11, raw-20 payload 1%/1000hp: one overlapping bit -> 15.0, two bits -> 15.0 (Trinity 22.5); flat raw-107 op 3 sibling path gives 20.0 / 30.0 (counts bits).",
+   "source: no 12.1.0 raw-108 op-3 trait provider has a >=2-bit overlap with any same-family spell (scratch/B/scan_pfe.py), so the defect is reachable only with source-shaped synthetic inputs today."
+  ],
+  "probe_tests": [
+   "b_first_effect_mask.rs::defect_percent_first_effect_class_mask_ignores_overlapping_bit_count",
+   "b_first_effect_mask.rs::holds_flat_first_effect_class_mask_counts_overlapping_bits"
+  ],
+  "probe_test": "b_first_effect_mask.rs::defect_percent_first_effect_class_mask_ignores_overlapping_bit_count",
+  "reproducer": "cargo test --offline --test b_first_effect_mask (probe crate, CARGO_TARGET_DIR=/home/dev/bag/core-audit-pass/targets/b)",
+  "why_tests_missed": "The only admitted op-3 percent witness (Ephemeral Bond) uses the Boolean label selector; no Core test constructs a class-mask PercentFirstEffect provider, and the class-mask branch percent_first_effect_class_mask (selected_trait_package.rs:1125) is reachable only through the arity-1 composition shortcut.",
+  "correction_boundary": "compile_percent_first_effect_projections: derive the factor from selector_match_count exactly as the Percent branch does (binary32 (1+p/100)^count), or reject class-mask PercentFirstEffect at classification until a witness exists.",
+  "must_not_widen": "Do not widen op-3 percent to new target shells (raw-87, direct payloads) while fixing multiplicity; keep label selector Boolean.",
+  "finding_ids": [],
+  "track": "B"
+ },
+ {
+  "id": "CSA-B-02",
+  "title": "arity-1 composition admits sole-effect op-3 percent providers (raw-108 class-mask and raw-218 label) outside every implemented catalog row",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:888-891",
+   "crates/combat/src/program/selected_trait_package.rs:1033-1060",
+   "crates/combat/src/program/selected_trait_package.rs:1125-1145",
+   "crates/combat/src/program/selected_trait_package.rs:1180-1203",
+   "crates/dbc/src/aura_subtype.rs:440-450",
+   "crates/dbc/src/aura_subtype.rs:488"
+  ],
+  "evidence": [
+   "core: composition_is_admitted_by returns true for arity 1 (:889) before any role/slot check, so generic_spell_modifier roles PercentFirstEffect(ClassMask) and PercentFirstEffect(Label) become executable as sole effects.",
+   "core: raw-108 catalog row (aura_subtype.rs:440-450) documents only operations 0/22/11/15; raw-218 row (:488) admits operation 3 only for the exact complete three-effect Ephemeral Bond package.",
+   "probe: sole-effect one-rank raw-218 op-3 label provider (+50) compiles, binds and scales a raw-20 tick 10 -> 15; raw-108 op-3 class-mask sole provider compiles (CSA-B-01 probe)."
+  ],
+  "probe_tests": [
+   "b_first_effect_mask.rs::defect_sole_effect_raw218_operation3_label_is_admitted_beyond_catalog_row"
+  ],
+  "probe_test": "b_first_effect_mask.rs::defect_sole_effect_raw218_operation3_label_is_admitted_beyond_catalog_row",
+  "reproducer": "cargo test --offline --test b_first_effect_mask defect_sole_effect_raw218",
+  "why_tests_missed": "Catalog-row tests assert documented witnesses compile; no test asserts that undocumented sole-effect op-3 shapes are refused.",
+  "correction_boundary": "Either document the generic arity-1 op-3 admission in the raw-108/raw-218 rows (with CSA-B-01/04 fixed) or restrict PercentFirstEffect roles to the explicit arity-3 Ephemeral Bond slot.",
+  "must_not_widen": "Do not add new composition slots to paper over the gap.",
+  "finding_ids": [
+   "CSA-B-01"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "CSA-B-03",
+  "title": "operation-15 CritDamageAndHealing projections are compiled only for payloads with damage impacts, so matching pure heals crit without the bonus while mixed-program heals receive it",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/modifier/payload_spells.rs:32-52",
+   "crates/combat/src/program/passive_spell_modifier.rs:423-454",
+   "crates/combat/src/program/passive_spell_modifier.rs:163-201",
+   "crates/combat/src/execution/planning/critical.rs:11-79",
+   "crates/combat/src/state/modifiers.rs:360-395",
+   "crates/dbc/src/aura_subtype.rs:450",
+   "crates/combat/src/program/selected_trait_package.rs:888-891"
+  ],
+  "evidence": [
+   "core: percent_payloads(CriticalBonus) = critical_damage_spell_modifier_payload_spells, i.e. programs having an impact that is crit-eligible AND has_damage AND a damage-family op (payload_spells.rs:32-52). No projection exists for a pure-heal payload, and nothing rejects an admitted provider whose family/mask matches one.",
+   "core: prepare_impact_critical applies critical_bonus_multiplier to every crit-eligible impact, heals included (bonus_before_school when !has_damage, critical.rs:34-76), keyed only by (actor, payload spell).",
+   "trinity: Unit.cpp:7309-7317 SpellCriticalHealingBonus applies SpellModOp::CritDamageAndHealing to healing crits; Unit.cpp:7296-7301 to damage.",
+   "probe: same provider (+20% op 15) and same family/mask: damage crit 200 -> 220; pure DirectHeal crit 200 -> 200; heal impact of a program that also deals damage 200 -> 220. Exact Awestruck 417855 provider shape vs Flash of Light 19750 mask: heal 200, damage 220.",
+   "source: sole-effect one-rank raw-108 op-15 trait providers whose masks overlap same-family heals exist in 12.1.0: Awestruck 417855 (Flash of Light 19750, Holy Shock 25914, Holy Light 82326), Intensity 1264649 (Regrowth 8936), Profound Rebuttal 392910 (Expel Harm); Angelic Touch 1250565 and Tigereye Brew 1261844 are two-effect. Catalog row states healing remains unchanged only because the Martial Expert population has no healing carrier (aura_subtype.rs:450), an argument the generic arity-1 admission no longer satisfies."
+  ],
+  "probe_tests": [
+   "b_critical_bonus_heal.rs::defect_operation15_skips_matching_pure_healing_payload",
+   "b_critical_bonus_heal.rs::defect_operation15_heal_bonus_depends_on_sibling_damage_impact",
+   "b_critical_bonus_heal.rs::defect_awestruck_shaped_operation15_skips_flash_of_light_shaped_heal",
+   "b_critical_bonus_heal.rs::holds_operation15_scales_matching_damage_critical_excess"
+  ],
+  "probe_test": "b_critical_bonus_heal.rs::defect_operation15_skips_matching_pure_healing_payload",
+  "reproducer": "cargo test --offline --test b_critical_bonus_heal",
+  "why_tests_missed": "Op-15 tests use Martial Expert / Heart of the Crusader whose family-4/10 masks match no heal carrier; there is no test with a matching heal payload, and the mixed damage+heal program case is not modelled.",
+  "correction_boundary": "Compile CriticalBonus projections over crit-eligible damage AND healing payloads (the runtime consumer already handles heals), or fail closed at compile when an op-15 provider matches a crit-eligible heal payload; make the decision keyed on the healing impact rather than on a sibling damage impact.",
+  "must_not_widen": "Do not apply op 15 to raw-20 periodic percent heals or other impacts Trinity does not route through SpellCriticalHealingBonus; keep 1+(M-1)F excess semantics.",
+  "finding_ids": [],
+  "track": "B"
+ },
+ {
+  "id": "CSA-B-04",
+  "title": "selected op-3 PointsIndex0 providers bind and compile but are silently inert on every matching first effect other than declared raw-87/raw-20 slices",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:617-691",
+   "crates/combat/src/program/passive_spell_modifier.rs:537-583",
+   "crates/combat/src/program/selected_trait_package.rs:1205-1271",
+   "crates/dbc/src/aura_subtype.rs:439"
+  ],
+  "evidence": [
+   "core: compile_flat_first_effect_projections iterates only damage_modifiers (raw-87 self) and periodic_heals (raw-20 self) targets and `continue`s over everything else (:625-660); compile_percent_first_effect_projections only raw-20 (:552-572). A matching SchoolDamage/Heal/any other effect-1 payload yields no projection and no error.",
+   "core: raw-107 catalog row (aura_subtype.rs:439) claims \"unrelated first-effect lowerers ... remain fail-closed\"; raw-219 row (:489) likewise.",
+   "trinity: WorldObject::ApplyEffectModifiers (Object.cpp:1678-1690) applies PointsIndex0 to effect 0 of every affected spell.",
+   "probe: sole-effect selected +10 raw-107 op-3 and +50% raw-108 op-3 providers with mask matching a SchoolDamage payload: compile, bind, damage stays 100 (Trinity 110 / 150); op-0 control on the same pair gives 150.",
+   "source: 12.1.0 trait op-3 providers overlapping direct damage/heal first effects are all multi-effect (Frigid Winds 235224, Soul Link 108415, Blighted Quiver 1264291, Recklessness 1719, Power of the Dream 434220) and currently rejected by composition, so no real package reaches this today."
+  ],
+  "probe_tests": [
+   "b_first_effect_scope.rs::defect_flat_first_effect_provider_is_silently_inert_on_ordinary_damage_payload",
+   "b_first_effect_scope.rs::defect_percent_first_effect_provider_is_silently_inert_on_ordinary_damage_payload",
+   "b_first_effect_scope.rs::holds_operation0_on_same_payload_applies"
+  ],
+  "probe_test": "b_first_effect_scope.rs::defect_flat_first_effect_provider_is_silently_inert_on_ordinary_damage_payload",
+  "reproducer": "cargo test --offline --test b_first_effect_scope",
+  "why_tests_missed": "Op-3 tests only build admitted raw-87/raw-20 targets or missing-label cases; none declares an ordinary payload that also matches the provider.",
+  "correction_boundary": "In the op-3 projection compilers, reject (typed build error) any declared program payload whose first effect matches the provider selector but is not an admitted target shell.",
+  "must_not_widen": "Do not implement generic PointsIndex0 over arbitrary effect lowerers as part of the fix.",
+  "finding_ids": [
+   "CSA-B-02"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "CSA-B-05",
+  "title": "raw-108 catalog row and op-0 payload set claim direct missing-or-maximum healing, but the executable heal path never applies ordinary or SpellMod multipliers to it",
+  "severity": "info",
+  "reachability": "INCONSISTENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/dbc/src/aura_subtype.rs:444",
+   "crates/combat/src/program/modifier/payload_spells.rs:7-19",
+   "crates/combat/src/execution/planning/health.rs:1447-1476",
+   "crates/combat/src/execution/planning/health.rs:1528-1560",
+   "crates/dbc/src/spell_effect.rs:245"
+  ],
+  "evidence": [
+   "core: direct_spell_modifier_payload_spells includes ProgramOp::DirectMissingOrMaximumHeal, so an op-0 projection is compiled for such payloads; quote_healing returns apply_modifiers=false for HealingFormulaKind::MissingOrMaximum (health.rs:1447-1476), so apply_healing_amount_modifiers never evaluates healing_multiplier/spell_modifier_projection for it.",
+   "core: raw-108 row (aura_subtype.rs:444) lists \"direct missing-or-maximum healing\" among op-0 targets while the raw-67 row (spell_effect.rs:245) says its amount bypasses healing-percentage modifiers.",
+   "trinity: EffectHealMaxHealth adds to m_healing without SpellHealingBonusDone (SpellEffects.cpp:2966-2987), so executable Core matches the direct consumer; only the catalog claim and the compiled projection are wrong/dead.",
+   "probe: op-0 +20% provider matching a raw-67 caster-maximum heal: 2e6 with and without binding; matching raw-10 heal 240."
+  ],
+  "probe_tests": [
+   "b_critical_bonus_heal.rs::holds_operation0_does_not_scale_missing_or_maximum_heal"
+  ],
+  "reproducer": "cargo test --offline --test b_critical_bonus_heal holds_operation0_does_not_scale_missing_or_maximum_heal",
+  "why_tests_missed": "No test combines a matching op-0 provider with a raw-67 payload.",
+  "correction_boundary": "Remove DirectMissingOrMaximumHeal from direct_spell_modifier_payload_spells and correct the raw-108 row wording.",
+  "must_not_widen": "Do not start applying op 0 to raw-67 heals (Trinity does not).",
+  "finding_ids": [],
+  "track": "B"
+ }
+]

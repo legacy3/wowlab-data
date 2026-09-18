@@ -1,0 +1,517 @@
+[
+ {
+  "id": "MUT-A-001",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "sibling set",
+  "mutation": "control: both members bound in owning families",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "builds; critical damage 210.0000023841858 (control, accepted as intended)",
+   "probe: a_package_binding.rs::holds_complete_martial_package_builds"
+  ],
+  "probe_test": "a_package_binding.rs::holds_complete_martial_package_builds",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-002",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "sibling set",
+  "mutation": "omit raw-638 member binding",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_binding.rs::holds_missing_block_member_rejects"
+  ],
+  "probe_test": "a_package_binding.rs::holds_missing_block_member_rejects",
+  "error": "IncompleteSelectedPassivePackageBinding",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-003",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "actor",
+  "mutation": "raw-638 member bound on Enemy, SpellMod member on Player (split actors)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_binding.rs::holds_split_actor_package_rejects"
+  ],
+  "probe_test": "a_package_binding.rs::holds_split_actor_package_rejects",
+  "error": "IncompleteSelectedPassivePackageBinding",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-004",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "sibling set",
+  "mutation": "raw-638 member bound twice (crit-block family + auto-attack family)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "proves wrong-family entries are counted",
+   "probe: a_package_binding.rs::holds_block_member_in_block_and_auto_attack_family_is_duplicate"
+  ],
+  "probe_test": "a_package_binding.rs::holds_block_member_in_block_and_auto_attack_family_is_duplicate",
+  "error": "DuplicateSelectedPassivePackageBinding",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-005",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "package provenance",
+  "mutation": "raw-638 member bound only through passive auto-attack-damage family, no white main hand",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "CSA-A-01: partial package executes",
+   "probe: a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package"
+  ],
+  "probe_test": "a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package",
+  "finding_ids": [
+   "CSA-A-01"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-006",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "package provenance",
+  "mutation": "SpellMod member bound in critical-block family",
+  "outcome": "rejected_accidental",
+  "method": "probe",
+  "evidence": [
+   "rejected by the ordinary authority, not by the package validator",
+   "probe: a_package_binding.rs::holds_spell_modifier_member_in_block_family_rejects"
+  ],
+  "probe_test": "a_package_binding.rs::holds_spell_modifier_member_in_block_family_rejects",
+  "error": "MissingCriticalBlockAmountDefinition",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-007",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "actor",
+  "mutation": "complete on Player plus orphan raw-638 member on Enemy",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "one valid actor cannot mask another orphan",
+   "probe: a_package_binding.rs::holds_complete_actor_does_not_mask_orphan_actor"
+  ],
+  "probe_test": "a_package_binding.rs::holds_complete_actor_does_not_mask_orphan_actor",
+  "error": "IncompleteSelectedPassivePackageBinding",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-008",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "actor",
+  "mutation": "complete package on both Player and Enemy",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "package validator accepts per-actor completeness; ordinary spell-modifier authority is Player-only",
+   "probe: a_package_binding.rs::holds_complete_package_on_enemy_rejected_by_spell_modifier_authority"
+  ],
+  "probe_test": "a_package_binding.rs::holds_complete_package_on_enemy_rejected_by_spell_modifier_authority",
+  "error": "SpellModifier(UnsupportedActor)",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-010",
+  "contract": "selected immutable owner policy at every final compiler",
+  "dimension": "owner attributes",
+  "mutation": "control: singleton raw-638 with clean owner",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "compiles (control)",
+   "probe: a_selected_owner_policy.rs::holds_singleton_selected_block_with_clean_owner_compiles"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::holds_singleton_selected_block_with_clean_owner_compiles",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-011",
+  "contract": "selected immutable owner policy at every final compiler",
+  "dimension": "AuraOptions/external policy",
+  "mutation": "singleton raw-638, no external policy catalog",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "CSA-A-02",
+   "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy",
+  "finding_ids": [
+   "CSA-A-02"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-012",
+  "contract": "selected immutable owner policy at every final compiler",
+  "dimension": "AuraOptions/external policy",
+  "mutation": "singleton raw-638, effective proc Present + script Unknown",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "CSA-A-02",
+   "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_present_proc_policy"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_present_proc_policy",
+  "finding_ids": [
+   "CSA-A-02"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-013",
+  "contract": "selected immutable owner policy at every final compiler",
+  "dimension": "owner attributes",
+  "mutation": "singleton raw-638, owner defense Melee",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "CSA-A-02",
+   "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_owner_defense"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_owner_defense",
+  "finding_ids": [
+   "CSA-A-02"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-014",
+  "contract": "selected immutable owner policy at every final compiler",
+  "dimension": "AuraOptions/external policy",
+  "mutation": "live two-effect Martial, no external policy catalog",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "masked by SpellMod sibling",
+   "probe: a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy",
+  "error": "InvalidOwnerFact (complete absent external proc, script...)",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-015",
+  "contract": "selected immutable owner policy at every final compiler",
+  "dimension": "owner attributes",
+  "mutation": "singleton SpellMod owner with raw 416",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "shared policy admits",
+   "probe: a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-016",
+  "contract": "selected immutable owner policy at every final compiler",
+  "dimension": "owner attributes",
+  "mutation": "two-effect Martial owner with raw 416",
+  "outcome": "rejected_accidental",
+  "method": "probe",
+  "evidence": [
+   "CSA-A-03",
+   "probe: a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler",
+  "error": "BlockAmount UnsupportedSpellAttribute",
+  "finding_ids": [
+   "CSA-A-03"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-017",
+  "contract": "complete declaration atomicity across member compilers",
+  "dimension": "sibling set",
+  "mutation": "declare only the SpellMod member of the live two-effect package",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "whole program refuses",
+   "probe: a_selected_owner_policy.rs::holds_only_spell_modifier_member_declared_rejects"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::holds_only_spell_modifier_member_declared_rejects",
+  "error": "program build error",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-018",
+  "contract": "complete declaration atomicity across member compilers",
+  "dimension": "sibling set",
+  "mutation": "declare only the raw-638 member of the live two-effect package",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "whole program refuses",
+   "probe: a_selected_owner_policy.rs::holds_only_block_member_declared_rejects"
+  ],
+  "probe_test": "a_selected_owner_policy.rs::holds_only_block_member_declared_rejects",
+  "error": "program build error",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-020",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "definition",
+  "mutation": "control: live Martial shape",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "admitted {CriticalBonus ClassMask, CriticalBlockAmount} (control)",
+   "probe: a_package_contract.rs::holds_live_martial_classifies"
+  ],
+  "probe_test": "a_package_contract.rs::holds_live_martial_classifies",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-021",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "source order",
+  "mutation": "swap effect indices of the two members",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "roles follow effects",
+   "probe: a_package_contract.rs::holds_source_order_does_not_determine_role"
+  ],
+  "probe_test": "a_package_contract.rs::holds_source_order_does_not_determine_role",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-022",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "sibling set",
+  "mutation": "add unsupported raw-29 sibling (arity 3)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_contract.rs::holds_unknown_sibling_rejects_package"
+  ],
+  "probe_test": "a_package_contract.rs::holds_unknown_sibling_rejects_package",
+  "error": "contract None",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-023",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "sibling set",
+  "mutation": "source_effect_count 3 with 2 retained effects",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "unknown siblings cannot be filtered away",
+   "probe: a_package_contract.rs::holds_unretained_sibling_rejects_source"
+  ],
+  "probe_test": "a_package_contract.rs::holds_unretained_sibling_rejects_source",
+  "error": "IncompleteEffects",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-024",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "sibling set",
+  "mutation": "second raw-638 sibling (same authority, arity 3)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_contract.rs::holds_repeated_block_sibling_rejects"
+  ],
+  "probe_test": "a_package_contract.rs::holds_repeated_block_sibling_rejects",
+  "error": "contract None",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-025",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "operation",
+  "mutation": "SpellMod misc0 15 -> 16",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_contract.rs::holds_operation_mutation_rejects"
+  ],
+  "probe_test": "a_package_contract.rs::holds_operation_mutation_rejects",
+  "error": "contract None",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-026",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "mask",
+  "mutation": "empty class mask on class-mask SpellMod",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_contract.rs::holds_empty_class_mask_rejects"
+  ],
+  "probe_test": "a_package_contract.rs::holds_empty_class_mask_rejects",
+  "error": "contract None",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-027",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "sign/range",
+  "mutation": "raw-638 points -150",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_contract.rs::holds_block_points_below_minus_hundred_rejects"
+  ],
+  "probe_test": "a_package_contract.rs::holds_block_points_below_minus_hundred_rejects",
+  "error": "contract None",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-028",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "rank",
+  "mutation": "effective rank 2 on max_ranks 1",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_contract.rs::holds_rank_above_max_rejects"
+  ],
+  "probe_test": "a_package_contract.rs::holds_rank_above_max_rejects",
+  "error": "UnsupportedRank",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-029",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "period",
+  "mutation": "raw-638 aura period 1000 ms",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_contract.rs::holds_block_period_rejects"
+  ],
+  "probe_test": "a_package_contract.rs::holds_block_period_rejects",
+  "error": "contract None",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-030",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "target",
+  "mutation": "raw-638 implicit target A 1 -> 6",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "probe: a_package_contract.rs::holds_block_target_mutation_rejects"
+  ],
+  "probe_test": "a_package_contract.rs::holds_block_target_mutation_rejects",
+  "error": "contract None",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-031",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "trigger",
+  "mutation": "trigger spell on raw-638 effect",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "trigger inert list includes raw 638 (selected_trait_package.rs:743-756); Trinity handles 638 as HandleNoImmediateEffect (SpellAuraEffects.cpp:710) so the trigger field is not consumed",
+   "probe: a_package_contract.rs::holds_block_trigger_spell_is_accepted_as_inert"
+  ],
+  "probe_test": "a_package_contract.rs::holds_block_trigger_spell_is_accepted_as_inert",
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-040",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "package provenance",
+  "mutation": "second entry whose definition names the same provider spell (same exact effects)",
+  "outcome": "unreachable",
+  "method": "static",
+  "evidence": [
+   "core: catalog rejects a second declaration of the same exact effect per family (crates/data/src/action/error/spell_modifier.rs:20, critical_block_amount_modifier.rs:35)",
+   "core: every member must be declared with activation == exact (entry,rank) (crates/combat/src/program/selected_trait_package.rs:323-386) and owner-role count must equal arity (crates/combat/src/program/selected_trait_package.rs:401-416), so two sources can never both own one exact effect; find-first at crates/combat/src/program/selected_trait_package.rs:291-304 is therefore unambiguous"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-041",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "rank",
+  "mutation": "both ranks of one two-rank entry declared",
+  "outcome": "unreachable",
+  "method": "static",
+  "evidence": [
+   "core: same exact-effect duplicate gate as MUT-A-040; source resolver accepts one effective rank per resolution (crates/data/src/trait_source/selected_spell.rs:235-243)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-042",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "point operation",
+  "mutation": "TraitDefinitionEffectPoints OperationType -1 (None)",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "core: crates/data/src/trait_source/selected_spell.rs:314-325 rejects any operation other than 0/1 (UnsupportedEffectPoints); trinity: SpellInfo.cpp:550-552 treats None as no-op. Fail-closed divergence, not wrong execution"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-043",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "shaped index",
+  "mutation": "effect point row naming a nonexistent effect index",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "core: crates/data/src/trait_source/selected_spell.rs:338-346 UnsupportedEffectPoints; duplicate row per effect rejected at 327-334"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-044",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "sibling set",
+  "mutation": "future composition admitting a role outside the 10 slots (e.g. HasteAll) with a SpellMod sibling",
+  "outcome": "unreachable",
+  "method": "static",
+  "evidence": [
+   "core: composition_role_slot maps HasteAll/AllCrit/CritForCaster/MeleeSpeed/DamageDone/DamageTaken/AbsorbReceived to None -> counts.other -> multi-effect reject (crates/combat/src/program/selected_trait_package.rs:845-886, 893-895). If a future gate admitted one, selected_passive_bindings (crates/combat/src/state/construction.rs:284-322) has no family for it: complete bindings would be falsely rejected and a binding of only the omitted member would never trigger validation. Safe today; seam recorded in REJ-A-001"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-045",
+  "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+  "dimension": "entry",
+  "mutation": "bound effect belongs to a singleton (arity 1) selected package",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "core: arity-1 sources are never recorded (crates/combat/src/program/selected_trait_package.rs:246), so the validator skips them; per-effect duplicate/actor/definition checks remain in each ordinary authority (e.g. crates/combat/src/spell_modifier_authority.rs:108-118, crates/combat/src/critical_block_amount.rs:52-63)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "MUT-A-046",
+  "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+  "dimension": "amount facts",
+  "mutation": "selected rank-2 Set curve on raw-638 (20 -> 40)",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "core_test: crates/combat/src/program/critical_block_amount/tests.rs:655 selected_critical_block_uses_exact_rank_resolved_amount (selected 40 stored, not authored 20); fixed in 09d4fdab"
+  ],
+  "track": "A"
+ }
+]

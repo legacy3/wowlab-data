@@ -1,0 +1,367 @@
+[
+ {
+  "id": "MUT-C-001",
+  "contract": "crit eligibility belongs to amount-bearing impacts",
+  "dimension": "effect kind",
+  "mutation": "Stun (raw-12 ApplyAura, no amount) cast by an actor with crit baseline 1.0",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "ImpactResolved{result: Critical} observed"
+  ],
+  "probe_test": "c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-002",
+  "contract": "crit eligibility belongs to amount-bearing impacts",
+  "dimension": "amount facts",
+  "mutation": "same Stun with baseline 0.5 across 64 seeds",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "both Critical and Hit observed -> a stochastic crit draw consumed"
+  ],
+  "probe_test": "c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw",
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-003",
+  "contract": "crit eligibility belongs to amount-bearing impacts",
+  "dimension": "effect kind",
+  "mutation": "Instakill / InterruptCast / Dispel impacts with a crit baseline",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "program.rs:1185-1196 clears the crit channel; no draw (development-ledger.md:10496-10505)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-004",
+  "contract": "selected rank amount reaches critical chance",
+  "dimension": "rank",
+  "mutation": "raw-290 two-rank Set curve: rank 1 -> rank 2",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "accepted and consumed correctly: rank 2 (+4) makes 97% baseline guaranteed; rank 1 (+2) still draws (not suspicious)"
+  ],
+  "probe_test": "c_selected_rank.rs::holds_selected_rank_two_amount_reaches_critical_chance",
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-005",
+  "contract": "selected package contract",
+  "dimension": "activation",
+  "mutation": "raw-290 selected entry declared with Passive activation instead of SelectedTrait",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "Passive raw-290 requires the Passive owner attribute and compiles authored points; the selected-owner audit (critical_modifier.rs:1393-1445) plus package owner roles keep a selected provider from compiling as ordinary passive only if declarations match; covered by Track A for dual declarations."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-006",
+  "contract": "raw-183 comparator is source-matched",
+  "dimension": "misc",
+  "mutation": "raw 183 with host comparator Above and misc_1=80 (or AtOrAbove with 50)",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "compile_target_health_predicate admits only (Above,50)/(AtOrAbove,80) and requires misc (0, percent) (program/critical_modifier.rs:1447-1497)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-007",
+  "contract": "raw-183 is source-held only",
+  "dimension": "actor",
+  "mutation": "raw 183 bound to the target actor",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "SOURCE applicability: target-held query never matches (critical_modifier.rs:381-399); binding accepted but inert for incoming attacks, matching the ledger's rejection of Trinity's target read for melee."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-008",
+  "contract": "raw-308 caster identity",
+  "dimension": "actor",
+  "mutation": "raw-308 Vital Clarity holder heals an ally (target != source)",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "applies() requires query.actor == source_actor for target holder (critical_modifier.rs:393-398); Trinity requires aura caster == spell caster on the target (Unit.cpp:7246-7252) - consistent."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-009",
+  "contract": "raw-308 channel placement",
+  "dimension": "selector",
+  "mutation": "raw-308 mask covering a hybrid physical+magic Magic payload",
+  "outcome": "unreachable",
+  "method": "static",
+  "evidence": [
+   "Only admitted carrier 1266748 matches nature-only Vivify/Sheilun's Gift; divergence documented in CSA-C-03."
+  ],
+  "finding_ids": [
+   "CSA-C-03"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-010",
+  "contract": "critical bonus ordering",
+  "dimension": "defense",
+  "mutation": "Martial Expert payload DefenseType Melee -> Magic",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": [
+   "crates/engine/tests/selected_martial_expert.rs:80-94 proves melee uses bonus-then-school and magic school-then-bonus; matches Trinity."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-011",
+  "contract": "critical bonus scope",
+  "dimension": "effect kind",
+  "mutation": "op-15 class mask matching a heal-only payload",
+  "outcome": "accepted_suspicious",
+  "method": "static",
+  "evidence": [
+   "payload_spells.rs:32-54 omits the payload; heal crit keeps unmodified multiplier (CSA-C-02)."
+  ],
+  "finding_ids": [
+   "CSA-C-02"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-012",
+  "contract": "raw-638 selected amount",
+  "dimension": "amount facts",
+  "mutation": "selected Martial Expert rank amount != authored (hypothetical curve)",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "selected_percentage_points consumes resolved.selected_amount (critical_block_amount.rs:297-301); the prior authored-points defect is fixed."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-013",
+  "contract": "raw-638 percent domain",
+  "dimension": "sign/range",
+  "mutation": "raw 638 percent -150",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "validate_percentage rejects percent < -100 or factor < 0 (critical_block_amount.rs:388-418)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-014",
+  "contract": "raw-638 applies to physical damage blocks only",
+  "dimension": "target",
+  "mutation": "raw 638 defender vs Magic-defense damage",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "Factor applied only for Melee/Ranged block-eligible damage (state/modifiers.rs:238-247)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-015",
+  "contract": "critical baseline domain",
+  "dimension": "sign/range",
+  "mutation": "CriticalStrikeBaseline multiplier 0.9 / chance NaN / chance -0.1",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "crates/combat/src/critical.rs:185-223 invalid_values_retain_their_typed_parameter."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-016",
+  "contract": "critical baseline binding",
+  "dimension": "actor",
+  "mutation": "two baselines for the same actor",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "duplicate_critical_strike (critical/authority.rs:156-164)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-017",
+  "contract": "critical baseline binding",
+  "dimension": "actor",
+  "mutation": "no baseline for an actor that has a passive raw-290 binding",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "baseline NONE (0,0,x2.0) + modifier points -> actor crits with implicit x2.0 (critical/authority.rs:16-20). Core choice; no source-valid expectation contradicts it."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-018",
+  "contract": "CannotCrit bypass",
+  "dimension": "owner attributes",
+  "mutation": "CannotCrit payload with ambiguous exclusive crit group active",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "crates/combat/tests/critical_damage_modifiers.rs:513 cannot_crit_bypasses_modifier_math_and_does_not_advance_critical_rng; planning/critical.rs:89-90."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-019",
+  "contract": "raw-163 school filtering",
+  "dimension": "mask",
+  "mutation": "raw-163 misc mask not intersecting payload school",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": [
+   "critical_damage_modifier.rs:144-146 returns current; hybrid school applies once (crates/combat/tests/critical_damage_modifiers.rs:502)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-020",
+  "contract": "raw-334 scope",
+  "dimension": "selector",
+  "mutation": "raw-334 Heart package with a spell damage payload",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "SOURCE_AUTO_ATTACK has no spell/weapon bit so apply_channel never includes it (critical_modifier.rs:168-173); only white path consumes it."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-021",
+  "contract": "white crit composition",
+  "dimension": "sibling set",
+  "mutation": "white main hand + CriticalStrikeBaseline",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "white_baseline_isolated_except_stats requires critical_strikes empty (topology.rs:1114) -> UnsupportedComposition."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-022",
+  "contract": "white crit exactness",
+  "dimension": "amount facts",
+  "mutation": "white all-crit amount not binary32-representable",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "WhiteCriticalChanceModifier::try_new round-trip check -> InvalidPreparedBasis (white_swing.rs:31-38)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-023",
+  "contract": "hit modifiers scope",
+  "dimension": "effect kind",
+  "mutation": "raw-55 spell hit on an aura-only Magic-defense hostile impact",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "has_damage gate (state/modifiers.rs:185): baseline miss roll kept, modifier ignored (documented scope, XC-C-003)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-024",
+  "contract": "crit channel selection",
+  "dimension": "definition",
+  "mutation": "payload school physical+arcane with DefenseType Magic",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": [
+   "HybridMax selects max of modified channels (critical/resolution.rs:136-147 unit test); matches Trinity SpellCritChanceDone."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-025",
+  "contract": "passive raw-163 exclusivity",
+  "dimension": "point operation",
+  "mutation": "passive raw-163 declared with exclusive composition",
+  "outcome": "unreachable",
+  "method": "static",
+  "evidence": [
+   "CritDamageActivationInput::Passive has no composition field; compile_activation returns group 0 (program/critical_damage_modifier.rs:341-349)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-026",
+  "contract": "crit eligibility follows the effect's consumer semantics",
+  "dimension": "effect kind",
+  "mutation": "raw-67 recipient-missing Full Heal with caster baseline 1.0",
+  "outcome": "inconclusive",
+  "method": "probe",
+  "evidence": [
+   "HealingDone{Critical, requested 1000, applied 500}; consumer evidence conflicts (UNK-C-004)"
+  ],
+  "probe_test": "c_missing_max_heal_crit.rs::holds_missing_health_heal_shares_impact_critical",
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-027",
+  "contract": "crit eligibility follows the effect's consumer semantics",
+  "dimension": "amount facts",
+  "mutation": "raw-67 discriminator 1 -> 0 (caster maximum, First Aid 7162 facts) onto a pet missing more than caster max",
+  "outcome": "inconclusive",
+  "method": "probe",
+  "evidence": [
+   "applied 400 (Hit) vs 800 (Critical) with all First Aid 7162 source facts; consumer evidence conflicts (UNK-C-004)"
+  ],
+  "probe_test": "c_missing_max_heal_crit.rs::holds_caster_maximum_heal_critical_doubles_applied_health",
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-028",
+  "contract": "raw-638 retained-damage formula",
+  "dimension": "point operation",
+  "mutation": "two raw-638 factors (multiplicative) vs the alternative m*F reading",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "crates/combat/tests/critical_block_amount_modifiers.rs:491 prevented_share_factors_multiply_and_the_retained_result_is_bounded: retained = max(0, 1-(1-m)*F1*F2); matches Trinity blocked = pct*2*mult (Unit.cpp:1238-1244)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "MUT-C-029",
+  "contract": "raw-638 holder",
+  "dimension": "actor",
+  "mutation": "raw 638 bound to the attacker instead of the defender",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": [
+   "crates/combat/tests/critical_block_amount_modifiers.rs:528 modifier_is_defender_owned_and_isolated_to_the_bound_actor (Trinity reads attacker; REJ-C-004)."
+  ],
+  "track": "C"
+ }
+]

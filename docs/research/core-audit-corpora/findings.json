@@ -1,0 +1,1604 @@
+{
+ "count": 45,
+ "kind": "findings",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "canonical_rank": 9,
+   "coords": [
+    "crates/combat/src/state/construction.rs:244-282",
+    "crates/combat/src/state/construction.rs:284-322",
+    "crates/combat/src/state/construction.rs:838-858",
+    "crates/combat/src/critical_block_amount.rs:43-50",
+    "crates/combat/src/topology.rs:122-141",
+    "crates/engine/src/input.rs:982-1000"
+   ],
+   "correction_boundary": "Inside validate_selected_passive_package_bindings / selected_passive_bindings: tag each yielded binding with its family and require, for every required package member, exactly one binding in the family owned by that member's SelectedTraitEffectRole (role->family is total for the 10 composition slots). Alternatively (or additionally) validate every passive auto-attack-damage binding against compiled definitions/actors even when no white main hand is supplied.",
+   "evidence": [
+    "core: selected_passive_bindings (construction.rs:284-322) flattens five binding families to bare (actor, effect) pairs; validate_selected_passive_package_bindings (244-282) counts any family occurrence as the member binding.",
+    "core: attack_inputs (construction.rs:838-858) destructures passive_auto_attack_damage: _ and drops it; auto-attack bindings are only examined by white-main-hand validation, which never runs without a white input (construction.rs:343-356).",
+    "core: when a white main hand IS supplied, validate_white_input requires exact isolated binding topologies (crates/combat/src/white_swing.rs:376-440; topology.rs white_isolated_with_* e.g. crates/combat/src/topology.rs:992-1031), so the wrong-family entry is refused there; the gap is confined to inputs without white main hand (inferred from code; not probed).",
+    "core: CriticalBlockAmountAuthority::try_compile returns None for an empty binding vec (crates/combat/src/critical_block_amount.rs:48), so the raw-638 member has no runtime owner.",
+    "probe: a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package - Engine::try_new succeeds with (Player, 429638#1) in the spell-modifier family and (Player, 429638#2 raw-638) only in the auto-attack family; the critical-bonus half executes (critical damage 100*(1+1.1f32)=210.00000238) and input.critical_block_amount_bindings() is empty.",
+    "probe: a_package_binding.rs::holds_block_member_in_block_and_auto_attack_family_is_duplicate - the same auto-attack-family entry is counted as a package member (DuplicateSelectedPassivePackageBinding), proving the validator attributes it to the package.",
+    "probe: a_package_binding.rs::holds_missing_block_member_rejects - without that wrong-family entry the identical input is refused (IncompleteSelectedPassivePackageBinding).",
+    "source: TraitNodeEntry 117409 -> TraitDefinition 122421 -> SpellEffect spell 429638 idx0 (raw6/raw108 op15, BasePoints 10) and idx1 (raw6/raw638, BasePoints 20); live Martial Expert shape reproduced by tools/test-support selected_martial_expert.rs."
+   ],
+   "id": "CSA-A-01",
+   "must_not_widen": "Do not add a generic package binding store or runtime package authority; do not make auto-attack bindings executable without white input; do not relax per-family authority validation; keep the check cold (construction only) and allocation-free on warm paths.",
+   "original": {
+    "severity": "medium"
+   },
+   "probe_test": "a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package",
+   "probe_tests": [
+    "a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package",
+    "a_package_binding.rs::holds_block_member_in_block_and_auto_attack_family_is_duplicate",
+    "a_package_binding.rs::holds_missing_block_member_rejects"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "EngineInput::new([Player, Enemy0]).with_critical_strike(uniform 1.0/2.0).with_passive_spell_modifier((Player, 429638#1)).with_passive_auto_attack_damage_binding((Player, 429638#2)) with no white main hand, against the candidate-published Martial Expert CombatProgram: Engine::try_new returns Ok; expected IncompleteSelectedPassivePackageBinding for (Player, 429638#2) in its owning critical-block family.",
+   "review": [
+    "R1: reviews/R1.md upheld; reachable only through a wrongly bound host input; medium->low"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Selected-package binding validator is authority-family-agnostic: a package member \"bound\" only through the unvalidated, discarded passive auto-attack-damage family satisfies none-or-complete while no owning authority binds it",
+   "track": "A",
+   "why_tests_missed": "The b24359bd corrective and its tests mutate presence, multiplicity and actor within the correct families only; the family dimension of a binding was never mutated. The only family whose consumer is conditional (auto-attack, consumed solely by white validation) makes the wrong-family entry silently disappear after the family-agnostic count has accepted it."
+  },
+  {
+   "canonical_rank": 19,
+   "coords": [
+    "crates/combat/src/program/critical_block_amount.rs:157-254",
+    "crates/combat/src/program/critical_block_amount.rs:256-302",
+    "crates/combat/src/program/critical_block_amount.rs:427-484",
+    "crates/combat/src/program/selected_trait_package.rs:388-417",
+    "crates/combat/src/program/selected_trait_package.rs:419-527",
+    "crates/combat/src/program/builder.rs:37-45"
+   ],
+   "correction_boundary": "Thread the identity-matched external policy into the critical-block compiler (as critical_modifier.rs does via CriticalCompileSources) and call selected_trait_owner_policy_issue(data, actions, policy, effect, package.owner()) inside selected_percentage_points; replace the private validate_owner_attributes for selected activation by the shared policy.",
+   "evidence": [
+    "core: critical_block_amount.rs selected_percentage_points (256-302) resolves the package, checks role and sibling declarations, stores the selected amount, but never calls selected_trait_owner_policy_issue; compile_definition (157-254) takes no SpellExternalPolicyCatalog. package.owner() is consumed by every other selected final compiler (passive_spell_modifier.rs:915, passive_auto_attack_damage.rs:186, passive_healing_received.rs:201, passive_haste.rs:149, passive_melee_auto_attack_speed.rs:99, passive_damage_modifier.rs:164, passive_absorb_received.rs:174, critical_modifier.rs:563).",
+    "core: builder.rs:37-38 documents \"Selected-passive package admission fails closed if this catalog is absent\"; development-ledger 2026-09-18 claims every path to executable state repeats owner validation (navigation only).",
+    "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy (no external policy catalog at all -> Ok)",
+    "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_present_proc_policy (effective_proc_entry=Present, server_script=Unknown -> Ok)",
+    "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_owner_defense (owner DefenseType::Melee -> Ok)",
+    "probe: a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy (live two-effect shape rejects, via the spell-modifier sibling)",
+    "source: DBC census (SpellEffect x TraitDefinition x TraitNodeEntry, difficulty 0): exactly one trait entry reaches raw 638 - entry 117409 (Martial Expert, spell 429638, 2 effects, max_ranks 1). No singleton raw-638 selected package exists in 12.1.0.69497."
+   ],
+   "id": "CSA-A-02",
+   "must_not_widen": "Do not move owner-policy proof into the candidate; do not change the ordinary Passive critical-block path; do not admit new raw-638 compositions.",
+   "probe_test": "a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy",
+   "probe_tests": [
+    "a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy",
+    "a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_present_proc_policy",
+    "a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_owner_defense",
+    "a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy",
+    "a_selected_owner_policy.rs::holds_singleton_selected_block_with_clean_owner_compiles"
+   ],
+   "reachability": "LATENT",
+   "reproducer": "Martial Expert source reduced to its raw-638 effect (index 1, source_effect_count 1), declared as CriticalBlockAmountInput{SelectedTrait{117409,1}, Multiplicative}; CombatProgram::builder(...).trait_source(..).build() without external_spell_policy -> Ok.",
+   "review": [
+    "X: reviews/X-reconciliation.md UNK-C-003 closed into it; EP-K-012 extends it (trigger inertness with Present proc policy)",
+    "R1: reviews/R1.md upheld medium LATENT"
+   ],
+   "severity": "medium",
+   "status": "confirmed",
+   "title": "Selected raw-638 critical-block final compiler never proves the immutable selected-owner policy (external proc/script/lifetime policy, neutral owner, owner-role count, aura options, equipment, missile, unconditional application)",
+   "track": "A",
+   "upstream_gate": "Live DBC content: the only raw-638 trait (entry 117409) is a two-effect package whose critical-bonus SpellModifier sibling is compiled by passive_spell_modifier.rs, which proves the shared owner policy (validate_owner, passive_spell_modifier.rs:950-986) for the same owner spell; composition gate admits raw-638 in a multi-effect package only with that sibling (selected_trait_package.rs:924-925).",
+   "why_tests_missed": "All raw-638 selected tests use the live two-effect package, whose sibling compiler masks the omission; owner-policy mutation tests are written against the sibling-bearing shape; the research sole-authority census recorded raw 638 as \"no selected branch\" (stale since 09d4fdab added one)."
+  },
+  {
+   "canonical_rank": 30,
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:504-520",
+    "crates/combat/src/program/critical_block_amount.rs:427-484"
+   ],
+   "correction_boundary": "Same as CSA-A-02: selected raw-638 activation uses selected_trait_owner_policy_issue; keep the private check for Passive activation only.",
+   "evidence": [
+    "core: selected_trait_immutable_owner_policy_issue admits AllowClassAbilityProcs (raw 416) on a Passive owner (selected_trait_package.rs:513-517); critical_block_amount validate_owner_attributes accepts only Implemented Passive and Ignored (427-484).",
+    "probe: a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416 (shared policy admits)",
+    "probe: a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler (BlockAmount UnsupportedSpellAttribute)",
+    "source: SpellMisc 429638 Attributes_0=192 (raw 6,7), Attributes_11=8 (raw 355); no raw 416 - no live package reaches the disagreement."
+   ],
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "CSA-A-03",
+   "must_not_widen": "Do not globally change raw-416 catalog support.",
+   "original": {
+    "severity": "low"
+   },
+   "probe_tests": [
+    "a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416",
+    "a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler"
+   ],
+   "reachability": "INCONSISTENT",
+   "reproducer": "Set word 13 bit 0 on the Martial Expert owner and declare both members: build fails in the raw-638 compiler while the SpellModifier member alone compiles.",
+   "review": [
+    "R1: reviews/R1.md Core stricter than shared policy: fails closed; low->info"
+   ],
+   "severity": "info",
+   "status": "confirmed",
+   "title": "Selected owner-attribute policy is not uniform: raw-638 compiler rejects a Passive owner with raw attribute 416 that the shared selected owner policy admits",
+   "track": "A",
+   "why_tests_missed": "Ledger claims owner attribute policy is uniform across selected authorities; the raw-638 compiler keeps a private attribute check that predates the shared policy and no test mutates owner attributes on a raw-638 package."
+  },
+  {
+   "canonical_rank": 22,
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:537-583",
+    "crates/combat/src/program/passive_spell_modifier.rs:163-201",
+    "crates/combat/src/program/passive_spell_modifier.rs:477-483",
+    "crates/combat/src/program/passive_spell_modifier.rs:587-615",
+    "crates/combat/src/program/passive_spell_modifier.rs:617-691",
+    "crates/combat/src/program/selected_trait_package.rs:1125-1145",
+    "crates/combat/src/program/selected_trait_package.rs:888-891",
+    "crates/data/src/game_data.rs:590-612"
+   ],
+   "correction_boundary": "compile_percent_first_effect_projections: derive the factor from selector_match_count exactly as the Percent branch does (binary32 (1+p/100)^count), or reject class-mask PercentFirstEffect at classification until a witness exists.",
+   "evidence": [
+    "core: every other class-mask SpellMod path uses the overlap popcount: Percent ops raise the binary32 factor to the count (:172-185, spellmod_percent_factor :477-483); flat cooldown and flat first-effect multiply points by count (:596, :673). compile_percent_first_effect_projections computes factor = 1 + points/100 once (:544) and only tests count > 0 (:574).",
+    "trinity: SpellInfo.cpp:2005-2008 returns the popcount as applyCount; Player.cpp GetSpellModValues multiplies pct by pow(1 + value/100, applyCount) for every SpellModOp including PointsIndex0 (Object.cpp:1678-1690 ApplyEffectModifiers applies PointsIndex0 to effect-0 values).",
+    "probe: provider +50% op 3 mask 0b11, raw-20 payload 1%/1000hp: one overlapping bit -> 15.0, two bits -> 15.0 (Trinity 22.5); flat raw-107 op 3 sibling path gives 20.0 / 30.0 (counts bits).",
+    "source: no 12.1.0 raw-108 op-3 trait provider has a >=2-bit overlap with any same-family spell (scratch/B/scan_pfe.py), so the defect is reachable only with source-shaped synthetic inputs today."
+   ],
+   "finding_ids": [],
+   "id": "CSA-B-01",
+   "must_not_widen": "Do not widen op-3 percent to new target shells (raw-87, direct payloads) while fixing multiplicity; keep label selector Boolean.",
+   "original": {
+    "reachability": "LIVE"
+   },
+   "probe_test": "b_first_effect_mask.rs::defect_percent_first_effect_class_mask_ignores_overlapping_bit_count",
+   "probe_tests": [
+    "b_first_effect_mask.rs::defect_percent_first_effect_class_mask_ignores_overlapping_bit_count",
+    "b_first_effect_mask.rs::holds_flat_first_effect_class_mask_counts_overlapping_bits"
+   ],
+   "reachability": "LATENT",
+   "reproducer": "cargo test --offline --test b_first_effect_mask (probe crate, CARGO_TARGET_DIR=/home/dev/bag/core-audit-pass/targets/b)",
+   "review": [
+    "R1: reviews/R1.md R2 census of 12.1.0: no real op-3 class-mask effect overlaps a same-family spell on more than one bit"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "raw-108 operation-3 class-mask PercentFirstEffect factor ignores overlapping class-mask bit multiplicity",
+   "track": "B",
+   "why_tests_missed": "The only admitted op-3 percent witness (Ephemeral Bond) uses the Boolean label selector; no Core test constructs a class-mask PercentFirstEffect provider, and the class-mask branch percent_first_effect_class_mask (selected_trait_package.rs:1125) is reachable only through the arity-1 composition shortcut."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:888-891",
+    "crates/combat/src/program/selected_trait_package.rs:1033-1060",
+    "crates/combat/src/program/selected_trait_package.rs:1125-1145",
+    "crates/combat/src/program/selected_trait_package.rs:1180-1203",
+    "crates/dbc/src/aura_subtype.rs:440-450",
+    "crates/dbc/src/aura_subtype.rs:488"
+   ],
+   "correction_boundary": "Either document the generic arity-1 op-3 admission in the raw-108/raw-218 rows (with CSA-B-01/04 fixed) or restrict PercentFirstEffect roles to the explicit arity-3 Ephemeral Bond slot.",
+   "evidence": [
+    "core: composition_is_admitted_by returns true for arity 1 (:889) before any role/slot check, so generic_spell_modifier roles PercentFirstEffect(ClassMask) and PercentFirstEffect(Label) become executable as sole effects.",
+    "core: raw-108 catalog row (aura_subtype.rs:440-450) documents only operations 0/22/11/15; raw-218 row (:488) admits operation 3 only for the exact complete three-effect Ephemeral Bond package.",
+    "probe: sole-effect one-rank raw-218 op-3 label provider (+50) compiles, binds and scales a raw-20 tick 10 -> 15; raw-108 op-3 class-mask sole provider compiles (CSA-B-01 probe)."
+   ],
+   "finding_ids": [
+    "CSA-B-01"
+   ],
+   "id": "CSA-B-02",
+   "merged_into": "CSA-K-03",
+   "must_not_widen": "Do not add new composition slots to paper over the gap.",
+   "original": {
+    "status": "confirmed"
+   },
+   "probe_test": "b_first_effect_mask.rs::defect_sole_effect_raw218_operation3_label_is_admitted_beyond_catalog_row",
+   "probe_tests": [
+    "b_first_effect_mask.rs::defect_sole_effect_raw218_operation3_label_is_admitted_beyond_catalog_row"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --offline --test b_first_effect_mask defect_sole_effect_raw218",
+   "review": [
+    "X: reviews/X-reconciliation.md merge",
+    "R1: reviews/R1.md agree"
+   ],
+   "severity": "low",
+   "status": "merged",
+   "title": "arity-1 composition admits sole-effect op-3 percent providers (raw-108 class-mask and raw-218 label) outside every implemented catalog row",
+   "track": "B",
+   "why_tests_missed": "Catalog-row tests assert documented witnesses compile; no test asserts that undocumented sole-effect op-3 shapes are refused."
+  },
+  {
+   "absorbs": [
+    "CSA-C-02"
+   ],
+   "canonical_rank": 21,
+   "coords": [
+    "crates/combat/src/program/modifier/payload_spells.rs:32-52",
+    "crates/combat/src/program/passive_spell_modifier.rs:423-454",
+    "crates/combat/src/program/passive_spell_modifier.rs:163-201",
+    "crates/combat/src/execution/planning/critical.rs:11-79",
+    "crates/combat/src/state/modifiers.rs:360-395",
+    "crates/dbc/src/aura_subtype.rs:450",
+    "crates/combat/src/program/selected_trait_package.rs:888-891"
+   ],
+   "correction_boundary": "Compile CriticalBonus projections over crit-eligible damage AND healing payloads (the runtime consumer already handles heals), or fail closed at compile when an op-15 provider matches a crit-eligible heal payload; make the decision keyed on the healing impact rather than on a sibling damage impact.",
+   "evidence": [
+    "core: percent_payloads(CriticalBonus) = critical_damage_spell_modifier_payload_spells, i.e. programs having an impact that is crit-eligible AND has_damage AND a damage-family op (payload_spells.rs:32-52). No projection exists for a pure-heal payload, and nothing rejects an admitted provider whose family/mask matches one.",
+    "core: prepare_impact_critical applies critical_bonus_multiplier to every crit-eligible impact, heals included (bonus_before_school when !has_damage, critical.rs:34-76), keyed only by (actor, payload spell).",
+    "trinity: Unit.cpp:7309-7317 SpellCriticalHealingBonus applies SpellModOp::CritDamageAndHealing to healing crits; Unit.cpp:7296-7301 to damage.",
+    "probe: same provider (+20% op 15) and same family/mask: damage crit 200 -> 220; pure DirectHeal crit 200 -> 200; heal impact of a program that also deals damage 200 -> 220. Exact Awestruck 417855 provider shape vs Flash of Light 19750 mask: heal 200, damage 220.",
+    "source: sole-effect one-rank raw-108 op-15 trait providers whose masks overlap same-family heals exist in 12.1.0: Awestruck 417855 (Flash of Light 19750, Holy Shock 25914, Holy Light 82326), Intensity 1264649 (Regrowth 8936), Profound Rebuttal 392910 (Expel Harm); Angelic Touch 1250565 and Tigereye Brew 1261844 are two-effect. Catalog row states healing remains unchanged only because the Martial Expert population has no healing carrier (aura_subtype.rs:450), an argument the generic arity-1 admission no longer satisfies."
+   ],
+   "finding_ids": [],
+   "id": "CSA-B-03",
+   "must_not_widen": "Do not apply op 15 to raw-20 periodic percent heals or other impacts Trinity does not route through SpellCriticalHealingBonus; keep 1+(M-1)F excess semantics.",
+   "original": {
+    "reachability": "LIVE",
+    "severity": "medium"
+   },
+   "probe_test": "b_critical_bonus_heal.rs::defect_operation15_skips_matching_pure_healing_payload",
+   "probe_tests": [
+    "b_critical_bonus_heal.rs::defect_operation15_skips_matching_pure_healing_payload",
+    "b_critical_bonus_heal.rs::defect_operation15_heal_bonus_depends_on_sibling_damage_impact",
+    "b_critical_bonus_heal.rs::defect_awestruck_shaped_operation15_skips_flash_of_light_shaped_heal",
+    "b_critical_bonus_heal.rs::holds_operation15_scales_matching_damage_critical_excess"
+   ],
+   "reachability": "LATENT",
+   "reproducer": "cargo test --offline --test b_critical_bonus_heal",
+   "review": [
+    "X: reviews/X-reconciliation.md every real heal-only payload matched by a real op-15 provider carries an owner attribute Core refuses (program/spell_attribute.rs:17-81); only a cleaned twin reproduces 200 vs 220",
+    "R1: reviews/R1.md agree"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "operation-15 CritDamageAndHealing projections are compiled only for payloads with damage impacts, so matching pure heals crit without the bonus while mixed-program heals receive it",
+   "track": "B",
+   "why_tests_missed": "Op-15 tests use Martial Expert / Heart of the Crusader whose family-4/10 masks match no heal carrier; there is no test with a matching heal payload, and the mixed damage+heal program case is not modelled."
+  },
+  {
+   "canonical_rank": 23,
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:617-691",
+    "crates/combat/src/program/passive_spell_modifier.rs:537-583",
+    "crates/combat/src/program/selected_trait_package.rs:1205-1271",
+    "crates/dbc/src/aura_subtype.rs:439"
+   ],
+   "correction_boundary": "In the op-3 projection compilers, reject (typed build error) any declared program payload whose first effect matches the provider selector but is not an admitted target shell.",
+   "evidence": [
+    "core: compile_flat_first_effect_projections iterates only damage_modifiers (raw-87 self) and periodic_heals (raw-20 self) targets and `continue`s over everything else (:625-660); compile_percent_first_effect_projections only raw-20 (:552-572). A matching SchoolDamage/Heal/any other effect-1 payload yields no projection and no error.",
+    "core: raw-107 catalog row (aura_subtype.rs:439) claims \"unrelated first-effect lowerers ... remain fail-closed\"; raw-219 row (:489) likewise.",
+    "trinity: WorldObject::ApplyEffectModifiers (Object.cpp:1678-1690) applies PointsIndex0 to effect 0 of every affected spell.",
+    "probe: sole-effect selected +10 raw-107 op-3 and +50% raw-108 op-3 providers with mask matching a SchoolDamage payload: compile, bind, damage stays 100 (Trinity 110 / 150); op-0 control on the same pair gives 150.",
+    "source: 12.1.0 trait op-3 providers overlapping direct damage/heal first effects are all multi-effect (Frigid Winds 235224, Soul Link 108415, Blighted Quiver 1264291, Recklessness 1719, Power of the Dream 434220) and currently rejected by composition, so no real package reaches this today."
+   ],
+   "finding_ids": [
+    "CSA-B-02"
+   ],
+   "id": "CSA-B-04",
+   "must_not_widen": "Do not implement generic PointsIndex0 over arbitrary effect lowerers as part of the fix.",
+   "original": {
+    "reachability": "LIVE"
+   },
+   "probe_test": "b_first_effect_scope.rs::defect_flat_first_effect_provider_is_silently_inert_on_ordinary_damage_payload",
+   "probe_tests": [
+    "b_first_effect_scope.rs::defect_flat_first_effect_provider_is_silently_inert_on_ordinary_damage_payload",
+    "b_first_effect_scope.rs::defect_percent_first_effect_provider_is_silently_inert_on_ordinary_damage_payload",
+    "b_first_effect_scope.rs::holds_operation0_on_same_payload_applies"
+   ],
+   "reachability": "LATENT",
+   "reproducer": "cargo test --offline --test b_first_effect_scope",
+   "review": [
+    "R1: reviews/R1.md every real provider is multi-effect and refused"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "selected op-3 PointsIndex0 providers bind and compile but are silently inert on every matching first effect other than declared raw-87/raw-20 slices",
+   "track": "B",
+   "why_tests_missed": "Op-3 tests only build admitted raw-87/raw-20 targets or missing-label cases; none declares an ordinary payload that also matches the provider."
+  },
+  {
+   "canonical_rank": 36,
+   "coords": [
+    "crates/dbc/src/aura_subtype.rs:444",
+    "crates/combat/src/program/modifier/payload_spells.rs:7-19",
+    "crates/combat/src/execution/planning/health.rs:1447-1476",
+    "crates/combat/src/execution/planning/health.rs:1528-1560",
+    "crates/dbc/src/spell_effect.rs:245"
+   ],
+   "correction_boundary": "Remove DirectMissingOrMaximumHeal from direct_spell_modifier_payload_spells and correct the raw-108 row wording.",
+   "evidence": [
+    "core: direct_spell_modifier_payload_spells includes ProgramOp::DirectMissingOrMaximumHeal, so an op-0 projection is compiled for such payloads; quote_healing returns apply_modifiers=false for HealingFormulaKind::MissingOrMaximum (health.rs:1447-1476), so apply_healing_amount_modifiers never evaluates healing_multiplier/spell_modifier_projection for it.",
+    "core: raw-108 row (aura_subtype.rs:444) lists \"direct missing-or-maximum healing\" among op-0 targets while the raw-67 row (spell_effect.rs:245) says its amount bypasses healing-percentage modifiers.",
+    "trinity: EffectHealMaxHealth adds to m_healing without SpellHealingBonusDone (SpellEffects.cpp:2966-2987), so executable Core matches the direct consumer; only the catalog claim and the compiled projection are wrong/dead.",
+    "probe: op-0 +20% provider matching a raw-67 caster-maximum heal: 2e6 with and without binding; matching raw-10 heal 240."
+   ],
+   "finding_ids": [],
+   "id": "CSA-B-05",
+   "must_not_widen": "Do not start applying op 0 to raw-67 heals (Trinity does not).",
+   "probe_tests": [
+    "b_critical_bonus_heal.rs::holds_operation0_does_not_scale_missing_or_maximum_heal"
+   ],
+   "reachability": "INCONSISTENT",
+   "reproducer": "cargo test --offline --test b_critical_bonus_heal holds_operation0_does_not_scale_missing_or_maximum_heal",
+   "review": [
+    "R1: reviews/R1.md upheld"
+   ],
+   "severity": "info",
+   "status": "confirmed",
+   "title": "raw-108 catalog row and op-0 payload set claim direct missing-or-maximum healing, but the executable heal path never applies ordinary or SpellMod multipliers to it",
+   "track": "B",
+   "why_tests_missed": "No test combines a matching op-0 provider with a raw-67 payload."
+  },
+  {
+   "canonical_rank": 10,
+   "coords": [
+    "crates/combat/src/program/payload_policy.rs:33-47",
+    "crates/combat/src/program/payload_policy.rs:94-104",
+    "crates/combat/src/program.rs:1180-1205",
+    "crates/combat/src/program/definition.rs:614-626",
+    "crates/combat/src/execution/planning.rs:867-915",
+    "crates/combat/src/execution/planning/critical.rs:81-123",
+    "crates/combat/src/attack/resolution.rs:497-501",
+    "crates/combat/src/execution/commit.rs:878-921"
+   ],
+   "correction_boundary": "At impact-policy finalization (crates/combat/src/program.rs:1180-1205) clear the critical channel when the impact has no damage, healing or periodic-health operation (impact_requirements.has_damage/has_healing/has_periodic_health all false), subsuming the four per-compiler opt-outs; periodic ticks keep their own PeriodicCriticalPolicy.",
+   "evidence": [
+    "core: payload crit eligibility is Eligible unless CannotCrit (payload_policy.rs:33-47) and is cleared afterwards only for Instakill / InterruptCast / Dispel / DispelMechanic impacts (program.rs:1185-1196). The has_damage / has_healing flags are recorded (program.rs:1198-1203) but never gate the critical channel.",
+    "core: planning.rs:867-915 prepares a critical for every targeted hostile impact and every beneficial impact regardless of has_damage, and ResolvedAttackTable::resolve draws `critical.is_some_and(|c| random.occurs(c))` (attack/resolution.rs:497-501); commit publishes the result as CombatObservation::ImpactResolved (commit.rs:909-919).",
+    "probe: c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result - Core's own exact Stun fixture (spell 346197 'Cover (DNT)', raw-12 ApplyAura, DefenseType::None, physical; source-matching DBC SpellEffect row 872577) cast by an enemy with CriticalStrikeBaseline 1.0 emits ImpactResolved{result: Critical}; with no baseline or 0.0 it emits Hit.",
+    "probe: c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw - at 0.5 the same Stun yields Critical for some seeds and Hit for others, i.e. a stochastic critical draw is consumed by an impact whose amount cannot change.",
+    "core (static): because prepare_impact_critical evaluates crit-chance modifiers, raw-163 and op-15 factors for these impacts (planning/critical.rs:11-79), an ambiguous exclusive group or negative crit-damage factor can reject a Stun/debuff cast with a critical-calculation CastError.",
+    "trinity: SPELL_ATTR0_CU_CAN_CRIT is set only for amount effects (school damage, leech, heal, weapon damage, power burn, heal pct, damage from max health) (SpellMgr.cpp:3073-3087); SpellCritChanceDone/Taken return 0 without it (Unit.cpp:7127-7128, 7177-7178), so aura-only spells never crit.",
+    "core docs: architecture.md:122-126 describes the baseline being resolved per *damage occurrence*; ledger 'Executable Instakill' (development-ledger.md:10496) explicitly clears eligibility for a non-amount op - the same reasoning was never generalized."
+   ],
+   "id": "CSA-C-01",
+   "must_not_widen": "Do not remove the shared per-recipient impact result for mixed payloads (a damage impact that also applies an aura must keep one crit/hit result); do not change CannotCrit handling, periodic tick crit policy, the miss/avoidance draw for non-damage hostile impacts, or ImpactResolved emission; do not add crit semantics to absorb amounts.",
+   "probe_test": "c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+   "probe_tests": [
+    "c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+    "c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cd core_audit/probe && cargo test --offline --test c_noncritical_payload (stun_inputs fixture + CombatStateInput::with_critical_strike(CriticalStrikeBaseline::try_uniform(enemy, 1.0, 2.0)); CombatState::cast(enemy -> Player, 346197); observe ImpactResolved).",
+   "review": [
+    "R1: reviews/R1.md upheld narrowed: hostile non-healing impacts only (self buffs never crit); witness uses real stun with enemy weapon crit; the draw-consumption clause is not a divergence (Trinity also draws at 0%)"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Impacts with no damage or healing operation are critical-eligible: a hostile Stun (or any aura-only/buff/resource impact) resolves HitResult::Critical and consumes a critical draw",
+   "track": "C",
+   "why_tests_missed": "Critical tests always use damage/heal payloads; stun/silence/pacify/aura tests build states without CriticalStrikeBaseline, so the eligible-but-irrelevant crit draw never had a nonzero chance there. The three opt-outs were added per-compiler (instakill, interrupt, dispel) rather than as a general 'no amount -> no crit' rule."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/modifier/payload_spells.rs:32-54",
+    "crates/combat/src/program/passive_spell_modifier.rs:430-441",
+    "crates/combat/src/execution/planning/critical.rs:35-57",
+    "crates/combat/src/state/modifiers.rs:360-395"
+   ],
+   "correction_boundary": "Either include crit-eligible healing payloads in the CriticalBonus payload set (payload_spells.rs:32-54) or reject at compile time any admitted op-15 modifier whose mask matches a crit-eligible heal-only payload.",
+   "evidence": [
+    "core: critical_damage_spell_modifier_payload_spells requires an Eligible impact with has_damage and a damage-family operation (payload_spells.rs:36-44); percent_payloads(CriticalBonus) uses only that list (passive_spell_modifier.rs:438-440).",
+    "core: prepare_impact_critical still calls critical_bonus_multiplier for healing impacts (bonus_before_school = !has_damage, planning/critical.rs:35-55), so a heal payload outside the list gets factor-less baseline silently (state/modifiers.rs:366-379 returns Ok(baseline)). No compile-time rejection exists for a matching heal-only payload.",
+    "trinity: SpellCriticalHealingBonus applies SpellModOp::CritDamageAndHealing to healing crits (Unit.cpp:7309-7325).",
+    "source/inferred: current admitted op-15 population is Heart of the Crusader 406154 effect 4 (family 10 mask [0,0x80008000,0x40,0] -> Crusader Strike family, all physical melee damage) and Martial Expert 429638 effect 1 (family 4 mask [0x200,0,0,0] -> warrior damage abilities); none matches a heal-only payload (DBC SpellClassOptions scan, scratch/C). Catalog text aura_subtype.rs:450 states the damage-only scope is justified by this population."
+   ],
+   "id": "CSA-C-02",
+   "merged_into": "CSA-B-03",
+   "must_not_widen": "Do not apply op-15 to noncritical or CannotCrit impacts, to raw-163 ordering, or to white swings; do not broaden op-15 admission beyond the named packages while fixing.",
+   "original": {
+    "status": "confirmed"
+   },
+   "reachability": "LATENT",
+   "reproducer": "Static: add any heal-only payload whose SpellClassOptions mask intersects an admitted op-15 mask; the CriticalBonus projection list excludes it and the heal crit keeps the unmodified multiplier. Protected today only by the named-branch op-15 admission (selected_trait_package.rs:900-940).",
+   "review": [
+    "X: reviews/X-reconciliation.md merge",
+    "R1: reviews/R1.md agree"
+   ],
+   "severity": "low",
+   "status": "merged",
+   "title": "SpellMod op-15 CriticalBonus projections are compiled only for payloads with critical damage impacts; a class-mask-matched heal-only payload silently receives no critical bonus",
+   "track": "C",
+   "why_tests_missed": "Martial Expert/Heart tests use only damage payloads; the omission is documented as population-justified rather than enforced fail-closed."
+  },
+  {
+   "canonical_rank": 24,
+   "coords": [
+    "crates/combat/src/critical_modifier.rs:125-143",
+    "crates/combat/src/critical_modifier.rs:202-223",
+    "crates/combat/src/program/critical_modifier.rs:167-172",
+    "crates/combat/src/critical/resolution.rs:14-28"
+   ],
+   "correction_boundary": "In apply_critical_modifiers HybridMax branch, add raw-308 (caster-spell target) points after the family maximum, or reject raw-308 definitions whose projected payloads are HybridMax.",
+   "evidence": [
+    "core: HybridMax runs apply_channel(Spell) then apply_channel(Weapon) and resolve_critical selects max(spell, weapon); raw 308 is TARGET_CASTER_SPELL_MAGIC (spell bit only), so it raises only spell chance before the max.",
+    "trinity: SpellCritChanceDone takes max(physical, magic) for DmgClass None/Magic (Unit.cpp:7132-7155); SpellCritChanceTaken adds MOD_CRIT_CHANCE_FOR_CASTER_WITH_ABILITIES afterwards for non-melee classes (Unit.cpp:7246-7252), i.e. to the maximum.",
+    "witness (static): spell 0.10, weapon 0.30, raw 308 +20 on a physical+nature Magic payload: Core max(0.30, 0.30) = 0.30; Trinity 0.30 + 0.20 = 0.50.",
+    "source: the only admitted raw-308 carrier is Vital Clarity 1266748 (passive/selected, targets (1,0)); its family-53 mask matches only Vivify 116670 and Sheilun's Gift 399491, both school 8 (nature only) -> Spell channel, so no hybrid payload is reachable.",
+    "core: raw-197 (spell+weapon target term) and raw-183 apply to both channels, so max(a+x, b+x) = max(a,b)+x and they do not diverge."
+   ],
+   "id": "CSA-C-03",
+   "must_not_widen": "Do not move raw 57 / raw 52 family-local terms after the max (Trinity bakes them into per-family percentages before max); keep raw-308 Magic-only and caster-identity gated.",
+   "reachability": "LATENT",
+   "reproducer": "Static witness above; reachable only after a raw-308 carrier whose mask covers a physical+magic Magic/None-defense payload is admitted.",
+   "review": [
+    "R1: reviews/R1.md upheld LATENT"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Target-held raw-308 caster-spell crit chance is added to the spell channel before the HybridMax maximum instead of to the selected maximum",
+   "track": "C",
+   "why_tests_missed": "raw-308 tests use a single-school Magic payload; HybridMax tests use raw 290/57/52 whose applicability is symmetric or family-local."
+  },
+  {
+   "canonical_rank": 3,
+   "coords": [
+    "crates/combat/src/state/maximum_health_modifiers.rs:88-103",
+    "crates/combat/src/state/maximum_health_modifiers.rs:165-190",
+    "crates/combat/src/maximum_health_damage.rs:36-48",
+    "crates/combat/src/program/maximum_health_damage.rs:81-98"
+   ],
+   "correction_boundary": "The maximum-health producer (state/maximum_health_modifiers.rs quote+commit sites) must emit the source-integral maximum (truncate the composed binary32/f64 value as the direct consumer does), or raw-165 must document and apply the same truncation of its live input; one owner, not both.",
+   "evidence": [
+    "core state/maximum_health_modifiers.rs:100 `baseline.maximum() * factor` with no truncation",
+    "core maximum_health_damage.rs:39-48 rejects any non-integral live maximum with InvalidMaximumHealthDomain",
+    "trinity StatSystem.cpp:314-323 Player::UpdateMaxHealth SetMaxHealth((uint32)value); StatSystem.cpp:999-1002 Creature uint32",
+    "source SpellEffect raw-165 1257873:0 / 345705:0 and raw-133 156021:0 / 281241:0 (+10 %) match both admitted shapes; 1001 x 1.1 = 1101.1",
+    "probe d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133 (PASS): 1001 -> 1501.5, cast fails DamageCalculation, no damage",
+    "probe d_maximum_health_domain.rs::holds_raw165_accepts_integral_maximum_produced_by_raw133 (PASS) control: 1000 -> 1500 -> 1350"
+   ],
+   "id": "CSA-D-01",
+   "must_not_widen": "Do not relax raw-165's non-finite/oversized/out-of-range fail-closed checks or its binary32 arithmetic; do not make HealthPool accept or produce new domains; keep current-health reconciliation policies unchanged.",
+   "note": "Also affects every other consumer of maximum health (percent heals, raw-89, thresholds) numerically, but only raw-165 turns it into a cast failure.",
+   "probe_tests": [
+    "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133",
+    "d_maximum_health_domain.rs::holds_raw165_accepts_integral_maximum_produced_by_raw133"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test d_maximum_health_domain",
+   "review": [
+    "R1: reviews/R1.md upheld on real rows 156021 + 1257873",
+    "R3: reviews/R3.md Trinity uint32 max-health truncation confirmed"
+   ],
+   "severity": "medium",
+   "status": "confirmed",
+   "title": "Raw-133 maximum-health authority produces fractional maxima that the admitted raw-165 consumer rejects, failing the whole cast",
+   "track": "D",
+   "why_tests_missed": "crates/combat/tests/direct_maximum_health_damage.rs uses baseline 1000 with the fixture's +50 % aura (integral 1500); the fractional-domain test injects 1000.5 directly as a host input and treats rejection as intended, never composing Core's own raw-133 output."
+  },
+  {
+   "canonical_rank": 11,
+   "coords": [
+    "crates/combat/src/damage.rs:30-37",
+    "crates/combat/src/program/damage.rs:157-163",
+    "crates/combat/src/healing.rs:65-94",
+    "crates/combat/src/program/healing.rs:103-114"
+   ],
+   "correction_boundary": "Apply the same authored-base rounding at the raw-10 and raw-9 formula construction (program/healing.rs fixed branch, program/damage.rs direct leech branch) - the same boundary raw-2 uses.",
+   "evidence": [
+    "core damage.rs:34 rounds only in new_direct_school_damage; program/damage.rs:157-163 selects it only for raw-2 direct",
+    "core healing.rs:71-74 uses unrounded base points; program/healing.rs:109-112 HealingFormula::new",
+    "trinity SpellInfo.cpp:611-627 CalcValue std::round for SCHOOL_DAMAGE, HEALTH_LEECH and HEAL in one switch",
+    "source SpellEffect 15278:0 Heal 1.5 (caster), 3243:0 Health Leech 5.55555582047 amplitude 1; 140 base-difficulty raw-9/raw-10 rows with fractional base and neutral amount/trigger/misc/mechanic/effect-attribute facts (before owner-attribute and selector filtering)",
+    "core catalog crates/dbc/src/spell_effect.rs:225,229,230 describes all three as 'the exact effect base' amount",
+    "probe d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points (PASS: +1.5, Trinity +2)",
+    "probe d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points (PASS: -/+5.5555558, Trinity 6)",
+    "probe d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points (PASS: raw-2 twin 1.5 -> 2)"
+   ],
+   "id": "CSA-D-02",
+   "must_not_widen": "Do not round percent/missing-or-maximum heals, captured damage, or post-modifier amounts; periodic families remain a separately documented choice (NUM-D-004).",
+   "note": "Magnitude <= 0.5 per event before scaling; 1.5 vs 2 is 25 %. Periodic raw-3/raw-8/raw-53 fractional policy is documented in the ledger and recorded as known_divergence, not part of this finding.",
+   "probe_tests": [
+    "d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points",
+    "d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points",
+    "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test d_base_point_rounding",
+   "review": [
+    "R1: reviews/R1.md upheld; track probe uses real rows 15278 / 3243"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Base-point rounding is applied to raw-2 School Damage only; raw-10 Heal and raw-9 Health Leech keep fractional authored points",
+   "track": "D",
+   "why_tests_missed": "Heal and leech fixtures use integral authored points (30, 100, 40...); the raw-2 rounding was introduced for 28041:1 (ledger ~L24115) without reopening sibling payload families in the same CalcValue switch."
+  },
+  {
+   "canonical_rank": 13,
+   "coords": [
+    "crates/combat/src/absorb/transaction.rs:968-1000",
+    "crates/combat/src/aura_state.rs:788-797"
+   ],
+   "correction_boundary": "candidate_order tie-break after priority (absorb/transaction.rs:991-1000) if the direct-consumer order is adopted; otherwise record as an explicit core choice with evidence.",
+   "evidence": [
+    "core transaction.rs:991-994 funding, priority, then left_cell.sequence ascending",
+    "trinity Unit.cpp:3734-3738 _RegisterAuraEffect push_front; Unit.cpp:1899-1900 stable_sort by MiscValueB only -> newest first among equal priorities",
+    "trinity SpellAuraEffects.cpp:1091-1127 ChangeAmount unregisters/re-registers (moves to front) on amount change or reapply",
+    "simc player.cpp:8154-8164 sorts by current value (a third policy)",
+    "core catalog crates/dbc/src/aura_subtype.rs:424 documents 'then earlier application sequence' (core choice, no source citation)",
+    "probe d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first (PASS: first-applied 50 depleted, second keeps 40)"
+   ],
+   "id": "CSA-D-03",
+   "must_not_widen": "Keep funding-first and signed-priority ordering, snapshot replay and exact identity tie-breaks; do not introduce per-provider mutable ordering state beyond the existing sequence.",
+   "note": "Status open: documented Core contract vs direct-consumer order; lead to adjudicate. The same candidate_order serves raw-301 healing absorbs (Trinity Unit.cpp:2114-2115 same newest-first rule). No-duration absorbs all carry sequence 0 (aura_state.rs:788-797) so their tie falls to effect identity; inert today because only exact 87654:1 admits an indefinite lifetime.",
+   "probe_tests": [
+    "d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test d_absorb_order",
+   "review": [
+    "R1: reviews/R1.md upheld on real rows 53678 + 334538 + 57411; remains open for a Core ordering decision"
+   ],
+   "severity": "low",
+   "status": "open",
+   "title": "Equal-priority school absorbs are consumed oldest-application-first; the direct consumer consumes newest-first",
+   "track": "D",
+   "why_tests_missed": "crates/combat/src/absorb/tests.rs:233 pins the documented earliest-sequence order; no test compares to the reference tie-break."
+  },
+  {
+   "canonical_rank": 12,
+   "coords": [
+    "crates/combat/src/absorb/transaction.rs:902-925",
+    "crates/combat/src/state/absorbs.rs:50-95"
+   ],
+   "correction_boundary": "application_capacity (absorb/transaction.rs:910-925): round the source stage for unfunded damage absorbs regardless of the recipient factor.",
+   "evidence": [
+    "core transaction.rs:914-920 returns base x source when recipient factor bits == 1.0, else round(round(base x source) x recipient)",
+    "trinity Unit.cpp:7684-7686 SpellAbsorbBonusDone returns int32(std::round(...)); Unit.cpp:7715-7719 BonusTaken rounds again",
+    "core docs/development-ledger.md ~L25988-26003 states the direct source rounds the source stage, and explicitly defers the source-only path",
+    "probe d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded (PASS: 55 x 1.05 = 57.75 capacity, 100 hit removes 42.25 not 42)"
+   ],
+   "id": "CSA-D-04",
+   "must_not_widen": "Do not apply rounding to Mana Shield or healing absorbs; keep capture-at-creation semantics and the separate source/recipient factors.",
+   "note": "Discontinuity: recipient factor 1.0 -> 57.75, recipient factor 1.0000001 -> 58.",
+   "probe_tests": [
+    "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test d_absorb_capacity_rounding",
+   "review": [
+    "R1: reviews/R1.md upheld on real rows 256374 + 334538 + 228917 (Core 52.5, Trinity 53)"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Source-only school-absorb capacity (raw-421/Versatility without raw-422) is never rounded; only the raw-422 path uses staged rounding",
+   "track": "D",
+   "why_tests_missed": "source_absorb_capacity_modifiers.rs uses 50/20/-100 percent on capacity 100 (integral products); raw-422 tests pin staged rounding only when raw-422 participates."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/school_immunity.rs:236-282",
+    "crates/combat/src/school_immunity.rs:22-39",
+    "crates/combat/src/program/maximum_health_damage.rs:136-160",
+    "crates/combat/src/program/compile.rs:833-855",
+    "crates/combat/src/program/no_immunities.rs:211-233"
+   ],
+   "correction_boundary": "Either reject raw-165 (direct caster-recipient damage) when any immunity family is declared, mirroring compile.rs:845-853 / no_immunities.rs:211-233, or extend the raw-39 compile audit to caster-recipient programs.",
+   "evidence": [
+    "core program/school_immunity.rs:246-252 skips programs without a Target impact",
+    "core runtime school_immunity.rs:30-35 suppresses only exact applicands 10730:1/373932:1",
+    "core compile.rs:845-853 Power Burn rejects any immunity family; no_immunities.rs:211-233 raw-29 caster path rejects school composition; raw-165 has neither",
+    "core catalog crates/dbc/src/spell_effect.rs:262 raw-165 'explicitly assumes absent immunity ... because Core owns neither authority yet' - Core now owns raw 39",
+    "trinity Unit::IsImmunedToDamage (school immunity mask covering the spell school) zeroes the damage",
+    "probe d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage (PASS: 161901 active, Shadow raw-165 removes 100)"
+   ],
+   "id": "CSA-D-05",
+   "must_not_widen": "Do not generalize runtime school-immunity suppression beyond the exact applicands; do not admit new immunity semantics to make the combination executable.",
+   "note": "Exact carrier 161901 is a hostile-actor rune; realistic co-occurrence is narrow. Periodic tick nodes use Target-recipient impacts and are audited (REJ-D-011); the escape is specific to direct caster-recipient damage (raw-165; raw-2 caster damage is separately gated by no_immunities).",
+   "original": {
+    "status": "confirmed"
+   },
+   "probe_tests": [
+    "d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test d_school_immunity_self_damage",
+   "review": [
+    "R1: reviews/R1.md Trinity applies school immunity only to negative effects (Unit.cpp:7797-7800, 7890-7891); caster raw-165 is positive (SpellInfo.cpp:5062); Core matches; only spell_effect.rs:262 wording is stale"
+   ],
+   "severity": "low",
+   "status": "rejected",
+   "title": "Raw-39 school-immunity composition audits only Target-impact programs, so an immune holder takes covered caster-delivered raw-165 damage",
+   "track": "D",
+   "why_tests_missed": "school_immunities tests compose only the exact pacify applicand and fixed-travel programs; raw-165 tests never declare an immunity family."
+  },
+  {
+   "absorbs": [
+    "CSA-H-01"
+   ],
+   "canonical_rank": 4,
+   "coords": [
+    "crates/combat/src/expiry_execution.rs:9-40",
+    "crates/combat/src/state.rs:1368-1397",
+    "crates/combat/src/periodic_execution.rs:449-457",
+    "crates/combat/src/aura_state.rs:713-834",
+    "crates/combat/src/execution/commit/health.rs:200-235"
+   ],
+   "correction_boundary": "A single death-lifecycle transition committed with the lethal health write: remove (or mark removed-by-death) every non-death-persistent aura whose affected actor died, cancel their periodic cells and expiry deadlines without running natural-expiry drivers; plus a liveness requirement on hostile aura application roots. AllowAuraWhileDead (116) / DisableAuraWhileDead (226) are already unimplemented and must stay fail-closed until that transition exists.",
+   "evidence": "core: no code path removes auras when ActorDied is committed (commit/health.rs:200-235, 918-931 only push the observation); the only death reaction is the lazy periodic cancel at the next due tick (periodic_execution.rs:449-457). execute_expiry_drivers has no liveness check, and preflight_execution_health gates only children that require target health (execution/health.rs:190-211), so a child applying an aura / granting a resource runs and a damage child emits ExecutionFizzled(DeadTarget). probe: e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse (AuraExpired at 100 then Applied to the dead External, fresh deadline armed), ::defect_expiry_driver_fizzles_dead_target_after_recipient_death, ::defect_fresh_periodic_application_onto_dead_recipient_is_admitted. trinity: Unit.cpp:9179 setDeathState -> RemoveAllAurasOnDeath (Unit.cpp:4472-4493, AURA_REMOVE_BY_DEATH for non-passive, non-death-persistent auras); HandleTriggerSpellOnExpire returns unless removeMode == AURA_REMOVE_BY_EXPIRE (SpellAuraEffects.cpp:5422-5425); SpellInfo::CheckTarget rejects dead unit targets unless IsAllowingDeadTarget (SpellInfo.cpp:2452). source: 683 base-difficulty raw-495 rows exist, e.g. 346878 (misc0 0) -> 346879 direct damage, 350365 (misc0 1) -> 350374 damage+stun aura.",
+   "id": "CSA-E-01",
+   "must_not_widen": "Do not add per-driver ad-hoc liveness checks that still leave the aura active (aura-state modifiers, thresholds and dispel candidates would still observe it); do not admit raw 116/226; do not run expiry drivers for death removal.",
+   "original": {
+    "severity": "medium",
+    "title": "Aura lifecycle ignores recipient death: auras persist on corpses, raw-495 expiry drivers run on the dead recipient, and new applications (with periodic/expiry deadlines) are admitted onto dead actors"
+   },
+   "probe_test": "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse",
+   "probe_tests": [
+    "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse",
+    "e_death_lifecycle.rs::defect_expiry_driver_fizzles_dead_target_after_recipient_death",
+    "e_death_lifecycle.rs::defect_fresh_periodic_application_onto_dead_recipient_is_admitted"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --offline --test e_death_lifecycle (probe crate) — synthetic ids 71_xxx with source-shaped raw-495 carrier (misc0 1, child ApplyAura / SchoolDamage), public CombatProgram::builder + CombatState::cast/advance_to",
+   "review": [
+    "X: reviews/X-reconciliation.md absorbs H-01; application clause moved to H-02",
+    "R1: reviews/R1.md LIVE only for aura persistence; on-expire trigger part LATENT; severity medium->low",
+    "R3: reviews/R3.md duplicate cluster confirmed"
+   ],
+   "severity": "low",
+   "source_validity_note": "Probe uses synthetic spell ids; every fact (subtype 495, misc0, trigger child, restart-lifetime application, lethal direct damage) is schema-valid and has real DBC analogues. Reviewers who require real spell ids should treat reachability via real data as depending on the upstream resolved-catalog author admitting such a raw-495 carrier on a mortal target.",
+   "status": "confirmed",
+   "title": "Actor death does not end aura lifecycle: auras persist on corpses (real 6873); the raw-495 on-expire trigger branch is LATENT (no admitted real on-expire carrier executes)",
+   "track": "E",
+   "why_tests_missed": "expiry_drivers.rs and periodic_* tests never kill the aura recipient; death coverage exists only for periodic health ticks (periodic_damage.rs:1159) where the lazy cancel is sufficient."
+  },
+  {
+   "canonical_rank": 25,
+   "coords": [
+    "crates/combat/src/program/planning.rs:565-595",
+    "crates/combat/src/execution/planning/aura_lifecycle.rs:270-325",
+    "crates/combat/src/execution/planning/dispel.rs:136-151",
+    "crates/combat/src/execution/planning/mechanic_dispel.rs:50-66",
+    "crates/combat/src/execution/scratch.rs:896-925",
+    "crates/combat/src/program/dispel.rs:243-247",
+    "crates/combat/src/program/dispel_mechanic.rs:387-395"
+   ],
+   "correction_boundary": "Count Dispel/DispelMechanic removals in periodic_quote_count using the candidate auras' schedules (or route all Removed transitions through one periodic cancellation at commit).",
+   "evidence": "core: periodic_quote_count returns 0 for any op other than ProgramOp::AuraMutation (planning.rs:571-573), so a program whose only aura removal is Dispel/DispelMechanic compiles with has_periodic_quotes=false; quote_activation then takes the non-periodic path (scratch.rs:904) and aura_lifecycle::quote::<false> returns before deactivating cells (aura_lifecycle.rs:278-280). No commit-side fallback cancels periodic for Removed transitions (only natural expiry state.rs:1385, independent expiry, absorb depletion, dead-recipient). Even with PERIODIC=true the per-program quote capacity would undercount (debug_assert periodic.rs:772-775, Vec growth => warm allocation). Upstream gates: dispel.rs:243-247 'no periodic lifecycle fanout' and dispel_mechanic.rs:394 'without periodic fanout' reject any dispellable aura with schedules, so no executable state reaches it today.",
+   "id": "CSA-E-02",
+   "must_not_widen": "Do not lift the 'no periodic fanout' dispel gates before the removal path quotes periodic cancellation.",
+   "reachability": "LATENT",
+   "reproducer": "static: remove the require_fact at dispel.rs:243-247 in a mutant and apply a periodic-trigger schedule to the BLIND_FAITH/MAGE_ARMOR carrier; dispel removes the aura while the PeriodicCell stays active and the next tick executes for a removed aura.",
+   "review": [
+    "R1: reviews/R1.md upheld LATENT; both dispel compilers' periodic refusals must stay until removal quotes periodic cancellation"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Dispel and mechanic-dispel removals never quote periodic cancellation (periodic quote capacity counts 0 for Dispel ops); a dispellable aura with schedules would keep ticking after removal",
+   "track": "E",
+   "why_tests_missed": "Dispel fixtures never carry schedules because the compiler forbids it; the gate masks the missing removal-side contract."
+  },
+  {
+   "canonical_rank": 34,
+   "coords": [
+    "crates/combat/src/state/construction.rs:111-112",
+    "crates/combat/src/topology.rs:957-973",
+    "crates/combat/src/topology.rs:649-670",
+    "crates/combat/src/state/construction.rs:284-323"
+   ],
+   "correction_boundary": "state construction: validate PassiveMeleeSpeedBinding (compiled definition exists, Player actor, no duplicates) independently of the main hand, as prepare_actor_topology does for PassiveHasteAllBinding, or reject melee-speed bindings when no main hand consumes them",
+   "evidence": [
+    {
+     "class": "probe",
+     "note": "uncompiled effect / Enemy actor / duplicate Player binding all accepted without a main hand; raw-193 uncompiled binding -> MissingPassiveHasteAllDefinition",
+     "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+    },
+    {
+     "class": "core",
+     "note": "stat_bindings.into_parts() binds melee-speed bindings to `_`",
+     "ref": "crates/combat/src/state/construction.rs:111-112"
+    },
+    {
+     "class": "inferred",
+     "ref": "no other consumer of raw-319 exists, so the accepted state is behaviourally identical; the defect is a fail-open input boundary, not a wrong executable value"
+    }
+   ],
+   "id": "CSA-F-01",
+   "must_not_widen": "do not give raw-319 a consumer outside the isolated main hand; do not relax white isolation (exact [Player binding]); do not fold into the 5-family package-binding iterator unless raw-319 becomes a package member there",
+   "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+   "reachability": "INCONSISTENT",
+   "reproducer": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+   "review": [
+    "R1: reviews/R1.md upheld"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Passive melee auto-attack-speed bindings are validated only by white admission and silently discarded otherwise",
+   "track": "F",
+   "why_tests_missed": "raw-319 tests (engine/tests/selected_melee_auto_attack_speed.rs, program/passive_melee_auto_attack_speed/tests) always pair the binding with an admitted main hand; negative binding tests exercise only white isolation"
+  },
+  {
+   "absorbs": [
+    "CSA-H-03"
+   ],
+   "canonical_rank": 2,
+   "coords": [
+    "crates/combat/src/cast.rs:412-580",
+    "crates/combat/src/execution/health.rs:190-211",
+    "crates/combat/src/program/target_requirements.rs:63-76",
+    "crates/combat/src/cast_authority.rs:410-431",
+    "crates/combat/src/cast.rs:284-352"
+   ],
+   "correction_boundary": "one caster-life admission predicate in plan_resolved_cast_core for Instant/HardAcceptance/HardCompletion modes (dead caster -> typed non-timed blocker), plus generation-safe cancellation of the actor's pending cast when a committed damage transition makes that actor lethal",
+   "evidence": [
+    "core: plan_resolved_cast_core (cast.rs:412-580) has no caster-life gate; the only liveness check is preflight_execution_health (execution/health.rs:196-201) which requires caster life only when the program writes caster health (OperationTargetRequirements::health(Caster), target_requirements.rs:63-76)",
+    "core: nothing cancels a pending hard cast on death: CastAuthority cells are cleared only by finish_next/cancel (cast_authority.rs:419-431); completion re-plans in HardCompletion mode which again has no caster-life gate",
+    "probe: g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage (player at 0 health: readiness Ready, cast Ok, DamageDealt source=Player)",
+    "probe: g_cast_lifecycle.rs::defect_pending_hard_cast_survives_caster_death_and_succeeds (caster killed at t=0 mid-cast, CastCompleted Succeeded at 1000 ms and payload lands)",
+    "trinity: src/server/game/Spells/Spell.cpp:5744-5746 CheckCast returns SPELL_FAILED_CASTER_DEAD for a dead caster (non-passive, no ALLOW_CAST_WHILE_DEAD); Entities/Unit/Unit.cpp:9160-9172 setDeathState -> InterruptNonMeleeSpells",
+    "simc: engine/player/player.cpp:7138-7165 demise sets sleeping and cancels readying/off_gcd events; a sleeping actor executes no actions",
+    "core_test: engine/tests/share_damage.rs::copied_damage_and_death_commit_before_the_original_victim shows Player death is reachable through Engine inputs",
+    "probe: g_engine_dead_caster.rs::defect_engine_rotation_keeps_casting_for_dead_player (Engine + Core's exact share-damage fixture: after copied damage kills the Player, the rotation keeps casting and DamageDealt source=Player keeps landing)"
+   ],
+   "id": "CSA-G-01",
+   "must_not_widen": "do not add liveness to ActorState-wide or program-generic health requirements; programs that legitimately run from dead sources (already launched fixed impacts, periodic ticks owned by an aura) must keep their existing owners; do not invent resurrection or ALLOW_CAST_WHILE_DEAD support without an exact carrier",
+   "probe_test": "g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage",
+   "reachability": "LIVE",
+   "reproducer": "probe_test g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage and ::defect_pending_hard_cast_survives_caster_death_and_succeeds (public CombatProgram/CombatState API, two SchoolDamage fire spells, mutual hostile relations)",
+   "review": [
+    "X: reviews/X-reconciliation.md absorbs H-03",
+    "R1: reviews/R1.md upheld on real 228917 cast by a dead Player"
+   ],
+   "severity": "medium",
+   "status": "confirmed",
+   "title": "Dead caster passes readiness, commits instant casts, and a pending hard cast survives caster death and completes successfully",
+   "track": "G",
+   "why_tests_missed": "all death tests exercise dead targets/recipients (DeadTarget, periodic cancellation, white-swing target death); no test casts from or completes a cast for an actor whose own health reached zero"
+  },
+  {
+   "canonical_rank": 7,
+   "coords": [
+    "crates/combat/src/cast.rs:223-229",
+    "crates/combat/src/cast_authority.rs:423-431",
+    "crates/combat/src/state/casting.rs:100-107",
+    "crates/combat/src/execution/commit.rs:517-596",
+    "crates/combat/src/recovery.rs:231-244"
+   ],
+   "correction_boundary": "the single cancellation commit (state/casting.rs cancel_cast callers in execution/commit.rs) restores the actor's start-recovery cell for the cancelled cast's category to its pre-acceptance value (needs the prior ready_at retained with the pending cast or a cancel-time clamp to now)",
+   "evidence": [
+    "core: acceptance commits start recovery before publishing the pending cast (cast.rs:225-227); cancellation (cast_authority.rs:423-431 -> clear_exact) clears only the cast cell and prepared costs; commit_interrupt/commit_action_prevention_interrupt (execution/commit.rs:517-596) never touch StartRecoveryState",
+    "probe: g_cast_lifecycle.rs::defect_interrupt_retains_accepted_start_recovery (raw-68 interrupt at 500 ms; unlocked Nature action still StartRecovery until 1500 ms)",
+    "probe: g_cast_lifecycle.rs::defect_stun_interruption_retains_accepted_start_recovery (346197 stun cancels ordinary hard cast; after stun expiry at 100 ms, retry still StartRecovery until 1500 ms)",
+    "trinity: src/server/game/Spells/Spell.cpp:3617-3632 Spell::cancel in SPELL_STATE_PREPARING calls CancelGlobalCooldown (Spell.cpp:9227-9240); InterruptSpell/CastStop/InterruptSpellsWithPreventionTypeOnAuraApply all route through cancel",
+    "simc: engine/action/action.cpp:3135-3140 interrupt_action resets player->gcd_ready to now (+2x lag) for an interrupted cast",
+    "source: SpellCooldowns row 29 (Fireball 133) StartRecoveryTime 1500; SpellCategories row 60 StartRecoveryCategory 133, PreventionType 1 (Silence) -> real hard casts carry both a GCD and Silence prevention",
+    "inferred: Engine has one rotation-driven caster that cannot be interrupted by its own target (enemy never acts), so reachability is through the multi-actor CombatState public API, not Engine inputs",
+    "inferred: completion failure (not cancellation) retains GCD in Trinity too (Spell.cpp cast() failure path uses cleanupSpell/finish, not cancel), so only cancellation diverges"
+   ],
+   "id": "CSA-G-02",
+   "must_not_widen": "do not reset ordinary/shared cooldowns or acceptance-owned (attr 407) cooldowns on cancel (Trinity keeps them); do not reset GCD on completion failure; do not model simc's 2x latency",
+   "original": {
+    "severity": "medium"
+   },
+   "probe_test": "g_cast_lifecycle.rs::defect_interrupt_retains_accepted_start_recovery",
+   "reachability": "LIVE",
+   "reproducer": "probe_test g_cast_lifecycle.rs::defect_interrupt_retains_accepted_start_recovery (interrupt fixture with Fireball-shaped category-133 1500 ms start recovery added to the Fire and Nature hard casts)",
+   "review": [
+    "R1: reviews/R1.md upheld via public CombatState API with Player caster on real 465275 + 159006 + 58912; Engine cannot reach it; medium->low"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Interrupting a pending hard cast (raw-68, Stun, Silence, Pacify) keeps the start recovery (GCD) committed at acceptance",
+   "track": "G",
+   "why_tests_missed": "interruption fixtures (interrupt/silence/pacify/stun test-support) give their hard casts no start recovery; hard-cast start-recovery tests (hard_cast_concurrency.rs) never interrupt"
+  },
+  {
+   "canonical_rank": 35,
+   "coords": [
+    "crates/combat/src/cast.rs:662-683",
+    "crates/combat/src/cast.rs:1062-1085",
+    "crates/combat/src/cast.rs:1170-1176",
+    "crates/combat/src/readiness.rs:79-86"
+   ],
+   "correction_boundary": "either keep Stunned as reported code but fold its ready_at with silence/pacify via dominant_timed_blocker (recheck = latest), or document the stun-first early wake as an explicit exception to the latest-blocker contract",
+   "evidence": [
+    "core: prevention_blocker_for returns the Stunned error (or None for raw-163) before folding Silence/Pacify with dominant_timed_blocker (cast.rs:669-674 vs 676-682); every other blocker is folded to the latest recheck (cast.rs:1062-1085)",
+    "probe: g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify (Pacify to 4000 ms + Stun to 100 ms: readiness Stunned recheck 100 ms; at 100 ms still Pacified recheck 4000 ms)",
+    "core: public doc of CastReadiness::recheck_at (readiness.rs:79-80) 'Earliest authoritative retry time, when time alone can unblock it' and ledger L168/L322/L466 'readiness reports the true latest time-only blocker' vs ledger L22495 'Admission checks active Stun before Pacify and Silence. A susceptible action receives the latest active Stun expiry'",
+    "core_test: combat/tests/stuns.rs::active_stun_has_admission_precedence_over_active_pacify asserts only the code, not the recheck"
+   ],
+   "id": "CSA-G-03",
+   "must_not_widen": "do not change which actions Stun blocks or the raw-163 exemption; no change to interruption",
+   "probe_test": "g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify",
+   "reachability": "INCONSISTENT",
+   "reproducer": "probe_test g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify",
+   "review": [
+    "R1: reviews/R1.md upheld"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Active Stun short-circuits prevention folding: readiness reports the Stun expiry as recheck while a longer Pacify/Silence still blocks",
+   "track": "G",
+   "why_tests_missed": "the precedence test asserts error_code only; no test asserts recheck_at with overlapping Stun and a longer Pacify/Silence"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/interrupt.rs:16-32",
+    "crates/combat/src/program/interrupt.rs:128-129",
+    "crates/combat/src/execution/health.rs:203-208"
+   ],
+   "correction_boundary": "raw-68 compile should declare target-health requirement (require live target at preflight) or the quote should return dead_target instead of a progressing no-op",
+   "evidence": [
+    "core: interrupt quote sets has_transition=true and returns Ok when the target is dead (execution/planning/interrupt.rs:28-32); the compiler declares only with_target(true)+Hostile (program/interrupt.rs:128-129), so preflight_execution_health never requires target life for this program",
+    "probe: g_admission_order.rs::defect_interrupt_carrier_commits_against_dead_target (readiness Ready, cast Ok with SpellCast, no CastInterrupted)",
+    "trinity: src/server/game/Spells/SpellInfo.cpp:2452-2453 CheckTarget returns SPELL_FAILED_TARGETS_DEAD for a dead unit target (159006 attributes 0/0/0, no ALLOW_DEAD_TARGET); Spell.cpp:5956 applies it to the explicit target in CheckCast",
+    "core: development-ledger L17936-17938 records that direct server raw 68 'requires a living target'",
+    "source: SpellEffect row 222633 (159006 idx0 Effect 68 ImplicitTarget 6); SpellMisc 159006 Attributes_0..2 = 0"
+   ],
+   "id": "CSA-G-04",
+   "merged_into": "CSA-H-02",
+   "must_not_widen": "do not add generic target-life requirements to programs that already fizzle per-operation; keep idle-live-target no-op interrupt success (Trinity allows kicking a non-casting live target)",
+   "original": {
+    "status": "confirmed"
+   },
+   "probe_test": "g_admission_order.rs::defect_interrupt_carrier_commits_against_dead_target",
+   "reachability": "LIVE",
+   "reproducer": "probe_test g_admission_order.rs::defect_interrupt_carrier_commits_against_dead_target",
+   "review": [
+    "X: reviews/X-reconciliation.md merge",
+    "R1: reviews/R1.md agree"
+   ],
+   "severity": "low",
+   "status": "merged",
+   "title": "Exact raw-68 interrupt carrier 159006 is admitted and committed against a dead explicit target as a successful no-op",
+   "track": "G",
+   "why_tests_missed": "interrupt tests always use a live target; the dead branch at planning/interrupt.rs:28-30 is treated as a no-op rather than a rejection"
+  },
+  {
+   "canonical_rank": 26,
+   "coords": [
+    "crates/combat/src/cast.rs:669-674",
+    "crates/combat/src/program/stun.rs:474-480"
+   ],
+   "correction_boundary": "in prevention_blocker_for, when stunned and allows_while_stunned, fall through to the silence/pacify fold instead of returning None",
+   "evidence": [
+    "core: while stunned, prevention_blocker_for returns None for an allows_while_stunned action without evaluating silence_blocker_for/pacify_blocker_for (cast.rs:669-674)",
+    "core: upstream gate: the only admitted raw-163 owner (Full Heal 25840) must have an empty prevention mask (program/stun.rs:474-480 'empty prevention policy'), so silence/pacify blockers would be None anyway",
+    "trinity: Spell.cpp:6957-6958 treats ALLOW_WHILE_STUNNED as a stun-mechanic exemption only; silence/pacify checks are independent in CheckCasterAuras",
+    "inferred: reopening raw 163 for an owner with Silence/Pacify prevention bits would admit it while silenced/pacified"
+   ],
+   "id": "CSA-G-05",
+   "must_not_widen": "do not relax the exact Full Heal audit to prove this; fix is a local control-flow change",
+   "reachability": "LATENT",
+   "reproducer": "static only; requires a raw-163 owner with nonzero prevention mask which program/stun.rs audit rejects",
+   "review": [
+    "R1: reviews/R1.md upheld LATENT"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Allow-while-stunned early return also skips Silence and Pacify admission blockers",
+   "track": "G",
+   "why_tests_missed": "the exact raw-163 carrier has empty prevention, so no test can combine stun+silence against it"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:1368-1395",
+    "crates/combat/src/expiry_execution.rs:9-40",
+    "crates/combat/src/execution/commit/health.rs:923-930",
+    "crates/combat/src/periodic_execution.rs:449-457",
+    "crates/combat/src/aura_state.rs:676-680",
+    "crates/dbc/src/aura_subtype.rs:574",
+    "crates/dbc/src/spell_attribute.rs:391"
+   ],
+   "correction_boundary": "one death-transition owner at the lethal health commit (the sites that emit ActorDied / WhiteMainHandDeath) that quotes and commits a non-natural (death) removal of every active aura, independent-stack cohort, absorb provider and modifier cohort whose affected actor died, reusing the explicit-removal path that already suppresses expiry drivers; periodic cancellation then follows from aura removal",
+   "evidence": [
+    "probe: h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient — APPLY (aura with raw-495 TriggerSpellOnExpire, misc 1) then a lethal NUKE on the recipient at t=0: ActorDied is emitted, active_aura(key) stays Some, pending_timer_count stays 1, and at t=100 ms AuraExpired + ResourceGained (+10 Energy to the living source) are committed",
+    "control: h_death_lifecycle.rs::holds_on_expire_driver_fires_for_living_recipient (same +10 energy only because the recipient lived)",
+    "core: lethal commit only pushes ActorDied (commit/health.rs:923-930); no aura/driver cleanup exists; the ordinary AuraExpiry transition (state.rs:1368-1395) commits natural removal and calls execute_expiry_drivers with no liveness check; expiry_execution.rs:9-40 executes each driver",
+    "core (internal inconsistency): periodic schedules ARE cancelled when the aura recipient is dead (periodic_execution.rs:449-457), but the owning aura, its deadline, and its expiry driver survive",
+    "trinity: Unit::RemoveAllAurasOnDeath removes every non-passive, non-death-persistent aura with AURA_REMOVE_BY_DEATH (TrinityCore src/server/game/Entities/Unit/Unit.cpp:4472-4493, called from setDeathState Unit.cpp:9179); AuraEffect::HandleTriggerSpellOnExpire returns unless removeMode == AURA_REMOVE_BY_EXPIRE (src/server/game/Spells/Auras/SpellAuraEffects.cpp:5422-5425)",
+    "core catalog: raw 116 AllowAuraWhileDead is unimplemented (fails closed, spell_attribute.rs:391), so every admitted aura is a non-death-persistent aura whose source semantics is removal at death",
+    "source: 683 SpellEffect rows carry EffectAura 495 (wowlab-data data/tables/SpellEffect.csv, e.g. spell 347350 effect 0 misc 1 trigger 347488); raw 495 is Implemented in AURA_SUBTYPE_REQUIREMENTS (aura_subtype.rs:574)"
+   ],
+   "id": "CSA-H-01",
+   "merged_into": "CSA-E-01",
+   "must_not_widen": "do not admit AllowAuraWhileDead (116) / DisableAuraWhileDead (226) semantics as part of the fix; do not add an ad-hoc liveness check only inside execute_expiry_drivers (leaves the corpse aura active for observations/modifiers); do not let death removal consume RNG or fire any driver",
+   "original": {
+    "status": "confirmed"
+   },
+   "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient",
+   "reachability": "LIVE",
+   "reproducer": "cd scripts/research/core_audit/probe && cargo test --offline --test h_death_lifecycle defect_on_expire_driver_fires_from_aura_on_dead_recipient -- --nocapture",
+   "review": [
+    "X: reviews/X-reconciliation.md merge",
+    "R1: reviews/R1.md agree"
+   ],
+   "severity": "medium",
+   "status": "merged",
+   "title": "Actor death never ends aura lifecycle: auras stay active on the corpse and TriggerSpellOnExpire drivers fire at natural expiry after death",
+   "track": "H",
+   "why_tests_missed": "crates/combat/tests/expiry_drivers.rs exercises natural expiry, explicit removal, refresh and fizzles only with living recipients; periodic tests cover recipient-death cancellation of schedules but never assert the aura/expiry lifecycle after ActorDied; the reset fingerprint suites never kill an aura recipient"
+  },
+  {
+   "absorbs": [
+    "CSA-G-04"
+   ],
+   "canonical_rank": 5,
+   "coords": [
+    "crates/combat/src/execution/planning/health.rs:881-889",
+    "crates/combat/src/execution/health.rs:230-245",
+    "crates/combat/src/cast.rs:537-539",
+    "crates/combat/src/execution/planning/resource.rs:141-149",
+    "crates/combat/src/execution/planning/interrupt.rs:28-32"
+   ],
+   "correction_boundary": "one action-level target liveness policy applied during root planning for every recipient-bound mutation family (aura apply/stack/remove included), aligned with the existing DeadTarget rejection; or explicitly document and gate aura mutations as dead-target no-ops like instakill",
+   "evidence": [
+    "probe: h_death_lifecycle.rs::defect_aura_application_to_dead_target_commits — after a lethal NUKE, a second NUKE rejects with CastErrorCode::DeadTarget, but APPLY on the same dead External commits, active_aura(key) is Some, and its expiry driver later energizes the caster (+10)",
+    "core: the only dead-target gates are operation-local — damage/power-burn/fixed-travel quote dead_target (planning/health.rs:881-889, cast.rs:537-539), heal preflight (execution/health.rs:240-241), resource gain no-op for dead source (planning/resource.rs:141-149), interrupt no-op (planning/interrupt.rs:28-32); aura mutations have no liveness check",
+    "trinity: SpellInfo::CheckTarget returns SPELL_FAILED_TARGETS_DEAD for any spell unless IsAllowingDeadTarget (src/server/game/Spells/SpellInfo.cpp:2452-2453, 1838-1853)",
+    "core ledger (docs/development-ledger.md ~L10505-10508) deliberately keeps generic cast progress on dead instakill targets as a no-op effect; aura application is not a no-op, it creates new live aura state on a corpse"
+   ],
+   "id": "CSA-H-02",
+   "must_not_widen": "do not implement SPELL_ATTR2_ALLOW_DEAD_TARGET / corpse targeting while fixing; do not change instakill's documented cast-progress behaviour without its own ledger decision",
+   "probe_test": "h_death_lifecycle.rs::defect_aura_application_to_dead_target_commits",
+   "reachability": "LIVE",
+   "reproducer": "cd scripts/research/core_audit/probe && cargo test --offline --test h_death_lifecycle defect_aura_application_to_dead_target_commits",
+   "review": [
+    "X: reviews/X-reconciliation.md absorbs G-04 and E-01 application clause",
+    "R1: reviews/R1.md upheld: real 6873 commits on a corpse while 228917 is refused"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Aura-only actions admit dead targets: ApplyAura on a dead actor commits a live aura (and re-arms its on-expire driver), while damage on the same corpse rejects with DeadTarget",
+   "track": "H",
+   "why_tests_missed": "dead-target tests are per-operation (damage, instakill, interrupt, heal); no aura-application test uses a dead recipient"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:74-134",
+    "crates/combat/src/cast.rs:430-560",
+    "crates/combat/src/execution/commit/health.rs:923-930",
+    "crates/combat/src/state/casting.rs:69-104"
+   ],
+   "correction_boundary": "caster liveness in the shared root cast admission (before quote, failure mutation-free and RNG-free) plus death-transition cancellation of the dead actor's pending hard cast (same owner as CSA-H-01)",
+   "evidence": [
+    "probe: h_death_lifecycle.rs::defect_dead_caster_keeps_casting — two-way hostile relations; External's NUKE kills the Player (ActorDied); the dead Player's NUKE then commits (DamageDealt source=Player, External 100000->80000)",
+    "core: cast admission (cast.rs:74-134 and plan_resolved_cast_core ~430-560) has no caster-liveness gate; the only source-liveness check is the resource-gain no-op (planning/resource.rs:141-149); lethal commit only emits ActorDied and never touches CastAuthority, so a dead actor's pending hard cast is also left to complete (static)",
+    "trinity: Spell::CheckCast returns SPELL_FAILED_CASTER_DEAD unless the spell is passive, SPELL_ATTR0_ALLOW_CAST_WHILE_DEAD, or aura-triggered (src/server/game/Spells/Spell.cpp:5742-5746); Unit::setDeathState interrupts non-melee spells (src/server/game/Entities/Unit/Unit.cpp:9160-9172)"
+   ],
+   "id": "CSA-H-03",
+   "merged_into": "CSA-G-01",
+   "must_not_widen": "do not implement SPELL_ATTR0_ALLOW_CAST_WHILE_DEAD / resurrection; do not gate autonomous drivers whose source is a living aura owner",
+   "original": {
+    "status": "confirmed"
+   },
+   "probe_test": "h_death_lifecycle.rs::defect_dead_caster_keeps_casting",
+   "reachability": "LIVE",
+   "reproducer": "cd scripts/research/core_audit/probe && cargo test --offline --test h_death_lifecycle defect_dead_caster_keeps_casting",
+   "review": [
+    "X: reviews/X-reconciliation.md merge",
+    "R1: reviews/R1.md agree"
+   ],
+   "severity": "low",
+   "status": "merged",
+   "title": "A dead caster keeps acting: after ActorDied the dead actor's casts pass admission and commit damage/auras",
+   "track": "H",
+   "why_tests_missed": "Engine fixtures have one acting caster that never takes damage; combat tests kill only targets"
+  },
+  {
+   "canonical_rank": 37,
+   "coords": [
+    "crates/combat/src/execution/commit.rs:893-906",
+    "crates/combat/src/execution/planning.rs:504-506",
+    "crates/combat/src/impact.rs:11-15"
+   ],
+   "correction_boundary": "choose one immune draw policy at resolve_execution_impact (commit.rs:879-926) and state it in the impact suppression contract; if changed, version the draw identity",
+   "evidence": [
+    "core: resolve_execution_impact resolves the underlying table for every suppressed impact except `delayed_launch && suppressed` (commit.rs:895-903)",
+    "probe: i_rng_immunity.rs::holds_ordinary_immune_impact_consumes_its_attack_table_draw (Pacify vs school-immune target, magic miss 0.5: 1 draw, ImpactResolved Immune)",
+    "probe: i_rng_immunity.rs::defect_fixed_travel_immune_launch_skips_the_draw_ordinary_immune_consumes (Illusionary Bolt vs same immune target and table: 0 draws; non-immune launch: 1 draw)",
+    "core: both behaviours are separately documented (ledger 22596-22603; 23536-23539) and the ordinary one is pinned by crates/combat/tests/school_immunities.rs suppression_does_not_consume_the_following_random_draw",
+    "inferred: statistically inert (independent draws); observable only as replay/stream alignment (gate 4 draw-consumption identity)"
+   ],
+   "id": "CSA-I-01",
+   "must_not_widen": "do not let attack tables manufacture HitResult::Immune; do not move suppression capture out of quote",
+   "original": {
+    "severity": "low"
+   },
+   "probe_tests": [
+    "i_rng_immunity.rs::defect_fixed_travel_immune_launch_skips_the_draw_ordinary_immune_consumes",
+    "i_rng_immunity.rs::holds_ordinary_immune_impact_consumes_its_attack_table_draw"
+   ],
+   "reachability": "INCONSISTENT",
+   "reproducer": "cargo test --offline --test i_rng_immunity (probe crate)",
+   "review": [
+    "R1: reviews/R1.md only draw alignment; low->info",
+    "R3: reviews/R3.md upheld; the ordinary path matches Trinity"
+   ],
+   "severity": "info",
+   "status": "confirmed",
+   "title": "Immune (delivery-suppressed) impacts consume attack-table draws on the ordinary path but none on the fixed-travel launch path",
+   "track": "I",
+   "why_tests_missed": "each path has its own focused test asserting its own consumption; no test compares the two suppression paths on one table"
+  },
+  {
+   "canonical_rank": 1,
+   "coords": [
+    "crates/combat/src/impact.rs:262-280",
+    "crates/combat/src/execution/planning.rs:815-825",
+    "crates/combat/src/execution/commit.rs:893-906",
+    "crates/combat/src/attack/resolution.rs:244-252",
+    "crates/combat/src/attack/resolution.rs:503-523",
+    "crates/combat/src/program/fixed_travel_time.rs:140-146",
+    "crates/combat/src/fixed_impact_execution.rs:121-153"
+   ],
+   "correction_boundary": "Fixed-travel launch contract (program/fixed_travel_time.rs admission + commit.rs launch resolution): make the captured launch table block-ineligible for Magic-defense fixed-travel payloads (Trinity never blocks magic; melee block is decided at target add), or reject the block-capable combination at quote before any draw. Do not relax the captured() unblocked assertion.",
+   "evidence": [
+    "core: fixed-travel compile admits exact 373932 with DefenseType::Magic and no block suppression (fixed_travel_time.rs:140-146)",
+    "core: Magic defense is block-eligible when the defender's public ActiveDefenseCapabilities::with_magic_block() is set and facing is Front (resolution.rs:244-252); launch commit resolves the full table including block/critical block (commit.rs:905, resolution.rs:503-523)",
+    "core: the launch quote even validates the blocked amounts as reachable (impact.rs:356-386), so nothing refuses the combination before commit",
+    "core: arrival re-quotes with captured_damage and builds PreparedImpactQuote::captured, which assert_eq!(resolution.block, Unblocked) and a unit landed multiplier (impact.rs:262-280)",
+    "probe: i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival — block 0.5: launch consumes exactly 1 draw; arrival panics with 'the exact fixed-travel contract admits no block result' exactly on iterations where the independent replay's block occurs",
+    "probe: i_fixed_travel_block.rs::defect_fixed_travel_certain_magic_block_always_panics_at_arrival — block 1.0: zero draws, arrival always panics",
+    "inferred: Trinity decides spell block during damage calculation at hit (isSpellBlocked in CalculateSpellDamageTaken), i.e. at arrival for delayed spells; Core rolls it at launch"
+   ],
+   "id": "CSA-I-02",
+   "must_not_widen": "do not remove the captured() assertion without deciding block timing; do not generalize fixed travel beyond the exact carrier while correcting",
+   "original": {
+    "correction_boundary": "make the exact fixed-travel program's launch table block-ineligible (or reject a magic-block-capable recipient at quote) OR carry block into the arrival contract with source-backed timing; decide at the fixed-travel policy (program/fixed_travel_time.rs + segment.rs mark_observation_phase), not by relaxing captured()"
+   },
+   "probe_tests": [
+    "i_fixed_travel_block.rs::defect_fixed_travel_certain_magic_block_always_panics_at_arrival",
+    "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "CombatStateInput{Player, Enemy0; hostile; ActiveDefenseBaseline(enemy, NONE, BlockDefense::try_new(1.0,0,0.7,0.4), ActiveDefenseCapabilities::new().with_magic_block())}; begin_cast(373932); advance_to(1.5s); advance_to(2.5s) -> panic",
+   "review": [
+    "R1: reviews/R1.md upheld medium LIVE; Trinity never blocks magic spells",
+    "R3: reviews/R3.md upheld; I's correction text wrong"
+   ],
+   "severity": "medium",
+   "status": "confirmed",
+   "title": "Fixed-travel launch commits a (magic) block result that arrival's captured-impact contract refuses: advance panics after the launch draw",
+   "track": "I",
+   "why_tests_missed": "fixed-travel tests (crates/combat/tests/fixed_travel_time.rs) only use BlockDefense::NONE / capability-free defenders; the captured() invariant is asserted at use but never enforced at compile, state construction, or launch quote"
+  },
+  {
+   "canonical_rank": 14,
+   "coords": [
+    "crates/combat/src/white_swing.rs:32-44",
+    "crates/combat/src/white_swing.rs:296-313"
+   ],
+   "correction_boundary": "WhiteMainHandInput must carry the binary32 terms in consumer association (e.g. the pre-rating flat+base term or rating separately) so Core evaluates (flat_raw290 + base) + rating; or record this as a deliberate host contract. Keep the single post-sum truncation.",
+   "evidence": [
+    "core white_swing.rs:42 `(percent + self.percent_points)` where percent is the host basis `5 + rating`",
+    "trinity StatSystem.cpp:522-523 + Player.cpp:8255-8264: CritPercentage = (raw290 + 5.0f) + ratingBonus in binary32",
+    "ledger docs/development-ledger.md:28303-28306 claims the direct consumer adds raw 290 to a binary32 weapon-critical percent; the consumer adds it before the rating term",
+    "probe j_white_binary32.rs::defect_white_critical_adds_passive_after_host_sum_binary32_association (PASS): threshold is 825 bp where Trinity yields 824"
+   ],
+   "id": "CSA-J-01",
+   "must_not_widen": "Do not admit rating/gear/extra modifiers or ranged/off-hand; do not change the draw order or white semantics beyond bumping WHITE_MAIN_HAND_SEMANTICS_VERSION.",
+   "note": "Comparator is TrinityCore (emulator); magnitude 1 basis point on rare inputs. Severity low.",
+   "probe_tests": [
+    "j_white_binary32.rs::defect_white_critical_adds_passive_after_host_sum_binary32_association"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test j_white_binary32 defect_white_critical_adds_passive_after_host_sum_binary32_association",
+   "review": [
+    "R1: reviews/R1.md upheld",
+    "R3: reviews/R3.md recomputed 824 vs 825"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "White critical: compiled raw-290 points are added after the host-summed binary32 basis, not in the consumer association",
+   "track": "J",
+   "why_tests_missed": "The only discriminator test (6.06 + 2.0 -> 805) uses a basis whose association with 5.0 is exact; binary32 non-associativity needs ~1-in-5M rating values."
+  },
+  {
+   "canonical_rank": 15,
+   "coords": [
+    "crates/combat/src/recovery.rs:113-116",
+    "crates/combat/src/cooldown/deadline_rate.rs:233-240",
+    "crates/combat/src/periodic.rs:551-562",
+    "crates/combat/src/haste.rs:56-77"
+   ],
+   "correction_boundary": "The actor timing-multiplier contract (HasteMultipliers) and the three duration scalers; if parity is desired, carry the binary32 period multiplier and compute (f32(ms) * mod) truncation, as white_swing::effective_period already does.",
+   "evidence": [
+    "probe j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer (PASS): cast 29405 and cooldown 29405 ms for 30000 ms at 2.02% haste, Trinity 29406",
+    "trinity Object.cpp:1809, SpellHistory.cpp:421, Spell.cpp:9213, SpellAuraEffects.cpp:1007; Unit.cpp:10978-10981",
+    "contrast: Core white swing period already uses the binary32 product (white_swing.rs:458-463) — internal inconsistency"
+   ],
+   "id": "CSA-J-02",
+   "must_not_widen": "Do not change RecoveryRatePolicy semantics, minimums, or introduce per-call rounding elsewhere; deadlines/work identity must be versioned.",
+   "note": "Comparator is TrinityCore; exact host multiplier representation is a Core contract choice, so the defect is parity-only.",
+   "original": {
+    "title": "Hasted durations divide by an f64 frequency; the consumer multiplies by a binary32 period factor, so truncation lands 1 ms lower on ~0.13% of inputs"
+   },
+   "probe_tests": [
+    "j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test j_haste_duration",
+   "review": [
+    "X: reviews/X-reconciliation.md NUM-E-001 / NUM-B-005/006 / NUM-G-001 are the same conversion; divergence is bidirectional (12000 ms @134.65% -> 5113 vs 5114; 30000 @92% -> 15625 vs 15624)",
+    "R1: reviews/R1.md upheld",
+    "R3: reviews/R3.md upheld; periodic witness 5000 ms @2.02% -> 4900 vs 4901"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Hasted durations divide by an f64 frequency while the consumer multiplies by a binary32 period factor, so truncation differs by +/-1 ms (cast, GCD, cooldown and periodic period)",
+   "track": "J",
+   "why_tests_missed": "Haste tests use round multipliers (1.25, 1.5, 2.0) where f64 division and binary32 multiplication agree."
+  },
+  {
+   "canonical_rank": 16,
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:127-141"
+   ],
+   "correction_boundary": "CriticalTargetHealthPredicate::matches: compute the binary32 CountPctFromMaxHealth threshold (uint64(f32(max)*f32(pct)/100.0f)) when parity is intended; boss-scale maxima above 2^24 additionally round max to binary32.",
+   "evidence": [
+    "probe j_target_health_threshold.rs::defect_target_health_at_or_above_uses_untruncated_threshold (PASS): max 1001, current 800 -> Core Hit; Trinity threshold 800 -> +100 points -> Critical",
+    "trinity Unit.cpp:2917-2920, 7257-7260; Unit.h:791,796; Util.h:72-75",
+    "source raw-183 Initiation (193878 et al.) misc_value_1 = 80 is the AtOrAbove-80 slice"
+   ],
+   "id": "CSA-J-03",
+   "must_not_widen": "Do not admit low-health predicates, new percents, or scheduled threshold wakes.",
+   "note": "Only a sub-1-HP band per crossing is affected; in Core health is continuous, so Core can also sit strictly between floor and exact threshold.",
+   "probe_tests": [
+    "j_target_health_threshold.rs::defect_target_health_at_or_above_uses_untruncated_threshold"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test j_target_health_threshold",
+   "review": [
+    "R1: reviews/R1.md upheld on real row 213539 (J's 193878 is refused by Core)",
+    "R3: reviews/R3.md recomputed"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Raw-183 AtOrAbove target-health predicate uses the exact real threshold; the consumer truncates CountPctFromMaxHealth to an integer",
+   "track": "J",
+   "why_tests_missed": "Fixtures use maximum 1000 where 80% is integral."
+  },
+  {
+   "canonical_rank": 28,
+   "coords": [
+    "crates/combat/src/mechanic_duration.rs:174-200"
+   ],
+   "correction_boundary": "mechanic_duration::apply_percentage: authored + trunc_toward_zero(authored * p / 100) (binary32 staging if exact parity wanted) before any carrier widening.",
+   "evidence": [
+    "trinity Object.cpp:1753-1760 AddPct(int32,int32)",
+    "probe j_mechanic_duration.rs::holds_mechanic_duration_rounding_divergence_is_gated_by_exact_five_second_carrier (PASS): 1250 ms applicand rejected at build; admitted 5000 ms carrier exact (4500)"
+   ],
+   "id": "CSA-J-04",
+   "must_not_widen": "Keep exact provider/applicand gates; do not admit positive or stacking percentages as part of the fix.",
+   "note": "Upstream gates: program/mechanic_duration provider fact \"fixed negative-10 amount\" and silence carrier \"five-second single-stack aura lifetime\".",
+   "probe_tests": [
+    "j_mechanic_duration.rs::holds_mechanic_duration_rounding_divergence_is_gated_by_exact_five_second_carrier"
+   ],
+   "reachability": "LATENT",
+   "reproducer": "cargo test --test j_mechanic_duration",
+   "review": [
+    "R1: reviews/R1.md upheld info LATENT"
+   ],
+   "severity": "info",
+   "status": "confirmed",
+   "title": "Mechanic-duration percentage floors the reduced duration; the consumer rounds it up (truncated negative delta)",
+   "track": "J",
+   "why_tests_missed": "Admitted carriers are 5 s with -10/-50, where every product is integral."
+  },
+  {
+   "canonical_rank": 29,
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:233-240",
+    "crates/combat/src/cooldown_recovery_rate.rs:850-852",
+    "crates/combat/src/charge_recharge_rate.rs:716-718"
+   ],
+   "correction_boundary": "Recovery-speed composition (cooldown_recovery_rate/charge_recharge_rate rate_factor) and time_math conversion: compute base * prod(100/(p+100)) (the consumer order) before truncation, or round-to-nearest-ms when the product is within epsilon of an integer.",
+   "evidence": [
+    "probe j_recovery_rate.rs::holds_recovery_rate_two_source_amounts_match_consumer_product_order (PASS): 60 s with +50/+60 -> 24999 (Trinity 25000)",
+    "probe j_recovery_rate.rs::defect_recovery_rate_division_truncates_one_ms_below_consumer_product (PASS): 16.5 s +10% -> 14999 (Trinity 15000)",
+    "trinity SpellHistory.cpp:432-455, 996-1009"
+   ],
+   "id": "CSA-J-05",
+   "must_not_widen": "Do not change live-rebase semantics, the 0.01 floor, or stacking policy.",
+   "note": "Single-source raw-286 amounts in 12.1.0 never diverge on authored cooldowns; two stacked sources (+50,+60) do on 1.5/3/6/15/30/60 s cooldowns.",
+   "original": {
+    "reachability": "LIVE",
+    "severity": "low",
+    "title": "Raw-286 / charge recovery rates divide by (1+p/100); the consumer multiplies by 100/(p+100), so exact results truncate 1 ms low"
+   },
+   "probe_tests": [
+    "j_recovery_rate.rs::defect_recovery_rate_division_truncates_one_ms_below_consumer_product",
+    "j_recovery_rate.rs::holds_recovery_rate_two_source_amounts_match_consumer_product_order"
+   ],
+   "reachability": "LATENT",
+   "reproducer": "cargo test --test j_recovery_rate",
+   "review": [
+    "R3: reviews/R3.md Trinity forms the rate product first: 60000 with +50/+60 gives 24999 in both; the pair never co-applies",
+    "R1: reviews/R1.md agree; probe corrected by LEAD to holds_recovery_rate_two_source_amounts_match_consumer_product_order"
+   ],
+   "severity": "info",
+   "status": "confirmed",
+   "title": "Raw-286 / charge recovery rates divide by (1+p/100) while the consumer multiplies by 100/(p+100); single-source results can truncate 1 ms low, but no real admitted input reaches the gap",
+   "track": "J",
+   "why_tests_missed": "Tests use +100% on 10/20 s cooldowns, which is exact under both evaluations."
+  },
+  {
+   "canonical_rank": 17,
+   "coords": [
+    "crates/combat/src/state/power_cost.rs:98-117",
+    "crates/combat/src/state/power_cost.rs:120-132"
+   ],
+   "correction_boundary": "adjust_resource_spend_components mana branch: apply binary32 (1.0f + sum/100.0f) and truncate toward zero per component, before sign-crossing clamp and aggregation; or document continuous resource costs as intentional (like continuous health, ledger 14457).",
+   "evidence": [
+    "probe j_mana_cost_percent.rs::defect_mana_cost_percent_leaves_fractional_cost (PASS): 13 mana at -5% costs 12.35 (Trinity 12)",
+    "trinity SpellInfo.cpp:4238-4239 int32 powerCost",
+    "ledger docs/development-ledger.md:9350-9355 describes the handler without the int32 store"
+   ],
+   "id": "CSA-J-06",
+   "must_not_widen": "Do not add rounding to other resource paths or change optional-cap ordering.",
+   "note": "If Core deliberately keeps a continuous resource domain, downgrade to INCONSISTENT/info; the ledger does not say so for raw 423.",
+   "probe_tests": [
+    "j_mana_cost_percent.rs::defect_mana_cost_percent_leaves_fractional_cost"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test j_mana_cost_percent",
+   "review": [
+    "R1: reviews/R1.md upheld on real 1270845 + spell 111 ManaCost 5 (Core 4.75, Trinity 4)"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Raw-423 mana cost percentage produces fractional mana costs; the consumer truncates the cost to int32",
+   "track": "J",
+   "why_tests_missed": "Fixtures use 20/80 costs with -50/-10/+5% where the product is integral."
+  },
+  {
+   "canonical_rank": 18,
+   "coords": [
+    "crates/rotation/src/projection.rs:89-100",
+    "crates/rotation/src/execution.rs:943-958",
+    "crates/combat/src/passive_resource_flow.rs:973-1000"
+   ],
+   "correction_boundary": "Engine resource_projection/rotation MonotonicLinearProjection: carry the flow basis (basis_at, basis_balance, units/ms) and evaluate with the exact combat expression, or have the rotation re-check predicate at delta-1 against combat; the combat projection is the authority.",
+   "evidence": [
+    "probe j_resource_projection.rs::defect_rotation_resource_wake_is_one_ms_after_combat_crossing (PASS): combat energy is 50.0 at 5000 ms but the `energy >= 50` action fires at 5001",
+    "python scan (scratch): with integral regen/thresholds ~28k (rate,basis,now,threshold) grid points wake late by 1 ms"
+   ],
+   "id": "CSA-J-07",
+   "must_not_widen": "Do not add polling, per-ms wake loops, or change combat projection semantics.",
+   "note": "Internal Core inconsistency (no external comparator); only exact-tie crossings are affected.",
+   "probe_tests": [
+    "j_resource_projection.rs::defect_rotation_resource_wake_is_one_ms_after_combat_crossing"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --test j_resource_projection",
+   "review": [
+    "R1: reviews/R1.md upheld (Core-internal inconsistency)",
+    "R3: reviews/R3.md upheld"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Rotation resource-threshold wake uses a different f64 evaluation than combat projection, waking 1 ms after combat already satisfies the threshold",
+   "track": "J",
+   "why_tests_missed": "Engine tests evaluate from now = 0 (basis == now), where both formulas coincide (e.g. 4000 ms crossing in query_integration.rs:619-681)."
+  },
+  {
+   "canonical_rank": 8,
+   "coords": [
+    "crates/combat/src/program.rs:1595-1618",
+    "crates/combat/src/program.rs:1620-1690",
+    "crates/combat/src/error/operation_effect.rs:17-42",
+    "crates/data/src/action/catalog/operation.rs:861-902",
+    "crates/dbc/src/spell_effect.rs:261",
+    "crates/dbc/src/spell_effect.rs:266",
+    "crates/dbc/src/spell_effect.rs:270"
+   ],
+   "correction_boundary": "Final aura-mutation compilation (program.rs validate_aura_mutation_source): require aura_id == EffectTriggerSpell for 164/203/289, require raw-289 misc 0 and a declared direction/count equal to the signed integral base points (reject misc 1 Set until a set operation exists), keep ApplyAura identity semantics explicit.",
+   "evidence": "validate_aura_mutation_source only asserts OperationEffectContract::{RemoveAura,AddAuraStacks,RemoveAuraStacks}.accepts(kind); prepare_aura_step validates aura existence and count>0 only. Nothing compares the declared aura_id with the source EffectTriggerSpell (Trinity Spell::EffectRemoveAura removes effectInfo->TriggerSpell, SpellEffects.cpp:5152-5161; EffectModifyAuraStacks acts on TriggerSpell, MiscValue 0 = ModStackAmount(signed value), 1 = SetStackAmount, SpellEffects.cpp:6126-6146), nor the declared direction/count with the signed base points, nor rejects Set mode that Core cannot represent. Probes (all pass): k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity (raw 203 and 164 row naming aura B removes host-declared A, B stays), ::defect_modify_aura_stacks_set_mode_admitted_as_add (Set-2 row yields 3 stacks from 1; source semantic 2), ::defect_modify_aura_stacks_direction_count_identity_unbound (+1 add row on A compiles as RemoveStacks 4 on B). Live census (12.1.0.69497 SpellEffect, DifficultyID 0): 201 raw-289 rows, 21 Set-mode (misc 1, e.g. 1253147 \"[DNT] Health Aura - Set to 3\", 427141 Threads of Life); 9549 raw-164 and 5549 raw-203 rows, 43/12 with no trigger.",
+   "id": "CSA-K-01",
+   "must_not_widen": "Do not add a Set-stack runtime operation or infer auras from trigger ids at runtime; do not relax existing kind-family checks; keep host resolution for recipient only.",
+   "original": {
+    "severity": "medium"
+   },
+   "probe_test": "k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity",
+   "reachability": "LIVE",
+   "reproducer": "cd scripts/research/core_audit/probe && cargo test --offline --test k_aura_mutation_source",
+   "review": [
+    "R1: reviews/R1.md upheld for aura identity/amount; Set-mode clause rejected on real data (only admissible row 1213197 equals add-stacks); medium->low"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Aura-mutation lowering (raw 164/203/289) validates only the effect-kind family: source aura identity (EffectTriggerSpell), raw-289 add/set mode (EffectMiscValue_0) and signed amount are never bound to the host step",
+   "track": "K",
+   "why_tests_missed": "Core fixtures author these rows with trigger None and base points 0 (test-support pacify.rs:125, maximum_resource_modifier_runtime.rs:774-776) and resolve the aura/count on the host side, so source-vs-step binding is never exercised; the catalog text says \"pre-resolved positive count\"."
+  },
+  {
+   "canonical_rank": 33,
+   "coords": [
+    "crates/dbc/src/aura_subtype.rs:571",
+    "crates/dbc/src/aura_subtype.rs:271-280",
+    "crates/combat/src/program/health_threshold.rs:353",
+    "crates/combat/src/program/health_threshold/validation.rs:343",
+    "crates/combat/src/program/effect_attribute.rs:30-32"
+   ],
+   "correction_boundary": "Either promote raw 468 to Implemented with its reviewed requirement text, or gate health_threshold compilation on AuraSubtypeSupport::Implemented; the catalog must state what the executable admits.",
+   "evidence": "AuraSubtypeSupport::Disabled is documented as \"a gameplay semantic that remains inert until its complete mechanic is implemented\", yet the health_threshold compiler admits raw-468 declarations without consulting aura_subtype_requirement and the runtime executes the threshold child. Probe k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes asserts support()==Disabled, compiles test-support health_threshold_runtime_inputs, casts the raw-468 aura and observes one child DamageDealt and health 51->41. Ledger L19427 confirms \"complete compiled/runtime machinery\" exists; no live carrier currently passes owner gates (raw 416/382), so the disagreement is catalog-vs-executable, not a wrong value.",
+   "id": "CSA-K-02",
+   "must_not_widen": "Do not admit additional raw-468 carriers or owner attributes while reconciling status.",
+   "probe_test": "k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes",
+   "reachability": "INCONSISTENT",
+   "reproducer": "cargo test --offline --test k_catalog_admission defect_disabled_raw468",
+   "review": [
+    "R1: reviews/R1.md upheld"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Catalog-Disabled aura raw 468 (TriggerSpellBasedOnHealthPercent) is fully executable through the public CombatProgram API",
+   "track": "K",
+   "why_tests_missed": "Core tests exercise raw-468 as an executable family (crates/combat/tests/health_threshold_*.rs) while catalog tests only check table alignment/status strings; no test couples support status to compiler admission."
+  },
+  {
+   "absorbs": [
+    "CSA-B-02"
+   ],
+   "canonical_rank": 31,
+   "coords": [
+    "crates/dbc/src/aura_subtype.rs:534",
+    "crates/combat/src/program/selected_trait_package.rs:888-891",
+    "crates/combat/src/program/selected_trait_package.rs:600-629",
+    "crates/data/src/trait_source/selected_spell.rs:235-242",
+    "crates/combat/src/program/critical_modifier.rs:494-578",
+    "crates/combat/src/program/passive_damage_modifier.rs:121-213"
+   ],
+   "correction_boundary": "Rewrite the four requirement strings to describe the generic selected-package contract (arity/composition gate, max_ranks 1|2, owner policy), or add explicit gates where the restriction is still intended.",
+   "evidence": "raw 334 row: admitted source is exact 406154:2 in the complete four-effect Heart package and \"independent or multiple raw-334 providers ... and every other carrier remain fail closed\" — probe defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording compiles and binds a one-effect raw-334 selected package on the same provider shell. raw 290 row: \"unselected or multi-rank traits remain fail closed\" — probe defect_two_rank_raw290_selected_package_admitted_despite_one_rank_wording compiles a two-rank Canny Strikes at rank 2 and binds; the ordinary Passive route also admits the Canny trait provider (see CSA-K-05). raw 79 row (\"one-rank selected passive trait\") and raw 118 row (\"selected one-rank complete single-effect\") have no rank gate in their compilers; live witness Instinctive Arcana 376164 (single raw-79 +2, mask 126, MaxRanks 2, entries 87693/115619). The generalization was deliberate (ledger L28569-28570 \"carriers remain tests and evidence witnesses\"), so executable values follow the rank curve; the catalog contract is stale and stronger than code.",
+   "id": "CSA-K-03",
+   "must_not_widen": "Do not add carrier-name branches back into compilers; do not change executable admission while fixing wording unless a restriction is re-justified.",
+   "probe_test": "k_catalog_admission.rs::defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording",
+   "reachability": "INCONSISTENT",
+   "reproducer": "cargo test --offline --test k_catalog_admission defect_",
+   "review": [
+    "X: reviews/X-reconciliation.md same root as B-02: single-effect generalization never reached catalog text; admitted value matches Trinity (10->15)",
+    "R1: reviews/R1.md agree"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Catalog requirement text for selected-trait subtypes (334, 290, 79, 118) claims exact-carrier / one-rank / fail-closed restrictions that the generic selected classifier does not enforce",
+   "track": "K",
+   "why_tests_missed": "Catalog tests compare text/status snapshots (dbc tests/fixtures/aura_subtype_catalog.tsv) but not the admitted population; the generalization milestone stated \"No global catalog state changed\"."
+  },
+  {
+   "canonical_rank": 32,
+   "coords": [
+    "crates/dbc/src/spell_effect.rs:32-39",
+    "crates/combat/src/program/compile.rs:39-45",
+    "crates/data/src/game_data.rs:1426-1427",
+    "crates/combat/src/program/selected_trait_package.rs:789-806"
+   ],
+   "correction_boundary": "A single cold owner-effect audit in final compilation (next to spell_attribute::audit_selected_owners) that rejects Unimplemented and uncataloged effect kinds / aura subtypes on executed owner spells unless the effect is declared by an admitting family or the row is Ignored/Disabled.",
+   "evidence": "SpellEffectKind docs state \"Uncataloged effect kinds must not be silently accepted\", and selected packages reject any unknown sibling, but ordinary action compilation lowers only declared steps and never audits the rest of the owner spell. Probe k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored: a SchoolDamage spell with source_effect_count = 2 whose undeclared effect 2 is Dummy raw 3 (Unimplemented), raw 17 (Disabled), uncataloged raw 999, or ApplyAura with Disabled aura raw 4 compiles and casts dealing only the declared damage. Per-family \"undeclared sibling\" audits exist only for aura owners of specific subtypes (ledger L3257, e.g. critical_block_amount.rs:486-518). Disabled siblings being inert matches the Disabled definition; the violation is for Unimplemented (known behavior not implemented) and uncataloged kinds.",
+   "id": "CSA-K-04",
+   "must_not_widen": "Do not implement Dummy/script behavior; do not reject Disabled or Ignored siblings (they are inert by definition).",
+   "original": {
+    "reachability": "LIVE"
+   },
+   "probe_test": "k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored",
+   "reachability": "INCONSISTENT",
+   "reproducer": "cargo test --offline --test k_sibling_coverage",
+   "review": [
+    "R1: reviews/R1.md dropped undeclared effects have nothing to represent them in Core; LIVE->INCONSISTENT"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Ordinary action programs silently ignore undeclared sibling source effects of any catalog status, including uncataloged identities",
+   "track": "K",
+   "why_tests_missed": "Fixtures declare every effect they author; sibling completeness is tested only for selected packages and per-family aura audits."
+  },
+  {
+   "canonical_rank": 20,
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:1182-1220",
+    "crates/combat/src/program/critical_modifier.rs:1109-1162",
+    "crates/combat/src/program/critical_block_amount.rs:256-268",
+    "crates/combat/src/program/critical_block_amount.rs:427-484",
+    "crates/combat/src/program/builder.rs:37-46",
+    "crates/combat/src/program/selected_trait_package.rs:419-461"
+   ],
+   "correction_boundary": "Route every immutable passive owner admission (ordinary Passive as well as SelectedTrait) through the one selected_trait_immutable_owner_policy_issue-style predicate requiring identity-matched all-Absent external policy, or reject ordinary Passive activation for spells that are trait providers in the supplied TraitSourceCatalog.",
+   "evidence": "The corrective docs claim candidates \"cannot execute until CombatProgram independently validates the complete source, owner, and every ordinary consumer\" without \"an executable bypass\" (docs/research/selected-passive-package-generalization.md:60-65; builder.rs:37-38 \"Selected-passive package admission fails closed if this catalog is absent\"). But CritChanceModifierActivation::Passive admits raw 183/187/197/290/308 and CriticalBlockAmountActivation::Passive admits any raw-638 row with only DB2 aura-options/equipment/attribute checks, never consulting SpellExternalPolicyCatalog. Probes: k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive (live-shaped Martial Expert 429638:2 compiles and binds alone with no trait source, no policy, no raw-108 sibling, contradicting aura_subtype.rs:581 \"admitted only as the same complete selected Martial Expert package ... both declarations ... atomically\"); k_catalog_admission.rs::defect_trait_carrier_admitted_as_ordinary_passive_without_policy (Canny Strikes trait provider 1250359 raw 290 compiles and binds as ordinary Passive with no policy). Upstream gate (why LATENT): TDB world 1200.26021 census — none of the 549 base-difficulty passive self single-effect carriers in the generic-passive families (34,35,47,49,50,51,63,85,110,132,133,145,163,178,290,294,418,419,453,454,638) has a spell_proc or spell_script_names row, so no live Present proc/script owner is currently reachable through this route.",
+   "id": "CSA-K-05",
+   "must_not_widen": "Do not add runtime world lookups or per-carrier allowlists; do not weaken the existing SelectedTrait policy gate.",
+   "probe_test": "k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive",
+   "reachability": "LATENT",
+   "reproducer": "cargo test --offline --test k_external_policy defect_live_martial; cargo test --offline --test k_catalog_admission defect_trait_carrier",
+   "review": [
+    "X: reviews/X-reconciliation.md separate activation-route issue; UNK-B-002 is a symptom",
+    "R1: reviews/R1.md upheld medium LATENT"
+   ],
+   "severity": "medium",
+   "status": "confirmed",
+   "title": "External proc/script policy is enforced only on SelectedTrait activation; ordinary Passive activation admits the same trait-provider rows (raw 290, raw 638) with no external policy, trait source, or package atomicity",
+   "track": "K",
+   "why_tests_missed": "Core deliberately tests Passive raw-638 compile without trait source (critical_block_amount/tests.rs:642-649); external-policy tests only cover SelectedTrait declarations."
+  },
+  {
+   "canonical_rank": 39,
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:124-129",
+    "crates/combat/src/program/passive_spell_modifier.rs:253-266",
+    "crates/combat/src/program/passive_outgoing_modifier.rs:21-28",
+    "crates/combat/src/program/selected_trait_package.rs:290-321",
+    "crates/combat/src/state/construction.rs:244-282",
+    "crates/combat/src/program/modifier.rs:1059-1068",
+    "crates/combat/src/passive_modifier.rs:217-241",
+    "docs/performance-ledger.md:11191-11196"
+   ],
+   "correction_boundary": "Move the cold package provenance out of the inline PassiveSpellModifierPlan (e.g. Option<Box<[..]>> or a cold sibling of CompiledCombatProgram's modifiers box that exists only when a multi-effect package compiled), OR keep it and correct the ledger scope to state that every program with any passive amount plan pays 16 B. Size-only; no semantic change.",
+   "evidence": [
+    {
+     "class": "core",
+     "note": "selected_package_effects: Box<[SelectedPassivePackageEffect]> (16-byte fat pointer) is a field of PassiveSpellModifierPlan",
+     "ref": "crates/combat/src/program/passive_spell_modifier.rs:128"
+    },
+    {
+     "class": "core",
+     "note": "PassiveAmountModifierPlan inlines Option<PassiveSpellModifierPlan> (niche, so the Option is the full 64 B) and is boxed whenever ANY of spell modifiers / target-health healing / absorb received / school damage / incoming healing exists (passive_outgoing_modifier.rs:67-80)",
+     "ref": "crates/combat/src/program/passive_outgoing_modifier.rs:23"
+    },
+    {
+     "class": "core",
+     "note": "only readers of the box are selected_passive_package_source/_effects, called only from state/construction.rs:249,253 (cold); no runtime path reads it (rg over crates/combat/src)",
+     "ref": "crates/combat/src/program/selected_trait_package.rs:290-321"
+    },
+    {
+     "class": "core",
+     "note": "warm damage planning reads program.passive_damage_modifier_definition -> modifiers -> passive -> amounts(PassiveAmountModifierPlan) -> school_damage (program/modifier.rs:1059-1068), so the plan carrying the cold header is a warm-read structure",
+     "ref": "crates/combat/src/passive_modifier.rs:217-241"
+    },
+    {
+     "class": "inferred",
+     "note": "mutant /home/dev/bag/core-audit-pass/scratch/L/mutant_no_package_field.diff: removing ONLY the field (compile result discarded) gives size_of PassiveSpellModifierPlan 64->48, PassiveAmountModifierPlan 144->128 (instrumented test, scratch/L/mutant_sizes_only.diff), and Core allocation budgets fail by exactly -16 requested bytes for programs that contain NO spell modifier: selected_passive_damage 1,752->1,736, selected_passive_healing (NaturalRecovery) 1,318->1,302, trait_absorb_received_compilation 1,470->1,454; one-effect selected spell-modifier programs 1,322->1,306; Precision 936/736->920/688 (header 16 + 2x16 retained), Heart 1,736/800->1,720/720 (16 + 4x16)",
+     "ref": "mutant_build"
+    },
+    {
+     "class": "core_test",
+     "note": "pinned 1,752 B compile for a program with no spell modifier; git show 14dc095f raised it from 1,736 in the same commit that added only this field to program plan structs",
+     "ref": "tools/allocation-tests/tests/allocation_budgets/selected_passive_damage.rs:74-95"
+    },
+    {
+     "class": "probe",
+     "note": "asserts actions.spell_modifiers().is_empty() and the exact 22/0/1,752 cold compile",
+     "ref": "l_warm_iteration.rs::defect_package_provenance_header_taxes_program_without_spell_modifiers"
+    },
+    {
+     "class": "core",
+     "note": "ledger: 'A one-effect selected SpellModifier program adds 16 requested and retained bytes' - omits every program that has a PassiveAmountModifierPlan without spell modifiers",
+     "ref": "docs/performance-ledger.md:11191-11193"
+    }
+   ],
+   "id": "CSA-L-01",
+   "must_not_widen": "Do not add a generic package runtime/store, do not move provenance into CombatState, do not drop lossless (entry_id,effective_rank) per member or the cold same-actor completeness validation; do not relax any allocation budget.",
+   "original": {
+    "reachability": "LIVE"
+   },
+   "probe_test": "l_warm_iteration.rs::defect_package_provenance_header_taxes_program_without_spell_modifiers",
+   "reachability": "INCONSISTENT",
+   "reproducer": "cargo test --test l_warm_iteration defect_package_provenance_header_taxes_program_without_spell_modifiers (probe crate); attribution: apply scratch/L/mutant_no_package_field.diff to a clone at 63f3a491 and run cargo test -p wowlab-allocation-tests -- selected_passive_damage selected_passive_healing trait_absorb_received",
+   "review": [
+    "R3: reviews/R3.md 16 immutable bytes with no runtime effect; the ledger scope statement is what is wrong",
+    "R1: reviews/R1.md agree"
+   ],
+   "severity": "info",
+   "severity_argument": "Retained cold bytes only (16 B per program, Arc-shared across states); no warm allocation, no warm work, no semantic effect. It is an explicit pay-for-play/ledger-scope deviation, not a performance claim.",
+   "status": "confirmed",
+   "title": "Cold-only multi-effect package provenance box header is inlined into the warm-read PassiveAmountModifierPlan, taxing programs with no spell modifier and no package (+16 B); ledger scopes the cost only to selected SpellModifier programs",
+   "track": "L",
+   "why_tests_missed": "Allocation budgets pin absolute counts per fixture; the corrective re-pinned the +16 in unrelated (no-spell-modifier) fixtures without a pay-for-play attribution check, and the ledger text generalised from spell-modifier fixtures only. No test pins size_of of program plan structs."
+  },
+  {
+   "canonical_rank": 6,
+   "coords": [
+    "crates/combat/src/execution/resource.rs:281-321",
+    "crates/combat/src/execution/resource.rs:324-340",
+    "crates/combat/src/execution/planning/resource.rs:17-57",
+    "crates/combat/src/state.rs:571-600",
+    "crates/combat/src/execution/commit/health.rs:200-235",
+    "crates/combat/src/program/target_requirements.rs:50-61"
+   ],
+   "correction_boundary": "The same single death-lifecycle transition proposed for CSA-E-01 (at the lethal health commit) must also settle and stop the dead actor's passive resource flows (and their raw-396 passive-flow deadlines) and zero the primary power; resource-gain quoting needs the same recipient liveness rule as quote_drain.",
+   "evidence": "core: the lethal commit only pushes CombatObservation::ActorDied (execution/commit/health.rs:229); no resource authority observes death. ExecutionResourceProjection::quote_gain (execution/resource.rs:281-321) has no liveness gate, unlike quote_drain (:336-340, used by Power Drain / Power Burn / mana leech), and OperationTargetRequirements::resource_mutation (program/target_requirements.rs:50-61) carries no target-health requirement, so admission does not reject a dead target. projected_resource_balance (state.rs:571-600) projects passive flow without consulting health. probe: r2_resource_death.rs::defect_passive_resource_flow_keeps_accruing_after_death (External killed at t=0 with 0 Mana and +10 Mana/s flow reads 50 Mana at t=5000 while dead), ::defect_resource_gain_commits_onto_dead_target (+100 Mana Energize on the dead primary target is committed), ::defect_primary_power_is_retained_at_death (500 Mana retained on the corpse); r2_threshold_death.rs::defect_passive_threshold_child_executes_for_dead_owner (Core's own passive raw-396 fixture with a 0-health owner: the flow deadline fires at 6000 ms and the child gains Rage 80 -> 85 on the corpse, so threshold drivers also run for the dead). Inconsistency inside Core: drains (execution/resource.rs:336-340), periodic mana leech source (execution/planning/resource.rs:141-148) and periodic ticks (periodic_execution.rs:449-457) are liveness-gated, direct gains and passive flow are not. trinity: Player::Update regenerates only `if (IsAlive())` (Player.cpp:1025-1029); Spell::EffectEnergize returns for `!unitTarget->IsAlive()` (SpellEffects.cpp:1579-1580); Unit::setDeathState(JUST_DIED) does SetPower(GetPowerType(), 0) (Unit.cpp:9197-9198).",
+   "id": "CSA-R2-01",
+   "must_not_widen": "Do not add per-operation death special cases in individual compilers; do not change drain semantics (already gated); do not make passive-flow projection consult health on every read in the warm path (settle once at death).",
+   "probe_tests": [
+    "r2_resource_death.rs::defect_passive_resource_flow_keeps_accruing_after_death",
+    "r2_resource_death.rs::defect_resource_gain_commits_onto_dead_target",
+    "r2_resource_death.rs::defect_primary_power_is_retained_at_death",
+    "r2_threshold_death.rs::defect_passive_threshold_child_executes_for_dead_owner"
+   ],
+   "reachability": "LIVE",
+   "reproducer": "cargo test --offline --test r2_resource_death --test r2_threshold_death (probe crate, CARGO_TARGET_DIR=/home/dev/bag/core-audit-pass/targets/r2)",
+   "review": [
+    "R1: reviews/R1.md upheld on real lethal row 228917; same death-transition correction point as E-01"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Resource authorities ignore actor death: passive resource flow keeps accruing on a corpse, resource gains (Energize) commit onto dead targets, and the primary power is retained at death",
+   "track": "R2",
+   "why_tests_missed": "Death work (CSA-E-01, CSA-H-01..03, CSA-G-01/04) was scoped to aura lifecycle and cast admission; the resource projection tests exercise only living actors, and the drain path's liveness check made resource writes look uniformly gated."
+  },
+  {
+   "canonical_rank": 38,
+   "coords": [
+    "crates/combat/src/execution/commit.rs:208-232",
+    "crates/combat/src/execution/planning/dispel.rs:94-116",
+    "crates/sim/src/random.rs:133-165",
+    "crates/combat/src/white_swing/resolution.rs:72-88",
+    "crates/combat/src/execution/commit.rs:453-464"
+   ],
+   "correction_boundary": "Decide one explicit draw-identity policy for source trials (mirror sampling calls including singleton and fixed-100% trials, or never) and apply it at commit.rs:228/planning/dispel.rs:116 as a versioned semantic change (gate 4); keep the preview/commit replay structure.",
+   "evidence": [
+    "core commit.rs:228 and planning/dispel.rs:116 use RandomStream::uniform_index, which consumes no word for a 1-candidate domain (random.rs:136-149); probe i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index (PASS) pins 0/0/1 draws for 0/1/2 candidates",
+    "core ledger development-ledger.md:22330-22335 documents 'Empty and singleton domains consume no selector draw'; ledger :24876-24884 documents that a singleton urand is a source-observable sampling call and introduces uniform_index_forced for the white weapon roll (white_swing/resolution.rs:78); ledger :23105-23116 introduces occurs_forced so raw-108 consumes one forced draw per scanned aura at a fixed 100% chance (commit.rs:453-464)",
+    "trinity SpellEffects.cpp:2163-2169 EffectDispel draws urand(0, remaining-1) (a sampling call even for remaining == 1) AND RollDispel -> roll_chance(_chance) (Unit.cpp:131-134) per attempt, even at the fixed 100% chance, exactly the trial shape Core mirrors for raw-108 (SpellEffects.cpp:4247-4252)",
+    "consequence: Core's raw-38 path consumes 0 draws (1 candidate) / 1 draw (>=2 candidates) where the policy applied at the white and raw-108 sites would consume 2 per attempt; statistically inert (values discarded) but a draw-identity difference under gate 4"
+   ],
+   "id": "CSA-R3-01",
+   "must_not_widen": "Do not widen raw-38 attempts, dispel resistance or candidate sets while changing draw identity; do not expose raw unit draws outside the canonical RandomStream boundary.",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index",
+   "reachability": "INCONSISTENT",
+   "reproducer": "cargo test --offline --test i_rng_dispel holds_dispel_commit_draw_count_matches_canonical_uniform_index (0,0,1 draws); compare commit.rs:228 (uniform_index) with white_swing/resolution.rs:78 (uniform_index_forced) and commit.rs:460 (occurs_forced ONE)",
+   "review": [
+    "LEAD: accepted from R3; outcome-neutral draw-consumption policy difference"
+   ],
+   "severity": "info",
+   "status": "confirmed",
+   "title": "RNG trial-consumption policy is inconsistent across source-mirrored sites: raw-38 dispel skips the singleton selector draw and never consumes the consumer's per-attempt RollDispel trial, while the white roll forces the singleton draw and raw-108 forces 100% trials",
+   "track": "R3",
+   "why_tests_missed": "Each site pins its own documented draw count; no test compares the source-mirroring policy across sites."
+  },
+  {
+   "canonical_rank": 27,
+   "coords": [
+    "crates/combat/src/cooldown/charge_rate.rs:95-158",
+    "crates/combat/src/cooldown/charge_rate.rs:178-182",
+    "crates/combat/src/cooldown.rs:1597-1625",
+    "crates/combat/src/cooldown.rs:548-583"
+   ],
+   "correction_boundary": "ChargeRecovery rate rebase (charge_rate.rs rebase_charge_recovery) together with the serial-chain model: either retain the unscaled base interval and derive later intervals from base/current speed at each boundary, or model queued charges individually so later consumptions start from the pool's base recharge at the current speed.",
+   "evidence": [
+    "core charge_rate.rs:124-125 scales the retained active.full_interval by old_speed/new_speed and truncates (scaled_duration :178-182); the full interval is never re-derived from ChargeDefinition.base_recharge while the recovery stays active; cooldown.rs:1606-1620 creates a fresh ChargeRecovery only when state.active is None, so a charge consumed during an active chain inherits the drifted full_interval (projected() :548-583 serially adds full_interval per missing charge)",
+    "probe r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions (PASS): 2-charge 15000 ms pool, +40% raw-148 aura applied at 0 and expiring at 15000: full interval 15000 -> 10714 -> 14999; a charge consumed at 15000 (aura gone) is ready at 38998; consumer model 38999",
+    "probe r3_charge_rate_drift.rs::holds_charge_interval_without_rate_aura_and_after_refill (PASS): no aura -> 15000; after the pool refills the next recovery is a fresh 15000, so the drift lives exactly as long as the chain",
+    "compounding: with +40% each apply/expire cycle while the chain stays active loses 15000 -> 14999 -> 14998 ...; +33% (Everburning Ignition 453836) loses 2 ms per cycle (10000 -> 7518 -> 9998)",
+    "trinity SpellHistory.cpp:873-899 UpdateChargeRecoveryRate rescales only the already-queued ChargeEntry records; SpellHistory.cpp:839-846 ConsumeCharge appends a fresh GetChargeRecoveryTime (:975-1009) for every later consumption, so post-aura charges recover in the full base time",
+    "source: Trueshot 288613 raw-148 +40 misc 1715 (Aimed Shot, SpellCategory 1715 MaxCharges 2, ChargeRecoveryTime 15000), 15 s duration; Core admits generic raw-148 ApplyAura carriers (dbc aura_subtype.rs:469)"
+   ],
+   "id": "CSA-R3-02",
+   "must_not_widen": "Do not change remaining-time rebasing of already-running recoveries (Trinity truncates those too), the 0.01 speed floor, stacking policy, or snapshot vs live rate policy; do not add per-charge heap storage to the warm path without measurement.",
+   "original": {
+    "reachability": "LIVE"
+   },
+   "probe_tests": [
+    "r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions",
+    "r3_charge_rate_drift.rs::holds_charge_interval_without_rate_aura_and_after_refill"
+   ],
+   "reachability": "LATENT",
+   "reproducer": "cd probe && CARGO_TARGET_DIR=/home/dev/bag/core-audit-pass/targets/r3 cargo test --offline --test r3_charge_rate_drift",
+   "review": [
+    "LEAD: probe uses synthetic ids with Trueshot 288613 raw-148 shape; real-row admission of a full raw-148 carrier not demonstrated, so LATENT under the uniform LIVE rule; reopen with a real admitted raw-148 carrier"
+   ],
+   "severity": "low",
+   "status": "confirmed",
+   "title": "Charge-recharge-rate rebasing truncates and retains one shared full recovery interval: after a non-integral rate aura (e.g. +40%) comes and goes during a serial charge recovery, every later charge in the chain, including charges consumed after the aura ended, recovers 1 ms (compounding per cycle) faster than the pool's base recharge",
+   "track": "R3",
+   "why_tests_missed": "Core's own test (combat/tests/charge_recharge_rates.rs:958-995) pins full_recovery_interval 9_999 after a +50%x2 stack removal as expected behaviour, and never consumes another charge afterwards; fixtures otherwise use +100% factors whose ratios are exact."
+  }
+ ],
+ "schema": 1
+}

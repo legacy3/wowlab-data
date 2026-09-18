@@ -1,0 +1,71 @@
+[
+  {
+    "id": "LC-R3-001",
+    "owner": "ChargeState",
+    "field": "active.full_interval",
+    "coords": [
+      "crates/combat/src/cooldown.rs:1597-1625",
+      "crates/combat/src/cooldown/charge_rate.rs:95-158",
+      "crates/combat/src/cooldown.rs:1446-1457"
+    ],
+    "init": "resolved from base recharge / current speed when a recovery starts from a full pool",
+    "mutation_sites": [
+      "charge_rate.rs:124-146 (truncating rebase on every rate change)",
+      "cooldown.rs:1761-1809 (reduce/extend keep it)",
+      "cooldown.rs:1606-1620 (consumption during an active chain keeps it)"
+    ],
+    "quote_visible": "yes (charge snapshots, readiness)",
+    "failure": "n/a",
+    "reset": "cooldowns.reset() -> ChargeState::ready(maximum) clears active (cooldown.rs:1446-1457)",
+    "iteration_reset": "same",
+    "death": "not consulted",
+    "work_identity": "drift persists across the whole serial chain until the pool refills (CSA-R3-02)",
+    "finding_ids": [
+      "CSA-R3-02"
+    ],
+    "probe_test": "r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions",
+    "track": "R3"
+  },
+  {
+    "id": "LC-R3-002",
+    "owner": "IndependentStackAuthority",
+    "field": "pools/cohorts/deadlines",
+    "coords": [
+      "crates/combat/src/independent_stack.rs:339-348"
+    ],
+    "init": "empty pools per compiled raw-490 lifetime aura",
+    "mutation_sites": [
+      "independent_stack.rs:317-328 (remove_earliest/reschedule)",
+      "aura application cohorts"
+    ],
+    "quote_visible": "yes (aura stacks/expiry projections)",
+    "failure": "n/a",
+    "reset": "pool len/stacks zeroed, cohorts default, deadlines cleared, count 0; proved fresh-equal mid-flight with 3 pending cohorts",
+    "iteration_reset": "same; fresh-equal for a new identity",
+    "note": "Track H's LC-H-027 was static only: no H fixture compiles an independent-stack aura",
+    "probe_test": "r3_charge_rate_drift.rs::holds_independent_stack_authority_reset_and_iteration_reset",
+    "track": "R3"
+  },
+  {
+    "id": "LC-R3-003",
+    "owner": "OptionalCombatAuthorities",
+    "field": "health (maximum-health modifiers) / absorbs / critical runtimes under stochastic tables",
+    "coords": [
+      "crates/combat/src/state/health_authorities.rs:136-152",
+      "crates/combat/src/absorb/topology.rs:162-164",
+      "crates/combat/src/attack/runtime.rs:87-95"
+    ],
+    "init": "construction",
+    "mutation_sites": [
+      "raw-133/145 aura commits",
+      "absorb provider commits",
+      "defense/hit chance modifier commits"
+    ],
+    "quote_visible": "yes",
+    "failure": "rejected begin_cast leaves them unchanged (probe)",
+    "reset": "fresh-equal after 14 rounds on 24 extra fixtures x 2 inputs",
+    "iteration_reset": "fresh-equal for new identity; replay identical",
+    "probe_test": "r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures",
+    "track": "R3"
+  }
+]

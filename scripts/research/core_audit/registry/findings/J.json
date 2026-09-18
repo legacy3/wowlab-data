@@ -1,0 +1,179 @@
+[
+ {
+  "id": "CSA-J-01",
+  "track": "J",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "White critical: compiled raw-290 points are added after the host-summed binary32 basis, not in the consumer association",
+  "coords": [
+   "crates/combat/src/white_swing.rs:32-44",
+   "crates/combat/src/white_swing.rs:296-313"
+  ],
+  "evidence": [
+   "core white_swing.rs:42 `(percent + self.percent_points)` where percent is the host basis `5 + rating`",
+   "trinity StatSystem.cpp:522-523 + Player.cpp:8255-8264: CritPercentage = (raw290 + 5.0f) + ratingBonus in binary32",
+   "ledger docs/development-ledger.md:28303-28306 claims the direct consumer adds raw 290 to a binary32 weapon-critical percent; the consumer adds it before the rating term",
+   "probe j_white_binary32.rs::defect_white_critical_adds_passive_after_host_sum_binary32_association (PASS): threshold is 825 bp where Trinity yields 824"
+  ],
+  "reproducer": "cargo test --test j_white_binary32 defect_white_critical_adds_passive_after_host_sum_binary32_association",
+  "why_tests_missed": "The only discriminator test (6.06 + 2.0 -> 805) uses a basis whose association with 5.0 is exact; binary32 non-associativity needs ~1-in-5M rating values.",
+  "correction_boundary": "WhiteMainHandInput must carry the binary32 terms in consumer association (e.g. the pre-rating flat+base term or rating separately) so Core evaluates (flat_raw290 + base) + rating; or record this as a deliberate host contract. Keep the single post-sum truncation.",
+  "must_not_widen": "Do not admit rating/gear/extra modifiers or ranged/off-hand; do not change the draw order or white semantics beyond bumping WHITE_MAIN_HAND_SEMANTICS_VERSION.",
+  "note": "Comparator is TrinityCore (emulator); magnitude 1 basis point on rare inputs. Severity low.",
+  "probe_tests": [
+   "j_white_binary32.rs::defect_white_critical_adds_passive_after_host_sum_binary32_association"
+  ]
+ },
+ {
+  "id": "CSA-J-02",
+  "track": "J",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Hasted durations divide by an f64 frequency; the consumer multiplies by a binary32 period factor, so truncation lands 1 ms lower on ~0.13% of inputs",
+  "coords": [
+   "crates/combat/src/recovery.rs:113-116",
+   "crates/combat/src/cooldown/deadline_rate.rs:233-240",
+   "crates/combat/src/periodic.rs:551-562",
+   "crates/combat/src/haste.rs:56-77"
+  ],
+  "evidence": [
+   "probe j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer (PASS): cast 29405 and cooldown 29405 ms for 30000 ms at 2.02% haste, Trinity 29406",
+   "trinity Object.cpp:1809, SpellHistory.cpp:421, Spell.cpp:9213, SpellAuraEffects.cpp:1007; Unit.cpp:10978-10981",
+   "contrast: Core white swing period already uses the binary32 product (white_swing.rs:458-463) — internal inconsistency"
+  ],
+  "reproducer": "cargo test --test j_haste_duration",
+  "why_tests_missed": "Haste tests use round multipliers (1.25, 1.5, 2.0) where f64 division and binary32 multiplication agree.",
+  "correction_boundary": "The actor timing-multiplier contract (HasteMultipliers) and the three duration scalers; if parity is desired, carry the binary32 period multiplier and compute (f32(ms) * mod) truncation, as white_swing::effective_period already does.",
+  "must_not_widen": "Do not change RecoveryRatePolicy semantics, minimums, or introduce per-call rounding elsewhere; deadlines/work identity must be versioned.",
+  "note": "Comparator is TrinityCore; exact host multiplier representation is a Core contract choice, so the defect is parity-only.",
+  "probe_tests": [
+   "j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer"
+  ]
+ },
+ {
+  "id": "CSA-J-03",
+  "track": "J",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Raw-183 AtOrAbove target-health predicate uses the exact real threshold; the consumer truncates CountPctFromMaxHealth to an integer",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:127-141"
+  ],
+  "evidence": [
+   "probe j_target_health_threshold.rs::defect_target_health_at_or_above_uses_untruncated_threshold (PASS): max 1001, current 800 -> Core Hit; Trinity threshold 800 -> +100 points -> Critical",
+   "trinity Unit.cpp:2917-2920, 7257-7260; Unit.h:791,796; Util.h:72-75",
+   "source raw-183 Initiation (193878 et al.) misc_value_1 = 80 is the AtOrAbove-80 slice"
+  ],
+  "reproducer": "cargo test --test j_target_health_threshold",
+  "why_tests_missed": "Fixtures use maximum 1000 where 80% is integral.",
+  "correction_boundary": "CriticalTargetHealthPredicate::matches: compute the binary32 CountPctFromMaxHealth threshold (uint64(f32(max)*f32(pct)/100.0f)) when parity is intended; boss-scale maxima above 2^24 additionally round max to binary32.",
+  "must_not_widen": "Do not admit low-health predicates, new percents, or scheduled threshold wakes.",
+  "note": "Only a sub-1-HP band per crossing is affected; in Core health is continuous, so Core can also sit strictly between floor and exact threshold.",
+  "probe_tests": [
+   "j_target_health_threshold.rs::defect_target_health_at_or_above_uses_untruncated_threshold"
+  ]
+ },
+ {
+  "id": "CSA-J-04",
+  "track": "J",
+  "severity": "info",
+  "reachability": "LATENT",
+  "status": "confirmed",
+  "title": "Mechanic-duration percentage floors the reduced duration; the consumer rounds it up (truncated negative delta)",
+  "coords": [
+   "crates/combat/src/mechanic_duration.rs:174-200"
+  ],
+  "evidence": [
+   "trinity Object.cpp:1753-1760 AddPct(int32,int32)",
+   "probe j_mechanic_duration.rs::holds_mechanic_duration_rounding_divergence_is_gated_by_exact_five_second_carrier (PASS): 1250 ms applicand rejected at build; admitted 5000 ms carrier exact (4500)"
+  ],
+  "reproducer": "cargo test --test j_mechanic_duration",
+  "why_tests_missed": "Admitted carriers are 5 s with -10/-50, where every product is integral.",
+  "correction_boundary": "mechanic_duration::apply_percentage: authored + trunc_toward_zero(authored * p / 100) (binary32 staging if exact parity wanted) before any carrier widening.",
+  "must_not_widen": "Keep exact provider/applicand gates; do not admit positive or stacking percentages as part of the fix.",
+  "note": "Upstream gates: program/mechanic_duration provider fact \"fixed negative-10 amount\" and silence carrier \"five-second single-stack aura lifetime\".",
+  "probe_tests": [
+   "j_mechanic_duration.rs::holds_mechanic_duration_rounding_divergence_is_gated_by_exact_five_second_carrier"
+  ]
+ },
+ {
+  "id": "CSA-J-05",
+  "track": "J",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Raw-286 / charge recovery rates divide by (1+p/100); the consumer multiplies by 100/(p+100), so exact results truncate 1 ms low",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:233-240",
+   "crates/combat/src/cooldown_recovery_rate.rs:850-852",
+   "crates/combat/src/charge_recharge_rate.rs:716-718"
+  ],
+  "evidence": [
+   "probe j_recovery_rate.rs::holds_recovery_rate_two_source_amounts_match_consumer_product_order (PASS): 60 s with +50/+60 -> 24999 (Trinity 25000)",
+   "probe j_recovery_rate.rs::defect_recovery_rate_division_truncates_one_ms_below_consumer_product (PASS): 16.5 s +10% -> 14999 (Trinity 15000)",
+   "trinity SpellHistory.cpp:432-455, 996-1009"
+  ],
+  "reproducer": "cargo test --test j_recovery_rate",
+  "why_tests_missed": "Tests use +100% on 10/20 s cooldowns, which is exact under both evaluations.",
+  "correction_boundary": "Recovery-speed composition (cooldown_recovery_rate/charge_recharge_rate rate_factor) and time_math conversion: compute base * prod(100/(p+100)) (the consumer order) before truncation, or round-to-nearest-ms when the product is within epsilon of an integer.",
+  "must_not_widen": "Do not change live-rebase semantics, the 0.01 floor, or stacking policy.",
+  "note": "Single-source raw-286 amounts in 12.1.0 never diverge on authored cooldowns; two stacked sources (+50,+60) do on 1.5/3/6/15/30/60 s cooldowns.",
+  "probe_tests": [
+   "j_recovery_rate.rs::defect_recovery_rate_division_truncates_one_ms_below_consumer_product",
+   "j_recovery_rate.rs::holds_recovery_rate_two_source_amounts_match_consumer_product_order"
+  ]
+ },
+ {
+  "id": "CSA-J-06",
+  "track": "J",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Raw-423 mana cost percentage produces fractional mana costs; the consumer truncates the cost to int32",
+  "coords": [
+   "crates/combat/src/state/power_cost.rs:98-117",
+   "crates/combat/src/state/power_cost.rs:120-132"
+  ],
+  "evidence": [
+   "probe j_mana_cost_percent.rs::defect_mana_cost_percent_leaves_fractional_cost (PASS): 13 mana at -5% costs 12.35 (Trinity 12)",
+   "trinity SpellInfo.cpp:4238-4239 int32 powerCost",
+   "ledger docs/development-ledger.md:9350-9355 describes the handler without the int32 store"
+  ],
+  "reproducer": "cargo test --test j_mana_cost_percent",
+  "why_tests_missed": "Fixtures use 20/80 costs with -50/-10/+5% where the product is integral.",
+  "correction_boundary": "adjust_resource_spend_components mana branch: apply binary32 (1.0f + sum/100.0f) and truncate toward zero per component, before sign-crossing clamp and aggregation; or document continuous resource costs as intentional (like continuous health, ledger 14457).",
+  "must_not_widen": "Do not add rounding to other resource paths or change optional-cap ordering.",
+  "note": "If Core deliberately keeps a continuous resource domain, downgrade to INCONSISTENT/info; the ledger does not say so for raw 423.",
+  "probe_tests": [
+   "j_mana_cost_percent.rs::defect_mana_cost_percent_leaves_fractional_cost"
+  ]
+ },
+ {
+  "id": "CSA-J-07",
+  "track": "J",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Rotation resource-threshold wake uses a different f64 evaluation than combat projection, waking 1 ms after combat already satisfies the threshold",
+  "coords": [
+   "crates/rotation/src/projection.rs:89-100",
+   "crates/rotation/src/execution.rs:943-958",
+   "crates/combat/src/passive_resource_flow.rs:973-1000"
+  ],
+  "evidence": [
+   "probe j_resource_projection.rs::defect_rotation_resource_wake_is_one_ms_after_combat_crossing (PASS): combat energy is 50.0 at 5000 ms but the `energy >= 50` action fires at 5001",
+   "python scan (scratch): with integral regen/thresholds ~28k (rate,basis,now,threshold) grid points wake late by 1 ms"
+  ],
+  "reproducer": "cargo test --test j_resource_projection",
+  "why_tests_missed": "Engine tests evaluate from now = 0 (basis == now), where both formulas coincide (e.g. 4000 ms crossing in query_integration.rs:619-681).",
+  "correction_boundary": "Engine resource_projection/rotation MonotonicLinearProjection: carry the flow basis (basis_at, basis_balance, units/ms) and evaluate with the exact combat expression, or have the rotation re-check predicate at delta-1 against combat; the combat projection is the authority.",
+  "must_not_widen": "Do not add polling, per-ms wake loops, or change combat projection semantics.",
+  "note": "Internal Core inconsistency (no external comparator); only exact-tie crossings are affected.",
+  "probe_tests": [
+   "j_resource_projection.rs::defect_rotation_resource_wake_is_one_ms_after_combat_crossing"
+  ]
+ }
+]

@@ -1,0 +1,2932 @@
+{
+ "count": 190,
+ "kind": "authorities",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:600-629",
+    "crates/combat/src/program/selected_trait_package.rs:631-729",
+    "crates/combat/src/program/selected_trait_package.rs:731-787",
+    "crates/combat/src/program/selected_trait_package.rs:1033-1088"
+   ],
+   "id": "AUTH-A-001",
+   "layer": "compiler",
+   "name": "selected effect classifier (per-effect role)",
+   "semantic_facts": [
+    "every exact effect of one (entry,rank) is classified from kind, aura subtype, misc0 operation, misc1 selector/label, class mask, shell (period 0, AP/SP 0, neutral amount facts, neutral chain, targets (1,0), mechanic 0, radius 0, no effect attributes, trigger only on inert-listed subtypes) and the selected rank amount",
+    "roles: SpellModifier(Percent Direct/Periodic/CriticalBonus/Cooldown x ClassMask/Label, FlatFirstEffect, PercentFirstEffect, FlatCooldown) + 11 passive roles",
+    "source position never selects a role (probe a_package_contract.rs::holds_source_order_does_not_determine_role)"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:789-807",
+    "crates/combat/src/program/selected_trait_package.rs:820-886",
+    "crates/combat/src/program/selected_trait_package.rs:888-970"
+   ],
+   "id": "AUTH-A-002",
+   "layer": "compiler",
+   "name": "selected composition gate (role multiset admission)",
+   "semantic_facts": [
+    "arity 1 always admitted; arity>=2 admitted only for reviewed multisets over 10 slot roles; any role outside the 10 slots counts as other and rejects multi-effect packages",
+    "every admitted multi-effect multiset contains >=1 SpellModifier role"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:388-417",
+    "crates/combat/src/program/selected_trait_package.rs:419-527",
+    "crates/data/src/action/catalog/selected_owner.rs:47-62"
+   ],
+   "id": "AUTH-A-003",
+   "layer": "compiler",
+   "name": "shared selected owner policy",
+   "semantic_facts": [
+    "neutral owner (defense None, dispel none, empty owner class mask, no mechanics); identity-matched external policy all Absent; inert AuraOptions; no equipment; zero missile; unconditional passive; only Passive + Ignored (+416 with Passive) attributes",
+    "owner-role count == package arity and every role PassiveModifier (counted over all selected ownerships of the owner spell)"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:197-288",
+    "crates/combat/src/program/selected_trait_package.rs:290-321",
+    "crates/combat/src/program/passive_spell_modifier.rs:147-161",
+    "crates/combat/src/program/passive_spell_modifier.rs:257-266"
+   ],
+   "id": "AUTH-A-004",
+   "layer": "compiler",
+   "name": "cold package provenance recorder and lookup",
+   "semantic_facts": [
+    "records (entry,rank,effect) for packages with >=2 effects only, supplied by the spell-modifier compiler; sorted by (entry,rank,effect)",
+    "selected_passive_package_source returns the first exact-effect match; selected_passive_package_effects filters by exact source"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:323-386"
+   ],
+   "id": "AUTH-A-005",
+   "layer": "compiler",
+   "name": "complete sibling declaration check",
+   "semantic_facts": [
+    "each role checks the exact effect in its own ordinary catalog family with activation/selected_trait == exact (entry,rank); raw 638 additionally requires Multiplicative composition"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/construction.rs:89",
+    "crates/combat/src/state/construction.rs:244-282",
+    "crates/combat/src/state/construction.rs:284-322"
+   ],
+   "id": "AUTH-A-006",
+   "layer": "state_construction",
+   "name": "state-construction package binding validator (5-family iterator)",
+   "semantic_facts": [
+    "runs before any runtime owner compiles; for every bound (actor,effect) of a recorded package requires each member (actor,member) exactly once across the chained families",
+    "families: spell-modifier, critical-block, passive auto-attack damage, passive critical, passive healing received; binding family identity is not retained (CSA-A-01)"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:132-275",
+    "crates/combat/src/program/passive_spell_modifier.rs:711-788",
+    "crates/combat/src/program/passive_spell_modifier.rs:853-948",
+    "crates/combat/src/program/passive_spell_modifier.rs:950-986"
+   ],
+   "id": "AUTH-A-007",
+   "layer": "compiler",
+   "name": "passive spell-property modifier compiler (selected path)",
+   "semantic_facts": [
+    "selected value = package role value (selected rank); sibling declarations; shared owner policy + owner-role count; provenance recorded for arity>=2"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_auto_attack_damage.rs:62-102",
+    "crates/combat/src/program/passive_auto_attack_damage.rs:104-209",
+    "crates/combat/src/program/passive_auto_attack_damage.rs:219-246"
+   ],
+   "id": "AUTH-A-008",
+   "layer": "compiler",
+   "name": "passive auto-attack damage compiler",
+   "semantic_facts": [
+    "requires package role AutoAttackDamage == declared effect and a Direct Percent SpellModifier sibling; selected rank amount -> binary32 factor 1+f32(p)/100; shared owner policy"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_healing_received.rs:54-112",
+    "crates/combat/src/program/passive_healing_received.rs:139-210",
+    "crates/combat/src/program/passive_healing_received.rs:212-234"
+   ],
+   "id": "AUTH-A-009",
+   "layer": "compiler",
+   "name": "passive healing received compiler",
+   "semantic_facts": [
+    "SelectedTraitPassive activation only; selected rank amount finite > 0; shared owner policy"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_haste.rs:64-88",
+    "crates/combat/src/program/passive_haste.rs:110-188"
+   ],
+   "id": "AUTH-A-010",
+   "layer": "compiler",
+   "name": "passive all-haste compiler (selected path)",
+   "semantic_facts": [
+    "at most one definition; selected rank amount; shared owner policy; non-selected path pinned to carrier 28830#1 (5%)"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:44-131",
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:138-165"
+   ],
+   "id": "AUTH-A-011",
+   "layer": "compiler",
+   "name": "passive melee auto-attack-speed compiler",
+   "semantic_facts": [
+    "exactly one selected definition; selected rank amount -> binary32 period factor 100/(100+p); shared owner policy"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_damage_modifier.rs:49-95",
+    "crates/combat/src/program/passive_damage_modifier.rs:121-204",
+    "crates/combat/src/program/passive_damage_modifier.rs:206-235"
+   ],
+   "id": "AUTH-A-012",
+   "layer": "compiler",
+   "name": "passive school damage (done/taken) compiler",
+   "semantic_facts": [
+    "direction from package role (DamageDone -> OutgoingHolder, DamageTaken -> IncomingHolder); school from misc0; selected rank amount; shared owner policy"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_absorb_received.rs:57-103",
+    "crates/combat/src/program/passive_absorb_received.rs:130-187",
+    "crates/combat/src/program/passive_absorb_received.rs:189-211"
+   ],
+   "id": "AUTH-A-013",
+   "layer": "compiler",
+   "name": "passive absorb received compiler",
+   "semantic_facts": [
+    "selected rank amount -> factor 1+p/100 (f64); shared owner policy"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_outgoing_modifier.rs:41-85",
+    "crates/combat/src/program/passive_outgoing_modifier.rs:87-127"
+   ],
+   "id": "AUTH-A-014",
+   "layer": "compiler",
+   "name": "passive modifier plan container",
+   "semantic_facts": [
+    "owns the spell-modifier child plan that carries selected_package_effects; constructed whenever any passive child exists (modifier.rs:911-917)"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_owner_role.rs:7-30"
+   ],
+   "id": "AUTH-A-015",
+   "layer": "compiler",
+   "name": "selected owner role counter (action owners)",
+   "semantic_facts": [
+    "counts CastAction/Program/AuraDefinition/Modifier/Driver roles of an owner spell; any other role (incl. PassiveModifier) returns None - used by action-owned selected paths, not by passive packages"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/exact_source.rs:26-58",
+    "crates/combat/src/program/exact_source.rs:71-132",
+    "crates/combat/src/program/exact_source.rs:153-248"
+   ],
+   "id": "AUTH-A-016",
+   "layer": "compiler",
+   "name": "exact-source shared facts",
+   "semantic_facts": [
+    "stable selected-trait error facts; exact neutral aura source contract uses authored base points for fixed carriers (never for selected amounts)"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_block_amount.rs:157-254",
+    "crates/combat/src/program/critical_block_amount.rs:256-302",
+    "crates/combat/src/program/critical_block_amount.rs:427-484"
+   ],
+   "id": "AUTH-A-017",
+   "layer": "compiler",
+   "name": "critical-block amount compiler (selected path)",
+   "semantic_facts": [
+    "selected rank amount stored (09d4fdab fix holds); no shared owner policy (CSA-A-02); private owner-attribute check (CSA-A-03)"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:371-431",
+    "crates/combat/src/program/critical_modifier.rs:494-571"
+   ],
+   "id": "AUTH-A-018",
+   "layer": "compiler",
+   "name": "critical-chance compiler (selected path)",
+   "semantic_facts": [
+    "expected role from subtype (raw 334 ModAutoAttackCritChance, ModAllCritChance, CritChanceForCasterWithAbilities); selected rank amount; shared owner policy; composition host-supplied (UNK-A-001)"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/data/src/trait_source/selected_spell.rs:202-383",
+    "crates/data/src/trait_source/selected_spell.rs:178-199",
+    "crates/data/src/trait_source/selected_spell.rs:85-95"
+   ],
+   "id": "AUTH-A-019",
+   "layer": "source_resolution",
+   "name": "selected trait source resolution",
+   "semantic_facts": [
+    "identity match; max ranks 1|2; non-override non-subtree definitions; complete effect set (source_effect_count == retained); point rows 0 (rank 1) / >=1 (rank 2), op 0 Set / 1 Multiply else reject, one row per effect, exact integer-rank curve points; unpointed effects keep authored"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/data/src/action/catalog/selected_owner.rs:47-62",
+    "crates/data/src/action/catalog/selected_owner.rs:207-362",
+    "crates/data/src/action/catalog/selected_owner.rs:497-543"
+   ],
+   "id": "AUTH-A-020",
+   "layer": "resolved_catalog",
+   "name": "selected spell ownership stream",
+   "semantic_facts": [
+    "duplicate occurrences retained; all selected passive families map to PassiveModifier"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/engine/src/trait_critical_package_candidate.rs:107-164",
+    "crates/engine/src/trait_critical_package_candidate.rs:176-245",
+    "crates/engine/src/trait_mixed_passive_candidate.rs:106-186",
+    "crates/engine/src/trait_spell_modifier_candidate.rs:105-172",
+    "crates/engine/src/trait_auto_attack_damage_candidate.rs:112-218",
+    "crates/engine/src/trait_candidate.rs:112-225",
+    "crates/engine/src/trait_haste_candidate.rs:94-156",
+    "crates/engine/src/trait_melee_auto_attack_speed_candidate.rs:105-161",
+    "crates/engine/src/trait_passive_damage_candidate.rs:101-174",
+    "crates/engine/src/trait_passive_healing_candidate.rs:101-171",
+    "crates/engine/src/trait_absorb_received_candidate.rs:101-173"
+   ],
+   "id": "AUTH-A-021",
+   "layer": "candidate",
+   "name": "engine selected-trait candidates",
+   "semantic_facts": [
+    "classify with the same contract, publish declarations + Player bindings atomically, refuse existing declaration/binding; output is untrusted and fully revalidated by CombatProgram and state construction"
+   ],
+   "track": "A"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:132-275",
+    "crates/combat/src/program/passive_spell_modifier.rs:711-788",
+    "crates/combat/src/program/passive_spell_modifier.rs:853-921",
+    "crates/combat/src/program/passive_spell_modifier.rs:950-988"
+   ],
+   "id": "AUTH-B-001",
+   "layer": "compiler",
+   "name": "PassiveSpellModifierPlan (selected SpellMod compiler)",
+   "semantic_facts": [
+    "only activation is SpellModifierActivation::SelectedTrait (data/src/action/catalog/spell_modifier.rs:11-13); value/selector/operation come from the selected package role, never re-read from authored points",
+    "operations: raw-108/218 misc0 0->Direct, 22->Periodic, 15->CriticalBonus, 11->Cooldown, 3->PercentFirstEffect; raw-107/219 misc0 3->FlatFirstEffect, 11->FlatCooldown (selected_trait_package.rs:1033-1098)",
+    "class-mask selector: raw-107/108 with misc1==0 and nonempty effect mask; label selector: raw-218/219 with misc1 label and empty effect mask",
+    "applicability count: class mask = popcount of overlap within equal nonzero family (GameData::effect_spell_match_count), label = Boolean (spell_has_label)",
+    "Percent ops: factor = binary32 (1+p/100)^count per payload (spellmod_percent_factor :477-483); flat ops: points*count (:596, :673); PercentFirstEffect: factor 1+p/100 applied once if count>0 (:544, :574)",
+    "owner: nonzero family for class-mask, neutral defense/dispel/mechanics, empty owner class mask (validate_owner :950-988) plus selected_trait_owner_policy_issue"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/spell_modifier_authority.rs:98-219",
+    "crates/combat/src/spell_modifier_authority.rs:291-377"
+   ],
+   "id": "AUTH-B-002",
+   "layer": "state_construction",
+   "name": "SpellModifierAuthority (actor-bound SpellMod aggregation)",
+   "semantic_facts": [
+    "Player-only bindings; duplicate (actor,effect) bindings rejected (:110-121)",
+    "factors grouped by (actor,payload,operation) with CooldownFlat folded into Cooldown coordinate (:21-28); percent terms combine as binary32 products in canonical exact-effect order (:375-377); flat cooldown ms checked-add",
+    "flat first-effect points grouped by (actor,target effect), checked-add"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/damage_modifier.rs:78-90",
+    "crates/combat/src/damage_modifier.rs:263-278",
+    "crates/combat/src/healing_modifier.rs:29-40",
+    "crates/combat/src/healing_modifier.rs:245-254",
+    "crates/combat/src/state/modifiers.rs:360-395",
+    "crates/combat/src/execution/planning/critical.rs:11-79",
+    "crates/combat/src/execution/planning/health.rs:1326-1369",
+    "crates/combat/src/damage_modifier.rs:305-320",
+    "crates/combat/src/state.rs:100-124"
+   ],
+   "id": "AUTH-B-003",
+   "layer": "runtime",
+   "name": "SpellMod runtime consumers (damage/healing/critical/first-effect/cooldown)",
+   "semantic_facts": [
+    "damage/heal route Direct->op0 projection, Periodic/PeriodicLeech->op22, PeriodicPercent (raw 20) and Other->none",
+    "op15 excess scaling 1+(M-1)F applied to any crit-eligible impact (heal or damage) whose payload spell has a CriticalBonus projection",
+    "first-effect flat then percent factor applied to raw-20 periodic percent heal (Player self only); raw-87 damage-taken first effect receives flat points only (holder==source==affected)",
+    "cooldown SpellMod (flat ms, binary32 factor) looked up by (actor, activation spell) at quote, commit and action-change"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:105-152",
+    "crates/combat/src/cooldown/deadline_rate.rs:450-487",
+    "crates/combat/src/cooldown/deadline_rate.rs:512-548"
+   ],
+   "id": "AUTH-B-004",
+   "layer": "runtime",
+   "name": "Cooldown SpellMod start duration (spell_modified_base_duration)",
+   "semantic_facts": [
+    "(base + flat) then *binary32 factor, truncated once, nonpositive -> Suppressed; applied to every private and shared deadline binding of the initiating activation before haste/rate scaling and before raw-341 flat",
+    "DeadlineRecovery.base_duration retains the unmodified base (semantics equality only)"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_modifier.rs:41-118"
+   ],
+   "id": "AUTH-B-005",
+   "layer": "compiler",
+   "name": "CooldownModifierPlan root",
+   "semantic_facts": [
+    "composes raw-286 ordinary rate, raw-148 charge rate, raw-341/453/454/205 duration, raw-457 haste regeneration and raw-411 capacity children; each child independently optional"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/authored_cooldown.rs:8-39"
+   ],
+   "id": "AUTH-B-006",
+   "layer": "compiler",
+   "name": "authored cooldown ops (grant charges / reset cooldown)",
+   "semantic_facts": [
+    "GrantCharges binds charge category; ResetCooldown binds resolved target; no amount facts consumed"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_adjustment.rs:148-234",
+    "crates/combat/src/program/cooldown_adjustment.rs:386-429",
+    "crates/combat/src/program/cooldown_adjustment.rs:463-510",
+    "crates/combat/src/program/cooldown_adjustment/category.rs:15-156"
+   ],
+   "id": "AUTH-B-007",
+   "layer": "compiler",
+   "name": "CooldownAdjustment compiler (ReduceRemainingCooldown / ModifyCooldownsByCategory)",
+   "semantic_facts": [
+    "authored integral base points -> Reduce/None/Extend ms; neutral amount facts required; AP/SP coefficients rejected",
+    "triggered spell: private+shared (excluding start-recovery category) + charge category of the trigger action; category: every private deadline of actions whose ordinary category==misc0 plus that shared category once; conflicting non-member starter rejected",
+    "misc must be neutral for triggered form; category form requires empty class mask, neutral mechanic/radius"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_recovery_rate.rs:139-196",
+    "crates/combat/src/program/cooldown_recovery_rate.rs:307-387",
+    "crates/combat/src/program/cooldown_recovery_rate.rs:600-691"
+   ],
+   "id": "AUTH-B-008",
+   "layer": "compiler",
+   "name": "CooldownRecoveryRatePlan (raw 286)",
+   "semantic_facts": [
+    "authored base points (aura activation only); misc0/misc1 must be 0; exact caster delivery; application mutation must target caster; Passive/AsyncStacking owners rejected",
+    "applicability: GameData::effect_affects_spell (family 0 universal, empty mask = whole family, else any-word overlap) - Boolean, matches Trinity SpellInfo::IsAffected",
+    "cells bind every private/shared deadline with a start of each affected action"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_start.rs:24-142"
+   ],
+   "id": "AUTH-B-009",
+   "layer": "compiler",
+   "name": "cooldown_start carrier audit",
+   "semantic_facts": [
+    "exact-carrier source audit (pinned 12.0 base points, Shadow melee owner) for main-hand swing reset on launch; no SpellMod/label/mask applicability"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/charge_capacity.rs:119-150",
+    "crates/combat/src/program/charge_capacity.rs:294-390"
+   ],
+   "id": "AUTH-B-010",
+   "layer": "compiler",
+   "name": "ChargeCapacityPlan (raw 411)",
+   "semantic_facts": [
+    "exact Second Helping 1239537:1 contract: base points bit-equal +1, category 2409 exact, charge pool 1 charge/fixed/snapshot; empty effect and owner class masks"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/charge_duration_modifier.rs:192-342",
+    "crates/combat/src/program/charge_duration_modifier.rs:354-400"
+   ],
+   "id": "AUTH-B-011",
+   "layer": "compiler",
+   "name": "ChargeDurationModifierPlan (raw 453/454/205)",
+   "semantic_facts": [
+    "Passive activation only; authored base points; 453 flat / 454 percent on exact category misc0; 205 only for Swift Justice effect 1 with type mask 32",
+    "percentage owner must be sole-effect; misc1 == 0; Swift Justice requires exact-effect attribute IgnoreDuringCooldownTimeRateCalculation which the charge consumer does not consult"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/charge_modification.rs:17-107",
+    "crates/combat/src/program/charge_modification.rs:152-183"
+   ],
+   "id": "AUTH-B-012",
+   "layer": "compiler",
+   "name": "charge_modification compiler (ImmediateCooldownRechargeCategory)",
+   "semantic_facts": [
+    "authored integral base points become a signed charge delta for the misc0 charge category"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/charge_recharge_rate.rs:229-335"
+   ],
+   "id": "AUTH-B-013",
+   "layer": "compiler",
+   "name": "ChargeRechargeRatePlan (raw 148)",
+   "semantic_facts": [
+    "aura-activated authored percent; misc0 = charge category, misc1 == 0, empty class mask; speed max(1+p*stacks/100, 0.01)"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/charge_recovery_haste.rs:109-182"
+   ],
+   "id": "AUTH-B-014",
+   "layer": "compiler",
+   "name": "ChargeRecoveryHastePlan (raw 457)",
+   "semantic_facts": [
+    "exact Umbral Blade 1272842:1 contract selecting category 2409; amount facts ignored; empty class mask"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/ordinary_category_duration_modifier.rs:65-102",
+    "crates/combat/src/program/ordinary_category_duration_modifier.rs:180-248",
+    "crates/combat/src/program/ordinary_category_duration_modifier.rs:250-365"
+   ],
+   "id": "AUTH-B-015",
+   "layer": "compiler",
+   "name": "CategoryDurationPlan (raw 341)",
+   "semantic_facts": [
+    "Passive activation; authored integral signed ms; misc0 ordinary category, misc1 0; applies after haste/rate to private starts and to shared start of the same category"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/duration_modifier_source.rs:116-229"
+   ],
+   "id": "AUTH-B-016",
+   "layer": "compiler",
+   "name": "duration_modifier_source shared static validator",
+   "semantic_facts": [
+    "neutral mechanic, empty class mask, zero AP/SP, neutral amount/chain facts, self target, no radius, restricted exact attributes, integral ms"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/damage_modifier.rs:245-262",
+    "crates/combat/src/program/damage_modifier.rs:733-777",
+    "crates/combat/src/program/modifier.rs:1463-1500"
+   ],
+   "id": "AUTH-B-017",
+   "layer": "compiler",
+   "name": "DamageModifier compiler",
+   "semantic_facts": [
+    "authored base points; AuraSource scope rejects nonempty class mask while AuraSourceAffectList expands payloads by effect_affects_spell (Boolean IsAffected semantics)"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/healing_modifier.rs:106-248",
+    "crates/combat/src/program/healing_modifier.rs:417-447",
+    "crates/combat/src/program/modifier.rs:1599-1625"
+   ],
+   "id": "AUTH-B-018",
+   "layer": "compiler",
+   "name": "HealingModifier compiler",
+   "semantic_facts": [
+    "aura activation uses authored base points; SelectedTraitPassive/Passive skipped here (owned by passive_healing_received); affect-list scope expands via effect_affects_spell"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/target_aura_state_modifier.rs:63-98",
+    "crates/combat/src/program/target_aura_state_modifier.rs:264-362"
+   ],
+   "id": "AUTH-B-019",
+   "layer": "compiler",
+   "name": "TargetAuraStateModifier compiler",
+   "semantic_facts": [
+    "exact provider/marker contract with pinned percent points; family NONE and empty owner class mask required"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/dispel_duration_modifier.rs:79-138",
+    "crates/combat/src/program/dispel_duration_modifier.rs:140-272"
+   ],
+   "id": "AUTH-B-020",
+   "layer": "compiler",
+   "name": "DispelDurationModifier compiler",
+   "semantic_facts": [
+    "exact provider/applicand relation with pinned points (bit-equal), empty family ownership / mask checks"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/mechanic_duration_modifier.rs:126-230"
+   ],
+   "id": "AUTH-B-021",
+   "layer": "compiler",
+   "name": "MechanicDurationModifier compiler",
+   "semantic_facts": [
+    "exact carrier contracts (55366, 60209) with bit-equal points; mechanic selection from subtype/misc; family NONE, empty masks"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/outgoing_mechanic_modifier.rs:54-107",
+    "crates/combat/src/program/outgoing_mechanic_modifier/validation.rs:160-250"
+   ],
+   "id": "AUTH-B-022",
+   "layer": "compiler",
+   "name": "OutgoingMechanicModifierPlan",
+   "semantic_facts": [
+    "bit-equal expected percentage points; empty effect and owner class masks"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/modifier.rs:1-100",
+    "crates/combat/src/program/modifier/payload_spells.rs:7-66"
+   ],
+   "id": "AUTH-B-023",
+   "layer": "compiler",
+   "name": "ModifierPlan root (program/modifier.rs + submodules)",
+   "semantic_facts": [
+    "owns payload spell sets for SpellMod ops: direct (DirectDamage/Area/HealthLeech/DirectHeal/DirectPercentHeal/MissingOrMax), periodic (PeriodicDamage/PeriodicHeal/PeriodicHealthLeech), critical = programs with crit-eligible impact having damage"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown/time_math.rs:5-24",
+    "crates/combat/src/cooldown/charge_recovery_input.rs:43-67",
+    "crates/combat/src/recovery_creation.rs:82-107",
+    "crates/combat/src/charge_duration.rs:245-345",
+    "crates/combat/src/cooldown.rs:1649-1782"
+   ],
+   "id": "AUTH-B-024",
+   "layer": "runtime",
+   "name": "Cooldown recovery-rate / charge duration runtime",
+   "semantic_facts": [
+    "ordinary: truncate(base / haste / rate_speed).max(1); charge: truncate((base+flat)*pct / haste / speed).max(1) in f64",
+    "charge Reduce recovers floor-counted charges and keeps residual (Trinity pops every RechargeEnd<now entry)"
+   ],
+   "track": "B"
+  },
+  {
+   "coords": [
+    "crates/combat/src/critical.rs:62-162",
+    "crates/combat/src/critical/authority.rs:8-55",
+    "crates/combat/src/critical/authority.rs:146-282",
+    "crates/combat/src/critical/authority.rs:284-317",
+    "crates/combat/src/topology.rs:213-227"
+   ],
+   "id": "AUTH-C-001",
+   "layer": "state_construction",
+   "name": "CriticalStrikeBaseline + CriticalAuthority (exact-actor critical baseline)",
+   "semantic_facts": [
+    "Host supplies one CriticalStrikeBaseline per ActorId (spell chance, weapon chance, multiplier); chances finite >= 0 and retained unclamped, multiplier finite >= 1 (critical.rs:113-143).",
+    "CriticalAuthority::try_new sorts by actor and rejects duplicate actors, rejects baselines for actors absent from the roster, and stores a dense actor-indexed CriticalValues array (authority.rs:146-189).",
+    "Actors without a baseline read CriticalValues::NONE = (0, 0, x2.0) (authority.rs:16-20, 284-293); an actor with no baseline but bound passive crit modifiers therefore crits with the implicit x2.0 multiplier.",
+    "The same dense index also holds passive critical-modifier ranges (chance AND raw-163 damage handles) per actor plus an actor-local target-health capability bit (authority.rs:191-282).",
+    "Immutable after construction; not touched by reset_runtime (state.rs:1068-1120)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:39-60",
+    "crates/combat/src/program/payload_policy.rs:33-47",
+    "crates/combat/src/program/payload_policy.rs:94-104",
+    "crates/combat/src/program/definition.rs:512-572",
+    "crates/combat/src/program/definition.rs:614-626",
+    "crates/combat/src/program.rs:1180-1205"
+   ],
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "AUTH-C-002",
+   "layer": "compiler",
+   "name": "critical_chance_channel + ImpactPolicy critical flags (payload channel/eligibility)",
+   "semantic_facts": [
+    "Melee/Ranged defense -> Weapon channel; None/Magic defense -> Spell (non-physical), Weapon (physical only) or HybridMax (both) by payload school (critical_modifier.rs:39-60). Matches Trinity SpellCritChanceDone max(physical, magic) (Unit.cpp:7132-7155).",
+    "Eligibility is Eligible for every payload unless the spell carries CannotCrit (payload_policy.rs:33-47); it is NOT conditioned on the impact carrying a damage or healing operation.",
+    "Only four operation kinds clear the channel afterwards: Instakill (program.rs:1185-1192), InterruptCast, Dispel, DispelMechanic (program.rs:1194-1196 -> definition.rs:614-626). Stun, silence, pacify, aura application, resource, cooldown-adjustment and other non-amount impacts keep crit eligibility (see CSA-C-01)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:62-300",
+    "crates/combat/src/program/critical_modifier.rs:370-430",
+    "crates/combat/src/program/critical_modifier.rs:494-575",
+    "crates/combat/src/program/critical_modifier.rs:576-642",
+    "crates/combat/src/program/critical_modifier.rs:644-758",
+    "crates/combat/src/program/critical_modifier.rs:1175-1290",
+    "crates/combat/src/program/critical_modifier.rs:1393-1445",
+    "crates/combat/src/program/critical_modifier.rs:1447-1497"
+   ],
+   "id": "AUTH-C-003",
+   "layer": "compiler",
+   "name": "critical-chance modifier compiler (raw 52/57/183/187/197/290/308/334)",
+   "semantic_facts": [
+    "Subtype -> packed applicability: 52 SOURCE_WEAPON, 57 SOURCE_SPELL, 290 SOURCE_SPELL_AND_WEAPON, 334 SOURCE_AUTO_ATTACK (no spell/weapon bit), 187 TARGET_WEAPON_MELEE, 197 TARGET_SPELL_AND_WEAPON_ATTACK (no None defense), 308 TARGET_CASTER_SPELL_MAGIC, 183 SOURCE_SPELL_AND_WEAPON_ATTACK + predicate (604-642).",
+    "Activation: Passive admits 183/187/197/290/308; SelectedTrait admits 290/308/334; Aura admits all but 183/308/334 (1175-1290).",
+    "SelectedTrait amount = TraitSourceCatalog::selected_amount(effect) after package-contract role check, complete sibling declaration and owner-policy check (494-575); probe c_selected_rank.rs proves rank-2 Set-curve amount (+4) is consumed, not authored +2.",
+    "Raw-183 comparator is host-declared and must equal exactly (Above,50)/(AtOrAbove,80) with misc (0,percent) (1447-1497).",
+    "Undeclared crit-subtype siblings of selected/passive owners are rejected (1393-1445)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/critical_modifier.rs:94-145",
+    "crates/combat/src/critical_modifier.rs:176-242",
+    "crates/combat/src/critical_modifier.rs:244-302",
+    "crates/combat/src/critical_modifier.rs:321-436",
+    "crates/combat/src/critical_modifier.rs:467-481",
+    "crates/combat/src/state/modifiers.rs:397-441"
+   ],
+   "finding_ids": [
+    "CSA-C-03"
+   ],
+   "id": "AUTH-C-004",
+   "layer": "runtime",
+   "name": "critical-chance runtime aggregation (apply_critical_modifiers)",
+   "semantic_facts": [
+    "Source-holder points (active committed cohorts x effective stacks + passive terms x1) and target-holder points are summed in f64 percentage points, divided by 100, added to the channel baseline, and floored at 0 exactly once (critical_modifier.rs:188-241).",
+    "Target holder is queried for damage impacts, or for spell-channel Magic impacts restricted to raw-308 caster-spell terms (202-223).",
+    "HybridMax applies spell-channel terms to spell chance and weapon-channel terms to weapon chance, then resolve_critical takes max (125-143, critical/resolution.rs:14-28). A spell-only target term (raw 308) is added before the max, Trinity adds it after (see CSA-C-03).",
+    "Exclusive groups: greatest absolute stacked amount, canonical key tie-break, equal opposite-sign tie fails (401-436). Predicate filtering precedes exclusivity (381-399).",
+    "Target health snapshot read from committed ActorState health only if the source actor has a raw-183 binding (state/modifiers.rs:409-418)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/critical/resolution.rs:5-29",
+    "crates/combat/src/critical/resolution.rs:95-113",
+    "crates/combat/src/execution/planning/critical.rs:81-123"
+   ],
+   "id": "AUTH-C-005",
+   "layer": "runtime",
+   "name": "resolve_critical (points -> probability)",
+   "semantic_facts": [
+    "Forbidden or chance <= 0 -> probability None (no draw); otherwise Probability(min(chance,1)) - clamp only at the probability boundary (resolution.rs:95-113).",
+    "Forbidden eligibility skips modifier evaluation entirely (planning/critical.rs:89-90) so CannotCrit payloads cannot fail on crit arithmetic."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/critical.rs:11-79",
+    "crates/combat/src/state/modifiers.rs:335-395",
+    "crates/combat/src/critical_damage_modifier.rs:24-186"
+   ],
+   "id": "AUTH-C-006",
+   "layer": "runtime",
+   "name": "critical multiplier preparation (baseline x raw 163, SpellMod op-15 bonus ordering)",
+   "semantic_facts": [
+    "Only computed when a critical probability exists (planning/critical.rs:26-28).",
+    "Direct Melee/Ranged damage and all non-damage impacts: bonus (1+(m-1)F) before raw-163 school product; Magic/None and all periodic damage: raw-163 first, bonus second (35-76). Matches Trinity melee path (Unit.cpp:1216-1231) and SpellCriticalDamageBonus (Unit.cpp:7279-7307), incl. periodic via AuraEffect (SpellAuraEffects.cpp:5707,5791).",
+    "raw 163: every school-intersecting definition multiplies the whole multiplier by (1+stacked/100); passives always once, never in exclusive groups (critical_damage_modifier.rs:24-69,138-169).",
+    "op-15 bonus reads one pre-aggregated passive projection factor per (actor, payload) (state/modifiers.rs:360-395)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/modifier/payload_spells.rs:32-54",
+    "crates/combat/src/program/passive_spell_modifier.rs:430-441",
+    "crates/combat/src/program/passive_spell_modifier.rs:477-483",
+    "crates/combat/src/program/passive_spell_modifier.rs:785-800"
+   ],
+   "finding_ids": [
+    "CSA-C-02"
+   ],
+   "id": "AUTH-C-007",
+   "layer": "compiler",
+   "name": "SpellMod op-15 CriticalBonus projection payload set",
+   "semantic_facts": [
+    "CriticalBonus projections are compiled only for payload programs that have a crit-eligible impact with a damage-family operation (payload_spells.rs:32-54); heal-only payloads matched by the class mask silently get no projection (CSA-C-02).",
+    "Factor = binary32 (1+p/100)^matching_bits (passive_spell_modifier.rs:477-483).",
+    "Only selected-trait activation exists for spell modifiers; admitted op-15 population = Heart of the Crusader 406154 #4 and Martial Expert 429638 #1 (selected_package.py admitted)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_damage_modifier.rs:129-154",
+    "crates/combat/src/program/critical_damage_modifier.rs:332-414",
+    "crates/combat/src/program/critical_damage_modifier.rs:463-488"
+   ],
+   "id": "AUTH-C-008",
+   "layer": "compiler",
+   "name": "critical-damage-modifier compiler (raw 163)",
+   "semantic_facts": [
+    "Passive activation always compiles exclusive group 0; only Aura activation can carry ExclusiveSameEffect (332-414).",
+    "No selected-trait activation; raw 501 (caster-spell crit damage taken) stays Disabled with no consumer."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_healing_modifier.rs:59-130",
+    "crates/combat/src/program/critical_healing_modifier/validation.rs:16-60",
+    "crates/combat/src/critical_healing_amount.rs:16-86",
+    "crates/combat/src/execution/planning/health.rs:1565-1580"
+   ],
+   "id": "AUTH-C-009",
+   "layer": "compiler",
+   "name": "critical-healing-amount compiler + authority (raw 50)",
+   "semantic_facts": [
+    "Passive-only; state construction multiplies per-actor factors (1+p/100) with finiteness check (critical_healing_amount.rs:16-86).",
+    "Applied to the whole critical heal (normal x bonus-adjusted multiplier) via scaled_critical when chance > 0, after ordinary healing modifiers (health.rs:1565-1580). Trinity SpellCriticalHealingBonus: (damage + bonus) x MOD_CRITICAL_HEALING_AMOUNT (Unit.cpp:7309-7325) - same product in reals."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_block_amount.rs:83-112",
+    "crates/combat/src/program/critical_block_amount.rs:157-254",
+    "crates/combat/src/program/critical_block_amount.rs:256-302",
+    "crates/combat/src/program/critical_block_amount.rs:388-418",
+    "crates/combat/src/program/critical_block_amount.rs:486-519"
+   ],
+   "id": "AUTH-C-010",
+   "layer": "compiler",
+   "name": "critical-block-amount compiler (raw 638, passive + selected Martial Expert)",
+   "semantic_facts": [
+    "Selected activation consumes resolved.selected_amount(effect) (297-301) - the raw-638 selected->authored defect (09d4fdab) stays fixed.",
+    "Percent >= -100 and factor >= 0 enforced for both activations (388-418).",
+    "Selected path performs NO selected_trait_owner_policy_issue check itself (contrast critical_modifier.rs:558-566); the only admitted package (Martial Expert) is protected because its op-15 sibling's compiler runs the owner-policy check on the same owner spell (passive_spell_modifier.rs:977-983) - see XC-C-004."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/critical_block_amount.rs:42-200",
+    "crates/combat/src/state/modifiers.rs:238-247",
+    "crates/combat/src/attack/resolution.rs:382-398"
+   ],
+   "id": "AUTH-C-011",
+   "layer": "runtime",
+   "name": "CriticalBlockAmountAuthority + attack-table application",
+   "semantic_facts": [
+    "Defender-held factors aggregated multiplicatively per actor, exclusive groups by magnitude, at fallible construction (critical_block_amount.rs:42-172).",
+    "Applied only for damaging, block-eligible Melee/Ranged tables: retained = max(0, 1-(1-m)F) (resolution.rs:382-398). Trinity reads the aura from the ATTACKER (Unit.cpp:1243,1463) - Core's defender ownership follows the talent semantics (REJ-C-004)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:275-353",
+    "crates/combat/src/attack/resolution.rs:464-524",
+    "crates/combat/src/impact.rs:388-418",
+    "crates/combat/src/health_amount.rs:67-79"
+   ],
+   "id": "AUTH-C-012",
+   "layer": "rng",
+   "name": "attack table: ordered non-landing + critical + block + critical-block draws",
+   "semantic_facts": [
+    "One ordered draw over [miss, dodge|resist, parry] (skipped when all zero or first >= 1), then critical `occurs`, then block `occurs`, then (damage only) critical-block `occurs` (464-524).",
+    "Crit and block are independent after landing; block multiplier applies to the already critical amount (health_amount.rs:67-79) - Trinity also blocks the crit-boosted amount (Unit.cpp:1216-1250).",
+    "Resolution happens at commit; every fallible crit computation happened at quote (planning.rs:852-915)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/defense_chance_modifier.rs:133-209",
+    "crates/combat/src/program/defense_chance_modifier.rs:358-540",
+    "crates/combat/src/defense_chance_modifier.rs:325-420",
+    "crates/combat/src/attack/resolution.rs:299-320"
+   ],
+   "id": "AUTH-C-013",
+   "layer": "compiler",
+   "name": "defense-chance modifier compiler + runtime (raw 47/49/51/251)",
+   "semantic_facts": [
+    "Axes dodge/parry/physical-block (defender-held) and enemy-dodge (source-held raw 251) add percentage points to the table baseline, each floored at 0 once (resolution.rs:299-320).",
+    "Physical block adjustment applies only to Melee/Ranged; magic block untouched (resolution.rs:312-320)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/hit_chance_modifier.rs:198-260",
+    "crates/combat/src/program/hit_chance_modifier.rs:414-460",
+    "crates/combat/src/hit_chance_modifier.rs:265-340",
+    "crates/combat/src/state/modifiers.rs:185-222",
+    "crates/combat/src/attack/resolution.rs:286-293"
+   ],
+   "id": "AUTH-C-014",
+   "layer": "compiler",
+   "name": "hit-chance modifier compiler + runtime (raw 54/55/184/186)",
+   "semantic_facts": [
+    "Hit adjustment evaluated only when source != target, the impact has damage, and miss is eligible (state/modifiers.rs:185); aura-only hostile impacts keep the miss roll with baseline accuracy but ignore hit modifiers (documented scope, aura_subtype.rs:416,476; XC-C-003).",
+    "Magic: source raw 55 + target raw 186 (school-selected); Melee: source raw 54 + target raw 184; Ranged: source raw 54 only; None: none (state/modifiers.rs:185-222). Matches Trinity MeleeSpellMissChance sign/holder (Unit.cpp:12454-12488)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_parry.rs:48-100",
+    "crates/combat/src/passive_parry.rs:1-60"
+   ],
+   "id": "AUTH-C-015",
+   "layer": "compiler",
+   "name": "passive parry capability compiler (learned parry)",
+   "semantic_facts": [
+    "Capability only (can_parry), exact single source effect, host-proven weapon eligibility; no chance arithmetic."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:23-70",
+    "crates/combat/src/white_swing.rs:300-322",
+    "crates/combat/src/white_swing.rs:376-440",
+    "crates/combat/src/white_swing/resolution.rs:72-110",
+    "crates/combat/src/state/white_main_hand.rs:96-110"
+   ],
+   "id": "AUTH-C-016",
+   "layer": "runtime",
+   "name": "white main-hand critical share (raw 290 / raw 334 in binary32 basis points)",
+   "semantic_facts": [
+    "Host supplies binary32 pre-modifier percent whose truncation must equal the prepared share; Core adds exactly-representable f32 points, clamps [0,100], x100 in f32 and truncates once (white_swing.rs:23-70,300-322).",
+    "Outcome draw: uniform_index(10000) against saturating cumulative thresholds miss,dodge,parry,glancing,block,critical,crushing (resolution.rs:88-110).",
+    "White critical damage is hardcoded mitigated x2 (white_main_hand.rs:105); unreachable divergence because admission requires empty critical_strikes and an isolated program (topology.rs:1099-1125, REJ-C-003)."
+   ],
+   "track": "C"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/damage.rs:53-184",
+    "crates/combat/src/program/damage.rs:219-235",
+    "crates/combat/src/program/damage.rs:342-519",
+    "crates/combat/src/damage.rs:22-153",
+    "crates/combat/src/damage.rs:155-181"
+   ],
+   "id": "AUTH-D-001",
+   "layer": "compiler",
+   "name": "Direct/periodic damage compiler + DamageFormula",
+   "semantic_facts": [
+    "raw-2/9/165 only (OperationEffectContract::DirectDamage, error/operation_effect.rs:18-24)",
+    "non-leech damage requires EffectAmountFacts::NEUTRAL (damage.rs:138-142); leech admits only positive amplitude",
+    "raw-2 direct base points rounded before power terms (damage.rs:30-37, program/damage.rs:157-163); raw-9 direct, periodic raw-3/raw-53 keep fractional base",
+    "amount = base + AP*ap + SP*sp; x scale x outgoing; negative clamps; x incoming; critical = normal x critical multiplier (damage.rs:104-152)",
+    "effective mechanic retained only when retain_effective_mechanic (damage.rs:219-235)"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/healing.rs:25-87",
+    "crates/combat/src/program/healing.rs:89-145",
+    "crates/combat/src/program/healing.rs:154-289",
+    "crates/combat/src/program/healing.rs:316-379",
+    "crates/combat/src/healing.rs:40-168"
+   ],
+   "id": "AUTH-D-002",
+   "layer": "compiler",
+   "name": "Direct heal compiler + HealingFormula/Percent/MissingOrMax",
+   "semantic_facts": [
+    "raw-10 fixed, raw-136 percent, raw-? missing-or-maximum; NEUTRAL amount facts except exact 25840:1",
+    "fixed heal base points are never rounded (healing.rs:65-94)",
+    "percent heal = recipient projected maximum x percent/100, continuous (healing.rs:142-167)",
+    "mixed damage+heal impacts rejected (healing.rs:25-51)"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/health.rs:857-996",
+    "crates/combat/src/execution/planning/health.rs:998-1075",
+    "crates/combat/src/execution/planning/health.rs:1241-1324",
+    "crates/combat/src/execution/planning/health.rs:1371-1581",
+    "crates/combat/src/execution/commit/health.rs:245-329",
+    "crates/combat/src/execution/commit/health.rs:397-460",
+    "crates/combat/src/health_amount.rs:67-92",
+    "crates/combat/src/health.rs:79-160",
+    "crates/combat/src/execution/health.rs:55-135"
+   ],
+   "id": "AUTH-D-003",
+   "layer": "runtime",
+   "name": "Health quote/commit (damage & healing planning, HealthPool)",
+   "semantic_facts": [
+    "payload school = payload program node school (program.rs:1124) used for immunity, modifiers, absorbs, share",
+    "order: dead-target check -> damage-immunity -> modifier channels -> amount -> absorb bounds -> share -> health quote",
+    "healing order: formula -> ordinary healing multiplier (scaled) -> critical healing factor on critical leg -> absorb bounds",
+    "commit replays quoted snapshot (next_snapshot) then HealthPool::quote_damage on remaining; amounts continuous f64"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/absorb.rs:716-859",
+    "crates/combat/src/program/absorb.rs:861-904",
+    "crates/combat/src/program/absorb.rs:906-1019",
+    "crates/combat/src/absorb/transaction.rs:171-280",
+    "crates/combat/src/absorb/transaction.rs:902-925",
+    "crates/combat/src/absorb/transaction.rs:968-1000",
+    "crates/combat/src/absorb/transaction.rs:1081-1103",
+    "crates/combat/src/state/absorbs.rs:30-148"
+   ],
+   "id": "AUTH-D-004",
+   "layer": "runtime",
+   "name": "School absorb / heal absorb / mana shield compiler and transaction",
+   "semantic_facts": [
+    "capacity = authored base points (finite positive), misc0 school mask, misc1 signed priority",
+    "candidate order: funding, priority asc, application sequence asc (oldest first), source effect, provider",
+    "school absorb creation multiplier: source (Versatility x raw-421) and recipient raw-422 retained separately; rounds only when raw-422 != 1",
+    "reapplication replaces capacity and takes a new aura sequence; no-duration auras have sequence 0"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/source_absorb_capacity_modifier.rs:45-151",
+    "crates/combat/src/program/source_absorb_capacity_modifier.rs:152-217",
+    "crates/combat/src/source_absorb_capacity_modifier.rs:17-70"
+   ],
+   "id": "AUTH-D-005",
+   "layer": "compiler",
+   "name": "Source absorb-capacity modifier (raw 421)",
+   "semantic_facts": [
+    "generic single-stack finite self aura; multiplicative product seeded with Versatility factor",
+    "zero factor dominates; first non-finite product is a typed quote failure",
+    "captured once at creation/replacement; later modifier changes never resize"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/target_absorb_bypass.rs:1-124",
+    "crates/combat/src/target_absorb_bypass_authority.rs:101-145",
+    "crates/combat/src/state/target_absorb_bypass.rs:6-21",
+    "crates/combat/src/absorb/transaction.rs:71-77"
+   ],
+   "id": "AUTH-D-006",
+   "layer": "compiler",
+   "name": "Target absorb bypass (raw 194)",
+   "semantic_facts": [
+    "source-held percentage keyed by payload school; multiple definitions aggregate by max",
+    "reservation = min(incoming x pct/100, incoming), continuous (no CalculatePct int truncation)"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/share_damage.rs:96-180",
+    "crates/combat/src/program/share_damage.rs:237-397",
+    "crates/combat/src/execution/planning/health.rs:1086-1202",
+    "crates/combat/src/execution/commit/health.rs:331-395"
+   ],
+   "id": "AUTH-D-007",
+   "layer": "compiler",
+   "name": "Share Damage Percent (raw 300) exact Venomshade carrier",
+   "semantic_facts": [
+    "exact 154349:1, 100 % copy of post-absorb requested damage from the aura source only",
+    "state construction rejects topologies beyond the source/target pair (UnsupportedShareDamageTopology)"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/instakill.rs:8-60",
+    "crates/combat/src/program/instakill.rs:61-110",
+    "crates/combat/src/execution/planning/health/instakill.rs:6-43"
+   ],
+   "id": "AUTH-D-008",
+   "layer": "compiler",
+   "name": "Instakill (raw 1)",
+   "semantic_facts": [
+    "sole-effect sole-operation, DefenseType::None, selectors (6,0), hostile",
+    "lethal transition bypasses damage, absorb, crit, block; no RNG"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/maximum_health_damage.rs:19-98",
+    "crates/combat/src/program/maximum_health_damage.rs:100-217",
+    "crates/combat/src/program/maximum_health_damage.rs:219-258",
+    "crates/combat/src/maximum_health_damage.rs:12-80"
+   ],
+   "id": "AUTH-D-009",
+   "layer": "compiler",
+   "name": "Direct maximum-health damage (raw 165)",
+   "semantic_facts": [
+    "caster-only (1,0), Magic, non-physical, sole effect/op, neutral facts",
+    "requires integral live maximum <= 2^53; binary32 x percent / 100, truncated to u64, <= i32::MAX",
+    "bypasses outgoing and incoming spell damage modifiers; absorbs apply; documented to assume absent immunity"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/maximum_health_modifier.rs:1-66",
+    "crates/combat/src/state/maximum_health_modifiers.rs:88-103",
+    "crates/combat/src/state/maximum_health_modifiers.rs:165-190",
+    "crates/combat/src/health.rs:177-200",
+    "crates/combat/src/maximum_health_modifier.rs:314-381"
+   ],
+   "id": "AUTH-D-010",
+   "layer": "compiler",
+   "name": "Maximum-health modifiers (raw 133 percent, raw 34 passive flat)",
+   "semantic_facts": [
+    "maximum = baseline maximum x product(1 + pct x stacks/100): never truncated/rounded",
+    "current reconciled by directional policy (fraction or absolute) - also continuous"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/target_health_healing_modifier.rs:215-445",
+    "crates/combat/src/target_health_healing_modifier.rs:1-185"
+   ],
+   "id": "AUTH-D-011",
+   "layer": "compiler",
+   "name": "Target-health healing modifier (exact 391178)",
+   "semantic_facts": [
+    "exact carrier; payload-bound healing percentage by recipient health fraction"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/health_program.rs:1-60"
+   ],
+   "id": "AUTH-D-012",
+   "layer": "compiler",
+   "name": "Health program composition",
+   "semantic_facts": [
+    "Option<Box> composition of max-health, absorb, immunity, critical-healing, share plans; absent -> None (pay-for-play)"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/health_threshold.rs:245-326",
+    "crates/combat/src/program/health_threshold.rs:326-487",
+    "crates/combat/src/health_threshold.rs:452-490"
+   ],
+   "id": "AUTH-D-013",
+   "layer": "compiler",
+   "name": "Health threshold triggers",
+   "semantic_facts": [
+    "absolute threshold = floor(maximum x pct / 100); fresh checks strict, committed crossings inclusive of endpoints"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/damage_immunity.rs:83-133",
+    "crates/combat/src/program/damage_immunity.rs:136-240",
+    "crates/combat/src/program/damage_immunity.rs:496-580",
+    "crates/combat/src/damage_immunity.rs:26-125",
+    "crates/combat/src/execution/planning/health.rs:899-917"
+   ],
+   "id": "AUTH-D-014",
+   "layer": "compiler",
+   "name": "Damage immunity (raw 40, exact Ethereal 163671 / payload 394463)",
+   "semantic_facts": [
+    "program-wide audit rejects every other damage family (direct/area/max-health/leech/periodic)",
+    "runtime covers actor if active binding school covers payload school; exact raw-29 payload admitted but not suppressed"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/effect_immunity.rs:123-352",
+    "crates/combat/src/effect_immunity.rs:1-121"
+   ],
+   "id": "AUTH-D-015",
+   "layer": "compiler",
+   "name": "Effect immunity (exact 283780 / applicand 159006)",
+   "semantic_facts": [
+    "exact carrier/applicand pair only"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/exact_immunity.rs:89-293",
+    "crates/combat/src/program/immunity_program.rs:1-160",
+    "crates/combat/src/exact_immunity_view.rs:1-183",
+    "crates/combat/src/owner_immunity.rs:1-71"
+   ],
+   "id": "AUTH-D-016",
+   "layer": "compiler",
+   "name": "Exact-immunity owner topology + immunity program",
+   "semantic_facts": [
+    "shared exact owner/program/application validation for school/mechanic/effect families"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/mechanic_immunity.rs:127-392",
+    "crates/combat/src/mechanic_immunity.rs:1-126"
+   ],
+   "id": "AUTH-D-017",
+   "layer": "compiler",
+   "name": "Mechanic immunity (exact 166474 / applicand 159006)",
+   "semantic_facts": [
+    "exact carrier/applicand pair only"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/mechanic_resistance.rs:71-330",
+    "crates/combat/src/mechanic_resistance.rs:1-111"
+   ],
+   "id": "AUTH-D-018",
+   "layer": "compiler",
+   "name": "Mechanic resistance (exact 19786 / applicand 326836)",
+   "semantic_facts": [
+    "payload_mechanic feeds AttackPolicy resisted mechanic (payload_policy.rs:73-75)"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/school_immunity.rs:66-130",
+    "crates/combat/src/program/school_immunity.rs:236-282",
+    "crates/combat/src/school_immunity.rs:22-39"
+   ],
+   "id": "AUTH-D-019",
+   "layer": "compiler",
+   "name": "School immunity (raw 39, exact 161901 mask 126 / applicand 10730)",
+   "semantic_facts": [
+    "compile audit covers only programs with a Target impact whose school is fully covered",
+    "runtime suppression only for exact applicands 10730:1 / 373932:1; coverage = complete school subset"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/no_immunities.rs:23-60",
+    "crates/combat/src/program/no_immunities.rs:211-233"
+   ],
+   "id": "AUTH-D-020",
+   "layer": "compiler",
+   "name": "No Immunities (exact raw-29 28041:1)",
+   "semantic_facts": [
+    "admits caster-recipient raw-2 damage; rejects effect/mechanic/school immunity composition"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/payload_policy.rs:14-90"
+   ],
+   "id": "AUTH-D-021",
+   "layer": "compiler",
+   "name": "Payload policy",
+   "semantic_facts": [
+    "payload-spell attributes -> critical eligibility, attack suppressions, damage/healing modifier channels; defense from payload spell"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/effect_amount.rs:1-37"
+   ],
+   "id": "AUTH-D-022",
+   "layer": "compiler",
+   "name": "Exact-neutral amount-fact predicate",
+   "semantic_facts": [
+    "bit-exact comparison of all eight float facts + scaling class; resource coefficient override for 25840:1"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/versatility_benefit.rs:188-305",
+    "crates/combat/src/program/versatility_modifier.rs:72-300"
+   ],
+   "id": "AUTH-D-023",
+   "layer": "compiler",
+   "name": "Versatility benefit/modifier (inventory only - parked)",
+   "semantic_facts": [
+    "exact carriers 344883 (raw 502/503), 354054 active and 255658 passive raw 471; feed DamageDone/DamageReduction/HealingDone/AbsorbDone factors",
+    "not audited semantically (Versatility parked)"
+   ],
+   "track": "D"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/periodic.rs:87-133",
+    "crates/combat/src/program/periodic.rs:537-647",
+    "crates/combat/src/program/periodic.rs:848-960",
+    "crates/combat/src/program/periodic.rs:962-1101",
+    "crates/combat/src/program/periodic.rs:1103-1152",
+    "crates/combat/src/program/periodic.rs:1328-1586",
+    "crates/combat/src/program/periodic.rs:1588-1678",
+    "crates/combat/src/program/periodic/energize.rs:1-184",
+    "crates/combat/src/program/periodic/heal.rs:1-213",
+    "crates/combat/src/program/periodic/mana_leech.rs:1-366",
+    "crates/combat/src/program/periodic/haste_affected_duration.rs:1-330",
+    "crates/combat/src/program/periodic/energize/maximum_power_percent.rs:1-292"
+   ],
+   "id": "AUTH-E-001",
+   "layer": "compiler",
+   "name": "Periodic schedule compiler",
+   "semantic_facts": [
+    "one PeriodicSchedule per exact resolved periodic contract (trigger 23 / damage 3,89 / leech 53 / heal 8,20 / energize 24,21 / mana leech 64); duplicate effect across families rejects (periodic.rs:694-760)",
+    "authored period = raw EffectAuraPeriod, must be positive i32 (periodic.rs:997-1002)",
+    "initial policy must agree with raw attribute 169 TickOnApplication in both directions (periodic.rs:1449-1474)",
+    "SpellCastSpeed cadence iff raw attribute 173 present AND RestartCadence; 173 with PreserveCadence rejects (periodic.rs:1389-1404)",
+    "WholeEffectivePeriods alignment admitted only for exact Venom 391428 effect 1 with 173+273+278 (haste_affected_duration.rs:52-72)",
+    "terminal policy: damage/heal ProportionalNaturalExpiryPartial, trigger/energize/leech/mana-leech None (periodic.rs:436-448)",
+    "reapplication/cadence pairing: CappedCarryover, IndependentStackDeadlines, PreserveExistingLifetime forbid RestartCadence; damage/heal additionally forbid RestartLifetime+PreserveCadence; trigger/energize do not (periodic.rs:1588-1678)",
+    "AsynchronousStackingBuff (and HasteAffectsDuration/MeleeHaste/RollingPeriodic) owners reject for every periodic family (periodic.rs:87-121)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic.rs:198-229",
+    "crates/combat/src/periodic.rs:237-497",
+    "crates/combat/src/periodic.rs:507-582",
+    "crates/combat/src/periodic.rs:642-791"
+   ],
+   "id": "AUTH-E-002",
+   "layer": "runtime",
+   "name": "PeriodicAuthority cadence cells and deadline queue",
+   "semantic_facts": [
+    "cell = {captured target, cadence_anchor, aura_expires_at, period_millis, initial_pending, active}; one deadline per schedule slot keyed (at, slot)",
+    "pending tick: initial at anchor; else full tick at anchor+period if <= aura_expires_at; else terminal partial at aura_expires_at if proportional policy and expiry > anchor (periodic.rs:507-549)",
+    "fire advances cadence before child execution except SpellCastSpeed full ticks, which re-arm after the child using occurrence-current haste (periodic.rs:313-357, 396-440)",
+    "application quote: PreserveCadence on an active cell keeps anchor/period/initial and only retargets + moves expiry; otherwise anchor=now, period=effective_period(now haste), initial_pending = previous || (fresh Applied && OnFreshApplication) (periodic.rs:716-769)",
+    "removal (quote transition Removed) deactivates every schedule of that aura slot; other non-Apply mutations do not touch cells (periodic.rs:658-688)",
+    "cancel_aura deactivates cells and cancels deadlines; reset clears cells and queue (periodic.rs:471-481)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic_execution.rs:55-185",
+    "crates/combat/src/periodic_execution.rs:352-402",
+    "crates/combat/src/periodic_execution.rs:438-505",
+    "crates/combat/src/periodic_health.rs:12-43"
+   ],
+   "id": "AUTH-E-003",
+   "layer": "runtime",
+   "name": "Periodic tick execution (CombatState)",
+   "semantic_facts": [
+    "a tick first checks the AURA RECIPIENT's liveness; a dead recipient cancels the aura's schedules silently and the aura itself remains active (periodic_execution.rs:449-457)",
+    "tick child runs through execute_immediate_driver with source=aura source, target=captured target index, time=tick.at",
+    "amount context = live aura stacks (point-stacking policy), elapsed/period fraction; amount formula evaluated fresh at occurrence (periodic_health.rs:35-38)",
+    "health-context ticks cancel the schedule after a lethal occurrence (periodic_execution.rs:497-504)",
+    "re-arm uses the aura source's haste after the child executed (periodic_execution.rs:379-401)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/driver.rs:1-29",
+    "crates/combat/src/driver_execution.rs:277-296",
+    "crates/combat/src/driver_execution.rs:616-709",
+    "crates/combat/src/execution/health.rs:190-245"
+   ],
+   "id": "AUTH-E-004",
+   "layer": "runtime",
+   "name": "Immediate driver edges and execution",
+   "semantic_facts": [
+    "driver child binding by exact ProgramNodeId binary search; per-aura driver range by spell id partition (driver.rs:7-28)",
+    "immediate drivers bypass cast admission; only preflight_execution_health gates caster/target life when the child program requires health (execution/health.rs:190-211)",
+    "failure of the child quote emits ExecutionFizzled and mutates nothing (driver_execution.rs:696-706)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/expiry.rs:14-182",
+    "crates/combat/src/expiry_execution.rs:9-40",
+    "crates/combat/src/state.rs:1368-1397"
+   ],
+   "id": "AUTH-E-005",
+   "layer": "compiler",
+   "name": "Natural-expiry driver compiler and execution",
+   "semantic_facts": [
+    "raw subtype 495 on an aura-owning effect; child must equal EffectTriggerSpell; misc0 != 0 => OriginalAuraSource else AuraRecipient; target always aura recipient (expiry.rs:72-154)",
+    "owner attributes IgnoreTimeRate/HasteAffectsDuration/AsynchronousStackingBuff reject (expiry.rs:14-18)",
+    "runs only from ordinary natural AuraExpiry after the aura commit + periodic cancel + natural thresholds; explicit removal and dispel never run it (state.rs:1368-1397)",
+    "no liveness gate: runs even when the aura recipient already died (expiry_execution.rs:9-40)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/aura_lifetime.rs:11-79"
+   ],
+   "id": "AUTH-E-006",
+   "layer": "compiler",
+   "name": "Aura lifetime policy",
+   "semantic_facts": [
+    "IndependentStackDeadlines iff max_stacks > 1 and aura spell owns AsynchronousStackingBuff; otherwise SingleDeadline (aura_lifetime.rs:11-35)",
+    "periodic/expiry subsystems require a finite aura (aura_lifetime.rs:60-79)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/aura_mutation_input.rs:1-19"
+   ],
+   "id": "AUTH-E-007",
+   "layer": "compiler",
+   "name": "Aura mutation input",
+   "semantic_facts": [
+    "plain carrier of (recipient, effect, aura, count, Apply(reapplication)|AddStacks|RemoveStacks|Remove); no validation of its own"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/aura_reapplication.rs:340-491",
+    "crates/combat/src/program/aura_reapplication.rs:493-518",
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:1-40",
+    "crates/combat/src/program/aura_reapplication/aura_unique_topology.rs:1-40"
+   ],
+   "id": "AUTH-E-008",
+   "layer": "compiler",
+   "name": "Aura reapplication policy compiler",
+   "semantic_facts": [
+    "CappedCarryover iff resolved CappedCarryover AND aura spell owns raw 436 (both directions) (aura_reapplication.rs:436-466)",
+    "IndependentStackDeadlines iff aura lifetime policy says so and base RestartLifetime",
+    "PreserveExistingLifetime iff AuraUnique-preserving source or application spell owns AuraDoesNotRefresh",
+    "AuraUnique conflicts with every other preservation policy"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/aura_state.rs:713-834",
+    "crates/combat/src/aura_state.rs:1107-1212"
+   ],
+   "id": "AUTH-E-009",
+   "layer": "runtime",
+   "name": "Aura state apply / carryover / expiry projection",
+   "semantic_facts": [
+    "active refresh with CappedCarryover: expiry = max(existing, now + d + min(remaining, floor(3d/10))) (aura_state.rs:1153-1200)",
+    "PreserveExistingLifetime on active aura changes only stacks (aura_state.rs:747-766)",
+    "a quote at exactly expires_at is still admitted (ExpiryPending only when expires_at < now) (aura_state.rs:1118-1127)",
+    "no liveness check on the recipient anywhere in apply quoting"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/child_activation.rs:24-196"
+   ],
+   "id": "AUTH-E-010",
+   "layer": "compiler",
+   "name": "Child activation compiler",
+   "semantic_facts": [
+    "TRIGGER_MISSILE -> inline Activate; TRIGGER_SPELL -> deferred ScheduleActivation; child must equal EffectTriggerSpell",
+    "deferred launch requires misc0 (delay) == 0 and misc1 == 0",
+    "child target derived from implicit targets (none/any/enemy/ally -> inherited primary, caster -> caster) and must equal the resolved target"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_flow_flat.rs:56-165"
+   ],
+   "id": "AUTH-E-011",
+   "layer": "compiler",
+   "name": "Passive-flow flat modifier compiler",
+   "semantic_facts": [
+    "per-effect flat units/s aura modifier; one-stack single-deadline carriers only (passive_flow_flat/validation.rs max_stacks==1); affects_mutation false for AddStacks (safe because max_stacks==1)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_flow_percentage.rs:55-161"
+   ],
+   "id": "AUTH-E-012",
+   "layer": "compiler",
+   "name": "Passive-flow percentage modifier compiler",
+   "semantic_facts": [
+    "per-effect percentage factor on base passive flow; one-stack single-deadline carriers only"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_flow_suppression.rs:1-460"
+   ],
+   "id": "AUTH-E-013",
+   "layer": "compiler",
+   "name": "Passive-flow suppression compiler",
+   "semantic_facts": [
+    "resource-mask suppression cohorts per aura; suppression zeroes effective passive flow before percentage/flat (passive_resource_flow.rs PassiveFlowPolicyView::evaluate)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/resource_threshold.rs:1-140",
+    "crates/combat/src/resource_threshold.rs:852-870",
+    "crates/combat/src/resource_threshold/passive_flow.rs:40-75",
+    "crates/combat/src/resource_threshold/passive_flow.rs:436-546"
+   ],
+   "id": "AUTH-E-014",
+   "layer": "compiler",
+   "name": "Resource threshold drivers (raw 396)",
+   "semantic_facts": [
+    "gain fires iff before < T && after >= T; loss iff before > T && after <= T (resource_threshold.rs:860-870) — identical to Trinity Unit.cpp:10144-10153",
+    "startup fires on current >= T (gain) / <= T (loss) (resource_threshold.rs:852-858)",
+    "passive-flow crossing deadline = ms binary search over the projection for the nearest threshold beyond current in the flow direction (resource_threshold/passive_flow.rs:436-546)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/resource_gain.rs:14-116"
+   ],
+   "id": "AUTH-E-015",
+   "layer": "compiler",
+   "name": "Resource gain / periodic energize operations",
+   "semantic_facts": [
+    "Fixed / PercentOfMaximum gains validated against effect kind contract; periodic energize payload prevalidated and gated on living recipient when payload requires it (resource_gain.rs:57-91)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/resource_damage.rs:1-29",
+    "crates/combat/src/program/power_burn.rs:16-140",
+    "crates/combat/src/program/power_drain.rs:18-116"
+   ],
+   "id": "AUTH-E-016",
+   "layer": "compiler",
+   "name": "Resource damage: power burn / power drain",
+   "semantic_facts": [
+    "power burn admitted only for exact spell 46266 effect 1 carrier; power drain exact neutral amount facts; both dispatch through resource_damage::compile_step"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/maximum_resource_modifier.rs:1-767"
+   ],
+   "id": "AUTH-E-017",
+   "layer": "compiler",
+   "name": "Maximum resource modifier compiler",
+   "semantic_facts": [
+    "per-aura max-resource deltas grouped into cohorts; passive percentage factors > 1.0; reachable delta bounds precomputed for clamp policy"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/target_aura_condition.rs:1-45"
+   ],
+   "id": "AUTH-E-018",
+   "layer": "compiler",
+   "name": "Target aura condition",
+   "semantic_facts": [
+    "marker aura + (mechanic|state) identity byte; plain data carrier consumed by modifier compilers"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/dispel.rs:178-278",
+    "crates/combat/src/program/dispel_mechanic.rs:380-400",
+    "crates/combat/src/execution/planning/dispel.rs:79-151",
+    "crates/combat/src/execution/planning/mechanic_dispel.rs:10-66"
+   ],
+   "id": "AUTH-E-019",
+   "layer": "compiler",
+   "name": "Dispel and mechanic dispel",
+   "semantic_facts": [
+    "magic dispel admits only BLIND_FAITH / MAGE_ARMOR single-stack single-deadline self auras with NO periodic schedules (dispel.rs:238-247)",
+    "mechanic dispel applicand must be single-stack, self-only, with no periodic fanout (dispel_mechanic.rs:387-395)",
+    "dispel removes the whole aura via quote_remove_from; RNG ordinal via uniform_index on a cloned stream in quote (execution/planning/dispel.rs:94-116)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/resource_program.rs:1-434"
+   ],
+   "id": "AUTH-E-020",
+   "layer": "compiler",
+   "name": "Resource program composition",
+   "semantic_facts": [
+    "composes passive flow flat/percentage/suppression, maximum-resource, threshold plans into one optional resource root"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/independent_stack.rs:111-420",
+    "crates/combat/src/state/independent_stack_lifetime.rs:114-158"
+   ],
+   "id": "AUTH-E-021",
+   "layer": "runtime",
+   "name": "Independent stack lifetime authority",
+   "semantic_facts": [
+    "bounded cohort pool per aura; expiry earliest (deadline, sequence) first; overflow displaces earliest cohorts",
+    "last stack expiry cancels periodic and emits AuraExpired; never runs expiry drivers (combination rejected at compile by raw AsynchronousStackingBuff on expiry/periodic owners)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/deadline_queue.rs:1-227"
+   ],
+   "id": "AUTH-E-022",
+   "layer": "runtime",
+   "name": "Deadline queue",
+   "semantic_facts": [
+    "indexed min-heap keyed (at, sequence) with per-slot position; upsert/cancel by slot give at most one live deadline per slot"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/transition.rs:22-75",
+    "crates/combat/src/state.rs:1212-1290"
+   ],
+   "id": "AUTH-E-023",
+   "layer": "runtime",
+   "name": "Same-time transition ordering",
+   "semantic_facts": [
+    "(at, rank, seq): threshold startup 0, passive-flow threshold 1, cast 2 (actor), fixed impact 3, white 4, periodic 5 (slot), aura & independent expiry 6 (sequence)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/passive_resource_flow.rs:582-620",
+    "crates/combat/src/passive_resource_flow.rs:683-705",
+    "crates/combat/src/passive_resource_flow.rs:853-873",
+    "crates/combat/src/passive_resource_flow.rs:973-1000",
+    "crates/combat/src/resource_authority.rs:1041-1116"
+   ],
+   "id": "AUTH-E-024",
+   "layer": "runtime",
+   "name": "Passive resource flow runtime",
+   "semantic_facts": [
+    "projection = clamp(basis_balance + rate/1000 * (at - basis_at)) from an immutable basis; settle commits projection without moving basis; rebase moves basis to current",
+    "every transition settles all pools at its time before executing (state.rs advance paths)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/planning.rs:565-595",
+    "crates/combat/src/execution/planning/aura_lifecycle.rs:202-325",
+    "crates/combat/src/execution/scratch.rs:896-925"
+   ],
+   "id": "AUTH-E-025",
+   "layer": "compiler",
+   "name": "Periodic quote capacity / periodic dispatch",
+   "semantic_facts": [
+    "program has periodic quotes iff some AuraMutation (not AddStacks) targets an aura with schedules; Dispel and DispelMechanic removals count 0 (planning.rs:565-595)",
+    "PERIODIC=false quote path skips periodic projection entirely (aura_lifecycle.rs:278-280)"
+   ],
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:255-369",
+    "crates/combat/src/white_swing.rs:371-450",
+    "crates/combat/src/state/construction.rs:343-356",
+    "crates/combat/src/state/construction.rs:87"
+   ],
+   "id": "AUTH-F-001",
+   "layer": "state_construction",
+   "name": "white main-hand admission (validate_white_input / compile_white_modifiers)",
+   "semantic_facts": [
+    "exactly two actors, Player source, Enemy target, one hostile Player->Enemy relation (white_swing.rs:265-280)",
+    "positive equal levels and six engagement booleans; parry/block must be 0 unless defender faces (white_swing.rs:193-201,282-287)",
+    "weapon range min>0, max<=u32::MAX/2, inclusive width fits u32 (white_swing.rs:289-292, resolution.rs:14-23)",
+    "chances each <=10000, parry=block=0; armor finite >=0, constant finite >0; mitigated(modified min)>0 and mitigated(modified max)<=u32::MAX/2 (white_swing.rs:326-333)",
+    "source and target alive and minimum damage quote progresses (white_swing.rs:341-358)",
+    "exactly one modifier composition: idle | raw-319 | raw-193 | raw-344(+334) package | raw-290 all-crit | Dark Bite reset; each requires exact input isolation (white_swing.rs:376-443, topology.rs:950-1125)",
+    "admission runs before any RNG stream exists; failure returns WhiteAdmissionRejection, no draw"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing/runtime.rs:7-75",
+    "crates/combat/src/state/white_main_hand.rs:6-21",
+    "crates/combat/src/state.rs:1212-1226",
+    "crates/combat/src/state/transition.rs:54-74"
+   ],
+   "id": "AUTH-F-002",
+   "layer": "runtime",
+   "name": "white deadline scheduling (WhiteMainHandRuntime + transition peek)",
+   "semantic_facts": [
+    "first deadline is SimTime::ZERO (host proves timer ready) (runtime.rs:15-20)",
+    "next = now + period after each due swing; None when target dead or lethal (runtime.rs:52-62)",
+    "due time = max(ready_at, active hard-cast completes_at of source, now) - suppression without catch-up (white_main_hand.rs:6-21)",
+    "same-instant order: cast completion (key 2) before white (key 4) (transition.rs:60-68)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:45-153"
+   ],
+   "id": "AUTH-F-003",
+   "layer": "runtime",
+   "name": "white swing commit (complete_white_main_hand)",
+   "semantic_facts": [
+    "dead target -> finish_due(false), no draw, no observation (white_main_hand.rs:77-84)",
+    "pre-draw quote of minimum mitigated damage (expect; cannot fail by monotone progress) (89-95)",
+    "draw weapon then outcome; damage = mitigated(modified(weapon)); Critical x2 after truncation; Miss/Dodge no damage (99-117)",
+    "emits WhiteMainHandSwing (+WhiteMainHandDeath on lethal), next deadline cleared on lethal (131-152)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:72-112",
+    "crates/combat/src/white_swing/resolution.rs:14-32"
+   ],
+   "id": "AUTH-F-004",
+   "layer": "rng",
+   "name": "white roll (roll_white_swing / select_outcome)",
+   "semantic_facts": [
+    "forced inclusive weapon draw even for singleton, then fixed 10000 outcome draw, always both (72-88)",
+    "ordered cumulative saturating thresholds Miss>Dodge>Parry>Glancing>Block>Critical>Crushing>Hit, strict roll<threshold (90-112)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/white_idle.rs:8-117",
+    "crates/combat/src/program/white_idle.rs:119-136",
+    "crates/combat/src/program/white_idle.rs:142-200"
+   ],
+   "id": "AUTH-F-005",
+   "layer": "compiler",
+   "name": "white program admission predicates (white_idle.rs)",
+   "semantic_facts": [
+    "actionless-except-stats-and-modifiers exhaustive destructuring (142-200)",
+    "haste-only white requires no defense/hit/critical-block/AP-conversion/passive-attack stats (119-136)",
+    "Dark Bite reset admission: exactly one activation with reset flag, one program/cast timing/cooldown/operation/impact/damage formula/execution plan, nothing else (51-117)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/combat_stats.rs:1-61"
+   ],
+   "id": "AUTH-F-006",
+   "layer": "compiler",
+   "name": "combat stat program container (CombatStatProgram / PassiveAttackDefinitions)",
+   "semantic_facts": [
+    "holds optional defense/hit/critical-block/AP-conversion/haste plans and passive parry/mechanic-resistance bit set; white admission requires every non-haste member absent (white_idle.rs:126-133)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/haste_program.rs:13-122"
+   ],
+   "id": "AUTH-F-007",
+   "layer": "compiler",
+   "name": "haste program composition (HasteProgram)",
+   "semantic_facts": [
+    "compiles passive all-haste (raw 193), passive melee auto-attack speed (raw 319), active casting speed independently",
+    "passive_all_only / passive_melee_auto_attack_speed_only return a definition only when the other two are absent (87-121): white never composes two period factors"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:43-131",
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:138-160"
+   ],
+   "id": "AUTH-F-008",
+   "layer": "compiler",
+   "name": "selected raw-319 melee auto-attack speed compiler",
+   "semantic_facts": [
+    "exactly one selected declaration; selected-rank amount via try_selected_spell_effect_amounts; complete package; owner policy (51-102)",
+    "period_factor = 100f32/(100f32 + binary32(points)), finite and >0 required (115-123)",
+    "every raw-319 effect of selected owners must be declared (138-160)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_haste.rs:32-56",
+    "crates/combat/src/program/passive_haste.rs:110-188"
+   ],
+   "id": "AUTH-F-009",
+   "layer": "compiler",
+   "name": "raw-193 passive all-haste definition (white period factor)",
+   "semantic_facts": [
+    "white period_factor = 100f32/(100f32 + points as f32) with no local finite/positive guard (47-51); spell haste factor = 1 + p/100 f64 (53-55)",
+    "selected path uses selected-rank amount; fixed carrier 28830 effect 1 = 5 points otherwise (123-187)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_auto_attack_damage.rs:104-209",
+    "crates/combat/src/program/modifier/program_accessors.rs:67-139"
+   ],
+   "id": "AUTH-F-010",
+   "layer": "compiler",
+   "name": "raw-344 passive auto-attack damage + white modifier package",
+   "semantic_facts": [
+    "factor = 1f32 + binary32(points)/100f32, finite >=0 (194-201); requires direct raw-108 sibling, optional crit-bonus sibling",
+    "white package: exactly one raw-344 definition, optional one raw-334 auto-attack-only crit definition on same provider, exact spell-modifier bindings (program_accessors.rs:67-121)",
+    "raw-290 all-crit white path: single definition SOURCE_SPELL_AND_WEAPON, no exclusive group/target-health/point-stacking suppression (123-139)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_start.rs:14-36",
+    "crates/combat/src/program/spell_attribute.rs:262-272",
+    "crates/combat/src/cast.rs:305-326",
+    "crates/combat/src/state/white_main_hand.rs:23-43"
+   ],
+   "id": "AUTH-F-011",
+   "layer": "compiler",
+   "name": "Dark Bite successful-launch main-hand reset flag",
+   "semantic_facts": [
+    "flag = StartCooldownOnCastStart(407) && spell == 394463 (spell_attribute.rs:262-263, cooldown_start.rs:20-22)",
+    "applied only on successful hard-cast completion after commit_cast, for the white source only, target-alive gated (cast.rs:309-326, white_main_hand.rs:23-43)",
+    "SpellInterrupts InterruptFlags / attr2 DoNotResetCombatTimers / attr7 ResetSwingTimerAtSpellStart / attr6 DelayCombatTimer are not consulted; only-attribute-407 audit excludes the latter three (cooldown_start.rs:51-83)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/attack_power_conversion.rs:20-26",
+    "crates/combat/src/program/attack_power_conversion.rs:150-175",
+    "crates/combat/src/spell_power_from_attack_power.rs:99-116"
+   ],
+   "id": "AUTH-F-012",
+   "layer": "compiler",
+   "name": "raw-366 spell power from attack power conversion",
+   "semantic_facts": [
+    "exact carrier 1258153 effect 9 (DBC index 8) raw 366 with 96 points (source SpellEffect row 1267419)",
+    "factor = base_points/100 (f64); runtime spell_power = (AP * factor).round() f64 (spell_power_from_attack_power.rs:108)",
+    "not consumed by the white path (white haste-only admission rejects AP conversion, white_idle.rs:129)"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:442-452",
+    "crates/combat/src/state.rs:1068-1110",
+    "crates/combat/src/white_swing/runtime.rs:72-74"
+   ],
+   "id": "AUTH-F-013",
+   "layer": "reset",
+   "name": "white reset and iteration reset",
+   "semantic_facts": [
+    "reset_runtime restores next_at = ZERO; validated admission retained; reset() rewinds RNG, reset_for_iteration assigns a fresh stream; actors restored from baselines"
+   ],
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:412-580",
+    "crates/combat/src/cast/resource.rs:15-56",
+    "crates/combat/src/cast.rs:1062-1085",
+    "crates/combat/src/cast.rs:1170-1186"
+   ],
+   "finding_ids": [
+    "CSA-G-01",
+    "CSA-G-03",
+    "CSA-G-05"
+   ],
+   "id": "AUTH-G-001",
+   "layer": "runtime",
+   "name": "cast admission planner (plan_resolved_cast_core)",
+   "semantic_facts": [
+    "hard errors via ? in order: target policy, caster index, cost hard errors, cooldown schedule error, root-program quote (target support, health preflight), start-recovery schedule, operation dead target",
+    "timed blockers folded by dominant_timed_blocker (latest recheck wins, non-timed wins): cost, start recovery, cast in progress, school lock, prevention (stun short-circuits silence/pacify)",
+    "HardCompletion mode skips cast-in-progress, school lock, stun/silence/pacify and start recovery; cooldown skipped only for attr-407 acceptance-owned cooldowns",
+    "no caster-life gate (CSA-G-01)",
+    "validate_cast_progress runs last (NonProgressing)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:201-352",
+    "crates/combat/src/cast_authority.rs:17-47",
+    "crates/combat/src/cast_authority.rs:314-462",
+    "crates/combat/src/hard_cast.rs:1-96",
+    "crates/combat/src/state/casting.rs:15-107"
+   ],
+   "finding_ids": [
+    "CSA-G-01",
+    "CSA-G-02"
+   ],
+   "id": "AUTH-G-002",
+   "layer": "runtime",
+   "name": "hard-cast lifecycle (CastAuthority + begin/complete)",
+   "semantic_facts": [
+    "acceptance commits acceptance-owned cooldown, start recovery, then pending cast with prepared costs (no resource spend)",
+    "completion re-plans against current state with prepared costs; failure -> finish_cast + CastCompleted Failed, nothing else mutated",
+    "one pending cast per actor; generation u64 per actor; next completion = min(completes_at, actor index)",
+    "cancel is generation-checked; reset zeroes cells/generations/prepared costs/school locks"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/recovery.rs:1-231",
+    "crates/combat/src/cast.rs:762-790",
+    "crates/combat/src/program.rs:949-960"
+   ],
+   "finding_ids": [
+    "CSA-G-02"
+   ],
+   "id": "AUTH-G-003",
+   "layer": "runtime",
+   "name": "start recovery (GCD) authority",
+   "semantic_facts": [
+    "per actor x category ready_at; quote blocks when now < ready_at; start overwrites ready_at = now + effective_duration(haste at start)",
+    "duration = base/speed truncated to ms, at least 1 ms, then max(minimum)",
+    "not restored on interruption (CSA-G-02)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:700-780",
+    "crates/combat/src/cooldown.rs:974-1090",
+    "crates/combat/src/cast.rs:582-600",
+    "crates/combat/src/cast.rs:257-282"
+   ],
+   "id": "AUTH-G-004",
+   "layer": "runtime",
+   "name": "cast cooldown quote/commit wrappers",
+   "semantic_facts": [
+    "quote folds deadline + charge readiness into Blocked/Ready; commit recomputes deadline-start input from the same state (cooldowns committed first in commit_cast so inputs are unchanged)",
+    "completion-owned by default; attr-407 (Dark Bite 394463) cooldown committed at acceptance and never re-quoted at completion; retained on cancel/failure (matches Trinity Spell.cpp:3569-3570, 5790)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/interrupt.rs:23-163",
+    "crates/combat/src/program/interrupt/source.rs:1-235",
+    "crates/combat/src/execution/planning/interrupt.rs:10-69",
+    "crates/combat/src/execution/commit.rs:575-596"
+   ],
+   "finding_ids": [
+    "CSA-G-04"
+   ],
+   "id": "AUTH-G-005",
+   "layer": "compiler",
+   "name": "raw-68 interrupt compiler + runtime",
+   "semantic_facts": [
+    "exact carrier 159006:1, sole operation, 6000 ms lockout; any hard cast with SpellInterrupts row rejects the whole program",
+    "interrupts only a pending cast whose prevention mask contains Silence; installs lockout for each school bit of interrupted action school",
+    "dead target -> progressing no-op (CSA-G-04)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/school_lock.rs:9-70",
+    "crates/combat/src/cast.rs:602-624",
+    "crates/combat/src/cast_authority.rs:298-312",
+    "crates/combat/src/program/school_lockout_bypass.rs:15-249"
+   ],
+   "id": "AUTH-G-006",
+   "layer": "runtime",
+   "name": "school lock authority",
+   "semantic_facts": [
+    "per actor x 7 school deadlines; commit overwrites deadline for each bit",
+    "admission blocks Silence-prevention actions whose school intersects an active lock unless IgnoreSchoolLockout (exact 117833)",
+    "not consulted at completion"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/stun.rs:32-100",
+    "crates/combat/src/program/stun.rs:344-409",
+    "crates/combat/src/stun.rs:9-90"
+   ],
+   "finding_ids": [
+    "CSA-G-03",
+    "CSA-G-05"
+   ],
+   "id": "AUTH-G-007",
+   "layer": "compiler",
+   "name": "Stun compiler + StunView",
+   "semantic_facts": [
+    "exact carrier 346197:1 100 ms; raw-163 exemption exact Full Heal 25840 (1 s hard cast, empty prevention)",
+    "fresh cancel only on the actor's transition from not-stunned to stunned; cancels regardless of allows_while_stunned (matches Trinity SetControlled/CastStop)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/silence.rs:33-106",
+    "crates/combat/src/program/silence/carrier_326836.rs:16-306",
+    "crates/combat/src/silence.rs:18-138"
+   ],
+   "id": "AUTH-G-008",
+   "layer": "compiler",
+   "name": "Silence compiler + SilenceView",
+   "semantic_facts": [
+    "exact carriers 118370:2 (4 s) and 326836:1 (5 s, itself a 3 s hard cast); school from misc_0 (127 in source)",
+    "admission intersects school; fresh application cancels any Silence-prevention pending cast regardless of school (matches Trinity)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/pacify.rs:12-151",
+    "crates/combat/src/pacify.rs:9-80"
+   ],
+   "id": "AUTH-G-009",
+   "layer": "compiler",
+   "name": "Pacify compiler + PacifyView",
+   "semantic_facts": [
+    "exact carrier 10730:1 4000 ms via ExactActionPreventionCarrier",
+    "fresh application cancels Pacify-prevention pending cast"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/pacify_silence.rs:12-145"
+   ],
+   "id": "AUTH-G-010",
+   "layer": "compiler",
+   "name": "Pacify+Silence compiler",
+   "semantic_facts": [
+    "exact carrier 32913:1 5000 ms enabling both pacify and silence bits on one application; runtime candidate order stun, pacify, silence (find_map first match)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/action_prevention_carrier.rs:36-311",
+    "crates/combat/src/action_prevention.rs:70-244",
+    "crates/combat/src/cast_authority.rs:265-296",
+    "crates/combat/src/execution/planning/aura_lifecycle.rs:185-198",
+    "crates/combat/src/execution/commit.rs:400-409"
+   ],
+   "id": "AUTH-G-011",
+   "layer": "compiler",
+   "name": "action prevention carrier audit + runtime view",
+   "semantic_facts": [
+    "carrier owners are sole-effect, instant, primary-target, no costs/cooldowns, sole application -> at most one fresh prevention quote per segment",
+    "quote uses committed AuraState/CastAuthority; commit cancels generation-checked and emits CastStunned/CastSilenced/CastPacified only if impact landed"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/active_casting_speed.rs:1-302",
+    "crates/combat/src/program/active_casting_speed/raw65.rs:1-286",
+    "crates/combat/src/program/active_casting_speed/raw216.rs:1-274",
+    "crates/combat/src/active_casting_speed.rs:1-364",
+    "crates/combat/src/state/active_casting_speed.rs:7-62"
+   ],
+   "id": "AUTH-G-012",
+   "layer": "compiler",
+   "name": "active casting speed (raw 65 / raw 216)",
+   "semantic_facts": [
+    "changes actor haste multipliers at aura commit; accepted hard casts are not rescheduled (deadline captured at acceptance); passive resource flows settled before and rebased after"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/fixed_travel_time.rs:13-349",
+    "crates/combat/src/program/missile_timing.rs:9-37",
+    "crates/combat/src/program.rs:1133",
+    "crates/combat/src/fixed_impact_execution.rs:44-60"
+   ],
+   "id": "AUTH-G-013",
+   "layer": "compiler",
+   "name": "fixed travel time + missile timing gate",
+   "semantic_facts": [
+    "exact 373932:1, 1.5 s hard cast, 1 s delay; every compiled program (roots and children) with nonzero missile facts rejects unless it is the exact fixed plan root",
+    "fixed impact lands only if target life equals life at launch"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/chain_delivery.rs:6-27"
+   ],
+   "id": "AUTH-G-014",
+   "layer": "compiler",
+   "name": "chain delivery gate",
+   "semantic_facts": [
+    "any non-neutral effect chain facts reject (single-recipient delivery only)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/power_cost.rs:1-557",
+    "crates/combat/src/cast_cost.rs:1-63",
+    "crates/combat/src/cast/resource.rs:97-243",
+    "crates/combat/src/state/power_cost.rs:1-272"
+   ],
+   "id": "AUTH-G-015",
+   "layer": "compiler",
+   "name": "power cost compiler + prepared cast costs",
+   "semantic_facts": [
+    "costs prepared at quote/acceptance (required + min(optional, remaining)), snapshotted into CastAuthority at acceptance, re-quoted with the snapshot and committed at completion",
+    "insufficient prepared cost at completion -> Failed without recheck"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/additional_power_cost.rs:1-458",
+    "crates/combat/src/program/additional_power_cost/validation.rs:1-429"
+   ],
+   "id": "AUTH-G-016",
+   "layer": "compiler",
+   "name": "additional power cost modifier",
+   "semantic_facts": [
+    "aura subtype ModAdditionalPowerCost contributes optional-points adjustment to prepared cost; evaluated at preparation time only"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/mana_cost_percent.rs:1-269",
+    "crates/combat/src/program/mana_cost_percent/validation.rs:1-431"
+   ],
+   "id": "AUTH-G-017",
+   "layer": "compiler",
+   "name": "mana cost percent modifier",
+   "semantic_facts": [
+    "aura subtype ModManaCostPercent contributes mana_percent points to prepared cost at preparation time"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/school_power_cost_percent.rs:25-525"
+   ],
+   "id": "AUTH-G-018",
+   "layer": "compiler",
+   "name": "school power cost percent modifier",
+   "semantic_facts": [
+    "exact carrier 23553:1 -15% Shadow mana cost; prepared at preparation time"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/target_requirements.rs:1-172",
+    "crates/combat/src/program/execution_layout.rs:180-260",
+    "crates/combat/src/execution/health.rs:190-245"
+   ],
+   "finding_ids": [
+    "CSA-G-01",
+    "CSA-G-04"
+   ],
+   "id": "AUTH-G-019",
+   "layer": "compiler",
+   "name": "target requirements + health preflight",
+   "semantic_facts": [
+    "caster life required only when an operation writes caster health; target life only when an operation writes target health; interrupt requires neither (CSA-G-01, CSA-G-04)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/source_recipient.rs:9-101"
+   ],
+   "id": "AUTH-G-020",
+   "layer": "compiler",
+   "name": "source recipient validation",
+   "semantic_facts": [
+    "implicit targets (1|25|6|21, 0) map to Caster/Target with disposition Hostile for 6 and Friendly for 21; (0,0) admits no disposition; anything else rejects"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/transition.rs:54-74",
+    "crates/combat/src/state.rs:1210-1400"
+   ],
+   "id": "AUTH-G-021",
+   "layer": "runtime",
+   "name": "combat transition ordering",
+   "semantic_facts": [
+    "same-time order: resource-threshold startup(0) < passive-flow threshold(1) < cast completion(2, by actor index) < fixed impact(3) < white main hand(4) < periodic(5) < aura/stack expiry(6)",
+    "external API casts at time t run after advance processed all transitions at t (completion wins over a same-time interrupt through the public API)"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_start.rs:14-287",
+    "crates/combat/src/cast.rs:257-282"
+   ],
+   "id": "AUTH-G-022",
+   "layer": "compiler",
+   "name": "acceptance-owned cooldown (Dark Bite) carrier",
+   "semantic_facts": [
+    "exact 394463 attr 407: shared category 1152 3 s cooldown committed at acceptance; resets white main hand after successful hard completion only"
+   ],
+   "track": "G"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/builder.rs:1-68"
+   ],
+   "id": "AUTH-H-001",
+   "layer": "compiler",
+   "name": "CombatProgramBuilder",
+   "semantic_facts": [
+    "build() rejects GameData/ResolvedActionCatalog identity mismatch before compiling (builder.rs:54-59)",
+    "trait_source and external_spell_policy are optional; absent catalogs make selected declarations fail closed downstream"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/compile.rs:40-201"
+   ],
+   "id": "AUTH-H-002",
+   "layer": "compiler",
+   "name": "compile_combat_program_with_sources (authority ordering)",
+   "semantic_facts": [
+    "order: selected-owner audit -> attack-power conversion -> auras -> capacities -> cooldown plan -> program bindings -> fixed travel -> program structure (periodic schedules, definitions, dispel, reapplication audits) -> expiry drivers -> health thresholds -> resource thresholds -> action preventions -> pool plans -> passive flow plans -> execution plans -> absorb capacity -> actions -> cooldown modifiers -> stats -> modifiers/power cost -> threshold execution capacity -> resources compose -> aura ordinals -> execution layout",
+    "every compiled plan is moved into CompiledCombatProgram or finish_combat_program(stats); no compiled output is dropped (fixed travel is consumed through execution plans; health/resource thresholds, expiry drivers, periodic schedules stored)",
+    "aura ordinals are assigned after all aura consumers compile (compile.rs:162), and state-side AuraBindings consume those ordinals"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/compact.rs:1-176"
+   ],
+   "id": "AUTH-H-003",
+   "layer": "compiler",
+   "name": "compact handles",
+   "semantic_facts": [
+    "u32 compact handles with u32::MAX sentinel for optional edge/slab handles; overflow maps to program_too_large",
+    "ProgramHandle/CastActivationHandle have no sentinel so u32::MAX is a valid index (no sentinel collision)"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/capacity.rs:35-153"
+   ],
+   "id": "AUTH-H-004",
+   "layer": "compiler",
+   "name": "compile_capacities",
+   "semantic_facts": [
+    "slab Vec capacity hints only (cold); undercount would only reallocate at compile time, not change semantics",
+    "StartRecoveryPlan built from every action's start-recovery category"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/definition.rs:29-260"
+   ],
+   "id": "AUTH-H-005",
+   "layer": "compiler",
+   "name": "program definitions (handles, formulas, operation definitions)",
+   "semantic_facts": [
+    "immutable per-effect definitions (damage formula binding with mechanic, health leech f32 multiplier promoted to f64 at read, power burn/mana leech definitions carrying expected mana percent)",
+    "handles index program slabs; no runtime mutable state"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/execution_layout.rs:1-270"
+   ],
+   "id": "AUTH-H-006",
+   "layer": "compiler",
+   "name": "execution layout",
+   "semantic_facts": [
+    "per-program quote/aura/health/impact capacities, immediate depth, fixed travel seconds and node flags",
+    "CombatExecutionLayout sizes state scratch (quoted_costs, ExecutionScratch) at construction"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/planning.rs:11-614"
+   ],
+   "id": "AUTH-H-007",
+   "layer": "compiler",
+   "name": "execution planning graph (capacities by postorder)",
+   "semantic_facts": [
+    "compile_execution_plans walks programs in postorder accumulating child periodic/deferred/absorb capacities with checked u32 adds (planning.rs:597-610)",
+    "capacity bound correctness is UNKNOWN (UNK-H-002) but no reachable fixture exceeded it"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/haste_program.rs:13-122"
+   ],
+   "id": "AUTH-H-008",
+   "layer": "compiler",
+   "name": "HasteProgram",
+   "semantic_facts": [
+    "composes passive all-haste, passive melee auto-attack speed and active casting speed plans; None when all absent",
+    "white-only predicates (passive_all_only / melee-only) require the other two plans absent"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/construction.rs:82-242",
+    "crates/combat/src/state/construction.rs:604-623",
+    "crates/combat/src/state/construction.rs:1013-1061",
+    "crates/combat/src/program.rs:395-400"
+   ],
+   "id": "AUTH-H-009",
+   "layer": "state_construction",
+   "name": "CombatState construction",
+   "semantic_facts": [
+    "white main hand and selected-package bindings validated on raw input first",
+    "actors canonicalized, then passive haste-all / maximum health / maximum resources applied once, then every index-bearing owner compiled against the canonical roster",
+    "baselines captured after passives (construction.rs:331-341)",
+    "random stream from input identity; now ZERO"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:442-451",
+    "crates/combat/src/state.rs:1068-1139"
+   ],
+   "finding_ids": [
+    "CSA-H-01"
+   ],
+   "id": "AUTH-H-010",
+   "layer": "reset",
+   "name": "CombatState reset topology",
+   "semantic_facts": [
+    "reset_runtime order: actors restore -> start recovery -> cooldowns -> casts -> periodic -> modifiers -> health -> attacks -> white -> timing (restores haste channels on actors) -> auras -> resources (restore flow baseline, replan thresholds at ZERO) -> independent stacks -> absorbs -> now -> scratch",
+    "reset keeps identity (random.reset), reset_for_iteration assigns identity.stream()",
+    "does not model death cleanup (CSA-H-01)"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/actor.rs:12-237"
+   ],
+   "id": "AUTH-H-011",
+   "layer": "runtime",
+   "name": "ActorState / ActorBaseline",
+   "semantic_facts": [
+    "resources sorted by ResourceType with duplicate/active-resource validation",
+    "commit_* mutators are the only health/resource writers",
+    "baseline restores resources, active resource and health (not haste/offensive power; see REJ-H-005)"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/topology.rs:76-116",
+    "crates/combat/src/state/topology.rs:33-131"
+   ],
+   "id": "AUTH-H-012",
+   "layer": "state_construction",
+   "name": "CombatStateInput topology",
+   "semantic_facts": [
+    "relations canonicalized; self/duplicate/conflicting/missing-actor relations rejected",
+    "self target implicit for every roster actor"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/layout.rs:1-24"
+   ],
+   "id": "AUTH-H-013",
+   "layer": "compiler",
+   "name": "CombatLayout",
+   "semantic_facts": [
+    "immutable start-recovery and cooldown plans shared by state storage and quotes"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/event.rs:451-462",
+    "crates/combat/src/execution/commit/health.rs:923-930"
+   ],
+   "finding_ids": [
+    "CSA-H-01"
+   ],
+   "id": "AUTH-H-014",
+   "layer": "runtime",
+   "name": "CombatObservation death events",
+   "semantic_facts": [
+    "ActorDied / WhiteMainHandDeath are observations only; no state owner reacts to them"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/engine/src/lib.rs:652-666",
+    "crates/engine/src/lib.rs:847-859"
+   ],
+   "id": "AUTH-H-015",
+   "layer": "reset",
+   "name": "Engine reset / iteration reset",
+   "semantic_facts": [
+    "Engine reset forwards to CombatState and clears observations; rotation scratch cleared per evaluation",
+    "EngineProgram (combat program, rotation, field plan) immutable"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/combat/src/lib.rs:136-233"
+   ],
+   "id": "AUTH-H-016",
+   "layer": "runtime",
+   "name": "crate public surface",
+   "semantic_facts": [
+    "only CombatProgram/CombatState/CombatStateInput and binding value types are public; runtime owners are pub(crate), so all probes reach them only through construction/cast/advance/update_passive_resource_flow/reset"
+   ],
+   "track": "H"
+  },
+  {
+   "coords": [
+    "crates/sim/src/random.rs:1-207"
+   ],
+   "id": "AUTH-I-001",
+   "layer": "rng",
+   "name": "RandomStream canonical boundary",
+   "semantic_facts": [
+    "xoshiro256++ seeded by FNV(root_seed,global_iteration)->SplitMix64; chunk identity absent",
+    "occurs/ordered_outcome/uniform_index skip draws at deterministic boundaries; *_forced variants always draw",
+    "raw next_u64/next_unit_f64 private; RandomStream derives Debug (public observation channel used by probes)"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:365-557"
+   ],
+   "id": "AUTH-I-002",
+   "layer": "runtime",
+   "name": "ResolvedAttackTable::resolve (spell attack outcome)",
+   "semantic_facts": [
+    "one shared non-landing draw, then critical, block, critical-block occurs",
+    "critical block only when resolve_critical_block (= impact has damage)",
+    "resolution_for rebuilds cached outcomes without drawing"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/impact.rs:103-416",
+    "crates/combat/src/execution/planning.rs:791-940"
+   ],
+   "id": "AUTH-I-003",
+   "layer": "runtime",
+   "name": "PreparedImpactQuote (per-actor shared impact outcome cache)",
+   "semantic_facts": [
+    "one quote per (actor, beneficial) inside a program frame",
+    "first resolve draws and caches (hit,block); later resolves replay",
+    "captured() for fixed-travel arrival asserts Unblocked and unit landed multiplier"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/commit.rs:141-232",
+    "crates/combat/src/execution/commit.rs:453-464",
+    "crates/combat/src/execution/commit.rs:879-926"
+   ],
+   "id": "AUTH-I-004",
+   "layer": "runtime",
+   "name": "commit_execution draw sequencing",
+   "semantic_facts": [
+    "impact resolve -> dispel selection -> ordered operations (mechanic scans)",
+    "asserts preview reproduction for dispel",
+    "suppressed delayed launch skips resolution"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/dispel.rs:9-180"
+   ],
+   "id": "AUTH-I-005",
+   "layer": "runtime",
+   "name": "raw-38 dispel selection receipt and preview",
+   "semantic_facts": [
+    "preview clones the stream; receipt keeps count and ordinal",
+    "candidates filtered by projected activity, affected==origin target, dispel family/disposition"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/mechanic_dispel.rs:10-73"
+   ],
+   "id": "AUTH-I-006",
+   "layer": "runtime",
+   "name": "raw-108 mechanic dispel scan",
+   "semantic_facts": [
+    "scanned_active counts projected active auras affecting the origin target",
+    "commit draws occurs_forced(ONE) per scanned aura when landed"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:1-111",
+    "crates/combat/src/state/white_main_hand.rs:45-150"
+   ],
+   "id": "AUTH-I-007",
+   "layer": "runtime",
+   "name": "white main-hand roll",
+   "semantic_facts": [
+    "forced weapon draw then 10_000-domain outcome draw",
+    "basis-point ordered thresholds; admission forbids parry/block",
+    "dead target: no draw"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:73-340",
+    "crates/combat/src/cast.rs:792-1045"
+   ],
+   "id": "AUTH-I-008",
+   "layer": "runtime",
+   "name": "cast quote/commit pipeline",
+   "semantic_facts": [
+    "quote on &self; readiness/acceptance draw nothing",
+    "commit order: cooldowns, start recovery, costs, (thresholds + fresh re-quote) then root segment commit",
+    "resource-threshold cost path discards the stale root quote and re-quotes after threshold work"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/driver_execution.rs:303-480",
+    "crates/combat/src/driver_execution.rs:594-700"
+   ],
+   "id": "AUTH-I-009",
+   "layer": "runtime",
+   "name": "segment chain continuation",
+   "semantic_facts": [
+    "each segment quoted immediately before its commit, after the previous commit",
+    "quote failure fizzles without draws; committed earlier segments keep their draws"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/transition.rs:1-72",
+    "crates/combat/src/state.rs:1212-1316"
+   ],
+   "id": "AUTH-I-010",
+   "layer": "runtime",
+   "name": "same-time transition precedence",
+   "semantic_facts": [
+    "ordering key (at, kind rank, key) with canonical actor index for casts",
+    "actor roster canonicalized by ActorId (construction.rs:1018)"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:439-451",
+    "crates/combat/src/state/construction.rs:232",
+    "crates/engine/src/lib.rs:847-859"
+   ],
+   "id": "AUTH-I-011",
+   "layer": "reset",
+   "name": "stream reset lifecycle",
+   "semantic_facts": [
+    "reset replays identity; reset_for_iteration adopts new identity; Engine forwards both"
+   ],
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:28-176",
+    "crates/combat/src/white_swing.rs:452-463",
+    "crates/combat/src/white_swing/resolution.rs:60-116",
+    "crates/combat/src/state/white_main_hand.rs:90-135"
+   ],
+   "finding_ids": [
+    "CSA-J-01"
+   ],
+   "id": "AUTH-J-001",
+   "layer": "runtime",
+   "name": "white main-hand binary32 numeric boundary (armor, crit share, raw-344, period)",
+   "semantic_facts": [
+    "binary32 staging reproduces Trinity Unit::CalculateMeleeDamage / CalcArmorReducedDamage / RollMeleeOutcomeAgainst",
+    "basis points truncated once after raw-290 addition (association differs, CSA-J-01)",
+    "crit doubling after armor with u32 headroom guard"
+   ],
+   "track": "J"
+  },
+  {
+   "coords": [
+    "crates/combat/src/recovery.rs:94-125",
+    "crates/combat/src/cooldown/time_math.rs:1-29",
+    "crates/combat/src/cooldown/deadline_rate.rs:225-245",
+    "crates/combat/src/cooldown/charge_recovery_input.rs:46-68",
+    "crates/combat/src/periodic.rs:551-562",
+    "crates/combat/src/haste.rs:56-120"
+   ],
+   "finding_ids": [
+    "CSA-J-02",
+    "CSA-J-05"
+   ],
+   "id": "AUTH-J-002",
+   "layer": "runtime",
+   "name": "haste/rate duration scaling (cast, GCD, cooldown, periodic, charge, rebase)",
+   "semantic_facts": [
+    "f64 frequency division then truncation, max(1)",
+    "rate factors max(1+p/100, 0.01) multiply",
+    "white period is the only binary32 product path"
+   ],
+   "track": "J"
+  },
+  {
+   "coords": [
+    "crates/data/src/trait_source/selected_spell.rs:84-95",
+    "crates/data/src/trait_source/selected_spell.rs:215-240",
+    "crates/data/src/trait_source/amount.rs:10-41"
+   ],
+   "id": "AUTH-J-003",
+   "layer": "source_resolution",
+   "name": "selected trait rank amount evaluation",
+   "semantic_facts": [
+    "exact rank-point curves only",
+    "Set/Multiply in f64 over binary32 inputs, no narrowing"
+   ],
+   "track": "J"
+  },
+  {
+   "coords": [
+    "crates/combat/src/spell_modifier_authority.rs:95-200",
+    "crates/combat/src/spell_modifier_authority.rs:370-377",
+    "crates/combat/src/program/passive_spell_modifier.rs:471-482"
+   ],
+   "id": "AUTH-J-004",
+   "layer": "state_construction",
+   "name": "passive SpellMod percent/flat aggregation",
+   "semantic_facts": [
+    "binary32 pow factor and binary32 running product",
+    "flat cooldown ms summed with checked i32",
+    "percent/flat cooldown share one coordinate"
+   ],
+   "track": "J"
+  },
+  {
+   "coords": [
+    "crates/rotation/src/projection.rs:60-110",
+    "crates/rotation/src/execution.rs:900-1060",
+    "crates/engine/src/lib.rs:1206-1310"
+   ],
+   "finding_ids": [
+    "CSA-J-07"
+   ],
+   "id": "AUTH-J-005",
+   "layer": "runtime",
+   "name": "rotation monotonic linear projection and wake search",
+   "semantic_facts": [
+    "projection rebuilt from observed current at now, not the combat flow basis",
+    "hint then exact predicate search in whole ms"
+   ],
+   "track": "J"
+  },
+  {
+   "coords": [
+    "crates/sim/src/random.rs:87-206"
+   ],
+   "id": "AUTH-J-006",
+   "layer": "rng",
+   "name": "canonical RNG numeric draws",
+   "semantic_facts": [
+    "53-bit unit f64, occurs short-circuits at 0/1",
+    "Lemire unbiased uniform_index",
+    "ordered_outcome cumulative f64 min(1)"
+   ],
+   "track": "J"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/power_cost.rs:69-176"
+   ],
+   "finding_ids": [
+    "CSA-J-06"
+   ],
+   "id": "AUTH-J-007",
+   "layer": "runtime",
+   "name": "resource cost numeric adjustment (raw 63, 72, 423)",
+   "semantic_facts": [
+    "school pct: int32 binary32 truncated delta (Trinity-exact)",
+    "mana pct: continuous f64 (CSA-J-06)"
+   ],
+   "track": "J"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/spell_attribute.rs:17-81",
+    "crates/combat/src/program/spell_attribute.rs:83-130",
+    "crates/combat/src/program/spell_attribute.rs:132-218",
+    "crates/combat/src/program/spell_attribute.rs:236-274"
+   ],
+   "id": "AUTH-K-001",
+   "layer": "compiler",
+   "name": "Global selected-owner spell-attribute audit",
+   "semantic_facts": [
+    "every owner spell in selected_spell_ownership_stream: each attribute must be cataloged (else uncataloged error)",
+    "Disabled/Unimplemented attributes reject; Ignored pass; Implemented dispatch to exact-carrier owner audits (175,306,214,407,292,273/278,29,163) and Passive role compatibility",
+    "raw 416 skipped only in the Passive/PassiveModifier/all-Absent external-policy domain",
+    "cast activation flags lowered from 135/306/407/163 per action"
+   ],
+   "track": "K"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/implicit_target.rs:4-11",
+    "crates/combat/src/program/source_recipient.rs:9-101",
+    "crates/combat/src/program/target_requirements.rs:137-170"
+   ],
+   "id": "AUTH-K-002",
+   "layer": "compiler",
+   "name": "Implicit-target selector admission",
+   "semantic_facts": [
+    "known_implicit_targets maps raw pairs through the dense IMPLICIT_TARGET catalog, unknown raw -> None -> reject",
+    "admitted pairs: (0,0) inherit, (1,0) caster, (25,0) target any, (6,0) hostile, (21,0) friendly; any secondary selector rejects",
+    "node-level disposition requirement conflicts reject (target_disposition_conflict)"
+   ],
+   "track": "K"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/effect_attribute.rs:12-45",
+    "crates/combat/src/program/effect_attribute.rs:58-91",
+    "crates/combat/src/program/effect_attribute.rs:138-150"
+   ],
+   "id": "AUTH-K-003",
+   "layer": "compiler",
+   "name": "Exact-effect attribute audit and point stacking",
+   "semantic_facts": [
+    "any attribute other than Ignored \"requires behavior\" and rejects unless a consumer compiles it",
+    "only SuppressPointsStacking (7) is compiled (SingleStack); uncataloged bits treated as behavior-bearing (map_or(true))",
+    "aura applications consumed by listed selected-aura families defer to their compilers; raw-468 consumers audited in health_threshold/validation.rs:114-122"
+   ],
+   "track": "K"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/exact_source.rs:71-122",
+    "crates/combat/src/program/exact_source.rs:124-161",
+    "crates/combat/src/program/exact_source.rs:221-248"
+   ],
+   "id": "AUTH-K-004",
+   "layer": "compiler",
+   "name": "Exact neutral source/owner facts (shared with track A)",
+   "semantic_facts": [
+    "neutral aura source contract: kind 6, subtype, points, targets, misc, empty exact attributes, neutral shaping",
+    "complete single-effect source (source_effect_count), family-five passive owner policy"
+   ],
+   "track": "K"
+  },
+  {
+   "coords": [
+    "crates/data/src/spell_external_policy.rs:9-58",
+    "crates/data/src/spell_external_policy.rs:166-280"
+   ],
+   "id": "AUTH-K-005",
+   "layer": "source_resolution",
+   "name": "SpellExternalPolicyCatalog source projection",
+   "semantic_facts": [
+    "nine presence columns {Absent, Present, Unknown} per GameData spell",
+    "complete coverage, identity-bound, canonical order",
+    "grants no executable behavior by itself"
+   ],
+   "track": "K"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:388-526"
+   ],
+   "id": "AUTH-K-006",
+   "layer": "compiler",
+   "name": "Selected immutable owner policy (external policy consumer)",
+   "semantic_facts": [
+    "neutral owner (defense None, no dispel, empty class mask, no mechanics)",
+    "identity-matched all-Absent external policy",
+    "inert AuraOptions counters/clocks, no equipment, zero missile timing, unconditional application policy",
+    "only Passive + Ignored (+416 in the proved domain) owner attributes",
+    "exact PassiveModifier owner-role count"
+   ],
+   "track": "K"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program.rs:1546-1618",
+    "crates/combat/src/program.rs:1620-1690",
+    "crates/data/src/action/catalog/operation.rs:861-902"
+   ],
+   "finding_ids": [
+    "CSA-K-01"
+   ],
+   "id": "AUTH-K-007",
+   "layer": "compiler",
+   "name": "Aura-mutation operation lowering (raw 6/164/203/289)",
+   "semantic_facts": [
+    "kind-family check only (OperationEffectContract)",
+    "host-declared aura id, count, direction",
+    "recipient selector validation"
+   ],
+   "track": "K"
+  },
+  {
+   "coords": [
+    "crates/dbc/src/spell_effect.rs:222-275",
+    "crates/dbc/src/aura_subtype.rs:379-584",
+    "crates/dbc/src/spell_attribute.rs:350-497",
+    "crates/dbc/src/effect_attribute.rs:198-232",
+    "crates/dbc/src/implicit_target.rs:442"
+   ],
+   "id": "AUTH-K-008",
+   "layer": "source",
+   "name": "Five static semantic catalogs",
+   "semantic_facts": [
+    "support status per raw identity (Implemented/Disabled/Ignored/Unimplemented; implicit target descriptive)",
+    "requirement text is the semantic contract audited against executable admission"
+   ],
+   "track": "K"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:124-129",
+    "crates/combat/src/program/selected_trait_package.rs:198-288"
+   ],
+   "finding_ids": [
+    "CSA-L-01"
+   ],
+   "id": "AUTH-L-001",
+   "layer": "compiler",
+   "name": "selected multi-effect package provenance store (PassiveSpellModifierPlan.selected_package_effects)",
+   "semantic_facts": [
+    "one (SelectedTraitSource, SpellEffectRef) per member of every compiled multi-effect package, sorted by (entry, rank, effect)",
+    "16-byte header lives inline in PassiveSpellModifierPlan, itself inline in PassiveAmountModifierPlan",
+    "read only by state construction"
+   ],
+   "track": "L"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/construction.rs:244-320"
+   ],
+   "id": "AUTH-L-002",
+   "layer": "state_construction",
+   "name": "cold package-binding validator (validate_selected_passive_package_bindings + selected_passive_bindings)",
+   "semantic_facts": [
+    "allocation-free iterator scan over 5 binding families",
+    "no retained state"
+   ],
+   "track": "L"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:442-451",
+    "crates/combat/src/state.rs:1068-1136"
+   ],
+   "id": "AUTH-L-003",
+   "layer": "reset",
+   "name": "CombatState reset / reset_for_iteration / reset_runtime",
+   "semantic_facts": [
+    "restores actor baselines and every optional authority in place",
+    "no allocating call in any reset fn"
+   ],
+   "track": "L"
+  },
+  {
+   "coords": [
+    "crates/engine/src/lib.rs:833-860"
+   ],
+   "id": "AUTH-L-004",
+   "layer": "reset",
+   "name": "Engine reset / reset_for_iteration and observation storage",
+   "semantic_facts": [
+    "observations Vec is caller(engine)-owned, cleared per step/advance and per reset, never shrunk"
+   ],
+   "track": "L"
+  }
+ ],
+ "schema": 1
+}

@@ -1,0 +1,23 @@
+[
+ {
+  "id": "LC-C-001",
+  "owner": "CombatState",
+  "field": "critical",
+  "coords": [
+   "crates/combat/src/state.rs:89",
+   "crates/combat/src/critical/authority.rs:146-317"
+  ],
+  "init": "CriticalAuthority::try_new from CombatStateInput.critical_strikes + passive_critical bindings at try_state",
+  "mutation_sites": [
+   "none after construction"
+  ],
+  "quote_visible": "read-only (baseline, passive_terms, target-health capability)",
+  "failure": "construction errors: duplicate actor, missing actor, duplicate binding, missing definition, too large",
+  "reset": "untouched by reset_runtime (immutable)",
+  "iteration_reset": "untouched",
+  "death": "unaffected; dead sources cannot cast",
+  "allocation": "two boxed slices at construction; empty Default when no inputs",
+  "work_identity": "host includes baselines and bindings in work identity",
+  "track": "C"
+ }
+]

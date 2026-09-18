@@ -1,0 +1,58 @@
+[
+ {
+  "id": "NUM-E-001",
+  "coords": [
+   "crates/combat/src/recovery.rs:94-126",
+   "crates/combat/src/periodic.rs:551-562"
+  ],
+  "conversion": "hasted period = max(1, trunc(f64(authored_ms) / spell_cast_speed))",
+  "evidence_class": "core_choice",
+  "observable": "Differs from exact rational floor only at exact integer quotients: witness 1100ms / 1.1 -> 999 (Core) vs 1000 (exact; Trinity int32(period*f32 ModCastingSpeed) SpellAuraEffects.cpp:1006-1007; simc reciprocal multiply). Exhaustive scan: all 8 real raw-173 periods {100,250,1000,1500,2000,2500,3000,12000} x haste 0.01%..200% step 0.01% => 0 witnesses.",
+  "witness": "e_periodic_schedule.rs::holds_division_truncation_witness_1100_over_1_1_is_999",
+  "probe_test": "e_periodic_schedule.rs::holds_division_truncation_witness_1100_over_1_1_is_999",
+  "track": "E"
+ },
+ {
+  "id": "NUM-E-002",
+  "coords": [
+   "crates/combat/src/aura_state.rs:1153-1170"
+  ],
+  "conversion": "carry limit = floor(u64(d_ms) * 3 / 10)",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "Trinity min(new+remaining, int(float(new)*130/100)) Spell.cpp:3284-3287 and simc min(0.3*d, remains)+d action.cpp:4604 agree for all ms durations < 2^24; Core additionally never shortens (max with existing), matching simc DOT_REFRESH_PANDEMIC max(remains, ...). Probe: 250ms aura refreshed at 150 -> expiry 475.",
+  "probe_test": "e_capped_carryover.rs::holds_capped_carryover_preserves_cadence_and_moves_partial",
+  "track": "E"
+ },
+ {
+  "id": "NUM-E-003",
+  "coords": [
+   "crates/combat/src/periodic_health.rs:35-42",
+   "crates/combat/src/periodic.rs:540-548"
+  ],
+  "conversion": "terminal partial fraction = f64(stacks) * f64(elapsed_ms) / f64(period_ms)",
+  "evidence_class": "core_choice",
+  "observable": "ms-granular partial; simc uses the same remaining/tick_time fraction (dot.cpp:695 comment). Trinity has no partial ticks. Probe: 50/100 -> 30 of 60; 75/100 -> 45.",
+  "probe_test": "e_capped_carryover.rs::holds_natural_expiry_partial_is_proportional",
+  "track": "E"
+ },
+ {
+  "id": "NUM-E-004",
+  "coords": [
+   "crates/combat/src/passive_resource_flow.rs:973-1000"
+  ],
+  "conversion": "projection = clamp(basis + rate/1000 * elapsed_ms, 0, max) in f64 from immutable basis",
+  "evidence_class": "core_choice",
+  "observable": "basis not moved by settle, so repeated settles do not accumulate rounding; rate changes require rebase (active casting speed replan state/active_casting_speed.rs:37-46)",
+  "track": "E"
+ },
+ {
+  "id": "NUM-E-005",
+  "coords": [
+   "crates/combat/src/periodic.rs:564-582"
+  ],
+  "conversion": "aligned duration = max(1, floor(d / hasted_period)) * hasted_period (integer ms)",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "Matches Trinity Spell.cpp:3270-3278 std::max(orig/period,1)*period with hastened period.",
+  "track": "E"
+ }
+]

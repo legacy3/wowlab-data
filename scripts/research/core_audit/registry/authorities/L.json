@@ -1,0 +1,59 @@
+[
+  {
+    "id": "AUTH-L-001",
+    "track": "L",
+    "name": "selected multi-effect package provenance store (PassiveSpellModifierPlan.selected_package_effects)",
+    "layer": "compiler",
+    "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:124-129",
+      "crates/combat/src/program/selected_trait_package.rs:198-288"
+    ],
+    "semantic_facts": [
+      "one (SelectedTraitSource, SpellEffectRef) per member of every compiled multi-effect package, sorted by (entry, rank, effect)",
+      "16-byte header lives inline in PassiveSpellModifierPlan, itself inline in PassiveAmountModifierPlan",
+      "read only by state construction"
+    ],
+    "finding_ids": [
+      "CSA-L-01"
+    ]
+  },
+  {
+    "id": "AUTH-L-002",
+    "track": "L",
+    "name": "cold package-binding validator (validate_selected_passive_package_bindings + selected_passive_bindings)",
+    "layer": "state_construction",
+    "coords": [
+      "crates/combat/src/state/construction.rs:244-320"
+    ],
+    "semantic_facts": [
+      "allocation-free iterator scan over 5 binding families",
+      "no retained state"
+    ]
+  },
+  {
+    "id": "AUTH-L-003",
+    "track": "L",
+    "name": "CombatState reset / reset_for_iteration / reset_runtime",
+    "layer": "reset",
+    "coords": [
+      "crates/combat/src/state.rs:442-451",
+      "crates/combat/src/state.rs:1068-1136"
+    ],
+    "semantic_facts": [
+      "restores actor baselines and every optional authority in place",
+      "no allocating call in any reset fn"
+    ]
+  },
+  {
+    "id": "AUTH-L-004",
+    "track": "L",
+    "name": "Engine reset / reset_for_iteration and observation storage",
+    "layer": "reset",
+    "coords": [
+      "crates/engine/src/lib.rs:833-860"
+    ],
+    "semantic_facts": [
+      "observations Vec is caller(engine)-owned, cleared per step/advance and per reset, never shrunk"
+    ]
+  }
+]

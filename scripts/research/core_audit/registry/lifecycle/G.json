@@ -1,0 +1,119 @@
+[
+ {
+  "id": "LC-G-001",
+  "track": "G",
+  "owner": "CastAuthority",
+  "field": "cells",
+  "coords": [
+   "crates/combat/src/cast_authority.rs:170-175"
+  ],
+  "init": "CastCell::default per actor (cast_authority.rs:202-203)",
+  "mutation_sites": [
+   "crates/combat/src/cast_authority.rs:366-391",
+   "crates/combat/src/cast_authority.rs:449-462"
+  ],
+  "quote_visible": "yes (quote_start, active, is_active)",
+  "failure": "quote_start does not mutate; completion failure clears the cell via finish_cast",
+  "reset": "crates/combat/src/cast_authority.rs:440-441",
+  "iteration_reset": "same via reset_runtime",
+  "death": "not cleared on caster death (CSA-G-01)",
+  "allocation": "boxed slice at construction",
+  "finding_ids": [
+   "CSA-G-01"
+  ]
+ },
+ {
+  "id": "LC-G-002",
+  "track": "G",
+  "owner": "CastAuthority",
+  "field": "prepared_costs",
+  "coords": [
+   "crates/combat/src/cast_authority.rs:172"
+  ],
+  "init": "default per actor x cost capacity",
+  "mutation_sites": [
+   "crates/combat/src/cast_authority.rs:377-381",
+   "crates/combat/src/cast_authority.rs:457-458"
+  ],
+  "quote_visible": "completion quote reads snapshot",
+  "failure": "untouched on failed quote",
+  "reset": "crates/combat/src/cast_authority.rs:442",
+  "iteration_reset": "same",
+  "allocation": "boxed slice at construction"
+ },
+ {
+  "id": "LC-G-003",
+  "track": "G",
+  "owner": "CastAuthority",
+  "field": "school_locks",
+  "coords": [
+   "crates/combat/src/cast_authority.rs:173"
+  ],
+  "init": "None unless interrupts compiled",
+  "mutation_sites": [
+   "crates/combat/src/cast_authority.rs:298-306"
+  ],
+  "quote_visible": "admission (cast.rs:602-624)",
+  "failure": "quote-only failures do not commit",
+  "reset": "crates/combat/src/cast_authority.rs:444-446",
+  "iteration_reset": "same",
+  "allocation": "optional box"
+ },
+ {
+  "id": "LC-G-004",
+  "track": "G",
+  "owner": "CastAuthority",
+  "field": "action_preventions",
+  "coords": [
+   "crates/combat/src/cast_authority.rs:174"
+  ],
+  "init": "compiled immutable views",
+  "mutation_sites": [],
+  "quote_visible": "admission and fresh-cancel quotes",
+  "failure": "immutable",
+  "reset": "immutable; activity lives in AuraState",
+  "iteration_reset": "immutable",
+  "allocation": "optional box"
+ },
+ {
+  "id": "LC-G-005",
+  "track": "G",
+  "owner": "StartRecoveryState",
+  "field": "ready_at",
+  "coords": [
+   "crates/combat/src/recovery.rs:183-188"
+  ],
+  "init": "ZERO",
+  "mutation_sites": [
+   "crates/combat/src/recovery.rs:231-240"
+  ],
+  "quote_visible": "yes",
+  "failure": "no mutation on failed quote",
+  "reset": "crates/combat/src/recovery.rs:242-244",
+  "iteration_reset": "same",
+  "death": "unchanged",
+  "allocation": "boxed slice",
+  "note": "never restored on cast cancellation",
+  "finding_ids": [
+   "CSA-G-02"
+  ]
+ },
+ {
+  "id": "LC-G-006",
+  "track": "G",
+  "owner": "SchoolLockAuthority",
+  "field": "deadlines",
+  "coords": [
+   "crates/combat/src/school_lock.rs:10-13"
+  ],
+  "init": "ZERO",
+  "mutation_sites": [
+   "crates/combat/src/school_lock.rs:52-65"
+  ],
+  "quote_visible": "yes",
+  "failure": "commit only after successful interrupt quote",
+  "reset": "crates/combat/src/school_lock.rs:67-69",
+  "iteration_reset": "same",
+  "allocation": "boxed slice"
+ }
+]

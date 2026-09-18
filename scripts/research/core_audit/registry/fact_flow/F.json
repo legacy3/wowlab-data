@@ -1,0 +1,412 @@
+[
+ {
+  "id": "FF-F-001",
+  "track": "F",
+  "authority": "AUTH-F-003",
+  "fact": "host-prepared main-hand weapon range, chances and physical basis -> one swing damage/outcome",
+  "stages": [
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/white_swing.rs:255-369"
+    ],
+    "identity": "WhiteMainHandInput (host)",
+    "validated": true,
+    "transformation": "validated to ValidatedWhiteMainHand; modifiers folded (period, crit share)",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/state/white_main_hand.rs:89-95"
+    ],
+    "identity": "minimum mitigated damage",
+    "validated": true,
+    "transformation": "health quote (cannot fail)",
+    "consumed": true
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/white_swing/resolution.rs:72-112"
+    ],
+    "identity": "weapon offset, outcome roll",
+    "validated": true,
+    "transformation": "forced draw width, draw 10000, cumulative strict thresholds",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state/white_main_hand.rs:100-152"
+    ],
+    "identity": "target health",
+    "validated": true,
+    "transformation": "trunc(f32(modified)*(1-min(a/(a+k),0.85))), crit x2, commit + observation, next deadline",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/white_swing/runtime.rs:72-74"
+    ],
+    "identity": "next_at",
+    "validated": true,
+    "transformation": "ZERO; RNG rewound (state.rs:442-446)",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-452"
+    ],
+    "identity": "random stream",
+    "validated": true,
+    "transformation": "fresh stream, same admission",
+    "consumed": true
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_lethal_stop_and_reset_replay"
+ },
+ {
+  "id": "FF-F-002",
+  "track": "F",
+  "authority": "AUTH-F-008",
+  "fact": "selected raw-319 effect amount (rank) -> white period",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/trait_source/selected_spell.rs:215"
+    ],
+    "identity": "(entry, rank) -> SpellEffect base points / Set|Multiply curve",
+    "validated": true,
+    "transformation": "rank curve y as f64",
+    "consumed": true
+   },
+   {
+    "stage": "candidate",
+    "coords": [
+     "crates/engine/src/trait_melee_auto_attack_speed_candidate.rs:1"
+    ],
+    "identity": "SelectedTraitEntry",
+    "validated": true,
+    "transformation": "declaration + Player binding publication",
+    "consumed": true
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/combat/src/program/passive_melee_auto_attack_speed.rs:53-63"
+    ],
+    "identity": "ResolvedMeleeAutoAttackSpeed (effect, selection)",
+    "validated": true,
+    "transformation": "exactly one",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/passive_melee_auto_attack_speed.rs:104-130"
+    ],
+    "identity": "MeleeSpeedDefinition{effect, period_factor f32}",
+    "validated": true,
+    "transformation": "100/(100+binary32(selected amount))",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/white_swing.rs:378-381",
+     "crates/combat/src/white_swing.rs:452-462"
+    ],
+    "identity": "PassiveMeleeSpeedBinding(Player,effect) == [binding]",
+    "validated": true,
+    "transformation": "period = trunc(f32(base_ms)*factor), >0",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/white_swing/runtime.rs:52-62"
+    ],
+    "identity": "next_at",
+    "validated": true,
+    "transformation": "now + period",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/white_swing/runtime.rs:72-74"
+    ],
+    "identity": "next_at",
+    "validated": true,
+    "transformation": "ZERO, period retained",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-452"
+    ],
+    "identity": "random",
+    "validated": true,
+    "transformation": "fresh stream",
+    "consumed": true
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_period_consumes_selected_rank_amount"
+ },
+ {
+  "id": "FF-F-003",
+  "track": "F",
+  "authority": "AUTH-F-011",
+  "fact": "Dark Bite successful launch resets the main-hand deadline",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/cooldown_start.rs:38-139"
+    ],
+    "identity": "spell 394463 (SpellName \"Dark Bite\"), SpellMisc attr 407 (Attributes_12 bit 23), SpellInterrupts row 190450 InterruptFlags 40",
+    "validated": true,
+    "transformation": "audit: only attr 407, Shadow melee, sole effect 12 points",
+    "consumed": true
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/combat/src/program/cooldown_start.rs:141-200"
+    ],
+    "identity": "one CastAction + one Program owner",
+    "validated": true,
+    "transformation": "2 s hard cast, 3 s shared category 1152",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/spell_attribute.rs:262-272"
+    ],
+    "identity": "CastActivationFlags::RESETS_MAIN_HAND",
+    "validated": true,
+    "transformation": "attr407 && id==394463",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/white_swing.rs:436-440",
+     "crates/combat/src/program/white_idle.rs:51-117"
+    ],
+    "identity": "white_successful_launch_reset_only",
+    "validated": true,
+    "transformation": "no modifier; period = base",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/cast.rs:305-326",
+     "crates/combat/src/state/white_main_hand.rs:23-43"
+    ],
+    "identity": "next_at of the caster-owned main hand",
+    "validated": true,
+    "transformation": "completion time + period, or None when target dead",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/white_swing/runtime.rs:72-74"
+    ],
+    "identity": "next_at",
+    "validated": true,
+    "transformation": "ZERO",
+    "consumed": true
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset"
+ },
+ {
+  "id": "FF-F-004",
+  "track": "F",
+  "authority": "AUTH-F-010",
+  "fact": "selected raw-344 points -> white damage factor (Precision Strikes / Heart of the Crusader)",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/trait_source/selected_spell.rs:215"
+    ],
+    "identity": "(entry, rank) amount",
+    "validated": true,
+    "transformation": "f64",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/passive_auto_attack_damage.rs:169-208"
+    ],
+    "identity": "PassiveAutoDamageDefinition.factor f32",
+    "validated": true,
+    "transformation": "1 + binary32(p)/100, finite >=0",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/white_swing.rs:386-424",
+     "crates/combat/src/white_swing.rs:294-299"
+    ],
+    "identity": "exact package bindings",
+    "validated": true,
+    "transformation": "min/max modified for admission",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/white_swing.rs:84-86",
+     "crates/combat/src/state/white_main_hand.rs:100"
+    ],
+    "identity": "modified weapon damage",
+    "validated": true,
+    "transformation": "trunc(f32(weapon)*factor) before armor",
+    "consumed": true
+   }
+  ],
+  "notes": "rank-2 Heart pinned by Core crates/engine/tests/selected_heart_of_the_crusader.rs:36"
+ },
+ {
+  "id": "FF-F-005",
+  "track": "F",
+  "authority": "AUTH-F-001",
+  "fact": "compiled raw-334/raw-290 crit points -> white critical share",
+  "stages": [
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/white_swing.rs:411-418",
+     "crates/combat/src/white_swing.rs:425-435"
+    ],
+    "identity": "CriticalChanceModifierDefinition.percent_points",
+    "validated": true,
+    "transformation": "exact binary32 or InvalidPreparedBasis (32-39)",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/white_swing.rs:300-321"
+    ],
+    "identity": "host critical_percent_before_compiled_modifier f32",
+    "validated": true,
+    "transformation": "must truncate to chances.critical; (basis + points) clamp [0,100] then trunc(x*100f32)",
+    "consumed": true
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/white_swing/resolution.rs:90-112"
+    ],
+    "identity": "critical threshold",
+    "validated": true,
+    "transformation": "cumulative after miss/dodge",
+    "consumed": true
+   }
+  ],
+  "notes": "raw-290 association vs Trinity owned by Track J (CSA-J-01); raw-334 addition point matches Trinity Unit.cpp:2398"
+ },
+ {
+  "id": "FF-F-006",
+  "track": "F",
+  "authority": "AUTH-F-009",
+  "fact": "raw-193 all-haste points -> white period",
+  "stages": [
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/passive_haste.rs:110-188",
+     "crates/combat/src/program/passive_haste.rs:47-51"
+    ],
+    "identity": "PassiveHasteAllDefinition.points f64",
+    "validated": true,
+    "transformation": "period_factor = 100/(100+points as f32)",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/white_swing.rs:382-385",
+     "crates/combat/src/white_swing.rs:452-462"
+    ],
+    "identity": "PassiveHasteAllBinding(Player) == [binding]",
+    "validated": true,
+    "transformation": "period trunc",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/white_swing/runtime.rs:52-62"
+    ],
+    "identity": "next_at",
+    "validated": true,
+    "transformation": "now+period",
+    "consumed": true
+   }
+  ],
+  "notes": "pinned by Core crates/engine/tests/selected_all_haste_white.rs (Dark Enlightenment 3 -> 1941 ms)"
+ },
+ {
+  "id": "FF-F-007",
+  "track": "F",
+  "authority": "AUTH-F-012",
+  "fact": "raw-366 96 points -> spell power from attack power",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/attack_power_conversion.rs:220-280"
+    ],
+    "identity": "1258153:9 raw 366 base 96",
+    "validated": true,
+    "transformation": "exact coordinate/points audit",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/attack_power_conversion.rs:165"
+    ],
+    "identity": "factor f64 0.96",
+    "validated": true,
+    "transformation": "base/100",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/spell_power_from_attack_power.rs:17-85"
+    ],
+    "identity": "PowerConversionBinding",
+    "validated": true,
+    "transformation": "single actor, no duplicates",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/spell_power_from_attack_power.rs:99-116"
+    ],
+    "identity": "OffensivePower.spell_power",
+    "validated": true,
+    "transformation": "(AP*factor).round()",
+    "consumed": true
+   }
+  ]
+ }
+]

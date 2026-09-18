@@ -1,0 +1,100 @@
+[
+ {
+  "id": "XC-H-001",
+  "track": "H",
+  "concept": "dead-target / dead-recipient policy",
+  "compilers": [
+   {
+    "authority": "damage planning",
+    "coords": [
+     "crates/combat/src/execution/planning/health.rs:881-889"
+    ],
+    "behavior": "dead target -> whole cast rejects DeadTarget (power burn: no-op)"
+   },
+   {
+    "authority": "heal preflight",
+    "coords": [
+     "crates/combat/src/execution/health.rs:230-245"
+    ],
+    "behavior": "dead -> DeadTarget error"
+   },
+   {
+    "authority": "resource gain",
+    "coords": [
+     "crates/combat/src/execution/planning/resource.rs:141-149"
+    ],
+    "behavior": "dead source -> silent no-op"
+   },
+   {
+    "authority": "interrupt",
+    "coords": [
+     "crates/combat/src/execution/planning/interrupt.rs:28-32"
+    ],
+    "behavior": "dead target -> no-op, cast progresses"
+   },
+   {
+    "authority": "periodic tick",
+    "coords": [
+     "crates/combat/src/periodic_execution.rs:449-457"
+    ],
+    "behavior": "dead recipient -> schedule cancelled"
+   },
+   {
+    "authority": "aura mutation / expiry driver",
+    "coords": [
+     "crates/combat/src/state.rs:1368-1395",
+     "crates/combat/src/expiry_execution.rs:9-40"
+    ],
+    "behavior": "no liveness check: applies to corpses, expires naturally, fires drivers"
+   },
+   {
+    "authority": "cast admission (caster)",
+    "coords": [
+     "crates/combat/src/cast.rs:74-134"
+    ],
+    "behavior": "no caster liveness check: dead caster commits"
+   }
+  ],
+  "evidence": "probe h_death_lifecycle.rs (DeadTarget for NUKE vs committed APPLY on the same corpse; dead caster commits)",
+  "finding_ids": [
+   "CSA-H-01",
+   "CSA-H-02",
+   "CSA-H-03"
+  ],
+  "class": "D"
+ },
+ {
+  "id": "XC-H-002",
+  "track": "H",
+  "concept": "reset entry points",
+  "compilers": [
+   {
+    "authority": "CombatState::reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-445"
+    ],
+    "behavior": "reset_runtime + same-identity RNG replay"
+   },
+   {
+    "authority": "CombatState::reset_for_iteration",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "behavior": "reset_runtime + new identity stream"
+   },
+   {
+    "authority": "Engine::reset / reset_for_iteration",
+    "coords": [
+     "crates/engine/src/lib.rs:847-859"
+    ],
+    "behavior": "forward + clear observations"
+   }
+  ],
+  "evidence": "probes: fresh-equivalent for both",
+  "class": "B",
+  "probe_tests": [
+   "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+   "h_reset_fingerprint.rs::holds_reset_fingerprints"
+  ]
+ }
+]

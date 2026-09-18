@@ -1,0 +1,2300 @@
+{
+ "count": 60,
+ "kind": "cross_compiler",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-A-007",
+     "behavior": "shared policy + owner count",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:950-986"
+     ]
+    },
+    {
+     "authority": "AUTH-A-008",
+     "behavior": "shared policy",
+     "coords": [
+      "crates/combat/src/program/passive_auto_attack_damage.rs:181-192"
+     ]
+    },
+    {
+     "authority": "AUTH-A-009",
+     "behavior": "shared policy",
+     "coords": [
+      "crates/combat/src/program/passive_healing_received.rs:196-204"
+     ]
+    },
+    {
+     "authority": "AUTH-A-010",
+     "behavior": "shared policy",
+     "coords": [
+      "crates/combat/src/program/passive_haste.rs:144-152"
+     ]
+    },
+    {
+     "authority": "AUTH-A-011",
+     "behavior": "shared policy",
+     "coords": [
+      "crates/combat/src/program/passive_melee_auto_attack_speed.rs:94-102"
+     ]
+    },
+    {
+     "authority": "AUTH-A-012",
+     "behavior": "shared policy",
+     "coords": [
+      "crates/combat/src/program/passive_damage_modifier.rs:159-167"
+     ]
+    },
+    {
+     "authority": "AUTH-A-013",
+     "behavior": "shared policy",
+     "coords": [
+      "crates/combat/src/program/passive_absorb_received.rs:169-177"
+     ]
+    },
+    {
+     "authority": "AUTH-A-018",
+     "behavior": "shared policy",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:558-566"
+     ]
+    },
+    {
+     "authority": "AUTH-A-017",
+     "behavior": "NO shared policy; private attribute check only",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:256-302",
+      "crates/combat/src/program/critical_block_amount.rs:427-484"
+     ]
+    }
+   ],
+   "concept": "immutable selected owner-policy proof",
+   "evidence": [
+    "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy",
+    "probe: a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy"
+   ],
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "XC-A-001",
+   "track": "A"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-A-003",
+     "behavior": "Passive + Ignored + 416 when Passive",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:504-520"
+     ]
+    },
+    {
+     "authority": "AUTH-A-017",
+     "behavior": "Passive + Ignored only",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:427-484"
+     ]
+    }
+   ],
+   "concept": "selected owner attribute admission (raw 416 on Passive owner)",
+   "evidence": [
+    "probe: a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416",
+    "probe: a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler"
+   ],
+   "finding_ids": [
+    "CSA-A-03"
+   ],
+   "id": "XC-A-002",
+   "track": "A"
+  },
+  {
+   "class": "C",
+   "compilers": [
+    {
+     "authority": "AUTH-A-007",
+     "behavior": "role value from selected_amount",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:898-918"
+     ]
+    },
+    {
+     "authority": "AUTH-A-017",
+     "behavior": "resolved.selected_amount",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:297-301"
+     ]
+    },
+    {
+     "authority": "AUTH-A-018",
+     "behavior": "resolved.selected_amount",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:568-570"
+     ]
+    },
+    {
+     "authority": "AUTH-A-008",
+     "behavior": "resolved.selected_amount",
+     "coords": [
+      "crates/combat/src/program/passive_auto_attack_damage.rs:169-171"
+     ]
+    },
+    {
+     "authority": "AUTH-A-009",
+     "behavior": "resolved.selected_amount",
+     "coords": [
+      "crates/combat/src/program/passive_healing_received.rs:185-187"
+     ]
+    },
+    {
+     "authority": "AUTH-A-012",
+     "behavior": "resolved.selected_amount",
+     "coords": [
+      "crates/combat/src/program/passive_damage_modifier.rs:169-171"
+     ]
+    }
+   ],
+   "concept": "selected-rank amount materialization",
+   "evidence": [
+    "core: each final compiler re-resolves (entry,rank) through TraitSourceCatalog and reads the same selected_amount; redundant cold work, same value"
+   ],
+   "id": "XC-A-003",
+   "track": "A"
+  },
+  {
+   "class": "C",
+   "compilers": [
+    {
+     "authority": "AUTH-A-005",
+     "behavior": "shared predicate",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:323-386"
+     ]
+    },
+    {
+     "authority": "AUTH-A-004",
+     "behavior": "again at provenance recording",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:246-254"
+     ]
+    },
+    {
+     "authority": "AUTH-A-007",
+     "behavior": "per sibling, plus UndeclaredEffect for SpellMod siblings",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:932-948"
+     ]
+    },
+    {
+     "authority": "AUTH-A-017",
+     "behavior": "per sibling",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:287-295"
+     ]
+    }
+   ],
+   "concept": "complete sibling declaration proof",
+   "evidence": [
+    "core: every final compiler of any member repeats the shared predicate; any member compile fails the whole program"
+   ],
+   "id": "XC-A-004",
+   "track": "A"
+  },
+  {
+   "class": "F",
+   "compilers": [
+    {
+     "authority": "AUTH-A-005",
+     "behavior": "raw 638 requires Multiplicative",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:353-359"
+     ]
+    },
+    {
+     "authority": "AUTH-A-005",
+     "behavior": "critical chance: activation only; host-supplied Additive/ExclusiveSameEffect{group} accepted",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:339-344",
+      "crates/combat/src/program/selected_trait_package.rs:365-371"
+     ]
+    },
+    {
+     "authority": "AUTH-A-018",
+     "behavior": "composition taken from host declaration",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:425-430"
+     ]
+    }
+   ],
+   "concept": "selected declaration composition policy",
+   "evidence": [
+    "core: crates/data/src/action/catalog/critical_chance_modifier.rs:25-28 (Additive | ExclusiveSameEffect{group})"
+   ],
+   "id": "XC-A-005",
+   "track": "A"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-A-008",
+     "behavior": "raw 344",
+     "coords": [
+      "crates/combat/src/program/passive_auto_attack_damage.rs:219-246"
+     ]
+    },
+    {
+     "authority": "AUTH-A-009",
+     "behavior": "raw 118",
+     "coords": [
+      "crates/combat/src/program/passive_healing_received.rs:212-234"
+     ]
+    },
+    {
+     "authority": "AUTH-A-012",
+     "behavior": "done/taken percent",
+     "coords": [
+      "crates/combat/src/program/passive_damage_modifier.rs:206-235"
+     ]
+    },
+    {
+     "authority": "AUTH-A-013",
+     "behavior": "absorb received",
+     "coords": [
+      "crates/combat/src/program/passive_absorb_received.rs:189-211"
+     ]
+    },
+    {
+     "authority": "AUTH-A-011",
+     "behavior": "melee speed",
+     "coords": [
+      "crates/combat/src/program/passive_melee_auto_attack_speed.rs:138-165"
+     ]
+    }
+   ],
+   "concept": "selected-owner effect declaration audits (every same-subtype effect of a selected owner must be declared)",
+   "evidence": [
+    "core: per-family audits are intentional ordinary-owner guards; package completeness itself is enforced by the classifier over all effects"
+   ],
+   "id": "XC-A-006",
+   "track": "A"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-B-001",
+     "behavior": "popcount of overlap within equal family; universal branches gated off by nonempty-mask + nonzero-family checks",
+     "coords": [
+      "crates/data/src/game_data.rs:590-612",
+      "crates/combat/src/program/passive_spell_modifier.rs:693-709"
+     ]
+    },
+    {
+     "authority": "AUTH-B-008",
+     "behavior": "effect_affects_spell Boolean; family 0 universal; empty mask selects family",
+     "coords": [
+      "crates/combat/src/program/cooldown_recovery_rate.rs:633-640"
+     ]
+    },
+    {
+     "authority": "AUTH-B-017",
+     "behavior": "affect-list damage/healing payload expansion via effect_affects_spell",
+     "coords": [
+      "crates/combat/src/program/modifier.rs:1485-1498",
+      "crates/combat/src/program/modifier.rs:1631-1650"
+     ]
+    }
+   ],
+   "concept": "class-mask applicability semantics",
+   "evidence": "Matches Trinity split: SpellInfo::IsAffectedBySpellMod popcount/no universal branches (SpellInfo.cpp:1989-2019) vs SpellInfo::IsAffected for auras (MOD_RECOVERY_RATE via IsAffectingSpell). Probes MUT-B-002/003/005/006.",
+   "id": "XC-B-001",
+   "track": "B"
+  },
+  {
+   "class": "A",
+   "compilers": [
+    {
+     "authority": "AUTH-B-001",
+     "behavior": "flat points * overlap count",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:617-691"
+     ]
+    },
+    {
+     "authority": "AUTH-B-001",
+     "behavior": "percent factor applied once when count > 0",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:537-583"
+     ]
+    }
+   ],
+   "concept": "operation-3 applicability multiplicity (flat vs percent)",
+   "evidence": "probe b_first_effect_mask.rs (15 vs 15 for 1/2 bits percent; 20 vs 30 flat).",
+   "finding_ids": [
+    "CSA-B-01"
+   ],
+   "id": "XC-B-002",
+   "track": "B"
+  },
+  {
+   "class": "A",
+   "compilers": [
+    {
+     "authority": "AUTH-B-023",
+     "behavior": "damage-impact programs only",
+     "coords": [
+      "crates/combat/src/program/modifier/payload_spells.rs:32-52"
+     ]
+    },
+    {
+     "authority": "AUTH-B-003",
+     "behavior": "applies to heal and damage impacts",
+     "coords": [
+      "crates/combat/src/execution/planning/critical.rs:11-79"
+     ]
+    }
+   ],
+   "concept": "op-15 payload set vs runtime consumer",
+   "evidence": "probe b_critical_bonus_heal.rs",
+   "finding_ids": [
+    "CSA-B-03"
+   ],
+   "id": "XC-B-003",
+   "track": "B"
+  },
+  {
+   "class": "F",
+   "compilers": [
+    {
+     "authority": "AUTH-B-002",
+     "behavior": "binary32 product per term",
+     "coords": [
+      "crates/combat/src/spell_modifier_authority.rs:370-377"
+     ]
+    },
+    {
+     "authority": "AUTH-B-024",
+     "behavior": "f64 product of 1+p/100",
+     "coords": [
+      "crates/combat/src/charge_duration.rs:288-313"
+     ]
+    },
+    {
+     "authority": "AUTH-B-017",
+     "behavior": "f64 1+p*stacks/100 clamped at 0",
+     "coords": [
+      "crates/combat/src/damage_modifier.rs:451-457"
+     ]
+    },
+    {
+     "authority": "AUTH-B-024",
+     "behavior": "f64 division by speed",
+     "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:231-240"
+     ]
+    }
+   ],
+   "concept": "percentage aggregation precision across cooldown/modifier families",
+   "evidence": "Trinity uses float accumulators (Unit::GetTotalAuraMultiplier*, GetSpellModValues pct float) and multiplies by reciprocal rates; no probe here, see NUM-B-*",
+   "id": "XC-B-004",
+   "track": "B"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-B-004",
+     "behavior": "SpellMod (base+flat)*pct, pre-haste, all deadlines of the activation",
+     "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:537-548"
+     ]
+    },
+    {
+     "authority": "AUTH-B-015",
+     "behavior": "raw-341 flat after haste/rate, private + same-category shared",
+     "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:661-691"
+     ]
+    },
+    {
+     "authority": "AUTH-B-008",
+     "behavior": "raw-286 live rate rebase",
+     "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:693-730"
+     ]
+    }
+   ],
+   "concept": "cooldown duration modifier layering",
+   "evidence": "Same order as Trinity SpellHistory::StartCooldown (SpellHistory.cpp:398-500): SpellMod, haste, recovery rate, MOD_COOLDOWN, category modifier, clamp.",
+   "id": "XC-B-005",
+   "track": "B"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "instakill",
+     "behavior": "without_critical",
+     "coords": [
+      "crates/combat/src/program.rs:1185-1192"
+     ]
+    },
+    {
+     "authority": "interrupt",
+     "behavior": "with_guaranteed_noncritical_delivery",
+     "coords": [
+      "crates/combat/src/program/interrupt.rs:146-160"
+     ]
+    },
+    {
+     "authority": "dispel / dispel_mechanic",
+     "behavior": "without_critical",
+     "coords": [
+      "crates/combat/src/program/dispel.rs:150-164",
+      "crates/combat/src/program/dispel_mechanic.rs:113-122"
+     ]
+    },
+    {
+     "authority": "stun / silence / pacify / aura application / resource / cooldown adjustment",
+     "behavior": "left Eligible -> crit draw + Critical result",
+     "coords": [
+      "crates/combat/src/program/payload_policy.rs:33-47"
+     ]
+    },
+    {
+     "authority": "raw-67 missing-or-maximum heal (isolated sole health op like instakill)",
+     "behavior": "left Eligible by design -> multiplier applied (UNK-C-004)",
+     "coords": [
+      "crates/combat/src/healing.rs:211-236"
+     ]
+    }
+   ],
+   "concept": "clearing critical eligibility for impacts without amounts",
+   "evidence": [
+    "probe: c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+    "probe: c_missing_max_heal_crit.rs::holds_caster_maximum_heal_critical_doubles_applied_health (raw 67 recorded as UNK-C-004)"
+   ],
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "XC-C-001",
+   "track": "C"
+  },
+  {
+   "class": "C",
+   "compilers": [
+    {
+     "authority": "critical chance",
+     "behavior": "winner selected over active cohorts AND passive terms",
+     "coords": [
+      "crates/combat/src/critical_modifier.rs:321-379"
+     ]
+    },
+    {
+     "authority": "critical damage (raw 163)",
+     "behavior": "passives applied unconditionally; winner only over actives",
+     "coords": [
+      "crates/combat/src/critical_damage_modifier.rs:33-39",
+      "crates/combat/src/critical_damage_modifier.rs:71-102"
+     ]
+    },
+    {
+     "authority": "critical block amount",
+     "behavior": "passive-only; winner among passives",
+     "coords": [
+      "crates/combat/src/critical_block_amount.rs:123-172"
+     ]
+    }
+   ],
+   "concept": "exclusive-group composition across active and passive terms",
+   "evidence": [
+    "Passive raw-163 activation compiles exclusive group 0 unconditionally (program/critical_damage_modifier.rs:341-349), so the asymmetric raw-163 loop cannot observe a passive group member: harmless redundancy (REJ-C-002)."
+   ],
+   "id": "XC-C-002",
+   "track": "C"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "hit-chance modifiers",
+     "behavior": "damage-bearing impacts only; aura-only impacts keep baseline miss roll without modifiers",
+     "coords": [
+      "crates/combat/src/state/modifiers.rs:185"
+     ]
+    },
+    {
+     "authority": "critical chance",
+     "behavior": "every targeted/beneficial impact (CSA-C-01)",
+     "coords": [
+      "crates/combat/src/execution/planning.rs:882-915"
+     ]
+    },
+    {
+     "authority": "critical-block amount",
+     "behavior": "damage-bearing Melee/Ranged only",
+     "coords": [
+      "crates/combat/src/state/modifiers.rs:238-247"
+     ]
+    },
+    {
+     "authority": "defense chance",
+     "behavior": "any impact with dodge/parry/block eligibility",
+     "coords": [
+      "crates/combat/src/state/modifiers.rs:143-178"
+     ]
+    }
+   ],
+   "concept": "which impacts consult attack-table modifiers (hit / crit / defense)",
+   "evidence": [
+    "Hit-chance damage-only scope is documented (aura_subtype.rs:416, 476: 'non-damaging ... aura-only impacts remain unchanged'); Trinity applies hit modifiers to all hostile spells (Unit.cpp:12454-12488) - documented core_choice, not recorded as a finding. The crit inconsistency is recorded as CSA-C-01."
+   ],
+   "id": "XC-C-003",
+   "track": "C"
+  },
+  {
+   "class": "E",
+   "compilers": [
+    {
+     "authority": "passive_spell_modifier (op 15 member)",
+     "behavior": "validate_owner incl. selected_trait_owner_policy_issue",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:950-985"
+     ]
+    },
+    {
+     "authority": "critical_block_amount (raw 638 member)",
+     "behavior": "no owner-policy check",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:256-302"
+     ]
+    },
+    {
+     "authority": "critical_modifier (290/308/334)",
+     "behavior": "owner-policy check",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:558-566"
+     ]
+    }
+   ],
+   "concept": "selected-trait owner-policy check in final compilers of the Martial Expert package",
+   "evidence": [
+    "The raw-638 member skips the owner-policy check but cannot compile without its op-15 sibling being declared (critical_block_amount.rs:287-295) and the sibling compiler rejects the same owner spell 429638; masked by the sibling today. Latent only if a future package admits raw 638 without a policy-checking sibling (UNK-C-003)."
+   ],
+   "id": "XC-C-004",
+   "track": "C"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "spell impacts",
+     "behavior": "actor baseline multiplier x raw 163 x op-15",
+     "coords": [
+      "crates/combat/src/execution/planning/critical.rs:11-79"
+     ]
+    },
+    {
+     "authority": "white main hand",
+     "behavior": "hardcoded x2",
+     "coords": [
+      "crates/combat/src/state/white_main_hand.rs:105"
+     ]
+    }
+   ],
+   "concept": "critical multiplier baseline source for spell impacts vs white swings",
+   "evidence": [
+    "White admission requires critical_strikes empty and isolated modifier programs (topology.rs:1099-1125, white_swing.rs:376-440) so no configuration combines a non-2.0 multiplier or raw 163 with white swings (REJ-C-003)."
+   ],
+   "id": "XC-C-005",
+   "track": "C"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-D-001",
+     "behavior": "raw-2 direct rounds",
+     "coords": [
+      "crates/combat/src/damage.rs:30-37"
+     ]
+    },
+    {
+     "authority": "AUTH-D-001",
+     "behavior": "raw-9 direct and all periodic damage keep fractional",
+     "coords": [
+      "crates/combat/src/program/damage.rs:157-163"
+     ]
+    },
+    {
+     "authority": "AUTH-D-002",
+     "behavior": "raw-10 fixed heal keeps fractional",
+     "coords": [
+      "crates/combat/src/healing.rs:65-94"
+     ]
+    }
+   ],
+   "concept": "authored base-point rounding across direct/periodic health payloads",
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "SpellInfo.cpp:611-650 one rounding switch for all"
+    },
+    {
+     "class": "probe",
+     "ref": "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-02"
+   ],
+   "id": "XC-D-001",
+   "track": "D"
+  },
+  {
+   "class": "A",
+   "compilers": [
+    {
+     "authority": "AUTH-D-010",
+     "behavior": "produces continuous maxima",
+     "coords": [
+      "crates/combat/src/state/maximum_health_modifiers.rs:97-100"
+     ]
+    },
+    {
+     "authority": "AUTH-D-009",
+     "behavior": "requires integral maxima; rejects",
+     "coords": [
+      "crates/combat/src/maximum_health_damage.rs:39-48"
+     ]
+    },
+    {
+     "authority": "AUTH-D-002",
+     "behavior": "percent heal accepts continuous",
+     "coords": [
+      "crates/combat/src/healing.rs:142-167"
+     ]
+    },
+    {
+     "authority": "AUTH-D-013",
+     "behavior": "floors threshold, accepts continuous",
+     "coords": [
+      "crates/combat/src/health_threshold.rs:472-490"
+     ]
+    }
+   ],
+   "concept": "maximum-health integrality (producer vs consumers)",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-01"
+   ],
+   "id": "XC-D-002",
+   "track": "D"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-D-014",
+     "behavior": "raw-40 rejects every non-exact damage family incl. raw-165",
+     "coords": [
+      "crates/combat/src/program/damage_immunity.rs:496-580"
+     ]
+    },
+    {
+     "authority": "AUTH-D-019",
+     "behavior": "raw-39 audits only Target-impact programs",
+     "coords": [
+      "crates/combat/src/program/school_immunity.rs:236-282"
+     ]
+    },
+    {
+     "authority": "AUTH-D-020",
+     "behavior": "raw-29 caster damage rejects school/mechanic/effect composition",
+     "coords": [
+      "crates/combat/src/program/no_immunities.rs:211-233"
+     ]
+    },
+    {
+     "authority": "AUTH-D-009",
+     "behavior": "raw-165 caster damage has no immunity-family gate",
+     "coords": [
+      "crates/combat/src/program/maximum_health_damage.rs:81-98"
+     ]
+    },
+    {
+     "authority": "AUTH-D-008",
+     "behavior": "Power Burn rejects any immunity family (instakill: none; relies on raw-39 target audit)",
+     "coords": [
+      "crates/combat/src/program/compile.rs:833-855"
+     ]
+    }
+   ],
+   "concept": "immunity-family composition gates for payloads that assume absent immunity",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage"
+    },
+    {
+     "class": "probe",
+     "ref": "d_damage_immunity_power_burn.rs::holds_power_burn_rejects_any_declared_immunity_family"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-05"
+   ],
+   "id": "XC-D-003",
+   "track": "D"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-D-004",
+     "behavior": "source-only: continuous",
+     "coords": [
+      "crates/combat/src/absorb/transaction.rs:914-916"
+     ]
+    },
+    {
+     "authority": "AUTH-D-004",
+     "behavior": "with raw-422: round, multiply, round",
+     "coords": [
+      "crates/combat/src/absorb/transaction.rs:917-919"
+     ]
+    }
+   ],
+   "concept": "staged rounding of school-absorb creation capacity",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-04"
+   ],
+   "id": "XC-D-004",
+   "track": "D"
+  },
+  {
+   "class": "C",
+   "compilers": [
+    {
+     "authority": "AUTH-D-003",
+     "behavior": "damage: committed pool is_alive",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:876-889"
+     ]
+    },
+    {
+     "authority": "AUTH-D-003",
+     "behavior": "healing: projected pool current == 0",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:1399-1408"
+     ]
+    }
+   ],
+   "concept": "dead-target detection before health quote",
+   "evidence": [
+    {
+     "class": "inferred",
+     "ref": "projected quote_damage applies 0 to a projected-dead target; only the dead_target signal differs"
+    }
+   ],
+   "id": "XC-D-005",
+   "track": "D"
+  },
+  {
+   "class": "A",
+   "compilers": [
+    {
+     "authority": "AUTH-D-004",
+     "behavior": "oldest sequence first",
+     "coords": [
+      "crates/combat/src/absorb/transaction.rs:991-1000"
+     ]
+    }
+   ],
+   "concept": "equal-priority absorb consumption order",
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "Unit.cpp:3738, 1899-1900 newest first"
+    },
+    {
+     "class": "simc",
+     "ref": "player.cpp:8154-8164 smallest current value first"
+    },
+    {
+     "class": "probe",
+     "ref": "d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-03"
+   ],
+   "id": "XC-D-006",
+   "track": "D"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-E-001 damage/heal",
+     "behavior": "RestartLifetime+PreserveCadence rejected",
+     "coords": [
+      "crates/combat/src/program/periodic.rs:1642-1673"
+     ]
+    },
+    {
+     "authority": "AUTH-E-001 trigger/energize",
+     "behavior": "RestartLifetime+PreserveCadence admitted",
+     "coords": [
+      "crates/combat/src/program/periodic.rs:1614-1640"
+     ]
+    },
+    {
+     "authority": "mana leech / max-power-percent energize",
+     "behavior": "RestartCadence required",
+     "coords": [
+      "crates/combat/src/program/periodic/mana_leech.rs:120-139",
+      "crates/combat/src/program/periodic/energize/maximum_power_percent.rs:180-197"
+     ]
+    }
+   ],
+   "concept": "reapplication vs cadence pairing validation",
+   "evidence": "Intentional per ledger ('Reapplication preserves latent cadence or restarts ... exactly as resolved'); damage/heal need the pairing for terminal-partial semantics. Behaviour pinned by e_periodic_schedule.rs::holds_preserve_cadence_refresh_keeps_anchor.",
+   "id": "XC-E-001",
+   "probe_tests": [
+    "e_periodic_schedule.rs::holds_preserve_cadence_refresh_keeps_anchor"
+   ],
+   "track": "E"
+  },
+  {
+   "class": "E",
+   "compilers": [
+    {
+     "authority": "AuraMutation Remove/RemoveStacks",
+     "behavior": "quotes periodic deactivation when program has periodic quotes",
+     "coords": [
+      "crates/combat/src/execution/planning/aura_lifecycle.rs:287-322"
+     ]
+    },
+    {
+     "authority": "Dispel / DispelMechanic",
+     "behavior": "counted 0 periodic quotes; relies on compile gate that dispellable auras have no schedules",
+     "coords": [
+      "crates/combat/src/program/planning.rs:565-573",
+      "crates/combat/src/execution/planning/dispel.rs:136-151"
+     ]
+    },
+    {
+     "authority": "natural expiry / independent expiry / absorb depletion / dead-recipient",
+     "behavior": "explicit cancel_periodic_aura",
+     "coords": [
+      "crates/combat/src/state.rs:1385",
+      "crates/combat/src/state/independent_stack_lifetime.rs:141-142",
+      "crates/combat/src/state/absorbs.rs:183",
+      "crates/combat/src/periodic_execution.rs:454-456"
+     ]
+    }
+   ],
+   "concept": "aura removal -> periodic cancellation",
+   "evidence": "Dispel paths would leave a live periodic cell on a removed aura, masked by dispel.rs:243-247 and dispel_mechanic.rs:394 gates.",
+   "finding_ids": [
+    "CSA-E-02"
+   ],
+   "id": "XC-E-002",
+   "track": "E"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "periodic tick",
+     "behavior": "recipient death cancels schedules",
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:449-457"
+     ]
+    },
+    {
+     "authority": "expiry driver",
+     "behavior": "no gate; runs on corpse",
+     "coords": [
+      "crates/combat/src/expiry_execution.rs:9-40"
+     ]
+    },
+    {
+     "authority": "aura application",
+     "behavior": "no gate; applies to corpse",
+     "coords": [
+      "crates/combat/src/aura_state.rs:713-834"
+     ]
+    }
+   ],
+   "concept": "liveness gating of aura-scoped work",
+   "evidence": "probes e_death_lifecycle.rs",
+   "finding_ids": [
+    "CSA-E-01"
+   ],
+   "id": "XC-E-003",
+   "probe_tests": [
+    "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse",
+    "e_death_lifecycle.rs::holds_periodic_trigger_cancels_silently_after_recipient_death"
+   ],
+   "track": "E"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-F-009",
+     "behavior": "white: 100f32/(100f32+p as f32), multiplied into u32 ms in f32",
+     "coords": [
+      "crates/combat/src/program/passive_haste.rs:47-51"
+     ]
+    },
+    {
+     "authority": "AUTH-F-008",
+     "behavior": "white raw-319: identical f32 form",
+     "coords": [
+      "crates/combat/src/program/passive_melee_auto_attack_speed.rs:115-116"
+     ]
+    },
+    {
+     "authority": "AUTH-F-009",
+     "behavior": "spell haste multiplier: 1 + p/100 in f64 (cast/GCD consumers)",
+     "coords": [
+      "crates/combat/src/program/passive_haste.rs:53-55"
+     ]
+    }
+   ],
+   "concept": "haste percent points -> time factor",
+   "evidence": [
+    {
+     "class": "trinity",
+     "note": "attack timer consumer is f32 ApplyPercentModFloatVar; cast consumer ApplyCastTimePercentMod separate",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:10978-11007"
+    },
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_period_uses_binary32_attack_time_order"
+    }
+   ],
+   "id": "XC-F-001",
+   "track": "F"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-F-001",
+     "behavior": "raw-319 PassiveMeleeSpeedBinding: validated only by white isolation; discarded otherwise",
+     "coords": [
+      "crates/combat/src/state/construction.rs:111-112",
+      "crates/combat/src/topology.rs:957-973"
+     ]
+    },
+    {
+     "authority": "AUTH-F-009",
+     "behavior": "raw-193 PassiveHasteAllBinding: prepare_actor_topology fails closed (MissingPassiveHasteAllDefinition)",
+     "coords": [
+      "crates/combat/src/state/construction.rs:124-131",
+      "crates/combat/src/state/construction.rs:604"
+     ]
+    }
+   ],
+   "concept": "passive haste-family actor binding validation",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+    }
+   ],
+   "finding_ids": [
+    "CSA-F-01"
+   ],
+   "id": "XC-F-002",
+   "track": "F"
+  },
+  {
+   "class": "E",
+   "compilers": [
+    {
+     "authority": "AUTH-F-008",
+     "behavior": "rejects non-finite or <=0 factor",
+     "coords": [
+      "crates/combat/src/program/passive_melee_auto_attack_speed.rs:118-123"
+     ]
+    },
+    {
+     "authority": "AUTH-F-009",
+     "behavior": "no guard; relies on package rule",
+     "coords": [
+      "crates/combat/src/program/passive_haste.rs:47-51",
+      "crates/combat/src/program/passive_haste.rs:170-187"
+     ]
+    },
+    {
+     "authority": "AUTH-F-001",
+     "behavior": "effective_period rejects 0 ms (NaN/negative factor -> 0) but admits +inf factor as u32::MAX ms",
+     "coords": [
+      "crates/combat/src/white_swing.rs:458-462"
+     ]
+    }
+   ],
+   "concept": "finite positive period-factor guard",
+   "evidence": [
+    {
+     "class": "core",
+     "note": "HasteAll and MeleeAutoAttackSpeed PassiveEffectPointsPolicy::Positive -> factor in (0,1)",
+     "ref": "crates/combat/src/program/selected_trait_package.rs:669-697"
+    },
+    {
+     "class": "core",
+     "note": "non-selected carrier fixed at 5 points",
+     "ref": "crates/combat/src/program/passive_haste.rs:28-30"
+    }
+   ],
+   "id": "XC-F-003",
+   "track": "F"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-F-003",
+     "behavior": "white crit = mitigated x2, raw-108 op15 sibling not applied",
+     "coords": [
+      "crates/combat/src/state/white_main_hand.rs:105"
+     ]
+    },
+    {
+     "authority": "AUTH-F-010",
+     "behavior": "critical-bonus spell modifier is bound for class-mask spells only",
+     "coords": [
+      "crates/combat/src/program/modifier/program_accessors.rs:100-119"
+     ]
+    }
+   ],
+   "concept": "auto-attack vs spell handling of the Heart raw-108 crit-damage sibling",
+   "evidence": [
+    {
+     "class": "trinity",
+     "note": "melee crit: Damage*=2 then only SPELL_AURA_MOD_CRIT_DAMAGE_BONUS; spellmods need spellProto (8123-8125)",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:1417-1423"
+    },
+    {
+     "class": "simc",
+     "note": "auto attack takes effect#1 multiplier and effect#2 crit only",
+     "ref": "/home/dev/pallet/simc/engine/class_modules/paladin/sc_paladin.cpp:962-968"
+    }
+   ],
+   "id": "XC-F-004",
+   "track": "F"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-G-001",
+     "behavior": "cooldown/cost/recovery/cast/school/prevention folded to latest recheck",
+     "coords": [
+      "crates/combat/src/cast.rs:1062-1085"
+     ]
+    },
+    {
+     "authority": "AUTH-G-007",
+     "behavior": "stun returns early; silence/pacify never folded",
+     "coords": [
+      "crates/combat/src/cast.rs:669-674"
+     ]
+    }
+   ],
+   "concept": "timed admission blocker aggregation",
+   "evidence": [
+    "probe: g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify"
+   ],
+   "finding_ids": [
+    "CSA-G-03",
+    "CSA-G-05"
+   ],
+   "id": "XC-G-001",
+   "track": "G"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-G-007",
+     "behavior": "cancel only on actor transition to stunned",
+     "coords": [
+      "crates/combat/src/stun.rs:64-77"
+     ]
+    },
+    {
+     "authority": "AUTH-G-008",
+     "behavior": "cancel on fresh Applied of the exact binding, even if another silence active",
+     "coords": [
+      "crates/combat/src/action_prevention.rs:132-148"
+     ]
+    }
+   ],
+   "concept": "fresh action-prevention cancellation trigger",
+   "evidence": [
+    "trinity: Unit.cpp:11562-11570 SetControlled returns if state already set (stun); SpellAuraEffects.cpp:2531-2543 silence interrupts on every REAL apply",
+    "cast cannot be pending under an active silence/pacify for a prevented action, so the difference is unobservable except for stun"
+   ],
+   "id": "XC-G-002",
+   "track": "G"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-G-001",
+     "behavior": "caster life only when program writes caster health",
+     "coords": [
+      "crates/combat/src/execution/health.rs:196-201"
+     ]
+    },
+    {
+     "authority": "AUTH-G-013",
+     "behavior": "target life compared with launch; source life ignored",
+     "coords": [
+      "crates/combat/src/fixed_impact_execution.rs:52-58"
+     ]
+    },
+    {
+     "authority": "white main hand (F)",
+     "behavior": "target life checked; source life never checked",
+     "coords": [
+      "crates/combat/src/state/white_main_hand.rs:74-83"
+     ]
+    }
+   ],
+   "concept": "source/caster liveness",
+   "evidence": [
+    "probe: g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage"
+   ],
+   "finding_ids": [
+    "CSA-G-01"
+   ],
+   "id": "XC-G-003",
+   "track": "G"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-G-008",
+     "behavior": "admission requires school intersection",
+     "coords": [
+      "crates/combat/src/silence.rs:94-126"
+     ]
+    },
+    {
+     "authority": "AUTH-G-011",
+     "behavior": "cancellation ignores school",
+     "coords": [
+      "crates/combat/src/cast_authority.rs:284-295"
+     ]
+    }
+   ],
+   "concept": "school scoping of silence",
+   "evidence": [
+    "trinity: SpellAuraEffects.cpp:2521-2543 same split",
+    "source: all silence carriers misc_0=127 (SpellEffect 134783, 818037)",
+    "core: ledger L18603-18604 documents the split"
+   ],
+   "id": "XC-G-004",
+   "track": "G"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "damage planning",
+     "behavior": "dead target -> whole cast rejects DeadTarget (power burn: no-op)",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:881-889"
+     ]
+    },
+    {
+     "authority": "heal preflight",
+     "behavior": "dead -> DeadTarget error",
+     "coords": [
+      "crates/combat/src/execution/health.rs:230-245"
+     ]
+    },
+    {
+     "authority": "resource gain",
+     "behavior": "dead source -> silent no-op",
+     "coords": [
+      "crates/combat/src/execution/planning/resource.rs:141-149"
+     ]
+    },
+    {
+     "authority": "interrupt",
+     "behavior": "dead target -> no-op, cast progresses",
+     "coords": [
+      "crates/combat/src/execution/planning/interrupt.rs:28-32"
+     ]
+    },
+    {
+     "authority": "periodic tick",
+     "behavior": "dead recipient -> schedule cancelled",
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:449-457"
+     ]
+    },
+    {
+     "authority": "aura mutation / expiry driver",
+     "behavior": "no liveness check: applies to corpses, expires naturally, fires drivers",
+     "coords": [
+      "crates/combat/src/state.rs:1368-1395",
+      "crates/combat/src/expiry_execution.rs:9-40"
+     ]
+    },
+    {
+     "authority": "cast admission (caster)",
+     "behavior": "no caster liveness check: dead caster commits",
+     "coords": [
+      "crates/combat/src/cast.rs:74-134"
+     ]
+    }
+   ],
+   "concept": "dead-target / dead-recipient policy",
+   "evidence": "probe h_death_lifecycle.rs (DeadTarget for NUKE vs committed APPLY on the same corpse; dead caster commits)",
+   "finding_ids": [
+    "CSA-H-01",
+    "CSA-H-02",
+    "CSA-H-03"
+   ],
+   "id": "XC-H-001",
+   "track": "H"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "CombatState::reset",
+     "behavior": "reset_runtime + same-identity RNG replay",
+     "coords": [
+      "crates/combat/src/state.rs:442-445"
+     ]
+    },
+    {
+     "authority": "CombatState::reset_for_iteration",
+     "behavior": "reset_runtime + new identity stream",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ]
+    },
+    {
+     "authority": "Engine::reset / reset_for_iteration",
+     "behavior": "forward + clear observations",
+     "coords": [
+      "crates/engine/src/lib.rs:847-859"
+     ]
+    }
+   ],
+   "concept": "reset entry points",
+   "evidence": "probes: fresh-equivalent for both",
+   "id": "XC-H-002",
+   "probe_tests": [
+    "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+    "h_reset_fingerprint.rs::holds_reset_fingerprints"
+   ],
+   "track": "H"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "AUTH-I-004 ordinary resolve",
+     "behavior": "resolves underlying table (draws) then exposes Immune",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:895-906"
+     ]
+    },
+    {
+     "authority": "AUTH-I-004 delayed launch",
+     "behavior": "launch-suppressed fixed travel substitutes Hit/Unblocked without drawing",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:895-903"
+     ]
+    }
+   ],
+   "concept": "does a delivery-suppressed (immune) impact consume its stochastic attack-table draws",
+   "evidence": [
+    "probe i_rng_immunity.rs both tests",
+    "docs/development-ledger.md:22596-22603 (ordinary resolves underlying zero-draw Spell Lock), :23538 (launch immunity without a critical draw)"
+   ],
+   "finding_ids": [
+    "CSA-I-01"
+   ],
+   "id": "XC-I-001",
+   "track": "I"
+  },
+  {
+   "class": "C",
+   "compilers": [
+    {
+     "authority": "resolve_critical",
+     "behavior": "chance<=0 -> probability None",
+     "coords": [
+      "crates/combat/src/critical/resolution.rs:95-113"
+     ]
+    },
+    {
+     "authority": "RandomStream::occurs",
+     "behavior": "probability<=0 -> false without draw",
+     "coords": [
+      "crates/sim/src/random.rs:88-98"
+     ]
+    }
+   ],
+   "concept": "critical draw skip at zero chance",
+   "evidence": [
+    "redundant but consistent; probe grid critical=0 draws nothing"
+   ],
+   "id": "XC-I-002",
+   "track": "I"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "AUTH-I-002",
+     "behavior": "f64 probabilities, sequential occurs draws with boundary skips",
+     "coords": [
+      "crates/combat/src/attack/resolution.rs:464-532"
+     ]
+    },
+    {
+     "authority": "AUTH-I-007",
+     "behavior": "single integer 10_000-domain roll always drawn, plus forced weapon draw",
+     "coords": [
+      "crates/combat/src/white_swing/resolution.rs:72-111"
+     ]
+    }
+   ],
+   "concept": "attack outcome table sampling",
+   "evidence": [
+    "white semantics versioned (WHITE_MAIN_HAND_SEMANTICS_VERSION=7, white_swing.rs:10); both probed against independent replay"
+   ],
+   "id": "XC-I-003",
+   "track": "I"
+  },
+  {
+   "class": "C",
+   "compilers": [
+    {
+     "authority": "dispel preview",
+     "behavior": "clone + PreparedImpactQuote::resolve + uniform_index",
+     "coords": [
+      "crates/combat/src/execution/planning/dispel.rs:88-116"
+     ]
+    },
+    {
+     "authority": "split-leech preview",
+     "behavior": "clone + resolve",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:531-548"
+     ]
+    },
+    {
+     "authority": "commit",
+     "behavior": "state stream resolve + uniform_index, asserted equal",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:879-926",
+      "crates/combat/src/execution/commit.rs:208-232"
+     ]
+    }
+   ],
+   "concept": "impact resolution in preview vs commit",
+   "evidence": [
+    "same function, same start position (AUTH-I-009); probes i_rng_dispel.rs"
+   ],
+   "id": "XC-I-004",
+   "track": "I"
+  },
+  {
+   "class": "A",
+   "compilers": [
+    {
+     "authority": "white_swing::effective_period",
+     "behavior": "(f32(base_ms) * binary32 period factor) truncated",
+     "coords": [
+      "crates/combat/src/white_swing.rs:452-463"
+     ]
+    },
+    {
+     "authority": "recovery::effective_duration (cast/GCD/periodic)",
+     "behavior": "f64(base_ms) / f64 frequency, truncated",
+     "coords": [
+      "crates/combat/src/recovery.rs:94-125"
+     ]
+    },
+    {
+     "authority": "cooldown::deadline_rate::effective_duration",
+     "behavior": "f64(base_ms) / rate / speed, truncated",
+     "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:233-240"
+     ]
+    }
+   ],
+   "concept": "haste-scaled millisecond duration conversion",
+   "evidence": [
+    "j_haste_duration.rs probe; Trinity uses the binary32 product for all four"
+   ],
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "XC-J-001",
+   "track": "J"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "white_swing resolution",
+     "behavior": "integer basis points, truncated shares, u32 roll",
+     "coords": [
+      "crates/combat/src/white_swing/resolution.rs:96-116"
+     ]
+    },
+    {
+     "authority": "attack::resolution (yellow)",
+     "behavior": "continuous f64 probabilities, unit f64 draw",
+     "coords": [
+      "crates/combat/src/attack/resolution.rs:465-525"
+     ]
+    }
+   ],
+   "concept": "attack outcome table chance quantization",
+   "evidence": [
+    "Trinity truncates both white (Unit.cpp:2395-2402) and yellow (Unit.cpp:2633-2645); Core yellow follows a continuous model (simc-like). Distribution-level difference <= 1 bp per component."
+   ],
+   "id": "XC-J-002",
+   "track": "J"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "white main hand",
+     "behavior": "u32 truncation at raw344 and armor, binary32 staging",
+     "coords": [
+      "crates/combat/src/white_swing.rs:84-86",
+      "crates/combat/src/white_swing.rs:151-159"
+     ]
+    },
+    {
+     "authority": "DamageFormula direct/periodic",
+     "behavior": "continuous f64, no truncation",
+     "coords": [
+      "crates/combat/src/damage.rs:98-155"
+     ]
+    },
+    {
+     "authority": "maximum-health periodic",
+     "behavior": "round points, ceil full tick",
+     "coords": [
+      "crates/combat/src/damage.rs:74-95"
+     ]
+    },
+    {
+     "authority": "resource receipt damage",
+     "behavior": "trunc(receipt * f32 amplitude)",
+     "coords": [
+      "crates/combat/src/damage.rs:157-165"
+     ]
+    }
+   ],
+   "concept": "damage/health amount integerization",
+   "evidence": [
+    "ledger 14457/16675: continuous health is intentional; white/receipt/max-health paths reproduce specific consumer rounding"
+   ],
+   "id": "XC-J-003",
+   "track": "J"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "selected role compilers (8)",
+     "behavior": "call selected_trait_owner_policy_issue",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:558-566",
+      "crates/combat/src/program/passive_spell_modifier.rs:979"
+     ]
+    },
+    {
+     "authority": "raw-638 selected",
+     "behavior": "no owner policy",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:256-302"
+     ]
+    },
+    {
+     "authority": "ordinary Passive crit / crit-block",
+     "behavior": "DB2 aura options/equipment/attributes only; no external policy",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:1182-1220",
+      "crates/combat/src/program/critical_block_amount.rs:427-484"
+     ]
+    }
+   ],
+   "concept": "immutable passive owner external-policy validation",
+   "evidence": "Same owner rows are admitted under different policy regimes depending on activation route.",
+   "finding_ids": [
+    "CSA-A-02",
+    "CSA-K-05"
+   ],
+   "id": "XC-K-001",
+   "track": "K"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "selected package classifier",
+     "behavior": "every sibling classified; unknown rejects package",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:789-806"
+     ]
+    },
+    {
+     "authority": "per-family aura audits",
+     "behavior": "undeclared same-subtype sibling on declared aura owner rejects",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:486-518"
+     ]
+    },
+    {
+     "authority": "ordinary action programs",
+     "behavior": "undeclared siblings of any status silently ignored",
+     "coords": [
+      "crates/combat/src/program/compile.rs:39-45"
+     ]
+    }
+   ],
+   "concept": "sibling source-effect completeness",
+   "evidence": "Probe k_sibling_coverage.rs.",
+   "finding_ids": [
+    "CSA-K-04"
+   ],
+   "id": "XC-K-002",
+   "track": "K"
+  },
+  {
+   "class": "C",
+   "compilers": [
+    {
+     "authority": "selected owner policy",
+     "behavior": "identity filter + nine Absent",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:440-457"
+     ]
+    },
+    {
+     "authority": "raw-416 inert check",
+     "behavior": "identity filter + nine Absent (+Passive, PassiveModifier roles)",
+     "coords": [
+      "crates/combat/src/program/spell_attribute.rs:110-130"
+     ]
+    }
+   ],
+   "concept": "all-Absent external-policy predicate",
+   "evidence": "Redundant but equivalent predicates.",
+   "id": "XC-K-003",
+   "track": "K"
+  },
+  {
+   "class": "A",
+   "compilers": [
+    {
+     "authority": "selected classifier (A/B/K)",
+     "behavior": "arity 1 returns true before any slot check; raw-108 op 15 is routed generically to percent_class_mask -> Percent/CriticalBonus/ClassMask. No named-branch gate exists for sole-effect op 15.",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:888-891",
+      "crates/combat/src/program/selected_trait_package.rs:1033-1098"
+     ]
+    },
+    {
+     "authority": "production Engine candidate",
+     "behavior": "PreparedSpellModifierCandidate publishes any package whose roles are all SpellModifier (exact Awestruck rows admitted, probe).",
+     "coords": [
+      "crates/engine/src/trait_spell_modifier_candidate.rs:105-160"
+     ]
+    },
+    {
+     "authority": "payload projection set (B/C)",
+     "behavior": "CriticalBonus projections only for payloads with a crit-eligible damage impact.",
+     "coords": [
+      "crates/combat/src/program/modifier/payload_spells.rs:32-52"
+     ]
+    },
+    {
+     "authority": "runtime crit planner (C)",
+     "behavior": "applies whatever projection exists to heal impacts (bonus_before_school when !has_damage) -> heal of a mixed program gets 220, pure heal 200.",
+     "coords": [
+      "crates/combat/src/execution/planning/critical.rs:11-79"
+     ]
+    },
+    {
+     "authority": "global owner attribute audit (K)",
+     "behavior": "CastAction/Program owners with Disabled/Unimplemented/uncataloged attributes fail the build; every real heal-only payload matched by a real sole-effect op-15 provider is refused here.",
+     "coords": [
+      "crates/combat/src/program/spell_attribute.rs:17-81",
+      "crates/data/src/action/catalog/selected_owner.rs:54-62"
+     ]
+    }
+   ],
+   "concept": "op-15 CritDamageAndHealing applicability: selected admission vs payload projection set vs runtime heal consumer vs payload owner gate",
+   "evidence": [
+    "core: C-02 claims protection by a named-branch op-15 admission (selected_trait_package.rs:900-940); at the pin those lines are the arity>=2 composition match, reached only after the arity-1 early return (888-891). The oracle corebaseline._generic_spell_modifier still mirrors an older Core that omitted op 15 (corebaseline.py:410-440) -- stale navigation, not Core.",
+    "source: scratch/X/op15_heal_scan.py over 12.1.0 tables: 25 sole-effect raw-108/218 op-15 trait providers, 16 with gate-clean owner attributes (Awestruck 417855 entry 102544, Intensity 1264649 entry 103105, Profound Rebuttal 392910 entries 101526/124923/136513 among them); 9 distinct heal-only matched payloads (19750, 25914, 82326, 8936, 1236647, 1264664, 322101, 344939, 451968) all carry at least one Disabled/Unimplemented/uncataloged owner attribute (16, 81, 83, 148, 217, 218, 265, 280, 308, 350, 416). Flash of Light also has variance 0.05.",
+    "probe: x_op15_real_rows.rs::holds_real_flash_of_light_payload_is_refused_by_owner_attribute_gate (UnsupportedSelectedSpellAttribute) and ::defect_candidate_awestruck_skips_gate_clean_flash_of_light_twin (production candidate declaration, heal crit 200 vs Trinity 220).",
+    "trinity: Unit.cpp:7309-7317 SpellCriticalHealingBonus applies CritDamageAndHealing to heal crits."
+   ],
+   "finding_ids": [
+    "CSA-B-03",
+    "CSA-C-02"
+   ],
+   "id": "XC-X-001",
+   "probe_tests": [
+    "x_op15_real_rows.rs::holds_real_flash_of_light_payload_is_refused_by_owner_attribute_gate",
+    "x_op15_real_rows.rs::defect_candidate_awestruck_skips_gate_clean_flash_of_light_twin"
+   ],
+   "track": "X"
+  },
+  {
+   "class": "A",
+   "compilers": [
+    {
+     "authority": "recovery::effective_duration (G/J)",
+     "behavior": "trunc(f64 base / f64 speed) for cast time and start recovery",
+     "coords": [
+      "crates/combat/src/recovery.rs:94-125"
+     ]
+    },
+    {
+     "authority": "periodic period (E/J)",
+     "behavior": "same f64 division; E recorded it as core_choice (NUM-E-001)",
+     "coords": [
+      "crates/combat/src/periodic.rs:551-562"
+     ]
+    },
+    {
+     "authority": "cooldown deadline (B/J)",
+     "behavior": "f64 base / haste / rate speed; B recorded NUM-B-005 as core_choice",
+     "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:233-240"
+     ]
+    },
+    {
+     "authority": "raw-286 / charge rates (B/J)",
+     "behavior": "rate factor 1+p/100 used as divisor",
+     "coords": [
+      "crates/combat/src/cooldown_recovery_rate.rs:850-852",
+      "crates/combat/src/charge_recharge_rate.rs:716-718"
+     ]
+    },
+    {
+     "authority": "white swing period (F/J)",
+     "behavior": "binary32 product trunc(f32 base * f32(100/(100+p))) = consumer order",
+     "coords": [
+      "crates/combat/src/white_swing.rs:452-463"
+     ]
+    }
+   ],
+   "concept": "haste-scaled millisecond conversion (cast, GCD, cooldown, periodic period, recovery rate, white period)",
+   "evidence": [
+    "One conversion function; tracks disagreed on its label (E/B core_choice, J known_divergence, G assumed). Reconciled to known_divergence.",
+    "scratch/X/haste_scan.py: on Track E's own grid (8 real raw-173 periods x 0.01% haste) there is 1 witness: 12000 ms @ 134.65% -> Core 5113, consumer 5114 (E's zero-witness scan modelled the consumer as exact rational floor, not the binary32 product).",
+    "The divergence is bidirectional: 30000 ms @ 92% -> Core 15625, consumer 15624 (f32(100/192) rounds down); CSA-J-02 title states only the \"1 ms lower\" direction.",
+    "probe: x_haste_direction.rs::defect_hasted_duration_divergence_is_bidirectional_core_one_ms_later_at_92_percent; x_periodic_haste_witness.rs::defect_real_period_12000_at_134_65_percent_ticks_one_ms_before_consumer.",
+    "Internal inconsistency independent of Trinity: white period already uses the binary32 consumer order."
+   ],
+   "finding_ids": [
+    "CSA-J-02",
+    "CSA-J-05"
+   ],
+   "id": "XC-X-002",
+   "probe_tests": [
+    "x_haste_direction.rs::defect_hasted_duration_divergence_is_bidirectional_core_one_ms_later_at_92_percent",
+    "x_periodic_haste_witness.rs::defect_real_period_12000_at_134_65_percent_ticks_one_ms_before_consumer"
+   ],
+   "track": "X"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "cast admission (G/H)",
+     "behavior": "no caster-life gate in any mode (instant, hard acceptance, hard completion)",
+     "coords": [
+      "crates/combat/src/cast.rs:412-580"
+     ]
+    },
+    {
+     "authority": "health preflight (G)",
+     "behavior": "caster life required only when the program writes caster health",
+     "coords": [
+      "crates/combat/src/execution/health.rs:190-211"
+     ]
+    },
+    {
+     "authority": "pending hard cast (G/H)",
+     "behavior": "cleared only by finish/cancel; death never cancels",
+     "coords": [
+      "crates/combat/src/cast_authority.rs:410-431"
+     ]
+    },
+    {
+     "authority": "white main hand (F/G)",
+     "behavior": "source life checked once at admission; runtime checks only the target. Masked: white isolation admits exactly one Player->Enemy hostile relation and only actionless or Dark-Bite programs, so the Player cannot lose health (REJ-F-011 holds) -> class E for this row",
+     "coords": [
+      "crates/combat/src/white_swing.rs:335-343",
+      "crates/combat/src/state/white_main_hand.rs:70-83"
+     ]
+    },
+    {
+     "authority": "periodic tick from dead source (E)",
+     "behavior": "only recipient life gates ticks; dead source keeps ticking (Trinity parity, E REJ)",
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:449-457"
+     ]
+    }
+   ],
+   "concept": "caster/source liveness per authority",
+   "evidence": [
+    "G-01 and H-03 prove the same missing cast-admission predicate with independent probes; G-01 additionally proves the pending-cast half and Engine reachability, so H-03 is a strict subset.",
+    "trinity: Spell.cpp:5744-5746 CASTER_DEAD; Unit.cpp:9160-9172 interrupts on death; Unit.cpp:4472-4493 removes only auras on the dying unit, so DoTs owned by a dead caster on others continue (parity with E)."
+   ],
+   "finding_ids": [
+    "CSA-G-01",
+    "CSA-H-03"
+   ],
+   "id": "XC-X-003",
+   "track": "X"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "damage / power burn / fixed-travel quote",
+     "behavior": "reject DeadTarget",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:876-889"
+     ]
+    },
+    {
+     "authority": "heal preflight",
+     "behavior": "reject dead target",
+     "coords": [
+      "crates/combat/src/execution/health.rs:190-245"
+     ]
+    },
+    {
+     "authority": "resource gain",
+     "behavior": "no-op for dead recipient",
+     "coords": [
+      "crates/combat/src/execution/planning/resource.rs:141-149"
+     ]
+    },
+    {
+     "authority": "interrupt (G-04)",
+     "behavior": "Ok with has_transition: successful no-op",
+     "coords": [
+      "crates/combat/src/execution/planning/interrupt.rs:16-32"
+     ]
+    },
+    {
+     "authority": "aura application (E/H-02)",
+     "behavior": "no liveness check; commits a live aura with deadlines onto a corpse",
+     "coords": [
+      "crates/combat/src/aura_state.rs:713-834"
+     ]
+    },
+    {
+     "authority": "fixed-impact arrival",
+     "behavior": "drops the packet silently when the target died in flight (documented, ledger 23541)",
+     "coords": [
+      "crates/combat/src/fixed_impact_execution.rs:43-58"
+     ]
+    }
+   ],
+   "concept": "target/recipient liveness per operation family",
+   "evidence": [
+    "Trinity decides this once per spell target (SpellInfo.cpp:2452-2453 TARGETS_DEAD), not per effect; H-02 and G-04 are the same missing root-target predicate observed through two families; E-01 clause \"new applications admitted onto dead actors\" is the same observation (e_death_lifecycle.rs::defect_fresh_periodic_application_onto_dead_recipient_is_admitted).",
+    "Canonical: CSA-H-02 (one action-level target-liveness predicate at root planning); G-04 merges into it; the application clause of E-01 moves to it."
+   ],
+   "finding_ids": [
+    "CSA-H-02",
+    "CSA-G-04",
+    "CSA-E-01"
+   ],
+   "id": "XC-X-004",
+   "track": "X"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "lethal commit",
+     "behavior": "emits ActorDied only",
+     "coords": [
+      "crates/combat/src/execution/commit/health.rs:200-235",
+      "crates/combat/src/execution/commit/health.rs:918-931"
+     ]
+    },
+    {
+     "authority": "periodic authority",
+     "behavior": "cancels lazily at the next due tick",
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:449-457"
+     ]
+    },
+    {
+     "authority": "natural expiry drivers",
+     "behavior": "run raw-495 children at natural expiry with no liveness gate",
+     "coords": [
+      "crates/combat/src/state.rs:1368-1397",
+      "crates/combat/src/expiry_execution.rs:9-40"
+     ]
+    },
+    {
+     "authority": "cast authority",
+     "behavior": "pending cast of the dying actor survives",
+     "coords": [
+      "crates/combat/src/cast_authority.rs:410-431"
+     ]
+    }
+   ],
+   "concept": "death lifecycle: who consumes a lethal health commit",
+   "evidence": [
+    "E-01 and H-01 are one defect (same code path, same probe observation: aura active on corpse, on-expire driver fires). E-01 carries the source census (683 raw-495 rows); H-01 carries the more precise correction boundary (death removal of auras, independent-stack cohorts, absorb providers and modifier cohorts via the explicit-removal path).",
+    "The pending-cast half of G-01 shares the same owner (death transition at the lethal commit) but a different consumer; keep G-01 separate with a cross-reference."
+   ],
+   "finding_ids": [
+    "CSA-E-01",
+    "CSA-H-01",
+    "CSA-G-01"
+   ],
+   "id": "XC-X-005",
+   "track": "X"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "shared selected owner policy (8 compilers)",
+     "behavior": "external proc/script/lifetime Absent, owner shell, owner-role count",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:419-461",
+      "crates/combat/src/program/passive_spell_modifier.rs:950-986"
+     ]
+    },
+    {
+     "authority": "selected raw 638",
+     "behavior": "never calls the shared policy; no external catalog input",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:256-302"
+     ]
+    },
+    {
+     "authority": "raw-638 private owner attributes (selected and Passive)",
+     "behavior": "rejects raw 416 the shared policy admits (A-03)",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:427-484"
+     ]
+    },
+    {
+     "authority": "ordinary Passive crit / crit block",
+     "behavior": "no external policy, trait source or package atomicity (K-05)",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:1182-1220"
+     ]
+    }
+   ],
+   "concept": "immutable selected-owner / external policy across final compilers and activation routes",
+   "evidence": [
+    "UNK-C-003 (C) and EP-K-005/EP-K-012 (K) observe exactly the CSA-A-02 gap; XC-A-001, XC-C-004 and XC-K-001 are three views of this row. C classed it E (masked by the Martial op-15 sibling), A classed D: both correct for different inputs -- the mask holds for the two-effect Martial package, but a singleton raw-638 package compiles (A probes), and only the source census (no singleton raw-638 trait) keeps it LATENT.",
+    "UNK-B-002 (ranked trait spells declared Passive receive authored amounts) is a consequence of the K-05 bypass: no trait source means no rank on the Passive route."
+   ],
+   "finding_ids": [
+    "CSA-A-02",
+    "CSA-A-03",
+    "CSA-K-05"
+   ],
+   "id": "XC-X-006",
+   "track": "X"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "composition gate",
+     "behavior": "arity 1 admits every classified role",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:888-891"
+     ]
+    },
+    {
+     "authority": "raw-108 / raw-218 catalog rows (B)",
+     "behavior": "claim op 0/22/11/15 only (108) and op 3 only for Ephemeral Bond (218); op-15 row justifies heal exclusion by the Martial population",
+     "coords": [
+      "crates/dbc/src/aura_subtype.rs:440-450",
+      "crates/dbc/src/aura_subtype.rs:488"
+     ]
+    },
+    {
+     "authority": "raw-334/290/79/118 rows (K)",
+     "behavior": "claim exact-carrier / one-rank restrictions",
+     "coords": [
+      "crates/dbc/src/aura_subtype.rs:534"
+     ]
+    }
+   ],
+   "concept": "generic arity-1 selected admission vs catalog-row claims",
+   "evidence": [
+    "One root: the deliberate arity-1 generalization (ledger L28569-28570) was not propagated to the catalog requirement text. B-02 and K-03 both prove admission beyond wording; in neither case is the admitted value itself wrong versus the consumer (B-02 probe 10 -> 15 matches Trinity PointsIndex0 percent). The wrong-value consequences reached through this admission are separate findings (CSA-B-01, CSA-B-04, CSA-B-03)."
+   ],
+   "finding_ids": [
+    "CSA-B-02",
+    "CSA-K-03",
+    "CSA-B-03"
+   ],
+   "id": "XC-X-007",
+   "track": "X"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "white isolation",
+     "behavior": "exact isolated binding sets when a main hand is supplied",
+     "coords": [
+      "crates/combat/src/topology.rs:957-973"
+     ]
+    },
+    {
+     "authority": "construction without white",
+     "behavior": "melee-speed and auto-attack-damage bindings discarded unvalidated",
+     "coords": [
+      "crates/combat/src/state/construction.rs:111-112",
+      "crates/combat/src/state/construction.rs:838-858"
+     ]
+    },
+    {
+     "authority": "package validator",
+     "behavior": "counts any of 5 families, so a discarded family satisfies completeness (A-01)",
+     "coords": [
+      "crates/combat/src/state/construction.rs:244-322"
+     ]
+    },
+    {
+     "authority": "raw-193 sibling",
+     "behavior": "fails closed on the same mutation",
+     "coords": [
+      "crates/combat/src/state/construction.rs:124-131"
+     ]
+    }
+   ],
+   "concept": "binding-family validation on white vs non-white input",
+   "evidence": [
+    "A-01 and F-01 share one missing boundary (white-only binding families are validated only by white admission); consequences differ (A-01 half-active package, F-01 inert), so keep both with a shared correction: validate white-only families at construction independent of white input, and match package members to the family owned by their role."
+   ],
+   "finding_ids": [
+    "CSA-A-01",
+    "CSA-F-01"
+   ],
+   "id": "XC-X-008",
+   "track": "X"
+  },
+  {
+   "class": "B",
+   "compilers": [
+    {
+     "authority": "direct Energize / EnergizePowerPercent",
+     "behavior": "amount and resource are host-resolved; only effect kind, delivery, attributes and recipient are checked; any finite positive amount (fractional too) admitted",
+     "coords": [
+      "crates/combat/src/program/resource_gain.rs:14-55",
+      "crates/data/src/action/catalog/operation.rs:819-858"
+     ]
+    },
+    {
+     "authority": "periodic energize",
+     "behavior": "resource from misc0, misc1 = 0, neutral amount facts, amount from the source effect",
+     "coords": [
+      "crates/combat/src/program/periodic/energize.rs:57-140"
+     ]
+    },
+    {
+     "authority": "direct damage / heal",
+     "behavior": "amount from source effect facts",
+     "coords": [
+      "crates/combat/src/damage.rs:30-37",
+      "crates/combat/src/healing.rs:65-94"
+     ]
+    },
+    {
+     "authority": "aura mutation (K-01)",
+     "behavior": "host aura identity/mode/amount never bound",
+     "coords": [
+      "crates/combat/src/program.rs:1595-1618"
+     ]
+    }
+   ],
+   "concept": "amount/identity binding of host-resolved steps to the exact source effect",
+   "evidence": [
+    "Direct resource gains are documented host-authoritative (development-ledger.md:1643-1649) -> class B for that row; periodic energize is source-bound by design. The aura-mutation row has no such documentation, which is why CSA-K-01 stands. Trinity CalcValue rounds ENERGIZE and POWER_BURN base points (SpellInfo.cpp:604-623); for direct energize that rounding is the host resolver's obligation."
+   ],
+   "finding_ids": [
+    "CSA-K-01"
+   ],
+   "id": "XC-X-009",
+   "track": "X"
+  },
+  {
+   "class": "F",
+   "compilers": [
+    {
+     "authority": "source_recipient",
+     "behavior": "(0,0) returns Ok(None): any host recipient (Caster or Target) is accepted",
+     "coords": [
+      "crates/combat/src/program/source_recipient.rs:9-53"
+     ]
+    },
+    {
+     "authority": "Trinity effect-type targets",
+     "behavior": "SpellInfo.cpp:964-1251: SCHOOL_DAMAGE/HEAL/APPLY_AURA/INTERRUPT/DISPEL -> EXPLICIT (explicit unit or caster); ENERGIZE -> NONE (no target, EffectEnergize SpellEffects.cpp:1570-1577 returns)",
+     "coords": []
+    }
+   ],
+   "concept": "recipient of implicit-target pair (0,0)",
+   "evidence": [
+    "Real (0,0) base-difficulty rows of admitted kinds: raw 6 x813, 164 x94, 203 x75, 2 x33, 30 x4 (Frostscythe 283556, Shadow Word: Pain 284401, Weighted Tendrils 296873, Pistol Shot 1257324), 68 x3, 10 x2 (Penance 197419, Greater Smite 1253724), 9 x2, 108/67/137/62 x1.",
+    "Trinity would target nobody for (0,0) Energize, which contradicts live Pistol Shot combo-point gain, so Trinity is not a trustworthy comparator here; recorded as UNK-X-001."
+   ],
+   "finding_ids": [],
+   "id": "XC-X-010",
+   "track": "X"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "raw-2 school damage",
+     "behavior": "round",
+     "coords": [
+      "crates/combat/src/damage.rs:30-37"
+     ]
+    },
+    {
+     "authority": "raw-10 heal / raw-9 leech",
+     "behavior": "no rounding",
+     "coords": [
+      "crates/combat/src/healing.rs:65-94"
+     ]
+    },
+    {
+     "authority": "power burn receipt",
+     "behavior": "truncation of the receipt",
+     "coords": [
+      "crates/combat/src/damage.rs:157-165"
+     ]
+    },
+    {
+     "authority": "direct energize",
+     "behavior": "host-resolved amount, fractional admitted",
+     "coords": [
+      "crates/combat/src/program/resource_gain.rs:14-55"
+     ]
+    }
+   ],
+   "concept": "authored base-point rounding per effect kind",
+   "evidence": [
+    "trinity SpellInfo.cpp:604-623 rounds SCHOOL_DAMAGE, HEALTH_LEECH, HEAL, HEAL_MAX_HEALTH, POWER_DRAIN, ENERGIZE and POWER_BURN in one switch. D-02 covers 9/10; energize is host-authoritative (XC-X-009)."
+   ],
+   "finding_ids": [
+    "CSA-D-02"
+   ],
+   "id": "XC-X-011",
+   "track": "X"
+  },
+  {
+   "class": "D",
+   "compilers": [
+    {
+     "authority": "payload policy",
+     "behavior": "every targeted or beneficial impact is crit-eligible",
+     "coords": [
+      "crates/combat/src/program/payload_policy.rs:33-47"
+     ]
+    },
+    {
+     "authority": "carve-outs",
+     "behavior": "only instakill/interrupt/dispel/dispel-mechanic clear eligibility",
+     "coords": [
+      "crates/combat/src/program.rs:1180-1205"
+     ]
+    },
+    {
+     "authority": "immune ordinary vs fixed-travel launch",
+     "behavior": "ordinary path draws then exposes Immune; launch path returns before drawing",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:893-906"
+     ]
+    }
+   ],
+   "concept": "critical eligibility and attack-table draws for impacts without amounts or delivery",
+   "evidence": [
+    "C-01 and I-01 are independent (eligibility vs suppression) but both change draw identity for impacts that cannot change an amount; one policy owner (impact-policy finalization) could fix both. Keep separate."
+   ],
+   "finding_ids": [
+    "CSA-C-01",
+    "CSA-I-01"
+   ],
+   "id": "XC-X-012",
+   "track": "X"
+  },
+  {
+   "class": "A",
+   "compilers": [
+    {
+     "authority": "raw-133 producer",
+     "behavior": "continuous product, no uint32 truncation",
+     "coords": [
+      "crates/combat/src/state/maximum_health_modifiers.rs:88-103"
+     ]
+    },
+    {
+     "authority": "raw-165 consumer",
+     "behavior": "requires integral maximum -> DamageCalculation",
+     "coords": [
+      "crates/combat/src/maximum_health_damage.rs:36-48"
+     ]
+    },
+    {
+     "authority": "raw-183 threshold",
+     "behavior": "exact real threshold; consumer truncates CountPctFromMaxHealth",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:127-141"
+     ]
+    }
+   ],
+   "concept": "maximum-health integrality: producer vs threshold and damage consumers",
+   "evidence": [
+    "D-01 and J-03 are two symptoms of one consumer fact (Trinity maximum health and percent thresholds are integers) that Core keeps continuous; UNK-D-002 asks for the global policy. Keep separate findings (different sites, different observables) but correct together."
+   ],
+   "finding_ids": [
+    "CSA-D-01",
+    "CSA-J-03"
+   ],
+   "id": "XC-X-013",
+   "track": "X"
+  },
+  {
+   "class": "E",
+   "compilers": [
+    {
+     "authority": "explicit remove / remove stacks",
+     "behavior": "quotes periodic cancellation",
+     "coords": [
+      "crates/combat/src/execution/planning/aura_lifecycle.rs:270-325"
+     ]
+    },
+    {
+     "authority": "dispel / mechanic dispel",
+     "behavior": "counts 0 periodic cancellations; masked by compile gates dispel.rs:243-247 and dispel_mechanic.rs:387-395",
+     "coords": [
+      "crates/combat/src/program/planning.rs:565-595"
+     ]
+    },
+    {
+     "authority": "death",
+     "behavior": "lazy cancel at next tick only",
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:449-457"
+     ]
+    }
+   ],
+   "concept": "periodic cancellation by removal kind",
+   "evidence": [
+    "E-02 LATENT is correctly labelled (class E: the dispel carriers admit no periodic fanout). Correcting E-01 through the explicit-removal path (H-01 boundary) inherits the correct cancellation; correcting it through a dispel-like path would inherit E-02."
+   ],
+   "finding_ids": [
+    "CSA-E-02",
+    "CSA-E-01"
+   ],
+   "id": "XC-X-014",
+   "track": "X"
+  },
+  {
+   "class": "E",
+   "compilers": [
+    {
+     "authority": "selected classifier",
+     "behavior": "CriticalBonus and op 0/22 points >= -100",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:1323"
+     ]
+    },
+    {
+     "authority": "passive haste / melee speed",
+     "behavior": "Positive policy; negative-haste formula unreachable (REJ-F)",
+     "coords": [
+      "crates/combat/src/program/passive_haste.rs:43-55"
+     ]
+    },
+    {
+     "authority": "white period factor guard",
+     "behavior": "finite positive factor assumed",
+     "coords": [
+      "crates/combat/src/white_swing.rs:452-463"
+     ]
+    }
+   ],
+   "concept": "sign/range policy of selected percent points vs consumer guards",
+   "evidence": [
+    "Consistent: every consumer that lacks a guard is protected by the classifier Positive/AtLeastNegativeHundred policy (XC-F-003). No cross-track conflict."
+   ],
+   "finding_ids": [],
+   "id": "XC-X-015",
+   "track": "X"
+  }
+ ],
+ "schema": 1
+}

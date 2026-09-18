@@ -1,0 +1,39 @@
+[
+ {
+  "id": "PL-E-001",
+  "authority": "AUTH-E-001",
+  "fact": "trigger/energize PreserveCadence under RestartLifetime",
+  "pattern": "retained_never_validated",
+  "coords": [
+   "crates/combat/src/program/periodic.rs:1588-1678",
+   "crates/data/src/action/catalog/periodic.rs:160-168"
+  ],
+  "verdict": "unknown",
+  "note": "Resolved cadence for subtype 23/24 is authored and retained; Core validates the pairing only for damage/heal (1646-1673). Trinity derives reset-vs-preserve from StackAmount<2 (Spell.cpp:3240), which Core never checks. No authoritative 12.x source rule found; see UNK-E-001.",
+  "track": "E"
+ },
+ {
+  "id": "PL-E-002",
+  "authority": "AUTH-E-005",
+  "fact": "expiry driver source actor",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/program/expiry.rs:142-154",
+   "crates/combat/src/expiry_execution.rs:19-22"
+  ],
+  "verdict": "clean",
+  "track": "E"
+ },
+ {
+  "id": "PL-E-003",
+  "authority": "AUTH-E-002",
+  "fact": "captured periodic target index across PreserveCadence refresh",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/periodic.rs:729-741"
+  ],
+  "verdict": "clean",
+  "note": "Retargeting on preserve refresh is documented behaviour (ledger 'Periodic trigger spell execution').",
+  "track": "E"
+ }
+]

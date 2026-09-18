@@ -1,0 +1,211 @@
+[
+ {
+  "id": "MUT-E-001",
+  "contract": "periodic cadence",
+  "dimension": "cadence",
+  "mutation": "RestartCadence -> PreserveCadence on subtype-23 trigger with RestartLifetime",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "admitted; refresh at 50 keeps 20ms anchor (ticks 20..140)",
+  "probe_test": "e_periodic_schedule.rs::holds_preserve_cadence_refresh_keeps_anchor",
+  "error": "none (behavioural observation)",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-002",
+  "contract": "periodic cadence",
+  "dimension": "period",
+  "mutation": "refresh at mid-period with RestartCadence",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "partial 10ms discarded; ticks 20,40,70..150 (Trinity ResetPeriodic parity)",
+  "probe_test": "e_periodic_schedule.rs::holds_restart_cadence_refresh_discards_partial_period",
+  "error": "none (behavioural observation)",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-003",
+  "contract": "initial occurrence",
+  "dimension": "attributes",
+  "mutation": "add raw 169 + OnFreshApplication; refresh while active",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "initial only at 0; refresh at 50 adds no occurrence",
+  "probe_test": "e_periodic_schedule.rs::holds_tick_on_application_only_on_fresh_application",
+  "error": "none (behavioural observation)",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-004",
+  "contract": "initial occurrence",
+  "dimension": "attributes",
+  "mutation": "OnFreshApplication without raw 169 (or 169 with AfterFirstPeriod)",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "periodic.rs:1449-1474 periodic_initial_policy_mismatch",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-005",
+  "contract": "haste cadence",
+  "dimension": "attributes",
+  "mutation": "raw 173 with PreserveCadence",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "periodic.rs:1398-1404 unsupported owner attribute",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-006",
+  "contract": "haste cadence",
+  "dimension": "amount facts",
+  "mutation": "raw 173 + spell_cast_speed 1.3, authored 1000ms",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "cadence 769ms, duration unchanged",
+  "probe_test": "e_periodic_schedule.rs::holds_spell_cast_speed_period_truncates",
+  "error": "none (behavioural observation)",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-007",
+  "contract": "same-time order",
+  "dimension": "duration",
+  "mutation": "duration exact multiple of period",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "final full tick at expiry fires before AuraExpired",
+  "probe_test": "e_periodic_schedule.rs::holds_exact_expiry_tick_runs_before_aura_expiry",
+  "error": "none (behavioural observation)",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-008",
+  "contract": "stale deadline",
+  "dimension": "trigger",
+  "mutation": "explicit Remove mid-period",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "no tick after removal",
+  "probe_test": "e_periodic_schedule.rs::holds_explicit_removal_leaves_no_stale_tick",
+  "error": "none (behavioural observation)",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-009",
+  "contract": "death lifecycle",
+  "dimension": "actor",
+  "mutation": "kill aura recipient while aura with raw-495 driver is active",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "driver child runs at natural expiry and reapplies aura to the corpse",
+  "probe_test": "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse",
+  "error": "none (behavioural observation)",
+  "finding_ids": [
+   "CSA-E-01"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-010",
+  "contract": "death lifecycle",
+  "dimension": "actor",
+  "mutation": "cast aura application on already-dead target",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "Applied; aura + periodic deadlines armed on corpse",
+  "probe_test": "e_death_lifecycle.rs::defect_fresh_periodic_application_onto_dead_recipient_is_admitted",
+  "error": "none (behavioural observation)",
+  "finding_ids": [
+   "CSA-E-01"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-011",
+  "contract": "death lifecycle",
+  "dimension": "actor",
+  "mutation": "kill recipient of periodic trigger aura",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "next tick cancels silently, no fizzle",
+  "probe_test": "e_death_lifecycle.rs::holds_periodic_trigger_cancels_silently_after_recipient_death",
+  "error": "none (behavioural observation)",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-012",
+  "contract": "dispel",
+  "dimension": "aura subtype",
+  "mutation": "make a dispellable aura carry a periodic schedule",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "dispel.rs:243-247 'no periodic lifecycle fanout'; dispel_mechanic.rs:394",
+  "finding_ids": [
+   "CSA-E-02"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-013",
+  "contract": "independent stacks",
+  "dimension": "owner attributes",
+  "mutation": "periodic schedule on AsynchronousStackingBuff owner",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "periodic.rs:87-121 lists raw AsynchronousStackingBuff in every periodic audit",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-014",
+  "contract": "expiry",
+  "dimension": "owner attributes",
+  "mutation": "raw-495 carrier on AsynchronousStackingBuff owner",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "expiry.rs:14-18,169-182",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-015",
+  "contract": "capped carryover",
+  "dimension": "cadence",
+  "mutation": "raw 436 aura with RestartCadence schedule",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "periodic.rs:1614-1640 conflicting_periodic_reapplication",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-016",
+  "contract": "passive flow",
+  "dimension": "rank",
+  "mutation": "AddStacks on flat/percentage passive-flow carrier",
+  "outcome": "unreachable",
+  "method": "static",
+  "evidence": "passive_flow_flat/validation.rs:321-332 max_stacks==1, single deadline",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-017",
+  "contract": "expiry source",
+  "dimension": "misc",
+  "mutation": "raw-495 misc0 0 vs nonzero vs resolved source mismatch",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": "expiry.rs:142-154; core test expiry_drivers.rs raw_misc_zero_uses_recipient_power_while_every_nonzero_uses_original_source_power",
+  "track": "E"
+ },
+ {
+  "id": "MUT-E-018",
+  "contract": "haste cadence",
+  "dimension": "coefficient",
+  "mutation": "authored 1100ms with spell_cast_speed 1.1",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "999ms cadence (f64 division truncation); no real period witnesses",
+  "probe_test": "e_periodic_schedule.rs::holds_division_truncation_witness_1100_over_1_1_is_999",
+  "error": "none (behavioural observation)",
+  "track": "E"
+ }
+]

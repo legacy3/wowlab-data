@@ -1,0 +1,63 @@
+[
+  {
+    "id": "NUM-R3-001",
+    "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:229-240",
+      "crates/combat/src/cooldown_recovery_rate.rs:850-852"
+    ],
+    "conversion": "raw-286 cooldown: base / prod(1+p/100) f64, truncated; consumer base * prod(100/(p+100)) with the product formed first",
+    "evidence_class": "direct_consumer_reproduced",
+    "observable": "no for every co-applicable 12.1.0 source combination; yes only for synthetic amounts or the non-co-applicable (+50,+60) pair at 1.5/3/6 s",
+    "evidence": [
+      "trinity SpellHistory.cpp:443-455",
+      "scan: single raw-286 amounts {50,60,75,100,150,200,5000} x 138 durations: 0 witnesses; (75,150),(75,75) Heart of the Jade Serpent: 0"
+    ],
+    "witness": "60000 ms +50/+60: consumer 24999 == Core 24999 (J's 25000 used base-first association); 1500 ms +50/+60: Core 624 vs consumer 625",
+    "finding_ids": [
+      "CSA-J-05"
+    ],
+    "probe_tests": [
+      "r3_recovery_rate.rs::holds_recovery_rate_sixty_second_witness_matches_consumer_association",
+      "r3_recovery_rate.rs::defect_recovery_rate_mechanism_diverges_only_on_non_coapplicable_pair"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "NUM-R3-002",
+    "coords": [
+      "crates/combat/src/recovery.rs:94-114",
+      "crates/combat/src/periodic.rs:551-562"
+    ],
+    "conversion": "hasted periodic period trunc(period / f64 speed) vs consumer int32(period * binary32 ModCastingSpeed)",
+    "evidence_class": "known_divergence",
+    "observable": "yes: NUM-E-001's 'core_choice, 0 witnesses' compared against exact arithmetic, not the binary32 consumer it cites",
+    "evidence": [
+      "trinity SpellAuraEffects.cpp:1006-1007 `_period = int32(_period * ModCastingSpeed)`; Unit.cpp:10978-10981 ModCastingSpeed = 1.0f * 100.0f/(100.0f+pct)",
+      "scan over E's 8 admitted periods x haste 0.01..200% (step 0.01%): 12000 ms @ 134.65% -> Core 5113 vs consumer 5114; over all 29 raw-173 periods x 0.01..100%: 31/290000 witnesses, e.g. 5000 ms @ 2.02% -> 4900 vs 4901, 275 ms @ 10% -> 249 vs 250"
+    ],
+    "witness": "5000 ms period at 2.02% spell haste: Core 4900, consumer 4901",
+    "finding_ids": [
+      "CSA-J-02"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "NUM-R3-003",
+    "coords": [
+      "crates/combat/src/cooldown/charge_rate.rs:120-146",
+      "crates/combat/src/cooldown/charge_rate.rs:178-182"
+    ],
+    "conversion": "charge full_interval rebased as trunc(full_interval * old_speed/new_speed) and retained for later charges",
+    "evidence_class": "known_divergence",
+    "observable": "yes: later charges recover 1 ms per apply/expire cycle faster than the base recharge",
+    "evidence": [
+      "trinity SpellHistory.cpp:839-846, 873-899, 975-1009"
+    ],
+    "witness": "15000 ms pool, +40% aura 0..15000: third charge consumed at 15000 ready at 38998 (consumer 38999)",
+    "finding_ids": [
+      "CSA-R3-02"
+    ],
+    "probe_test": "r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions",
+    "track": "R3"
+  }
+]

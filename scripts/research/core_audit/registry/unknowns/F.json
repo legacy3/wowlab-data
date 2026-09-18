@@ -1,0 +1,23 @@
+[
+ {
+  "id": "UNK-F-001",
+  "track": "F",
+  "question": "Same-instant tie between a due white swing and a hard-cast start: Core swings first (engine processes transitions <= now before the rotation, e.g. crates/engine/tests/cooldown_start.rs:185-205); Trinity processes session packets (cast) before the unit update in the same map tick (Maps/Map.cpp:661-670, Unit.cpp:2185-2190), suppressing that swing until the launch reset.",
+  "why_unknown": "tie semantics depend on server tick granularity; no retail capture at pin; Trinity is an emulator",
+  "reopen": "retail combat log showing a cast started on the exact swing-ready frame, or a Core decision recording the tie policy"
+ },
+ {
+  "id": "UNK-F-002",
+  "track": "F",
+  "question": "Is the retail attack-time consumer binary32 (Core: base 2300 ms, +15% -> 1999 ms) or exact (2000 ms)?",
+  "why_unknown": "only Trinity (f32) reproduces; live admitted amounts (3,5,20,40) have no witness so it is unobservable today",
+  "reopen": "a live admitted raw-319/raw-193 amount with a witness base (e.g. 15%) or client disassembly"
+ },
+ {
+  "id": "UNK-F-003",
+  "track": "F",
+  "question": "Does the Dark Bite reset need the SpellInterrupts Combat flag audited (Trinity IsAutoActionResetSpell requires InterruptFlags & Combat)?",
+  "why_unknown": "holds at pin (row 190450 InterruptFlags=40) but Core never reads the flag; future data could diverge undetected",
+  "reopen": "DBC build where 394463 InterruptFlags lacks 0x08, or Core adding a SpellInterrupts projection"
+ }
+]

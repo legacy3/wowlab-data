@@ -1,0 +1,60 @@
+[
+ {
+  "id": "REJ-J-001",
+  "track": "J",
+  "suspicion": "White raw-344 damage modifier applied to weapon range bounds (then uniform roll) instead of roll-then-multiply, changing the damage distribution",
+  "why_rejected": "Runtime applies the modifier to the rolled value (runtime.rs:38-42, state/white_main_hand.rs:99-101); bounds are only used for admission/progress checks.",
+  "coords": [
+   "crates/combat/src/white_swing/runtime.rs:38-42",
+   "crates/combat/src/state/white_main_hand.rs:96-101",
+   "crates/combat/src/white_swing.rs:293-298"
+  ]
+ },
+ {
+  "id": "REJ-J-002",
+  "track": "J",
+  "suspicion": "White critical doubling before armor mitigation or u32 overflow on doubling",
+  "why_rejected": "Order is roll -> raw344 -> armor -> *2, matching Trinity CalculateMeleeDamage; u32 overflow excluded by admission guard mitigated(modified_maximum) <= u32::MAX/2.",
+  "coords": [
+   "crates/combat/src/state/white_main_hand.rs:99-107",
+   "crates/combat/src/white_swing.rs:325-331"
+  ]
+ },
+ {
+  "id": "REJ-J-003",
+  "track": "J",
+  "suspicion": "Zero-armor exact integer path above 2^24 (NUM-J-004) as a finding",
+  "why_rejected": "Divergence requires prepared white damage > 16,777,216 with exactly zero target armor; no source-valid prepared weapon damage approaches 2^24. Recorded as numeric known_divergence only.",
+  "coords": [
+   "crates/combat/src/white_swing.rs:151-153"
+  ]
+ },
+ {
+  "id": "REJ-J-004",
+  "track": "J",
+  "suspicion": "Selected rank curve evaluated with interpolation/float error so that Core rank amounts differ from Trinity GetCurveValueAt",
+  "why_rejected": "Core admits only type-0/flags-0 curves whose point x equals the rank exactly; Trinity Linear/Constant at an exact point returns point.Y exactly, and Multiply is double*float in both.",
+  "coords": [
+   "crates/data/src/trait_source/amount.rs:10-41",
+   "crates/data/src/trait_source/selected_spell.rs:84-95"
+  ]
+ },
+ {
+  "id": "REJ-J-005",
+  "track": "J",
+  "suspicion": "Negative-zero selected amount (authored -10 * curve 0) mis-validated by exact_i32 bit round trip",
+  "why_rejected": "Only source instance is Skrog Tooth 1223600 effect 1 (aura 218, 11-point curve, TraitDefinitionEffectPoints 23704/23864); exact_i32 is only used by flat SpellMod compilers (selected_trait_package.rs:1228,1256) and aura 218 is a percent label modifier where -0.0 gives factor 1.0 (Trinity skips value==1.0f). Rejection of -0.0 by a flat consumer would fail closed, not mis-execute.",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:1314-1335"
+  ]
+ },
+ {
+  "id": "REJ-J-006",
+  "track": "J",
+  "suspicion": "SpellMod percent product order (effect-ref sorted) diverges from the consumer order",
+  "why_rejected": "Trinity orders equal-op/type SpellModifiers by pointer address (Player.h:315-327), so the consumer has no deterministic order to diverge from; two factors commute exactly in IEEE multiplication.",
+  "coords": [
+   "crates/combat/src/spell_modifier_authority.rs:121-165"
+  ]
+ }
+]

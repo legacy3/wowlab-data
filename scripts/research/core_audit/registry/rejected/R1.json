@@ -1,0 +1,54 @@
+[
+ {
+  "id": "REJ-R1-001",
+  "finding_ids": [
+   "CSA-D-05"
+  ],
+  "suspicion": "CSA-D-05: a raw-39 school-immunity holder taking covered caster-delivered (self) raw-165 damage diverges from Trinity, which would zero it.",
+  "why_rejected": "Trinity applies school immunity only to negative effects: Unit::IsImmunedToSpell skips an immunity entry unless NegativeEffects & effectMask or the immunity aura has SPELL_ATTR1_IMMUNITY_TO_HOSTILE_AND_FRIENDLY_EFFECTS (Unit.cpp:7797-7800), and Unit::IsImmunedToDamage(caster, spellInfo) skips it for spellInfo->IsPositive() under the same attribute test (Unit.cpp:7890-7891); Spell.cpp:2912 (damage-time check) and Object.cpp:1957 (SpellHitResult) both route through these. A raw-165 DAMAGE_FROM_MAX_HEALTH_PCT effect is not in the negative-effect switch of _isPositiveEffectImpl (SpellInfo.cpp:4747-4767), targets TARGET_UNIT_CASTER (positive target) and therefore returns positive (SpellInfo.cpp:5062); no TDB/SpellMgr override exists for 1257873. The only admitted provider 161901 has no attributes. So Trinity also lands the damage: Core matches the consumer. Every raw-165 (1,0) row that passes Core owner-attribute gates lacks ATTR0_AURA_IS_DEBUFF (raw 26, uncataloged) and IsHarmful effect attributes (census, scratch/R1). Core's own catalog row names the slice \"admitted positive neutral self-targeted\". Residual: only the catalog wording \"assumes absent immunity\" (spell_effect.rs:262) is stale, info.",
+  "coords": [
+   "crates/combat/src/program/school_immunity.rs:236-282",
+   "crates/combat/src/school_immunity.rs:22-39",
+   "crates/dbc/src/spell_effect.rs:262"
+  ],
+  "track": "R1"
+ },
+ {
+  "id": "REJ-R1-002",
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "suspicion": "CSA-C-01 scope: every beneficial / buff / resource impact is critical-eligible (evidence \"every beneficial impact regardless of has_damage\").",
+  "why_rejected": "In prepare_impact_quotes \"beneficial\" means has_healing (planning.rs:808); a critical is prepared only for periodic-health, healing, Target-recipient, or damage impacts (planning.rs:850-935). A Caster-recipient aura-only self buff never resolves Critical: probe r1_real_rows.rs::holds_real_player_self_buff_impact_never_resolves_critical (real 156021 under Player crit 1.0 -> Hit). The finding survives only for Target-recipient impacts without amounts (defect_exact_stun_crits_from_enemy_weapon_channel_with_zero_spell_chance).",
+  "coords": [
+   "crates/combat/src/execution/planning.rs:790-944"
+  ],
+  "probe_test": "r1_real_rows.rs::holds_real_player_self_buff_impact_never_resolves_critical",
+  "track": "R1"
+ },
+ {
+  "id": "REJ-R1-003",
+  "finding_ids": [
+   "CSA-J-05"
+  ],
+  "suspicion": "CSA-J-05 two-source witness: 60 s with +50/+60 gives Core 24999 where Trinity gives 25000.",
+  "why_rejected": "Trinity forms the recovery-rate product first and multiplies once: recoveryRate *= 100/(amount+100) per aura, then int64(cooldown * recoveryRate) (SpellHistory.cpp:432-455). 60000 * (100/150 * 100/160) = 24999.999999999996 -> 24999, equal to Core. Only the single-source 16.5 s / +10 witness diverges (Core 14999, Trinity 15000), and R3 found no real raw-286/raw-148 amount x SpellCooldowns value that diverges. Supports R3 (REJ-R3-002): LATENT, info.",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:233-240",
+   "crates/combat/src/cooldown_recovery_rate.rs:850-852"
+  ],
+  "track": "R1"
+ },
+ {
+  "id": "REJ-R1-004",
+  "finding_ids": [
+   "CSA-K-01"
+  ],
+  "suspicion": "CSA-K-01 Set-mode clause: a real raw-289 Set-mode row executes with a wrong stack count because Core can only Add/Remove.",
+  "why_rejected": "Of 21 base-difficulty raw-289 Set-mode rows, one passes the owner-attribute audit: Golden Hubris 1213197 (Set 7 on 1213195, (1,0)). Its target aura 1213195 has CumulativeAura 7, so the best host declaration AddAuraStacks{count: 7} yields min(current+7, 7) = 7 from any state, identical to Trinity SetStackAmount(7) (SpellEffects.cpp:6126-6146). No real Set-mode row is observably wrong for a faithful host; the identity/direction clauses need a host declaration that contradicts its own source row (validation fail-open).",
+  "coords": [
+   "crates/combat/src/program.rs:1620-1690"
+  ],
+  "track": "R1"
+ }
+]

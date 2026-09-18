@@ -1,0 +1,49 @@
+[
+ {
+  "id": "LC-I-001",
+  "owner": "CombatState",
+  "field": "random",
+  "coords": [
+   "crates/combat/src/state.rs:94",
+   "crates/combat/src/state/construction.rs:232",
+   "crates/combat/src/state.rs:439-451"
+  ],
+  "init": "random_identity.stream() at construction",
+  "mutation_sites": [
+   "crates/combat/src/execution/commit.rs:228",
+   "crates/combat/src/execution/commit.rs:460",
+   "crates/combat/src/execution/commit.rs:905",
+   "crates/combat/src/state/white_main_hand.rs:99"
+  ],
+  "quote_visible": "read only through clones in dispel.rs:94 and health.rs:533",
+  "commit": "advanced only by commit-time resolution, dispel selection, mechanic scans, white swings",
+  "failure": "no failure path touches it (probes i_rng_dispel.rs)",
+  "reset": "RandomStream::reset (identity retained)",
+  "iteration_reset": "replaced by new identity stream",
+  "death": "dead targets skip white draws; fizzled segments draw nothing",
+  "allocation": "inline 48 bytes, no allocation",
+  "work_identity": "(root_seed, global_iteration) + WHITE_MAIN_HAND_SEMANTICS_VERSION",
+  "probe_test": "i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+  "track": "I"
+ },
+ {
+  "id": "LC-I-002",
+  "owner": "CombatState",
+  "field": "execution_scratch",
+  "coords": [
+   "crates/combat/src/state.rs:97",
+   "crates/combat/src/execution/scratch.rs:704-770"
+  ],
+  "init": "ExecutionScratch::with_layout",
+  "mutation_sites": [
+   "crates/combat/src/execution/scratch.rs:704-757",
+   "crates/combat/src/cast/quote.rs:22"
+  ],
+  "quote_visible": "yes: cast_readiness leaves the last quote's program_frames and impact_quotes in scratch (observed via Debug)",
+  "failure": "restored on Err; stale content inert because every entry prepares",
+  "reset": "execution_scratch.reset clears frames/impact quotes",
+  "iteration_reset": "same",
+  "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+  "track": "I"
+ }
+]

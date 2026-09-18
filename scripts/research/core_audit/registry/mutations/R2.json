@@ -1,0 +1,94 @@
+[
+ {
+  "id": "MUT-R2-001",
+  "contract": "resource gain recipient liveness",
+  "dimension": "actor",
+  "mutation": "GainResource (Energize +100 Mana) recipient Target: living -> dead primary target",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "cast succeeds, Mana 0 -> 100 on the corpse",
+  "probe_test": "r2_resource_death.rs::defect_resource_gain_commits_onto_dead_target",
+  "error": "none (accepted)",
+  "finding_ids": [
+   "CSA-R2-01"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "MUT-R2-002",
+  "contract": "passive resource flow lifetime",
+  "dimension": "actor",
+  "mutation": "flowing pool owner: living -> killed at t=0, advance 5 s",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "projected Mana 50 at t=5000 while dead",
+  "probe_test": "r2_resource_death.rs::defect_passive_resource_flow_keeps_accruing_after_death",
+  "error": "none (accepted)",
+  "finding_ids": [
+   "CSA-R2-01"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "MUT-R2-003",
+  "contract": "death transition resource reset",
+  "dimension": "actor",
+  "mutation": "lethal damage on an actor holding 500 Mana",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "500 Mana retained after ActorDied (Trinity zeroes the power type)",
+  "probe_test": "r2_resource_death.rs::defect_primary_power_is_retained_at_death",
+  "error": "none (accepted)",
+  "finding_ids": [
+   "CSA-R2-01"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "MUT-R2-007",
+  "contract": "passive raw-396 threshold lifetime",
+  "dimension": "actor",
+  "mutation": "passive gain-threshold pool owner (Core fixture BoundInactive, Rage 20/100, +10/s flow): living -> 0-health owner",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "state construction admits the dead owner; the passive-flow threshold deadline stays at 6000 ms and the raw-396 child 396002 executes, gaining Rage 80 -> 85 for the corpse. Uses a construction-time 0-health owner (equivalent state to after a lethal commit) to reach the passive raw-396 fixture.",
+  "probe_test": "r2_threshold_death.rs::defect_passive_threshold_child_executes_for_dead_owner",
+  "error": "none (accepted)",
+  "finding_ids": [
+   "CSA-R2-01"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "MUT-R2-004",
+  "contract": "resource gain pool presence",
+  "dimension": "actor",
+  "mutation": "GainResource Mana recipient: actor owning a Mana pool -> living actor without a Mana pool",
+  "outcome": "rejected_accidental",
+  "method": "probe",
+  "evidence": "construction admits the state; the cast fails as a whole with MissingResource (execution/resource.rs:281-321). Trinity Spell::EffectEnergize returns silently for GetMaxPower(power) == 0 (SpellEffects.cpp:1586-1587) and the spell's other effects proceed. Source reachability open (UNK-R2-001).",
+  "probe_test": "r2_resource_death.rs::holds_energize_for_absent_pool_rejects_whole_cast_with_missing_resource",
+  "error": "MissingResource",
+  "track": "R2"
+ },
+ {
+  "id": "MUT-R2-005",
+  "contract": "maximum-resource transition vs same-segment resource write",
+  "dimension": "source order",
+  "mutation": "raw-418 aura application followed by GainResource on the same pool in one program",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "resource_policy_boundary (execution/planning.rs:760-785) ends the segment right after any aura mutation that maximum_resource_modifier_affects_mutation, so the gain suffix is freshly quoted against the committed maximum; quote_maximum_resource_from never sees a stale gain.",
+  "track": "R2"
+ },
+ {
+  "id": "MUT-R2-006",
+  "contract": "Power Drain caster gain",
+  "dimension": "amount facts",
+  "mutation": "EffectAmplitude 0 (NEUTRAL) -> 1.0 on a raw-8 Power Drain",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "compile_amount requires has_exact_neutral_amount_facts (program/power_drain.rs:253-262), so a nonzero amplitude (Trinity gainMultiplier = CalcValueMultiplier, SpellEffects.cpp:1167-1173) fails closed; with amplitude 0 Trinity's caster gain is 0, matching Core's drain-only op.",
+  "track": "R2"
+ }
+]

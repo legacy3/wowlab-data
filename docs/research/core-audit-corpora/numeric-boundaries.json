@@ -1,0 +1,1530 @@
+{
+ "count": 98,
+ "kind": "numeric",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "conversion": "rank shaping: Set -> f64(curve f32); Multiply -> authored f64 * f64(curve f32)",
+   "coords": [
+    "crates/data/src/trait_source/selected_spell.rs:85-95",
+    "crates/data/src/trait_source/selected_spell.rs:350-369"
+   ],
+   "evidence": [
+    "trinity: src/server/game/Spells/SpellInfo.cpp:541-551 (SpellEffectValue=double, SpellDefines.h:490; GetCurveValueAt returns float) - identical double arithmetic"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-A-001",
+   "observable": "selected rank amount of every shaped effect",
+   "track": "A"
+  },
+  {
+   "conversion": "flat SpellMod selected amount -> i32 by exact round trip (non-integral rejects)",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:1331-1335",
+    "crates/combat/src/program/selected_trait_package.rs:1228",
+    "crates/combat/src/program/selected_trait_package.rs:1256"
+   ],
+   "evidence": [
+    "trinity: SpellInfo.cpp CalcValueAsInt truncates int32(value) (SpellInfo.cpp:517-520); Core refuses instead of truncating"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-A-002",
+   "observable": "none for live integral amounts; non-integral shaped flat amounts fail closed",
+   "track": "A"
+  },
+  {
+   "conversion": "auto-attack damage factor = 1.0f32 + f32(points)/100f32",
+   "coords": [
+    "crates/combat/src/program/passive_auto_attack_damage.rs:194",
+    "crates/combat/src/program/passive_auto_attack_damage.rs:215-217"
+   ],
+   "evidence": [
+    "trinity: Unit.cpp:8061,8088-8089 float DoneTotalMod=1.0f; AddPct(float, pct) = base + float(base*float(pct)/100f) (Util.h:72-88); equal when DoneTotalMod==1 at that point; ordering against school percent (Unit.cpp:8081) is track F/J"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-A-003",
+   "observable": "white damage factor",
+   "track": "A"
+  },
+  {
+   "conversion": "melee speed period factor = 100f32/(100f32+f32(points))",
+   "coords": [
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:115-116"
+   ],
+   "evidence": [
+    "core: binary32 narrowing documented as authoritative consumer; direct comparator not reopened by track A (track F owns swing period)"
+   ],
+   "evidence_class": "assumed",
+   "id": "NUM-A-004",
+   "observable": "white swing period",
+   "track": "A"
+  },
+  {
+   "conversion": "absorb received factor = 1 + points/100 (f64)",
+   "coords": [
+    "crates/combat/src/program/passive_absorb_received.rs:182-185"
+   ],
+   "evidence": [
+    "not compared against a direct consumer in track A (track D owns absorbs)"
+   ],
+   "evidence_class": "unknown",
+   "id": "NUM-A-005",
+   "observable": "absorb amount",
+   "track": "A"
+  },
+  {
+   "conversion": "percent SpellMod factors multiplied as binary32 per term in canonical exact-effect order",
+   "coords": [
+    "crates/combat/src/spell_modifier_authority.rs:370-377"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-B-001",
+   "note": "Trinity GetSpellModValues accumulates float pct *= pow(...) (Player.cpp ~22800-22840) but iterates class-mask pct mods before label pct mods in m_spellMods order; Core orders by exact effect. Order only matters for >=3 non-exact factors.",
+   "observable": "projection factor",
+   "track": "B"
+  },
+  {
+   "conversion": "binary32 (1+p/100)^count via powf",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:472-483"
+   ],
+   "evidence_class": "source_backed",
+   "id": "NUM-B-002",
+   "note": "Trinity std::pow(1.0f + CalculatePct(1.0f, value), float(applyCount)); exact for count 1; libm ulp agreement for count>=2 is UNK-B-003.",
+   "observable": "per-payload factor",
+   "track": "B"
+  },
+  {
+   "conversion": "PercentFirstEffect factor computed in f64 1+p/100 then narrowed to binary32 at aggregation",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:544",
+    "crates/combat/src/spell_modifier_authority.rs:375-377"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-B-003",
+   "observable": "raw-20 first-effect percent",
+   "track": "B",
+   "witness": "p=-99: f32(1+(-99)/100 f64)=0.0099999998 vs binary32 1+f32(-99)/100 = 0.0099999905; 80 of 301 integer p in [-100,200] differ; common +8/+10/+20/+50 agree."
+  },
+  {
+   "conversion": "cooldown (base + flat) * binary32 factor, truncated once, clamp <=0 to suppression",
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:537-548"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-B-004",
+   "note": "Trinity ApplySpellMod<int32>: T((double(base)+flat)*float pct) (Player.cpp ApplySpellMod) then negative -> 0 (SpellHistory.cpp:491-496).",
+   "observable": "cooldown start duration",
+   "track": "B"
+  },
+  {
+   "conversion": "ordinary cooldown duration = trunc(base / haste / rate_speed).max(1)",
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:231-240",
+    "crates/combat/src/cooldown/time_math.rs:5-24"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-B-005",
+   "observable": "deadline duration ms",
+   "track": "B",
+   "witness": "base 66000 ms, one +10% raw-286 rate: Core trunc(66000/1.1)=59999; Trinity floor(66000*(100/110))=60000 (SpellHistory.cpp:431-445). Same shape for base 110000/+10% (99999 vs 100000). Division by f64 speed vs multiplication by reciprocal."
+  },
+  {
+   "conversion": "charge duration (base+flat) * f64 prod(1+p/100) / haste / speed, truncated once",
+   "coords": [
+    "crates/combat/src/charge_duration.rs:288-313",
+    "crates/combat/src/cooldown/charge_recovery_input.rs:43-67"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-B-006",
+   "note": "Trinity GetChargeRecoveryTime uses float multipliers and floor (SpellHistory.cpp:975-1010).",
+   "observable": "charge recovery interval",
+   "track": "B"
+  },
+  {
+   "conversion": "op-15 excess 1+(M-1)F in f64 with binary32 F",
+   "coords": [
+    "crates/combat/src/state/modifiers.rs:360-395"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-B-007",
+   "note": "Trinity applies op 15 to an int32 crit_bonus (Unit.cpp:7296-7317) truncating the scaled excess to an integer; Core keeps fractional amounts.",
+   "observable": "critical multiplier",
+   "track": "B"
+  },
+  {
+   "conversion": "crit chance = max(0, baseline + (sum_source_pts + sum_target_pts)/100) in f64, single floor",
+   "coords": [
+    "crates/combat/src/critical_modifier.rs:188-241"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-C-001",
+   "observable": "probability of the critical draw",
+   "track": "C",
+   "witness": "Trinity floors the done stage (SpellCritChanceDone max(,0), Unit.cpp:7171) before adding taken terms and floors again (Unit.cpp:7275). baseline 0.05, source -10 pts, target +5 pts: Core max(0, 0.05-0.10+0.05)=0.00; Trinity max(0,-5)+5 = 5%. Requires an admitted negative source-held term with a positive target-held term; not demonstrated with a source-valid pair."
+  },
+  {
+   "conversion": "Probability(min(chance,1)); occurs: no draw at <=0 or >=1, else next_unit_f64() < p",
+   "coords": [
+    "crates/combat/src/critical/resolution.rs:95-113",
+    "crates/sim/src/random.rs:88-98"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-C-002",
+   "observable": "draw count and crit outcome",
+   "track": "C",
+   "witness": "Trinity roll_chance(float) on a float percent; Core compares f64 unit draw to f64 probability. Boundary short-circuit changes draw count at exactly 0/100% (documented)."
+  },
+  {
+   "conversion": "bonus: 1+(m-1)F; school: m*prod(1+p/100); order by defense family",
+   "coords": [
+    "crates/combat/src/execution/planning/critical.rs:35-76",
+    "crates/combat/src/state/modifiers.rs:380"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-C-003",
+   "observable": "critical damage amount",
+   "track": "C",
+   "witness": "melee: (1+1.1f)*1.2 = 2.52000002861; magic: 1+(2*1.2-1)*1.1f = 2.54000003338 (core_test selected_martial_expert.rs:80-94); Trinity Unit.cpp:1216-1231 vs 7279-7306 reproduce the same orders (integer truncation aside)."
+  },
+  {
+   "conversion": "op-15 factor computed in binary32 (1+p/100)^bits then widened to f64",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:477-483"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-C-004",
+   "observable": "critical damage multiplier (1.1f = 1.10000002384)",
+   "track": "C",
+   "witness": "Trinity SpellModifier pct in float (ApplySpellMod); Core core_test uses f64::from(1.1_f32)."
+  },
+  {
+   "conversion": "normal = amount*outgoing*incoming (f64, floor 0); critical = normal*multiplier; landed = base*block multiplier; no intermediate integer truncation",
+   "coords": [
+    "crates/combat/src/damage.rs:118-151",
+    "crates/combat/src/health_amount.rs:67-79"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-C-005",
+   "observable": "dealt damage",
+   "track": "C",
+   "witness": "Trinity truncates to integers after armor, after crit bonus (uint32 crit_bonus, AddPct on int), and CalculatePct for block (Unit.cpp:1216-1250). Core's single f64 chain differs by < 1 per step; final rounding is Track D."
+  },
+  {
+   "conversion": "critical-block retained = max(0, 1-(1-m)*F) in f64",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:382-398"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-C-006",
+   "observable": "critically blocked damage",
+   "track": "C",
+   "witness": "Trinity: uint32 value = blockPct*2; value *= float mult (truncating to uint32); blocked = CalculatePct(damage, value) (Unit.cpp:1238-1244). pct 31, F 1.2 -> Trinity value trunc(74.4)=74% vs Core 74.4%."
+  },
+  {
+   "conversion": "white crit basis points = trunc(clamp(f32(percent)+f32(points),0,100)*100f)",
+   "coords": [
+    "crates/combat/src/white_swing.rs:23-70"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-C-007",
+   "observable": "white critical threshold",
+   "track": "C",
+   "witness": "6.06f + 2f -> 805 (core unit test white_swing.rs:466-480); Trinity RollMeleeOutcomeAgainst int32(float*100)."
+  },
+  {
+   "conversion": "raw-183 threshold = maximum*(percent/100) f64; Above strict / AtOrAbove inclusive",
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:123-138"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-C-008",
+   "observable": "whether raw 183 applies at the threshold",
+   "track": "C",
+   "witness": "Trinity !HealthBelowPct(miscB): health >= uint64 CalculatePct(maxHealth, pct) (integer-truncated threshold, always inclusive). max 1001, 80%: Trinity threshold 800 (inclusive), Core 800.8. Core strict Above(50) for Conduit of Flame follows the live tooltip (development-ledger.md:3478-3484) - documented choice."
+  },
+  {
+   "conversion": "crit heal = normal*mult*prod(1+p50/100) f64",
+   "coords": [
+    "crates/combat/src/critical_healing_amount.rs:60-80",
+    "crates/combat/src/execution/planning/health.rs:1565-1580"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-C-009",
+   "observable": "critical heal amount",
+   "track": "C",
+   "witness": "Trinity int32(float(damage+bonus) * GetTotalAuraMultiplier(50)) (Unit.cpp:7322-7323) - same product, Trinity truncates."
+  },
+  {
+   "conversion": "spell attack table in exact f64 absolute shares (no basis-point quantization); crit and block are separate occurs draws",
+   "coords": [
+    "crates/sim/src/random.rs:111-132",
+    "crates/combat/src/attack/resolution.rs:284-353"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-C-010",
+   "observable": "miss/dodge/parry/block/crit probabilities for yellow attacks",
+   "track": "C",
+   "witness": "Trinity MeleeSpellHitResult uses one urand(0,9999) with uint32(chance*100) thresholds including block (Unit.cpp:2633-2745); miss 5.005% -> Trinity 500 bp vs Core 0.05005. Core's separate block roll after landing is a deliberate two-roll design (Track F/I own the table shape)."
+  },
+  {
+   "conversion": "raw-2 direct base points f64 -> round() half away from zero before AP/SP terms",
+   "coords": [
+    "crates/combat/src/damage.rs:30-37"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "SpellInfo.cpp:611-627"
+    },
+    {
+     "class": "core_test",
+     "ref": "crates/combat/src/damage/direct_school_damage_tests.rs:11-30"
+    },
+    {
+     "class": "probe",
+     "ref": "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-D-001",
+   "observable": "direct School Damage amounts",
+   "track": "D"
+  },
+  {
+   "conversion": "raw-10 / raw-9 direct base points kept fractional (no round)",
+   "coords": [
+    "crates/combat/src/healing.rs:65-94",
+    "crates/combat/src/program/damage.rs:157-163"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-D-02"
+   ],
+   "id": "NUM-D-002",
+   "observable": "heal / leech amounts differ by up to 0.5 x scaling",
+   "probe_tests": [
+    "d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points",
+    "d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points"
+   ],
+   "track": "D",
+   "witness": "15278:1 heals 1.5 (Trinity 2); 3243:1 leeches 5.5555558 (Trinity 6)"
+  },
+  {
+   "conversion": "final damage/healing amounts are continuous f64 (no int32 truncation after done/taken bonuses or critical)",
+   "coords": [
+    "crates/combat/src/damage.rs:97-152",
+    "crates/combat/src/health_amount.rs:67-92",
+    "crates/combat/src/health.rs:86-116"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "note": "direct consumer truncates at each stage",
+     "ref": "Unit.cpp SpellDamageBonusDone/Taken return uint32; EffectHeal int32 (SpellEffects.cpp:1247-1281)"
+    },
+    {
+     "class": "inferred",
+     "ref": "Core consistently keeps f64 amounts; not documented as a divergence in architecture.md"
+    }
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-D-003",
+   "observable": "all health changes; fractional health pools",
+   "track": "D"
+  },
+  {
+   "conversion": "periodic raw-3/raw-8/raw-53 base points kept fractional",
+   "coords": [
+    "crates/combat/src/damage.rs:64-72",
+    "crates/combat/src/healing.rs:56-63"
+   ],
+   "evidence": [
+    {
+     "class": "core",
+     "note": "periodic_and_captured_damage_keep_fractional_source_amounts",
+     "ref": "crates/combat/src/damage/direct_school_damage_tests.rs:32-63"
+    },
+    {
+     "class": "core",
+     "ref": "docs/development-ledger.md ~L24115 'periodic and captured damage keep their fractional policies'"
+    },
+    {
+     "class": "trinity",
+     "ref": "SpellInfo.cpp:628-650 rounds PERIODIC_DAMAGE/HEAL/LEECH aura amounts"
+    }
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-D-004",
+   "observable": "periodic tick amounts",
+   "track": "D"
+  },
+  {
+   "conversion": "raw-89 percentage points x stacks rounded, maximum x pct ceiled per full tick, then elapsed fraction",
+   "coords": [
+    "crates/combat/src/damage.rs:74-95"
+   ],
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "docs/development-ledger.md ~L2291-2301 raw-89 ceiling correction citing reference handler"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-D-005",
+   "observable": "periodic max-health damage",
+   "track": "D"
+  },
+  {
+   "conversion": "raw-165: integral u64 maximum -> binary32 x binary32 pct / 100 -> truncate u64 -> <= i32::MAX -> f64",
+   "coords": [
+    "crates/combat/src/maximum_health_damage.rs:36-80"
+   ],
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/dbc/src/spell_effect.rs:262 catalog contract"
+    },
+    {
+     "class": "probe",
+     "ref": "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133"
+    }
+   ],
+   "evidence_class": "source_backed",
+   "finding_ids": [
+    "CSA-D-01"
+   ],
+   "id": "NUM-D-006",
+   "observable": "raw-165 damage and its domain rejection",
+   "track": "D"
+  },
+  {
+   "conversion": "maximum health = baseline x factor, continuous (no uint32 truncation)",
+   "coords": [
+    "crates/combat/src/state/maximum_health_modifiers.rs:97-100",
+    "crates/combat/src/health.rs:177-200"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "StatSystem.cpp:314-323"
+    },
+    {
+     "class": "probe",
+     "ref": "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133"
+    }
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-D-01"
+   ],
+   "id": "NUM-D-007",
+   "observable": "maximum and current health; downstream percent consumers",
+   "track": "D",
+   "witness": "1001 x 1.5 = 1501.5 (Trinity 1501)"
+  },
+  {
+   "conversion": "school-absorb capacity: base x source (continuous) when recipient factor == 1; round(round(base x source) x recipient) otherwise",
+   "coords": [
+    "crates/combat/src/absorb/transaction.rs:902-925"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "Unit.cpp:7684-7686, 7715-7719"
+    },
+    {
+     "class": "probe",
+     "ref": "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded"
+    }
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-D-04"
+   ],
+   "id": "NUM-D-008",
+   "observable": "absorb capacity",
+   "track": "D",
+   "witness": "55 x 1.05 -> 57.75 (Trinity 58)"
+  },
+  {
+   "conversion": "percent heal = maximum x (pct/100) x scale continuous",
+   "coords": [
+    "crates/combat/src/healing.rs:142-167"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "SpellEffects.cpp EffectHealPct CountPctFromMaxHealth -> integer"
+    }
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-D-009",
+   "observable": "percent heal amounts",
+   "track": "D"
+  },
+  {
+   "conversion": "target absorb bypass reservation = min(incoming x pct/100, incoming) continuous",
+   "coords": [
+    "crates/combat/src/absorb/transaction.rs:71-77",
+    "crates/combat/src/absorb/types.rs:50-61"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "Unit.cpp:1888-1890 CalculatePct(damage, auraAbsorbMod) int32"
+    }
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-D-010",
+   "observable": "absorbed vs bypassed split",
+   "track": "D"
+  },
+  {
+   "conversion": "absolute threshold floor(maximum x pct / 100) (or maximum/100 x pct near f64::MAX)",
+   "coords": [
+    "crates/combat/src/health_threshold.rs:472-490"
+   ],
+   "evidence": [
+    {
+     "class": "core_test",
+     "ref": "crates/combat/src/health_threshold.rs:516-541 fresh_checks_are_strict_at_the_truncated_absolute_threshold"
+    }
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-D-011",
+   "observable": "threshold crossing",
+   "track": "D"
+  },
+  {
+   "conversion": "power-burn receipt damage = trunc(receipt x amplitude) before critical",
+   "coords": [
+    "crates/combat/src/damage.rs:155-181"
+   ],
+   "evidence": [
+    {
+     "class": "core_test",
+     "ref": "crates/combat/src/damage.rs:348-359 resource_receipt_damage_truncates_before_critical_scaling"
+    }
+   ],
+   "evidence_class": "source_backed",
+   "id": "NUM-D-012",
+   "observable": "power burn damage",
+   "track": "D"
+  },
+  {
+   "conversion": "hasted period = max(1, trunc(f64(authored_ms) / spell_cast_speed))",
+   "coords": [
+    "crates/combat/src/recovery.rs:94-126",
+    "crates/combat/src/periodic.rs:551-562"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-E-001",
+   "observable": "Differs from exact rational floor only at exact integer quotients: witness 1100ms / 1.1 -> 999 (Core) vs 1000 (exact; Trinity int32(period*f32 ModCastingSpeed) SpellAuraEffects.cpp:1006-1007; simc reciprocal multiply). Exhaustive scan: all 8 real raw-173 periods {100,250,1000,1500,2000,2500,3000,12000} x haste 0.01%..200% step 0.01% => 0 witnesses.",
+   "probe_test": "e_periodic_schedule.rs::holds_division_truncation_witness_1100_over_1_1_is_999",
+   "track": "E",
+   "witness": "e_periodic_schedule.rs::holds_division_truncation_witness_1100_over_1_1_is_999"
+  },
+  {
+   "conversion": "carry limit = floor(u64(d_ms) * 3 / 10)",
+   "coords": [
+    "crates/combat/src/aura_state.rs:1153-1170"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-E-002",
+   "observable": "Trinity min(new+remaining, int(float(new)*130/100)) Spell.cpp:3284-3287 and simc min(0.3*d, remains)+d action.cpp:4604 agree for all ms durations < 2^24; Core additionally never shortens (max with existing), matching simc DOT_REFRESH_PANDEMIC max(remains, ...). Probe: 250ms aura refreshed at 150 -> expiry 475.",
+   "probe_test": "e_capped_carryover.rs::holds_capped_carryover_preserves_cadence_and_moves_partial",
+   "track": "E"
+  },
+  {
+   "conversion": "terminal partial fraction = f64(stacks) * f64(elapsed_ms) / f64(period_ms)",
+   "coords": [
+    "crates/combat/src/periodic_health.rs:35-42",
+    "crates/combat/src/periodic.rs:540-548"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-E-003",
+   "observable": "ms-granular partial; simc uses the same remaining/tick_time fraction (dot.cpp:695 comment). Trinity has no partial ticks. Probe: 50/100 -> 30 of 60; 75/100 -> 45.",
+   "probe_test": "e_capped_carryover.rs::holds_natural_expiry_partial_is_proportional",
+   "track": "E"
+  },
+  {
+   "conversion": "projection = clamp(basis + rate/1000 * elapsed_ms, 0, max) in f64 from immutable basis",
+   "coords": [
+    "crates/combat/src/passive_resource_flow.rs:973-1000"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-E-004",
+   "observable": "basis not moved by settle, so repeated settles do not accumulate rounding; rate changes require rebase (active casting speed replan state/active_casting_speed.rs:37-46)",
+   "track": "E"
+  },
+  {
+   "conversion": "aligned duration = max(1, floor(d / hasted_period)) * hasted_period (integer ms)",
+   "coords": [
+    "crates/combat/src/periodic.rs:564-582"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-E-005",
+   "observable": "Matches Trinity Spell.cpp:3270-3278 std::max(orig/period,1)*period with hastened period.",
+   "track": "E"
+  },
+  {
+   "conversion": "period ms = trunc_u32(f32(base_ms) * f32 factor)",
+   "coords": [
+    "crates/combat/src/white_swing.rs:452-462"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:10978-10981"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-F-001",
+   "observable": "second-swing time",
+   "probe_test": "f_white_swing.rs::holds_white_period_uses_binary32_attack_time_order",
+   "track": "F",
+   "witness": "synthetic raw-319 p=15, base 2300 ms: Core 1999 ms; exact/f64 2000 ms; Trinity uint32(m_baseAttackSpeed*m_modAttackSpeedPct) (Unit.cpp:665-668) also 1999. No witness for live p in {3,5,20,40} (bases 100..200000)."
+  },
+  {
+   "conversion": "mitigated = trunc_u32(f32(damage) * (1 - min(a/(a+k), 0.85f32))); a==0 bypass",
+   "coords": [
+    "crates/combat/src/white_swing.rs:146-159"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:1770-1771"
+    },
+    {
+     "class": "inferred",
+     "ref": "zero-armor bypass differs only above 2^24 (Track J NUM-J-004)"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-F-002",
+   "observable": "mitigated_damage",
+   "track": "F"
+  },
+  {
+   "conversion": "critical = 2 * trunc(mitigated) (integer, after truncation)",
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:100-105"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:1387-1392,1417-1420"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-F-003",
+   "observable": "white damage requested",
+   "probe_test": "f_white_swing.rs::holds_white_critical_doubles_truncated_armor_result",
+   "track": "F",
+   "witness": "weapon 20, armor 50, k 116: 2*13 = 26 vs trunc(40*0.698...) = 27"
+  },
+  {
+   "conversion": "u32 roll in [0,10000) vs saturating cumulative u32 thresholds, strict <",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:90-112"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "note": "urand(0,9999), roll < (sum += tmp)",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:2409,2428-2470"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-F-004",
+   "observable": "outcome",
+   "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative",
+   "track": "F"
+  },
+  {
+   "conversion": "raw-344: trunc_u32(f32(weapon) * (1f32 + f32(p)/100f32)) before armor",
+   "coords": [
+    "crates/combat/src/white_swing.rs:84-86",
+    "crates/combat/src/program/passive_auto_attack_damage.rs:194"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:8086-8089,8121,8127"
+    },
+    {
+     "class": "trinity",
+     "note": "CalculatePct casts pct to float",
+     "ref": "/home/dev/pallet/TrinityCore/src/common/Utilities/Util.h:72-88"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-F-005",
+   "observable": "modified weapon damage",
+   "track": "F"
+  },
+  {
+   "conversion": "raw-334 crit: trunc_u32(clamp(f32 basis + f32 points, 0, 100) * 100f32)",
+   "coords": [
+    "crates/combat/src/white_swing.rs:31-67"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "note": "int32((GetUnitCriticalChanceAgainst + float aura sum) * 100.0f)",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:2398"
+    },
+    {
+     "class": "core_test",
+     "ref": "crates/combat/src/white_swing.rs:470-484"
+    },
+    {
+     "class": "inferred",
+     "ref": "clamp to [0,100] is observationally identical to Trinity max(0) + unbounded share because roll<10000"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-F-006",
+   "note": "raw-290 all-crit association (flat before rating in Trinity) is Track J CSA-J-01",
+   "observable": "critical threshold (6.06+2.0 -> 805)",
+   "track": "F"
+  },
+  {
+   "conversion": "SP = round_f64(AP * 0.96_f64)",
+   "coords": [
+    "crates/combat/src/spell_power_from_attack_power.rs:108",
+    "crates/combat/src/program/attack_power_conversion.rs:165"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "note": "int32(f32 AP * f32 pct / 100f + 0.5f)",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:7088-7090"
+    },
+    {
+     "class": "inferred",
+     "ref": "no integer-AP witness for AP 1..200000; ties impossible for integer AP (48*AP even vs 50k+25 odd); fractional host AP could differ"
+    }
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-F-007",
+   "observable": "spell power",
+   "track": "F"
+  },
+  {
+   "conversion": "weapon = min + Lemire unbiased index in u64 width",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:14-32",
+    "crates/combat/src/white_swing/resolution.rs:72-86",
+    "crates/sim/src/random.rs:154-175"
+   ],
+   "evidence": [
+    {
+     "class": "trinity",
+     "note": "urand(min,max) inclusive",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:2549"
+    },
+    {
+     "class": "inferred",
+     "ref": "min + width - 1 <= u32::MAX/2 by admission; no overflow"
+    }
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-F-008",
+   "observable": "weapon_damage",
+   "track": "F"
+  },
+  {
+   "conversion": "hard-cast and start-recovery duration: f64(base_ms)/speed, clamp, truncate to u32 ms, max 1, then max(minimum)",
+   "coords": [
+    "crates/combat/src/recovery.rs:96-130"
+   ],
+   "evidence_class": "assumed",
+   "id": "NUM-G-001",
+   "note": "Trinity formula shape assumed (Spell.cpp:9213 int64(gcd*ModSpellHaste), Unit::ModSpellCastTime float ModCastingSpeed); handed to track J",
+   "observable": "cast completion and GCD ready time at 1 ms granularity",
+   "track": "G",
+   "witness": "sweep scratch/G/numwit.py: floor(f64 base/(1+h)) vs int(f32(base)*f32(1/(1+h))) for bases 1000-3000 ms, haste 0-200% in 0.01% steps differs only at (1500,184.63%)->526 vs 527, (2250,114.49%)->1048 vs 1049, (3000,184.63%)->1053 vs 1054; none below 114% haste"
+  },
+  {
+   "conversion": "SimTime checked_add for completion/lockout deadlines; non-progressing or overflow -> Schedule error",
+   "coords": [
+    "crates/combat/src/cast.rs:1178-1186",
+    "crates/combat/src/execution/planning/interrupt.rs:50-56"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-G-002",
+   "observable": "cast rejected at clock boundary",
+   "track": "G"
+  },
+  {
+   "conversion": "prepared cost = required + min(optional, available - required) in f64",
+   "coords": [
+    "crates/combat/src/cast/resource.rs:186-245"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-G-003",
+   "observable": "spent amount when optional spend partially affordable",
+   "track": "G"
+  },
+  {
+   "conversion": "white swing period: base ms as f32 * f32 factor, truncated to u32 ms",
+   "coords": [
+    "crates/combat/src/white_swing.rs:452-462"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-H-001",
+   "observable": "swing period (Track F owns semantics); reset restores next_at = ZERO so no accumulated drift across iterations",
+   "track": "H"
+  },
+  {
+   "conversion": "u64 >> 11 -> 53-bit f64 in [0,1) via two u32 halves",
+   "coords": [
+    "crates/sim/src/random.rs:195-206"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-I-001",
+   "observable": "draw < probability comparisons; stable known output pinned by core tests",
+   "track": "I"
+  },
+  {
+   "conversion": "Lemire widening multiply with rejection threshold (2^64 mod upper)",
+   "coords": [
+    "crates/sim/src/random.rs:164-175"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-I-002",
+   "observable": "uniform ordinals; rejection may consume >1 u64 (probability < 2^-50 for upper=10_000)",
+   "track": "I"
+  },
+  {
+   "conversion": "cumulative threshold (t+p).min(1.0) in ordered_outcome vs can_land iterator sum < 1.0",
+   "coords": [
+    "crates/sim/src/random.rs:120-129",
+    "crates/combat/src/attack/resolution.rs:400-406"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-I-003",
+   "observable": "same addition order in both, so quote reachability and commit outcome agree bit-for-bit",
+   "track": "I"
+  },
+  {
+   "conversion": "u32 basis-point thresholds with saturating_add",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:90-111"
+   ],
+   "evidence_class": "source_backed",
+   "id": "NUM-I-004",
+   "observable": "outcome selection; admission bounds each chance <= 10_000",
+   "track": "I"
+  },
+  {
+   "conversion": "white Physical mitigation: target armor/constant reduction in binary32, capped at 0.85, u32 damage narrowed to binary32, multiplied by (1 - reduction) and truncated to u32",
+   "coords": [
+    "crates/combat/src/white_swing.rs:146-176"
+   ],
+   "evidence": [
+    "trinity Entities/Unit/Unit.cpp:1770-1771 `std::min(armor/(armor+armorConstant),0.85f)`; `uint32(std::max(damage*(1.0f-mitigation),0.0f))` (uint32*float -> float)",
+    "core crates/combat/src/white_swing.rs:151-159"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-001",
+   "note": "Zero-armor early return differs from Trinity `G3D::fuzzyLe(armor,0)` only for 0<armor<=fuzzyEpsilon (non-source armor); see NUM-J-004",
+   "observable": "yes: dealt and mitigated_damage of every white swing",
+   "track": "J"
+  },
+  {
+   "conversion": "white critical percent: host binary32 basis (critical_percent_before_compiled_modifier) + compiled raw-290 points narrowed to binary32, clamped to [0,100], *100.0f, truncated to basis points",
+   "coords": [
+    "crates/combat/src/white_swing.rs:28-68",
+    "crates/combat/src/white_swing.rs:296-313"
+   ],
+   "evidence": [
+    "core white_swing.rs:40-44 `(percent + self.percent_points).clamp(0,100)`",
+    "trinity Entities/Unit/StatSystem.cpp:522-523 CritPercentage = FLAT_MOD + PCT_MOD(5.0) + rating; Entities/Player/Player.cpp:8255-8264 FLAT_MOD includes SPELL_AURA_MOD_CRIT_PCT (raw 290); so Trinity association is (raw290 + 5) + rating, Core is (5 + rating) + raw290",
+    "Unit.cpp:2398 `int32((GetUnitCriticalChanceAgainst + AUTOATTACK_CRIT_CHANCE) * 100.0f)`"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-01"
+   ],
+   "id": "NUM-J-002",
+   "observable": "yes: critical threshold of the integer white outcome table (roll in 0..10000)",
+   "probe_test": "j_white_binary32.rs::defect_white_critical_adds_passive_after_host_sum_binary32_association",
+   "track": "J",
+   "witness": "rating r=f32 0x3f9ffffb (1.2499994), basis f32(5+r)=0x40c7ffff (6.2499995, truncates to 624), raw290 +2: Core (6.2499995+2)=8.25 -> 825 bp; Trinity (2+5)+1.2499994=8.249999 -> 824 bp. Random scan: ~1 in 5M uniform ratings discriminate at 1 bp for +2/+3; more for +10."
+  },
+  {
+   "conversion": "white outcome table: absolute u32 basis-point shares summed with saturating_add against one u32 roll in 0..10000",
+   "coords": [
+    "crates/combat/src/white_swing.rs:55-68",
+    "crates/combat/src/white_swing/resolution.rs:96-116"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:2395-2410 int32 truncation of each *100.0f chance, `roll = urand(0, 9999)`, cumulative `tmp` sums; Core clamp of critical to 100% is equivalent because rolls >= 10000 cannot occur"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-003",
+   "observable": "yes: outcome selection",
+   "track": "J"
+  },
+  {
+   "conversion": "white zero-armor path returns the integer damage without binary32 narrowing; positive-armor and raw-344 paths narrow to binary32",
+   "coords": [
+    "crates/combat/src/white_swing.rs:151-153",
+    "crates/combat/src/white_swing.rs:84-86"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:8121,8128 MeleeDamageBonusDone `float(damage + DoneFlatBenefit) * DoneTotalMod` -> int32 always narrows; MeleeDamageBonusTaken narrows again"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-J-004",
+   "observable": "only above 2^24 damage: 16,777,217 stays exact at zero armor, becomes 16,777,216 with any positive armor or in Trinity",
+   "probe_test": "j_white_binary32.rs::holds_white_zero_armor_skips_binary32_narrowing_above_2_pow_24",
+   "track": "J",
+   "witness": "prepared_damage (16777217,16777217): armor 0 -> 16777217; armor 1 / constant 1e30 -> 16777216"
+  },
+  {
+   "conversion": "raw-344 auto-attack damage factor 1.0f + f32(points)/100.0f; roll narrowed to binary32, multiplied, truncated; packed losslessly as f64 and unpacked with debug_assert round trip",
+   "coords": [
+    "crates/combat/src/program/passive_auto_attack_damage.rs:194-217",
+    "crates/combat/src/white_swing.rs:78-86",
+    "crates/combat/src/program/modifier/auto_attack_damage_storage.rs:19-56"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:8088-8089 AddPct(DoneTotalMod, amount) = 1.0f + 1.0f*float(amount)/100.0f; 8121 float(damage)*DoneTotalMod; 8128 int32(max(.,0))",
+    "Core applies the modifier to the rolled damage (runtime.rs:38-42, state/white_main_hand.rs:99-101), not to the range bounds; range-bound application at white_swing.rs:293-298 only feeds admission checks"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-005",
+   "observable": "yes: modified weapon damage per swing",
+   "track": "J"
+  },
+  {
+   "conversion": "white critical doubling: u32 mitigated damage * 2 after armor; overflow excluded by admission guard mitigated(max) <= u32::MAX/2",
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:99-107",
+    "crates/combat/src/white_swing.rs:325-331"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:1394 armor before outcome, 1429 `damageInfo->Damage *= 2` (uint32)"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-006",
+   "observable": "yes: critical white damage",
+   "track": "J"
+  },
+  {
+   "conversion": "white swing period: (base_ms as f32 * 100.0f/(100.0f+f32(points))) truncated to u32 ms",
+   "coords": [
+    "crates/combat/src/white_swing.rs:452-463",
+    "crates/combat/src/program/passive_haste.rs:43-51",
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:110-130"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:10978-10988 ApplyPercentModFloatVar(m_modAttackSpeedPct, val, false) -> var *= 100.0f/(100.0f+val); Unit.cpp:667 resetAttackTimer `uint32(GetBaseAttackTime * m_modAttackSpeedPct)`; single-modifier slice so 1.0f*x == x"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-007",
+   "observable": "yes: every white deadline",
+   "track": "J"
+  },
+  {
+   "conversion": "selected trait rank amount: Set -> f64(curve y), Multiply -> authored(f64 of binary32 base points) * f64(curve y); curve accepted only when type 0, flags 0 and point x == rank exactly",
+   "coords": [
+    "crates/data/src/trait_source/selected_spell.rs:84-95",
+    "crates/data/src/trait_source/amount.rs:10-41"
+   ],
+   "evidence": [
+    "trinity Spells/SpellInfo.cpp:536-552 `float traitBasePoints = GetCurveValueAt(CurveID, Rank)`; value(double) = / *= traitBasePoints",
+    "trinity DataStores/DB2Stores.cpp:2331-2343 Linear at x == point.X returns ((0/xDiff)*dy)+y == y exactly (or last point)",
+    "source scan (scratch/J/trait_amounts.py): 4108 exact-curve (rank,effect) amounts; only auras 285/4/42 produce non-binary32-representable products; no binary32-narrowing Core consumer (raw 290/344/138/319/108/107) receives one"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-008",
+   "observable": "yes: selected amounts feed every selected compiler",
+   "track": "J"
+  },
+  {
+   "conversion": "percent SpellMod factor pow(1.0f + f32(points)/100.0f, matching_bits) in binary32; per-coordinate product rounded to binary32 after each step in (actor,payload,op,effect) order",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:471-482",
+    "crates/combat/src/spell_modifier_authority.rs:121-165",
+    "crates/combat/src/spell_modifier_authority.rs:370-377"
+   ],
+   "evidence": [
+    "trinity Entities/Player/Player.cpp:22812 `*pct *= std::pow(1.0f + CalculatePct(1.0f, value), float(applyCount))` (float)",
+    "trinity Player.h:315-327 SpellModifierCompare orders equal op/type by pointer address, so Trinity has no deterministic product order; Core effect-ref order is a core_choice"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-009",
+   "observable": "yes for formula; product order only observable with >= 3 percent factors on one coordinate",
+   "track": "J"
+  },
+  {
+   "conversion": "hasted cast time / GCD recovery: f64(base_ms) / f64 speed multiplier, truncated, max(1), max(minimum)",
+   "coords": [
+    "crates/combat/src/recovery.rs:94-125"
+   ],
+   "evidence": [
+    "trinity Entities/Object/Object.cpp:1809 `int32(float(castTime) * ModCastingSpeed)`; SpellHistory.cpp:421 `int64(cooldown.count() * ModSpellHaste)`; Spell.cpp:9213 GCD `int64(gcd.count() * ModSpellHaste)`; SpellAuraEffects.cpp:1007 `_period = int32(_period * ModCastingSpeed)`; Unit.cpp:10978-10981 ModX = 1.0f * 100.0f/(100.0f+pct) (binary32 period multiplier)",
+    "Core HasteMultipliers is an f64 frequency (crates/combat/src/haste.rs:56-77); neither 1+pct/100 nor 1/f64(ModX) reproduces the binary32 product rounding"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "NUM-J-010",
+   "observable": "yes: completes_at / cooldown ready / tick deadlines shift by 1 ms in ~0.13% of (base, binary32 haste) pairs",
+   "probe_test": "j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer",
+   "track": "J",
+   "witness": "base 30000 ms, haste 2.02% (f32): Trinity 30000*f32(100/102.02)=29405.9998 -> 29406.0f -> 29406; Core 30000/1.0202=29405.9988 -> 29405"
+  },
+  {
+   "conversion": "hasted cooldown start: f64(base_ms) / rate speed / recovery speed, truncated, max(1)",
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:233-240",
+    "crates/combat/src/cooldown/time_math.rs:5-23"
+   ],
+   "evidence": [
+    "trinity Entities/Object/Object.cpp:1809 `int32(float(castTime) * ModCastingSpeed)`; SpellHistory.cpp:421 `int64(cooldown.count() * ModSpellHaste)`; Spell.cpp:9213 GCD `int64(gcd.count() * ModSpellHaste)`; SpellAuraEffects.cpp:1007 `_period = int32(_period * ModCastingSpeed)`; Unit.cpp:10978-10981 ModX = 1.0f * 100.0f/(100.0f+pct) (binary32 period multiplier)",
+    "Core HasteMultipliers is an f64 frequency (crates/combat/src/haste.rs:56-77); neither 1+pct/100 nor 1/f64(ModX) reproduces the binary32 product rounding"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "NUM-J-011",
+   "observable": "yes: completes_at / cooldown ready / tick deadlines shift by 1 ms in ~0.13% of (base, binary32 haste) pairs",
+   "probe_test": "j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer",
+   "track": "J",
+   "witness": "base 30000 ms, haste 2.02% (f32): Trinity 30000*f32(100/102.02)=29405.9998 -> 29406.0f -> 29406; Core 30000/1.0202=29405.9988 -> 29405"
+  },
+  {
+   "conversion": "hasted periodic period (SpellCastSpeed cadence) via recovery::effective_duration: f64 division, truncation, min 1 ms",
+   "coords": [
+    "crates/combat/src/periodic.rs:551-562"
+   ],
+   "evidence": [
+    "trinity Entities/Object/Object.cpp:1809 `int32(float(castTime) * ModCastingSpeed)`; SpellHistory.cpp:421 `int64(cooldown.count() * ModSpellHaste)`; Spell.cpp:9213 GCD `int64(gcd.count() * ModSpellHaste)`; SpellAuraEffects.cpp:1007 `_period = int32(_period * ModCastingSpeed)`; Unit.cpp:10978-10981 ModX = 1.0f * 100.0f/(100.0f+pct) (binary32 period multiplier)",
+    "Core HasteMultipliers is an f64 frequency (crates/combat/src/haste.rs:56-77); neither 1+pct/100 nor 1/f64(ModX) reproduces the binary32 product rounding"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "NUM-J-012",
+   "observable": "yes: completes_at / cooldown ready / tick deadlines shift by 1 ms in ~0.13% of (base, binary32 haste) pairs",
+   "probe_test": "j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer",
+   "track": "J",
+   "witness": "base 30000 ms, haste 2.02% (f32): Trinity 30000*f32(100/102.02)=29405.9998 -> 29406.0f -> 29406; Core 30000/1.0202=29405.9988 -> 29405"
+  },
+  {
+   "conversion": "cooldown SpellMod application: i64(base_ms)+flat, negative -> zero, then f64(adjusted)*f64(binary32 factor), clamped and truncated to u32 ms",
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:533-547",
+    "crates/combat/src/cooldown/time_math.rs:16-23"
+   ],
+   "evidence": [
+    "trinity Player.cpp:22851 `basevalue = T((double(basevalue) + totalflat) * totalmul)` (T=int32 truncation); SpellHistory.cpp:405-417"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-013",
+   "observable": "yes: cooldown deadlines",
+   "track": "J"
+  },
+  {
+   "conversion": "spell damage amount: base + AP*coef + SP*coef, * scale * outgoing, * incoming, * critical multiplier, all f64, no integer truncation",
+   "coords": [
+    "crates/combat/src/damage.rs:98-155"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:6816-6920 SpellDamageBonusDone returns int32 (truncation) per stage",
+    "core ledger docs/development-ledger.md:14457 and 16675 record continuous f64 health arithmetic as an intentional engine-wide abstraction"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-014",
+   "observable": "yes: fractional damage/health (continuous health domain)",
+   "track": "J"
+  },
+  {
+   "conversion": "spell/weapon critical chance: baseline f64 probability + summed percent points/100 in f64, clamped to [0,1], one 53-bit unit draw compared <",
+   "coords": [
+    "crates/combat/src/critical_modifier.rs:234-241",
+    "crates/combat/src/critical/resolution.rs:95-113",
+    "crates/sim/src/random.rs:87-99",
+    "crates/sim/src/random.rs:195-206"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:7257 crit_chance float; roll_chance_f continuous; Core uses f64 throughout"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-015",
+   "observable": "distribution only (no per-seed comparator)",
+   "track": "J"
+  },
+  {
+   "conversion": "yellow attack table: continuous f64 miss/dodge/parry probabilities, cumulative f64 threshold",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:280-320",
+    "crates/sim/src/random.rs:104-130"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:2633-2645 `uint32 roll = urand(0,9999); uint32 missChance = uint32(MeleeSpellMissChance*100.0f)`; white table in Core does truncate (NUM-J-003); yellow does not"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-J-016",
+   "observable": "distribution only: Trinity truncates each component to integer basis points",
+   "track": "J"
+  },
+  {
+   "conversion": "critical damage bonus: multiplier = baseline(2.0) * prod(1 + points/100) in f64, applied to the final normal amount",
+   "coords": [
+    "crates/combat/src/critical_damage_modifier.rs:137-170"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:1221-1232 crit_bonus doubling then AddPct(damage, (GetTotalAuraMultiplierByMiscMask(MOD_CRIT_DAMAGE_BONUS)-1)*100) == 2*(1+p/100) for one aura (Trinity truncates to integer; Core continuous per NUM-J-014)"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-017",
+   "observable": "yes: critical amount",
+   "track": "J"
+  },
+  {
+   "conversion": "raw-183 target-health predicate threshold maximum * (percent/100) in f64, no truncation, compared > or >=",
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:127-141"
+   ],
+   "evidence": [
+    "trinity Unit.cpp:2917-2920 and 7257-7260 `!HealthBelowPct(MiscValueB)`; Unit.h:791 HealthBelowPct = GetHealth() < CountPctFromMaxHealth(pct); Unit.h:796 CountPctFromMaxHealth = CalculatePct(maxHealth, pct) = uint64(float(max) * pct / 100.0f) (common/Utilities/Util.h:72-75)",
+    "source: SpellEffect raw-183 Initiation 193878/213539/.. misc1=80 +30 points"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-03"
+   ],
+   "id": "NUM-J-020",
+   "observable": "yes: AtOrAbove admits current == floor(threshold) in Trinity but not in Core when max*pct/100 is non-integral",
+   "probe_test": "j_target_health_threshold.rs::defect_target_health_at_or_above_uses_untruncated_threshold",
+   "track": "J",
+   "witness": "max 1001, current 800, AtOrAbove 80: Core 800 >= 800.8 false (Hit); Trinity 800 >= 800 true (+100 points -> Critical)"
+  },
+  {
+   "conversion": "raw-423 mana cost: component * (1 + points/100) in f64, sign-crossing clamp, no integerization",
+   "coords": [
+    "crates/combat/src/state/power_cost.rs:69-118",
+    "crates/combat/src/state/power_cost.rs:120-132"
+   ],
+   "evidence": [
+    "trinity Spells/SpellInfo.cpp:4238-4239 `powerCost = float(powerCost) * (1.0f + ManaCostMultiplier)` into int32 (truncation); SpellAuraEffects.cpp:4257 ApplyModManaCostMultiplier(GetAmount()/100.0f)",
+    "source: Mana Confluence 1270845 raw-423 -5 (passive)"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-06"
+   ],
+   "id": "NUM-J-021",
+   "observable": "yes: ResourceCostApplied requested amount and remaining mana are fractional",
+   "probe_test": "j_mana_cost_percent.rs::defect_mana_cost_percent_leaves_fractional_cost",
+   "track": "J",
+   "witness": "cost 13, -5%: Trinity int32(13*0.95f)=12; Core 12.35 (balance 87.65 of 100)"
+  },
+  {
+   "conversion": "raw-72 school power-cost percent: int32 base -> binary32 (three exact partial sums == single rounding) * -15.0f / 100.0f, truncated delta added",
+   "coords": [
+    "crates/combat/src/state/power_cost.rs:134-176"
+   ],
+   "evidence": [
+    "trinity SpellInfo.cpp:4182-4191 `powerCost += CalculatePct(powerCost, amount)` = int32(float(powerCost) * float(pct) / 100.0f); additional (raw 63) before pct (4137) matches Core",
+    "consumer_float_from_i32 is equivalent to `value as f32`: upper*65536 and +middle*32768 are exact, the final +lower is the only rounding"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-022",
+   "observable": "yes: adjusted cost",
+   "track": "J"
+  },
+  {
+   "conversion": "expected-player-mana amount (power burn raw 62 / periodic mana leech): round(f64 expected * percent / 100)",
+   "coords": [
+    "crates/combat/src/expected_player_mana.rs:120-144"
+   ],
+   "evidence": [
+    "trinity Spells/SpellInfo.cpp:744-747 `value = EvaluateExpectedStat(...) * value / 100.0f` in binary32 then round() unless SPELL_ATTR12_USE_FLOAT_VALUES_FOR_SCALING_AMOUNTS",
+    "source scan (scratch): 18 (ExpectedStat.PlayerMana, raw-62 base point) pairs round differently in binary32 vs f64 (e.g. 81030 * 2121.5 / 100), none for admitted carriers 46266 (8.87574005127) and 18502 (5)"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-J-023",
+   "observable": "latent for current carriers",
+   "track": "J"
+  },
+  {
+   "conversion": "raw-178 maximum mana percent: binary32 base * (1.0f + f32(points)/100.0f), rounded half away from zero",
+   "coords": [
+    "crates/combat/src/passive_maximum_resource/expansiveness.rs:66-102"
+   ],
+   "evidence": [
+    "trinity Entities/Unit/StatSystem.cpp:339-344 UpdateMaxPower float stages then `(int32)std::lroundf(value)`; Unit.cpp:9631-9633 TOTAL_PCT AddPct"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-024",
+   "observable": "yes: maximum mana",
+   "track": "J"
+  },
+  {
+   "conversion": "maximum-health damage: u64 max -> binary32 * binary32 percentage / 100.0f -> truncated u32, then f64 critical multiplier",
+   "coords": [
+    "crates/combat/src/maximum_health_damage.rs:37-84"
+   ],
+   "evidence": [
+    "comparison source cited in code; integral maximum enforced (fract()==0, <= 2^53)"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-025",
+   "observable": "yes: damage amount",
+   "track": "J"
+  },
+  {
+   "conversion": "periodic maximum-health damage: round(points * stacks), percent of maximum, ceil full tick, elapsed fraction",
+   "coords": [
+    "crates/combat/src/damage.rs:74-95"
+   ],
+   "evidence": [
+    "ledger docs/development-ledger.md:2291-2302 records the rounding order as a deliberate correction"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-026",
+   "observable": "yes: tick amount",
+   "track": "J"
+  },
+  {
+   "conversion": "resource-receipt damage: trunc(receipt * f64(binary32 amplitude)) then f64 critical",
+   "coords": [
+    "crates/combat/src/damage.rs:157-175"
+   ],
+   "evidence": [
+    "trinity SpellEffects.cpp:1224-1237 `damage = int32(damage * dmgMultiplier)` (int*float in binary32); admitted carrier 46266 amplitude 1.0 so f32/f64 agree"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "id": "NUM-J-027",
+   "observable": "yes: power-burn damage",
+   "track": "J"
+  },
+  {
+   "conversion": "school absorb capacity with recipient multiplier: round(round(source capacity) * recipient multiplier); identity multiplier keeps continuous capacity",
+   "coords": [
+    "crates/combat/src/absorb/transaction.rs:905-925"
+   ],
+   "evidence": [
+    "ledger docs/development-ledger.md:16665-16675 keeps finite f64 capacity instead of Trinity integer rounding"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-028",
+   "observable": "yes: absorb capacity",
+   "track": "J"
+  },
+  {
+   "conversion": "spell power from attack power: round(AP * factor) in f64",
+   "coords": [
+    "crates/combat/src/spell_power_from_attack_power.rs:100-112"
+   ],
+   "evidence": [
+    "ledger 15540-15548: comparison rounds AP earlier than direct consumer; no exact parity claimed"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-029",
+   "observable": "yes: spell power",
+   "track": "J"
+  },
+  {
+   "conversion": "raw-232/234 mechanic duration: integer floor(authored_ms * (100 + points) / 100)",
+   "coords": [
+    "crates/combat/src/mechanic_duration.rs:174-200"
+   ],
+   "evidence": [
+    "trinity Entities/Object/Object.cpp:1753-1760 AddPct(int32 duration, int32 mod) -> duration + int32(float(duration)*mod/100.0f): negative delta truncated toward zero, so the reduced duration rounds up"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-04"
+   ],
+   "id": "NUM-J-030",
+   "observable": "latent: admitted providers (-10/-50) and applicand (exact 5000 ms) make every product integral",
+   "probe_test": "j_mechanic_duration.rs::holds_mechanic_duration_rounding_divergence_is_gated_by_exact_five_second_carrier",
+   "track": "J",
+   "witness": "1250 ms (SpellDuration 568) with -25%: Core 937, Trinity 938 (not constructible: carrier gate)"
+  },
+  {
+   "conversion": "charge recharge duration: f64 (base + flats) * prod(1 + p/100) kept fractional, later / recovery speed / rate speed, truncated",
+   "coords": [
+    "crates/combat/src/charge_duration.rs:250-345",
+    "crates/combat/src/cooldown/charge_recovery_input.rs:46-68"
+   ],
+   "evidence": [
+    "trinity SpellHistory.cpp:975-1009 double accumulation, multiplications by float haste and by 100/(amount+100), final int32(std::floor)"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-J-031",
+   "observable": "yes: charge intervals (1 ms class as CSA-J-02/05)",
+   "track": "J"
+  },
+  {
+   "conversion": "live rate rebase: remaining_ms * old_speed / new_speed in f64, truncated, max(1)",
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:600-615",
+    "crates/combat/src/cooldown/deadline_rate.rs:700-715",
+    "crates/combat/src/cooldown/deadline_rate.rs:392-400"
+   ],
+   "evidence": [
+    "trinity SpellHistory.cpp:608-620 `(CooldownEnd - now) * modChange` (float) then duration_cast truncation"
+   ],
+   "evidence_class": "known_divergence",
+   "id": "NUM-J-032",
+   "observable": "yes: rebased deadlines",
+   "track": "J"
+  },
+  {
+   "conversion": "raw-286 recovery rate: duration = base / prod(max(1 + p*stacks/100, 0.01)) in f64, truncated",
+   "coords": [
+    "crates/combat/src/cooldown_recovery_rate.rs:850-852",
+    "crates/combat/src/cooldown/deadline_rate.rs:233-240"
+   ],
+   "evidence": [
+    "trinity SpellHistory.cpp:432-455 `rate = 100.0/(max(amount,-99.0)+100.0)`; `int64(cooldown.count() * recoveryRate)`",
+    "source: raw-286 amounts in 12.1.0 are {0,50,60,75,100,150,200,5000}; single-definition products never diverge on SpellCooldowns values; two definitions (50,60) diverge on 1500/3000/6000/15000/30000/60000 ms"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-05"
+   ],
+   "id": "NUM-J-040",
+   "observable": "yes: cooldown ready_at 1 ms early on exact-product cases",
+   "probe_test": "j_recovery_rate.rs::holds_recovery_rate_two_source_amounts_match_consumer_product_order",
+   "track": "J",
+   "witness": "16500 ms +10%: Core 14999 vs Trinity 15000; 60000 ms with +50% and +60%: Core 24999 vs Trinity 25000"
+  },
+  {
+   "conversion": "charge recharge rate factor max(1 + p*stacks/100, 0.01), used as a speed divisor",
+   "coords": [
+    "crates/combat/src/charge_recharge_rate.rs:716-718"
+   ],
+   "evidence": [
+    "trinity SpellHistory.cpp:996-1002 multiplies by 100/(amount+100) then floor"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-05"
+   ],
+   "id": "NUM-J-041",
+   "observable": "yes (same class as NUM-J-040)",
+   "track": "J"
+  },
+  {
+   "conversion": "percent damage/healing modifiers: (1 + points*stacks/100).max(0) products in f64",
+   "coords": [
+    "crates/combat/src/damage_modifier.rs:450-457",
+    "crates/combat/src/healing_modifier.rs:355-362",
+    "crates/combat/src/modifier.rs:825-840"
+   ],
+   "evidence": [
+    "trinity AddPct / GetTotalAuraMultiplier in binary32 with integer truncation of the amount"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-050",
+   "observable": "yes but continuous amount domain (NUM-J-014)",
+   "track": "J"
+  },
+  {
+   "conversion": "rotation resource wake: value_at_now + rate*(delta_ms/1000) vs combat projection basis + rate/1000*elapsed_ms (different f64 association and base)",
+   "coords": [
+    "crates/rotation/src/projection.rs:89-100",
+    "crates/rotation/src/execution.rs:943-958",
+    "crates/rotation/src/execution.rs:1012-1025",
+    "crates/combat/src/passive_resource_flow.rs:973-1000",
+    "crates/engine/src/lib.rs:1273-1300"
+   ],
+   "evidence": [
+    "internal inconsistency (no external comparator needed): combat project_pool vs rotation MonotonicLinearProjection::value_after_millis"
+   ],
+   "evidence_class": "core_choice",
+   "finding_ids": [
+    "CSA-J-07"
+   ],
+   "id": "NUM-J-060",
+   "observable": "yes: rotation acts 1 ms after the first millisecond where combat already satisfies the threshold",
+   "probe_test": "j_resource_projection.rs::defect_rotation_resource_wake_is_one_ms_after_combat_crossing",
+   "track": "J",
+   "witness": "energy 0/100, +10/s from t=0, last evaluation at 1 ms: combat 0.01*5000 = 50.0 at 5000; rotation 0.01 + 10*4.999 = 49.99999999999999 -> wake at 5001"
+  },
+  {
+   "conversion": "SimTime: u32 milliseconds, saturating +/-, checked_add at deadline sites, from_secs saturating, from_secs_f64 round-half-up via +500us",
+   "coords": [
+    "crates/model/src/time.rs:13-110"
+   ],
+   "evidence": [
+    "white runtime.rs:59-71 checked_add; cooldown time_math exact_deadline checked_add"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-061",
+   "observable": "inert below the 49.7-day u32 horizon; deadline producers use checked_add and fail/stop instead of saturating",
+   "track": "J"
+  },
+  {
+   "conversion": "compile-time exact-integer narrowing: f64 source amounts accepted only when finite, integral (bit round trip or fract()==0) and in range; `as i32/u32` only after the guard",
+   "coords": [
+    "crates/combat/src/program/definition.rs:1068-1120",
+    "crates/combat/src/program/selected_trait_package.rs:1326-1335",
+    "crates/combat/src/program/cooldown_adjustment.rs:390-430",
+    "crates/combat/src/program/charge_modification.rs:155-183",
+    "crates/combat/src/program/duration_modifier_source.rs:210-229",
+    "crates/combat/src/program/charge_duration_modifier.rs:550-565",
+    "crates/combat/src/program/power_drain.rs:280-301"
+   ],
+   "evidence": [
+    "bit-round-trip exact_i32 rejects -0.0 (see REJ-J-005)"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-062",
+   "observable": "no silent truncation: out-of-domain values fail closed at build",
+   "track": "J"
+  },
+  {
+   "conversion": "missile timing: binary32 (launch + max(speed, min)) * 1000 floor must equal exactly 1000; u8 seconds * 1000 as u32",
+   "coords": [
+    "crates/combat/src/program/missile_timing.rs:10-40",
+    "crates/combat/src/program/fixed_travel_time.rs:205-225",
+    "crates/combat/src/program/execution_layout.rs:150-160"
+   ],
+   "evidence": [],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-063",
+   "observable": "inert: only the exact 1 s fixed-travel carrier is admitted",
+   "track": "J"
+  },
+  {
+   "conversion": "uniform index: Lemire widening multiply with rejection threshold (unbiased); weapon offset and outcome roll",
+   "coords": [
+    "crates/sim/src/random.rs:150-176"
+   ],
+   "evidence": [
+    "compare Trinity urand (uniform); RNG stream identity is Core-owned"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-064",
+   "observable": "distribution exact",
+   "track": "J"
+  },
+  {
+   "conversion": "health-threshold absolute threshold floor(max * pct / 100) with overflow-guard reorder (max / 100 * pct) only above f64::MAX / pct",
+   "coords": [
+    "crates/combat/src/health_threshold.rs:473-489"
+   ],
+   "evidence": [
+    "Trinity CountPctFromMaxHealth truncates a binary32 product (same class as NUM-J-020 above 2^24)"
+   ],
+   "evidence_class": "core_choice",
+   "id": "NUM-J-065",
+   "observable": "reorder branch inert for any finite realistic maximum",
+   "track": "J"
+  },
+  {
+   "conversion": "raw-286 cooldown: base / prod(1+p/100) f64, truncated; consumer base * prod(100/(p+100)) with the product formed first",
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:229-240",
+    "crates/combat/src/cooldown_recovery_rate.rs:850-852"
+   ],
+   "evidence": [
+    "trinity SpellHistory.cpp:443-455",
+    "scan: single raw-286 amounts {50,60,75,100,150,200,5000} x 138 durations: 0 witnesses; (75,150),(75,75) Heart of the Jade Serpent: 0"
+   ],
+   "evidence_class": "direct_consumer_reproduced",
+   "finding_ids": [
+    "CSA-J-05"
+   ],
+   "id": "NUM-R3-001",
+   "observable": "no for every co-applicable 12.1.0 source combination; yes only for synthetic amounts or the non-co-applicable (+50,+60) pair at 1.5/3/6 s",
+   "probe_tests": [
+    "r3_recovery_rate.rs::holds_recovery_rate_sixty_second_witness_matches_consumer_association",
+    "r3_recovery_rate.rs::defect_recovery_rate_mechanism_diverges_only_on_non_coapplicable_pair"
+   ],
+   "track": "R3",
+   "witness": "60000 ms +50/+60: consumer 24999 == Core 24999 (J's 25000 used base-first association); 1500 ms +50/+60: Core 624 vs consumer 625"
+  },
+  {
+   "conversion": "hasted periodic period trunc(period / f64 speed) vs consumer int32(period * binary32 ModCastingSpeed)",
+   "coords": [
+    "crates/combat/src/recovery.rs:94-114",
+    "crates/combat/src/periodic.rs:551-562"
+   ],
+   "evidence": [
+    "trinity SpellAuraEffects.cpp:1006-1007 `_period = int32(_period * ModCastingSpeed)`; Unit.cpp:10978-10981 ModCastingSpeed = 1.0f * 100.0f/(100.0f+pct)",
+    "scan over E's 8 admitted periods x haste 0.01..200% (step 0.01%): 12000 ms @ 134.65% -> Core 5113 vs consumer 5114; over all 29 raw-173 periods x 0.01..100%: 31/290000 witnesses, e.g. 5000 ms @ 2.02% -> 4900 vs 4901, 275 ms @ 10% -> 249 vs 250"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "NUM-R3-002",
+   "observable": "yes: NUM-E-001's 'core_choice, 0 witnesses' compared against exact arithmetic, not the binary32 consumer it cites",
+   "track": "R3",
+   "witness": "5000 ms period at 2.02% spell haste: Core 4900, consumer 4901"
+  },
+  {
+   "conversion": "charge full_interval rebased as trunc(full_interval * old_speed/new_speed) and retained for later charges",
+   "coords": [
+    "crates/combat/src/cooldown/charge_rate.rs:120-146",
+    "crates/combat/src/cooldown/charge_rate.rs:178-182"
+   ],
+   "evidence": [
+    "trinity SpellHistory.cpp:839-846, 873-899, 975-1009"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-R3-02"
+   ],
+   "id": "NUM-R3-003",
+   "observable": "yes: later charges recover 1 ms per apply/expire cycle faster than the base recharge",
+   "probe_test": "r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions",
+   "track": "R3",
+   "witness": "15000 ms pool, +40% aura 0..15000: third charge consumed at 15000 ready at 38998 (consumer 38999)"
+  },
+  {
+   "conversion": "trunc(f64 base / f64 speed) vs consumer int(f32 base * f32(100/(100+p)))",
+   "coords": [
+    "crates/combat/src/recovery.rs:94-125",
+    "crates/combat/src/periodic.rs:551-562",
+    "crates/combat/src/cooldown/deadline_rate.rs:233-240"
+   ],
+   "evidence_class": "known_divergence",
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "NUM-X-001",
+   "note": "supersedes the core_choice label of NUM-E-001 and NUM-B-005 and the assumed label of NUM-G-001 (lead to relabel)",
+   "observable": "yes: +-1 ms on cast completion, GCD, cooldown ready and periodic cadence; both directions",
+   "probe_tests": [
+    "x_haste_direction.rs::defect_hasted_duration_divergence_is_bidirectional_core_one_ms_later_at_92_percent",
+    "x_periodic_haste_witness.rs::defect_real_period_12000_at_134_65_percent_ticks_one_ms_before_consumer"
+   ],
+   "track": "X",
+   "witness": "30000 ms @92%: Core 15625, consumer 15624; 30000 @2.02%: Core 29405, consumer 29406; real period 12000 @134.65%: Core 5113, consumer 5114"
+  }
+ ],
+ "schema": 1
+}

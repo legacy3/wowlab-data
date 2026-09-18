@@ -1,0 +1,381 @@
+[
+ {
+  "id": "AUTH-E-001",
+  "name": "Periodic schedule compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/periodic.rs:87-133",
+   "crates/combat/src/program/periodic.rs:537-647",
+   "crates/combat/src/program/periodic.rs:848-960",
+   "crates/combat/src/program/periodic.rs:962-1101",
+   "crates/combat/src/program/periodic.rs:1103-1152",
+   "crates/combat/src/program/periodic.rs:1328-1586",
+   "crates/combat/src/program/periodic.rs:1588-1678",
+   "crates/combat/src/program/periodic/energize.rs:1-184",
+   "crates/combat/src/program/periodic/heal.rs:1-213",
+   "crates/combat/src/program/periodic/mana_leech.rs:1-366",
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:1-330",
+   "crates/combat/src/program/periodic/energize/maximum_power_percent.rs:1-292"
+  ],
+  "semantic_facts": [
+   "one PeriodicSchedule per exact resolved periodic contract (trigger 23 / damage 3,89 / leech 53 / heal 8,20 / energize 24,21 / mana leech 64); duplicate effect across families rejects (periodic.rs:694-760)",
+   "authored period = raw EffectAuraPeriod, must be positive i32 (periodic.rs:997-1002)",
+   "initial policy must agree with raw attribute 169 TickOnApplication in both directions (periodic.rs:1449-1474)",
+   "SpellCastSpeed cadence iff raw attribute 173 present AND RestartCadence; 173 with PreserveCadence rejects (periodic.rs:1389-1404)",
+   "WholeEffectivePeriods alignment admitted only for exact Venom 391428 effect 1 with 173+273+278 (haste_affected_duration.rs:52-72)",
+   "terminal policy: damage/heal ProportionalNaturalExpiryPartial, trigger/energize/leech/mana-leech None (periodic.rs:436-448)",
+   "reapplication/cadence pairing: CappedCarryover, IndependentStackDeadlines, PreserveExistingLifetime forbid RestartCadence; damage/heal additionally forbid RestartLifetime+PreserveCadence; trigger/energize do not (periodic.rs:1588-1678)",
+   "AsynchronousStackingBuff (and HasteAffectsDuration/MeleeHaste/RollingPeriodic) owners reject for every periodic family (periodic.rs:87-121)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-002",
+  "name": "PeriodicAuthority cadence cells and deadline queue",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/periodic.rs:198-229",
+   "crates/combat/src/periodic.rs:237-497",
+   "crates/combat/src/periodic.rs:507-582",
+   "crates/combat/src/periodic.rs:642-791"
+  ],
+  "semantic_facts": [
+   "cell = {captured target, cadence_anchor, aura_expires_at, period_millis, initial_pending, active}; one deadline per schedule slot keyed (at, slot)",
+   "pending tick: initial at anchor; else full tick at anchor+period if <= aura_expires_at; else terminal partial at aura_expires_at if proportional policy and expiry > anchor (periodic.rs:507-549)",
+   "fire advances cadence before child execution except SpellCastSpeed full ticks, which re-arm after the child using occurrence-current haste (periodic.rs:313-357, 396-440)",
+   "application quote: PreserveCadence on an active cell keeps anchor/period/initial and only retargets + moves expiry; otherwise anchor=now, period=effective_period(now haste), initial_pending = previous || (fresh Applied && OnFreshApplication) (periodic.rs:716-769)",
+   "removal (quote transition Removed) deactivates every schedule of that aura slot; other non-Apply mutations do not touch cells (periodic.rs:658-688)",
+   "cancel_aura deactivates cells and cancels deadlines; reset clears cells and queue (periodic.rs:471-481)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-003",
+  "name": "Periodic tick execution (CombatState)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/periodic_execution.rs:55-185",
+   "crates/combat/src/periodic_execution.rs:352-402",
+   "crates/combat/src/periodic_execution.rs:438-505",
+   "crates/combat/src/periodic_health.rs:12-43"
+  ],
+  "semantic_facts": [
+   "a tick first checks the AURA RECIPIENT's liveness; a dead recipient cancels the aura's schedules silently and the aura itself remains active (periodic_execution.rs:449-457)",
+   "tick child runs through execute_immediate_driver with source=aura source, target=captured target index, time=tick.at",
+   "amount context = live aura stacks (point-stacking policy), elapsed/period fraction; amount formula evaluated fresh at occurrence (periodic_health.rs:35-38)",
+   "health-context ticks cancel the schedule after a lethal occurrence (periodic_execution.rs:497-504)",
+   "re-arm uses the aura source's haste after the child executed (periodic_execution.rs:379-401)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-004",
+  "name": "Immediate driver edges and execution",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/program/driver.rs:1-29",
+   "crates/combat/src/driver_execution.rs:277-296",
+   "crates/combat/src/driver_execution.rs:616-709",
+   "crates/combat/src/execution/health.rs:190-245"
+  ],
+  "semantic_facts": [
+   "driver child binding by exact ProgramNodeId binary search; per-aura driver range by spell id partition (driver.rs:7-28)",
+   "immediate drivers bypass cast admission; only preflight_execution_health gates caster/target life when the child program requires health (execution/health.rs:190-211)",
+   "failure of the child quote emits ExecutionFizzled and mutates nothing (driver_execution.rs:696-706)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-005",
+  "name": "Natural-expiry driver compiler and execution",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/expiry.rs:14-182",
+   "crates/combat/src/expiry_execution.rs:9-40",
+   "crates/combat/src/state.rs:1368-1397"
+  ],
+  "semantic_facts": [
+   "raw subtype 495 on an aura-owning effect; child must equal EffectTriggerSpell; misc0 != 0 => OriginalAuraSource else AuraRecipient; target always aura recipient (expiry.rs:72-154)",
+   "owner attributes IgnoreTimeRate/HasteAffectsDuration/AsynchronousStackingBuff reject (expiry.rs:14-18)",
+   "runs only from ordinary natural AuraExpiry after the aura commit + periodic cancel + natural thresholds; explicit removal and dispel never run it (state.rs:1368-1397)",
+   "no liveness gate: runs even when the aura recipient already died (expiry_execution.rs:9-40)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-006",
+  "name": "Aura lifetime policy",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/aura_lifetime.rs:11-79"
+  ],
+  "semantic_facts": [
+   "IndependentStackDeadlines iff max_stacks > 1 and aura spell owns AsynchronousStackingBuff; otherwise SingleDeadline (aura_lifetime.rs:11-35)",
+   "periodic/expiry subsystems require a finite aura (aura_lifetime.rs:60-79)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-007",
+  "name": "Aura mutation input",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/aura_mutation_input.rs:1-19"
+  ],
+  "semantic_facts": [
+   "plain carrier of (recipient, effect, aura, count, Apply(reapplication)|AddStacks|RemoveStacks|Remove); no validation of its own"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-008",
+  "name": "Aura reapplication policy compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/aura_reapplication.rs:340-491",
+   "crates/combat/src/program/aura_reapplication.rs:493-518",
+   "crates/combat/src/program/aura_reapplication/aura_unique.rs:1-40",
+   "crates/combat/src/program/aura_reapplication/aura_unique_topology.rs:1-40"
+  ],
+  "semantic_facts": [
+   "CappedCarryover iff resolved CappedCarryover AND aura spell owns raw 436 (both directions) (aura_reapplication.rs:436-466)",
+   "IndependentStackDeadlines iff aura lifetime policy says so and base RestartLifetime",
+   "PreserveExistingLifetime iff AuraUnique-preserving source or application spell owns AuraDoesNotRefresh",
+   "AuraUnique conflicts with every other preservation policy"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-009",
+  "name": "Aura state apply / carryover / expiry projection",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/aura_state.rs:713-834",
+   "crates/combat/src/aura_state.rs:1107-1212"
+  ],
+  "semantic_facts": [
+   "active refresh with CappedCarryover: expiry = max(existing, now + d + min(remaining, floor(3d/10))) (aura_state.rs:1153-1200)",
+   "PreserveExistingLifetime on active aura changes only stacks (aura_state.rs:747-766)",
+   "a quote at exactly expires_at is still admitted (ExpiryPending only when expires_at < now) (aura_state.rs:1118-1127)",
+   "no liveness check on the recipient anywhere in apply quoting"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-010",
+  "name": "Child activation compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/child_activation.rs:24-196"
+  ],
+  "semantic_facts": [
+   "TRIGGER_MISSILE -> inline Activate; TRIGGER_SPELL -> deferred ScheduleActivation; child must equal EffectTriggerSpell",
+   "deferred launch requires misc0 (delay) == 0 and misc1 == 0",
+   "child target derived from implicit targets (none/any/enemy/ally -> inherited primary, caster -> caster) and must equal the resolved target"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-011",
+  "name": "Passive-flow flat modifier compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_flow_flat.rs:56-165"
+  ],
+  "semantic_facts": [
+   "per-effect flat units/s aura modifier; one-stack single-deadline carriers only (passive_flow_flat/validation.rs max_stacks==1); affects_mutation false for AddStacks (safe because max_stacks==1)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-012",
+  "name": "Passive-flow percentage modifier compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_flow_percentage.rs:55-161"
+  ],
+  "semantic_facts": [
+   "per-effect percentage factor on base passive flow; one-stack single-deadline carriers only"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-013",
+  "name": "Passive-flow suppression compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_flow_suppression.rs:1-460"
+  ],
+  "semantic_facts": [
+   "resource-mask suppression cohorts per aura; suppression zeroes effective passive flow before percentage/flat (passive_resource_flow.rs PassiveFlowPolicyView::evaluate)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-014",
+  "name": "Resource threshold drivers (raw 396)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/resource_threshold.rs:1-140",
+   "crates/combat/src/resource_threshold.rs:852-870",
+   "crates/combat/src/resource_threshold/passive_flow.rs:40-75",
+   "crates/combat/src/resource_threshold/passive_flow.rs:436-546"
+  ],
+  "semantic_facts": [
+   "gain fires iff before < T && after >= T; loss iff before > T && after <= T (resource_threshold.rs:860-870) \u2014 identical to Trinity Unit.cpp:10144-10153",
+   "startup fires on current >= T (gain) / <= T (loss) (resource_threshold.rs:852-858)",
+   "passive-flow crossing deadline = ms binary search over the projection for the nearest threshold beyond current in the flow direction (resource_threshold/passive_flow.rs:436-546)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-015",
+  "name": "Resource gain / periodic energize operations",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/resource_gain.rs:14-116"
+  ],
+  "semantic_facts": [
+   "Fixed / PercentOfMaximum gains validated against effect kind contract; periodic energize payload prevalidated and gated on living recipient when payload requires it (resource_gain.rs:57-91)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-016",
+  "name": "Resource damage: power burn / power drain",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/resource_damage.rs:1-29",
+   "crates/combat/src/program/power_burn.rs:16-140",
+   "crates/combat/src/program/power_drain.rs:18-116"
+  ],
+  "semantic_facts": [
+   "power burn admitted only for exact spell 46266 effect 1 carrier; power drain exact neutral amount facts; both dispatch through resource_damage::compile_step"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-017",
+  "name": "Maximum resource modifier compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/maximum_resource_modifier.rs:1-767"
+  ],
+  "semantic_facts": [
+   "per-aura max-resource deltas grouped into cohorts; passive percentage factors > 1.0; reachable delta bounds precomputed for clamp policy"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-018",
+  "name": "Target aura condition",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/target_aura_condition.rs:1-45"
+  ],
+  "semantic_facts": [
+   "marker aura + (mechanic|state) identity byte; plain data carrier consumed by modifier compilers"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-019",
+  "name": "Dispel and mechanic dispel",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/dispel.rs:178-278",
+   "crates/combat/src/program/dispel_mechanic.rs:380-400",
+   "crates/combat/src/execution/planning/dispel.rs:79-151",
+   "crates/combat/src/execution/planning/mechanic_dispel.rs:10-66"
+  ],
+  "semantic_facts": [
+   "magic dispel admits only BLIND_FAITH / MAGE_ARMOR single-stack single-deadline self auras with NO periodic schedules (dispel.rs:238-247)",
+   "mechanic dispel applicand must be single-stack, self-only, with no periodic fanout (dispel_mechanic.rs:387-395)",
+   "dispel removes the whole aura via quote_remove_from; RNG ordinal via uniform_index on a cloned stream in quote (execution/planning/dispel.rs:94-116)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-020",
+  "name": "Resource program composition",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/resource_program.rs:1-434"
+  ],
+  "semantic_facts": [
+   "composes passive flow flat/percentage/suppression, maximum-resource, threshold plans into one optional resource root"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-021",
+  "name": "Independent stack lifetime authority",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/independent_stack.rs:111-420",
+   "crates/combat/src/state/independent_stack_lifetime.rs:114-158"
+  ],
+  "semantic_facts": [
+   "bounded cohort pool per aura; expiry earliest (deadline, sequence) first; overflow displaces earliest cohorts",
+   "last stack expiry cancels periodic and emits AuraExpired; never runs expiry drivers (combination rejected at compile by raw AsynchronousStackingBuff on expiry/periodic owners)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-022",
+  "name": "Deadline queue",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/deadline_queue.rs:1-227"
+  ],
+  "semantic_facts": [
+   "indexed min-heap keyed (at, sequence) with per-slot position; upsert/cancel by slot give at most one live deadline per slot"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-023",
+  "name": "Same-time transition ordering",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/state/transition.rs:22-75",
+   "crates/combat/src/state.rs:1212-1290"
+  ],
+  "semantic_facts": [
+   "(at, rank, seq): threshold startup 0, passive-flow threshold 1, cast 2 (actor), fixed impact 3, white 4, periodic 5 (slot), aura & independent expiry 6 (sequence)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-024",
+  "name": "Passive resource flow runtime",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/passive_resource_flow.rs:582-620",
+   "crates/combat/src/passive_resource_flow.rs:683-705",
+   "crates/combat/src/passive_resource_flow.rs:853-873",
+   "crates/combat/src/passive_resource_flow.rs:973-1000",
+   "crates/combat/src/resource_authority.rs:1041-1116"
+  ],
+  "semantic_facts": [
+   "projection = clamp(basis_balance + rate/1000 * (at - basis_at)) from an immutable basis; settle commits projection without moving basis; rebase moves basis to current",
+   "every transition settles all pools at its time before executing (state.rs advance paths)"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "AUTH-E-025",
+  "name": "Periodic quote capacity / periodic dispatch",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/planning.rs:565-595",
+   "crates/combat/src/execution/planning/aura_lifecycle.rs:202-325",
+   "crates/combat/src/execution/scratch.rs:896-925"
+  ],
+  "semantic_facts": [
+   "program has periodic quotes iff some AuraMutation (not AddStacks) targets an aura with schedules; Dispel and DispelMechanic removals count 0 (planning.rs:565-595)",
+   "PERIODIC=false quote path skips periodic projection entirely (aura_lifecycle.rs:278-280)"
+  ],
+  "track": "E"
+ }
+]

@@ -1,0 +1,104 @@
+[
+  {
+    "id": "REJ-R3-001",
+    "suspicion": "Track H's reset/iteration-reset fingerprints only hold for the 29+20 fixtures it drove; owners it never exercised (raw-133/145 maximum-health runtime, absorb/healing-absorb cells, crit runtimes, power drain, aura-unique/cadence periodic owners, raw-165, mana shield, target absorb bypass, school/mechanic immunity RNG, active-defense tables with dodge/parry/block draws) might not reset or might replay differently",
+    "why_rejected": "probe r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures (PASS): 24 more public fixtures x {plain, stochastic defense/crit input}, casts Player->enemy, Player->Player and enemy->Player, 14 rounds, 2,999 committed casts: quote purity, failure purity, reset == fresh, reset replay identical, reset_for_iteration == fresh for the new identity and identical replay. Unmasked renderings differ only in absorb transaction workspaces (same residue as REJ-H-003). Skipped (need host bindings): power_burn, periodic_mana_leech, passive_flow_flat_runtime; no-commit: mod_maximum_resource_percent, base_mana_percentage.",
+    "coords": [
+      "crates/combat/src/state.rs:439-451",
+      "crates/combat/src/state.rs:1068-1139"
+    ],
+    "probe_test": "r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures",
+    "track": "R3"
+  },
+  {
+    "id": "REJ-R3-002",
+    "suspicion": "CSA-J-05 source witness: raw-286 +50/+60 on a 60 s cooldown gives Core 24999 vs consumer 25000 (also 15 s and 30 s)",
+    "why_rejected": "The consumer forms the complete rate product before touching the cooldown (SpellHistory.cpp:443-450 recoveryRate *= ...; :452-455 int64(cooldown.count() * recoveryRate)), so 60000 * (2/3 * 5/8 in double = 0.41666666666666663) = 24999.999999999996 -> 24999, identical to Core; J's replica 60000*(100/150)*(100/160) multiplies the base first. 15 s -> 6249 and 30 s -> 12499 also agree. Divergences for (+50,+60) exist only at 1.5/3/6/12/21/24 s etc., and the only 12.1.0 raw-286 carriers with those amounts are Ancient Ankh Talisman 287777 (+50) and Trueshot 288613 (+60), which never modify one action together. Every single source raw-286 amount and every same-category pair of raw-148 amounts shows 0 witnesses over all SpellCooldowns/SpellCategory durations (scan in scratch/R3). CSA-J-05's mechanism stays real for synthetic amounts (J's +10% witness) -> downgrade to info LATENT.",
+    "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:229-240",
+      "crates/combat/src/cooldown_recovery_rate.rs:850-852",
+      "crates/combat/src/charge_recharge_rate.rs:716-718"
+    ],
+    "finding_ids": [
+      "CSA-J-05"
+    ],
+    "probe_tests": [
+      "r3_recovery_rate.rs::holds_recovery_rate_sixty_second_witness_matches_consumer_association",
+      "r3_recovery_rate.rs::defect_recovery_rate_mechanism_diverges_only_on_non_coapplicable_pair"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "REJ-R3-003",
+    "suspicion": "CooldownState::reset rebuilds charges from the current (possibly runtime-modified) maximum rather than the construction maximum",
+    "why_rejected": "ChargeState.maximum is written only at construction (cooldown/capacity.rs:56-66 base, :106-129 raw-411 passive capacity) and copied by ready()/projections; no runtime path changes it, so reset (cooldown.rs:1446-1457) restores the construction maximum.",
+    "coords": [
+      "crates/combat/src/cooldown.rs:1446-1457",
+      "crates/combat/src/cooldown/capacity.rs:106-129"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "REJ-R3-004",
+    "suspicion": "H's Debug-based fingerprint could hide divergence through custom Debug impls or masked scratch subtrees that carry semantic state",
+    "why_rejected": "The only custom Debug impl in combat/sim state is VersatilityAuthority (versatility.rs:413-421), which prints every field; RandomStream derives Debug (random.rs:7) and prints root_seed, global_iteration and full state; masked subtrees are *Workspace/*scratch/quoted_costs, which every entry re-prepares (RNG-I-012), and the unmasked diff is limited to absorb workspace residue in both H's and R3's fixtures.",
+    "coords": [
+      "crates/combat/src/versatility.rs:413-421",
+      "crates/sim/src/random.rs:7-12"
+    ],
+    "probe_test": "r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures",
+    "track": "R3"
+  },
+  {
+    "id": "REJ-R3-005",
+    "suspicion": "Fixed-travel arrival drops a packet silently (no observation) when the target's liveness changed after the launch draw was committed",
+    "why_rejected": "Mirrors the consumer: Spell::TargetInfo::DoTargetSpellHit returns when unit->IsAlive() != IsAlive (Spell.cpp:2811) for delayed hits; the launch draw is committed in both.",
+    "coords": [
+      "crates/combat/src/fixed_impact_execution.rs:43-56"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "REJ-R3-006",
+    "suspicion": "Iteration reset could mix identities (e.g. RandomStream::reset after reset_for_iteration replays the old identity, or Engine derives a chunk-local iteration)",
+    "why_rejected": "RandomStream stores root_seed/global_iteration and reset() re-derives from them (random.rs:79-85); reset_for_iteration replaces the whole stream with identity.stream() (state.rs:447-451); Engine forwards the host identity unchanged (engine/src/lib.rs:856-859) and owns no other RNG or rotation state (RotationState is pure scratch, rotation/src/execution.rs:304-309).",
+    "coords": [
+      "crates/sim/src/random.rs:72-85",
+      "crates/combat/src/state.rs:447-451",
+      "crates/engine/src/lib.rs:842-859"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "REJ-R3-007",
+    "suspicion": "raw-38 preview ignores delivery suppression, so preview and commit could consume different draws",
+    "why_rejected": "The preview only draws on a clone (dispel.rs:94-116); commit_dispel_selection returns before any draw when the quote is suppressed (commit.rs:209-211), and the ordinary suppressed impact resolves its table on the state stream exactly as the preview does before the ordinal.",
+    "coords": [
+      "crates/combat/src/execution/commit.rs:208-232",
+      "crates/combat/src/execution/planning/dispel.rs:78-120"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "REJ-R3-008",
+    "suspicion": "ExactMechanicResistance tables assert dodge/parry are +0.0; a dodge-capable defender could panic resolve_with_adjustments",
+    "why_rejected": "with_resisted_mechanic asserts Magic defense (attack/resolution.rs:164-174) and dodge/parry eligibility require DefenseType::Melee (:226-241), so both are the literal 0.0.",
+    "coords": [
+      "crates/combat/src/attack/resolution.rs:164-174",
+      "crates/combat/src/attack/resolution.rs:226-241",
+      "crates/combat/src/attack/resolution.rs:332-345"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "REJ-R3-009",
+    "suspicion": "CSA-I-02 shares its flaw with other captured/deferred paths (dispel preview assert, mechanic-dispel forced trials, deferred activations, split-leech preview)",
+    "why_rejected": "PreparedImpactQuote::captured is constructed only for fixed-travel arrival (planning.rs:815-825); deferred activations re-quote children fresh without captured outcomes (commit.rs:957-993); the raw-38 and split-leech previews replay the same stream position (REJ-I-006) and the mechanic-dispel trials are fixed at 100% (occurs_forced ONE always true). Only the fixed-travel carrier freezes a table outcome across a quote boundary.",
+    "coords": [
+      "crates/combat/src/execution/planning.rs:815-825",
+      "crates/combat/src/impact.rs:262-288",
+      "crates/combat/src/execution/commit.rs:453-464"
+    ],
+    "track": "R3"
+  }
+]

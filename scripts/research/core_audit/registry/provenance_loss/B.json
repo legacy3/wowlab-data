@@ -1,0 +1,82 @@
+[
+ {
+  "id": "PL-B-001",
+  "authority": "AUTH-B-001",
+  "fact": "selected rank amount at final SpellMod compile",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:853-930",
+   "crates/combat/src/program/passive_spell_modifier.rs:790-837"
+  ],
+  "verdict": "clean",
+  "evidence": "value (points/ms) is taken from the package role computed from resolved.selected_amount; authored base points are never re-read; core_test selected_cooldown_spell_modifier.rs::selected_ranked_flat_operation_11_uses_set_and_multiply_rank_amounts (Static Charge 265046 authored -15000 vs -10000/-20000).",
+  "track": "B"
+ },
+ {
+  "id": "PL-B-002",
+  "authority": "AUTH-B-002",
+  "fact": "contributing provider identity after aggregation",
+  "pattern": "exact_effect_to_provider",
+  "coords": [
+   "crates/combat/src/spell_modifier_authority.rs:122-160",
+   "crates/combat/src/spell_modifier_authority.rs:163-201"
+  ],
+  "verdict": "inert",
+  "evidence": "BoundFactor/BoundFlatPoint retain only the last contributing exact effect; used solely for non-finite error attribution.",
+  "track": "B"
+ },
+ {
+  "id": "PL-B-003",
+  "authority": "AUTH-B-001",
+  "fact": "first-effect target identity for percent op-3",
+  "pattern": "dropped_then_reconstructed",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:574-581",
+   "crates/combat/src/spell_modifier_authority.rs:277-288"
+  ],
+  "verdict": "clean",
+  "evidence": "projection keyed by payload spell + FirstEffect, reconstructed at lookup by effect_index()==1; only effect 1 targets are compiled.",
+  "track": "B"
+ },
+ {
+  "id": "PL-B-004",
+  "authority": "AUTH-B-004",
+  "fact": "spell-modified cooldown base vs retained base_duration",
+  "pattern": "retained_never_consumed",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:476-485",
+   "crates/combat/src/cooldown.rs:477-500"
+  ],
+  "verdict": "inert",
+  "evidence": "DeadlineRecovery.base_duration stores the unmodified base; consumed only in semantics() equality, never to recompute duration.",
+  "track": "B"
+ },
+ {
+  "id": "PL-B-005",
+  "authority": "AUTH-B-003",
+  "fact": "impact kind (heal vs damage) for op-15 applicability",
+  "pattern": "dropped_then_reconstructed",
+  "coords": [
+   "crates/combat/src/program/modifier/payload_spells.rs:32-52",
+   "crates/combat/src/execution/planning/critical.rs:34-76"
+  ],
+  "verdict": "finding",
+  "evidence": "compile filters payload programs by damage-impact presence and keys the projection by payload spell only; runtime re-applies it to every crit-eligible impact of that spell, heals included.",
+  "finding_ids": [
+   "CSA-B-03"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "PL-B-006",
+  "authority": "AUTH-B-001",
+  "fact": "selected (entry, rank) for sole-effect providers",
+  "pattern": "package_to_authority_family",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:912-919"
+  ],
+  "verdict": "clean",
+  "evidence": "(resolved.effects().len() >= 2).then_some(selection): sole-effect providers keep no package provenance; with no siblings there is nothing to bind atomically (Track A owns package atomicity).",
+  "track": "B"
+ }
+]

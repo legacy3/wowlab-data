@@ -1,0 +1,128 @@
+[
+ {
+  "id": "REJ-R2-001",
+  "suspicion": "A raw-418 maximum change and a later resource gain/drain in the same program quote against stale maxima (projection tracks only balances)",
+  "why_rejected": "resource_policy_boundary ends the segment after any maximum-resource-affecting aura mutation; the suffix is quoted after commit (MUT-R2-005).",
+  "coords": [
+   "crates/combat/src/execution/planning.rs:699-785",
+   "crates/combat/src/execution/resource.rs:281-321"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-002",
+  "suspicion": "Active raw-396 fresh application fires its child when the pool already satisfies the threshold, unlike a crossing-only consumer",
+  "why_rejected": "Trinity AuraEffect::HandleTriggerSpellOnPowerAmount casts on REAL apply when power >= amount (gain) / <= amount (loss) (SpellAuraEffects.cpp:5394-5419); crossing predicate equals Unit::TriggerOnPowerChangeAuras (Unit.cpp:10144-10152); refresh (no REAL mode) does not re-fire, as Core's Reapplied fresh=false.",
+  "coords": [
+   "crates/combat/src/resource_threshold.rs:852-870",
+   "crates/combat/src/resource_threshold/active.rs:257-330"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-003",
+  "suspicion": "Power Drain drops the caster energize half of the effect",
+  "why_rejected": "Admitted Power Drain requires NEUTRAL amount facts (amplitude 0); Trinity's gain is int32(drained * amplitude) = 0 (MUT-R2-006).",
+  "coords": [
+   "crates/combat/src/program/power_drain.rs:253-300"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-004",
+  "suspicion": "Active raw-418 recomputation drops the construction-time passive flat/percentage maximum stage",
+  "why_rejected": "Runtime pools are seeded from PassiveMaximumResourceStage initial_maximum (flat-adjusted) and factor (maximum_resource_modifier.rs:134-147) and project (initial + deltas) * factor, the same (base+flat)*pct order as construction (resource.rs:220-248) and Trinity TOTAL_VALUE then TOTAL_PCT.",
+  "coords": [
+   "crates/combat/src/maximum_resource_modifier.rs:115-160",
+   "crates/combat/src/resource.rs:220-248"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-005",
+  "suspicion": "Expansiveness construction-only maximum is lost when an active raw-418 aura recomputes Astral Power",
+  "why_rejected": "Expansiveness stages return the adjusted maximum as initial_maximum with factor 1.0 (passive_maximum_resource/expansiveness.rs:67-137).",
+  "coords": [
+   "crates/combat/src/passive_maximum_resource/expansiveness.rs:67-137"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-006",
+  "suspicion": "Resist Silence (19786) is read from the caster of Curse of Suppression rather than the victim",
+  "why_rejected": "The resisted-mechanic lookup uses the impact target index (state/modifiers.rs:223-225), the holder of 19786; Trinity reads victim->GetMechanicResistChance in the miss/resist roll. Defense None disables resist in both.",
+  "coords": [
+   "crates/combat/src/state/modifiers.rs:215-230",
+   "crates/combat/src/attack/resolution.rs:203-226"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-007",
+  "suspicion": "Raw-245 dispel-duration floors 0.75*duration while Trinity AddPct truncates the negative delta (rounds up)",
+  "why_rejected": "The admitted applicand duration is exactly 3000 ms and mechanic duration is neutral for it, so 3000*75/100 = 2250 in both; the rounding difference is unobservable at the admitted slice.",
+  "coords": [
+   "crates/combat/src/program/dispel_duration_modifier.rs:17-23",
+   "crates/combat/src/program/dispel_duration_modifier.rs:64-76"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-008",
+  "suspicion": "Slaughter the Weak Bleed-state condition is caster-specific or ignores other Bleed auras",
+  "why_rejected": "Marker match accepts any source (modifier.rs:639-656), matching Trinity's non-per-caster AURA_STATE_BLEED; every other selected aura with a Bleed mechanic is rejected at compile (target_aura_state_modifier.rs:236-258).",
+  "coords": [
+   "crates/combat/src/modifier.rs:639-656",
+   "crates/combat/src/program/target_aura_state_modifier.rs:236-258"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-009",
+  "suspicion": "Raw-286 recovery rate lacks Trinity's max(amount, -99) clamp",
+  "why_rejected": "rate_factor clamps the speed at 0.01 (cooldown_recovery_rate.rs:850-852), identical to 100/(max(amount,-99)+100) inverted; per-effect factors multiply as in SpellHistory.cpp:443-446.",
+  "coords": [
+   "crates/combat/src/cooldown_recovery_rate.rs:850-852"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-010",
+  "suspicion": "Engine::reset leaves prepared aura observations holding state from the previous iteration",
+  "why_rejected": "PreparedAuraObservations is only borrowed immutably after construction (engine/src/lib.rs:662, 967); observations Vec is cleared by reset.",
+  "coords": [
+   "crates/engine/src/lib.rs:652-666",
+   "crates/engine/src/lib.rs:847-859"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-011",
+  "suspicion": "Passive absorb-received factor admits a negative multiplier or double counting",
+  "why_rejected": "Role policy AtLeastNegativeHundred (selected_trait_package.rs:717-722) bounds the factor at >= 0, the selected rank amount is consumed (passive_absorb_received.rs:189-201), and the state authority admits exactly one Player binding.",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:717-722",
+   "crates/combat/src/absorb_received_authority.rs:17-60"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-012",
+  "suspicion": "White main-hand period is not rescaled when haste changes mid-swing",
+  "why_rejected": "The admitted white program has no active haste authority (period frozen from passive haste at admission, white_swing/runtime.rs:52-62; white_idle.rs:51-117), so no mid-swing haste change is constructible.",
+  "coords": [
+   "crates/combat/src/white_swing/runtime.rs:52-71",
+   "crates/combat/src/program/white_idle.rs:51-117"
+  ],
+  "track": "R2"
+ },
+ {
+  "id": "REJ-R2-013",
+  "suspicion": "RandomStream ordered_outcome/uniform_index skip or bias draws",
+  "why_rejected": "ordered_outcome skips only when the first positive probability is certain or all are zero, else one shared draw with clamped cumulative thresholds; uniform_index uses Lemire rejection with threshold 2^64 mod n; next_unit_f64 is 53-bit exact.",
+  "coords": [
+   "crates/sim/src/random.rs:111-207"
+  ],
+  "track": "R2"
+ }
+]

@@ -1,0 +1,51 @@
+[
+ {
+  "id": "CSA-E-01",
+  "title": "Aura lifecycle ignores recipient death: auras persist on corpses, raw-495 expiry drivers run on the dead recipient, and new applications (with periodic/expiry deadlines) are admitted onto dead actors",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/expiry_execution.rs:9-40",
+   "crates/combat/src/state.rs:1368-1397",
+   "crates/combat/src/periodic_execution.rs:449-457",
+   "crates/combat/src/aura_state.rs:713-834",
+   "crates/combat/src/execution/commit/health.rs:200-235"
+  ],
+  "evidence": "core: no code path removes auras when ActorDied is committed (commit/health.rs:200-235, 918-931 only push the observation); the only death reaction is the lazy periodic cancel at the next due tick (periodic_execution.rs:449-457). execute_expiry_drivers has no liveness check, and preflight_execution_health gates only children that require target health (execution/health.rs:190-211), so a child applying an aura / granting a resource runs and a damage child emits ExecutionFizzled(DeadTarget). probe: e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse (AuraExpired at 100 then Applied to the dead External, fresh deadline armed), ::defect_expiry_driver_fizzles_dead_target_after_recipient_death, ::defect_fresh_periodic_application_onto_dead_recipient_is_admitted. trinity: Unit.cpp:9179 setDeathState -> RemoveAllAurasOnDeath (Unit.cpp:4472-4493, AURA_REMOVE_BY_DEATH for non-passive, non-death-persistent auras); HandleTriggerSpellOnExpire returns unless removeMode == AURA_REMOVE_BY_EXPIRE (SpellAuraEffects.cpp:5422-5425); SpellInfo::CheckTarget rejects dead unit targets unless IsAllowingDeadTarget (SpellInfo.cpp:2452). source: 683 base-difficulty raw-495 rows exist, e.g. 346878 (misc0 0) -> 346879 direct damage, 350365 (misc0 1) -> 350374 damage+stun aura.",
+  "reproducer": "cargo test --offline --test e_death_lifecycle (probe crate) \u2014 synthetic ids 71_xxx with source-shaped raw-495 carrier (misc0 1, child ApplyAura / SchoolDamage), public CombatProgram::builder + CombatState::cast/advance_to",
+  "why_tests_missed": "expiry_drivers.rs and periodic_* tests never kill the aura recipient; death coverage exists only for periodic health ticks (periodic_damage.rs:1159) where the lazy cancel is sufficient.",
+  "correction_boundary": "A single death-lifecycle transition committed with the lethal health write: remove (or mark removed-by-death) every non-death-persistent aura whose affected actor died, cancel their periodic cells and expiry deadlines without running natural-expiry drivers; plus a liveness requirement on hostile aura application roots. AllowAuraWhileDead (116) / DisableAuraWhileDead (226) are already unimplemented and must stay fail-closed until that transition exists.",
+  "must_not_widen": "Do not add per-driver ad-hoc liveness checks that still leave the aura active (aura-state modifiers, thresholds and dispel candidates would still observe it); do not admit raw 116/226; do not run expiry drivers for death removal.",
+  "probe_tests": [
+   "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse",
+   "e_death_lifecycle.rs::defect_expiry_driver_fizzles_dead_target_after_recipient_death",
+   "e_death_lifecycle.rs::defect_fresh_periodic_application_onto_dead_recipient_is_admitted"
+  ],
+  "probe_test": "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse",
+  "source_validity_note": "Probe uses synthetic spell ids; every fact (subtype 495, misc0, trigger child, restart-lifetime application, lethal direct damage) is schema-valid and has real DBC analogues. Reviewers who require real spell ids should treat reachability via real data as depending on the upstream resolved-catalog author admitting such a raw-495 carrier on a mortal target.",
+  "track": "E"
+ },
+ {
+  "id": "CSA-E-02",
+  "title": "Dispel and mechanic-dispel removals never quote periodic cancellation (periodic quote capacity counts 0 for Dispel ops); a dispellable aura with schedules would keep ticking after removal",
+  "severity": "low",
+  "reachability": "LATENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/planning.rs:565-595",
+   "crates/combat/src/execution/planning/aura_lifecycle.rs:270-325",
+   "crates/combat/src/execution/planning/dispel.rs:136-151",
+   "crates/combat/src/execution/planning/mechanic_dispel.rs:50-66",
+   "crates/combat/src/execution/scratch.rs:896-925",
+   "crates/combat/src/program/dispel.rs:243-247",
+   "crates/combat/src/program/dispel_mechanic.rs:387-395"
+  ],
+  "evidence": "core: periodic_quote_count returns 0 for any op other than ProgramOp::AuraMutation (planning.rs:571-573), so a program whose only aura removal is Dispel/DispelMechanic compiles with has_periodic_quotes=false; quote_activation then takes the non-periodic path (scratch.rs:904) and aura_lifecycle::quote::<false> returns before deactivating cells (aura_lifecycle.rs:278-280). No commit-side fallback cancels periodic for Removed transitions (only natural expiry state.rs:1385, independent expiry, absorb depletion, dead-recipient). Even with PERIODIC=true the per-program quote capacity would undercount (debug_assert periodic.rs:772-775, Vec growth => warm allocation). Upstream gates: dispel.rs:243-247 'no periodic lifecycle fanout' and dispel_mechanic.rs:394 'without periodic fanout' reject any dispellable aura with schedules, so no executable state reaches it today.",
+  "reproducer": "static: remove the require_fact at dispel.rs:243-247 in a mutant and apply a periodic-trigger schedule to the BLIND_FAITH/MAGE_ARMOR carrier; dispel removes the aura while the PeriodicCell stays active and the next tick executes for a removed aura.",
+  "why_tests_missed": "Dispel fixtures never carry schedules because the compiler forbids it; the gate masks the missing removal-side contract.",
+  "correction_boundary": "Count Dispel/DispelMechanic removals in periodic_quote_count using the candidate auras' schedules (or route all Removed transitions through one periodic cancellation at commit).",
+  "must_not_widen": "Do not lift the 'no periodic fanout' dispel gates before the removal path quotes periodic cancellation.",
+  "track": "E"
+ }
+]

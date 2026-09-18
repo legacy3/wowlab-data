@@ -1,0 +1,183 @@
+[
+ {
+  "id": "PL-A-001",
+  "authority": "AUTH-A-006",
+  "fact": "binding family identity of a package member binding",
+  "pattern": "package_to_authority_family",
+  "coords": [
+   "crates/combat/src/state/construction.rs:284-322",
+   "crates/combat/src/state/construction.rs:838-858"
+  ],
+  "verdict": "finding",
+  "note": "family dropped when flattening to (actor,effect); discarded family satisfies membership",
+  "finding_ids": [
+   "CSA-A-01"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "PL-A-002",
+  "authority": "AUTH-A-017",
+  "fact": "selected-rank amount at raw-638 final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/critical_block_amount.rs:297-301"
+  ],
+  "verdict": "clean",
+  "note": "resolved.selected_amount(effect) stored; authored only for Passive activation (266)",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-003",
+  "authority": "AUTH-A-007",
+  "fact": "selected-rank amount at spell-modifier final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:898-918",
+   "crates/combat/src/program/selected_trait_package.rs:1308-1312",
+   "crates/combat/src/program/selected_trait_package.rs:1228",
+   "crates/combat/src/program/selected_trait_package.rs:1256"
+  ],
+  "verdict": "clean",
+  "note": "value taken from the package role computed from selected_amount",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-004",
+  "authority": "AUTH-A-008",
+  "fact": "selected-rank amount at auto-attack damage final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/passive_auto_attack_damage.rs:169-171"
+  ],
+  "verdict": "clean",
+  "note": "",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-005",
+  "authority": "AUTH-A-009",
+  "fact": "selected-rank amount at healing-received final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/passive_healing_received.rs:185-187"
+  ],
+  "verdict": "clean",
+  "note": "",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-006",
+  "authority": "AUTH-A-010",
+  "fact": "selected-rank amount at all-haste final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/passive_haste.rs:154-156",
+   "crates/combat/src/program/passive_haste.rs:186"
+  ],
+  "verdict": "clean",
+  "note": "carrier constant only when selected_trait() is None",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-007",
+  "authority": "AUTH-A-011",
+  "fact": "selected-rank amount at melee speed final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:104-116"
+  ],
+  "verdict": "clean",
+  "note": "",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-008",
+  "authority": "AUTH-A-012",
+  "fact": "selected-rank amount at school-damage final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/passive_damage_modifier.rs:169-171"
+  ],
+  "verdict": "clean",
+  "note": "",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-009",
+  "authority": "AUTH-A-013",
+  "fact": "selected-rank amount at absorb-received final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/passive_absorb_received.rs:178-185"
+  ],
+  "verdict": "clean",
+  "note": "",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-010",
+  "authority": "AUTH-A-018",
+  "fact": "selected-rank amount at critical-chance final compile",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:418-423",
+   "crates/combat/src/program/critical_modifier.rs:568-570"
+  ],
+  "verdict": "clean",
+  "note": "authored base points only returned for non-selected activation (500-502)",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-011",
+  "authority": "AUTH-A-004",
+  "fact": "exact effect -> package source lookup (find first)",
+  "pattern": "exact_effect_to_provider",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:291-304"
+  ],
+  "verdict": "clean",
+  "note": "lossless because one exact effect has exactly one selected declaration source (REJ-A-002)",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-012",
+  "authority": "AUTH-A-017",
+  "fact": "SelectedTraitOwnerContract computed but not consumed by raw-638",
+  "pattern": "retained_never_consumed",
+  "coords": [
+   "crates/combat/src/program/critical_block_amount.rs:273-302"
+  ],
+  "verdict": "finding",
+  "note": "package.owner() never read in critical_block_amount.rs",
+  "finding_ids": [
+   "CSA-A-02"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "PL-A-013",
+  "authority": "AUTH-A-001",
+  "fact": "SelectedTraitPackageContract::source()",
+  "pattern": "retained_never_consumed",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:29-33"
+  ],
+  "verdict": "inert",
+  "note": "no production consumer; compilers carry the selection from the declaration",
+  "track": "A"
+ },
+ {
+  "id": "PL-A-014",
+  "authority": "AUTH-A-019",
+  "fact": "(entry,effective_rank) through catalog declarations to compiled definitions",
+  "pattern": "lossless",
+  "coords": [
+   "crates/data/src/action/catalog/selected_trait_source.rs:1-27",
+   "crates/combat/src/program/selected_trait_package.rs:197-211"
+  ],
+  "verdict": "clean",
+  "note": "exact pair retained; each final compiler re-resolves from it",
+  "track": "A"
+ }
+]

@@ -1,0 +1,43 @@
+[
+  {
+    "id": "RNG-R3-001",
+    "coords": [
+      "crates/combat/src/execution/commit.rs:208-232",
+      "crates/combat/src/execution/planning/dispel.rs:94-116"
+    ],
+    "site": "raw-38 dispel selector (re-derived)",
+    "draws": "0 for 0 or 1 candidates, 1 u64 for >= 2 (rejection-sampled: extra u64 with probability (2^64 mod n)/2^64); the consumer shape would be urand + RollDispel per attempt (2 trials) even for 1 candidate",
+    "order": "impact table first, then selector (commit.rs:156-167)",
+    "quote": "clone only",
+    "failure": "quote failure drops the clone; suppressed quote skips the commit draw (commit.rs:209-211)",
+    "reset": "stream restored by RandomStream::reset",
+    "iteration_reset": "identity.stream()",
+    "outcome_dependent_after_draw": "commit re-verifies the quoted ordinal with assert_eq (commit.rs:227-231); cannot diverge because nothing draws between preview and commit",
+    "finding_ids": [
+      "CSA-R3-01"
+    ],
+    "probe_test": "i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index",
+    "track": "R3"
+  },
+  {
+    "id": "RNG-R3-002",
+    "coords": [
+      "crates/combat/src/attack/resolution.rs:464-523",
+      "crates/combat/src/impact.rs:262-280",
+      "crates/combat/src/execution/commit.rs:879-906"
+    ],
+    "site": "fixed-travel launch block draw (re-derived for CSA-I-02)",
+    "draws": "block draw only when the defender has the magic-block capability and chance in (0,1); chance 1.0 blocks with 0 draws (occurs short-circuit) and still panics at arrival",
+    "order": "non-landing -> critical -> block -> critical block, at launch",
+    "quote": "launch quote validates blocked amounts as reachable (impact.rs:356-386)",
+    "failure": "arrival re-quote asserts Unblocked (impact.rs:263-267): panic inside advance_to after the launch commit",
+    "reset": "fixed-impact packets cleared by HealthAuthorities::reset (health_authorities.rs:144-151)",
+    "iteration_reset": "same",
+    "outcome_dependent_after_draw": "consumer never blocks magic spells (MagicSpellHitResult has no block roll; block is only in MeleeSpellHitResult Unit.cpp:2654-2754) and decides melee block with the hit roll at AddUnitTarget (Spell.cpp:2486), not at hit",
+    "finding_ids": [
+      "CSA-I-02"
+    ],
+    "probe_test": "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival",
+    "track": "R3"
+  }
+]

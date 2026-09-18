@@ -1,0 +1,134 @@
+[
+ {
+  "id": "AUTH-K-001",
+  "name": "Global selected-owner spell-attribute audit",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/spell_attribute.rs:17-81",
+   "crates/combat/src/program/spell_attribute.rs:83-130",
+   "crates/combat/src/program/spell_attribute.rs:132-218",
+   "crates/combat/src/program/spell_attribute.rs:236-274"
+  ],
+  "semantic_facts": [
+   "every owner spell in selected_spell_ownership_stream: each attribute must be cataloged (else uncataloged error)",
+   "Disabled/Unimplemented attributes reject; Ignored pass; Implemented dispatch to exact-carrier owner audits (175,306,214,407,292,273/278,29,163) and Passive role compatibility",
+   "raw 416 skipped only in the Passive/PassiveModifier/all-Absent external-policy domain",
+   "cast activation flags lowered from 135/306/407/163 per action"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "AUTH-K-002",
+  "name": "Implicit-target selector admission",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/implicit_target.rs:4-11",
+   "crates/combat/src/program/source_recipient.rs:9-101",
+   "crates/combat/src/program/target_requirements.rs:137-170"
+  ],
+  "semantic_facts": [
+   "known_implicit_targets maps raw pairs through the dense IMPLICIT_TARGET catalog, unknown raw -> None -> reject",
+   "admitted pairs: (0,0) inherit, (1,0) caster, (25,0) target any, (6,0) hostile, (21,0) friendly; any secondary selector rejects",
+   "node-level disposition requirement conflicts reject (target_disposition_conflict)"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "AUTH-K-003",
+  "name": "Exact-effect attribute audit and point stacking",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/effect_attribute.rs:12-45",
+   "crates/combat/src/program/effect_attribute.rs:58-91",
+   "crates/combat/src/program/effect_attribute.rs:138-150"
+  ],
+  "semantic_facts": [
+   "any attribute other than Ignored \"requires behavior\" and rejects unless a consumer compiles it",
+   "only SuppressPointsStacking (7) is compiled (SingleStack); uncataloged bits treated as behavior-bearing (map_or(true))",
+   "aura applications consumed by listed selected-aura families defer to their compilers; raw-468 consumers audited in health_threshold/validation.rs:114-122"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "AUTH-K-004",
+  "name": "Exact neutral source/owner facts (shared with track A)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/exact_source.rs:71-122",
+   "crates/combat/src/program/exact_source.rs:124-161",
+   "crates/combat/src/program/exact_source.rs:221-248"
+  ],
+  "semantic_facts": [
+   "neutral aura source contract: kind 6, subtype, points, targets, misc, empty exact attributes, neutral shaping",
+   "complete single-effect source (source_effect_count), family-five passive owner policy"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "AUTH-K-005",
+  "name": "SpellExternalPolicyCatalog source projection",
+  "layer": "source_resolution",
+  "coords": [
+   "crates/data/src/spell_external_policy.rs:9-58",
+   "crates/data/src/spell_external_policy.rs:166-280"
+  ],
+  "semantic_facts": [
+   "nine presence columns {Absent, Present, Unknown} per GameData spell",
+   "complete coverage, identity-bound, canonical order",
+   "grants no executable behavior by itself"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "AUTH-K-006",
+  "name": "Selected immutable owner policy (external policy consumer)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:388-526"
+  ],
+  "semantic_facts": [
+   "neutral owner (defense None, no dispel, empty class mask, no mechanics)",
+   "identity-matched all-Absent external policy",
+   "inert AuraOptions counters/clocks, no equipment, zero missile timing, unconditional application policy",
+   "only Passive + Ignored (+416 in the proved domain) owner attributes",
+   "exact PassiveModifier owner-role count"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "AUTH-K-007",
+  "name": "Aura-mutation operation lowering (raw 6/164/203/289)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program.rs:1546-1618",
+   "crates/combat/src/program.rs:1620-1690",
+   "crates/data/src/action/catalog/operation.rs:861-902"
+  ],
+  "semantic_facts": [
+   "kind-family check only (OperationEffectContract)",
+   "host-declared aura id, count, direction",
+   "recipient selector validation"
+  ],
+  "finding_ids": [
+   "CSA-K-01"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "AUTH-K-008",
+  "name": "Five static semantic catalogs",
+  "layer": "source",
+  "coords": [
+   "crates/dbc/src/spell_effect.rs:222-275",
+   "crates/dbc/src/aura_subtype.rs:379-584",
+   "crates/dbc/src/spell_attribute.rs:350-497",
+   "crates/dbc/src/effect_attribute.rs:198-232",
+   "crates/dbc/src/implicit_target.rs:442"
+  ],
+  "semantic_facts": [
+   "support status per raw identity (Implemented/Disabled/Ignored/Unimplemented; implicit target descriptive)",
+   "requirement text is the semantic contract audited against executable admission"
+  ],
+  "track": "K"
+ }
+]

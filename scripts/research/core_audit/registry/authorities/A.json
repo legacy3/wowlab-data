@@ -1,0 +1,305 @@
+[
+ {
+  "id": "AUTH-A-001",
+  "name": "selected effect classifier (per-effect role)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:600-629",
+   "crates/combat/src/program/selected_trait_package.rs:631-729",
+   "crates/combat/src/program/selected_trait_package.rs:731-787",
+   "crates/combat/src/program/selected_trait_package.rs:1033-1088"
+  ],
+  "semantic_facts": [
+   "every exact effect of one (entry,rank) is classified from kind, aura subtype, misc0 operation, misc1 selector/label, class mask, shell (period 0, AP/SP 0, neutral amount facts, neutral chain, targets (1,0), mechanic 0, radius 0, no effect attributes, trigger only on inert-listed subtypes) and the selected rank amount",
+   "roles: SpellModifier(Percent Direct/Periodic/CriticalBonus/Cooldown x ClassMask/Label, FlatFirstEffect, PercentFirstEffect, FlatCooldown) + 11 passive roles",
+   "source position never selects a role (probe a_package_contract.rs::holds_source_order_does_not_determine_role)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-002",
+  "name": "selected composition gate (role multiset admission)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:789-807",
+   "crates/combat/src/program/selected_trait_package.rs:820-886",
+   "crates/combat/src/program/selected_trait_package.rs:888-970"
+  ],
+  "semantic_facts": [
+   "arity 1 always admitted; arity>=2 admitted only for reviewed multisets over 10 slot roles; any role outside the 10 slots counts as other and rejects multi-effect packages",
+   "every admitted multi-effect multiset contains >=1 SpellModifier role"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-003",
+  "name": "shared selected owner policy",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:388-417",
+   "crates/combat/src/program/selected_trait_package.rs:419-527",
+   "crates/data/src/action/catalog/selected_owner.rs:47-62"
+  ],
+  "semantic_facts": [
+   "neutral owner (defense None, dispel none, empty owner class mask, no mechanics); identity-matched external policy all Absent; inert AuraOptions; no equipment; zero missile; unconditional passive; only Passive + Ignored (+416 with Passive) attributes",
+   "owner-role count == package arity and every role PassiveModifier (counted over all selected ownerships of the owner spell)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-004",
+  "name": "cold package provenance recorder and lookup",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:197-288",
+   "crates/combat/src/program/selected_trait_package.rs:290-321",
+   "crates/combat/src/program/passive_spell_modifier.rs:147-161",
+   "crates/combat/src/program/passive_spell_modifier.rs:257-266"
+  ],
+  "semantic_facts": [
+   "records (entry,rank,effect) for packages with >=2 effects only, supplied by the spell-modifier compiler; sorted by (entry,rank,effect)",
+   "selected_passive_package_source returns the first exact-effect match; selected_passive_package_effects filters by exact source"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-005",
+  "name": "complete sibling declaration check",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:323-386"
+  ],
+  "semantic_facts": [
+   "each role checks the exact effect in its own ordinary catalog family with activation/selected_trait == exact (entry,rank); raw 638 additionally requires Multiplicative composition"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-006",
+  "name": "state-construction package binding validator (5-family iterator)",
+  "layer": "state_construction",
+  "coords": [
+   "crates/combat/src/state/construction.rs:89",
+   "crates/combat/src/state/construction.rs:244-282",
+   "crates/combat/src/state/construction.rs:284-322"
+  ],
+  "semantic_facts": [
+   "runs before any runtime owner compiles; for every bound (actor,effect) of a recorded package requires each member (actor,member) exactly once across the chained families",
+   "families: spell-modifier, critical-block, passive auto-attack damage, passive critical, passive healing received; binding family identity is not retained (CSA-A-01)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-007",
+  "name": "passive spell-property modifier compiler (selected path)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:132-275",
+   "crates/combat/src/program/passive_spell_modifier.rs:711-788",
+   "crates/combat/src/program/passive_spell_modifier.rs:853-948",
+   "crates/combat/src/program/passive_spell_modifier.rs:950-986"
+  ],
+  "semantic_facts": [
+   "selected value = package role value (selected rank); sibling declarations; shared owner policy + owner-role count; provenance recorded for arity>=2"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-008",
+  "name": "passive auto-attack damage compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_auto_attack_damage.rs:62-102",
+   "crates/combat/src/program/passive_auto_attack_damage.rs:104-209",
+   "crates/combat/src/program/passive_auto_attack_damage.rs:219-246"
+  ],
+  "semantic_facts": [
+   "requires package role AutoAttackDamage == declared effect and a Direct Percent SpellModifier sibling; selected rank amount -> binary32 factor 1+f32(p)/100; shared owner policy"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-009",
+  "name": "passive healing received compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_healing_received.rs:54-112",
+   "crates/combat/src/program/passive_healing_received.rs:139-210",
+   "crates/combat/src/program/passive_healing_received.rs:212-234"
+  ],
+  "semantic_facts": [
+   "SelectedTraitPassive activation only; selected rank amount finite > 0; shared owner policy"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-010",
+  "name": "passive all-haste compiler (selected path)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_haste.rs:64-88",
+   "crates/combat/src/program/passive_haste.rs:110-188"
+  ],
+  "semantic_facts": [
+   "at most one definition; selected rank amount; shared owner policy; non-selected path pinned to carrier 28830#1 (5%)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-011",
+  "name": "passive melee auto-attack-speed compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:44-131",
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:138-165"
+  ],
+  "semantic_facts": [
+   "exactly one selected definition; selected rank amount -> binary32 period factor 100/(100+p); shared owner policy"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-012",
+  "name": "passive school damage (done/taken) compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_damage_modifier.rs:49-95",
+   "crates/combat/src/program/passive_damage_modifier.rs:121-204",
+   "crates/combat/src/program/passive_damage_modifier.rs:206-235"
+  ],
+  "semantic_facts": [
+   "direction from package role (DamageDone -> OutgoingHolder, DamageTaken -> IncomingHolder); school from misc0; selected rank amount; shared owner policy"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-013",
+  "name": "passive absorb received compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_absorb_received.rs:57-103",
+   "crates/combat/src/program/passive_absorb_received.rs:130-187",
+   "crates/combat/src/program/passive_absorb_received.rs:189-211"
+  ],
+  "semantic_facts": [
+   "selected rank amount -> factor 1+p/100 (f64); shared owner policy"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-014",
+  "name": "passive modifier plan container",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_outgoing_modifier.rs:41-85",
+   "crates/combat/src/program/passive_outgoing_modifier.rs:87-127"
+  ],
+  "semantic_facts": [
+   "owns the spell-modifier child plan that carries selected_package_effects; constructed whenever any passive child exists (modifier.rs:911-917)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-015",
+  "name": "selected owner role counter (action owners)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/selected_owner_role.rs:7-30"
+  ],
+  "semantic_facts": [
+   "counts CastAction/Program/AuraDefinition/Modifier/Driver roles of an owner spell; any other role (incl. PassiveModifier) returns None - used by action-owned selected paths, not by passive packages"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-016",
+  "name": "exact-source shared facts",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/exact_source.rs:26-58",
+   "crates/combat/src/program/exact_source.rs:71-132",
+   "crates/combat/src/program/exact_source.rs:153-248"
+  ],
+  "semantic_facts": [
+   "stable selected-trait error facts; exact neutral aura source contract uses authored base points for fixed carriers (never for selected amounts)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-017",
+  "name": "critical-block amount compiler (selected path)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/critical_block_amount.rs:157-254",
+   "crates/combat/src/program/critical_block_amount.rs:256-302",
+   "crates/combat/src/program/critical_block_amount.rs:427-484"
+  ],
+  "semantic_facts": [
+   "selected rank amount stored (09d4fdab fix holds); no shared owner policy (CSA-A-02); private owner-attribute check (CSA-A-03)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-018",
+  "name": "critical-chance compiler (selected path)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:371-431",
+   "crates/combat/src/program/critical_modifier.rs:494-571"
+  ],
+  "semantic_facts": [
+   "expected role from subtype (raw 334 ModAutoAttackCritChance, ModAllCritChance, CritChanceForCasterWithAbilities); selected rank amount; shared owner policy; composition host-supplied (UNK-A-001)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-019",
+  "name": "selected trait source resolution",
+  "layer": "source_resolution",
+  "coords": [
+   "crates/data/src/trait_source/selected_spell.rs:202-383",
+   "crates/data/src/trait_source/selected_spell.rs:178-199",
+   "crates/data/src/trait_source/selected_spell.rs:85-95"
+  ],
+  "semantic_facts": [
+   "identity match; max ranks 1|2; non-override non-subtree definitions; complete effect set (source_effect_count == retained); point rows 0 (rank 1) / >=1 (rank 2), op 0 Set / 1 Multiply else reject, one row per effect, exact integer-rank curve points; unpointed effects keep authored"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-020",
+  "name": "selected spell ownership stream",
+  "layer": "resolved_catalog",
+  "coords": [
+   "crates/data/src/action/catalog/selected_owner.rs:47-62",
+   "crates/data/src/action/catalog/selected_owner.rs:207-362",
+   "crates/data/src/action/catalog/selected_owner.rs:497-543"
+  ],
+  "semantic_facts": [
+   "duplicate occurrences retained; all selected passive families map to PassiveModifier"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "AUTH-A-021",
+  "name": "engine selected-trait candidates",
+  "layer": "candidate",
+  "coords": [
+   "crates/engine/src/trait_critical_package_candidate.rs:107-164",
+   "crates/engine/src/trait_critical_package_candidate.rs:176-245",
+   "crates/engine/src/trait_mixed_passive_candidate.rs:106-186",
+   "crates/engine/src/trait_spell_modifier_candidate.rs:105-172",
+   "crates/engine/src/trait_auto_attack_damage_candidate.rs:112-218",
+   "crates/engine/src/trait_candidate.rs:112-225",
+   "crates/engine/src/trait_haste_candidate.rs:94-156",
+   "crates/engine/src/trait_melee_auto_attack_speed_candidate.rs:105-161",
+   "crates/engine/src/trait_passive_damage_candidate.rs:101-174",
+   "crates/engine/src/trait_passive_healing_candidate.rs:101-171",
+   "crates/engine/src/trait_absorb_received_candidate.rs:101-173"
+  ],
+  "semantic_facts": [
+   "classify with the same contract, publish declarations + Player bindings atomically, refuse existing declaration/binding; output is untrusted and fully revalidated by CombatProgram and state construction"
+  ],
+  "track": "A"
+ }
+]

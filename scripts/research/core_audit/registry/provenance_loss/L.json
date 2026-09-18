@@ -1,0 +1,14 @@
+[
+  {
+    "id": "PL-L-001",
+    "track": "L",
+    "authority": "AUTH-L-001",
+    "fact": "package (entry_id,effective_rank) per member",
+    "pattern": "lossless",
+    "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:257-263"
+    ],
+    "verdict": "clean",
+    "note": "lossless and stored once per member; residency issue (cold data in a warm-read struct) is recorded as CSA-L-01, not a provenance loss"
+  }
+]

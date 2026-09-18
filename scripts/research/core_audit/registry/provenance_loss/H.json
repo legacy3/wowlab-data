@@ -1,0 +1,47 @@
+[
+ {
+  "id": "PL-H-001",
+  "track": "H",
+  "authority": "AUTH-H-009",
+  "fact": "actor identity -> index",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/state/construction.rs:1018",
+   "crates/combat/src/state.rs:949-953"
+  ],
+  "verdict": "clean",
+  "evidence": "index recovered by binary search on the canonical roster; ActorId retained on ActorState; permuted input bit-identical",
+  "probe_test": "h_construction_mutations.rs::holds_actor_and_relation_order_is_canonicalized"
+ },
+ {
+  "id": "PL-H-002",
+  "track": "H",
+  "authority": "AUTH-H-014",
+  "fact": "actor death",
+  "pattern": "retained_never_consumed",
+  "coords": [
+   "crates/combat/src/execution/commit/health.rs:923-930",
+   "crates/combat/src/state.rs:1368-1395"
+  ],
+  "verdict": "finding",
+  "evidence": "death is published as an observation and health==0 but no aura/expiry owner consumes it (periodic alone checks liveness)",
+  "finding_ids": [
+   "CSA-H-01"
+  ],
+  "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient"
+ },
+ {
+  "id": "PL-H-003",
+  "track": "H",
+  "authority": "AUTH-H-010",
+  "fact": "construction passives (haste-all, max health, max resource)",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/state/construction.rs:604-623",
+   "crates/combat/src/state/construction.rs:331-341"
+  ],
+  "verdict": "clean",
+  "evidence": "applied before baseline capture, never re-applied, restored by baseline",
+  "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints"
+ }
+]

@@ -1,0 +1,124 @@
+[
+ {
+  "id": "AUTH-J-001",
+  "track": "J",
+  "name": "white main-hand binary32 numeric boundary (armor, crit share, raw-344, period)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/white_swing.rs:28-176",
+   "crates/combat/src/white_swing.rs:452-463",
+   "crates/combat/src/white_swing/resolution.rs:60-116",
+   "crates/combat/src/state/white_main_hand.rs:90-135"
+  ],
+  "semantic_facts": [
+   "binary32 staging reproduces Trinity Unit::CalculateMeleeDamage / CalcArmorReducedDamage / RollMeleeOutcomeAgainst",
+   "basis points truncated once after raw-290 addition (association differs, CSA-J-01)",
+   "crit doubling after armor with u32 headroom guard"
+  ],
+  "finding_ids": [
+   "CSA-J-01"
+  ]
+ },
+ {
+  "id": "AUTH-J-002",
+  "track": "J",
+  "name": "haste/rate duration scaling (cast, GCD, cooldown, periodic, charge, rebase)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/recovery.rs:94-125",
+   "crates/combat/src/cooldown/time_math.rs:1-29",
+   "crates/combat/src/cooldown/deadline_rate.rs:225-245",
+   "crates/combat/src/cooldown/charge_recovery_input.rs:46-68",
+   "crates/combat/src/periodic.rs:551-562",
+   "crates/combat/src/haste.rs:56-120"
+  ],
+  "semantic_facts": [
+   "f64 frequency division then truncation, max(1)",
+   "rate factors max(1+p/100, 0.01) multiply",
+   "white period is the only binary32 product path"
+  ],
+  "finding_ids": [
+   "CSA-J-02",
+   "CSA-J-05"
+  ]
+ },
+ {
+  "id": "AUTH-J-003",
+  "track": "J",
+  "name": "selected trait rank amount evaluation",
+  "layer": "source_resolution",
+  "coords": [
+   "crates/data/src/trait_source/selected_spell.rs:84-95",
+   "crates/data/src/trait_source/selected_spell.rs:215-240",
+   "crates/data/src/trait_source/amount.rs:10-41"
+  ],
+  "semantic_facts": [
+   "exact rank-point curves only",
+   "Set/Multiply in f64 over binary32 inputs, no narrowing"
+  ]
+ },
+ {
+  "id": "AUTH-J-004",
+  "track": "J",
+  "name": "passive SpellMod percent/flat aggregation",
+  "layer": "state_construction",
+  "coords": [
+   "crates/combat/src/spell_modifier_authority.rs:95-200",
+   "crates/combat/src/spell_modifier_authority.rs:370-377",
+   "crates/combat/src/program/passive_spell_modifier.rs:471-482"
+  ],
+  "semantic_facts": [
+   "binary32 pow factor and binary32 running product",
+   "flat cooldown ms summed with checked i32",
+   "percent/flat cooldown share one coordinate"
+  ]
+ },
+ {
+  "id": "AUTH-J-005",
+  "track": "J",
+  "name": "rotation monotonic linear projection and wake search",
+  "layer": "runtime",
+  "coords": [
+   "crates/rotation/src/projection.rs:60-110",
+   "crates/rotation/src/execution.rs:900-1060",
+   "crates/engine/src/lib.rs:1206-1310"
+  ],
+  "semantic_facts": [
+   "projection rebuilt from observed current at now, not the combat flow basis",
+   "hint then exact predicate search in whole ms"
+  ],
+  "finding_ids": [
+   "CSA-J-07"
+  ]
+ },
+ {
+  "id": "AUTH-J-006",
+  "track": "J",
+  "name": "canonical RNG numeric draws",
+  "layer": "rng",
+  "coords": [
+   "crates/sim/src/random.rs:87-206"
+  ],
+  "semantic_facts": [
+   "53-bit unit f64, occurs short-circuits at 0/1",
+   "Lemire unbiased uniform_index",
+   "ordered_outcome cumulative f64 min(1)"
+  ]
+ },
+ {
+  "id": "AUTH-J-007",
+  "track": "J",
+  "name": "resource cost numeric adjustment (raw 63, 72, 423)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/state/power_cost.rs:69-176"
+  ],
+  "semantic_facts": [
+   "school pct: int32 binary32 truncated delta (Trinity-exact)",
+   "mana pct: continuous f64 (CSA-J-06)"
+  ],
+  "finding_ids": [
+   "CSA-J-06"
+  ]
+ }
+]

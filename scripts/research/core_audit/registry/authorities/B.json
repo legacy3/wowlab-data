@@ -1,0 +1,343 @@
+[
+ {
+  "id": "AUTH-B-001",
+  "name": "PassiveSpellModifierPlan (selected SpellMod compiler)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:132-275",
+   "crates/combat/src/program/passive_spell_modifier.rs:711-788",
+   "crates/combat/src/program/passive_spell_modifier.rs:853-921",
+   "crates/combat/src/program/passive_spell_modifier.rs:950-988"
+  ],
+  "semantic_facts": [
+   "only activation is SpellModifierActivation::SelectedTrait (data/src/action/catalog/spell_modifier.rs:11-13); value/selector/operation come from the selected package role, never re-read from authored points",
+   "operations: raw-108/218 misc0 0->Direct, 22->Periodic, 15->CriticalBonus, 11->Cooldown, 3->PercentFirstEffect; raw-107/219 misc0 3->FlatFirstEffect, 11->FlatCooldown (selected_trait_package.rs:1033-1098)",
+   "class-mask selector: raw-107/108 with misc1==0 and nonempty effect mask; label selector: raw-218/219 with misc1 label and empty effect mask",
+   "applicability count: class mask = popcount of overlap within equal nonzero family (GameData::effect_spell_match_count), label = Boolean (spell_has_label)",
+   "Percent ops: factor = binary32 (1+p/100)^count per payload (spellmod_percent_factor :477-483); flat ops: points*count (:596, :673); PercentFirstEffect: factor 1+p/100 applied once if count>0 (:544, :574)",
+   "owner: nonzero family for class-mask, neutral defense/dispel/mechanics, empty owner class mask (validate_owner :950-988) plus selected_trait_owner_policy_issue"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-002",
+  "name": "SpellModifierAuthority (actor-bound SpellMod aggregation)",
+  "layer": "state_construction",
+  "coords": [
+   "crates/combat/src/spell_modifier_authority.rs:98-219",
+   "crates/combat/src/spell_modifier_authority.rs:291-377"
+  ],
+  "semantic_facts": [
+   "Player-only bindings; duplicate (actor,effect) bindings rejected (:110-121)",
+   "factors grouped by (actor,payload,operation) with CooldownFlat folded into Cooldown coordinate (:21-28); percent terms combine as binary32 products in canonical exact-effect order (:375-377); flat cooldown ms checked-add",
+   "flat first-effect points grouped by (actor,target effect), checked-add"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-003",
+  "name": "SpellMod runtime consumers (damage/healing/critical/first-effect/cooldown)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/damage_modifier.rs:78-90",
+   "crates/combat/src/damage_modifier.rs:263-278",
+   "crates/combat/src/healing_modifier.rs:29-40",
+   "crates/combat/src/healing_modifier.rs:245-254",
+   "crates/combat/src/state/modifiers.rs:360-395",
+   "crates/combat/src/execution/planning/critical.rs:11-79",
+   "crates/combat/src/execution/planning/health.rs:1326-1369",
+   "crates/combat/src/damage_modifier.rs:305-320",
+   "crates/combat/src/state.rs:100-124"
+  ],
+  "semantic_facts": [
+   "damage/heal route Direct->op0 projection, Periodic/PeriodicLeech->op22, PeriodicPercent (raw 20) and Other->none",
+   "op15 excess scaling 1+(M-1)F applied to any crit-eligible impact (heal or damage) whose payload spell has a CriticalBonus projection",
+   "first-effect flat then percent factor applied to raw-20 periodic percent heal (Player self only); raw-87 damage-taken first effect receives flat points only (holder==source==affected)",
+   "cooldown SpellMod (flat ms, binary32 factor) looked up by (actor, activation spell) at quote, commit and action-change"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-004",
+  "name": "Cooldown SpellMod start duration (spell_modified_base_duration)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:105-152",
+   "crates/combat/src/cooldown/deadline_rate.rs:450-487",
+   "crates/combat/src/cooldown/deadline_rate.rs:512-548"
+  ],
+  "semantic_facts": [
+   "(base + flat) then *binary32 factor, truncated once, nonpositive -> Suppressed; applied to every private and shared deadline binding of the initiating activation before haste/rate scaling and before raw-341 flat",
+   "DeadlineRecovery.base_duration retains the unmodified base (semantics equality only)"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-005",
+  "name": "CooldownModifierPlan root",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/cooldown_modifier.rs:41-118"
+  ],
+  "semantic_facts": [
+   "composes raw-286 ordinary rate, raw-148 charge rate, raw-341/453/454/205 duration, raw-457 haste regeneration and raw-411 capacity children; each child independently optional"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-006",
+  "name": "authored cooldown ops (grant charges / reset cooldown)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/authored_cooldown.rs:8-39"
+  ],
+  "semantic_facts": [
+   "GrantCharges binds charge category; ResetCooldown binds resolved target; no amount facts consumed"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-007",
+  "name": "CooldownAdjustment compiler (ReduceRemainingCooldown / ModifyCooldownsByCategory)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/cooldown_adjustment.rs:148-234",
+   "crates/combat/src/program/cooldown_adjustment.rs:386-429",
+   "crates/combat/src/program/cooldown_adjustment.rs:463-510",
+   "crates/combat/src/program/cooldown_adjustment/category.rs:15-156"
+  ],
+  "semantic_facts": [
+   "authored integral base points -> Reduce/None/Extend ms; neutral amount facts required; AP/SP coefficients rejected",
+   "triggered spell: private+shared (excluding start-recovery category) + charge category of the trigger action; category: every private deadline of actions whose ordinary category==misc0 plus that shared category once; conflicting non-member starter rejected",
+   "misc must be neutral for triggered form; category form requires empty class mask, neutral mechanic/radius"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-008",
+  "name": "CooldownRecoveryRatePlan (raw 286)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/cooldown_recovery_rate.rs:139-196",
+   "crates/combat/src/program/cooldown_recovery_rate.rs:307-387",
+   "crates/combat/src/program/cooldown_recovery_rate.rs:600-691"
+  ],
+  "semantic_facts": [
+   "authored base points (aura activation only); misc0/misc1 must be 0; exact caster delivery; application mutation must target caster; Passive/AsyncStacking owners rejected",
+   "applicability: GameData::effect_affects_spell (family 0 universal, empty mask = whole family, else any-word overlap) - Boolean, matches Trinity SpellInfo::IsAffected",
+   "cells bind every private/shared deadline with a start of each affected action"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-009",
+  "name": "cooldown_start carrier audit",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/cooldown_start.rs:24-142"
+  ],
+  "semantic_facts": [
+   "exact-carrier source audit (pinned 12.0 base points, Shadow melee owner) for main-hand swing reset on launch; no SpellMod/label/mask applicability"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-010",
+  "name": "ChargeCapacityPlan (raw 411)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/charge_capacity.rs:119-150",
+   "crates/combat/src/program/charge_capacity.rs:294-390"
+  ],
+  "semantic_facts": [
+   "exact Second Helping 1239537:1 contract: base points bit-equal +1, category 2409 exact, charge pool 1 charge/fixed/snapshot; empty effect and owner class masks"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-011",
+  "name": "ChargeDurationModifierPlan (raw 453/454/205)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/charge_duration_modifier.rs:192-342",
+   "crates/combat/src/program/charge_duration_modifier.rs:354-400"
+  ],
+  "semantic_facts": [
+   "Passive activation only; authored base points; 453 flat / 454 percent on exact category misc0; 205 only for Swift Justice effect 1 with type mask 32",
+   "percentage owner must be sole-effect; misc1 == 0; Swift Justice requires exact-effect attribute IgnoreDuringCooldownTimeRateCalculation which the charge consumer does not consult"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-012",
+  "name": "charge_modification compiler (ImmediateCooldownRechargeCategory)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/charge_modification.rs:17-107",
+   "crates/combat/src/program/charge_modification.rs:152-183"
+  ],
+  "semantic_facts": [
+   "authored integral base points become a signed charge delta for the misc0 charge category"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-013",
+  "name": "ChargeRechargeRatePlan (raw 148)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/charge_recharge_rate.rs:229-335"
+  ],
+  "semantic_facts": [
+   "aura-activated authored percent; misc0 = charge category, misc1 == 0, empty class mask; speed max(1+p*stacks/100, 0.01)"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-014",
+  "name": "ChargeRecoveryHastePlan (raw 457)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/charge_recovery_haste.rs:109-182"
+  ],
+  "semantic_facts": [
+   "exact Umbral Blade 1272842:1 contract selecting category 2409; amount facts ignored; empty class mask"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-015",
+  "name": "CategoryDurationPlan (raw 341)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/ordinary_category_duration_modifier.rs:65-102",
+   "crates/combat/src/program/ordinary_category_duration_modifier.rs:180-248",
+   "crates/combat/src/program/ordinary_category_duration_modifier.rs:250-365"
+  ],
+  "semantic_facts": [
+   "Passive activation; authored integral signed ms; misc0 ordinary category, misc1 0; applies after haste/rate to private starts and to shared start of the same category"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-016",
+  "name": "duration_modifier_source shared static validator",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/duration_modifier_source.rs:116-229"
+  ],
+  "semantic_facts": [
+   "neutral mechanic, empty class mask, zero AP/SP, neutral amount/chain facts, self target, no radius, restricted exact attributes, integral ms"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-017",
+  "name": "DamageModifier compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/damage_modifier.rs:245-262",
+   "crates/combat/src/program/damage_modifier.rs:733-777",
+   "crates/combat/src/program/modifier.rs:1463-1500"
+  ],
+  "semantic_facts": [
+   "authored base points; AuraSource scope rejects nonempty class mask while AuraSourceAffectList expands payloads by effect_affects_spell (Boolean IsAffected semantics)"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-018",
+  "name": "HealingModifier compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/healing_modifier.rs:106-248",
+   "crates/combat/src/program/healing_modifier.rs:417-447",
+   "crates/combat/src/program/modifier.rs:1599-1625"
+  ],
+  "semantic_facts": [
+   "aura activation uses authored base points; SelectedTraitPassive/Passive skipped here (owned by passive_healing_received); affect-list scope expands via effect_affects_spell"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-019",
+  "name": "TargetAuraStateModifier compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/target_aura_state_modifier.rs:63-98",
+   "crates/combat/src/program/target_aura_state_modifier.rs:264-362"
+  ],
+  "semantic_facts": [
+   "exact provider/marker contract with pinned percent points; family NONE and empty owner class mask required"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-020",
+  "name": "DispelDurationModifier compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/dispel_duration_modifier.rs:79-138",
+   "crates/combat/src/program/dispel_duration_modifier.rs:140-272"
+  ],
+  "semantic_facts": [
+   "exact provider/applicand relation with pinned points (bit-equal), empty family ownership / mask checks"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-021",
+  "name": "MechanicDurationModifier compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/mechanic_duration_modifier.rs:126-230"
+  ],
+  "semantic_facts": [
+   "exact carrier contracts (55366, 60209) with bit-equal points; mechanic selection from subtype/misc; family NONE, empty masks"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-022",
+  "name": "OutgoingMechanicModifierPlan",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/outgoing_mechanic_modifier.rs:54-107",
+   "crates/combat/src/program/outgoing_mechanic_modifier/validation.rs:160-250"
+  ],
+  "semantic_facts": [
+   "bit-equal expected percentage points; empty effect and owner class masks"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-023",
+  "name": "ModifierPlan root (program/modifier.rs + submodules)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/modifier.rs:1-100",
+   "crates/combat/src/program/modifier/payload_spells.rs:7-66"
+  ],
+  "semantic_facts": [
+   "owns payload spell sets for SpellMod ops: direct (DirectDamage/Area/HealthLeech/DirectHeal/DirectPercentHeal/MissingOrMax), periodic (PeriodicDamage/PeriodicHeal/PeriodicHealthLeech), critical = programs with crit-eligible impact having damage"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "AUTH-B-024",
+  "name": "Cooldown recovery-rate / charge duration runtime",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/cooldown/time_math.rs:5-24",
+   "crates/combat/src/cooldown/charge_recovery_input.rs:43-67",
+   "crates/combat/src/recovery_creation.rs:82-107",
+   "crates/combat/src/charge_duration.rs:245-345",
+   "crates/combat/src/cooldown.rs:1649-1782"
+  ],
+  "semantic_facts": [
+   "ordinary: truncate(base / haste / rate_speed).max(1); charge: truncate((base+flat)*pct / haste / speed).max(1) in f64",
+   "charge Reduce recovers floor-counted charges and keeps residual (Trinity pops every RechargeEnd<now entry)"
+  ],
+  "track": "B"
+ }
+]

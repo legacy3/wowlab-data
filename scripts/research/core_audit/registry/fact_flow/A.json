@@ -1,0 +1,241 @@
+[
+ {
+  "id": "FF-A-001",
+  "authority": "AUTH-A-006",
+  "fact": "Martial Expert selected package (entry 117409 rank 1): critical-bonus SpellMod + raw-638 critical-block amount, provenance and per-actor atomic binding",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/trait_source/selected_spell.rs:215-383"
+    ],
+    "identity": "TraitNodeEntry 117409 -> TraitDefinition 122421 -> spell 429638 effects #1 (raw108 op15 mask[512]) #2 (raw638)",
+    "validated": "DBC rows (probe fixture mirrors live)",
+    "transformation": "none",
+    "consumed": "source resolution"
+   },
+   {
+    "stage": "source_resolution",
+    "coords": [
+     "crates/data/src/trait_source/selected_spell.rs:215-383",
+     "crates/data/src/trait_source/selected_spell.rs:196-199"
+    ],
+    "identity": "(entry,rank) -> SelectedTraitSpellEffects{spell, effects[#1 10.0, #2 20.0]}",
+    "validated": "identity, rank domain, complete effect count, no point rows for max_ranks 1",
+    "transformation": "authored base points retained (unpointed)",
+    "consumed": "classifier + every final compiler"
+   },
+   {
+    "stage": "candidate",
+    "coords": [
+     "crates/engine/src/trait_critical_package_candidate.rs:107-245"
+    ],
+    "identity": "PreparedCriticalPackage publishes SpellModifierInput + CriticalBlockAmountInput (SelectedTrait{117409,1}) + Player bindings",
+    "validated": "contract classification; existing declaration/binding refusal",
+    "transformation": "none (untrusted)",
+    "consumed": "resolved catalog + EngineInput"
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/data/src/action/catalog/selected_owner.rs:47-62",
+     "crates/data/src/action/catalog/selected_owner.rs:297-302",
+     "crates/data/src/action/catalog/selected_owner.rs:532-542"
+    ],
+    "identity": "exact effect -> one declaration per family (duplicate per effect rejected); two PassiveModifier ownerships of 429638",
+    "validated": "catalog duplicate checks",
+    "transformation": "activation carries SelectedTraitSource",
+    "consumed": "owner-role count"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:853-921",
+     "crates/combat/src/program/passive_spell_modifier.rs:950-986",
+     "crates/combat/src/program/critical_block_amount.rs:256-302",
+     "crates/combat/src/program/selected_trait_package.rs:213-288"
+    ],
+    "identity": "spell-mod definition (Percent CriticalBonus 10 ClassMask), crit-block definition (20, group 0), selected_package_effects [(117409,1,#1),(117409,1,#2)]",
+    "validated": "each compiler re-resolves, classifies, checks all siblings declared; spell-mod proves owner policy (crit-block does not: CSA-A-02)",
+    "transformation": "points from selected rank; factor projections",
+    "consumed": "state validator + runtime authorities"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/state/construction.rs:244-322",
+     "crates/combat/src/spell_modifier_authority.rs:98-120",
+     "crates/combat/src/critical_block_amount.rs:43-90"
+    ],
+    "identity": "(Player,#1) spell-mod family, (Player,#2) crit-block family",
+    "validated": "none-or-complete exactly once per actor - but family-agnostic (CSA-A-01)",
+    "transformation": "bindings -> actor-local factors",
+    "consumed": "quote"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/state/modifiers.rs:360-393"
+    ],
+    "identity": "critical bonus multiplier for matching payload 1131001 = 1+(2-1)*1.1",
+    "validated": "finite, nonnegative",
+    "transformation": "f64 factor from f32-rounded 1.1 projection",
+    "consumed": "damage calculation"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/attack/resolution.rs:466-511"
+    ],
+    "identity": "attack outcome / critical roll (baseline 100% in probe; RNG ownership is track I)",
+    "validated": "n/a (track I)",
+    "transformation": "none",
+    "consumed": "commit"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state/modifiers.rs:360-393"
+    ],
+    "identity": "DamageDealt requested 210.0000023841858 on Critical",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "observation"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-451",
+     "crates/combat/src/state.rs:1068-1080"
+    ],
+    "identity": "package definitions/bindings immutable; no package runtime state",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "replay identical (Core test selected_martial_expert_scales_only_matching_critical_damage_and_replays)"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "same immutable authorities; fresh random identity",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "n/a"
+   }
+  ],
+  "track": "A"
+ },
+ {
+  "id": "FF-A-002",
+  "authority": "AUTH-A-017",
+  "fact": "Singleton selected raw-638 critical-block package (source mutation; not live): owner-policy proof path",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/trait_source/selected_spell.rs:215-383"
+    ],
+    "identity": "mutated Martial: spell 429638 one effect #1 raw638, source_effect_count 1",
+    "validated": "structural only",
+    "transformation": "none",
+    "consumed": "classifier"
+   },
+   {
+    "stage": "source_resolution",
+    "coords": [
+     "crates/data/src/trait_source/selected_spell.rs:215-383"
+    ],
+    "identity": "SelectedTraitSpellEffects arity 1",
+    "validated": "complete",
+    "transformation": "none",
+    "consumed": "contract"
+   },
+   {
+    "stage": "candidate",
+    "coords": [
+     "crates/engine/src/trait_critical_package_candidate.rs:121-139"
+    ],
+    "identity": "critical-package candidate refuses (needs both roles); host declares CriticalBlockAmountInput directly",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "resolved catalog"
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/data/src/action/catalog/selected_owner.rs:532-542"
+    ],
+    "identity": "one PassiveModifier ownership of 429638",
+    "validated": "duplicate per effect",
+    "transformation": "none",
+    "consumed": "nobody (owner count unused by raw-638)"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:157-254",
+     "crates/combat/src/program/critical_block_amount.rs:256-302",
+     "crates/combat/src/program/selected_trait_package.rs:888-891"
+    ],
+    "identity": "arity-1 composition admitted; CriticalBlockAmount role; amount stored",
+    "validated": "role, siblings declared, percentage range; NOT owner policy/external policy",
+    "transformation": "none",
+    "consumed": "critical-block authority"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/critical_block_amount.rs:43-90"
+    ],
+    "identity": "(Player,#1) crit-block binding; package validator skips (arity < 2 never recorded, selected_trait_package.rs:246)",
+    "validated": "ordinary authority duplicate/actor/definition checks",
+    "transformation": "none",
+    "consumed": "attack resolution"
+   }
+  ],
+  "track": "A"
+ },
+ {
+  "id": "FF-A-003",
+  "authority": "AUTH-A-004",
+  "fact": "Package provenance (entry,rank,effect) from spell-modifier compilation to state-construction lookup",
+  "stages": [
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:150-161",
+     "crates/combat/src/program/passive_spell_modifier.rs:257-266",
+     "crates/combat/src/program/selected_trait_package.rs:229-274"
+    ],
+    "identity": "distinct SelectedTraitSource of each selected spell-mod definition with arity>=2",
+    "validated": "re-resolve, contract, all members declared under exact source",
+    "transformation": "sorted (entry,rank,effect) Box",
+    "consumed": "state validator"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:291-304",
+     "crates/combat/src/program/selected_trait_package.rs:306-320",
+     "crates/combat/src/state/construction.rs:248-279"
+    ],
+    "identity": "bound effect -> first recorded source with that exact effect -> members of that exact source",
+    "validated": "uniqueness of effect->source (REJ-A-002)",
+    "transformation": "none",
+    "consumed": "validation only; not retained in CombatState"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1068-1080"
+    ],
+    "identity": "no package field in CombatState",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "n/a"
+   }
+  ],
+  "track": "A"
+ }
+]

@@ -1,0 +1,118 @@
+[
+ {
+  "id": "REJ-I-001",
+  "suspicion": "Engine::step/advance return Err after committing drained/advanced transitions (RNG consumed, observations not in the Err)",
+  "why_rejected": "documented contract: last_observations 'remains available when evaluation fails after the combat clock has advanced'; drained transitions are independent committed events, not part of the failed cast quote",
+  "coords": [
+   "crates/engine/src/lib.rs:833-840",
+   "crates/engine/src/lib.rs:901-950",
+   "crates/engine/src/lib.rs:1036-1046"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-002",
+  "suspicion": "fixed-travel critical rolled at launch instead of arrival",
+  "why_rejected": "Trinity rolls IsCrit in Spell::PreprocessSpellLaunch (Spell.cpp:8526-8563) at launch",
+  "coords": [
+   "crates/combat/src/execution/commit.rs:893-906"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-003",
+  "suspicion": "mechanic dispel draws for non-matching auras",
+  "why_rejected": "Trinity EffectDispelMechanic rolls roll_chance(CalcDispelChance) for every owned applied aura before the mechanic check (SpellEffects.cpp:4247-4254); draw values unused",
+  "coords": [
+   "crates/combat/src/execution/commit.rs:453-464",
+   "crates/combat/src/execution/planning/mechanic_dispel.rs:23-39"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-004",
+  "suspicion": "dispel selection is drawn before mechanic-dispel scans regardless of authored operation order in one segment",
+  "why_rejected": "unreachable: raw-38 carrier 220640 is a sole-effect exact program and raw-108 is exact 1248984; the two never share a segment",
+  "coords": [
+   "crates/combat/src/execution/commit.rs:156-198",
+   "crates/combat/src/program/dispel.rs:21-80",
+   "crates/combat/src/program/dispel_mechanic.rs:18-60"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-005",
+  "suspicion": "actor roster input order changes same-time cast-completion draw order (ordering key uses actor index)",
+  "why_rejected": "actors sorted by ActorId at construction; probe shows identical streams for reversed roster",
+  "coords": [
+   "crates/combat/src/state/construction.rs:1018",
+   "crates/combat/src/state/transition.rs:54-72"
+  ],
+  "probe_test": "i_rng_attack_table.rs::holds_roster_input_order_does_not_change_draws",
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-006",
+  "suspicion": "dispel / split-leech preview clones a stream that differs from the commit-time stream (assert panic or wrong selection)",
+  "why_rejected": "segments are quoted immediately before their own commit after the previous commit; within commit_execution the impact is resolved first, then dispel, then operations; the root cast commits only cooldowns/recovery/costs (no draws) between quote and commit, and the resource-threshold path discards and re-quotes",
+  "coords": [
+   "crates/combat/src/driver_execution.rs:303-480",
+   "crates/combat/src/cast.rs:792-925",
+   "crates/combat/src/execution/commit.rs:142-232"
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_miss_consumes_only_the_impact_draw",
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-007",
+  "suspicion": "white swing unreachable!(Parry|Block|Glancing|Crushing) or u32 crit doubling can fire after the draw",
+  "why_rejected": "admission requires parry==block==0, glancing/crushing never set, mitigated maximum <= u32::MAX/2",
+  "coords": [
+   "crates/combat/src/white_swing.rs:114-133",
+   "crates/combat/src/white_swing.rs:289-331",
+   "crates/combat/src/state/white_main_hand.rs:102-118"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-008",
+  "suspicion": "cast_readiness is not quote-pure: whole CombatState Debug changes",
+  "why_rejected": "only transient execution_scratch retains the last readiness program frame/impact quote; every execution entry prepares scratch first; a following cast commits identical observations and stream to a never-quoted control",
+  "coords": [
+   "crates/combat/src/cast.rs:149-173",
+   "crates/combat/src/execution/scratch.rs:704-757"
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-009",
+  "suspicion": "hard-cast acceptance quotes the full program and could draw (dispel preview)",
+  "why_rejected": "acceptance uses only &self planning and clones; 0 draws until completion",
+  "coords": [
+   "crates/combat/src/cast.rs:201-253"
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_quotes_acceptance_and_rejection_consume_no_rng",
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-010",
+  "suspicion": "quote reachability (can_land sum) and commit ordered_outcome thresholds could disagree by float rounding",
+  "why_rejected": "both add the same probabilities in the same order; ordered_outcome only additionally caps at 1.0",
+  "coords": [
+   "crates/combat/src/attack/resolution.rs:400-406",
+   "crates/sim/src/random.rs:120-129"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "REJ-I-011",
+  "suspicion": "cached impact outcome replay loses the critical flag or block multiplier in continuation segments",
+  "why_rejected": "state stores hit (incl. Critical) and block; resolution_for recomputes the block multiplier from the same table",
+  "coords": [
+   "crates/combat/src/impact.rs:222-251",
+   "crates/combat/src/attack/resolution.rs:526-546"
+  ],
+  "track": "I"
+ }
+]

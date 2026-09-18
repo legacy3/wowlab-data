@@ -1,0 +1,64 @@
+[
+ {
+  "id": "CSA-I-01",
+  "title": "Immune (delivery-suppressed) impacts consume attack-table draws on the ordinary path but none on the fixed-travel launch path",
+  "severity": "low",
+  "reachability": "INCONSISTENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/execution/commit.rs:893-906",
+   "crates/combat/src/execution/planning.rs:504-506",
+   "crates/combat/src/impact.rs:11-15"
+  ],
+  "evidence": [
+   "core: resolve_execution_impact resolves the underlying table for every suppressed impact except `delayed_launch && suppressed` (commit.rs:895-903)",
+   "probe: i_rng_immunity.rs::holds_ordinary_immune_impact_consumes_its_attack_table_draw (Pacify vs school-immune target, magic miss 0.5: 1 draw, ImpactResolved Immune)",
+   "probe: i_rng_immunity.rs::defect_fixed_travel_immune_launch_skips_the_draw_ordinary_immune_consumes (Illusionary Bolt vs same immune target and table: 0 draws; non-immune launch: 1 draw)",
+   "core: both behaviours are separately documented (ledger 22596-22603; 23536-23539) and the ordinary one is pinned by crates/combat/tests/school_immunities.rs suppression_does_not_consume_the_following_random_draw",
+   "inferred: statistically inert (independent draws); observable only as replay/stream alignment (gate 4 draw-consumption identity)"
+  ],
+  "reproducer": "cargo test --offline --test i_rng_immunity (probe crate)",
+  "why_tests_missed": "each path has its own focused test asserting its own consumption; no test compares the two suppression paths on one table",
+  "correction_boundary": "choose one immune draw policy at resolve_execution_impact (commit.rs:879-926) and state it in the impact suppression contract; if changed, version the draw identity",
+  "must_not_widen": "do not let attack tables manufacture HitResult::Immune; do not move suppression capture out of quote",
+  "track": "I",
+  "probe_tests": [
+   "i_rng_immunity.rs::defect_fixed_travel_immune_launch_skips_the_draw_ordinary_immune_consumes",
+   "i_rng_immunity.rs::holds_ordinary_immune_impact_consumes_its_attack_table_draw"
+  ]
+ },
+ {
+  "id": "CSA-I-02",
+  "title": "Fixed-travel launch commits a (magic) block result that arrival's captured-impact contract refuses: advance panics after the launch draw",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/impact.rs:262-280",
+   "crates/combat/src/execution/planning.rs:815-825",
+   "crates/combat/src/execution/commit.rs:893-906",
+   "crates/combat/src/attack/resolution.rs:244-252",
+   "crates/combat/src/attack/resolution.rs:503-523",
+   "crates/combat/src/program/fixed_travel_time.rs:140-146",
+   "crates/combat/src/fixed_impact_execution.rs:121-153"
+  ],
+  "evidence": [
+   "core: fixed-travel compile admits exact 373932 with DefenseType::Magic and no block suppression (fixed_travel_time.rs:140-146)",
+   "core: Magic defense is block-eligible when the defender's public ActiveDefenseCapabilities::with_magic_block() is set and facing is Front (resolution.rs:244-252); launch commit resolves the full table including block/critical block (commit.rs:905, resolution.rs:503-523)",
+   "core: the launch quote even validates the blocked amounts as reachable (impact.rs:356-386), so nothing refuses the combination before commit",
+   "core: arrival re-quotes with captured_damage and builds PreparedImpactQuote::captured, which assert_eq!(resolution.block, Unblocked) and a unit landed multiplier (impact.rs:262-280)",
+   "probe: i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival — block 0.5: launch consumes exactly 1 draw; arrival panics with 'the exact fixed-travel contract admits no block result' exactly on iterations where the independent replay's block occurs",
+   "probe: i_fixed_travel_block.rs::defect_fixed_travel_certain_magic_block_always_panics_at_arrival — block 1.0: zero draws, arrival always panics",
+   "inferred: Trinity decides spell block during damage calculation at hit (isSpellBlocked in CalculateSpellDamageTaken), i.e. at arrival for delayed spells; Core rolls it at launch"
+  ],
+  "reproducer": "CombatStateInput{Player, Enemy0; hostile; ActiveDefenseBaseline(enemy, NONE, BlockDefense::try_new(1.0,0,0.7,0.4), ActiveDefenseCapabilities::new().with_magic_block())}; begin_cast(373932); advance_to(1.5s); advance_to(2.5s) -> panic",
+  "why_tests_missed": "fixed-travel tests (crates/combat/tests/fixed_travel_time.rs) only use BlockDefense::NONE / capability-free defenders; the captured() invariant is asserted at use but never enforced at compile, state construction, or launch quote",
+  "correction_boundary": "make the exact fixed-travel program's launch table block-ineligible (or reject a magic-block-capable recipient at quote) OR carry block into the arrival contract with source-backed timing; decide at the fixed-travel policy (program/fixed_travel_time.rs + segment.rs mark_observation_phase), not by relaxing captured()",
+  "must_not_widen": "do not remove the captured() assertion without deciding block timing; do not generalize fixed travel beyond the exact carrier while correcting",
+  "track": "I",
+  "probe_tests": [
+   "i_fixed_travel_block.rs::defect_fixed_travel_certain_magic_block_always_panics_at_arrival",
+   "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival"
+  ]
+ }
+]

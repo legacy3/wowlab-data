@@ -1,0 +1,9 @@
+[
+ {
+  "id": "UNK-R2-001",
+  "question": "Is there a source-valid action whose Energize targets a resource the recipient's class does not own (Trinity skips the effect; Core fails the whole cast with MissingResource)?",
+  "why_unknown": "Actor pools are host input; no resolver/class-power mapping is pinned for the audit, and no class-to-power table join was run over 12.1.0 Energize rows.",
+  "reopen": "Join SpellEffect Effect=30 rows (and their spells' other effects) with ChrClassesXPowerTypes / host pool builders; any multi-effect action whose energize resource is absent for its class makes MUT-R2-004 a LIVE divergence.",
+  "track": "R2"
+ }
+]

@@ -1,0 +1,383 @@
+[
+ {
+  "id": "FF-D-001",
+  "authority": "AUTH-D-001",
+  "fact": "raw-2 direct School Damage amount (base/AP/SP) and school identity, cast -> health",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/effect_amount.rs:7-31"
+    ],
+    "identity": "SpellEffect row: EffectBasePointsF, EffectBonusCoefficient, BonusCoefficientFromAP, SchoolMask",
+    "validated": "DBC",
+    "transformation": "none",
+    "consumed": "GameDataInput"
+   },
+   {
+    "stage": "source_resolution",
+    "coords": [
+     "crates/data/src/effect_amount.rs:52-66"
+    ],
+    "identity": "SpellEffectRef -> coefficients + EffectAmountFacts",
+    "validated": "GameData input schema",
+    "transformation": "neutral fill when sparse",
+    "consumed": "compiler"
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/combat/src/program/damage.rs:79-89"
+    ],
+    "identity": "ResolvedProgramStep::DirectDamage(effect_index of program spell)",
+    "validated": "catalog step belongs to program spell",
+    "transformation": "none",
+    "consumed": "compile_damage"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/damage.rs:93-184",
+     "crates/combat/src/damage.rs:30-37"
+    ],
+    "identity": "DamageFormula{effect, coefficients}; DamageFormulaBinding{handle, mechanic}",
+    "validated": "kind, recipient, delivery, NEUTRAL facts, attributes",
+    "transformation": "base_points rounded",
+    "consumed": "quote"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/state.rs:1068-1072"
+    ],
+    "identity": "actor OffensivePower snapshot on ActorState",
+    "validated": "ActorState::try_new",
+    "transformation": "none",
+    "consumed": "quote via context.power"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning/health.rs:857-996"
+    ],
+    "identity": "payload school = program node school",
+    "validated": "dead target, immunity, finite checks",
+    "transformation": "x scale x outgoing, clamp, x incoming, x crit multiplier; absorb bounds",
+    "consumed": "commit"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/impact.rs:388-400"
+    ],
+    "identity": "impact-level hit/crit/block resolution",
+    "validated": "impact table",
+    "transformation": "select normal/critical leg",
+    "consumed": "commit"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit/health.rs:245-329"
+    ],
+    "identity": "quoted PreparedHealthAmount by quote_index",
+    "validated": "planned representable",
+    "transformation": "resolve_damage x block multiplier -> absorb consume -> HealthPool damage",
+    "consumed": "observation + thresholds"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-446",
+     "crates/combat/src/state.rs:1068-1072"
+    ],
+    "identity": "actors restored from baseline",
+    "validated": "n/a",
+    "transformation": "health back to baseline; formula immutable",
+    "consumed": "next run"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "same as reset + fresh random identity",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "next iteration"
+   }
+  ],
+  "track": "D"
+ },
+ {
+  "id": "FF-D-002",
+  "authority": "AUTH-D-002",
+  "fact": "raw-10 fixed direct heal amount",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/effect_amount.rs:7-31"
+    ],
+    "identity": "SpellEffect Effect 10 EffectBasePointsF",
+    "validated": "DBC",
+    "transformation": "none",
+    "consumed": "GameDataInput"
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/combat/src/program/healing.rs:89-95"
+    ],
+    "identity": "ResolvedProgramStep::DirectHeal",
+    "validated": "catalog",
+    "transformation": "none",
+    "consumed": "compile_direct_heal"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/healing.rs:154-289",
+     "crates/combat/src/program/healing.rs:316-379"
+    ],
+    "identity": "HealingFormula{effect, coefficients}",
+    "validated": "kind, aura, trigger, misc, mechanic, attributes, NEUTRAL facts, nonnegative coefficients",
+    "transformation": "none (no rounding)",
+    "consumed": "quote"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning/health.rs:1371-1526",
+     "crates/combat/src/execution/planning/health.rs:1528-1581"
+    ],
+    "identity": "recipient projected pool",
+    "validated": "dead recipient, finite",
+    "transformation": "base+AP+SP; x healing multiplier; critical leg x critical healing factor; heal absorbs",
+    "consumed": "commit"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/impact.rs:388-400"
+    ],
+    "identity": "guaranteed-landed critical draw",
+    "validated": "impact",
+    "transformation": "leg select",
+    "consumed": "commit"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit/health.rs:1-90"
+    ],
+    "identity": "quote_index",
+    "validated": "planned",
+    "transformation": "resolve_healing -> absorb -> heal capped at maximum",
+    "consumed": "HealingDone observation"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-446"
+    ],
+    "identity": "baseline actors",
+    "validated": "n/a",
+    "transformation": "restore",
+    "consumed": "next run"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "baseline actors",
+    "validated": "n/a",
+    "transformation": "restore",
+    "consumed": "next iteration"
+   }
+  ],
+  "track": "D"
+ },
+ {
+  "id": "FF-D-003",
+  "authority": "AUTH-D-004",
+  "fact": "school-absorb capacity, school mask, priority and order",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/absorb.rs:716-790"
+    ],
+    "identity": "SpellEffect ApplyAura raw-69 base points, misc0 school, misc1 priority",
+    "validated": "DBC",
+    "transformation": "none",
+    "consumed": "compiler"
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/combat/src/program/absorb.rs:1201-1265"
+    ],
+    "identity": "ResolvedAbsorbInput{aura, effect, application_effect}",
+    "validated": "selected provenance",
+    "transformation": "none",
+    "consumed": "compile_definition"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/absorb.rs:790-859",
+     "crates/combat/src/program/absorb.rs:861-904"
+    ],
+    "identity": "AbsorbDefinition{selector(channel,school,policies), priority, base_capacity}",
+    "validated": "finite positive capacity, zero power coefficients, neutral facts, lifecycle",
+    "transformation": "cohorts per application",
+    "consumed": "state"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/absorb/topology.rs:1-60"
+    ],
+    "identity": "AbsorbRuntime bindings/cells",
+    "validated": "topology",
+    "transformation": "cells inactive",
+    "consumed": "quote"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/state/absorbs.rs:30-112",
+     "crates/combat/src/absorb/transaction.rs:902-925",
+     "crates/combat/src/execution/planning/health.rs:1241-1324"
+    ],
+    "identity": "aura quote -> AbsorbApplication(identity=(generation, sequence))",
+    "validated": "finite capacity",
+    "transformation": "capacity x source (x recipient, staged rounding only then); candidate snapshot ordered by funding/priority/sequence",
+    "consumed": "commit"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state/absorbs.rs:114-148",
+     "crates/combat/src/execution/commit/health.rs:397-460"
+    ],
+    "identity": "captured application; quoted snapshot",
+    "validated": "generation/sequence match",
+    "transformation": "replace cells; consume in snapshot order; depletion removes aura",
+    "consumed": "health"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1128-1134",
+     "crates/combat/src/absorb/topology.rs:162-165"
+    ],
+    "identity": "runtime cells",
+    "validated": "n/a",
+    "transformation": "clear",
+    "consumed": "next run"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "runtime cells",
+    "validated": "n/a",
+    "transformation": "clear",
+    "consumed": "next iteration"
+   }
+  ],
+  "track": "D"
+ },
+ {
+  "id": "FF-D-004",
+  "authority": "AUTH-D-010",
+  "fact": "maximum health under raw-133 feeding raw-165",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/maximum_health_modifier.rs:41-66"
+    ],
+    "identity": "raw-133 percent points",
+    "validated": "DBC",
+    "transformation": "none",
+    "consumed": "compiler"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/maximum_health_modifier.rs:57-66"
+    ],
+    "identity": "MaximumHealthModifierDefinition factor 1 + p x stacks/100",
+    "validated": "finite, lifecycle",
+    "transformation": "f64",
+    "consumed": "state"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/maximum_health_modifier.rs:120-170"
+    ],
+    "identity": "per-actor bounds",
+    "validated": "finite positive factor bounds",
+    "transformation": "none",
+    "consumed": "quote"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/state/maximum_health_modifiers.rs:88-103"
+    ],
+    "identity": "baseline maximum x factor",
+    "validated": "finite positive (debug)",
+    "transformation": "continuous maximum, current reconciled",
+    "consumed": "raw-165 quote"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/maximum_health_damage.rs:36-48"
+    ],
+    "identity": "live maximum",
+    "validated": "integral <= 2^53",
+    "transformation": "reject fractional -> DamageCalculation",
+    "consumed": "cast failure (CSA-D-01)"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state/maximum_health_modifiers.rs:106-131"
+    ],
+    "identity": "workspace mutation",
+    "validated": "n/a",
+    "transformation": "commit_maximum_health",
+    "consumed": "actor"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1068-1105"
+    ],
+    "identity": "baseline actor + authority reset",
+    "validated": "n/a",
+    "transformation": "restore",
+    "consumed": "next run"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "same",
+    "validated": "n/a",
+    "transformation": "restore",
+    "consumed": "next iteration"
+   }
+  ],
+  "track": "D"
+ }
+]

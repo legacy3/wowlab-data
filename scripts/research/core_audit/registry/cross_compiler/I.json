@@ -1,0 +1,114 @@
+[
+ {
+  "id": "XC-I-001",
+  "concept": "does a delivery-suppressed (immune) impact consume its stochastic attack-table draws",
+  "class": "D",
+  "compilers": [
+   {
+    "authority": "AUTH-I-004 ordinary resolve",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:895-906"
+    ],
+    "behavior": "resolves underlying table (draws) then exposes Immune"
+   },
+   {
+    "authority": "AUTH-I-004 delayed launch",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:895-903"
+    ],
+    "behavior": "launch-suppressed fixed travel substitutes Hit/Unblocked without drawing"
+   }
+  ],
+  "evidence": [
+   "probe i_rng_immunity.rs both tests",
+   "docs/development-ledger.md:22596-22603 (ordinary resolves underlying zero-draw Spell Lock), :23538 (launch immunity without a critical draw)"
+  ],
+  "finding_ids": [
+   "CSA-I-01"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "XC-I-002",
+  "concept": "critical draw skip at zero chance",
+  "class": "C",
+  "compilers": [
+   {
+    "authority": "resolve_critical",
+    "coords": [
+     "crates/combat/src/critical/resolution.rs:95-113"
+    ],
+    "behavior": "chance<=0 -> probability None"
+   },
+   {
+    "authority": "RandomStream::occurs",
+    "coords": [
+     "crates/sim/src/random.rs:88-98"
+    ],
+    "behavior": "probability<=0 -> false without draw"
+   }
+  ],
+  "evidence": [
+   "redundant but consistent; probe grid critical=0 draws nothing"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "XC-I-003",
+  "concept": "attack outcome table sampling",
+  "class": "B",
+  "compilers": [
+   {
+    "authority": "AUTH-I-002",
+    "coords": [
+     "crates/combat/src/attack/resolution.rs:464-532"
+    ],
+    "behavior": "f64 probabilities, sequential occurs draws with boundary skips"
+   },
+   {
+    "authority": "AUTH-I-007",
+    "coords": [
+     "crates/combat/src/white_swing/resolution.rs:72-111"
+    ],
+    "behavior": "single integer 10_000-domain roll always drawn, plus forced weapon draw"
+   }
+  ],
+  "evidence": [
+   "white semantics versioned (WHITE_MAIN_HAND_SEMANTICS_VERSION=7, white_swing.rs:10); both probed against independent replay"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "XC-I-004",
+  "concept": "impact resolution in preview vs commit",
+  "class": "C",
+  "compilers": [
+   {
+    "authority": "dispel preview",
+    "coords": [
+     "crates/combat/src/execution/planning/dispel.rs:88-116"
+    ],
+    "behavior": "clone + PreparedImpactQuote::resolve + uniform_index"
+   },
+   {
+    "authority": "split-leech preview",
+    "coords": [
+     "crates/combat/src/execution/planning/health.rs:531-548"
+    ],
+    "behavior": "clone + resolve"
+   },
+   {
+    "authority": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:879-926",
+     "crates/combat/src/execution/commit.rs:208-232"
+    ],
+    "behavior": "state stream resolve + uniform_index, asserted equal"
+   }
+  ],
+  "evidence": [
+   "same function, same start position (AUTH-I-009); probes i_rng_dispel.rs"
+  ],
+  "track": "I"
+ }
+]

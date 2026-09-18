@@ -1,0 +1,408 @@
+[
+ {
+  "id": "FF-G-001",
+  "track": "G",
+  "authority": "AUTH-G-003",
+  "fact": "start recovery (GCD) of a hard cast",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [],
+    "identity": "SpellCooldowns.StartRecoveryTime + SpellCategories.StartRecoveryCategory (Fireball 133: rows 29/60, 1500 ms, cat 133)",
+    "validated": "data crate",
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/data/src/action/catalog.rs:1640-1675"
+    ],
+    "identity": "ResolvedStartRecovery(category, base, rate, minimum)",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program.rs:1006-1112",
+     "crates/combat/src/program.rs:949-960"
+    ],
+    "identity": "StartRecoveryBinding(handle, recovery)",
+    "validated": true,
+    "transformation": "category -> dense handle",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/recovery.rs:190-217"
+    ],
+    "identity": "StartRecoveryState ready_at[actor x category]=0",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/cast.rs:762-790"
+    ],
+    "identity": "now<ready_at -> StartRecovery blocker; else ready_at=now+effective_duration(haste at quote)",
+    "validated": true,
+    "transformation": "f64 base/speed truncated ms",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/cast.rs:223-227",
+     "crates/combat/src/cast.rs:853-855"
+    ],
+    "identity": "start at acceptance (hard) or commit (instant); not restored on cancel",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1073",
+     "crates/combat/src/recovery.rs:242-244"
+    ],
+    "identity": "fill ZERO",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "same reset_runtime",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ],
+  "finding_ids": [
+   "CSA-G-02"
+  ]
+ },
+ {
+  "id": "FF-G-002",
+  "track": "G",
+  "authority": "AUTH-G-005",
+  "fact": "raw-68 interrupt lockout",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [],
+    "identity": "SpellEffect 222633 (159006 idx0, Effect 68, target 6)",
+    "validated": "exact carrier",
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/data/src/action/catalog.rs:877-880"
+    ],
+    "identity": "ResolvedInterrupt lockout 6000 ms",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/interrupt.rs:81-130"
+    ],
+    "identity": "ProgramOp::InterruptCast(InterruptDefinition)",
+    "validated": "duration==6000, sole op, no SpellInterrupts hard casts",
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning/interrupt.rs:10-69"
+    ],
+    "identity": "active target cast token + lockout_until=now+6000",
+    "validated": "target life (no-op if dead), Silence prevention",
+    "transformation": "checked_add",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:575-596",
+     "crates/combat/src/school_lock.rs:52-65"
+    ],
+    "identity": "cancel generation + per-school deadline",
+    "validated": true,
+    "transformation": "school bits",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/cast_authority.rs:440-447",
+     "crates/combat/src/school_lock.rs:67-69"
+    ],
+    "identity": "deadlines ZERO",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:1076-1078"
+    ],
+    "identity": "same",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ],
+  "finding_ids": [
+   "CSA-G-02",
+   "CSA-G-04"
+  ]
+ },
+ {
+  "id": "FF-G-003",
+  "track": "G",
+  "authority": "AUTH-G-007",
+  "fact": "stun admission and fresh-application cancellation",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [],
+    "identity": "SpellEffect 872577 (346197 idx0 ApplyAura subtype 12, target 25)",
+    "validated": "exact",
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/stun.rs:32-60"
+    ],
+    "identity": "AuraMutationDefinition.action_prevention.stun",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/stun.rs:15-39",
+     "crates/combat/src/action_prevention.rs:156-188"
+    ],
+    "identity": "StunView bindings (actor, aura, effect)",
+    "validated": true,
+    "transformation": "sorted dedup",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/cast.rs:662-683",
+     "crates/combat/src/cast_authority.rs:265-296"
+    ],
+    "identity": "admission Stunned(latest stun expiry); fresh cancel if actor not already stunned",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:517-573"
+    ],
+    "identity": "cancel_cast + CastStunned",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1115"
+    ],
+    "identity": "through AuraState reset",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "same",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ],
+  "finding_ids": [
+   "CSA-G-03",
+   "CSA-G-05"
+  ]
+ },
+ {
+  "id": "FF-G-004",
+  "track": "G",
+  "authority": "AUTH-G-002",
+  "fact": "hard-cast deadline",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [],
+    "identity": "SpellMisc.CastingTimeIndex -> SpellCastTimes",
+    "validated": "data crate",
+    "transformation": "ms",
+    "consumed": true
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/data/src/action/catalog/timing.rs:44-80"
+    ],
+    "identity": "ResolvedCastTime(base, rate, minimum)",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program.rs:1090-1100",
+     "crates/combat/src/cast_authority.rs:17-46"
+    ],
+    "identity": "CastTiming + prepared_cost_count",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/cast.rs:355-386",
+     "crates/combat/src/cast.rs:1178-1186"
+    ],
+    "identity": "completes_at=now+duration(haste at acceptance), must progress",
+    "validated": true,
+    "transformation": "f64 truncation to ms",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/cast_authority.rs:366-391"
+    ],
+    "identity": "ActiveCast in actor cell",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/cast.rs:284-352"
+    ],
+    "identity": "completion at completes_at; payload RNG only at commit after successful re-plan",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/cast_authority.rs:440-447"
+    ],
+    "identity": "cells default (generation 0)",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:1076-1078"
+    ],
+    "identity": "same",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ],
+  "finding_ids": [
+   "CSA-G-01"
+  ]
+ },
+ {
+  "id": "FF-G-005",
+  "track": "G",
+  "authority": "AUTH-G-015",
+  "fact": "prepared hard-cast resource cost",
+  "stages": [
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/data/src/action/catalog/action.rs:75-78"
+    ],
+    "identity": "ResolvedResourceSpends (required/optional)",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program.rs:875-890"
+    ],
+    "identity": "ResourceSpendDefinition slice",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/cast/resource.rs:97-243"
+    ],
+    "identity": "amount=required+min(optional,remaining) with modifiers at acceptance",
+    "validated": true,
+    "transformation": "f64",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/cast_authority.rs:366-391",
+     "crates/combat/src/cast.rs:875-886"
+    ],
+    "identity": "snapshot at acceptance; spent at completion via quote_prepared_cast_cost",
+    "validated": "re-quoted against balance at completion",
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/cast_authority.rs:440-447"
+    ],
+    "identity": "prepared costs default",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ]
+ }
+]

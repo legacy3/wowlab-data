@@ -1,0 +1,152 @@
+[
+ {
+  "id": "CSA-D-01",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Raw-133 maximum-health authority produces fractional maxima that the admitted raw-165 consumer rejects, failing the whole cast",
+  "coords": [
+   "crates/combat/src/state/maximum_health_modifiers.rs:88-103",
+   "crates/combat/src/state/maximum_health_modifiers.rs:165-190",
+   "crates/combat/src/maximum_health_damage.rs:36-48",
+   "crates/combat/src/program/maximum_health_damage.rs:81-98"
+  ],
+  "evidence": [
+   "core state/maximum_health_modifiers.rs:100 `baseline.maximum() * factor` with no truncation",
+   "core maximum_health_damage.rs:39-48 rejects any non-integral live maximum with InvalidMaximumHealthDomain",
+   "trinity StatSystem.cpp:314-323 Player::UpdateMaxHealth SetMaxHealth((uint32)value); StatSystem.cpp:999-1002 Creature uint32",
+   "source SpellEffect raw-165 1257873:0 / 345705:0 and raw-133 156021:0 / 281241:0 (+10 %) match both admitted shapes; 1001 x 1.1 = 1101.1",
+   "probe d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133 (PASS): 1001 -> 1501.5, cast fails DamageCalculation, no damage",
+   "probe d_maximum_health_domain.rs::holds_raw165_accepts_integral_maximum_produced_by_raw133 (PASS) control: 1000 -> 1500 -> 1350"
+  ],
+  "probe_tests": [
+   "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133",
+   "d_maximum_health_domain.rs::holds_raw165_accepts_integral_maximum_produced_by_raw133"
+  ],
+  "reproducer": "cargo test --test d_maximum_health_domain",
+  "why_tests_missed": "crates/combat/tests/direct_maximum_health_damage.rs uses baseline 1000 with the fixture's +50 % aura (integral 1500); the fractional-domain test injects 1000.5 directly as a host input and treats rejection as intended, never composing Core's own raw-133 output.",
+  "correction_boundary": "The maximum-health producer (state/maximum_health_modifiers.rs quote+commit sites) must emit the source-integral maximum (truncate the composed binary32/f64 value as the direct consumer does), or raw-165 must document and apply the same truncation of its live input; one owner, not both.",
+  "must_not_widen": "Do not relax raw-165's non-finite/oversized/out-of-range fail-closed checks or its binary32 arithmetic; do not make HealthPool accept or produce new domains; keep current-health reconciliation policies unchanged.",
+  "note": "Also affects every other consumer of maximum health (percent heals, raw-89, thresholds) numerically, but only raw-165 turns it into a cast failure.",
+  "track": "D"
+ },
+ {
+  "id": "CSA-D-02",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Base-point rounding is applied to raw-2 School Damage only; raw-10 Heal and raw-9 Health Leech keep fractional authored points",
+  "coords": [
+   "crates/combat/src/damage.rs:30-37",
+   "crates/combat/src/program/damage.rs:157-163",
+   "crates/combat/src/healing.rs:65-94",
+   "crates/combat/src/program/healing.rs:103-114"
+  ],
+  "evidence": [
+   "core damage.rs:34 rounds only in new_direct_school_damage; program/damage.rs:157-163 selects it only for raw-2 direct",
+   "core healing.rs:71-74 uses unrounded base points; program/healing.rs:109-112 HealingFormula::new",
+   "trinity SpellInfo.cpp:611-627 CalcValue std::round for SCHOOL_DAMAGE, HEALTH_LEECH and HEAL in one switch",
+   "source SpellEffect 15278:0 Heal 1.5 (caster), 3243:0 Health Leech 5.55555582047 amplitude 1; 140 base-difficulty raw-9/raw-10 rows with fractional base and neutral amount/trigger/misc/mechanic/effect-attribute facts (before owner-attribute and selector filtering)",
+   "core catalog crates/dbc/src/spell_effect.rs:225,229,230 describes all three as 'the exact effect base' amount",
+   "probe d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points (PASS: +1.5, Trinity +2)",
+   "probe d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points (PASS: -/+5.5555558, Trinity 6)",
+   "probe d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points (PASS: raw-2 twin 1.5 -> 2)"
+  ],
+  "probe_tests": [
+   "d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points",
+   "d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points",
+   "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points"
+  ],
+  "reproducer": "cargo test --test d_base_point_rounding",
+  "why_tests_missed": "Heal and leech fixtures use integral authored points (30, 100, 40...); the raw-2 rounding was introduced for 28041:1 (ledger ~L24115) without reopening sibling payload families in the same CalcValue switch.",
+  "correction_boundary": "Apply the same authored-base rounding at the raw-10 and raw-9 formula construction (program/healing.rs fixed branch, program/damage.rs direct leech branch) - the same boundary raw-2 uses.",
+  "must_not_widen": "Do not round percent/missing-or-maximum heals, captured damage, or post-modifier amounts; periodic families remain a separately documented choice (NUM-D-004).",
+  "note": "Magnitude <= 0.5 per event before scaling; 1.5 vs 2 is 25 %. Periodic raw-3/raw-8/raw-53 fractional policy is documented in the ledger and recorded as known_divergence, not part of this finding.",
+  "track": "D"
+ },
+ {
+  "id": "CSA-D-03",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "open",
+  "title": "Equal-priority school absorbs are consumed oldest-application-first; the direct consumer consumes newest-first",
+  "coords": [
+   "crates/combat/src/absorb/transaction.rs:968-1000",
+   "crates/combat/src/aura_state.rs:788-797"
+  ],
+  "evidence": [
+   "core transaction.rs:991-994 funding, priority, then left_cell.sequence ascending",
+   "trinity Unit.cpp:3734-3738 _RegisterAuraEffect push_front; Unit.cpp:1899-1900 stable_sort by MiscValueB only -> newest first among equal priorities",
+   "trinity SpellAuraEffects.cpp:1091-1127 ChangeAmount unregisters/re-registers (moves to front) on amount change or reapply",
+   "simc player.cpp:8154-8164 sorts by current value (a third policy)",
+   "core catalog crates/dbc/src/aura_subtype.rs:424 documents 'then earlier application sequence' (core choice, no source citation)",
+   "probe d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first (PASS: first-applied 50 depleted, second keeps 40)"
+  ],
+  "probe_tests": [
+   "d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first"
+  ],
+  "reproducer": "cargo test --test d_absorb_order",
+  "why_tests_missed": "crates/combat/src/absorb/tests.rs:233 pins the documented earliest-sequence order; no test compares to the reference tie-break.",
+  "correction_boundary": "candidate_order tie-break after priority (absorb/transaction.rs:991-1000) if the direct-consumer order is adopted; otherwise record as an explicit core choice with evidence.",
+  "must_not_widen": "Keep funding-first and signed-priority ordering, snapshot replay and exact identity tie-breaks; do not introduce per-provider mutable ordering state beyond the existing sequence.",
+  "note": "Status open: documented Core contract vs direct-consumer order; lead to adjudicate. The same candidate_order serves raw-301 healing absorbs (Trinity Unit.cpp:2114-2115 same newest-first rule). No-duration absorbs all carry sequence 0 (aura_state.rs:788-797) so their tie falls to effect identity; inert today because only exact 87654:1 admits an indefinite lifetime.",
+  "track": "D"
+ },
+ {
+  "id": "CSA-D-04",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Source-only school-absorb capacity (raw-421/Versatility without raw-422) is never rounded; only the raw-422 path uses staged rounding",
+  "coords": [
+   "crates/combat/src/absorb/transaction.rs:902-925",
+   "crates/combat/src/state/absorbs.rs:50-95"
+  ],
+  "evidence": [
+   "core transaction.rs:914-920 returns base x source when recipient factor bits == 1.0, else round(round(base x source) x recipient)",
+   "trinity Unit.cpp:7684-7686 SpellAbsorbBonusDone returns int32(std::round(...)); Unit.cpp:7715-7719 BonusTaken rounds again",
+   "core docs/development-ledger.md ~L25988-26003 states the direct source rounds the source stage, and explicitly defers the source-only path",
+   "probe d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded (PASS: 55 x 1.05 = 57.75 capacity, 100 hit removes 42.25 not 42)"
+  ],
+  "probe_tests": [
+   "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded"
+  ],
+  "reproducer": "cargo test --test d_absorb_capacity_rounding",
+  "why_tests_missed": "source_absorb_capacity_modifiers.rs uses 50/20/-100 percent on capacity 100 (integral products); raw-422 tests pin staged rounding only when raw-422 participates.",
+  "correction_boundary": "application_capacity (absorb/transaction.rs:910-925): round the source stage for unfunded damage absorbs regardless of the recipient factor.",
+  "must_not_widen": "Do not apply rounding to Mana Shield or healing absorbs; keep capture-at-creation semantics and the separate source/recipient factors.",
+  "note": "Discontinuity: recipient factor 1.0 -> 57.75, recipient factor 1.0000001 -> 58.",
+  "track": "D"
+ },
+ {
+  "id": "CSA-D-05",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Raw-39 school-immunity composition audits only Target-impact programs, so an immune holder takes covered caster-delivered raw-165 damage",
+  "coords": [
+   "crates/combat/src/program/school_immunity.rs:236-282",
+   "crates/combat/src/school_immunity.rs:22-39",
+   "crates/combat/src/program/maximum_health_damage.rs:136-160",
+   "crates/combat/src/program/compile.rs:833-855",
+   "crates/combat/src/program/no_immunities.rs:211-233"
+  ],
+  "evidence": [
+   "core program/school_immunity.rs:246-252 skips programs without a Target impact",
+   "core runtime school_immunity.rs:30-35 suppresses only exact applicands 10730:1/373932:1",
+   "core compile.rs:845-853 Power Burn rejects any immunity family; no_immunities.rs:211-233 raw-29 caster path rejects school composition; raw-165 has neither",
+   "core catalog crates/dbc/src/spell_effect.rs:262 raw-165 'explicitly assumes absent immunity ... because Core owns neither authority yet' - Core now owns raw 39",
+   "trinity Unit::IsImmunedToDamage (school immunity mask covering the spell school) zeroes the damage",
+   "probe d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage (PASS: 161901 active, Shadow raw-165 removes 100)"
+  ],
+  "probe_tests": [
+   "d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage"
+  ],
+  "reproducer": "cargo test --test d_school_immunity_self_damage",
+  "why_tests_missed": "school_immunities tests compose only the exact pacify applicand and fixed-travel programs; raw-165 tests never declare an immunity family.",
+  "correction_boundary": "Either reject raw-165 (direct caster-recipient damage) when any immunity family is declared, mirroring compile.rs:845-853 / no_immunities.rs:211-233, or extend the raw-39 compile audit to caster-recipient programs.",
+  "must_not_widen": "Do not generalize runtime school-immunity suppression beyond the exact applicands; do not admit new immunity semantics to make the combination executable.",
+  "note": "Exact carrier 161901 is a hostile-actor rune; realistic co-occurrence is narrow. Periodic tick nodes use Target-recipient impacts and are audited (REJ-D-011); the escape is specific to direct caster-recipient damage (raw-165; raw-2 caster damage is separately gated by no_immunities).",
+  "track": "D"
+ }
+]

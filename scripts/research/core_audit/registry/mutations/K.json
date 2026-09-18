@@ -1,0 +1,263 @@
+[
+ {
+  "id": "MUT-K-001",
+  "track": "K",
+  "contract": "selected owner external policy",
+  "dimension": "AuraOptions/external policy",
+  "mutation": "remove the SpellExternalPolicyCatalog from the builder for the complete Martial Expert package",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "probe k_external_policy.rs::holds_martial_package_requires_external_policy_catalog",
+  "probe_test": "k_external_policy.rs::holds_martial_package_requires_external_policy_catalog",
+  "error": "InvalidOwnerFact"
+ },
+ {
+  "id": "MUT-K-002",
+  "track": "K",
+  "contract": "selected owner external policy",
+  "dimension": "AuraOptions/external policy",
+  "mutation": "set each of 9 presence columns to Present, then Unknown, on the Martial provider",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "probe k_external_policy.rs::holds_martial_package_rejects_each_present_or_unknown_column",
+  "probe_test": "k_external_policy.rs::holds_martial_package_rejects_each_present_or_unknown_column",
+  "error": "InvalidOwnerFact"
+ },
+ {
+  "id": "MUT-K-003",
+  "track": "K",
+  "contract": "policy/GameData identity binding",
+  "dimension": "definition",
+  "mutation": "supply a complete all-Absent catalog bound to game_build+1",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "probe k_external_policy.rs::holds_identity_mismatched_policy_fails_closed",
+  "probe_test": "k_external_policy.rs::holds_identity_mismatched_policy_fails_closed",
+  "error": "InvalidOwnerFact"
+ },
+ {
+  "id": "MUT-K-004",
+  "track": "K",
+  "contract": "policy source validation",
+  "dimension": "entry",
+  "mutation": "drop/duplicate/zero/unknown spell rows, bump schema, change identity, empty rows",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "probe k_external_policy.rs::holds_policy_catalog_rejects_incomplete_or_foreign_input",
+  "probe_test": "k_external_policy.rs::holds_policy_catalog_rejects_incomplete_or_foreign_input",
+  "error": "MissingSpell/DuplicateSpell/InvalidSpell/UnknownSpell/UnsupportedSchema/WrongGameDataIdentity"
+ },
+ {
+  "id": "MUT-K-005",
+  "track": "K",
+  "contract": "selected owner external policy",
+  "dimension": "sibling set",
+  "mutation": "remove Martial raw-108 sibling so raw 638 is a complete one-effect selected package; build with no catalog / Present proc+script / Unknown",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_external_policy.rs::defect_selected_raw638_single_package_skips_external_policy",
+  "probe_test": "k_external_policy.rs::defect_selected_raw638_single_package_skips_external_policy",
+  "finding_ids": [
+   "CSA-A-02"
+  ]
+ },
+ {
+  "id": "MUT-K-006",
+  "track": "K",
+  "contract": "selected package atomicity via activation route",
+  "dimension": "provider",
+  "mutation": "declare live Martial 429638:2 with ordinary Passive activation, no trait source, no policy, no sibling",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive",
+  "probe_test": "k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive",
+  "finding_ids": [
+   "CSA-K-05"
+  ]
+ },
+ {
+  "id": "MUT-K-007",
+  "track": "K",
+  "contract": "trigger inertness premise",
+  "dimension": "trigger",
+  "mutation": "add EffectTriggerSpell to the single raw-638 selected effect and mark effective proc Present",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_external_policy.rs::defect_selected_raw638_trigger_accepted_inert_with_present_proc",
+  "probe_test": "k_external_policy.rs::defect_selected_raw638_trigger_accepted_inert_with_present_proc",
+  "finding_ids": [
+   "CSA-A-02"
+  ]
+ },
+ {
+  "id": "MUT-K-008",
+  "track": "K",
+  "contract": "selected package atomicity via activation route",
+  "dimension": "provider",
+  "mutation": "declare live-shaped Canny Strikes raw-290 trait provider with ordinary Passive activation (no trait source/policy); control Heart raw-334 ordinary Passive",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_catalog_admission.rs::defect_trait_carrier_admitted_as_ordinary_passive_without_policy",
+  "probe_test": "k_catalog_admission.rs::defect_trait_carrier_admitted_as_ordinary_passive_without_policy",
+  "error": "InvalidAuraSubtype (Heart control only)",
+  "finding_ids": [
+   "CSA-K-05"
+  ]
+ },
+ {
+  "id": "MUT-K-009",
+  "track": "K",
+  "contract": "aura removal identity",
+  "dimension": "target",
+  "mutation": "raw 203 / raw 164 row whose EffectTriggerSpell names aura B declared as removing aura A",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity",
+  "probe_test": "k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity",
+  "finding_ids": [
+   "CSA-K-01"
+  ]
+ },
+ {
+  "id": "MUT-K-010",
+  "track": "K",
+  "contract": "aura stack mode",
+  "dimension": "misc",
+  "mutation": "raw-289 row with EffectMiscValue_0 = 1 (Set 2) declared as AddAuraStacks 2",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_aura_mutation_source.rs::defect_modify_aura_stacks_set_mode_admitted_as_add",
+  "probe_test": "k_aura_mutation_source.rs::defect_modify_aura_stacks_set_mode_admitted_as_add",
+  "finding_ids": [
+   "CSA-K-01"
+  ]
+ },
+ {
+  "id": "MUT-K-011",
+  "track": "K",
+  "contract": "aura stack amount/direction/identity",
+  "dimension": "amount facts",
+  "mutation": "raw-289 add-mode +1 row on aura A declared as RemoveAuraStacks 4 on aura B",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_aura_mutation_source.rs::defect_modify_aura_stacks_direction_count_identity_unbound",
+  "probe_test": "k_aura_mutation_source.rs::defect_modify_aura_stacks_direction_count_identity_unbound",
+  "finding_ids": [
+   "CSA-K-01"
+  ]
+ },
+ {
+  "id": "MUT-K-012",
+  "track": "K",
+  "contract": "aura application identity",
+  "dimension": "definition",
+  "mutation": "ApplyAura row of spell A declared as applying aura B",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "probe k_aura_mutation_source.rs::accepted_apply_aura_row_of_a_applies_foreign_aura_b",
+  "probe_test": "k_aura_mutation_source.rs::accepted_apply_aura_row_of_a_applies_foreign_aura_b"
+ },
+ {
+  "id": "MUT-K-013",
+  "track": "K",
+  "contract": "sibling effect coverage",
+  "dimension": "effect kind",
+  "mutation": "add undeclared sibling effect 2 of kind 3 (Unimplemented), 17 (Disabled), 999 (uncataloged), 6/raw-4 (Disabled aura) to an ordinary SchoolDamage action",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored",
+  "probe_test": "k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored",
+  "finding_ids": [
+   "CSA-K-04"
+  ]
+ },
+ {
+  "id": "MUT-K-014",
+  "track": "K",
+  "contract": "raw-334 exact-carrier wording",
+  "dimension": "sibling set",
+  "mutation": "reduce Heart of the Crusader to its raw-334 effect only (complete one-effect selected package)",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_catalog_admission.rs::defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording",
+  "probe_test": "k_catalog_admission.rs::defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording",
+  "finding_ids": [
+   "CSA-K-03"
+  ]
+ },
+ {
+  "id": "MUT-K-015",
+  "track": "K",
+  "contract": "raw-290 one-rank wording",
+  "dimension": "rank",
+  "mutation": "give Canny Strikes max_ranks 2 with Set curve 2->4 and select rank 2",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_catalog_admission.rs::defect_two_rank_raw290_selected_package_admitted_despite_one_rank_wording",
+  "probe_test": "k_catalog_admission.rs::defect_two_rank_raw290_selected_package_admitted_despite_one_rank_wording",
+  "finding_ids": [
+   "CSA-K-03"
+  ]
+ },
+ {
+  "id": "MUT-K-016",
+  "track": "K",
+  "contract": "Disabled aura subtype inertness",
+  "dimension": "aura subtype",
+  "mutation": "declare a raw-468 health-threshold aura through the public API",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes",
+  "probe_test": "k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes",
+  "finding_ids": [
+   "CSA-K-02"
+  ]
+ },
+ {
+  "id": "MUT-K-017",
+  "track": "K",
+  "contract": "selected owner neutrality",
+  "dimension": "owner attributes",
+  "mutation": "single raw-638 selected package with Magic dispel type, then with proc_charges=1 AuraOptions; control: same proc-charged owner with complete Martial package",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "probe k_external_policy.rs::defect_selected_raw638_single_package_skips_owner_neutrality",
+  "probe_test": "k_external_policy.rs::defect_selected_raw638_single_package_skips_owner_neutrality",
+  "error": "control rejected",
+  "finding_ids": [
+   "CSA-A-02"
+  ]
+ },
+ {
+  "id": "MUT-K-018",
+  "track": "K",
+  "contract": "effect attribute 24 Disabled",
+  "dimension": "exact attributes",
+  "mutation": "accept Disabled EA24 only on Swift Justice 383228 effects 1/2",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": "charge_duration_modifier.rs:286-309 requires the attribute only on the exact Swift Justice carrier; flat charge-duration is not a time-rate term."
+ },
+ {
+  "id": "MUT-K-019",
+  "track": "K",
+  "contract": "raw 416 inert domain",
+  "dimension": "owner attributes",
+  "mutation": "raw 416 on Passive PassiveModifier-only owner with identity-matched all-Absent policy vs without policy",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "spell_attribute.rs:49-53,83-130 plus 68-75 (Disabled rejects otherwise).",
+  "error": "UnsupportedSelectedSpellAttribute when policy absent"
+ },
+ {
+  "id": "MUT-K-020",
+  "track": "K",
+  "contract": "implicit target pairs",
+  "dimension": "target",
+  "mutation": "any selector pair outside (0,0),(1,0),(6,0),(21,0),(25,0) or non-empty secondary",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "source_recipient.rs:9-53, 55-101; census of ImplicitTargetKind variants and raw pair comparisons across crates/combat/src finds no other admitted pair.",
+  "error": "SourceRecipient UnsupportedImplicitTargets"
+ }
+]

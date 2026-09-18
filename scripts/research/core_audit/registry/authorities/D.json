@@ -1,0 +1,359 @@
+[
+ {
+  "id": "AUTH-D-001",
+  "name": "Direct/periodic damage compiler + DamageFormula",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/damage.rs:53-184",
+   "crates/combat/src/program/damage.rs:219-235",
+   "crates/combat/src/program/damage.rs:342-519",
+   "crates/combat/src/damage.rs:22-153",
+   "crates/combat/src/damage.rs:155-181"
+  ],
+  "semantic_facts": [
+   "raw-2/9/165 only (OperationEffectContract::DirectDamage, error/operation_effect.rs:18-24)",
+   "non-leech damage requires EffectAmountFacts::NEUTRAL (damage.rs:138-142); leech admits only positive amplitude",
+   "raw-2 direct base points rounded before power terms (damage.rs:30-37, program/damage.rs:157-163); raw-9 direct, periodic raw-3/raw-53 keep fractional base",
+   "amount = base + AP*ap + SP*sp; x scale x outgoing; negative clamps; x incoming; critical = normal x critical multiplier (damage.rs:104-152)",
+   "effective mechanic retained only when retain_effective_mechanic (damage.rs:219-235)"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-002",
+  "name": "Direct heal compiler + HealingFormula/Percent/MissingOrMax",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/healing.rs:25-87",
+   "crates/combat/src/program/healing.rs:89-145",
+   "crates/combat/src/program/healing.rs:154-289",
+   "crates/combat/src/program/healing.rs:316-379",
+   "crates/combat/src/healing.rs:40-168"
+  ],
+  "semantic_facts": [
+   "raw-10 fixed, raw-136 percent, raw-? missing-or-maximum; NEUTRAL amount facts except exact 25840:1",
+   "fixed heal base points are never rounded (healing.rs:65-94)",
+   "percent heal = recipient projected maximum x percent/100, continuous (healing.rs:142-167)",
+   "mixed damage+heal impacts rejected (healing.rs:25-51)"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-003",
+  "name": "Health quote/commit (damage & healing planning, HealthPool)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/execution/planning/health.rs:857-996",
+   "crates/combat/src/execution/planning/health.rs:998-1075",
+   "crates/combat/src/execution/planning/health.rs:1241-1324",
+   "crates/combat/src/execution/planning/health.rs:1371-1581",
+   "crates/combat/src/execution/commit/health.rs:245-329",
+   "crates/combat/src/execution/commit/health.rs:397-460",
+   "crates/combat/src/health_amount.rs:67-92",
+   "crates/combat/src/health.rs:79-160",
+   "crates/combat/src/execution/health.rs:55-135"
+  ],
+  "semantic_facts": [
+   "payload school = payload program node school (program.rs:1124) used for immunity, modifiers, absorbs, share",
+   "order: dead-target check -> damage-immunity -> modifier channels -> amount -> absorb bounds -> share -> health quote",
+   "healing order: formula -> ordinary healing multiplier (scaled) -> critical healing factor on critical leg -> absorb bounds",
+   "commit replays quoted snapshot (next_snapshot) then HealthPool::quote_damage on remaining; amounts continuous f64"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-004",
+  "name": "School absorb / heal absorb / mana shield compiler and transaction",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/program/absorb.rs:716-859",
+   "crates/combat/src/program/absorb.rs:861-904",
+   "crates/combat/src/program/absorb.rs:906-1019",
+   "crates/combat/src/absorb/transaction.rs:171-280",
+   "crates/combat/src/absorb/transaction.rs:902-925",
+   "crates/combat/src/absorb/transaction.rs:968-1000",
+   "crates/combat/src/absorb/transaction.rs:1081-1103",
+   "crates/combat/src/state/absorbs.rs:30-148"
+  ],
+  "semantic_facts": [
+   "capacity = authored base points (finite positive), misc0 school mask, misc1 signed priority",
+   "candidate order: funding, priority asc, application sequence asc (oldest first), source effect, provider",
+   "school absorb creation multiplier: source (Versatility x raw-421) and recipient raw-422 retained separately; rounds only when raw-422 != 1",
+   "reapplication replaces capacity and takes a new aura sequence; no-duration auras have sequence 0"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-005",
+  "name": "Source absorb-capacity modifier (raw 421)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/source_absorb_capacity_modifier.rs:45-151",
+   "crates/combat/src/program/source_absorb_capacity_modifier.rs:152-217",
+   "crates/combat/src/source_absorb_capacity_modifier.rs:17-70"
+  ],
+  "semantic_facts": [
+   "generic single-stack finite self aura; multiplicative product seeded with Versatility factor",
+   "zero factor dominates; first non-finite product is a typed quote failure",
+   "captured once at creation/replacement; later modifier changes never resize"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-006",
+  "name": "Target absorb bypass (raw 194)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/target_absorb_bypass.rs:1-124",
+   "crates/combat/src/target_absorb_bypass_authority.rs:101-145",
+   "crates/combat/src/state/target_absorb_bypass.rs:6-21",
+   "crates/combat/src/absorb/transaction.rs:71-77"
+  ],
+  "semantic_facts": [
+   "source-held percentage keyed by payload school; multiple definitions aggregate by max",
+   "reservation = min(incoming x pct/100, incoming), continuous (no CalculatePct int truncation)"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-007",
+  "name": "Share Damage Percent (raw 300) exact Venomshade carrier",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/share_damage.rs:96-180",
+   "crates/combat/src/program/share_damage.rs:237-397",
+   "crates/combat/src/execution/planning/health.rs:1086-1202",
+   "crates/combat/src/execution/commit/health.rs:331-395"
+  ],
+  "semantic_facts": [
+   "exact 154349:1, 100 % copy of post-absorb requested damage from the aura source only",
+   "state construction rejects topologies beyond the source/target pair (UnsupportedShareDamageTopology)"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-008",
+  "name": "Instakill (raw 1)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/instakill.rs:8-60",
+   "crates/combat/src/program/instakill.rs:61-110",
+   "crates/combat/src/execution/planning/health/instakill.rs:6-43"
+  ],
+  "semantic_facts": [
+   "sole-effect sole-operation, DefenseType::None, selectors (6,0), hostile",
+   "lethal transition bypasses damage, absorb, crit, block; no RNG"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-009",
+  "name": "Direct maximum-health damage (raw 165)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/maximum_health_damage.rs:19-98",
+   "crates/combat/src/program/maximum_health_damage.rs:100-217",
+   "crates/combat/src/program/maximum_health_damage.rs:219-258",
+   "crates/combat/src/maximum_health_damage.rs:12-80"
+  ],
+  "semantic_facts": [
+   "caster-only (1,0), Magic, non-physical, sole effect/op, neutral facts",
+   "requires integral live maximum <= 2^53; binary32 x percent / 100, truncated to u64, <= i32::MAX",
+   "bypasses outgoing and incoming spell damage modifiers; absorbs apply; documented to assume absent immunity"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-010",
+  "name": "Maximum-health modifiers (raw 133 percent, raw 34 passive flat)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/maximum_health_modifier.rs:1-66",
+   "crates/combat/src/state/maximum_health_modifiers.rs:88-103",
+   "crates/combat/src/state/maximum_health_modifiers.rs:165-190",
+   "crates/combat/src/health.rs:177-200",
+   "crates/combat/src/maximum_health_modifier.rs:314-381"
+  ],
+  "semantic_facts": [
+   "maximum = baseline maximum x product(1 + pct x stacks/100): never truncated/rounded",
+   "current reconciled by directional policy (fraction or absolute) - also continuous"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-011",
+  "name": "Target-health healing modifier (exact 391178)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/target_health_healing_modifier.rs:215-445",
+   "crates/combat/src/target_health_healing_modifier.rs:1-185"
+  ],
+  "semantic_facts": [
+   "exact carrier; payload-bound healing percentage by recipient health fraction"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-012",
+  "name": "Health program composition",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/health_program.rs:1-60"
+  ],
+  "semantic_facts": [
+   "Option<Box> composition of max-health, absorb, immunity, critical-healing, share plans; absent -> None (pay-for-play)"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-013",
+  "name": "Health threshold triggers",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/health_threshold.rs:245-326",
+   "crates/combat/src/program/health_threshold.rs:326-487",
+   "crates/combat/src/health_threshold.rs:452-490"
+  ],
+  "semantic_facts": [
+   "absolute threshold = floor(maximum x pct / 100); fresh checks strict, committed crossings inclusive of endpoints"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-014",
+  "name": "Damage immunity (raw 40, exact Ethereal 163671 / payload 394463)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/damage_immunity.rs:83-133",
+   "crates/combat/src/program/damage_immunity.rs:136-240",
+   "crates/combat/src/program/damage_immunity.rs:496-580",
+   "crates/combat/src/damage_immunity.rs:26-125",
+   "crates/combat/src/execution/planning/health.rs:899-917"
+  ],
+  "semantic_facts": [
+   "program-wide audit rejects every other damage family (direct/area/max-health/leech/periodic)",
+   "runtime covers actor if active binding school covers payload school; exact raw-29 payload admitted but not suppressed"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-015",
+  "name": "Effect immunity (exact 283780 / applicand 159006)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/effect_immunity.rs:123-352",
+   "crates/combat/src/effect_immunity.rs:1-121"
+  ],
+  "semantic_facts": [
+   "exact carrier/applicand pair only"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-016",
+  "name": "Exact-immunity owner topology + immunity program",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/exact_immunity.rs:89-293",
+   "crates/combat/src/program/immunity_program.rs:1-160",
+   "crates/combat/src/exact_immunity_view.rs:1-183",
+   "crates/combat/src/owner_immunity.rs:1-71"
+  ],
+  "semantic_facts": [
+   "shared exact owner/program/application validation for school/mechanic/effect families"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-017",
+  "name": "Mechanic immunity (exact 166474 / applicand 159006)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/mechanic_immunity.rs:127-392",
+   "crates/combat/src/mechanic_immunity.rs:1-126"
+  ],
+  "semantic_facts": [
+   "exact carrier/applicand pair only"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-018",
+  "name": "Mechanic resistance (exact 19786 / applicand 326836)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/mechanic_resistance.rs:71-330",
+   "crates/combat/src/mechanic_resistance.rs:1-111"
+  ],
+  "semantic_facts": [
+   "payload_mechanic feeds AttackPolicy resisted mechanic (payload_policy.rs:73-75)"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-019",
+  "name": "School immunity (raw 39, exact 161901 mask 126 / applicand 10730)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/school_immunity.rs:66-130",
+   "crates/combat/src/program/school_immunity.rs:236-282",
+   "crates/combat/src/school_immunity.rs:22-39"
+  ],
+  "semantic_facts": [
+   "compile audit covers only programs with a Target impact whose school is fully covered",
+   "runtime suppression only for exact applicands 10730:1 / 373932:1; coverage = complete school subset"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-020",
+  "name": "No Immunities (exact raw-29 28041:1)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/no_immunities.rs:23-60",
+   "crates/combat/src/program/no_immunities.rs:211-233"
+  ],
+  "semantic_facts": [
+   "admits caster-recipient raw-2 damage; rejects effect/mechanic/school immunity composition"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-021",
+  "name": "Payload policy",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:14-90"
+  ],
+  "semantic_facts": [
+   "payload-spell attributes -> critical eligibility, attack suppressions, damage/healing modifier channels; defense from payload spell"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-022",
+  "name": "Exact-neutral amount-fact predicate",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/effect_amount.rs:1-37"
+  ],
+  "semantic_facts": [
+   "bit-exact comparison of all eight float facts + scaling class; resource coefficient override for 25840:1"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "AUTH-D-023",
+  "name": "Versatility benefit/modifier (inventory only - parked)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/versatility_benefit.rs:188-305",
+   "crates/combat/src/program/versatility_modifier.rs:72-300"
+  ],
+  "semantic_facts": [
+   "exact carriers 344883 (raw 502/503), 354054 active and 255658 passive raw 471; feed DamageDone/DamageReduction/HealingDone/AbsorbDone factors",
+   "not audited semantically (Versatility parked)"
+  ],
+  "track": "D"
+ }
+]

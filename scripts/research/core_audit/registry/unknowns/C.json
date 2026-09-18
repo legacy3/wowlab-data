@@ -1,0 +1,34 @@
+[
+ {
+  "id": "UNK-C-001",
+  "question": "Should DefenseType::None damage payloads be able to crit?",
+  "why_unknown": "Core resolves crit for None-defense damage by school channel; Trinity SpellCritChanceTaken returns 0 for SPELL_DAMAGE_CLASS_NONE (Unit.cpp:7242-7244). No retail/simc evidence gathered for 12.1 None-class damage.",
+  "reopen": "Reopen with a None-defense damage spell whose live crit behaviour is observed (combat log) or simc may_crit evidence for DmgClass 0 payloads.",
+  "track": "C"
+ },
+ {
+  "id": "UNK-C-002",
+  "question": "Is Core's single floor of source+target crit points (vs Trinity done/taken double floor) observable with source-valid carriers?",
+  "why_unknown": "Needs an admitted negative source-held crit term plus a positive target-held term (candidates: Impaired Eyesight 136181 raw 290 -20 self; Heightened Senses 30297 raw 52 -5) - admission not verified.",
+  "reopen": "Compile those carriers through the raw-290/52 active compiler; if accepted together with an admitted positive raw 197/187 target term, build the NUM-C-001 witness probe.",
+  "track": "C"
+ },
+ {
+  "id": "UNK-C-003",
+  "question": "Will a future package admit raw 638 without an owner-policy-checking sibling?",
+  "why_unknown": "critical_block_amount selected path has no selected_trait_owner_policy_issue call; masked today by the Martial Expert op-15 sibling.",
+  "reopen": "Any new composition row containing CriticalBlockAmount (selected_trait_package.rs composition_is_admitted_by) or an arity-1 638 package.",
+  "track": "C"
+ },
+ {
+  "id": "UNK-C-004",
+  "question": "Should raw-67 Heal Missing or Maximum Health (no CannotCrit) be able to critically heal?",
+  "why_unknown": "Core deliberately shares the impact critical result (development-ledger.md:2719-2723; healing.rs:211-236); probes show the Full Heal request doubles and the caster-maximum branch (all First Aid 7162 facts) doubles committed healing (400 -> 800). Trinity never crits a pure raw-67 spell (effect 67 absent from CU_CAN_CRIT list SpellMgr.cpp:3073-3087; EffectHealMaxHealth SpellEffects.cpp:2966-2987) and simc hard-codes lay_on_hands may_crit=false (sc_paladin.cpp:728); but live player Lay on Hands 633/471195/234320 carry CannotCrit (attribute 93) explicitly, which suggests the effect is crit-capable without it.",
+  "reopen": "Combat-log evidence of a raw-67 spell without attribute 93 (e.g. First Aid 7162, Bandaging 274450) critting or not; if it never crits, promote to a LIVE finding with probe_tests c_missing_max_heal_crit.rs::* and correction at program.rs:1180-1205.",
+  "probe_tests": [
+   "c_missing_max_heal_crit.rs::holds_missing_health_heal_shares_impact_critical",
+   "c_missing_max_heal_crit.rs::holds_caster_maximum_heal_critical_doubles_applied_health"
+  ],
+  "track": "C"
+ }
+]

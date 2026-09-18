@@ -1,0 +1,16 @@
+[
+ {
+  "id": "UNK-I-001",
+  "question": "Should non-damage impacts roll block (and ignore hit-chance modifiers) at all?",
+  "why_unknown": "attack_table applies hit-chance adjustment only when has_damage (state/modifiers.rs:185) but block eligibility ignores has_damage (resolution.rs:244-252); Trinity decides block only in damage calculation; outside Track I semantics (Track C/D)",
+  "reopen": "a source-backed non-damage melee/magic-block impact against a block-capable defender",
+  "track": "I"
+ },
+ {
+  "id": "UNK-I-002",
+  "question": "Is the mechanic-dispel forced-trial count meant to equal the source's owned-aura set (which includes passive/hidden auras Core does not model as AuraState entries)?",
+  "why_unknown": "draw values are unused, so only stream alignment differs; Core counts projected AuraState auras affecting the target",
+  "reopen": "when passive traits are represented as auras or a draw-address contract is introduced",
+  "track": "I"
+ }
+]

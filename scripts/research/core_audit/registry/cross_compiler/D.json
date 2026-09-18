@@ -1,0 +1,236 @@
+[
+ {
+  "id": "XC-D-001",
+  "concept": "authored base-point rounding across direct/periodic health payloads",
+  "compilers": [
+   {
+    "authority": "AUTH-D-001",
+    "coords": [
+     "crates/combat/src/damage.rs:30-37"
+    ],
+    "behavior": "raw-2 direct rounds"
+   },
+   {
+    "authority": "AUTH-D-001",
+    "coords": [
+     "crates/combat/src/program/damage.rs:157-163"
+    ],
+    "behavior": "raw-9 direct and all periodic damage keep fractional"
+   },
+   {
+    "authority": "AUTH-D-002",
+    "coords": [
+     "crates/combat/src/healing.rs:65-94"
+    ],
+    "behavior": "raw-10 fixed heal keeps fractional"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "trinity",
+    "ref": "SpellInfo.cpp:611-650 one rounding switch for all"
+   },
+   {
+    "class": "probe",
+    "ref": "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points"
+   }
+  ],
+  "finding_ids": [
+   "CSA-D-02"
+  ],
+  "track": "D",
+  "class": "D"
+ },
+ {
+  "id": "XC-D-002",
+  "concept": "maximum-health integrality (producer vs consumers)",
+  "compilers": [
+   {
+    "authority": "AUTH-D-010",
+    "coords": [
+     "crates/combat/src/state/maximum_health_modifiers.rs:97-100"
+    ],
+    "behavior": "produces continuous maxima"
+   },
+   {
+    "authority": "AUTH-D-009",
+    "coords": [
+     "crates/combat/src/maximum_health_damage.rs:39-48"
+    ],
+    "behavior": "requires integral maxima; rejects"
+   },
+   {
+    "authority": "AUTH-D-002",
+    "coords": [
+     "crates/combat/src/healing.rs:142-167"
+    ],
+    "behavior": "percent heal accepts continuous"
+   },
+   {
+    "authority": "AUTH-D-013",
+    "coords": [
+     "crates/combat/src/health_threshold.rs:472-490"
+    ],
+    "behavior": "floors threshold, accepts continuous"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133"
+   }
+  ],
+  "finding_ids": [
+   "CSA-D-01"
+  ],
+  "track": "D",
+  "class": "A"
+ },
+ {
+  "id": "XC-D-003",
+  "concept": "immunity-family composition gates for payloads that assume absent immunity",
+  "compilers": [
+   {
+    "authority": "AUTH-D-014",
+    "coords": [
+     "crates/combat/src/program/damage_immunity.rs:496-580"
+    ],
+    "behavior": "raw-40 rejects every non-exact damage family incl. raw-165"
+   },
+   {
+    "authority": "AUTH-D-019",
+    "coords": [
+     "crates/combat/src/program/school_immunity.rs:236-282"
+    ],
+    "behavior": "raw-39 audits only Target-impact programs"
+   },
+   {
+    "authority": "AUTH-D-020",
+    "coords": [
+     "crates/combat/src/program/no_immunities.rs:211-233"
+    ],
+    "behavior": "raw-29 caster damage rejects school/mechanic/effect composition"
+   },
+   {
+    "authority": "AUTH-D-009",
+    "coords": [
+     "crates/combat/src/program/maximum_health_damage.rs:81-98"
+    ],
+    "behavior": "raw-165 caster damage has no immunity-family gate"
+   },
+   {
+    "authority": "AUTH-D-008",
+    "coords": [
+     "crates/combat/src/program/compile.rs:833-855"
+    ],
+    "behavior": "Power Burn rejects any immunity family (instakill: none; relies on raw-39 target audit)"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage"
+   },
+   {
+    "class": "probe",
+    "ref": "d_damage_immunity_power_burn.rs::holds_power_burn_rejects_any_declared_immunity_family"
+   }
+  ],
+  "finding_ids": [
+   "CSA-D-05"
+  ],
+  "track": "D",
+  "class": "D"
+ },
+ {
+  "id": "XC-D-004",
+  "concept": "staged rounding of school-absorb creation capacity",
+  "compilers": [
+   {
+    "authority": "AUTH-D-004",
+    "coords": [
+     "crates/combat/src/absorb/transaction.rs:914-916"
+    ],
+    "behavior": "source-only: continuous"
+   },
+   {
+    "authority": "AUTH-D-004",
+    "coords": [
+     "crates/combat/src/absorb/transaction.rs:917-919"
+    ],
+    "behavior": "with raw-422: round, multiply, round"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded"
+   }
+  ],
+  "finding_ids": [
+   "CSA-D-04"
+  ],
+  "track": "D",
+  "class": "D"
+ },
+ {
+  "id": "XC-D-005",
+  "concept": "dead-target detection before health quote",
+  "compilers": [
+   {
+    "authority": "AUTH-D-003",
+    "coords": [
+     "crates/combat/src/execution/planning/health.rs:876-889"
+    ],
+    "behavior": "damage: committed pool is_alive"
+   },
+   {
+    "authority": "AUTH-D-003",
+    "coords": [
+     "crates/combat/src/execution/planning/health.rs:1399-1408"
+    ],
+    "behavior": "healing: projected pool current == 0"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "inferred",
+    "ref": "projected quote_damage applies 0 to a projected-dead target; only the dead_target signal differs"
+   }
+  ],
+  "track": "D",
+  "class": "C"
+ },
+ {
+  "id": "XC-D-006",
+  "concept": "equal-priority absorb consumption order",
+  "compilers": [
+   {
+    "authority": "AUTH-D-004",
+    "coords": [
+     "crates/combat/src/absorb/transaction.rs:991-1000"
+    ],
+    "behavior": "oldest sequence first"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "trinity",
+    "ref": "Unit.cpp:3738, 1899-1900 newest first"
+   },
+   {
+    "class": "simc",
+    "ref": "player.cpp:8154-8164 smallest current value first"
+   },
+   {
+    "class": "probe",
+    "ref": "d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first"
+   }
+  ],
+  "finding_ids": [
+   "CSA-D-03"
+  ],
+  "track": "D",
+  "class": "A"
+ }
+]

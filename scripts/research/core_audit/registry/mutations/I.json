@@ -1,0 +1,217 @@
+[
+ {
+  "id": "MUT-I-001",
+  "contract": "canonical boundary skip",
+  "dimension": "amount facts (miss probability)",
+  "mutation": "miss in {0, 0.5}",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "draw count 0 at 0, 1 at 0.5; outcomes equal independent replay"
+  ],
+  "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-002",
+  "contract": "canonical boundary skip",
+  "dimension": "amount facts (critical chance)",
+  "mutation": "critical in {0, 0.5, 1}",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "0 and 1 draw nothing, 0.5 draws once after landing"
+  ],
+  "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-003",
+  "contract": "canonical boundary skip",
+  "dimension": "amount facts (block chance, magic-block capability)",
+  "mutation": "block in {0, 0.5, 1}",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "replay-equal for the ordinary instant probe"
+  ],
+  "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-004",
+  "contract": "canonical boundary skip",
+  "dimension": "amount facts (critical-block chance)",
+  "mutation": "critical block in {0, 0.5, 1}",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "drawn only when blocked; replay-equal"
+  ],
+  "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-005",
+  "contract": "failure consumes no RNG",
+  "dimension": "amount facts (certain miss)",
+  "mutation": "miss = 1.0",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "error": "NonProgressing",
+  "evidence": [
+   "cast Err(NonProgressing), 0 draws"
+  ],
+  "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-006",
+  "contract": "deterministic semantic order (gate 3)",
+  "dimension": "source order (actor roster input order)",
+  "mutation": "reverse CombatStateInput actors",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "identical outcomes and stream over 8 identities"
+  ],
+  "probe_test": "i_rng_attack_table.rs::holds_roster_input_order_does_not_change_draws",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-007",
+  "contract": "dispel selection draw",
+  "dimension": "sibling set (candidate count)",
+  "mutation": "0/1/2 active candidates",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "0/0/1 draws"
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-008",
+  "contract": "dispel selection draw",
+  "dimension": "source order (data/action input order)",
+  "mutation": "reverse spells/effects/actions/programs/auras",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": [
+   "core_test crates/combat/src/execution/planning/dispel/runtime_tests.rs canonical_selection_is_independent_of_source_input_order_and_replays_after_reset"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-009",
+  "contract": "failure consumes no RNG",
+  "dimension": "target",
+  "mutation": "dispel requested enemy->Player (no relation)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "error": "unsupported target",
+  "evidence": [
+   "Err, no observations, 0 draws, semantic state identical"
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-010",
+  "contract": "quote purity",
+  "dimension": "cast/requirements (hard-cast acceptance vs completion)",
+  "mutation": "begin_cast of hard cast without advancing",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "acceptance consumes 0 draws; completion performs draws"
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_quotes_acceptance_and_rejection_consume_no_rng",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-011",
+  "contract": "immune impact draw policy",
+  "dimension": "AuraOptions/external policy (target school immunity active)",
+  "mutation": "apply Felbreaker Rune before Pacify / Illusionary Bolt",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "ordinary immune Pacify: 1 draw; fixed-travel immune launch: 0 draws; open launch: 1 draw"
+  ],
+  "probe_test": "i_rng_immunity.rs::defect_fixed_travel_immune_launch_skips_the_draw_ordinary_immune_consumes",
+  "finding_ids": [
+   "CSA-I-01"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-012",
+  "contract": "white draw count",
+  "dimension": "amount facts (weapon domain width, zero chances)",
+  "mutation": "prepared_damage (20,20) + all-zero chances",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "2 draws per swing"
+  ],
+  "probe_test": "i_rng_white.rs::holds_white_swing_consumes_two_draws_even_when_fully_deterministic",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-013",
+  "contract": "cleanup consumes no RNG",
+  "dimension": "actor (target alive state)",
+  "mutation": "target killed by second swing",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "later due deadlines draw nothing (4 draws total for 2 swings)"
+  ],
+  "probe_test": "i_rng_white.rs::holds_white_swing_after_target_death_consumes_no_draw",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-014",
+  "contract": "commit infallible after quote",
+  "dimension": "amount facts (magic block on fixed-travel target)",
+  "mutation": "ActiveDefenseCapabilities::with_magic_block + block 0.5/1.0",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "launch accepted and committed; arrival panics in PreparedImpactQuote::captured"
+  ],
+  "probe_test": "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival",
+  "finding_ids": [
+   "CSA-I-02"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-015",
+  "contract": "quote purity (whole state)",
+  "dimension": "period (repeated readiness)",
+  "mutation": "4x cast_readiness before cast",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "non-scratch Debug identical; following dispel commits identical observations and stream to a never-quoted control"
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+  "track": "I"
+ },
+ {
+  "id": "MUT-I-016",
+  "contract": "iteration reset",
+  "dimension": "entry (global iteration identity)",
+  "mutation": "reset_for_iteration(new identity)",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "stream at new identity's first draw"
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+  "track": "I"
+ }
+]

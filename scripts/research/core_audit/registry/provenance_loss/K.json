@@ -1,0 +1,47 @@
+[
+ {
+  "id": "PL-K-001",
+  "authority": "AUTH-K-005",
+  "fact": "external policy identity/presence",
+  "pattern": "lossless",
+  "verdict": "clean",
+  "coords": [
+   "crates/data/src/spell_external_policy.rs:214-225",
+   "crates/combat/src/program/selected_trait_package.rs:440-457"
+  ],
+  "evidence": "All nine columns copied verbatim; consumers read the same accessors; Unknown/Present preserved distinct from Absent.",
+  "track": "K"
+ },
+ {
+  "id": "PL-K-002",
+  "authority": "AUTH-K-007",
+  "fact": "raw-289 EffectMiscValue_0 mode, signed base points, EffectTriggerSpell",
+  "pattern": "retained_never_consumed",
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-K-01"
+  ],
+  "coords": [
+   "crates/combat/src/program.rs:1595-1618",
+   "crates/data/src/action/catalog/operation.rs:861-902"
+  ],
+  "evidence": "GameData retains the facts but aura-mutation lowering never reads them; the host step supplies aura, direction and count instead.",
+  "track": "K"
+ },
+ {
+  "id": "PL-K-003",
+  "authority": "AUTH-K-006",
+  "fact": "selected-trait provenance for trait-provider rows declared with ordinary Passive activation",
+  "pattern": "dropped_then_reconstructed",
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-K-05"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:1182-1220",
+   "crates/combat/src/program/critical_block_amount.rs:256-268"
+  ],
+  "evidence": "A host can declare a trait-provider effect as Passive, dropping (entry,rank) provenance; compilation then applies the authored amount without trait source, package or external policy.",
+  "track": "K"
+ }
+]

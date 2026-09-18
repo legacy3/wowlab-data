@@ -1,0 +1,61 @@
+[
+ {
+  "id": "LC-F-001",
+  "track": "F",
+  "owner": "CombatState",
+  "field": "white_main_hand",
+  "coords": [
+   "crates/combat/src/state.rs:91"
+  ],
+  "init": "Option<Box<WhiteMainHandRuntime>> from compile_white_main_hand before any other construction (construction.rs:87,343-356)",
+  "mutation_sites": [
+   "crates/combat/src/state/white_main_hand.rs:23-43",
+   "crates/combat/src/state/white_main_hand.rs:77-84",
+   "crates/combat/src/state/white_main_hand.rs:149-152"
+  ],
+  "quote_visible": "next deadline via next_transition_at / pending_timer_count (state.rs:1147-1165,1212-1226)",
+  "failure": "no fallible path mutates it; admission failure produces no state",
+  "reset": "white.reset() (state.rs:1108-1110)",
+  "iteration_reset": "same as reset plus fresh RNG",
+  "death": "lethal swing or dead target at due time clears next_at; launch reset with dead target clears it",
+  "allocation": "one Box at construction, none warm",
+  "work_identity": "WHITE_MAIN_HAND_SEMANTICS_VERSION = 7 (white_swing.rs:10)",
+  "probe_test": "f_white_swing.rs::holds_white_lethal_stop_and_reset_replay"
+ },
+ {
+  "id": "LC-F-002",
+  "track": "F",
+  "owner": "WhiteMainHandRuntime",
+  "field": "next_at",
+  "coords": [
+   "crates/combat/src/white_swing/runtime.rs:11"
+  ],
+  "init": "Some(ZERO)",
+  "mutation_sites": [
+   "crates/combat/src/white_swing/runtime.rs:52-62",
+   "crates/combat/src/white_swing/runtime.rs:64-70",
+   "crates/combat/src/white_swing/runtime.rs:72-74"
+  ],
+  "quote_visible": "yes (peek max(ready, cast completion, now))",
+  "failure": "n/a",
+  "reset": "Some(ZERO)",
+  "iteration_reset": "Some(ZERO)",
+  "death": "None",
+  "probe_test": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset"
+ },
+ {
+  "id": "LC-F-003",
+  "track": "F",
+  "owner": "WhiteMainHandRuntime",
+  "field": "validated",
+  "coords": [
+   "crates/combat/src/white_swing/runtime.rs:10"
+  ],
+  "init": "ValidatedWhiteMainHand (period, chances, physical, weapon, damage modifier)",
+  "mutation_sites": [],
+  "quote_visible": "read-only",
+  "failure": "n/a",
+  "reset": "retained (immutable)",
+  "iteration_reset": "retained"
+ }
+]

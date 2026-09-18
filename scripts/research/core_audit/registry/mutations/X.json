@@ -1,0 +1,67 @@
+[
+  {
+    "id": "MUT-X-001",
+    "contract": "op-15 heal applicability (XC-X-001)",
+    "dimension": "payload owner attributes",
+    "mutation": "exact Awestruck candidate + exact Flash of Light SpellMisc words (raw 16/217/280/416) and effect row",
+    "outcome": "rejected_intended",
+    "method": "probe",
+    "error": "UnsupportedSelectedSpellAttribute",
+    "evidence": [
+      "program build refused before any heal can crit"
+    ],
+    "probe_test": "x_op15_real_rows.rs::holds_real_flash_of_light_payload_is_refused_by_owner_attribute_gate",
+    "finding_ids": [
+      "CSA-B-03"
+    ],
+    "track": "X"
+  },
+  {
+    "id": "MUT-X-002",
+    "contract": "op-15 heal applicability (XC-X-001)",
+    "dimension": "payload owner attributes",
+    "mutation": "same, attribute words cleared and amount facts neutral (gate-clean twin)",
+    "outcome": "accepted_suspicious",
+    "method": "probe",
+    "evidence": [
+      "heal crit 200 with the candidate-published declaration; Trinity 220"
+    ],
+    "probe_test": "x_op15_real_rows.rs::defect_candidate_awestruck_skips_gate_clean_flash_of_light_twin",
+    "finding_ids": [
+      "CSA-B-03"
+    ],
+    "track": "X"
+  },
+  {
+    "id": "MUT-X-003",
+    "contract": "hasted duration parity (XC-X-002)",
+    "dimension": "haste value",
+    "mutation": "30000 ms at 92% (percent speed vs reciprocal-of-binary32 speed)",
+    "outcome": "accepted_suspicious",
+    "method": "probe",
+    "evidence": [
+      "percent speed: Core 15625 vs consumer 15624 (Core later); reciprocal speed: 15624 (agrees)"
+    ],
+    "probe_test": "x_haste_direction.rs::defect_hasted_duration_divergence_is_bidirectional_core_one_ms_later_at_92_percent",
+    "finding_ids": [
+      "CSA-J-02"
+    ],
+    "track": "X"
+  },
+  {
+    "id": "MUT-X-004",
+    "contract": "hasted periodic period parity (XC-X-002)",
+    "dimension": "haste value",
+    "mutation": "real raw-173 period 12000 ms at 134.65% cast speed",
+    "outcome": "accepted_suspicious",
+    "method": "probe",
+    "evidence": [
+      "first tick 5113 ms vs consumer 5114 ms"
+    ],
+    "probe_test": "x_periodic_haste_witness.rs::defect_real_period_12000_at_134_65_percent_ticks_one_ms_before_consumer",
+    "finding_ids": [
+      "CSA-J-02"
+    ],
+    "track": "X"
+  }
+]

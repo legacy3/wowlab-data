@@ -1,0 +1,236 @@
+{
+ "count": 15,
+ "kind": "external_policy",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "boundary": "raw-68 interrupt eligibility policy",
+   "claim": "any hard cast with a SpellInterrupts row (channel/damage interrupt flags) rejects the whole program when 159006 is present, so no unmodelled interrupt route is silently ignored",
+   "coords": [
+    "crates/combat/src/program/interrupt.rs:59-70"
+   ],
+   "id": "EP-G-001",
+   "track": "G",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "326836 retained interrupt words",
+   "claim": "retained flags 41 (movement/combat/melee-combat) have no executable consumer; admitted only as an exact carrier with no damage-interrupt bits",
+   "coords": [
+    "crates/combat/src/program/silence/carrier_326836.rs:218-223"
+   ],
+   "id": "EP-G-002",
+   "track": "G",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "runtime host interaction surface",
+   "claim": "after construction the host can only cast/begin_cast/cast_readiness, advance*, update_passive_resource_flow and reset; no world/catalog lookup occurs at runtime",
+   "coords": [
+    "crates/combat/src/state.rs:253-317",
+    "crates/combat/src/state.rs:361-451",
+    "crates/combat/src/cast.rs:74-134"
+   ],
+   "id": "EP-H-001",
+   "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free",
+   "track": "H",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "SpellExternalPolicyCatalog::try_from_input (source projection validation)",
+   "claim": "Schema, GameData identity, invalid/unknown/duplicate spell ids and missing coverage all fail closed with a stable code; rows freeze in canonical spell order.",
+   "coords": [
+    "crates/data/src/spell_external_policy.rs:166-254"
+   ],
+   "evidence": "Probe asserts UnsupportedSchema, WrongGameDataIdentity, InvalidSpell(0), UnknownSpell, DuplicateSpell, MissingSpell. Core test crates/data/tests/spell_external_policy.rs covers the same.",
+   "id": "EP-K-001",
+   "probe_test": "k_external_policy.rs::holds_policy_catalog_rejects_incomplete_or_foreign_input",
+   "track": "K",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "Absent is never inferred from missing coverage",
+   "claim": "An empty or partial catalog is rejected at construction; an absent catalog (builder without external_spell_policy) or a missing row makes both evaluators return \"not immutable\", so admission fails.",
+   "coords": [
+    "crates/data/src/spell_external_policy.rs:228-238",
+    "crates/combat/src/program/selected_trait_package.rs:440-461",
+    "crates/combat/src/program/spell_attribute.rs:110-130",
+    "crates/combat/src/program/builder.rs:37-46"
+   ],
+   "evidence": "Empty spells -> MissingSpell (probe). Complete Martial package without a catalog rejects with InvalidOwnerFact \"complete absent external proc, script, lifetime, cost, and stack policy\". The only all-Absent synthesizer is test-support absent_spell_external_policy (tools/test-support/src/lib.rs:142-182), a dev-dependency of every runtime crate (no [dependencies] edge).",
+   "id": "EP-K-002",
+   "probe_test": "k_external_policy.rs::holds_martial_package_requires_external_policy_catalog",
+   "track": "K",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "Policy/GameData identity binding in consumers",
+   "claim": "A complete catalog bound to a different GameDataIdentity is ignored (treated as absent) by both evaluators, so it can never satisfy owner policy.",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:440-442",
+    "crates/combat/src/program/spell_attribute.rs:110-113",
+    "crates/combat/src/program/builder.rs:53-67"
+   ],
+   "evidence": "Probe builds a catalog for game_build+1 and passes it to the builder; the complete Martial package is rejected. Note: builder.build() does not reject the mismatched catalog up front (it only compares data vs actions identity), so a program with no selected owners silently accepts it; harmless because no consumer trusts it.",
+   "id": "EP-K-003",
+   "probe_test": "k_external_policy.rs::holds_identity_mismatched_policy_fails_closed",
+   "track": "K",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "Present and Unknown fail closed in every column",
+   "claim": "Each of the nine presence columns set to Present or Unknown on the owner rejects selected admission; only all-Absent passes.",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:443-461",
+    "crates/data/src/spell_external_policy.rs:12-18"
+   ],
+   "evidence": "Probe loops 9 columns x {Present, Unknown} = 18 rejections for the complete Martial Expert package (the raw-108 sibling compiler runs the policy).",
+   "id": "EP-K-004",
+   "probe_test": "k_external_policy.rs::holds_martial_package_rejects_each_present_or_unknown_column",
+   "track": "K",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "One authoritative executable policy boundary (selected roles)",
+   "claim": "Every selected-role final compiler calls selected_trait_owner_policy_issue before admission.",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:388-417",
+    "crates/combat/src/program/passive_spell_modifier.rs:979",
+    "crates/combat/src/program/critical_modifier.rs:558-566",
+    "crates/combat/src/program/passive_haste.rs:144-152",
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:94-102",
+    "crates/combat/src/program/passive_damage_modifier.rs:159-167",
+    "crates/combat/src/program/passive_absorb_received.rs:169-177",
+    "crates/combat/src/program/passive_healing_received.rs:196-204",
+    "crates/combat/src/program/passive_auto_attack_damage.rs:181-189",
+    "crates/combat/src/program/critical_block_amount.rs:256-302"
+   ],
+   "evidence": "Eight role compilers call it; the raw-638 CriticalBlockAmount compiler does not. A complete one-effect selected raw-638 package compiles with no catalog, with Present proc/script, with Unknown columns, with a Magic-dispel owner, and with proc-charged AuraOptions (independent reproduction of CSA-A-02). Live gate: only 429638:2 carries raw 638 and its raw-108 sibling compiler runs the policy.",
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "EP-K-005",
+   "probe_test": "k_external_policy.rs::defect_selected_raw638_single_package_skips_external_policy",
+   "track": "K",
+   "verdict": "finding"
+  },
+  {
+   "boundary": "Duplicate evaluators of the all-Absent predicate",
+   "claim": "The two all-Absent evaluators (selected owner policy and the raw-416 inert-domain check) agree on identity filtering, columns and Absent-only acceptance.",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:440-457",
+    "crates/combat/src/program/spell_attribute.rs:83-130"
+   ],
+   "evidence": "Both filter catalog.identity()==data.identity(), read the same nine accessors, and require == Absent; the 416 check additionally requires Passive and all ownership roles PassiveModifier. Class B/C duplication, no divergent outcome found.",
+   "id": "EP-K-006",
+   "track": "K",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "Candidates cannot become executable without final validation",
+   "claim": "Engine trait candidates only produce ResolvedActionCatalogInput rows and EngineInput bindings; the only path to an executable program is CombatProgram::builder(...).build(), which runs the final compilers.",
+   "coords": [
+    "crates/engine/src/trait_critical_package_candidate.rs:107-163",
+    "crates/engine/src/lib.rs:8-9",
+    "crates/engine/src/test_support.rs:4-16",
+    "crates/combat/src/program/builder.rs:53-67"
+   ],
+   "evidence": "No production Engine code builds a CombatProgram (engine test_support.rs is #[cfg(test)]); candidates never read external policy (grep), so the boundary is the final compiler — subject to EP-K-005 (raw 638) and EP-K-011 (ordinary Passive route).",
+   "id": "EP-K-007",
+   "track": "K",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "No runtime world lookup / no retained policy",
+   "claim": "The policy catalog is only borrowed during build; CombatProgram, CombatState and Engine retain no reference or copy, so no runtime path can consult world policy.",
+   "coords": [
+    "crates/combat/src/program.rs:321",
+    "crates/combat/src/program/builder.rs:9-14",
+    "crates/combat/src/program/compile.rs:39-45",
+    "crates/combat/src/program/compile.rs:908-941",
+    "crates/combat/src/state.rs:76"
+   ],
+   "evidence": "CombatProgram and CombatState are lifetime-free structs; SpellExternalPolicyCatalog appears only in program/* compile-time signatures (grep of crates/combat/src/state*, crates/engine/src finds no use).",
+   "id": "EP-K-008",
+   "track": "K",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "Generator / host projection trust boundary",
+   "claim": "A production generator projects Absent/Present/Unknown from the complete world overlay (spell_proc, spell_script_names, cooldown/cost/cast/interrupt/empower/stack sources).",
+   "coords": [
+    "crates/data/src/spell_external_policy.rs:36-43",
+    "crates/data/src/spell_external_policy.rs:150-158"
+   ],
+   "evidence": "No generator exists in core, wowlab-data, core-sidecar or wowlab (grep for effective_proc_entry / SpellPolicyCatalogInput). Core cannot distinguish a projected catalog from a fabricated all-Absent one; the trust boundary is entirely the host. See UNK-K-002.",
+   "id": "EP-K-009",
+   "track": "K",
+   "verdict": "unknown"
+  },
+  {
+   "boundary": "Raw attribute 416 exception bound to external policy",
+   "claim": "Disabled raw 416 is skipped only for Passive owners whose every role is PassiveModifier and whose identity-matched policy is all-Absent; elsewhere it rejects.",
+   "coords": [
+    "crates/combat/src/program/spell_attribute.rs:49-53",
+    "crates/combat/src/program/spell_attribute.rs:83-130",
+    "crates/combat/src/program/selected_trait_package.rs:513-517",
+    "crates/combat/src/program/critical_modifier.rs:986-989"
+   ],
+   "evidence": "Global audit rejects Disabled otherwise (spell_attribute.rs:68-75). Selected owner policy tolerates 416 only after the all-Absent check (selected_trait_package.rs:443-461 precede 513-517). The raw-638 private owner-attribute check rejects 416 (CSA-A-03, track A).",
+   "id": "EP-K-010",
+   "track": "K",
+   "verdict": "holds"
+  },
+  {
+   "boundary": "Ordinary Passive activation route for trait-provider rows",
+   "claim": "proc/script/world policy has one authoritative executable boundary for immutable passive owners.",
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:1182-1220",
+    "crates/combat/src/program/critical_block_amount.rs:256-268",
+    "crates/combat/src/program/critical_block_amount.rs:427-484"
+   ],
+   "evidence": "Ordinary Passive raw-290 (Canny Strikes 1250359) and raw-638 (Martial Expert 429638:2 alone) compile and bind with no trait source, no external policy and (for 638) no package sibling. Heart raw-334 ordinary Passive is rejected.",
+   "finding_ids": [
+    "CSA-K-05"
+   ],
+   "id": "EP-K-011",
+   "probe_test": "k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive",
+   "track": "K",
+   "verdict": "finding"
+  },
+  {
+   "boundary": "Trigger-spell inertness premise on selected shells",
+   "claim": "A selected effect trigger spell is accepted as inert only where effective proc policy is proved Absent.",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:731-787",
+    "crates/combat/src/program/critical_block_amount.rs:219-228",
+    "crates/combat/src/program/critical_block_amount.rs:304-318"
+   ],
+   "evidence": "selected_effect_shell_is_supported treats EffectTriggerSpell as inert for 11 subtypes; for every role except raw 638 the owner policy then proves effective_proc_entry Absent. The raw-638 path passes trigger_is_inert=true for SelectedTrait without any policy: a triggered single raw-638 package compiles with a Present effective-proc policy.",
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "EP-K-012",
+   "probe_test": "k_external_policy.rs::defect_selected_raw638_trigger_accepted_inert_with_present_proc",
+   "track": "K",
+   "verdict": "finding"
+  }
+ ],
+ "schema": 1
+}

@@ -1,0 +1,71 @@
+[
+ {
+  "id": "NUM-A-001",
+  "coords": [
+   "crates/data/src/trait_source/selected_spell.rs:85-95",
+   "crates/data/src/trait_source/selected_spell.rs:350-369"
+  ],
+  "conversion": "rank shaping: Set -> f64(curve f32); Multiply -> authored f64 * f64(curve f32)",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "selected rank amount of every shaped effect",
+  "evidence": [
+   "trinity: src/server/game/Spells/SpellInfo.cpp:541-551 (SpellEffectValue=double, SpellDefines.h:490; GetCurveValueAt returns float) - identical double arithmetic"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "NUM-A-002",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:1331-1335",
+   "crates/combat/src/program/selected_trait_package.rs:1228",
+   "crates/combat/src/program/selected_trait_package.rs:1256"
+  ],
+  "conversion": "flat SpellMod selected amount -> i32 by exact round trip (non-integral rejects)",
+  "evidence_class": "core_choice",
+  "observable": "none for live integral amounts; non-integral shaped flat amounts fail closed",
+  "evidence": [
+   "trinity: SpellInfo.cpp CalcValueAsInt truncates int32(value) (SpellInfo.cpp:517-520); Core refuses instead of truncating"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "NUM-A-003",
+  "coords": [
+   "crates/combat/src/program/passive_auto_attack_damage.rs:194",
+   "crates/combat/src/program/passive_auto_attack_damage.rs:215-217"
+  ],
+  "conversion": "auto-attack damage factor = 1.0f32 + f32(points)/100f32",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "white damage factor",
+  "evidence": [
+   "trinity: Unit.cpp:8061,8088-8089 float DoneTotalMod=1.0f; AddPct(float, pct) = base + float(base*float(pct)/100f) (Util.h:72-88); equal when DoneTotalMod==1 at that point; ordering against school percent (Unit.cpp:8081) is track F/J"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "NUM-A-004",
+  "coords": [
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:115-116"
+  ],
+  "conversion": "melee speed period factor = 100f32/(100f32+f32(points))",
+  "evidence_class": "assumed",
+  "observable": "white swing period",
+  "evidence": [
+   "core: binary32 narrowing documented as authoritative consumer; direct comparator not reopened by track A (track F owns swing period)"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "NUM-A-005",
+  "coords": [
+   "crates/combat/src/program/passive_absorb_received.rs:182-185"
+  ],
+  "conversion": "absorb received factor = 1 + points/100 (f64)",
+  "evidence_class": "unknown",
+  "observable": "absorb amount",
+  "evidence": [
+   "not compared against a direct consumer in track A (track D owns absorbs)"
+  ],
+  "track": "A"
+ }
+]

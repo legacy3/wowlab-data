@@ -1,0 +1,22 @@
+[
+ {
+  "id": "EP-G-001",
+  "track": "G",
+  "boundary": "raw-68 interrupt eligibility policy",
+  "coords": [
+   "crates/combat/src/program/interrupt.rs:59-70"
+  ],
+  "claim": "any hard cast with a SpellInterrupts row (channel/damage interrupt flags) rejects the whole program when 159006 is present, so no unmodelled interrupt route is silently ignored",
+  "verdict": "holds"
+ },
+ {
+  "id": "EP-G-002",
+  "track": "G",
+  "boundary": "326836 retained interrupt words",
+  "coords": [
+   "crates/combat/src/program/silence/carrier_326836.rs:218-223"
+  ],
+  "claim": "retained flags 41 (movement/combat/melee-combat) have no executable consumer; admitted only as an exact carrier with no damage-interrupt bits",
+  "verdict": "holds"
+ }
+]

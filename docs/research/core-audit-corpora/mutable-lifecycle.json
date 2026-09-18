@@ -1,0 +1,1246 @@
+{
+ "count": 50,
+ "kind": "lifecycle",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "allocation": "two boxed slices at construction; empty Default when no inputs",
+   "coords": [
+    "crates/combat/src/state.rs:89",
+    "crates/combat/src/critical/authority.rs:146-317"
+   ],
+   "death": "unaffected; dead sources cannot cast",
+   "failure": "construction errors: duplicate actor, missing actor, duplicate binding, missing definition, too large",
+   "field": "critical",
+   "id": "LC-C-001",
+   "init": "CriticalAuthority::try_new from CombatStateInput.critical_strikes + passive_critical bindings at try_state",
+   "iteration_reset": "untouched",
+   "mutation_sites": [
+    "none after construction"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "read-only (baseline, passive_terms, target-health capability)",
+   "reset": "untouched by reset_runtime (immutable)",
+   "track": "C",
+   "work_identity": "host includes baselines and bindings in work identity"
+  },
+  {
+   "allocation": "cells/deadlines/workspace sized at construction; no warm allocation (debug_assert on quote capacity periodic.rs:772-775)",
+   "coords": [
+    "crates/combat/src/state.rs:1437-1445",
+    "crates/combat/src/periodic_execution.rs:23-28",
+    "crates/combat/src/periodic_execution.rs:55-185"
+   ],
+   "death": "recipient death does not touch cells until the next due tick cancels them; aura remains active",
+   "failure": "quote failure leaves authority unchanged; workspace reset on next prepare",
+   "field": "periodic",
+   "finding_ids": [
+    "CSA-E-01"
+   ],
+   "id": "LC-E-001",
+   "init": "Some only when program has schedules AND some reachable mutation slot owns them (periodic_execution.rs:68-137)",
+   "iteration_reset": "same as reset; no RNG owned",
+   "mutation_sites": [
+    "crates/combat/src/periodic_execution.rs:337-350",
+    "crates/combat/src/periodic_execution.rs:352-402",
+    "crates/combat/src/periodic_execution.rs:428-436"
+   ],
+   "owner": "OptionalCombatAuthorities",
+   "quote_visible": "workspace projections only (last_quote overlay), authority untouched until commit",
+   "reset": "PeriodicRuntime::reset clears cells+queue+workspace (periodic_execution.rs:263-269)",
+   "track": "E",
+   "work_identity": "(aura slot, canonical schedule slot)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic.rs:198-229",
+    "crates/combat/src/periodic.rs:743-745"
+   ],
+   "death": "cleared by cancel on dead-recipient tick",
+   "failure": "unchanged",
+   "field": "initial_pending",
+   "id": "LC-E-002",
+   "init": "false",
+   "iteration_reset": "false",
+   "mutation_sites": [
+    "crates/combat/src/periodic.rs:318-322",
+    "crates/combat/src/periodic.rs:743-745",
+    "crates/combat/src/periodic.rs:218-224"
+   ],
+   "owner": "PeriodicCell",
+   "quote_visible": "yes via PeriodicMutationQuote.after",
+   "reset": "false",
+   "track": "E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/independent_stack.rs:111-117"
+   ],
+   "failure": "unchanged",
+   "field": "cohorts",
+   "id": "LC-E-003",
+   "init": "default cohorts sized sum(max stacks)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "crates/combat/src/independent_stack.rs:190-232",
+    "crates/combat/src/independent_stack.rs:271-298",
+    "crates/combat/src/independent_stack.rs:317-328"
+   ],
+   "owner": "IndependentStackAuthority",
+   "quote_visible": "aura quote carries IndependentStackMutation; authority mutated at commit",
+   "reset": "independent_stack.rs:339-348",
+   "track": "E"
+  },
+  {
+   "allocation": "one Box at construction, none warm",
+   "coords": [
+    "crates/combat/src/state.rs:91"
+   ],
+   "death": "lethal swing or dead target at due time clears next_at; launch reset with dead target clears it",
+   "failure": "no fallible path mutates it; admission failure produces no state",
+   "field": "white_main_hand",
+   "id": "LC-F-001",
+   "init": "Option<Box<WhiteMainHandRuntime>> from compile_white_main_hand before any other construction (construction.rs:87,343-356)",
+   "iteration_reset": "same as reset plus fresh RNG",
+   "mutation_sites": [
+    "crates/combat/src/state/white_main_hand.rs:23-43",
+    "crates/combat/src/state/white_main_hand.rs:77-84",
+    "crates/combat/src/state/white_main_hand.rs:149-152"
+   ],
+   "owner": "CombatState",
+   "probe_test": "f_white_swing.rs::holds_white_lethal_stop_and_reset_replay",
+   "quote_visible": "next deadline via next_transition_at / pending_timer_count (state.rs:1147-1165,1212-1226)",
+   "reset": "white.reset() (state.rs:1108-1110)",
+   "track": "F",
+   "work_identity": "WHITE_MAIN_HAND_SEMANTICS_VERSION = 7 (white_swing.rs:10)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing/runtime.rs:11"
+   ],
+   "death": "None",
+   "failure": "n/a",
+   "field": "next_at",
+   "id": "LC-F-002",
+   "init": "Some(ZERO)",
+   "iteration_reset": "Some(ZERO)",
+   "mutation_sites": [
+    "crates/combat/src/white_swing/runtime.rs:52-62",
+    "crates/combat/src/white_swing/runtime.rs:64-70",
+    "crates/combat/src/white_swing/runtime.rs:72-74"
+   ],
+   "owner": "WhiteMainHandRuntime",
+   "probe_test": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset",
+   "quote_visible": "yes (peek max(ready, cast completion, now))",
+   "reset": "Some(ZERO)",
+   "track": "F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing/runtime.rs:10"
+   ],
+   "failure": "n/a",
+   "field": "validated",
+   "id": "LC-F-003",
+   "init": "ValidatedWhiteMainHand (period, chances, physical, weapon, damage modifier)",
+   "iteration_reset": "retained",
+   "mutation_sites": [],
+   "owner": "WhiteMainHandRuntime",
+   "quote_visible": "read-only",
+   "reset": "retained (immutable)",
+   "track": "F"
+  },
+  {
+   "allocation": "boxed slice at construction",
+   "coords": [
+    "crates/combat/src/cast_authority.rs:170-175"
+   ],
+   "death": "not cleared on caster death (CSA-G-01)",
+   "failure": "quote_start does not mutate; completion failure clears the cell via finish_cast",
+   "field": "cells",
+   "finding_ids": [
+    "CSA-G-01"
+   ],
+   "id": "LC-G-001",
+   "init": "CastCell::default per actor (cast_authority.rs:202-203)",
+   "iteration_reset": "same via reset_runtime",
+   "mutation_sites": [
+    "crates/combat/src/cast_authority.rs:366-391",
+    "crates/combat/src/cast_authority.rs:449-462"
+   ],
+   "owner": "CastAuthority",
+   "quote_visible": "yes (quote_start, active, is_active)",
+   "reset": "crates/combat/src/cast_authority.rs:440-441",
+   "track": "G"
+  },
+  {
+   "allocation": "boxed slice at construction",
+   "coords": [
+    "crates/combat/src/cast_authority.rs:172"
+   ],
+   "failure": "untouched on failed quote",
+   "field": "prepared_costs",
+   "id": "LC-G-002",
+   "init": "default per actor x cost capacity",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "crates/combat/src/cast_authority.rs:377-381",
+    "crates/combat/src/cast_authority.rs:457-458"
+   ],
+   "owner": "CastAuthority",
+   "quote_visible": "completion quote reads snapshot",
+   "reset": "crates/combat/src/cast_authority.rs:442",
+   "track": "G"
+  },
+  {
+   "allocation": "optional box",
+   "coords": [
+    "crates/combat/src/cast_authority.rs:173"
+   ],
+   "failure": "quote-only failures do not commit",
+   "field": "school_locks",
+   "id": "LC-G-003",
+   "init": "None unless interrupts compiled",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "crates/combat/src/cast_authority.rs:298-306"
+   ],
+   "owner": "CastAuthority",
+   "quote_visible": "admission (cast.rs:602-624)",
+   "reset": "crates/combat/src/cast_authority.rs:444-446",
+   "track": "G"
+  },
+  {
+   "allocation": "optional box",
+   "coords": [
+    "crates/combat/src/cast_authority.rs:174"
+   ],
+   "failure": "immutable",
+   "field": "action_preventions",
+   "id": "LC-G-004",
+   "init": "compiled immutable views",
+   "iteration_reset": "immutable",
+   "mutation_sites": [],
+   "owner": "CastAuthority",
+   "quote_visible": "admission and fresh-cancel quotes",
+   "reset": "immutable; activity lives in AuraState",
+   "track": "G"
+  },
+  {
+   "allocation": "boxed slice",
+   "coords": [
+    "crates/combat/src/recovery.rs:183-188"
+   ],
+   "death": "unchanged",
+   "failure": "no mutation on failed quote",
+   "field": "ready_at",
+   "finding_ids": [
+    "CSA-G-02"
+   ],
+   "id": "LC-G-005",
+   "init": "ZERO",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "crates/combat/src/recovery.rs:231-240"
+   ],
+   "note": "never restored on cast cancellation",
+   "owner": "StartRecoveryState",
+   "quote_visible": "yes",
+   "reset": "crates/combat/src/recovery.rs:242-244",
+   "track": "G"
+  },
+  {
+   "allocation": "boxed slice",
+   "coords": [
+    "crates/combat/src/school_lock.rs:10-13"
+   ],
+   "failure": "commit only after successful interrupt quote",
+   "field": "deadlines",
+   "id": "LC-G-006",
+   "init": "ZERO",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "crates/combat/src/school_lock.rs:52-65"
+   ],
+   "owner": "SchoolLockAuthority",
+   "quote_visible": "yes",
+   "reset": "crates/combat/src/school_lock.rs:67-69",
+   "track": "G"
+  },
+  {
+   "allocation": "Box<[ActorState]> allocated at construction; reset uses clone_from_slice into existing boxes (no allocation)",
+   "coords": [
+    "crates/combat/src/state.rs:77",
+    "crates/combat/src/state/construction.rs:124-131",
+    "crates/combat/src/state/construction.rs:211-212",
+    "crates/combat/src/state/construction.rs:1013-1040",
+    "crates/combat/src/actor.rs:12-21",
+    "crates/combat/src/actor.rs:147-205"
+   ],
+   "death": "health reaches zero through commit_damage/commit_lethal_health_transition; actor stays in roster, no resurrection; auras on the actor are NOT removed (CSA-H-01) and the dead actor can still cast (CSA-H-03)",
+   "failure": "rejected begin_cast leaves actors bit-identical (probe failure_impure=0 across all scenarios)",
+   "field": "actors",
+   "finding_ids": [
+    "CSA-H-01",
+    "CSA-H-03"
+   ],
+   "id": "LC-H-001",
+   "init": "CombatStateInput actors sorted by ActorId and duplicate-checked (construction.rs:1018-1037); passive all-haste (passive_all_haste.rs:113-190), passive maximum health (passive_maximum_health.rs:38-98) and passive maximum resources applied once before storage is boxed (construction.rs:604-623, 331-341)",
+   "iteration_reset": "identical to reset (reset_for_iteration shares reset_runtime); probe: state reused for identity B == fresh state for identity B",
+   "mutation_sites": [
+    "actor.rs:147-205 commit_cost/gain/drain/damage/healing/lethal/maximum_health/maximum_resource (commit phase only)",
+    "state.rs:302-310 update_passive_resource_flow settles pools (public host API)",
+    "state.rs:669-676 settle_resource (passive flow settlement at transitions)",
+    "active_casting_speed.rs:146-180 haste channel recompute on aura activity change",
+    "state/maximum_health_modifiers.rs:124,174 maximum-health transitions",
+    "state/white_main_hand.rs:124 white swing damage commit"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "read by every quote through projections (resource/health projections, haste multipliers); probe shows cast_readiness leaves the semantic Debug of all actors unchanged in 60 scenarios",
+   "reset": "state.rs:1069-1071 restore_from(baseline) restores resources, active_resource and health (actor.rs:223-237); haste casting-speed channels restored by timing.reset (state.rs:1112-1114 -> active_casting_speed.rs:159-163); offensive_power immutable; full-state Debug after reset == fresh (probe)",
+   "track": "H",
+   "work_identity": "actor index = position in canonical ActorId order; every runtime owner stores u32/usize indices into this order"
+  },
+  {
+   "allocation": "Box<[ActorBaseline]> at construction; baseline pools cloned once",
+   "coords": [
+    "crates/combat/src/state.rs:78",
+    "crates/combat/src/state/construction.rs:338",
+    "crates/combat/src/actor.rs:23-29",
+    "crates/combat/src/actor.rs:214-221"
+   ],
+   "death": "n/a",
+   "failure": "n/a (immutable)",
+   "field": "baseline_actors",
+   "id": "LC-H-002",
+   "init": "captured by prepare_actor_storage after canonicalization and every construction-time passive (haste-all, maximum health, maximum resource), so passives are part of the baseline and are never re-applied",
+   "iteration_reset": "same as reset",
+   "mutation_sites": [
+    "none after construction (immutable)"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "not read by quotes",
+   "reset": "source of truth for actor restore (state.rs:1069-1071)",
+   "track": "H",
+   "work_identity": "parallel to actors by index (zip in state.rs:1069)"
+  },
+  {
+   "allocation": "shared compiled program; clone at state construction",
+   "coords": [
+    "crates/combat/src/state.rs:79",
+    "crates/combat/src/state/construction.rs:217"
+   ],
+   "death": "n/a",
+   "failure": "n/a",
+   "field": "program",
+   "id": "LC-H-003",
+   "init": "CombatProgram clone (shared immutable compiled program)",
+   "iteration_reset": "not touched",
+   "mutation_sites": [
+    "none (immutable)"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "read-only",
+   "reset": "not touched (immutable)",
+   "track": "H",
+   "work_identity": "program handles/indices are the work identity for every runtime owner"
+  },
+  {
+   "allocation": "Box at construction",
+   "coords": [
+    "crates/combat/src/state.rs:80",
+    "crates/combat/src/state/construction.rs:1039",
+    "crates/combat/src/state/topology.rs:33-72"
+   ],
+   "death": "relations persist after death (dead targets remain targetable; dead-target gating is operation-local, see CSA-H-02)",
+   "failure": "n/a",
+   "field": "target_relations",
+   "finding_ids": [
+    "CSA-H-02"
+   ],
+   "id": "LC-H-004",
+   "init": "sorted by (caster,target,disposition); self relations, duplicates, conflicting dispositions and unknown actors rejected",
+   "iteration_reset": "not touched",
+   "mutation_sites": [
+    "none after construction"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "read by target_relation (state/topology.rs:105-131) and aura binding resolution",
+   "reset": "not touched (immutable)",
+   "track": "H",
+   "work_identity": "relation index addresses target-reachable aura slots (state.rs:1539-1554)"
+  },
+  {
+   "allocation": "fixed per-actor x category storage",
+   "coords": [
+    "crates/combat/src/state.rs:81",
+    "crates/combat/src/state/construction.rs:412-413",
+    "crates/combat/src/state.rs:687-694",
+    "crates/combat/src/cast.rs:235-237"
+   ],
+   "death": "not cleared by death (actor-local recovery survives)",
+   "failure": "unchanged on rejected cast (probe)",
+   "field": "start_recovery",
+   "id": "LC-H-005",
+   "init": "StartRecoveryState::try_new(layout, actor_count), all ready at ZERO",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state.rs:693 start (instant commit and hard-cast acceptance)"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "read by quote_start_recovery; not mutated by quotes (probe)",
+   "reset": "state.rs:1073 start_recovery.reset()",
+   "track": "H",
+   "work_identity": "(actor index, start-recovery handle)"
+  },
+  {
+   "allocation": "fixed slabs sized at construction",
+   "coords": [
+    "crates/combat/src/state.rs:82",
+    "crates/combat/src/state/construction.rs:414",
+    "crates/combat/src/state.rs:733-781",
+    "crates/combat/src/state.rs:814-947"
+   ],
+   "death": "survive death",
+   "failure": "unchanged on rejected cast (probe incl. cooldown/charge rate fixtures)",
+   "field": "cooldowns",
+   "id": "LC-H-006",
+   "init": "CooldownState::try_new_with_capacity(program, actors, passive charge-capacity bindings)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state.rs:761-767 commit_with_deadline_start",
+    "state.rs:823-830 adjust_recovery_with_guard",
+    "state.rs:858-859 reset_recovery",
+    "state.rs:870-876 grant_charges",
+    "state.rs:940-946 adjust_charges_with_recovery",
+    "charge_recharge_rate.rs:449-539 / cooldown_recovery_rate.rs:502 rate transitions"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "quote_with_recovery_inputs / quote_charge_mutation read-only (state.rs:700-731, 879-919)",
+   "reset": "state.rs:1074 cooldowns.reset() (cooldown.rs:1446)",
+   "track": "H",
+   "work_identity": "(actor index, deadline/charge handle) from program layout"
+  },
+  {
+   "allocation": "boxed at construction; reset allocation-free",
+   "coords": [
+    "crates/combat/src/state.rs:83",
+    "crates/combat/src/state/construction.rs:200-202",
+    "crates/combat/src/timing_authority.rs:10-17",
+    "crates/combat/src/timing_authority.rs:100-108"
+   ],
+   "death": "n/a",
+   "failure": "unchanged (probe cooldown_rate/charge_rate fixtures)",
+   "field": "timing",
+   "id": "LC-H-007",
+   "init": "TimingAuthorities::from_parts(recovery modifier runtime, active casting speed runtime); None when both absent",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state.rs:769-780 ordinary recovery-rate commit_start",
+    "state/recovery_rates.rs:76 workspace restore",
+    "recovery rate runtimes on aura activity changes"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "rates read during cooldown quotes; recovery workspace leased and restored (scratch)",
+   "reset": "state.rs:1112-1114 timing.reset(&mut actors): recovery.reset + active casting speed restores captured baseline channels onto actors",
+   "track": "H",
+   "work_identity": "(actor index, cooldown handle / aura handle)"
+  },
+  {
+   "allocation": "Box at construction",
+   "coords": [
+    "crates/combat/src/state.rs:84",
+    "crates/combat/src/state/construction.rs:427-442",
+    "crates/combat/src/state.rs:1593-1706"
+   ],
+   "death": "n/a",
+   "failure": "n/a",
+   "field": "aura_plan",
+   "id": "LC-H-008",
+   "init": "compile_aura_plan: self slots per actor for self-reachable auras, target slots per reachable relation, plus observation-only keys",
+   "iteration_reset": "not touched",
+   "mutation_sites": [
+    "none (immutable)"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "read-only",
+   "reset": "not touched",
+   "track": "H",
+   "work_identity": "AuraHandle = slot index; AuraKey(aura, source, affected)"
+  },
+  {
+   "allocation": "two boxed u32 tables",
+   "coords": [
+    "crates/combat/src/state.rs:85",
+    "crates/combat/src/state.rs:1426-1432",
+    "crates/combat/src/state.rs:1483-1591"
+   ],
+   "death": "n/a",
+   "failure": "n/a",
+   "field": "aura_bindings",
+   "id": "LC-H-009",
+   "init": "AuraBindings::try_new maps (compiled aura ordinal, actor/relation) -> AuraHandle",
+   "iteration_reset": "not touched",
+   "mutation_sites": [
+    "none (immutable)"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "read by aura_projection/resolve",
+   "reset": "not touched",
+   "track": "H",
+   "work_identity": "ordinal*actor_count+actor_index / ordinal*relation_count+relation_index"
+  },
+  {
+   "allocation": "fixed cells + deadline heap capacity = finite deadline count",
+   "coords": [
+    "crates/combat/src/state.rs:86",
+    "crates/combat/src/state/construction.rs:172",
+    "crates/combat/src/aura_state.rs:464-487",
+    "crates/combat/src/aura_state.rs:598",
+    "crates/combat/src/aura_state.rs:676-680",
+    "crates/combat/src/state.rs:1368-1395"
+   ],
+   "death": "NOT cleared on actor death: aura stays active, its deadline stays scheduled and TriggerSpellOnExpire drivers fire at natural expiry; aura-only actions can still apply auras to dead actors (CSA-H-01, CSA-H-02)",
+   "failure": "unchanged (probe)",
+   "field": "auras",
+   "finding_ids": [
+    "CSA-H-01",
+    "CSA-H-02"
+   ],
+   "id": "LC-H-010",
+   "init": "AuraState::try_new: every cell INACTIVE, empty deadline heap, SequenceCursor::INITIAL",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "aura_state.rs:598 commit(quote) from cast commit / drivers",
+    "state/aura_lifecycle.rs:40-45 natural transitions",
+    "state.rs:1368-1395 natural expiry"
+   ],
+   "owner": "CombatState",
+   "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient",
+   "quote_visible": "quotes project through AuraTransactionWorkspace; AuraState itself unchanged by quotes (probe)",
+   "reset": "state.rs:1116 -> aura_state.rs:676-680 cells INACTIVE, deadlines.clear, sequence INITIAL",
+   "track": "H",
+   "work_identity": "AuraHandle + generation; SequenceCursor orders equal-time deadlines"
+  },
+  {
+   "allocation": "compiled once",
+   "coords": [
+    "crates/combat/src/state.rs:87",
+    "crates/combat/src/state/construction.rs:656-679",
+    "crates/combat/src/spell_power_from_attack_power.rs:121-127"
+   ],
+   "death": "n/a",
+   "failure": "n/a",
+   "field": "spell_power_from_attack_power",
+   "id": "LC-H-011",
+   "init": "PowerConversionAuthority::try_compile(program, actors, bindings)",
+   "iteration_reset": "not touched",
+   "mutation_sites": [
+    "none (no &mut methods)"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "read by effective_offensive_power in planning",
+   "reset": "not touched (immutable, correct)",
+   "track": "H",
+   "work_identity": "actor index"
+  },
+  {
+   "allocation": "Option<Box> absent when unused",
+   "coords": [
+    "crates/combat/src/state.rs:88",
+    "crates/combat/src/state/construction.rs:203-210",
+    "crates/combat/src/state.rs:1436-1481"
+   ],
+   "death": "see members",
+   "failure": "members unchanged on rejection (probe)",
+   "field": "optional_authorities",
+   "id": "LC-H-012",
+   "init": "retain_optional_authorities boxes the group only when some member is present (pay-for-play)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "see member records (OptionalCombatAuthorities.*)"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "members read by quotes; workspaces leased",
+   "reset": "state.rs:1080-1102, 1118-1130 reset each mutable member (periodic, modifiers, health, resources, independent_stacks); aura_observations immutable",
+   "track": "H",
+   "work_identity": "n/a"
+  },
+  {
+   "allocation": "compiled once",
+   "coords": [
+    "crates/combat/src/state.rs:89",
+    "crates/combat/src/state/construction.rs:193-194",
+    "crates/combat/src/critical/authority.rs:34-43"
+   ],
+   "death": "n/a",
+   "failure": "n/a",
+   "field": "critical",
+   "id": "LC-H-013",
+   "init": "CriticalAuthority::try_new(baselines, passive critical bindings, actors, program)",
+   "iteration_reset": "not touched",
+   "mutation_sites": [
+    "none (only by-value builders; no &mut self methods)"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "read by resolution",
+   "reset": "not touched (immutable, correct)",
+   "track": "H",
+   "work_identity": "actor index"
+  },
+  {
+   "allocation": "Option<Box>",
+   "coords": [
+    "crates/combat/src/state.rs:90",
+    "crates/combat/src/state/construction.rs:195-198",
+    "crates/combat/src/attack/runtime.rs:87-95"
+   ],
+   "death": "n/a",
+   "failure": "unchanged (probe)",
+   "field": "attacks",
+   "id": "LC-H-014",
+   "init": "AttackRuntime::retain(attack authority, defense-chance runtime, hit-chance runtime, passive attack modifiers)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "defense/hit chance modifier runtimes follow aura activity (commit phase)"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "read-only in resolution",
+   "reset": "state.rs:1104-1106 -> attack/runtime.rs:87-95 resets defense and hit chance runtimes; baselines immutable",
+   "track": "H",
+   "work_identity": "actor index / aura handle"
+  },
+  {
+   "allocation": "Option<Box>",
+   "coords": [
+    "crates/combat/src/state.rs:91",
+    "crates/combat/src/state/construction.rs:87",
+    "crates/combat/src/state/construction.rs:343-356",
+    "crates/combat/src/white_swing/runtime.rs:9-75",
+    "crates/combat/src/state/white_main_hand.rs:23-158"
+   ],
+   "death": "target death terminates the deadline (white_main_hand.rs:77-83; next_at None on lethal swing 150-153)",
+   "failure": "white admission rejections are construction-time only",
+   "field": "white_main_hand",
+   "id": "LC-H-015",
+   "init": "validated from the raw (pre-canonical) CombatStateInput before other construction; next_at = ZERO",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state/white_main_hand.rs:40-42 reset_after_successful_launch",
+    "state/white_main_hand.rs:150-153 finish_due",
+    "state/white_main_hand.rs:99 consumes RNG at commit"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "never quoted (autonomous timer)",
+   "reset": "state.rs:1108-1110 -> runtime.rs:72-74 next_at = Some(ZERO)",
+   "track": "H",
+   "work_identity": "fixed source/target ActorIds validated against exact two-actor roster"
+  },
+  {
+   "allocation": "boxed cells/prepared-cost slab sized at construction",
+   "coords": [
+    "crates/combat/src/state.rs:92",
+    "crates/combat/src/state/construction.rs:861-900",
+    "crates/combat/src/cast_authority.rs:170-175",
+    "crates/combat/src/cast_authority.rs:440-447",
+    "crates/combat/src/state/casting.rs:69-104"
+   ],
+   "death": "pending cast is re-planned at completion; dead targets fail health ops only",
+   "failure": "failed acceptance leaves cells unchanged (probe); failed completion clears the cast and emits CastCompleted Failed (intended)",
+   "field": "casts",
+   "id": "LC-H-016",
+   "init": "CastAuthority for hard casts and/or action preventions; cells default (generation 0, no active cast)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state/casting.rs:69 commit_cast_start (acceptance)",
+    "state/casting.rs:90-94 finish_cast (completion incl. failed completion)",
+    "state/casting.rs:104 cancel (interrupt)"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "quote_hard_cast_acceptance read-only",
+   "reset": "state.rs:1076-1078 -> cast_authority.rs:440-447 cells default (generation reset to 0), prepared costs cleared, school locks reset",
+   "track": "H",
+   "work_identity": "(actor index, generation) — generation restarts at 0 after reset, identical to fresh state"
+  },
+  {
+   "allocation": "Option<Box>",
+   "coords": [
+    "crates/combat/src/state.rs:93",
+    "crates/combat/src/state/construction.rs:444-476",
+    "crates/combat/src/absorb/topology.rs:69-77",
+    "crates/combat/src/absorb/topology.rs:162-164"
+   ],
+   "death": "provider cells survive death with their aura",
+   "failure": "unchanged (probe mana_shield/non_bypassable_absorb)",
+   "field": "absorbs",
+   "id": "LC-H-017",
+   "init": "compile_absorbs: providers per (aura, actor) with INACTIVE cells",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state/absorbs.rs:132 aura application/removal",
+    "execution/commit/health.rs:416 absorb consumption at commit"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "quotes use AbsorbTransactionWorkspace projections guarded by projected_present",
+   "reset": "state.rs:1132-1134 -> absorb/topology.rs:162-164 cells INACTIVE; workspace residue remains but is masked by projected_present (REJ)",
+   "track": "H",
+   "work_identity": "provider handle"
+  },
+  {
+   "allocation": "inline",
+   "coords": [
+    "crates/combat/src/state.rs:94",
+    "crates/combat/src/state/construction.rs:232",
+    "crates/combat/src/state.rs:442-451",
+    "crates/combat/src/execution/commit.rs:905",
+    "crates/combat/src/execution/planning/health.rs:533-534",
+    "crates/combat/src/execution/planning/dispel.rs:94-95"
+   ],
+   "death": "n/a",
+   "failure": "unchanged on rejected cast (probe includes RNG-bearing fixtures)",
+   "field": "random",
+   "id": "LC-H-018",
+   "init": "random_identity.stream() from CombatStateInput",
+   "iteration_reset": "state.rs:450 random = identity.stream(); probe proves reused state == fresh state for the new identity (full Debug) and trajectories match",
+   "mutation_sites": [
+    "execution/commit.rs:905 impact.resolve(&mut self.random)",
+    "state/white_main_hand.rs:99 roll_white_swing"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "quotes resolve on a clone of the stream (planning/health.rs:533, planning/dispel.rs:94) so the live stream is untouched (probe)",
+   "reset": "state.rs:444 random.reset() replays the same global iteration",
+   "track": "H",
+   "work_identity": "RandomStreamIdentity(root seed, global iteration)"
+  },
+  {
+   "allocation": "inline",
+   "coords": [
+    "crates/combat/src/state.rs:95",
+    "crates/combat/src/state/construction.rs:233",
+    "crates/combat/src/state.rs:397-437",
+    "crates/combat/src/state.rs:1318-1350"
+   ],
+   "death": "n/a",
+   "failure": "advance_to backwards rejected before mutation (state.rs:404-406)",
+   "field": "now",
+   "id": "LC-H-019",
+   "init": "SimTime::ZERO",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state.rs:434 advance_to_into",
+    "state.rs:1330 periodic tick",
+    "state.rs:1349 ordinary transition"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "read-only",
+   "reset": "state.rs:1136 now = ZERO",
+   "track": "H",
+   "work_identity": "combat clock (ms)"
+  },
+  {
+   "allocation": "capacity preallocated; clear keeps capacity",
+   "coords": [
+    "crates/combat/src/state.rs:96",
+    "crates/combat/src/state/construction.rs:234",
+    "crates/combat/src/cast/quote.rs:23"
+   ],
+   "death": "n/a",
+   "failure": "restored empty on every exit",
+   "field": "quoted_costs",
+   "id": "LC-H-020",
+   "init": "Vec::with_capacity(execution_layout.spend_capacity())",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "cast/quote.rs:23 leased as cast-plan scratch and cleared"
+   ],
+   "owner": "CombatState",
+   "quote_visible": "scratch only",
+   "reset": "state.rs:1137 clear()",
+   "track": "H",
+   "work_identity": "n/a (scratch)"
+  },
+  {
+   "allocation": "preallocated, allocation-free warm reset",
+   "coords": [
+    "crates/combat/src/state.rs:97",
+    "crates/combat/src/state/construction.rs:235-239",
+    "crates/combat/src/execution/scratch.rs:745-776"
+   ],
+   "death": "n/a",
+   "failure": "restored on every exit",
+   "field": "execution_scratch",
+   "id": "LC-H-021",
+   "init": "ExecutionScratch::with_layout(capacities, layout, absorb workspace)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "leased per transaction (cast.rs:170-344 scratch.restore)"
+   ],
+   "owner": "CombatState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "scratch content changes during quotes (residue) but no semantic owner is touched (probe masks *workspace*/*scratch* subtrees)",
+   "reset": "state.rs:1138 execution_scratch.reset(); residual absorb workspace cells differ from fresh but are dead data (REJ-H-003)",
+   "track": "H",
+   "work_identity": "n/a (scratch)"
+  },
+  {
+   "allocation": "Option",
+   "coords": [
+    "crates/combat/src/state.rs:1438",
+    "crates/combat/src/state/construction.rs:149-150",
+    "crates/combat/src/state/aura_observation_bindings.rs:1-56",
+    "crates/combat/src/state.rs:988-1025"
+   ],
+   "death": "observations of auras on dead actors keep reporting active (consequence of CSA-H-01)",
+   "failure": "n/a",
+   "field": "aura_observations",
+   "finding_ids": [
+    "CSA-H-01"
+   ],
+   "id": "LC-H-022",
+   "init": "AuraObservationBindings::try_new(observation layout, aura_plan, actor_count) (Engine field plan queries)",
+   "iteration_reset": "not touched",
+   "mutation_sites": [
+    "none (immutable)"
+   ],
+   "owner": "OptionalCombatAuthorities",
+   "quote_visible": "read by aura_observation",
+   "reset": "not touched (immutable)",
+   "track": "H",
+   "work_identity": "AuraObservationId -> AuraHandle"
+  },
+  {
+   "allocation": "Option<Box>",
+   "coords": [
+    "crates/combat/src/state.rs:1439",
+    "crates/combat/src/state/construction.rs:151",
+    "crates/combat/src/modifier.rs:759-767"
+   ],
+   "death": "aura-driven cohorts stay active on dead actors",
+   "failure": "unchanged (probe)",
+   "field": "modifiers",
+   "id": "LC-H-023",
+   "init": "ModifierRuntime::try_compile(program, aura_plan, actors, general inputs): passive bindings + aura cohorts INACTIVE",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "modifier.rs:759-763 commit(quote) on aura activity change"
+   ],
+   "owner": "OptionalCombatAuthorities",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "modifier workspace projections only (probe)",
+   "reset": "state.rs:1088-1094 -> modifier.rs:765-767 active.fill(INACTIVE); passive terms immutable",
+   "track": "H",
+   "work_identity": "modifier slot / cohort handle"
+  },
+  {
+   "allocation": "Option<Box>",
+   "coords": [
+    "crates/combat/src/state.rs:1440",
+    "crates/combat/src/state/construction.rs:704-762",
+    "crates/combat/src/state/health_authorities.rs:136-152"
+   ],
+   "death": "fixed impact on dead target no-ops (fixed_impact_execution.rs:55); thresholds skip dead (health_threshold.rs:126)",
+   "failure": "unchanged (probe health_threshold/fixed_travel fixtures)",
+   "field": "health",
+   "id": "LC-H-024",
+   "init": "HealthAuthorities::retain(max-health modifiers, thresholds, immunities, critical healing amounts, fixed impacts)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state/maximum_health_modifiers.rs:124-174",
+    "health threshold runtime crossings",
+    "fixed_impact_execution.rs pending impacts"
+   ],
+   "owner": "OptionalCombatAuthorities",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "projections via leased workspaces",
+   "reset": "state.rs:1096-1102 -> health_authorities.rs:136-152 resets max-health modifiers, thresholds, fixed impacts; immunity views and critical healing amounts immutable",
+   "track": "H",
+   "work_identity": "actor index / threshold handle"
+  },
+  {
+   "allocation": "non-Option group with optional members",
+   "coords": [
+    "crates/combat/src/state.rs:1441",
+    "crates/combat/src/state/construction.rs:921-983",
+    "crates/combat/src/resource_authority.rs:1152-1186",
+    "crates/combat/src/passive_resource_flow.rs:951-956"
+   ],
+   "death": "resource gains to dead actors are gated in planning/resource.rs:145,217",
+   "failure": "unchanged (probe 11 resource-threshold cases)",
+   "field": "resources",
+   "id": "LC-H-025",
+   "init": "ResourceAuthorities::retain(passive flow storage (current+baseline halves), thresholds, maximum resource, flow suppression/percentage/flat, passive power cost, expected mana)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state.rs:302-310 host update_passive_resource_flow",
+    "state.rs:669-676 settle",
+    "state/resource_thresholds.rs:71-430 threshold execution",
+    "state/maximum_resource_modifiers.rs:15"
+   ],
+   "owner": "OptionalCombatAuthorities",
+   "probe_test": "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints",
+   "quote_visible": "read by resource projections; interrupt workspace leased (admitted_work residue is scratch)",
+   "reset": "state.rs:1118-1122 -> resource_authority.rs:1152-1186: maximum resource + suppression reset, passive flow current half copied from baseline (host updates discarded), thresholds reset (startup_pending re-armed resource_threshold.rs:565-583), then replan at ZERO",
+   "track": "H",
+   "work_identity": "(actor index, resource)"
+  },
+  {
+   "allocation": "Option<Box>",
+   "coords": [
+    "crates/combat/src/state.rs:1442",
+    "crates/combat/src/state/construction.rs:682-702",
+    "crates/combat/src/periodic_execution.rs:263-269",
+    "crates/combat/src/periodic_execution.rs:428-457"
+   ],
+   "death": "schedule cancelled when aura recipient is dead (periodic_execution.rs:449-457, 499-505) — but the owning aura itself stays active (CSA-H-01 inconsistency)",
+   "failure": "unchanged",
+   "field": "periodic",
+   "finding_ids": [
+    "CSA-H-01",
+    "CSA-H-03"
+   ],
+   "id": "LC-H-026",
+   "init": "PeriodicRuntime::try_compile(context, mutation handles, expected mana)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "periodic_execution.rs:352 complete_periodic_tick",
+    "periodic_execution.rs:428 cancel_periodic_aura"
+   ],
+   "owner": "OptionalCombatAuthorities",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "periodic workspace (scratch) touched by quotes, runtime unchanged (probe)",
+   "reset": "state.rs:1080-1086 -> periodic_execution.rs:263-269 authority.reset + workspace.reset",
+   "track": "H",
+   "work_identity": "aura handle + schedule handle"
+  },
+  {
+   "allocation": "Option<Box>",
+   "coords": [
+    "crates/combat/src/state.rs:1443",
+    "crates/combat/src/state/construction.rs:173-174",
+    "crates/combat/src/independent_stack.rs:339-348",
+    "crates/combat/src/state/independent_stack_lifetime.rs:114"
+   ],
+   "death": "cohorts on dead actors keep expiring (same lifecycle as auras)",
+   "failure": "unchanged",
+   "field": "independent_stacks",
+   "finding_ids": [
+    "CSA-H-01"
+   ],
+   "id": "LC-H-027",
+   "init": "compile_independent_stack_authority(program, aura_plan, bindings, actor_count)",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "state/independent_stack_lifetime.rs:114 expiry",
+    "aura application commits"
+   ],
+   "owner": "OptionalCombatAuthorities",
+   "quote_visible": "read-only",
+   "reset": "state.rs:1124-1130 -> independent_stack.rs:339-348 pools/cohorts/deadlines/count cleared",
+   "track": "H",
+   "work_identity": "aura handle + cohort"
+  },
+  {
+   "allocation": "inline",
+   "coords": [
+    "crates/combat/src/actor.rs:20",
+    "crates/combat/src/actor.rs:129-138",
+    "crates/combat/src/active_casting_speed.rs:159-180",
+    "crates/combat/src/passive_all_haste.rs:187"
+   ],
+   "death": "n/a",
+   "failure": "unchanged",
+   "field": "haste",
+   "id": "LC-H-028",
+   "init": "input HasteMultipliers scaled once by passive all-haste during construction",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "passive_all_haste.rs:187 (construction only)",
+    "active_casting_speed.rs:179 recompute (runtime)"
+   ],
+   "owner": "ActorState",
+   "probe_test": "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints",
+   "quote_visible": "read by cast-time/cooldown quotes",
+   "reset": "NOT in ActorBaseline; casting-speed channels restored by ActiveCastingSpeedRuntime::reset (only mutable channel), other channels never mutate at runtime",
+   "track": "H",
+   "work_identity": "actor index"
+  },
+  {
+   "allocation": "single box, both halves",
+   "coords": [
+    "crates/combat/src/passive_resource_flow.rs:722-725",
+    "crates/combat/src/passive_resource_flow.rs:927-956"
+   ],
+   "death": "n/a",
+   "failure": "update fails closed for unbound pools / unsupported rates before mutation (state.rs:259-278)",
+   "field": "cells",
+   "id": "LC-H-029",
+   "init": "current half + immutable baseline half built from construction flows",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "passive_resource_flow.rs:927 update (public host API via state.rs:253-317)"
+   ],
+   "owner": "PassiveResourceFlowStorage",
+   "probe_test": "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints",
+   "quote_visible": "read",
+   "reset": "passive_resource_flow.rs:951-956 copies baseline over current: host updates do not survive reset (probe host rate change at round 3 then reset == fresh)",
+   "track": "H",
+   "work_identity": "(actor index, resource)"
+  },
+  {
+   "allocation": "inline",
+   "coords": [
+    "crates/combat/src/resource_threshold.rs:565-583"
+   ],
+   "death": "n/a",
+   "failure": "n/a",
+   "field": "startup_pending",
+   "id": "LC-H-030",
+   "init": "true when startup activations exist",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "cleared by execute_resource_threshold_startup"
+   ],
+   "owner": "ResourceThresholdRuntime",
+   "probe_test": "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints",
+   "quote_visible": "cast/readiness short-circuit to PendingStateStartup while set (cast.rs:77-79)",
+   "reset": "re-armed (startup_pending = !startup.is_empty())",
+   "track": "H",
+   "work_identity": "n/a"
+  },
+  {
+   "allocation": "fixed",
+   "coords": [
+    "crates/combat/src/cast_authority.rs:152-155",
+    "crates/combat/src/cast_authority.rs:440-447"
+   ],
+   "death": "n/a",
+   "failure": "unchanged",
+   "field": "cells.generation",
+   "id": "LC-H-031",
+   "init": "0",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "incremented at acceptance (commit_cast_start)"
+   ],
+   "owner": "CastAuthority",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "readiness reports Generation exhaustion only",
+   "reset": "cells.fill(default) -> generation 0 (PendingCast.generation after reset equals fresh)",
+   "track": "H",
+   "work_identity": "actor-local cast generation"
+  },
+  {
+   "allocation": "inline",
+   "coords": [
+    "crates/combat/src/aura_state.rs:464-468",
+    "crates/combat/src/aura_state.rs:676-680"
+   ],
+   "death": "n/a",
+   "failure": "unchanged",
+   "field": "sequence",
+   "id": "LC-H-032",
+   "init": "SequenceCursor::INITIAL",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "advanced per committed application"
+   ],
+   "owner": "AuraState",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "quote_visible": "projection cursor copied into transaction workspace",
+   "reset": "SequenceCursor::INITIAL (equal-deadline tie-break order replays)",
+   "track": "H",
+   "work_identity": "equal-time deadline ordering"
+  },
+  {
+   "allocation": "inline 48 bytes, no allocation",
+   "commit": "advanced only by commit-time resolution, dispel selection, mechanic scans, white swings",
+   "coords": [
+    "crates/combat/src/state.rs:94",
+    "crates/combat/src/state/construction.rs:232",
+    "crates/combat/src/state.rs:439-451"
+   ],
+   "death": "dead targets skip white draws; fizzled segments draw nothing",
+   "failure": "no failure path touches it (probes i_rng_dispel.rs)",
+   "field": "random",
+   "id": "LC-I-001",
+   "init": "random_identity.stream() at construction",
+   "iteration_reset": "replaced by new identity stream",
+   "mutation_sites": [
+    "crates/combat/src/execution/commit.rs:228",
+    "crates/combat/src/execution/commit.rs:460",
+    "crates/combat/src/execution/commit.rs:905",
+    "crates/combat/src/state/white_main_hand.rs:99"
+   ],
+   "owner": "CombatState",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "quote_visible": "read only through clones in dispel.rs:94 and health.rs:533",
+   "reset": "RandomStream::reset (identity retained)",
+   "track": "I",
+   "work_identity": "(root_seed, global_iteration) + WHITE_MAIN_HAND_SEMANTICS_VERSION"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:97",
+    "crates/combat/src/execution/scratch.rs:704-770"
+   ],
+   "failure": "restored on Err; stale content inert because every entry prepares",
+   "field": "execution_scratch",
+   "id": "LC-I-002",
+   "init": "ExecutionScratch::with_layout",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "crates/combat/src/execution/scratch.rs:704-757",
+    "crates/combat/src/cast/quote.rs:22"
+   ],
+   "owner": "CombatState",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+   "quote_visible": "yes: cast_readiness leaves the last quote's program_frames and impact_quotes in scratch (observed via Debug)",
+   "reset": "execution_scratch.reset clears frames/impact quotes",
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown.rs:1597-1625",
+    "crates/combat/src/cooldown/charge_rate.rs:95-158",
+    "crates/combat/src/cooldown.rs:1446-1457"
+   ],
+   "death": "not consulted",
+   "failure": "n/a",
+   "field": "active.full_interval",
+   "finding_ids": [
+    "CSA-R3-02"
+   ],
+   "id": "LC-R3-001",
+   "init": "resolved from base recharge / current speed when a recovery starts from a full pool",
+   "iteration_reset": "same",
+   "mutation_sites": [
+    "charge_rate.rs:124-146 (truncating rebase on every rate change)",
+    "cooldown.rs:1761-1809 (reduce/extend keep it)",
+    "cooldown.rs:1606-1620 (consumption during an active chain keeps it)"
+   ],
+   "owner": "ChargeState",
+   "probe_test": "r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions",
+   "quote_visible": "yes (charge snapshots, readiness)",
+   "reset": "cooldowns.reset() -> ChargeState::ready(maximum) clears active (cooldown.rs:1446-1457)",
+   "track": "R3",
+   "work_identity": "drift persists across the whole serial chain until the pool refills (CSA-R3-02)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/independent_stack.rs:339-348"
+   ],
+   "failure": "n/a",
+   "field": "pools/cohorts/deadlines",
+   "id": "LC-R3-002",
+   "init": "empty pools per compiled raw-490 lifetime aura",
+   "iteration_reset": "same; fresh-equal for a new identity",
+   "mutation_sites": [
+    "independent_stack.rs:317-328 (remove_earliest/reschedule)",
+    "aura application cohorts"
+   ],
+   "note": "Track H's LC-H-027 was static only: no H fixture compiles an independent-stack aura",
+   "owner": "IndependentStackAuthority",
+   "probe_test": "r3_charge_rate_drift.rs::holds_independent_stack_authority_reset_and_iteration_reset",
+   "quote_visible": "yes (aura stacks/expiry projections)",
+   "reset": "pool len/stacks zeroed, cohorts default, deadlines cleared, count 0; proved fresh-equal mid-flight with 3 pending cohorts",
+   "track": "R3"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/health_authorities.rs:136-152",
+    "crates/combat/src/absorb/topology.rs:162-164",
+    "crates/combat/src/attack/runtime.rs:87-95"
+   ],
+   "failure": "rejected begin_cast leaves them unchanged (probe)",
+   "field": "health (maximum-health modifiers) / absorbs / critical runtimes under stochastic tables",
+   "id": "LC-R3-003",
+   "init": "construction",
+   "iteration_reset": "fresh-equal for new identity; replay identical",
+   "mutation_sites": [
+    "raw-133/145 aura commits",
+    "absorb provider commits",
+    "defense/hit chance modifier commits"
+   ],
+   "owner": "OptionalCombatAuthorities",
+   "probe_test": "r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures",
+   "quote_visible": "yes",
+   "reset": "fresh-equal after 14 rounds on 24 extra fixtures x 2 inputs",
+   "track": "R3"
+  }
+ ],
+ "schema": 1
+}

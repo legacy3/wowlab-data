@@ -1,0 +1,281 @@
+[
+ {
+  "id": "XC-A-001",
+  "concept": "immutable selected owner-policy proof",
+  "compilers": [
+   {
+    "authority": "AUTH-A-007",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:950-986"
+    ],
+    "behavior": "shared policy + owner count"
+   },
+   {
+    "authority": "AUTH-A-008",
+    "coords": [
+     "crates/combat/src/program/passive_auto_attack_damage.rs:181-192"
+    ],
+    "behavior": "shared policy"
+   },
+   {
+    "authority": "AUTH-A-009",
+    "coords": [
+     "crates/combat/src/program/passive_healing_received.rs:196-204"
+    ],
+    "behavior": "shared policy"
+   },
+   {
+    "authority": "AUTH-A-010",
+    "coords": [
+     "crates/combat/src/program/passive_haste.rs:144-152"
+    ],
+    "behavior": "shared policy"
+   },
+   {
+    "authority": "AUTH-A-011",
+    "coords": [
+     "crates/combat/src/program/passive_melee_auto_attack_speed.rs:94-102"
+    ],
+    "behavior": "shared policy"
+   },
+   {
+    "authority": "AUTH-A-012",
+    "coords": [
+     "crates/combat/src/program/passive_damage_modifier.rs:159-167"
+    ],
+    "behavior": "shared policy"
+   },
+   {
+    "authority": "AUTH-A-013",
+    "coords": [
+     "crates/combat/src/program/passive_absorb_received.rs:169-177"
+    ],
+    "behavior": "shared policy"
+   },
+   {
+    "authority": "AUTH-A-018",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:558-566"
+    ],
+    "behavior": "shared policy"
+   },
+   {
+    "authority": "AUTH-A-017",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:256-302",
+     "crates/combat/src/program/critical_block_amount.rs:427-484"
+    ],
+    "behavior": "NO shared policy; private attribute check only"
+   }
+  ],
+  "evidence": [
+   "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy",
+   "probe: a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy"
+  ],
+  "class": "D",
+  "finding_ids": [
+   "CSA-A-02"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "XC-A-002",
+  "concept": "selected owner attribute admission (raw 416 on Passive owner)",
+  "compilers": [
+   {
+    "authority": "AUTH-A-003",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:504-520"
+    ],
+    "behavior": "Passive + Ignored + 416 when Passive"
+   },
+   {
+    "authority": "AUTH-A-017",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:427-484"
+    ],
+    "behavior": "Passive + Ignored only"
+   }
+  ],
+  "evidence": [
+   "probe: a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416",
+   "probe: a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler"
+  ],
+  "class": "D",
+  "finding_ids": [
+   "CSA-A-03"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "XC-A-003",
+  "concept": "selected-rank amount materialization",
+  "compilers": [
+   {
+    "authority": "AUTH-A-007",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:898-918"
+    ],
+    "behavior": "role value from selected_amount"
+   },
+   {
+    "authority": "AUTH-A-017",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:297-301"
+    ],
+    "behavior": "resolved.selected_amount"
+   },
+   {
+    "authority": "AUTH-A-018",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:568-570"
+    ],
+    "behavior": "resolved.selected_amount"
+   },
+   {
+    "authority": "AUTH-A-008",
+    "coords": [
+     "crates/combat/src/program/passive_auto_attack_damage.rs:169-171"
+    ],
+    "behavior": "resolved.selected_amount"
+   },
+   {
+    "authority": "AUTH-A-009",
+    "coords": [
+     "crates/combat/src/program/passive_healing_received.rs:185-187"
+    ],
+    "behavior": "resolved.selected_amount"
+   },
+   {
+    "authority": "AUTH-A-012",
+    "coords": [
+     "crates/combat/src/program/passive_damage_modifier.rs:169-171"
+    ],
+    "behavior": "resolved.selected_amount"
+   }
+  ],
+  "evidence": [
+   "core: each final compiler re-resolves (entry,rank) through TraitSourceCatalog and reads the same selected_amount; redundant cold work, same value"
+  ],
+  "class": "C",
+  "track": "A"
+ },
+ {
+  "id": "XC-A-004",
+  "concept": "complete sibling declaration proof",
+  "compilers": [
+   {
+    "authority": "AUTH-A-005",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:323-386"
+    ],
+    "behavior": "shared predicate"
+   },
+   {
+    "authority": "AUTH-A-004",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:246-254"
+    ],
+    "behavior": "again at provenance recording"
+   },
+   {
+    "authority": "AUTH-A-007",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:932-948"
+    ],
+    "behavior": "per sibling, plus UndeclaredEffect for SpellMod siblings"
+   },
+   {
+    "authority": "AUTH-A-017",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:287-295"
+    ],
+    "behavior": "per sibling"
+   }
+  ],
+  "evidence": [
+   "core: every final compiler of any member repeats the shared predicate; any member compile fails the whole program"
+  ],
+  "class": "C",
+  "track": "A"
+ },
+ {
+  "id": "XC-A-005",
+  "concept": "selected declaration composition policy",
+  "compilers": [
+   {
+    "authority": "AUTH-A-005",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:353-359"
+    ],
+    "behavior": "raw 638 requires Multiplicative"
+   },
+   {
+    "authority": "AUTH-A-005",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:339-344",
+     "crates/combat/src/program/selected_trait_package.rs:365-371"
+    ],
+    "behavior": "critical chance: activation only; host-supplied Additive/ExclusiveSameEffect{group} accepted"
+   },
+   {
+    "authority": "AUTH-A-018",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:425-430"
+    ],
+    "behavior": "composition taken from host declaration"
+   }
+  ],
+  "evidence": [
+   "core: crates/data/src/action/catalog/critical_chance_modifier.rs:25-28 (Additive | ExclusiveSameEffect{group})"
+  ],
+  "class": "F",
+  "track": "A"
+ },
+ {
+  "id": "XC-A-006",
+  "concept": "selected-owner effect declaration audits (every same-subtype effect of a selected owner must be declared)",
+  "compilers": [
+   {
+    "authority": "AUTH-A-008",
+    "coords": [
+     "crates/combat/src/program/passive_auto_attack_damage.rs:219-246"
+    ],
+    "behavior": "raw 344"
+   },
+   {
+    "authority": "AUTH-A-009",
+    "coords": [
+     "crates/combat/src/program/passive_healing_received.rs:212-234"
+    ],
+    "behavior": "raw 118"
+   },
+   {
+    "authority": "AUTH-A-012",
+    "coords": [
+     "crates/combat/src/program/passive_damage_modifier.rs:206-235"
+    ],
+    "behavior": "done/taken percent"
+   },
+   {
+    "authority": "AUTH-A-013",
+    "coords": [
+     "crates/combat/src/program/passive_absorb_received.rs:189-211"
+    ],
+    "behavior": "absorb received"
+   },
+   {
+    "authority": "AUTH-A-011",
+    "coords": [
+     "crates/combat/src/program/passive_melee_auto_attack_speed.rs:138-165"
+    ],
+    "behavior": "melee speed"
+   }
+  ],
+  "evidence": [
+   "core: per-family audits are intentional ordinary-owner guards; package completeness itself is enforced by the classifier over all effects"
+  ],
+  "class": "B",
+  "track": "A"
+ }
+]

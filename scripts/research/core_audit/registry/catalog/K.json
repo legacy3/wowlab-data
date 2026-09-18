@@ -1,0 +1,3121 @@
+[
+ {
+  "id": "CAT-K-001",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 1,
+  "variant": "Instakill",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/instakill.rs:67"
+  ],
+  "coords": [
+   "crates/combat/src/program/instakill.rs:67"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-002",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 2,
+  "variant": "SchoolDamage",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/operation_effect.rs:21",
+   "crates/combat/src/program/damage.rs:158",
+   "crates/combat/src/program/damage_modifier/area.rs:297",
+   "crates/combat/src/program/no_immunities.rs:113",
+   "crates/combat/src/program/cooldown_start.rs:105",
+   "crates/combat/src/program/fixed_travel_time.rs:173"
+  ],
+  "coords": [
+   "crates/combat/src/error/operation_effect.rs:21",
+   "crates/combat/src/program/damage.rs:158",
+   "crates/combat/src/program/damage_modifier/area.rs:297",
+   "crates/combat/src/program/no_immunities.rs:113",
+   "crates/combat/src/program/cooldown_start.rs:105",
+   "crates/combat/src/program/fixed_travel_time.rs:173"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "SchoolDamage lowering itself is kind-exact (damage.rs:237-250, OperationEffectContract::DirectDamage). But an ordinary action whose spell carries undeclared Unimplemented/Disabled/uncataloged sibling effects compiles and executes only the declared damage (no ordinary-action sibling audit).",
+  "finding_ids": [
+   "CSA-K-04"
+  ],
+  "probe_test": "k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored"
+ },
+ {
+  "id": "CAT-K-003",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 6,
+  "variant": "ApplyAura",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/health_threshold.rs:338",
+   "crates/combat/src/program/dispel_mechanic.rs:323",
+   "crates/combat/src/program/critical_modifier.rs:660",
+   "crates/combat/src/program/defense_chance_modifier.rs:374",
+   "crates/combat/src/program/dispel_duration_modifier.rs:158",
+   "crates/combat/src/program/ordinary_category_duration_modifier.rs:281",
+   "crates/combat/src/program.rs:1546-1566",
+   "crates/combat/src/program/effect_attribute.rs:12-45"
+  ],
+  "coords": [
+   "crates/combat/src/program/health_threshold.rs:338",
+   "crates/combat/src/program/dispel_mechanic.rs:323",
+   "crates/combat/src/program/critical_modifier.rs:660",
+   "crates/combat/src/program/defense_chance_modifier.rs:374",
+   "crates/combat/src/program/dispel_duration_modifier.rs:158",
+   "crates/combat/src/program/ordinary_category_duration_modifier.rs:281",
+   "crates/combat/src/program.rs:1546-1566",
+   "crates/combat/src/program/effect_attribute.rs:12-45"
+  ],
+  "verdict": "consistent",
+  "depth": "deep",
+  "evidence": "ApplyAura admission checks kind + effect attributes + recipient selectors; semantic consumers bind aura identity to the effect spell (damage_modifier.rs:617-625, periodic.rs:1121). A bare application of a foreign aura id is admitted by design (selected_owner.rs:37 \"a program may apply an aura owned by another spell\"); recorded as MUT-K-012 context for CSA-K-01.",
+  "probe_test": "k_aura_mutation_source.rs::accepted_apply_aura_row_of_a_applies_foreign_aura_b"
+ },
+ {
+  "id": "CAT-K-004",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 8,
+  "variant": "PowerDrain",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/power_drain.rs:78"
+  ],
+  "coords": [
+   "crates/combat/src/program/power_drain.rs:78"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-005",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 9,
+  "variant": "HealthLeech",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/operation_effect.rs:22",
+   "crates/combat/src/program/damage.rs:112"
+  ],
+  "coords": [
+   "crates/combat/src/error/operation_effect.rs:22",
+   "crates/combat/src/program/damage.rs:112"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-006",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 10,
+  "variant": "Heal",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/healing.rs:301"
+  ],
+  "coords": [
+   "crates/combat/src/program/healing.rs:301"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-007",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 22,
+  "variant": "EnableParry",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/passive_parry.rs:119"
+  ],
+  "coords": [
+   "crates/combat/src/program/passive_parry.rs:119"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-008",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 30,
+  "variant": "Energize",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/operation_effect.rs:26",
+   "crates/combat/src/program/school_lockout_bypass.rs:93",
+   "crates/combat/src/program/resource_gain.rs:26",
+   "crates/combat/src/program/resource_gain.rs:34"
+  ],
+  "coords": [
+   "crates/combat/src/error/operation_effect.rs:26",
+   "crates/combat/src/program/school_lockout_bypass.rs:93",
+   "crates/combat/src/program/resource_gain.rs:26",
+   "crates/combat/src/program/resource_gain.rs:34"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-009",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 32,
+  "variant": "TriggerMissile",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/child_activation.rs:47"
+  ],
+  "coords": [
+   "crates/combat/src/program/child_activation.rs:47"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-010",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 38,
+  "variant": "Dispel",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/dispel.rs:55"
+  ],
+  "coords": [
+   "crates/combat/src/program/dispel.rs:55"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-011",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 62,
+  "variant": "PowerBurn",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/power_burn.rs:37"
+  ],
+  "coords": [
+   "crates/combat/src/program/power_burn.rs:37"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-012",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 64,
+  "variant": "TriggerSpell",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/child_activation.rs:48",
+   "crates/combat/src/error/periodic_heal.rs:400"
+  ],
+  "coords": [
+   "crates/combat/src/program/child_activation.rs:48",
+   "crates/combat/src/error/periodic_heal.rs:400"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-013",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 67,
+  "variant": "HealMissingOrMaximumHealth",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/healing.rs:72",
+   "crates/combat/src/program/stun.rs:400"
+  ],
+  "coords": [
+   "crates/combat/src/program/healing.rs:72",
+   "crates/combat/src/program/stun.rs:400"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-014",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 68,
+  "variant": "InterruptCast",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/mechanic_immunity.rs:306",
+   "crates/combat/src/program/effect_immunity.rs:289",
+   "crates/combat/src/program/interrupt.rs:93"
+  ],
+  "coords": [
+   "crates/combat/src/program/mechanic_immunity.rs:306",
+   "crates/combat/src/program/effect_immunity.rs:289",
+   "crates/combat/src/program/interrupt.rs:93"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-015",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 108,
+  "variant": "DispelMechanic",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/dispel_mechanic.rs:50"
+  ],
+  "coords": [
+   "crates/combat/src/program/dispel_mechanic.rs:50"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-016",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 136,
+  "variant": "DirectHealPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/healing.rs:303"
+  ],
+  "coords": [
+   "crates/combat/src/program/healing.rs:303"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-017",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 137,
+  "variant": "EnergizePowerPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/operation_effect.rs:29",
+   "crates/combat/src/program/resource_gain.rs:29",
+   "crates/combat/src/program/resource_gain.rs:34"
+  ],
+  "coords": [
+   "crates/combat/src/error/operation_effect.rs:29",
+   "crates/combat/src/program/resource_gain.rs:29",
+   "crates/combat/src/program/resource_gain.rs:34"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-018",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 164,
+  "variant": "CancelAura",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/operation_effect.rs:39",
+   "crates/combat/src/program.rs:1595-1618",
+   "crates/combat/src/program.rs:1620-1690",
+   "crates/data/src/action/catalog/operation.rs:861-902"
+  ],
+  "coords": [
+   "crates/combat/src/error/operation_effect.rs:39",
+   "crates/combat/src/program.rs:1595-1618",
+   "crates/combat/src/program.rs:1620-1690",
+   "crates/data/src/action/catalog/operation.rs:861-902"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "Admission checks only kind family (OperationEffectContract::RemoveAura). The removed aura is the host-declared aura_id; the source EffectTriggerSpell that Trinity removes (SpellEffects.cpp:5152-5161) is never compared. Core fixtures (test-support pacify.rs:125) author 164/203 rows with no trigger at all.",
+  "finding_ids": [
+   "CSA-K-01"
+  ],
+  "probe_test": "k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity"
+ },
+ {
+  "id": "CAT-K-019",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 165,
+  "variant": "DamageFromMaximumHealthPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage.rs:97",
+   "crates/combat/src/program/maximum_health_damage.rs:79",
+   "crates/combat/src/error/operation_effect.rs:23"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage.rs:97",
+   "crates/combat/src/program/maximum_health_damage.rs:79",
+   "crates/combat/src/error/operation_effect.rs:23"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-020",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 203,
+  "variant": "RemoveAura",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/operation_effect.rs:40",
+   "crates/combat/src/program.rs:1595-1618",
+   "crates/combat/src/program.rs:1620-1690",
+   "crates/data/src/action/catalog/operation.rs:861-902"
+  ],
+  "coords": [
+   "crates/combat/src/error/operation_effect.rs:40",
+   "crates/combat/src/program.rs:1595-1618",
+   "crates/combat/src/program.rs:1620-1690",
+   "crates/data/src/action/catalog/operation.rs:861-902"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "Same as raw 164 (Trinity maps both 164 and 203 to EffectRemoveAura, SpellEffects.cpp:256,295).",
+  "finding_ids": [
+   "CSA-K-01"
+  ],
+  "probe_test": "k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity"
+ },
+ {
+  "id": "CAT-K-021",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 289,
+  "variant": "ModifyAuraStacks",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/operation_effect.rs:35",
+   "crates/combat/src/program.rs:1595-1618",
+   "crates/combat/src/program.rs:1620-1690",
+   "crates/data/src/action/catalog/operation.rs:861-902"
+  ],
+  "coords": [
+   "crates/combat/src/error/operation_effect.rs:35",
+   "crates/combat/src/program.rs:1595-1618",
+   "crates/combat/src/program.rs:1620-1690",
+   "crates/data/src/action/catalog/operation.rs:861-902"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "Kind-only admission; EffectMiscValue_0 mode (0 add signed, 1 set; Trinity SpellEffects.cpp:6126-6146), signed EffectBasePoints and EffectTriggerSpell aura identity are never bound to the host AddAuraStacks/RemoveAuraStacks step. 21 live base-difficulty raw-289 rows use Set mode (misc 1).",
+  "finding_ids": [
+   "CSA-K-01"
+  ],
+  "probe_test": "k_aura_mutation_source.rs::defect_modify_aura_stacks_set_mode_admitted_as_add"
+ },
+ {
+  "id": "CAT-K-022",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 290,
+  "variant": "ReduceRemainingCooldown",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/cooldown_adjustment.rs:242"
+  ],
+  "coords": [
+   "crates/combat/src/program/cooldown_adjustment.rs:242"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-023",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 292,
+  "variant": "ModifyCooldownsByCategory",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/cooldown_adjustment.rs:243"
+  ],
+  "coords": [
+   "crates/combat/src/program/cooldown_adjustment.rs:243"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-024",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 293,
+  "variant": "ImmediateCooldownRechargeCategory",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/charge_modification.rs:28"
+  ],
+  "coords": [
+   "crates/combat/src/program/charge_modification.rs:28"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-025",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 6,
+  "variant": "Passive",
+  "support": "implemented",
+  "consumers": [
+   "crates/data/src/spell_attribute.rs:212",
+   "crates/combat/src/program/passive_haste.rs:263",
+   "crates/combat/src/program/versatility_benefit.rs:484",
+   "crates/combat/src/program/critical_healing_modifier/validation.rs:272",
+   "crates/combat/src/program/critical_modifier.rs:959",
+   "crates/combat/src/error/defense_chance_modifier.rs:484",
+   "crates/combat/src/program/spell_attribute.rs:175-209",
+   "crates/combat/src/program/selected_trait_package.rs:497-526"
+  ],
+  "coords": [
+   "crates/data/src/spell_attribute.rs:212",
+   "crates/combat/src/program/passive_haste.rs:263",
+   "crates/combat/src/program/versatility_benefit.rs:484",
+   "crates/combat/src/program/critical_healing_modifier/validation.rs:272",
+   "crates/combat/src/program/critical_modifier.rs:959",
+   "crates/combat/src/error/defense_chance_modifier.rs:484",
+   "crates/combat/src/program/spell_attribute.rs:175-209",
+   "crates/combat/src/program/selected_trait_package.rs:497-526"
+  ],
+  "verdict": "consistent",
+  "depth": "deep",
+  "evidence": "Global owner audit rejects Passive on incompatible owner roles (spell_attribute.rs:175-209); selected owner policy requires Passive (selected_trait_package.rs:497-526)."
+ },
+ {
+  "id": "CAT-K-026",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 21,
+  "variant": "NoActiveDefense",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:41"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:41"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-027",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 29,
+  "variant": "NoImmunities",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/no_immunities.rs:46",
+   "crates/combat/src/program/spell_attribute.rs:167"
+  ],
+  "coords": [
+   "crates/combat/src/program/no_immunities.rs:46",
+   "crates/combat/src/program/spell_attribute.rs:167"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-028",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 43,
+  "variant": "AuraUnique",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/program/spell_attribute_accessors.rs:93",
+   "crates/combat/src/program/aura_reapplication.rs:45",
+   "crates/combat/src/program/share_damage.rs:214"
+  ],
+  "coords": [
+   "crates/combat/src/error/program/spell_attribute_accessors.rs:93",
+   "crates/combat/src/program/aura_reapplication.rs:45",
+   "crates/combat/src/program/share_damage.rs:214"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-029",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 93,
+  "variant": "CannotCrit",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:45",
+   "crates/combat/src/error/cooldown_recovery_rate.rs:416",
+   "crates/combat/src/error/periodic_heal.rs:452",
+   "crates/combat/src/program/periodic.rs:1304"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:45",
+   "crates/combat/src/error/cooldown_recovery_rate.rs:416",
+   "crates/combat/src/error/periodic_heal.rs:452",
+   "crates/combat/src/program/periodic.rs:1304"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-030",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 114,
+  "variant": "AlwaysHit",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:47"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:47"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-031",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 135,
+  "variant": "AllowCastWhileCasting",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/spell_attribute.rs:243"
+  ],
+  "coords": [
+   "crates/combat/src/program/spell_attribute.rs:243"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-032",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 163,
+  "variant": "AllowWhileStunned",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/spell_attribute.rs:171",
+   "crates/combat/src/program/stun.rs:361"
+  ],
+  "coords": [
+   "crates/combat/src/program/spell_attribute.rs:171",
+   "crates/combat/src/program/stun.rs:361"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-033",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 169,
+  "variant": "TickOnApplication",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic.rs:1303"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic.rs:1303"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-034",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 173,
+  "variant": "SpellHasteAffectsPeriodic",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:52",
+   "crates/combat/src/program/periodic.rs:1306"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:52",
+   "crates/combat/src/program/periodic.rs:1306"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-035",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 175,
+  "variant": "TreatAsAreaEffect",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage.rs:506",
+   "crates/combat/src/program/healing.rs:264",
+   "crates/combat/src/program/damage_modifier/area.rs:187",
+   "crates/combat/src/program/periodic.rs:98",
+   "crates/combat/src/program/spell_attribute.rs:139",
+   "crates/combat/src/program/damage_modifier.rs:290"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage.rs:506",
+   "crates/combat/src/program/healing.rs:264",
+   "crates/combat/src/program/damage_modifier/area.rs:187",
+   "crates/combat/src/program/periodic.rs:98",
+   "crates/combat/src/program/spell_attribute.rs:139",
+   "crates/combat/src/program/damage_modifier.rs:290"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-036",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 214,
+  "variant": "AbsorbCannotBeIgnored",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/spell_attribute.rs:147",
+   "crates/combat/src/program/absorb/non_bypassable.rs:74",
+   "crates/combat/src/program/absorb.rs:1054"
+  ],
+  "coords": [
+   "crates/combat/src/program/spell_attribute.rs:147",
+   "crates/combat/src/program/absorb/non_bypassable.rs:74",
+   "crates/combat/src/program/absorb.rs:1054"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-037",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 219,
+  "variant": "IgnoreHealingModifiers",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:66"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:66"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-038",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 221,
+  "variant": "IgnoreCasterDamageModifiers",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:75"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:75"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-039",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 247,
+  "variant": "CannotDodge",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:60"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:60"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-040",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 248,
+  "variant": "CannotParry",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:62"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:62"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-041",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 249,
+  "variant": "CannotMiss",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:56"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:56"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-042",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 256,
+  "variant": "CannotBlock",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:64"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:64"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-043",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 265,
+  "variant": "PeriodicCanCrit",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic.rs:1305"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic.rs:1305"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-044",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 273,
+  "variant": "HasteAffectsDuration",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:53",
+   "crates/combat/src/program/expiry.rs:16",
+   "crates/combat/src/program/defense_chance_modifier.rs:29",
+   "crates/combat/src/program/hit_chance_modifier.rs:29",
+   "crates/combat/src/program/maximum_health_modifier.rs:31",
+   "crates/combat/src/program/spell_attribute.rs:159"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:53",
+   "crates/combat/src/program/expiry.rs:16",
+   "crates/combat/src/program/defense_chance_modifier.rs:29",
+   "crates/combat/src/program/hit_chance_modifier.rs:29",
+   "crates/combat/src/program/maximum_health_modifier.rs:31",
+   "crates/combat/src/program/spell_attribute.rs:159"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-045",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 278,
+  "variant": "MeleeHasteAffectsPeriodic",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:54",
+   "crates/combat/src/program/spell_attribute.rs:160",
+   "crates/combat/src/program/periodic.rs:89"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:54",
+   "crates/combat/src/program/spell_attribute.rs:160",
+   "crates/combat/src/program/periodic.rs:89"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-046",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 292,
+  "variant": "MissileSpeedIsDelaySeconds",
+  "support": "implemented",
+  "consumers": [
+   "crates/data/src/game_data.rs:1570",
+   "crates/combat/src/program/missile_timing.rs:25",
+   "crates/combat/src/program/fixed_travel_time.rs:72",
+   "crates/combat/src/program/spell_attribute.rs:155"
+  ],
+  "coords": [
+   "crates/data/src/game_data.rs:1570",
+   "crates/combat/src/program/missile_timing.rs:25",
+   "crates/combat/src/program/fixed_travel_time.rs:72",
+   "crates/combat/src/program/spell_attribute.rs:155"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-047",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 306,
+  "variant": "IgnoreSchoolLockout",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/selected_spell_attribute.rs:133",
+   "crates/combat/src/program/school_lockout_bypass.rs:49",
+   "crates/combat/src/program/spell_attribute.rs:143"
+  ],
+  "coords": [
+   "crates/combat/src/error/selected_spell_attribute.rs:133",
+   "crates/combat/src/program/school_lockout_bypass.rs:49",
+   "crates/combat/src/program/spell_attribute.rs:143"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-048",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 312,
+  "variant": "DisablePlayerHealingMultiplier",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:79"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:79"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-049",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 407,
+  "variant": "StartCooldownOnCastStart",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/cooldown_start.rs:56",
+   "crates/combat/src/program/spell_attribute.rs:151"
+  ],
+  "coords": [
+   "crates/combat/src/program/cooldown_start.rs:56",
+   "crates/combat/src/program/spell_attribute.rs:151"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-050",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 436,
+  "variant": "PeriodicRefreshExtendsDuration",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/aura_reapplication.rs:52",
+   "crates/combat/src/program/periodic.rs:1615",
+   "crates/combat/src/program/maximum_health_modifier.rs:38"
+  ],
+  "coords": [
+   "crates/combat/src/program/aura_reapplication.rs:52",
+   "crates/combat/src/program/periodic.rs:1615",
+   "crates/combat/src/program/maximum_health_modifier.rs:38"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-051",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 442,
+  "variant": "AlwaysAllowNegativeHealingModifiers",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/payload_policy.rs:71"
+  ],
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:71"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-052",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 489,
+  "variant": "AuraDoesNotRefresh",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_health_modifier.rs:37",
+   "crates/combat/src/program/aura_reapplication.rs:57"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_health_modifier.rs:37",
+   "crates/combat/src/program/aura_reapplication.rs:57"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-053",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 490,
+  "variant": "AsynchronousStackingBuff",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_health_modifier.rs:36",
+   "crates/combat/src/program/aura_lifetime.rs:20",
+   "crates/combat/src/program/expiry.rs:17",
+   "crates/combat/src/program/defense_chance_modifier.rs:28",
+   "crates/combat/src/program/aura_reapplication.rs:55",
+   "crates/combat/src/program/hit_chance_modifier.rs:34"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_health_modifier.rs:36",
+   "crates/combat/src/program/aura_lifetime.rs:20",
+   "crates/combat/src/program/expiry.rs:17",
+   "crates/combat/src/program/defense_chance_modifier.rs:28",
+   "crates/combat/src/program/aura_reapplication.rs:55",
+   "crates/combat/src/program/hit_chance_modifier.rs:34"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-054",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 3,
+  "variant": "PeriodicDamage",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:149",
+   "crates/combat/src/program/target_aura_state_modifier.rs:434",
+   "crates/combat/src/program/silence.rs:382",
+   "crates/combat/src/program/dispel_duration_modifier.rs:229",
+   "crates/combat/src/program/periodic.rs:1076"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:149",
+   "crates/combat/src/program/target_aura_state_modifier.rs:434",
+   "crates/combat/src/program/silence.rs:382",
+   "crates/combat/src/program/dispel_duration_modifier.rs:229",
+   "crates/combat/src/program/periodic.rs:1076"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-055",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 8,
+  "variant": "PeriodicHeal",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic/heal.rs:56",
+   "crates/combat/src/program/periodic.rs:1088"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic/heal.rs:56",
+   "crates/combat/src/program/periodic.rs:1088"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-056",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 12,
+  "variant": "Stun",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/stun.rs:134"
+  ],
+  "coords": [
+   "crates/combat/src/program/stun.rs:134"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-057",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 20,
+  "variant": "PeriodicHealPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic/heal.rs:54",
+   "crates/combat/src/program/passive_spell_modifier.rs:570",
+   "crates/combat/src/program/periodic.rs:1089"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic/heal.rs:54",
+   "crates/combat/src/program/passive_spell_modifier.rs:570",
+   "crates/combat/src/program/periodic.rs:1089"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-058",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 21,
+  "variant": "PeriodicMaximumPowerPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic/energize.rs:81",
+   "crates/combat/src/program/periodic/energize/maximum_power_percent.rs:49",
+   "crates/combat/src/program/periodic.rs:1094"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic/energize.rs:81",
+   "crates/combat/src/program/periodic/energize/maximum_power_percent.rs:49",
+   "crates/combat/src/program/periodic.rs:1094"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-059",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 23,
+  "variant": "PeriodicTriggerSpell",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic.rs:1064"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic.rs:1064"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-060",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 24,
+  "variant": "PeriodicEnergize",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic.rs:1093"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic.rs:1093"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-061",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 25,
+  "variant": "Pacify",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/pacify.rs:21"
+  ],
+  "coords": [
+   "crates/combat/src/program/pacify.rs:21"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-062",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 27,
+  "variant": "Silence",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/silence/carrier_326836.rs:88",
+   "crates/combat/src/program/silence.rs:143",
+   "crates/combat/src/program/mechanic_duration_modifier/applicand_326836.rs:29"
+  ],
+  "coords": [
+   "crates/combat/src/program/silence/carrier_326836.rs:88",
+   "crates/combat/src/program/silence.rs:143",
+   "crates/combat/src/program/mechanic_duration_modifier/applicand_326836.rs:29"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-063",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 34,
+  "variant": "ModIncreaseHealth",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_health_modifier.rs:653"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_health_modifier.rs:653"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-064",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 35,
+  "variant": "ModIncreaseEnergy",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:365"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:365"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-065",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 37,
+  "variant": "EffectImmunity",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/effect_immunity.rs:191"
+  ],
+  "coords": [
+   "crates/combat/src/program/effect_immunity.rs:191"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-066",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 39,
+  "variant": "SchoolImmunity",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/school_immunity.rs:190"
+  ],
+  "coords": [
+   "crates/combat/src/program/school_immunity.rs:190"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-067",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 40,
+  "variant": "DamageImmunity",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage_immunity.rs:171"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage_immunity.rs:171"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-068",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 47,
+  "variant": "ModParryPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/defense_chance_modifier.rs:398"
+  ],
+  "coords": [
+   "crates/combat/src/program/defense_chance_modifier.rs:398"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-069",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 49,
+  "variant": "ModDodgePercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/defense_chance_modifier.rs:397"
+  ],
+  "coords": [
+   "crates/combat/src/program/defense_chance_modifier.rs:397"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-070",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 50,
+  "variant": "ModCriticalHealingAmount",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_healing_modifier/validation.rs:128"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_healing_modifier/validation.rs:128"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-071",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 51,
+  "variant": "ModBlockPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/defense_chance_modifier.rs:399"
+  ],
+  "coords": [
+   "crates/combat/src/program/defense_chance_modifier.rs:399"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-072",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 52,
+  "variant": "ModWeaponCritPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_modifier.rs:606"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:606"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-073",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 53,
+  "variant": "PeriodicLeech",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic.rs:1069"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic.rs:1069"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-074",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 54,
+  "variant": "ModHitChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/hit_chance_modifier.rs:439"
+  ],
+  "coords": [
+   "crates/combat/src/program/hit_chance_modifier.rs:439"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-075",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 55,
+  "variant": "ModSpellHitChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/hit_chance_modifier.rs:442"
+  ],
+  "coords": [
+   "crates/combat/src/program/hit_chance_modifier.rs:442"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-076",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 57,
+  "variant": "ModSpellCritChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_modifier.rs:614"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:614"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-077",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 60,
+  "variant": "PacifySilence",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/pacify_silence.rs:21"
+  ],
+  "coords": [
+   "crates/combat/src/program/pacify_silence.rs:21"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-078",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 63,
+  "variant": "ModAdditionalPowerCost",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/additional_power_cost/validation.rs:170",
+   "crates/combat/src/program/power_cost.rs:223"
+  ],
+  "coords": [
+   "crates/combat/src/program/additional_power_cost/validation.rs:170",
+   "crates/combat/src/program/power_cost.rs:223"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-079",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 64,
+  "variant": "PeriodicManaLeech",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/periodic/mana_leech.rs:52",
+   "crates/combat/src/program/periodic.rs:1098"
+  ],
+  "coords": [
+   "crates/combat/src/program/periodic/mana_leech.rs:52",
+   "crates/combat/src/program/periodic.rs:1098"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-080",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 65,
+  "variant": "ModCastingSpeedNonStacking",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/active_casting_speed.rs:207",
+   "crates/combat/src/program/active_casting_speed/raw65.rs:69"
+  ],
+  "coords": [
+   "crates/combat/src/program/active_casting_speed.rs:207",
+   "crates/combat/src/program/active_casting_speed/raw65.rs:69"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-081",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 69,
+  "variant": "AbsorbDamage",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/absorb/non_bypassable.rs:123",
+   "crates/combat/src/program/absorb.rs:39"
+  ],
+  "coords": [
+   "crates/combat/src/program/absorb/non_bypassable.rs:123",
+   "crates/combat/src/program/absorb.rs:39"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-082",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 72,
+  "variant": "ModPowerCostSchoolPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/power_cost.rs:232",
+   "crates/combat/src/program/school_power_cost_percent.rs:275"
+  ],
+  "coords": [
+   "crates/combat/src/program/power_cost.rs:232",
+   "crates/combat/src/program/school_power_cost_percent.rs:275"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-083",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 77,
+  "variant": "MechanicImmunity",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/mechanic_immunity.rs:195"
+  ],
+  "coords": [
+   "crates/combat/src/program/mechanic_immunity.rs:195"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-084",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 79,
+  "variant": "ModDamageDonePercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/passive_damage_modifier.rs:222",
+   "crates/combat/src/program/damage_modifier.rs:550",
+   "crates/combat/src/program/selected_trait_package.rs:700"
+  ],
+  "coords": [
+   "crates/combat/src/program/passive_damage_modifier.rs:222",
+   "crates/combat/src/program/damage_modifier.rs:550",
+   "crates/combat/src/program/selected_trait_package.rs:700"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "Row says \"a separately admitted one-rank selected passive trait\"; passive_damage_modifier.rs:121-213 has no rank gate and data admits max_ranks 1|2 (trait_source/selected_spell.rs:235-242). Live two-rank single-effect raw-79 trait: Instinctive Arcana 376164 (entries 87693/115619, MaxRanks 2, +2 mask 126). Static evidence; same mechanism probed for raw 290.",
+  "finding_ids": [
+   "CSA-K-03"
+  ]
+ },
+ {
+  "id": "CAT-K-085",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 85,
+  "variant": "ModPowerRegen",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/passive_flow_flat/validation.rs:142"
+  ],
+  "coords": [
+   "crates/combat/src/program/passive_flow_flat/validation.rs:142"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-086",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 87,
+  "variant": "ModDamageTakenPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/dispel_mechanic.rs:325",
+   "crates/combat/src/program/passive_spell_modifier.rs:653",
+   "crates/combat/src/program/passive_damage_modifier.rs:221",
+   "crates/combat/src/program/selected_trait_package.rs:709",
+   "crates/combat/src/program/damage_modifier.rs:555"
+  ],
+  "coords": [
+   "crates/combat/src/program/dispel_mechanic.rs:325",
+   "crates/combat/src/program/passive_spell_modifier.rs:653",
+   "crates/combat/src/program/passive_damage_modifier.rs:221",
+   "crates/combat/src/program/selected_trait_package.rs:709",
+   "crates/combat/src/program/damage_modifier.rs:555"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-087",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 89,
+  "variant": "PeriodicMaxHealthDamage",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage.rs:292",
+   "crates/combat/src/program/periodic.rs:1077"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage.rs:292",
+   "crates/combat/src/program/periodic.rs:1077"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-088",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 97,
+  "variant": "ManaShield",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/absorb.rs:40",
+   "crates/combat/src/program/absorb/mana_shield.rs:97"
+  ],
+  "coords": [
+   "crates/combat/src/program/absorb.rs:40",
+   "crates/combat/src/program/absorb/mana_shield.rs:97"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-089",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 107,
+  "variant": "AddFlatModifier",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/selected_trait_package.rs:745"
+  ],
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:745"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-090",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 108,
+  "variant": "AddPercentModifier",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/selected_trait_package.rs:746"
+  ],
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:746"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-091",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 110,
+  "variant": "ModPowerRegenPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/passive_flow_percentage/validation.rs:143"
+  ],
+  "coords": [
+   "crates/combat/src/program/passive_flow_percentage/validation.rs:143"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-092",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 114,
+  "variant": "ModRangedDamageTakenPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage_modifier.rs:536",
+   "crates/combat/src/program/damage_modifier/defense_family.rs:29"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage_modifier.rs:536",
+   "crates/combat/src/program/damage_modifier/defense_family.rs:29"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-093",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 117,
+  "variant": "ModMechanicResistance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/mechanic_resistance.rs:160"
+  ],
+  "coords": [
+   "crates/combat/src/program/mechanic_resistance.rs:160"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-094",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 118,
+  "variant": "ModHealingReceivedPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/healing_modifier.rs:420",
+   "crates/combat/src/program/selected_trait_package.rs:654",
+   "crates/combat/src/program/passive_healing_received.rs:225"
+  ],
+  "coords": [
+   "crates/combat/src/program/healing_modifier.rs:420",
+   "crates/combat/src/program/selected_trait_package.rs:654",
+   "crates/combat/src/program/passive_healing_received.rs:225"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "Row says \"selected one-rank complete single-effect passive trait sources\"; passive_healing_received.rs has no rank gate (no max_ranks use in the module) while data admits two-rank entries. Static evidence.",
+  "finding_ids": [
+   "CSA-K-03"
+  ]
+ },
+ {
+  "id": "CAT-K-095",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 126,
+  "variant": "ModMeleeDamageTakenPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage_modifier/defense_family.rs:32",
+   "crates/combat/src/program/damage_modifier.rs:537"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage_modifier/defense_family.rs:32",
+   "crates/combat/src/program/damage_modifier.rs:537"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-096",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 132,
+  "variant": "IncreaseMaximumResourcePercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:366"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:366"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-097",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 133,
+  "variant": "IncreaseHealthPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_health_modifier.rs:1264"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_health_modifier.rs:1264"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-098",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 136,
+  "variant": "ModHealingDonePercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/healing_modifier.rs:418"
+  ],
+  "coords": [
+   "crates/combat/src/program/healing_modifier.rs:418"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-099",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 145,
+  "variant": "ModMaximumHealthPercent2",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_health_modifier.rs:956"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_health_modifier.rs:956"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-100",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 148,
+  "variant": "ModChargeCooldownRechargeRateCategory",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/charge_recharge_rate.rs:252"
+  ],
+  "coords": [
+   "crates/combat/src/program/charge_recharge_rate.rs:252"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-101",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 163,
+  "variant": "ModCritDamageMultiplier",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_damage_modifier.rs:224"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_damage_modifier.rs:224"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-102",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 178,
+  "variant": "ModMaximumResourcePercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:367"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:367"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-103",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 183,
+  "variant": "ModCritChanceVersusTargetHealth",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_modifier.rs:406"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:406"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-104",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 184,
+  "variant": "ModAttackerMeleeHitChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/hit_chance_modifier.rs:440"
+  ],
+  "coords": [
+   "crates/combat/src/program/hit_chance_modifier.rs:440"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-105",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 186,
+  "variant": "ModAttackerSpellHitChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/hit_chance_modifier.rs:441"
+  ],
+  "coords": [
+   "crates/combat/src/program/hit_chance_modifier.rs:441"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-106",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 187,
+  "variant": "ModAttackerMeleeCritChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_modifier.rs:622"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:622"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-107",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 193,
+  "variant": "HasteAll",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/passive_haste.rs:207",
+   "crates/combat/src/program/selected_trait_package.rs:670"
+  ],
+  "coords": [
+   "crates/combat/src/program/passive_haste.rs:207",
+   "crates/combat/src/program/selected_trait_package.rs:670"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-108",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 194,
+  "variant": "ModTargetAbsorbSchool",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/target_absorb_bypass/validation.rs:128"
+  ],
+  "coords": [
+   "crates/combat/src/program/target_absorb_bypass/validation.rs:128"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-109",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 197,
+  "variant": "ModAttackerSpellAndWeaponCritChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_modifier.rs:626"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:626"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-110",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 205,
+  "variant": "ModChargeRecoveryByTypeMask",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/charge_duration_modifier.rs:373"
+  ],
+  "coords": [
+   "crates/combat/src/program/charge_duration_modifier.rs:373"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-111",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 216,
+  "variant": "HasteSpells",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/active_casting_speed/raw216.rs:68",
+   "crates/combat/src/program/active_casting_speed.rs:208"
+  ],
+  "coords": [
+   "crates/combat/src/program/active_casting_speed/raw216.rs:68",
+   "crates/combat/src/program/active_casting_speed.rs:208"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-112",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 218,
+  "variant": "AddPercentLabelModifier",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/selected_trait_package.rs:748"
+  ],
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:748"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-113",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 219,
+  "variant": "AddFlatLabelModifier",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/selected_trait_package.rs:749"
+  ],
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:749"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-114",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 229,
+  "variant": "ModAoeDamageTakenPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage_modifier.rs:530"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage_modifier.rs:530"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-115",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 232,
+  "variant": "ModMechanicDurationPercentStacking",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/mechanic_duration_modifier.rs:173",
+   "crates/combat/src/program/mechanic_duration_modifier/carrier_55366.rs:6"
+  ],
+  "coords": [
+   "crates/combat/src/program/mechanic_duration_modifier.rs:173",
+   "crates/combat/src/program/mechanic_duration_modifier/carrier_55366.rs:6"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-116",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 234,
+  "variant": "ModMechanicDurationPercentNonStacking",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/mechanic_duration_modifier.rs:174",
+   "crates/combat/src/program/mechanic_duration_modifier/carrier_60209.rs:6"
+  ],
+  "coords": [
+   "crates/combat/src/program/mechanic_duration_modifier.rs:174",
+   "crates/combat/src/program/mechanic_duration_modifier/carrier_60209.rs:6"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-117",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 245,
+  "variant": "ModDebuffDurationPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/dispel_duration_modifier.rs:162"
+  ],
+  "coords": [
+   "crates/combat/src/program/dispel_duration_modifier.rs:162"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-118",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 249,
+  "variant": "ModDamagePercentDoneByTargetAuraMechanic",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage_modifier.rs:546"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage_modifier.rs:546"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-119",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 251,
+  "variant": "ModEnemyDodge",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/defense_chance_modifier.rs:400",
+   "crates/combat/src/program/defense_chance_modifier/raw251.rs:27"
+  ],
+  "coords": [
+   "crates/combat/src/program/defense_chance_modifier.rs:400",
+   "crates/combat/src/program/defense_chance_modifier/raw251.rs:27"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-120",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 255,
+  "variant": "ModMechanicDamageTakenPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage_modifier.rs:542"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage_modifier.rs:542"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-121",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 259,
+  "variant": "ModPeriodicHealingPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/healing_modifier.rs:422"
+  ],
+  "coords": [
+   "crates/combat/src/program/healing_modifier.rs:422"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-122",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 270,
+  "variant": "ModDamageTakenFromCaster",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage_modifier.rs:560"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage_modifier.rs:560"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-123",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 271,
+  "variant": "ModDamageTakenFromCasterSpells",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/damage_modifier.rs:565"
+  ],
+  "coords": [
+   "crates/combat/src/program/damage_modifier.rs:565"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-124",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 276,
+  "variant": "ModDamageDoneForMechanic",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/outgoing_mechanic_modifier/validation.rs:145"
+  ],
+  "coords": [
+   "crates/combat/src/program/outgoing_mechanic_modifier/validation.rs:145"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-125",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 283,
+  "variant": "ModHealingTakenFromCasterPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/healing_modifier.rs:424"
+  ],
+  "coords": [
+   "crates/combat/src/program/healing_modifier.rs:424"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-126",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 286,
+  "variant": "ModCooldownRechargeRatePercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/cooldown_recovery_rate.rs:333"
+  ],
+  "coords": [
+   "crates/combat/src/program/cooldown_recovery_rate.rs:333"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-127",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 290,
+  "variant": "ModAllCritChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_modifier.rs:381",
+   "crates/combat/src/program/selected_trait_package.rs:677"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:381",
+   "crates/combat/src/program/selected_trait_package.rs:677"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "Row says \"unselected or multi-rank traits remain fail closed\"; a two-rank selected package compiles at rank 2 (no rank gate in critical_modifier.rs:494-578), and the live-shaped trait provider Canny Strikes 1250359 compiles as ordinary Passive with no trait source/external policy (k_catalog_admission.rs::defect_trait_carrier_admitted_as_ordinary_passive_without_policy; critical_modifier.rs:1182-1220).",
+  "finding_ids": [
+   "CSA-K-03",
+   "CSA-K-05"
+  ],
+  "probe_test": "k_catalog_admission.rs::defect_two_rank_raw290_selected_package_admitted_despite_one_rank_wording"
+ },
+ {
+  "id": "CAT-K-128",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 294,
+  "variant": "PreventRegeneratePower",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/passive_flow_suppression/validation.rs:81"
+  ],
+  "coords": [
+   "crates/combat/src/program/passive_flow_suppression/validation.rs:81"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-129",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 300,
+  "variant": "ShareDamagePercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/share_damage.rs:136"
+  ],
+  "coords": [
+   "crates/combat/src/program/share_damage.rs:136"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-130",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 301,
+  "variant": "AbsorbHealing",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/absorb.rs:41"
+  ],
+  "coords": [
+   "crates/combat/src/program/absorb.rs:41"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-131",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 303,
+  "variant": "ModDamageDoneVersusAuraState",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/target_aura_state_modifier.rs:222"
+  ],
+  "coords": [
+   "crates/combat/src/program/target_aura_state_modifier.rs:222"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-132",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 308,
+  "variant": "CritChanceForCasterWithAbilities",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_modifier.rs:382",
+   "crates/combat/src/program/selected_trait_package.rs:684"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:382",
+   "crates/combat/src/program/selected_trait_package.rs:684"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-133",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 319,
+  "variant": "ModMeleeAutoAttackSpeedPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:151",
+   "crates/combat/src/program/selected_trait_package.rs:693"
+  ],
+  "coords": [
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:151",
+   "crates/combat/src/program/selected_trait_package.rs:693"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-134",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 334,
+  "variant": "ModAutoAttackCritChance",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_modifier.rs:522",
+   "crates/combat/src/program/selected_trait_package.rs:647"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:522",
+   "crates/combat/src/program/selected_trait_package.rs:647"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "Row claims exact 406154:2 in the complete four-effect Heart package and \"independent or multiple raw-334 providers ... every other carrier remain fail closed\"; generic classifier admits any one-effect raw-334 selected package (composition_is_admitted_by arity 1, selected_trait_package.rs:888-891). Ordinary Passive raw-334 is rejected (critical_modifier.rs:1182-1196).",
+  "finding_ids": [
+   "CSA-K-03"
+  ],
+  "probe_test": "k_catalog_admission.rs::defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording"
+ },
+ {
+  "id": "CAT-K-135",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 341,
+  "variant": "ModCooldownTimeCategory",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/ordinary_category_duration_modifier.rs:293"
+  ],
+  "coords": [
+   "crates/combat/src/program/ordinary_category_duration_modifier.rs:293"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-136",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 344,
+  "variant": "ModAutoAttackDamage",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/passive_auto_attack_damage.rs:173",
+   "crates/combat/src/program/selected_trait_package.rs:640"
+  ],
+  "coords": [
+   "crates/combat/src/program/passive_auto_attack_damage.rs:173",
+   "crates/combat/src/program/selected_trait_package.rs:640"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-137",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 354,
+  "variant": "ModHealingDonePercentVersusTargetHealth",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/target_health_healing_modifier.rs:464",
+   "crates/combat/src/program/healing_modifier.rs:414"
+  ],
+  "coords": [
+   "crates/combat/src/program/target_health_healing_modifier.rs:464",
+   "crates/combat/src/program/healing_modifier.rs:414"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-138",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 366,
+  "variant": "OverrideSpellPowerByAttackPowerPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/attack_power_conversion.rs:243"
+  ],
+  "coords": [
+   "crates/combat/src/program/attack_power_conversion.rs:243"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-139",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 396,
+  "variant": "ResourceThresholdTrigger",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/resource_threshold.rs:33",
+   "crates/combat/src/program/resource_threshold/validation.rs:15"
+  ],
+  "coords": [
+   "crates/combat/src/program/resource_threshold.rs:33",
+   "crates/combat/src/program/resource_threshold/validation.rs:15"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-140",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 411,
+  "variant": "ModMaximumCharges",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/charge_capacity.rs:270"
+  ],
+  "coords": [
+   "crates/combat/src/program/charge_capacity.rs:270"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-141",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 418,
+  "variant": "ModMaxResource",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:53"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:53"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-142",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 419,
+  "variant": "ModBaseManaPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:352"
+  ],
+  "coords": [
+   "crates/combat/src/program/maximum_resource_modifier/validation.rs:352"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-143",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 421,
+  "variant": "ModAbsorbDonePercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/source_absorb_capacity_modifier.rs:74"
+  ],
+  "coords": [
+   "crates/combat/src/program/source_absorb_capacity_modifier.rs:74"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-144",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 422,
+  "variant": "ModAbsorbReceivedPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/selected_trait_package.rs:718",
+   "crates/combat/src/program/passive_absorb_received.rs:202"
+  ],
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:718",
+   "crates/combat/src/program/passive_absorb_received.rs:202"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-145",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 423,
+  "variant": "ModManaCostPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/mana_cost_percent/validation.rs:201",
+   "crates/combat/src/program/power_cost.rs:227"
+  ],
+  "coords": [
+   "crates/combat/src/program/mana_cost_percent/validation.rs:201",
+   "crates/combat/src/program/power_cost.rs:227"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-146",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 453,
+  "variant": "ModRechargeTimeCategory",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/charge_duration_modifier.rs:359"
+  ],
+  "coords": [
+   "crates/combat/src/program/charge_duration_modifier.rs:359"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-147",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 454,
+  "variant": "ModRechargeTimePercentCategory",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/charge_duration_modifier.rs:366"
+  ],
+  "coords": [
+   "crates/combat/src/program/charge_duration_modifier.rs:366"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-148",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 457,
+  "variant": "ChargeRecoveryAffectedByHasteRegen",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/charge_recovery_haste.rs:136"
+  ],
+  "coords": [
+   "crates/combat/src/program/charge_recovery_haste.rs:136"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; catalog text names an exact carrier that the compiler pins by constant (pin checked by scratch/K pin scan). No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-149",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 471,
+  "variant": "ModVersatilityPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/versatility_modifier.rs:103"
+  ],
+  "coords": [
+   "crates/combat/src/program/versatility_modifier.rs:103"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-150",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 495,
+  "variant": "TriggerSpellOnExpire",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/expiry.rs:100"
+  ],
+  "coords": [
+   "crates/combat/src/program/expiry.rs:100"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-151",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 502,
+  "variant": "ModVersatilityDamageDoneBenefitPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/versatility_benefit.rs:203"
+  ],
+  "coords": [
+   "crates/combat/src/program/versatility_benefit.rs:203"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-152",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 503,
+  "variant": "ModVersatilityHealingDoneBenefitPercent",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/versatility_benefit.rs:208"
+  ],
+  "coords": [
+   "crates/combat/src/program/versatility_benefit.rs:208"
+  ],
+  "verdict": "consistent",
+  "depth": "mechanical",
+  "evidence": "Executable consumer(s) admit this identity only through explicit kind/subtype/attribute comparison at the cited sites; admission is generic within the consumer's structural contract. No Disabled/Unimplemented leak or missing consumer found for this row."
+ },
+ {
+  "id": "CAT-K-153",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 638,
+  "variant": "ModCriticalBlockAmount",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/program/critical_block_amount.rs:205",
+   "crates/combat/src/program/selected_trait_package.rs:663"
+  ],
+  "coords": [
+   "crates/combat/src/program/critical_block_amount.rs:205",
+   "crates/combat/src/program/selected_trait_package.rs:663"
+  ],
+  "verdict": "finding",
+  "depth": "deep",
+  "evidence": "Selected path never calls selected_trait_owner_policy_issue (CSA-A-02, independently reproduced: k_external_policy.rs::defect_selected_raw638_single_package_skips_external_policy); ordinary Passive activation of live 429638:2 compiles alone with no trait source/policy/sibling although the row says the Martial sibling pair is admitted atomically (CSA-K-05).",
+  "finding_ids": [
+   "CSA-A-02",
+   "CSA-K-05"
+  ],
+  "probe_test": "k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive"
+ },
+ {
+  "id": "CAT-K-154",
+  "track": "K",
+  "catalog": "EFFECT_ATTRIBUTE_REQUIREMENTS",
+  "raw": 7,
+  "variant": "SuppressPointsStacking",
+  "support": "implemented",
+  "consumers": [
+   "crates/combat/src/error/periodic_heal.rs:445",
+   "crates/combat/src/program/effect_attribute.rs:83",
+   "crates/combat/src/program/defense_chance_modifier.rs:569",
+   "crates/combat/src/program/effect_attribute.rs:77-91",
+   "crates/combat/src/program/periodic.rs:1545-1586",
+   "crates/combat/src/program/expiry.rs:115-118"
+  ],
+  "coords": [
+   "crates/combat/src/error/periodic_heal.rs:445",
+   "crates/combat/src/program/effect_attribute.rs:83",
+   "crates/combat/src/program/defense_chance_modifier.rs:569",
+   "crates/combat/src/program/effect_attribute.rs:77-91",
+   "crates/combat/src/program/periodic.rs:1545-1586",
+   "crates/combat/src/program/expiry.rs:115-118"
+  ],
+  "verdict": "consistent",
+  "depth": "deep",
+  "evidence": "compile_effect_point_stacking maps 7 to SingleStack (effect_attribute.rs:77-91); consumers that use amounts retain the policy; periodic-trigger and expiry consumers audit it as amount-insensitive exactly as the row states (periodic.rs:1578-1584, expiry.rs:115-118)."
+ },
+ {
+  "id": "CAT-K-155",
+  "track": "K",
+  "catalog": "AURA_SUBTYPE_REQUIREMENTS",
+  "raw": 468,
+  "variant": "TriggerSpellBasedOnHealthPercent",
+  "support": "disabled",
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-K-02"
+  ],
+  "depth": "deep",
+  "consumers": [
+   "crates/combat/src/program/health_threshold.rs:353",
+   "crates/combat/src/program/health_threshold/validation.rs:343",
+   "crates/combat/src/program/effect_attribute.rs:30-32"
+  ],
+  "coords": [
+   "crates/combat/src/program/health_threshold.rs:353",
+   "crates/combat/src/program/health_threshold/validation.rs:343",
+   "crates/dbc/src/aura_subtype.rs:571",
+   "crates/dbc/src/aura_subtype.rs:271-280"
+  ],
+  "probe_test": "k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes",
+  "evidence": "Catalog Disabled (\"remains inert until its complete mechanic is implemented\") but a dedicated compiler/runtime admits raw-468 declarations through the public CombatProgram API with no support-status check; the threshold child executes and mutates health."
+ },
+ {
+  "id": "CAT-K-156",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 416,
+  "variant": "AllowClassAbilityProcs",
+  "support": "disabled",
+  "verdict": "consistent",
+  "depth": "deep",
+  "consumers": [
+   "crates/combat/src/program/spell_attribute.rs:49-53",
+   "crates/combat/src/program/spell_attribute.rs:83-130",
+   "crates/combat/src/program/selected_trait_package.rs:513-517",
+   "crates/combat/src/program/critical_modifier.rs:986-989"
+  ],
+  "coords": [
+   "crates/combat/src/program/spell_attribute.rs:83-130",
+   "crates/combat/src/program/selected_trait_package.rs:513-517"
+  ],
+  "evidence": "Disabled row is skipped only when the owner is Passive, every ownership role is PassiveModifier, and an identity-matched external-policy row is Absent in all nine columns (Trinity consumes 416 only behind an effective proc entry). Otherwise Disabled rejects (spell_attribute.rs:68-75). Instinctive Arcana 376164 is a live Passive owner carrying 416."
+ },
+ {
+  "id": "CAT-K-157",
+  "track": "K",
+  "catalog": "SPELL_ATTRIBUTE_REQUIREMENTS",
+  "raw": 103,
+  "variant": "DotStackingRule",
+  "support": "ignored",
+  "verdict": "unknown",
+  "depth": "deep",
+  "consumers": [],
+  "coords": [
+   "crates/dbc/src/spell_attribute.rs:384",
+   "crates/combat/src/aura_state.rs:1226-1228"
+  ],
+  "evidence": "Ignored as \"unused flag\", but Trinity Aura::CanStackWith (SpellAuras.cpp:1698) uses SPELL_ATTR3_DOT_STACKING_RULE to let same-spell auras from different casters stack; without it non-periodic same-spell auras from different casters replace each other (SpellAuras.cpp:1756-1766). Core keys aura instances by (aura, source, affected) so always stacks per caster. See UNK-K-001."
+ },
+ {
+  "id": "CAT-K-158",
+  "track": "K",
+  "catalog": "EFFECT_ATTRIBUTE_REQUIREMENTS",
+  "raw": 24,
+  "variant": "IgnoreDuringCooldownTimeRateCalculation",
+  "support": "disabled",
+  "verdict": "consistent",
+  "depth": "deep",
+  "consumers": [
+   "crates/combat/src/program/charge_duration_modifier.rs:286-309"
+  ],
+  "coords": [
+   "crates/combat/src/program/charge_duration_modifier.rs:286-309"
+  ],
+  "evidence": "Disabled attribute is accepted (and required) only on exact Swift Justice 383228 effects 1/2, flat charge-duration carriers that never enter time-rate aggregation, so the attribute stays inert as Disabled requires."
+ },
+ {
+  "id": "CAT-K-159",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 3,
+  "variant": "Dummy",
+  "support": "unimplemented",
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-K-04"
+  ],
+  "depth": "deep",
+  "consumers": [],
+  "coords": [
+   "crates/dbc/src/spell_effect.rs:38",
+   "crates/combat/src/program/compile.rs:39-45"
+  ],
+  "probe_test": "k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored",
+  "evidence": "An Unimplemented Dummy sibling on an ordinary action spell (source_effect_count = 2) is silently dropped; the program compiles and casts. Same for Disabled raw 17 and uncataloged raw 999."
+ },
+ {
+  "id": "CAT-K-160",
+  "track": "K",
+  "catalog": "SPELL_EFFECT_REQUIREMENTS",
+  "raw": 17,
+  "variant": "WeaponDamageNoSchool",
+  "support": "disabled",
+  "verdict": "consistent",
+  "depth": "deep",
+  "consumers": [],
+  "coords": [
+   "crates/dbc/src/spell_effect.rs:38"
+  ],
+  "probe_test": "k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored",
+  "evidence": "Disabled sibling is ignored (inert), which matches Disabled semantics; recorded as the control beside the Unimplemented/uncataloged cases of CSA-K-04."
+ },
+ {
+  "id": "CAT-K-161",
+  "track": "K",
+  "catalog": "IMPLICIT_TARGET_SEMANTICS",
+  "raw": 0,
+  "variant": "None",
+  "support": "descriptive",
+  "consumers": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/source_recipient.rs:75-101",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "coords": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "verdict": "consistent",
+  "depth": "deep",
+  "evidence": "(0,0) inherits resolved recipient: source_recipient.rs:15. Across all compilers only pairs (0,0),(1,0),(6,0),(21,0),(25,0) are admitted (raw pair comparisons and ImplicitTargetKind uses censused); non-empty secondary and unknown selectors reject. Descriptive axes match Trinity rows."
+ },
+ {
+  "id": "CAT-K-162",
+  "track": "K",
+  "catalog": "IMPLICIT_TARGET_SEMANTICS",
+  "raw": 1,
+  "variant": "UnitCaster",
+  "support": "descriptive",
+  "consumers": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/source_recipient.rs:75-101",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "coords": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "verdict": "consistent",
+  "depth": "deep",
+  "evidence": "(1,0) Caster: source_recipient.rs:17-19; require_caster_delivery 55-73; Trinity SpellInfo.cpp:249. Across all compilers only pairs (0,0),(1,0),(6,0),(21,0),(25,0) are admitted (raw pair comparisons and ImplicitTargetKind uses censused); non-empty secondary and unknown selectors reject. Descriptive axes match Trinity rows."
+ },
+ {
+  "id": "CAT-K-163",
+  "track": "K",
+  "catalog": "IMPLICIT_TARGET_SEMANTICS",
+  "raw": 6,
+  "variant": "UnitTargetEnemy",
+  "support": "descriptive",
+  "consumers": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/source_recipient.rs:75-101",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "coords": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "verdict": "consistent",
+  "depth": "deep",
+  "evidence": "(6,0) Target+Hostile: source_recipient.rs:25-28; Trinity SpellInfo.cpp:254 CHECK_ENEMY. Across all compilers only pairs (0,0),(1,0),(6,0),(21,0),(25,0) are admitted (raw pair comparisons and ImplicitTargetKind uses censused); non-empty secondary and unknown selectors reject. Descriptive axes match Trinity rows."
+ },
+ {
+  "id": "CAT-K-164",
+  "track": "K",
+  "catalog": "IMPLICIT_TARGET_SEMANTICS",
+  "raw": 21,
+  "variant": "UnitTargetAlly",
+  "support": "descriptive",
+  "consumers": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/source_recipient.rs:75-101",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "coords": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "verdict": "consistent",
+  "depth": "deep",
+  "evidence": "(21,0) Target+Friendly: source_recipient.rs:30-33; Trinity SpellInfo.cpp:269 CHECK_ALLY. Across all compilers only pairs (0,0),(1,0),(6,0),(21,0),(25,0) are admitted (raw pair comparisons and ImplicitTargetKind uses censused); non-empty secondary and unknown selectors reject. Descriptive axes match Trinity rows."
+ },
+ {
+  "id": "CAT-K-165",
+  "track": "K",
+  "catalog": "IMPLICIT_TARGET_SEMANTICS",
+  "raw": 25,
+  "variant": "UnitTargetAny",
+  "support": "descriptive",
+  "consumers": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/source_recipient.rs:75-101",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "coords": [
+   "crates/combat/src/program/source_recipient.rs:9-53",
+   "crates/combat/src/program/implicit_target.rs:4-11"
+  ],
+  "verdict": "consistent",
+  "depth": "deep",
+  "evidence": "(25,0) Target, no disposition: source_recipient.rs:21-23; Trinity SpellInfo.cpp:273 CHECK_DEFAULT. Across all compilers only pairs (0,0),(1,0),(6,0),(21,0),(25,0) are admitted (raw pair comparisons and ImplicitTargetKind uses censused); non-empty secondary and unknown selectors reject. Descriptive axes match Trinity rows."
+ }
+]

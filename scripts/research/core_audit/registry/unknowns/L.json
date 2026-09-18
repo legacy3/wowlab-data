@@ -1,0 +1,13 @@
+[
+  {
+    "id": "UNK-L-001",
+    "track": "L",
+    "question": "Can a warmed Engine allocate in a later global iteration because caller-owned observation storage (EngineState.observations, Vec::new at construction, cleared per step) meets a new per-step high-water mark on an outcome-dependent path (e.g. a lethal critical adding a death observation on a step that previously had fewer observations)?",
+    "why_unknown": "Core pins 'warm' as replay of the same seed; the probes (AL-L-003/004) found no growth for Precision/Martial across 64 fresh identities, but no public fixture was found whose per-step observation count is outcome-dependent. Output storage growth is by design amortised caller-owned storage, so this is only a contract question if \u00a73.8 'warmed engine decision-to-cast paths are allocation-free' is meant across iterations.",
+    "reopen": "A fixture where one RNG outcome changes the number of observations emitted within one Engine::step/advance; measure warm-up with the low-count seed, then a high-count seed.",
+    "coords": [
+      "crates/engine/src/lib.rs:836-860",
+      "crates/engine/src/lib.rs:870-905"
+    ]
+  }
+]

@@ -1,0 +1,117 @@
+[
+ {
+  "id": "NUM-C-001",
+  "coords": [
+   "crates/combat/src/critical_modifier.rs:188-241"
+  ],
+  "conversion": "crit chance = max(0, baseline + (sum_source_pts + sum_target_pts)/100) in f64, single floor",
+  "evidence_class": "known_divergence",
+  "observable": "probability of the critical draw",
+  "witness": "Trinity floors the done stage (SpellCritChanceDone max(,0), Unit.cpp:7171) before adding taken terms and floors again (Unit.cpp:7275). baseline 0.05, source -10 pts, target +5 pts: Core max(0, 0.05-0.10+0.05)=0.00; Trinity max(0,-5)+5 = 5%. Requires an admitted negative source-held term with a positive target-held term; not demonstrated with a source-valid pair.",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-002",
+  "coords": [
+   "crates/combat/src/critical/resolution.rs:95-113",
+   "crates/sim/src/random.rs:88-98"
+  ],
+  "conversion": "Probability(min(chance,1)); occurs: no draw at <=0 or >=1, else next_unit_f64() < p",
+  "evidence_class": "core_choice",
+  "observable": "draw count and crit outcome",
+  "witness": "Trinity roll_chance(float) on a float percent; Core compares f64 unit draw to f64 probability. Boundary short-circuit changes draw count at exactly 0/100% (documented).",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-003",
+  "coords": [
+   "crates/combat/src/execution/planning/critical.rs:35-76",
+   "crates/combat/src/state/modifiers.rs:380"
+  ],
+  "conversion": "bonus: 1+(m-1)F; school: m*prod(1+p/100); order by defense family",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "critical damage amount",
+  "witness": "melee: (1+1.1f)*1.2 = 2.52000002861; magic: 1+(2*1.2-1)*1.1f = 2.54000003338 (core_test selected_martial_expert.rs:80-94); Trinity Unit.cpp:1216-1231 vs 7279-7306 reproduce the same orders (integer truncation aside).",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-004",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:477-483"
+  ],
+  "conversion": "op-15 factor computed in binary32 (1+p/100)^bits then widened to f64",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "critical damage multiplier (1.1f = 1.10000002384)",
+  "witness": "Trinity SpellModifier pct in float (ApplySpellMod); Core core_test uses f64::from(1.1_f32).",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-005",
+  "coords": [
+   "crates/combat/src/damage.rs:118-151",
+   "crates/combat/src/health_amount.rs:67-79"
+  ],
+  "conversion": "normal = amount*outgoing*incoming (f64, floor 0); critical = normal*multiplier; landed = base*block multiplier; no intermediate integer truncation",
+  "evidence_class": "known_divergence",
+  "observable": "dealt damage",
+  "witness": "Trinity truncates to integers after armor, after crit bonus (uint32 crit_bonus, AddPct on int), and CalculatePct for block (Unit.cpp:1216-1250). Core's single f64 chain differs by < 1 per step; final rounding is Track D.",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-006",
+  "coords": [
+   "crates/combat/src/attack/resolution.rs:382-398"
+  ],
+  "conversion": "critical-block retained = max(0, 1-(1-m)*F) in f64",
+  "evidence_class": "known_divergence",
+  "observable": "critically blocked damage",
+  "witness": "Trinity: uint32 value = blockPct*2; value *= float mult (truncating to uint32); blocked = CalculatePct(damage, value) (Unit.cpp:1238-1244). pct 31, F 1.2 -> Trinity value trunc(74.4)=74% vs Core 74.4%.",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-007",
+  "coords": [
+   "crates/combat/src/white_swing.rs:23-70"
+  ],
+  "conversion": "white crit basis points = trunc(clamp(f32(percent)+f32(points),0,100)*100f)",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "white critical threshold",
+  "witness": "6.06f + 2f -> 805 (core unit test white_swing.rs:466-480); Trinity RollMeleeOutcomeAgainst int32(float*100).",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-008",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:123-138"
+  ],
+  "conversion": "raw-183 threshold = maximum*(percent/100) f64; Above strict / AtOrAbove inclusive",
+  "evidence_class": "known_divergence",
+  "observable": "whether raw 183 applies at the threshold",
+  "witness": "Trinity !HealthBelowPct(miscB): health >= uint64 CalculatePct(maxHealth, pct) (integer-truncated threshold, always inclusive). max 1001, 80%: Trinity threshold 800 (inclusive), Core 800.8. Core strict Above(50) for Conduit of Flame follows the live tooltip (development-ledger.md:3478-3484) - documented choice.",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-009",
+  "coords": [
+   "crates/combat/src/critical_healing_amount.rs:60-80",
+   "crates/combat/src/execution/planning/health.rs:1565-1580"
+  ],
+  "conversion": "crit heal = normal*mult*prod(1+p50/100) f64",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "critical heal amount",
+  "witness": "Trinity int32(float(damage+bonus) * GetTotalAuraMultiplier(50)) (Unit.cpp:7322-7323) - same product, Trinity truncates.",
+  "track": "C"
+ },
+ {
+  "id": "NUM-C-010",
+  "coords": [
+   "crates/sim/src/random.rs:111-132",
+   "crates/combat/src/attack/resolution.rs:284-353"
+  ],
+  "conversion": "spell attack table in exact f64 absolute shares (no basis-point quantization); crit and block are separate occurs draws",
+  "evidence_class": "known_divergence",
+  "observable": "miss/dodge/parry/block/crit probabilities for yellow attacks",
+  "witness": "Trinity MeleeSpellHitResult uses one urand(0,9999) with uint32(chance*100) thresholds including block (Unit.cpp:2633-2745); miss 5.005% -> Trinity 500 bp vs Core 0.05005. Core's separate block roll after landing is a deliberate two-roll design (Track F/I own the table shape).",
+  "track": "C"
+ }
+]

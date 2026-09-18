@@ -1,0 +1,109 @@
+[
+ {
+  "id": "REJ-K-001",
+  "suspicion": "Ignored spell attributes (e.g. Hidden, DoNotSheath, NameplateEnemyDebuff, NotInSpellbook, DoNotLogOnLearn) alter executable state",
+  "why_rejected": "Every executable use is an owner-shell allow-list comparison (aura_reapplication.rs:92-107, passive_haste.rs:260-289, target_aura_state_modifier.rs:413-418, periodic/haste_affected_duration.rs:115-124); none branches behavior on the attribute.",
+  "coords": [
+   "crates/combat/src/program/aura_reapplication.rs:92-107",
+   "crates/combat/src/program/passive_haste.rs:260-289",
+   "crates/combat/src/program/target_aura_state_modifier.rs:413-418",
+   "crates/combat/src/program/periodic/haste_affected_duration.rs:115-124"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-002",
+  "suspicion": "Disabled effect attribute 24 leaks through Swift Justice charge-duration admission",
+  "why_rejected": "Accepted only on exact 383228 effects 1/2 which are flat charge-duration terms, never part of cooldown time-rate aggregation; the attribute stays inert.",
+  "coords": [
+   "crates/combat/src/program/charge_duration_modifier.rs:286-309",
+   "crates/dbc/src/effect_attribute.rs:222"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-003",
+  "suspicion": "effect_attribute.rs skips the effect-attribute audit for raw-468 health-threshold consumers",
+  "why_rejected": "health_threshold/validation.rs:114-122 rejects any exact-effect attribute on the raw-468 carrier itself.",
+  "coords": [
+   "crates/combat/src/program/effect_attribute.rs:30-32",
+   "crates/combat/src/program/health_threshold/validation.rs:114-122"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-004",
+  "suspicion": "Implemented catalog rows without an executable consumer",
+  "why_rejected": "All 154 implemented rows have at least one admission site (scratch/K/consumers.json); rows referenced only in error/operation_effect.rs (raw 30,137,164,203,289) are consumed through OperationEffectContract at program.rs:1600-1606 and resource_gain.rs:26-34.",
+  "coords": [
+   "crates/combat/src/error/operation_effect.rs:17-42",
+   "crates/combat/src/program.rs:1600-1606",
+   "crates/combat/src/program/resource_gain.rs:26-34"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-005",
+  "suspicion": "Owner spells of some ResolvedActionCatalog family escape the global spell-attribute audit (Disabled attributes leaking)",
+  "why_rejected": "selected_spell_ownership_stream covers every spell-bearing family field of ResolvedActionCatalog (scripted field-by-field comparison); the remaining fields are program sub-structures of already-audited owners or identity-only tables.",
+  "coords": [
+   "crates/data/src/action/catalog/selected_owner.rs:54-62",
+   "crates/data/src/action/catalog.rs:290-367",
+   "crates/combat/src/program/spell_attribute.rs:17-81"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-006",
+  "suspicion": "Exact-carrier catalog rows are admitted generically by their compilers",
+  "why_rejected": "Every implemented row whose text names an exact carrier spell has a matching compiler constant/pin (pin scan of 57 rows); exceptions where the id is only a named witness are generic by wording (76487, 126156, 59173, 256374, 1272844). The raw-334/290/79/118 selected wording is the reported CSA-K-03.",
+  "coords": [
+   "crates/combat/src/program/interrupt.rs:169",
+   "crates/combat/src/program/dispel.rs:311",
+   "crates/combat/src/program/stun.rs:67-72",
+   "crates/combat/src/program/dispel_mechanic.rs:484"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-007",
+  "suspicion": "SuppressPointsStacking (EA 7) is admitted on consumers that ignore point stacking",
+  "why_rejected": "Amount consumers carry the compiled EffectPointStacking; periodic-trigger and expiry consumers explicitly audit it as amount-insensitive, exactly as the row states; raw 52/334/308 crit carriers reject any exact attribute.",
+  "coords": [
+   "crates/combat/src/program/effect_attribute.rs:77-91",
+   "crates/combat/src/program/periodic.rs:1578-1584",
+   "crates/combat/src/program/expiry.rs:115-118",
+   "crates/combat/src/program/critical_modifier.rs:839-850"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-008",
+  "suspicion": "Implicit-target catalog axes disagree with the compiler interpretation of admitted pairs",
+  "why_rejected": "Raw 1/6/21/25 axes (Unit, Caster/Target, Default/Enemy/Ally) equal Trinity SpellInfo.cpp:249,254,269,273 and the compiler mapping in source_recipient.rs:14-44.",
+  "coords": [
+   "crates/combat/src/program/source_recipient.rs:14-44",
+   "crates/dbc/src/implicit_target.rs:442"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-009",
+  "suspicion": "The raw-416 external-policy exception admits Disabled 416 for ordinary (non-selected) passive owners whose family validator is a deny-list",
+  "why_rejected": "The exception requires identity-matched all-Absent policy in all nine columns; Trinity consumes 416 only behind an effective proc entry, so with effective_proc_entry Absent the attribute is inert regardless of family.",
+  "coords": [
+   "crates/combat/src/program/spell_attribute.rs:83-130"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "REJ-K-010",
+  "suspicion": "Engine production code synthesizes an all-Absent external policy",
+  "why_rejected": "engine/src/test_support.rs is #[cfg(test)] (lib.rs:8-9); test-support is only a dev-dependency of runtime crates.",
+  "coords": [
+   "crates/engine/src/lib.rs:8-9",
+   "crates/engine/src/test_support.rs:4-16"
+  ],
+  "track": "K"
+ }
+]

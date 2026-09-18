@@ -1,0 +1,58 @@
+[
+  {
+    "id": "CSA-R3-01",
+    "title": "RNG trial-consumption policy is inconsistent across source-mirrored sites: raw-38 dispel skips the singleton selector draw and never consumes the consumer's per-attempt RollDispel trial, while the white roll forces the singleton draw and raw-108 forces 100% trials",
+    "severity": "info",
+    "reachability": "INCONSISTENT",
+    "status": "confirmed",
+    "coords": [
+      "crates/combat/src/execution/commit.rs:208-232",
+      "crates/combat/src/execution/planning/dispel.rs:94-116",
+      "crates/sim/src/random.rs:133-165",
+      "crates/combat/src/white_swing/resolution.rs:72-88",
+      "crates/combat/src/execution/commit.rs:453-464"
+    ],
+    "evidence": [
+      "core commit.rs:228 and planning/dispel.rs:116 use RandomStream::uniform_index, which consumes no word for a 1-candidate domain (random.rs:136-149); probe i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index (PASS) pins 0/0/1 draws for 0/1/2 candidates",
+      "core ledger development-ledger.md:22330-22335 documents 'Empty and singleton domains consume no selector draw'; ledger :24876-24884 documents that a singleton urand is a source-observable sampling call and introduces uniform_index_forced for the white weapon roll (white_swing/resolution.rs:78); ledger :23105-23116 introduces occurs_forced so raw-108 consumes one forced draw per scanned aura at a fixed 100% chance (commit.rs:453-464)",
+      "trinity SpellEffects.cpp:2163-2169 EffectDispel draws urand(0, remaining-1) (a sampling call even for remaining == 1) AND RollDispel -> roll_chance(_chance) (Unit.cpp:131-134) per attempt, even at the fixed 100% chance, exactly the trial shape Core mirrors for raw-108 (SpellEffects.cpp:4247-4252)",
+      "consequence: Core's raw-38 path consumes 0 draws (1 candidate) / 1 draw (>=2 candidates) where the policy applied at the white and raw-108 sites would consume 2 per attempt; statistically inert (values discarded) but a draw-identity difference under gate 4"
+    ],
+    "reproducer": "cargo test --offline --test i_rng_dispel holds_dispel_commit_draw_count_matches_canonical_uniform_index (0,0,1 draws); compare commit.rs:228 (uniform_index) with white_swing/resolution.rs:78 (uniform_index_forced) and commit.rs:460 (occurs_forced ONE)",
+    "why_tests_missed": "Each site pins its own documented draw count; no test compares the source-mirroring policy across sites.",
+    "correction_boundary": "Decide one explicit draw-identity policy for source trials (mirror sampling calls including singleton and fixed-100% trials, or never) and apply it at commit.rs:228/planning/dispel.rs:116 as a versioned semantic change (gate 4); keep the preview/commit replay structure.",
+    "must_not_widen": "Do not widen raw-38 attempts, dispel resistance or candidate sets while changing draw identity; do not expose raw unit draws outside the canonical RandomStream boundary.",
+    "probe_test": "i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index",
+    "track": "R3"
+  },
+  {
+    "id": "CSA-R3-02",
+    "title": "Charge-recharge-rate rebasing truncates and retains one shared full recovery interval: after a non-integral rate aura (e.g. +40%) comes and goes during a serial charge recovery, every later charge in the chain, including charges consumed after the aura ended, recovers 1 ms (compounding per cycle) faster than the pool's base recharge",
+    "severity": "low",
+    "reachability": "LIVE",
+    "status": "confirmed",
+    "coords": [
+      "crates/combat/src/cooldown/charge_rate.rs:95-158",
+      "crates/combat/src/cooldown/charge_rate.rs:178-182",
+      "crates/combat/src/cooldown.rs:1597-1625",
+      "crates/combat/src/cooldown.rs:548-583"
+    ],
+    "evidence": [
+      "core charge_rate.rs:124-125 scales the retained active.full_interval by old_speed/new_speed and truncates (scaled_duration :178-182); the full interval is never re-derived from ChargeDefinition.base_recharge while the recovery stays active; cooldown.rs:1606-1620 creates a fresh ChargeRecovery only when state.active is None, so a charge consumed during an active chain inherits the drifted full_interval (projected() :548-583 serially adds full_interval per missing charge)",
+      "probe r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions (PASS): 2-charge 15000 ms pool, +40% raw-148 aura applied at 0 and expiring at 15000: full interval 15000 -> 10714 -> 14999; a charge consumed at 15000 (aura gone) is ready at 38998; consumer model 38999",
+      "probe r3_charge_rate_drift.rs::holds_charge_interval_without_rate_aura_and_after_refill (PASS): no aura -> 15000; after the pool refills the next recovery is a fresh 15000, so the drift lives exactly as long as the chain",
+      "compounding: with +40% each apply/expire cycle while the chain stays active loses 15000 -> 14999 -> 14998 ...; +33% (Everburning Ignition 453836) loses 2 ms per cycle (10000 -> 7518 -> 9998)",
+      "trinity SpellHistory.cpp:873-899 UpdateChargeRecoveryRate rescales only the already-queued ChargeEntry records; SpellHistory.cpp:839-846 ConsumeCharge appends a fresh GetChargeRecoveryTime (:975-1009) for every later consumption, so post-aura charges recover in the full base time",
+      "source: Trueshot 288613 raw-148 +40 misc 1715 (Aimed Shot, SpellCategory 1715 MaxCharges 2, ChargeRecoveryTime 15000), 15 s duration; Core admits generic raw-148 ApplyAura carriers (dbc aura_subtype.rs:469)"
+    ],
+    "reproducer": "cd probe && CARGO_TARGET_DIR=/home/dev/bag/core-audit-pass/targets/r3 cargo test --offline --test r3_charge_rate_drift",
+    "why_tests_missed": "Core's own test (combat/tests/charge_recharge_rates.rs:958-995) pins full_recovery_interval 9_999 after a +50%x2 stack removal as expected behaviour, and never consumes another charge afterwards; fixtures otherwise use +100% factors whose ratios are exact.",
+    "correction_boundary": "ChargeRecovery rate rebase (charge_rate.rs rebase_charge_recovery) together with the serial-chain model: either retain the unscaled base interval and derive later intervals from base/current speed at each boundary, or model queued charges individually so later consumptions start from the pool's base recharge at the current speed.",
+    "must_not_widen": "Do not change remaining-time rebasing of already-running recoveries (Trinity truncates those too), the 0.01 speed floor, stacking policy, or snapshot vs live rate policy; do not add per-charge heap storage to the warm path without measurement.",
+    "probe_tests": [
+      "r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions",
+      "r3_charge_rate_drift.rs::holds_charge_interval_without_rate_aura_and_after_refill"
+    ],
+    "track": "R3"
+  }
+]

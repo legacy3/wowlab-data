@@ -1,0 +1,137 @@
+[
+ {
+  "id": "FF-K-001",
+  "authority": "AUTH-K-005",
+  "fact": "external spell-policy presence (effective proc entry etc.) for a selected passive owner",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/spell_external_policy.rs:23-43"
+    ],
+    "identity": "spell_id u32",
+    "validated": "serde deny_unknown_fields",
+    "transformation": "host projection (no generator exists)",
+    "consumed": "no"
+   },
+   {
+    "stage": "source_resolution",
+    "coords": [
+     "crates/data/src/spell_external_policy.rs:166-254"
+    ],
+    "identity": "SpellId + GameDataIdentity",
+    "validated": "schema, identity, invalid/unknown/duplicate/missing",
+    "transformation": "sorted boxed rows",
+    "consumed": "no"
+   },
+   {
+    "stage": "candidate",
+    "coords": [
+     "crates/engine/src/trait_critical_package_candidate.rs:107-163"
+    ],
+    "identity": "n/a",
+    "validated": "not consulted (by design)",
+    "transformation": "none",
+    "consumed": "no"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:440-461",
+     "crates/combat/src/program/spell_attribute.rs:110-130"
+    ],
+    "identity": "catalog.identity()==data.identity(); row by owner SpellId",
+    "validated": "all nine == Absent",
+    "transformation": "boolean admission",
+    "consumed": "yes (8 selected role compilers; not raw 638; not ordinary Passive)"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/program.rs:321"
+    ],
+    "identity": "n/a",
+    "validated": "n/a",
+    "transformation": "not retained",
+    "consumed": "no"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/state.rs:76"
+    ],
+    "identity": "n/a",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "no"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:76"
+    ],
+    "identity": "n/a",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "no"
+   }
+  ],
+  "finding_ids": [
+   "CSA-A-02",
+   "CSA-K-05"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "FF-K-002",
+  "authority": "AUTH-K-007",
+  "fact": "raw-289 ModifyAuraStacks source mode/amount/trigger identity",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/input.rs:219-239"
+    ],
+    "identity": "SpellEffectRef",
+    "validated": "number finiteness",
+    "transformation": "misc_value_0, base_points, trigger_spell retained",
+    "consumed": "no"
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/data/src/action/catalog/operation.rs:861-902"
+    ],
+    "identity": "host aura_id + effect_index",
+    "validated": "aura exists, count>0 (<=max for apply)",
+    "transformation": "StoredAuraMutation{aura,count,kind}",
+    "consumed": "host values only"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program.rs:1595-1618",
+     "crates/combat/src/program.rs:1620-1690"
+    ],
+    "identity": "effect kind family",
+    "validated": "kind==289, attributes, recipient selector",
+    "transformation": "AuraMutationKind::AddStacks/RemoveStacks(count)",
+    "consumed": "misc/base points/trigger NOT consumed"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/program.rs:1675-1690"
+    ],
+    "identity": "AuraHandle",
+    "validated": "n/a",
+    "transformation": "host count applied",
+    "consumed": "yes (host count)"
+   }
+  ],
+  "finding_ids": [
+   "CSA-K-01"
+  ],
+  "track": "K"
+ }
+]

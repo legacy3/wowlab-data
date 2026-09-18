@@ -1,0 +1,110 @@
+[
+ {
+  "id": "CSA-K-01",
+  "track": "K",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Aura-mutation lowering (raw 164/203/289) validates only the effect-kind family: source aura identity (EffectTriggerSpell), raw-289 add/set mode (EffectMiscValue_0) and signed amount are never bound to the host step",
+  "coords": [
+   "crates/combat/src/program.rs:1595-1618",
+   "crates/combat/src/program.rs:1620-1690",
+   "crates/combat/src/error/operation_effect.rs:17-42",
+   "crates/data/src/action/catalog/operation.rs:861-902",
+   "crates/dbc/src/spell_effect.rs:261",
+   "crates/dbc/src/spell_effect.rs:266",
+   "crates/dbc/src/spell_effect.rs:270"
+  ],
+  "evidence": "validate_aura_mutation_source only asserts OperationEffectContract::{RemoveAura,AddAuraStacks,RemoveAuraStacks}.accepts(kind); prepare_aura_step validates aura existence and count>0 only. Nothing compares the declared aura_id with the source EffectTriggerSpell (Trinity Spell::EffectRemoveAura removes effectInfo->TriggerSpell, SpellEffects.cpp:5152-5161; EffectModifyAuraStacks acts on TriggerSpell, MiscValue 0 = ModStackAmount(signed value), 1 = SetStackAmount, SpellEffects.cpp:6126-6146), nor the declared direction/count with the signed base points, nor rejects Set mode that Core cannot represent. Probes (all pass): k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity (raw 203 and 164 row naming aura B removes host-declared A, B stays), ::defect_modify_aura_stacks_set_mode_admitted_as_add (Set-2 row yields 3 stacks from 1; source semantic 2), ::defect_modify_aura_stacks_direction_count_identity_unbound (+1 add row on A compiles as RemoveStacks 4 on B). Live census (12.1.0.69497 SpellEffect, DifficultyID 0): 201 raw-289 rows, 21 Set-mode (misc 1, e.g. 1253147 \"[DNT] Health Aura - Set to 3\", 427141 Threads of Life); 9549 raw-164 and 5549 raw-203 rows, 43/12 with no trigger.",
+  "probe_test": "k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity",
+  "reproducer": "cd scripts/research/core_audit/probe && cargo test --offline --test k_aura_mutation_source",
+  "why_tests_missed": "Core fixtures author these rows with trigger None and base points 0 (test-support pacify.rs:125, maximum_resource_modifier_runtime.rs:774-776) and resolve the aura/count on the host side, so source-vs-step binding is never exercised; the catalog text says \"pre-resolved positive count\".",
+  "correction_boundary": "Final aura-mutation compilation (program.rs validate_aura_mutation_source): require aura_id == EffectTriggerSpell for 164/203/289, require raw-289 misc 0 and a declared direction/count equal to the signed integral base points (reject misc 1 Set until a set operation exists), keep ApplyAura identity semantics explicit.",
+  "must_not_widen": "Do not add a Set-stack runtime operation or infer auras from trigger ids at runtime; do not relax existing kind-family checks; keep host resolution for recipient only."
+ },
+ {
+  "id": "CSA-K-02",
+  "track": "K",
+  "severity": "low",
+  "reachability": "INCONSISTENT",
+  "status": "confirmed",
+  "title": "Catalog-Disabled aura raw 468 (TriggerSpellBasedOnHealthPercent) is fully executable through the public CombatProgram API",
+  "coords": [
+   "crates/dbc/src/aura_subtype.rs:571",
+   "crates/dbc/src/aura_subtype.rs:271-280",
+   "crates/combat/src/program/health_threshold.rs:353",
+   "crates/combat/src/program/health_threshold/validation.rs:343",
+   "crates/combat/src/program/effect_attribute.rs:30-32"
+  ],
+  "evidence": "AuraSubtypeSupport::Disabled is documented as \"a gameplay semantic that remains inert until its complete mechanic is implemented\", yet the health_threshold compiler admits raw-468 declarations without consulting aura_subtype_requirement and the runtime executes the threshold child. Probe k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes asserts support()==Disabled, compiles test-support health_threshold_runtime_inputs, casts the raw-468 aura and observes one child DamageDealt and health 51->41. Ledger L19427 confirms \"complete compiled/runtime machinery\" exists; no live carrier currently passes owner gates (raw 416/382), so the disagreement is catalog-vs-executable, not a wrong value.",
+  "probe_test": "k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes",
+  "reproducer": "cargo test --offline --test k_catalog_admission defect_disabled_raw468",
+  "why_tests_missed": "Core tests exercise raw-468 as an executable family (crates/combat/tests/health_threshold_*.rs) while catalog tests only check table alignment/status strings; no test couples support status to compiler admission.",
+  "correction_boundary": "Either promote raw 468 to Implemented with its reviewed requirement text, or gate health_threshold compilation on AuraSubtypeSupport::Implemented; the catalog must state what the executable admits.",
+  "must_not_widen": "Do not admit additional raw-468 carriers or owner attributes while reconciling status."
+ },
+ {
+  "id": "CSA-K-03",
+  "track": "K",
+  "severity": "low",
+  "reachability": "INCONSISTENT",
+  "status": "confirmed",
+  "title": "Catalog requirement text for selected-trait subtypes (334, 290, 79, 118) claims exact-carrier / one-rank / fail-closed restrictions that the generic selected classifier does not enforce",
+  "coords": [
+   "crates/dbc/src/aura_subtype.rs:534",
+   "crates/combat/src/program/selected_trait_package.rs:888-891",
+   "crates/combat/src/program/selected_trait_package.rs:600-629",
+   "crates/data/src/trait_source/selected_spell.rs:235-242",
+   "crates/combat/src/program/critical_modifier.rs:494-578",
+   "crates/combat/src/program/passive_damage_modifier.rs:121-213"
+  ],
+  "evidence": "raw 334 row: admitted source is exact 406154:2 in the complete four-effect Heart package and \"independent or multiple raw-334 providers ... and every other carrier remain fail closed\" \u2014 probe defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording compiles and binds a one-effect raw-334 selected package on the same provider shell. raw 290 row: \"unselected or multi-rank traits remain fail closed\" \u2014 probe defect_two_rank_raw290_selected_package_admitted_despite_one_rank_wording compiles a two-rank Canny Strikes at rank 2 and binds; the ordinary Passive route also admits the Canny trait provider (see CSA-K-05). raw 79 row (\"one-rank selected passive trait\") and raw 118 row (\"selected one-rank complete single-effect\") have no rank gate in their compilers; live witness Instinctive Arcana 376164 (single raw-79 +2, mask 126, MaxRanks 2, entries 87693/115619). The generalization was deliberate (ledger L28569-28570 \"carriers remain tests and evidence witnesses\"), so executable values follow the rank curve; the catalog contract is stale and stronger than code.",
+  "probe_test": "k_catalog_admission.rs::defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording",
+  "reproducer": "cargo test --offline --test k_catalog_admission defect_",
+  "why_tests_missed": "Catalog tests compare text/status snapshots (dbc tests/fixtures/aura_subtype_catalog.tsv) but not the admitted population; the generalization milestone stated \"No global catalog state changed\".",
+  "correction_boundary": "Rewrite the four requirement strings to describe the generic selected-package contract (arity/composition gate, max_ranks 1|2, owner policy), or add explicit gates where the restriction is still intended.",
+  "must_not_widen": "Do not add carrier-name branches back into compilers; do not change executable admission while fixing wording unless a restriction is re-justified."
+ },
+ {
+  "id": "CSA-K-04",
+  "track": "K",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "title": "Ordinary action programs silently ignore undeclared sibling source effects of any catalog status, including uncataloged identities",
+  "coords": [
+   "crates/dbc/src/spell_effect.rs:32-39",
+   "crates/combat/src/program/compile.rs:39-45",
+   "crates/data/src/game_data.rs:1426-1427",
+   "crates/combat/src/program/selected_trait_package.rs:789-806"
+  ],
+  "evidence": "SpellEffectKind docs state \"Uncataloged effect kinds must not be silently accepted\", and selected packages reject any unknown sibling, but ordinary action compilation lowers only declared steps and never audits the rest of the owner spell. Probe k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored: a SchoolDamage spell with source_effect_count = 2 whose undeclared effect 2 is Dummy raw 3 (Unimplemented), raw 17 (Disabled), uncataloged raw 999, or ApplyAura with Disabled aura raw 4 compiles and casts dealing only the declared damage. Per-family \"undeclared sibling\" audits exist only for aura owners of specific subtypes (ledger L3257, e.g. critical_block_amount.rs:486-518). Disabled siblings being inert matches the Disabled definition; the violation is for Unimplemented (known behavior not implemented) and uncataloged kinds.",
+  "probe_test": "k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored",
+  "reproducer": "cargo test --offline --test k_sibling_coverage",
+  "why_tests_missed": "Fixtures declare every effect they author; sibling completeness is tested only for selected packages and per-family aura audits.",
+  "correction_boundary": "A single cold owner-effect audit in final compilation (next to spell_attribute::audit_selected_owners) that rejects Unimplemented and uncataloged effect kinds / aura subtypes on executed owner spells unless the effect is declared by an admitting family or the row is Ignored/Disabled.",
+  "must_not_widen": "Do not implement Dummy/script behavior; do not reject Disabled or Ignored siblings (they are inert by definition)."
+ },
+ {
+  "id": "CSA-K-05",
+  "track": "K",
+  "severity": "medium",
+  "reachability": "LATENT",
+  "status": "confirmed",
+  "title": "External proc/script policy is enforced only on SelectedTrait activation; ordinary Passive activation admits the same trait-provider rows (raw 290, raw 638) with no external policy, trait source, or package atomicity",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:1182-1220",
+   "crates/combat/src/program/critical_modifier.rs:1109-1162",
+   "crates/combat/src/program/critical_block_amount.rs:256-268",
+   "crates/combat/src/program/critical_block_amount.rs:427-484",
+   "crates/combat/src/program/builder.rs:37-46",
+   "crates/combat/src/program/selected_trait_package.rs:419-461"
+  ],
+  "evidence": "The corrective docs claim candidates \"cannot execute until CombatProgram independently validates the complete source, owner, and every ordinary consumer\" without \"an executable bypass\" (docs/research/selected-passive-package-generalization.md:60-65; builder.rs:37-38 \"Selected-passive package admission fails closed if this catalog is absent\"). But CritChanceModifierActivation::Passive admits raw 183/187/197/290/308 and CriticalBlockAmountActivation::Passive admits any raw-638 row with only DB2 aura-options/equipment/attribute checks, never consulting SpellExternalPolicyCatalog. Probes: k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive (live-shaped Martial Expert 429638:2 compiles and binds alone with no trait source, no policy, no raw-108 sibling, contradicting aura_subtype.rs:581 \"admitted only as the same complete selected Martial Expert package ... both declarations ... atomically\"); k_catalog_admission.rs::defect_trait_carrier_admitted_as_ordinary_passive_without_policy (Canny Strikes trait provider 1250359 raw 290 compiles and binds as ordinary Passive with no policy). Upstream gate (why LATENT): TDB world 1200.26021 census \u2014 none of the 549 base-difficulty passive self single-effect carriers in the generic-passive families (34,35,47,49,50,51,63,85,110,132,133,145,163,178,290,294,418,419,453,454,638) has a spell_proc or spell_script_names row, so no live Present proc/script owner is currently reachable through this route.",
+  "probe_test": "k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive",
+  "reproducer": "cargo test --offline --test k_external_policy defect_live_martial; cargo test --offline --test k_catalog_admission defect_trait_carrier",
+  "why_tests_missed": "Core deliberately tests Passive raw-638 compile without trait source (critical_block_amount/tests.rs:642-649); external-policy tests only cover SelectedTrait declarations.",
+  "correction_boundary": "Route every immutable passive owner admission (ordinary Passive as well as SelectedTrait) through the one selected_trait_immutable_owner_policy_issue-style predicate requiring identity-matched all-Absent external policy, or reject ordinary Passive activation for spells that are trait providers in the supplied TraitSourceCatalog.",
+  "must_not_widen": "Do not add runtime world lookups or per-carrier allowlists; do not weaken the existing SelectedTrait policy gate."
+ }
+]

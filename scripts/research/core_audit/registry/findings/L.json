@@ -1,0 +1,68 @@
+[
+  {
+    "id": "CSA-L-01",
+    "track": "L",
+    "title": "Cold-only multi-effect package provenance box header is inlined into the warm-read PassiveAmountModifierPlan, taxing programs with no spell modifier and no package (+16 B); ledger scopes the cost only to selected SpellModifier programs",
+    "severity": "info",
+    "reachability": "LIVE",
+    "status": "confirmed",
+    "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:124-129",
+      "crates/combat/src/program/passive_spell_modifier.rs:253-266",
+      "crates/combat/src/program/passive_outgoing_modifier.rs:21-28",
+      "crates/combat/src/program/selected_trait_package.rs:290-321",
+      "crates/combat/src/state/construction.rs:244-282",
+      "crates/combat/src/program/modifier.rs:1059-1068",
+      "crates/combat/src/passive_modifier.rs:217-241",
+      "docs/performance-ledger.md:11191-11196"
+    ],
+    "evidence": [
+      {
+        "class": "core",
+        "ref": "crates/combat/src/program/passive_spell_modifier.rs:128",
+        "note": "selected_package_effects: Box<[SelectedPassivePackageEffect]> (16-byte fat pointer) is a field of PassiveSpellModifierPlan"
+      },
+      {
+        "class": "core",
+        "ref": "crates/combat/src/program/passive_outgoing_modifier.rs:23",
+        "note": "PassiveAmountModifierPlan inlines Option<PassiveSpellModifierPlan> (niche, so the Option is the full 64 B) and is boxed whenever ANY of spell modifiers / target-health healing / absorb received / school damage / incoming healing exists (passive_outgoing_modifier.rs:67-80)"
+      },
+      {
+        "class": "core",
+        "ref": "crates/combat/src/program/selected_trait_package.rs:290-321",
+        "note": "only readers of the box are selected_passive_package_source/_effects, called only from state/construction.rs:249,253 (cold); no runtime path reads it (rg over crates/combat/src)"
+      },
+      {
+        "class": "core",
+        "ref": "crates/combat/src/passive_modifier.rs:217-241",
+        "note": "warm damage planning reads program.passive_damage_modifier_definition -> modifiers -> passive -> amounts(PassiveAmountModifierPlan) -> school_damage (program/modifier.rs:1059-1068), so the plan carrying the cold header is a warm-read structure"
+      },
+      {
+        "class": "inferred",
+        "ref": "mutant_build",
+        "note": "mutant /home/dev/bag/core-audit-pass/scratch/L/mutant_no_package_field.diff: removing ONLY the field (compile result discarded) gives size_of PassiveSpellModifierPlan 64->48, PassiveAmountModifierPlan 144->128 (instrumented test, scratch/L/mutant_sizes_only.diff), and Core allocation budgets fail by exactly -16 requested bytes for programs that contain NO spell modifier: selected_passive_damage 1,752->1,736, selected_passive_healing (NaturalRecovery) 1,318->1,302, trait_absorb_received_compilation 1,470->1,454; one-effect selected spell-modifier programs 1,322->1,306; Precision 936/736->920/688 (header 16 + 2x16 retained), Heart 1,736/800->1,720/720 (16 + 4x16)"
+      },
+      {
+        "class": "core_test",
+        "ref": "tools/allocation-tests/tests/allocation_budgets/selected_passive_damage.rs:74-95",
+        "note": "pinned 1,752 B compile for a program with no spell modifier; git show 14dc095f raised it from 1,736 in the same commit that added only this field to program plan structs"
+      },
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::defect_package_provenance_header_taxes_program_without_spell_modifiers",
+        "note": "asserts actions.spell_modifiers().is_empty() and the exact 22/0/1,752 cold compile"
+      },
+      {
+        "class": "core",
+        "ref": "docs/performance-ledger.md:11191-11193",
+        "note": "ledger: 'A one-effect selected SpellModifier program adds 16 requested and retained bytes' - omits every program that has a PassiveAmountModifierPlan without spell modifiers"
+      }
+    ],
+    "probe_test": "l_warm_iteration.rs::defect_package_provenance_header_taxes_program_without_spell_modifiers",
+    "reproducer": "cargo test --test l_warm_iteration defect_package_provenance_header_taxes_program_without_spell_modifiers (probe crate); attribution: apply scratch/L/mutant_no_package_field.diff to a clone at 63f3a491 and run cargo test -p wowlab-allocation-tests -- selected_passive_damage selected_passive_healing trait_absorb_received",
+    "why_tests_missed": "Allocation budgets pin absolute counts per fixture; the corrective re-pinned the +16 in unrelated (no-spell-modifier) fixtures without a pay-for-play attribution check, and the ledger text generalised from spell-modifier fixtures only. No test pins size_of of program plan structs.",
+    "correction_boundary": "Move the cold package provenance out of the inline PassiveSpellModifierPlan (e.g. Option<Box<[..]>> or a cold sibling of CompiledCombatProgram's modifiers box that exists only when a multi-effect package compiled), OR keep it and correct the ledger scope to state that every program with any passive amount plan pays 16 B. Size-only; no semantic change.",
+    "must_not_widen": "Do not add a generic package runtime/store, do not move provenance into CombatState, do not drop lossless (entry_id,effective_rank) per member or the cold same-actor completeness validation; do not relax any allocation budget.",
+    "severity_argument": "Retained cold bytes only (16 B per program, Arc-shared across states); no warm allocation, no warm work, no semantic effect. It is an explicit pay-for-play/ledger-scope deviation, not a performance claim."
+  }
+]

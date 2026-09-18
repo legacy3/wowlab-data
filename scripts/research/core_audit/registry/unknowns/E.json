@@ -1,0 +1,23 @@
+[
+ {
+  "id": "UNK-E-001",
+  "question": "What source rule decides preserve-vs-restart cadence for subtype 23/24 periodic triggers/energizes on refresh?",
+  "why_unknown": "Core retains the authored ResolvedPeriodicCadenceReapplication without source validation (PL-E-001). Trinity uses StackAmount<2 && !TRIGGERED_DONT_RESET_PERIODIC_TIMER (Spell.cpp:3240) and pandemic override (SpellAuras.cpp:981-985); simc uses per-action dot_behavior. No 12.x client/data field identifies it.",
+  "reopen": "If a resolver/generator for the action catalog is audited (track K), check whether it emits PreserveCadence for StackAmount<2 non-pandemic triggers.",
+  "track": "E"
+ },
+ {
+  "id": "UNK-E-002",
+  "question": "Should a TickOnApplication (raw 169) aura produce an extra occurrence on active restart-cadence refresh?",
+  "why_unknown": "Direct consumers disagree: Trinity ResetPeriodic(true) sets _periodicTimer=_period so refresh ticks immediately (SpellAuraEffects.cpp:949-958, Spell.cpp:3240); simc ticks only on start for tick_on_application (dot.cpp:972-975). Core follows simc (catalog text spell_attribute.rs:407).",
+  "reopen": "Retail combat-log evidence for a raw-169 HoT/DoT refresh.",
+  "track": "E"
+ },
+ {
+  "id": "UNK-E-003",
+  "question": "Is a hard-cast completion at the exact due time of a tick allowed to refresh/remove the aura before that tick (cast rank 2 < periodic rank 5), while an instant cast requested at the same time always observes the tick first (advance_to processes all transitions <= t before cast)?",
+  "why_unknown": "Deterministic Core choice (state/transition.rs:22-75); Trinity processes caster spell events and target aura updates in map update order at 50-100 ms granularity, so no discriminating direct-consumer evidence at 1 ms.",
+  "reopen": "If a retail log or simc event-priority convention for same-timestamp dot tick vs cast completion is adopted by the ledger.",
+  "track": "E"
+ }
+]

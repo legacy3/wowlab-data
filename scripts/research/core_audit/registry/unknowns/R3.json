@@ -1,0 +1,20 @@
+[
+  {
+    "id": "UNK-R3-001",
+    "question": "Are direct Energize (raw 30) fixed amounts and resource types bound to the source effect? compile_resource_gain checks only the effect kind, delivery and attributes and consumes the host-authored ResolvedResourceGainAmount and ResourceType; the consumer rounds ENERGIZE/POWER_DRAIN/POWER_BURN base points (SpellInfo.cpp:607-620) and derives the power from EffectMiscValue",
+    "why_unknown": "The ResolvedActionCatalog is host-authored (data/src/action/catalog/operation.rs:820-860 validates only finite > 0); whether the host contract requires amount == SpellEffect base points is not stated in the catalog rows, and 56 base-difficulty raw-30 rows carry fractional base points.",
+    "reopen": "If the resolved-action contract says fixed gains must equal the exact effect base, probe a fixture whose authored amount differs from EffectBasePointsF (or is fractional) and compare with raw-2 damage, which reads base points from GameData.",
+    "coords": [
+      "crates/combat/src/program/resource_gain.rs:14-55",
+      "crates/data/src/action/catalog/operation.rs:820-860"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "UNK-R3-002",
+    "question": "UNK-L-001 narrowed: CombatState-level warm iterations are allocation-free across 16 fresh identities for 24 fixtures (AL-R3-001); can Engine observation storage still grow in a later iteration?",
+    "why_unknown": "The R3 probe uses caller-owned, pre-reserved observation storage; Engine's internal observations Vec was not measured with outcome-dependent emission counts.",
+    "reopen": "Measure Engine::step under a rotation over a stochastic fixture whose observation count per step depends on the outcome (e.g. crit-triggered children).",
+    "track": "R3"
+  }
+]

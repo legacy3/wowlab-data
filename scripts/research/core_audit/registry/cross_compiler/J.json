@@ -1,0 +1,102 @@
+[
+ {
+  "id": "XC-J-001",
+  "track": "J",
+  "concept": "haste-scaled millisecond duration conversion",
+  "compilers": [
+   {
+    "authority": "white_swing::effective_period",
+    "coords": [
+     "crates/combat/src/white_swing.rs:452-463"
+    ],
+    "behavior": "(f32(base_ms) * binary32 period factor) truncated"
+   },
+   {
+    "authority": "recovery::effective_duration (cast/GCD/periodic)",
+    "coords": [
+     "crates/combat/src/recovery.rs:94-125"
+    ],
+    "behavior": "f64(base_ms) / f64 frequency, truncated"
+   },
+   {
+    "authority": "cooldown::deadline_rate::effective_duration",
+    "coords": [
+     "crates/combat/src/cooldown/deadline_rate.rs:233-240"
+    ],
+    "behavior": "f64(base_ms) / rate / speed, truncated"
+   }
+  ],
+  "class": "A",
+  "evidence": [
+   "j_haste_duration.rs probe; Trinity uses the binary32 product for all four"
+  ],
+  "finding_ids": [
+   "CSA-J-02"
+  ]
+ },
+ {
+  "id": "XC-J-002",
+  "track": "J",
+  "concept": "attack outcome table chance quantization",
+  "compilers": [
+   {
+    "authority": "white_swing resolution",
+    "coords": [
+     "crates/combat/src/white_swing/resolution.rs:96-116"
+    ],
+    "behavior": "integer basis points, truncated shares, u32 roll"
+   },
+   {
+    "authority": "attack::resolution (yellow)",
+    "coords": [
+     "crates/combat/src/attack/resolution.rs:465-525"
+    ],
+    "behavior": "continuous f64 probabilities, unit f64 draw"
+   }
+  ],
+  "class": "B",
+  "evidence": [
+   "Trinity truncates both white (Unit.cpp:2395-2402) and yellow (Unit.cpp:2633-2645); Core yellow follows a continuous model (simc-like). Distribution-level difference <= 1 bp per component."
+  ]
+ },
+ {
+  "id": "XC-J-003",
+  "track": "J",
+  "concept": "damage/health amount integerization",
+  "compilers": [
+   {
+    "authority": "white main hand",
+    "coords": [
+     "crates/combat/src/white_swing.rs:84-86",
+     "crates/combat/src/white_swing.rs:151-159"
+    ],
+    "behavior": "u32 truncation at raw344 and armor, binary32 staging"
+   },
+   {
+    "authority": "DamageFormula direct/periodic",
+    "coords": [
+     "crates/combat/src/damage.rs:98-155"
+    ],
+    "behavior": "continuous f64, no truncation"
+   },
+   {
+    "authority": "maximum-health periodic",
+    "coords": [
+     "crates/combat/src/damage.rs:74-95"
+    ],
+    "behavior": "round points, ceil full tick"
+   },
+   {
+    "authority": "resource receipt damage",
+    "coords": [
+     "crates/combat/src/damage.rs:157-165"
+    ],
+    "behavior": "trunc(receipt * f32 amplitude)"
+   }
+  ],
+  "class": "B",
+  "evidence": [
+   "ledger 14457/16675: continuous health is intentional; white/receipt/max-health paths reproduce specific consumer rounding"
+  ]
+ }
+]

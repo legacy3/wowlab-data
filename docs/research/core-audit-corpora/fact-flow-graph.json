@@ -1,0 +1,3570 @@
+{
+ "count": 46,
+ "kind": "fact_flow",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "authority": "AUTH-A-006",
+   "fact": "Martial Expert selected package (entry 117409 rank 1): critical-bonus SpellMod + raw-638 critical-block amount, provenance and per-actor atomic binding",
+   "id": "FF-A-001",
+   "stages": [
+    {
+     "consumed": "source resolution",
+     "coords": [
+      "crates/data/src/trait_source/selected_spell.rs:215-383"
+     ],
+     "identity": "TraitNodeEntry 117409 -> TraitDefinition 122421 -> spell 429638 effects #1 (raw108 op15 mask[512]) #2 (raw638)",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "DBC rows (probe fixture mirrors live)"
+    },
+    {
+     "consumed": "classifier + every final compiler",
+     "coords": [
+      "crates/data/src/trait_source/selected_spell.rs:215-383",
+      "crates/data/src/trait_source/selected_spell.rs:196-199"
+     ],
+     "identity": "(entry,rank) -> SelectedTraitSpellEffects{spell, effects[#1 10.0, #2 20.0]}",
+     "stage": "source_resolution",
+     "transformation": "authored base points retained (unpointed)",
+     "validated": "identity, rank domain, complete effect count, no point rows for max_ranks 1"
+    },
+    {
+     "consumed": "resolved catalog + EngineInput",
+     "coords": [
+      "crates/engine/src/trait_critical_package_candidate.rs:107-245"
+     ],
+     "identity": "PreparedCriticalPackage publishes SpellModifierInput + CriticalBlockAmountInput (SelectedTrait{117409,1}) + Player bindings",
+     "stage": "candidate",
+     "transformation": "none (untrusted)",
+     "validated": "contract classification; existing declaration/binding refusal"
+    },
+    {
+     "consumed": "owner-role count",
+     "coords": [
+      "crates/data/src/action/catalog/selected_owner.rs:47-62",
+      "crates/data/src/action/catalog/selected_owner.rs:297-302",
+      "crates/data/src/action/catalog/selected_owner.rs:532-542"
+     ],
+     "identity": "exact effect -> one declaration per family (duplicate per effect rejected); two PassiveModifier ownerships of 429638",
+     "stage": "resolved_catalog",
+     "transformation": "activation carries SelectedTraitSource",
+     "validated": "catalog duplicate checks"
+    },
+    {
+     "consumed": "state validator + runtime authorities",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:853-921",
+      "crates/combat/src/program/passive_spell_modifier.rs:950-986",
+      "crates/combat/src/program/critical_block_amount.rs:256-302",
+      "crates/combat/src/program/selected_trait_package.rs:213-288"
+     ],
+     "identity": "spell-mod definition (Percent CriticalBonus 10 ClassMask), crit-block definition (20, group 0), selected_package_effects [(117409,1,#1),(117409,1,#2)]",
+     "stage": "combat_program",
+     "transformation": "points from selected rank; factor projections",
+     "validated": "each compiler re-resolves, classifies, checks all siblings declared; spell-mod proves owner policy (crit-block does not: CSA-A-02)"
+    },
+    {
+     "consumed": "quote",
+     "coords": [
+      "crates/combat/src/state/construction.rs:244-322",
+      "crates/combat/src/spell_modifier_authority.rs:98-120",
+      "crates/combat/src/critical_block_amount.rs:43-90"
+     ],
+     "identity": "(Player,#1) spell-mod family, (Player,#2) crit-block family",
+     "stage": "state_construction",
+     "transformation": "bindings -> actor-local factors",
+     "validated": "none-or-complete exactly once per actor - but family-agnostic (CSA-A-01)"
+    },
+    {
+     "consumed": "damage calculation",
+     "coords": [
+      "crates/combat/src/state/modifiers.rs:360-393"
+     ],
+     "identity": "critical bonus multiplier for matching payload 1131001 = 1+(2-1)*1.1",
+     "stage": "quote",
+     "transformation": "f64 factor from f32-rounded 1.1 projection",
+     "validated": "finite, nonnegative"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/attack/resolution.rs:466-511"
+     ],
+     "identity": "attack outcome / critical roll (baseline 100% in probe; RNG ownership is track I)",
+     "stage": "rng_outcome",
+     "transformation": "none",
+     "validated": "n/a (track I)"
+    },
+    {
+     "consumed": "observation",
+     "coords": [
+      "crates/combat/src/state/modifiers.rs:360-393"
+     ],
+     "identity": "DamageDealt requested 210.0000023841858 on Critical",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "replay identical (Core test selected_martial_expert_scales_only_matching_critical_damage_and_replays)",
+     "coords": [
+      "crates/combat/src/state.rs:442-451",
+      "crates/combat/src/state.rs:1068-1080"
+     ],
+     "identity": "package definitions/bindings immutable; no package runtime state",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same immutable authorities; fresh random identity",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "A"
+  },
+  {
+   "authority": "AUTH-A-017",
+   "fact": "Singleton selected raw-638 critical-block package (source mutation; not live): owner-policy proof path",
+   "id": "FF-A-002",
+   "stages": [
+    {
+     "consumed": "classifier",
+     "coords": [
+      "crates/data/src/trait_source/selected_spell.rs:215-383"
+     ],
+     "identity": "mutated Martial: spell 429638 one effect #1 raw638, source_effect_count 1",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "structural only"
+    },
+    {
+     "consumed": "contract",
+     "coords": [
+      "crates/data/src/trait_source/selected_spell.rs:215-383"
+     ],
+     "identity": "SelectedTraitSpellEffects arity 1",
+     "stage": "source_resolution",
+     "transformation": "none",
+     "validated": "complete"
+    },
+    {
+     "consumed": "resolved catalog",
+     "coords": [
+      "crates/engine/src/trait_critical_package_candidate.rs:121-139"
+     ],
+     "identity": "critical-package candidate refuses (needs both roles); host declares CriticalBlockAmountInput directly",
+     "stage": "candidate",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "nobody (owner count unused by raw-638)",
+     "coords": [
+      "crates/data/src/action/catalog/selected_owner.rs:532-542"
+     ],
+     "identity": "one PassiveModifier ownership of 429638",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": "duplicate per effect"
+    },
+    {
+     "consumed": "critical-block authority",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:157-254",
+      "crates/combat/src/program/critical_block_amount.rs:256-302",
+      "crates/combat/src/program/selected_trait_package.rs:888-891"
+     ],
+     "identity": "arity-1 composition admitted; CriticalBlockAmount role; amount stored",
+     "stage": "combat_program",
+     "transformation": "none",
+     "validated": "role, siblings declared, percentage range; NOT owner policy/external policy"
+    },
+    {
+     "consumed": "attack resolution",
+     "coords": [
+      "crates/combat/src/critical_block_amount.rs:43-90"
+     ],
+     "identity": "(Player,#1) crit-block binding; package validator skips (arity < 2 never recorded, selected_trait_package.rs:246)",
+     "stage": "state_construction",
+     "transformation": "none",
+     "validated": "ordinary authority duplicate/actor/definition checks"
+    }
+   ],
+   "track": "A"
+  },
+  {
+   "authority": "AUTH-A-004",
+   "fact": "Package provenance (entry,rank,effect) from spell-modifier compilation to state-construction lookup",
+   "id": "FF-A-003",
+   "stages": [
+    {
+     "consumed": "state validator",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:150-161",
+      "crates/combat/src/program/passive_spell_modifier.rs:257-266",
+      "crates/combat/src/program/selected_trait_package.rs:229-274"
+     ],
+     "identity": "distinct SelectedTraitSource of each selected spell-mod definition with arity>=2",
+     "stage": "combat_program",
+     "transformation": "sorted (entry,rank,effect) Box",
+     "validated": "re-resolve, contract, all members declared under exact source"
+    },
+    {
+     "consumed": "validation only; not retained in CombatState",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:291-304",
+      "crates/combat/src/program/selected_trait_package.rs:306-320",
+      "crates/combat/src/state/construction.rs:248-279"
+     ],
+     "identity": "bound effect -> first recorded source with that exact effect -> members of that exact source",
+     "stage": "state_construction",
+     "transformation": "none",
+     "validated": "uniqueness of effect->source (REJ-A-002)"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1080"
+     ],
+     "identity": "no package field in CombatState",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "A"
+  },
+  {
+   "authority": "AUTH-B-001",
+   "fact": "selected raw-108/218 operation 0/22 percentage SpellMod amount, selector and operation",
+   "finding_ids": [],
+   "id": "FF-B-001",
+   "stages": [
+    {
+     "consumed": "classification",
+     "coords": [
+      "crates/data/src/game_data.rs:550-612"
+     ],
+     "identity": "SpellEffect(aura 108/218, misc0 op, misc1 label, 4-word mask), SpellClassOptions family/mask, SpellLabel",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "exists"
+    },
+    {
+     "consumed": "package contract",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:853-921"
+     ],
+     "identity": "TraitSourceCatalog::try_selected_spell_effect_amounts(entry, effective rank)",
+     "stage": "source_resolution",
+     "transformation": "rank-resolved selected amount per exact effect",
+     "validated": "entry/rank/point rows"
+    },
+    {
+     "consumed": "catalog input",
+     "coords": [
+      "crates/engine/src/trait_spell_modifier_candidate.rs:105-161"
+     ],
+     "identity": "engine PreparedSpellModifierCandidate",
+     "stage": "candidate",
+     "transformation": "emits SelectedTrait declarations + Player bindings",
+     "validated": "package contract, all roles SpellModifier"
+    },
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/data/src/action/catalog/spell_modifier.rs:11-40"
+     ],
+     "identity": "ResolvedSpellModifier{effect, SelectedTrait(entry,rank)}",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": "catalog schema"
+    },
+    {
+     "consumed": "SpellModifierAuthority",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:1033-1123",
+      "crates/combat/src/program/passive_spell_modifier.rs:163-201",
+      "crates/combat/src/program/passive_spell_modifier.rs:711-788"
+     ],
+     "identity": "PassiveSpellModifierProjection(effect,payload,op,factor)",
+     "stage": "combat_program",
+     "transformation": "binary32 (1+p/100)^overlap-count per direct/periodic payload program spell",
+     "validated": "shell, op, misc1, mask/label, points>=-100, owner neutrality, sibling declaration"
+    },
+    {
+     "consumed": "runtime lookup",
+     "coords": [
+      "crates/combat/src/spell_modifier_authority.rs:98-219",
+      "crates/combat/src/spell_modifier_authority.rs:291-373"
+     ],
+     "identity": "BoundFactor(actor,payload,op)",
+     "stage": "state_construction",
+     "transformation": "binary32 product across providers in canonical effect order",
+     "validated": "Player-only, no duplicates, definition present"
+    },
+    {
+     "consumed": "damage/heal amount",
+     "coords": [
+      "crates/combat/src/damage_modifier.rs:263-278",
+      "crates/combat/src/healing_modifier.rs:245-254"
+     ],
+     "identity": "(source actor, payload spell, route->op)",
+     "stage": "quote",
+     "transformation": "outgoing *= factor",
+     "validated": "finite product"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/execution/planning/critical.rs:11-79"
+     ],
+     "identity": "no draw added",
+     "stage": "rng_outcome",
+     "transformation": "factor independent of outcome",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "health application",
+     "coords": [
+      "crates/combat/src/damage_modifier.rs:118-136"
+     ],
+     "identity": "quoted amount",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1094"
+     ],
+     "identity": "passive authority immutable",
+     "stage": "reset",
+     "transformation": "ModifierRuntime::reset clears only active cohorts",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same as reset",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "B"
+  },
+  {
+   "authority": "AUTH-B-004",
+   "fact": "selected operation-11 cooldown SpellMod (flat ms / percent)",
+   "finding_ids": [],
+   "id": "FF-B-002",
+   "stages": [
+    {
+     "consumed": "package",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:1205-1271"
+     ],
+     "identity": "raw 107/219 op 11 selected integral negative ms; raw 108/218 op 11 percent in [-100,0)",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "exact_i32, sign"
+    },
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:853-930"
+     ],
+     "identity": "selected_amount by rank",
+     "stage": "source_resolution",
+     "transformation": "rank amount",
+     "validated": "Set/Multiply point rows"
+    },
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/data/src/action/catalog/spell_modifier.rs:11-40"
+     ],
+     "identity": "ResolvedSpellModifier",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": "schema"
+    },
+    {
+     "consumed": "authority",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:456-470",
+      "crates/combat/src/program/passive_spell_modifier.rs:587-615"
+     ],
+     "identity": "CooldownFlat/Cooldown projection per action with any started cooldown",
+     "stage": "combat_program",
+     "transformation": "flat*count; binary32 factor^count",
+     "validated": "checked ms*count, factor finite"
+    },
+    {
+     "consumed": "cooldown quote",
+     "coords": [
+      "crates/combat/src/spell_modifier_authority.rs:122-160",
+      "crates/combat/src/spell_modifier_authority.rs:252-275"
+     ],
+     "identity": "BoundFactor(actor,payload,Cooldown) with flat_milliseconds",
+     "stage": "state_construction",
+     "transformation": "flat and percent share one coordinate",
+     "validated": "checked add"
+    },
+    {
+     "consumed": "deadline start",
+     "coords": [
+      "crates/combat/src/state.rs:100-124",
+      "crates/combat/src/state.rs:700-731",
+      "crates/combat/src/cooldown/deadline_rate.rs:450-487"
+     ],
+     "identity": "(actor, activation spell)",
+     "stage": "quote",
+     "transformation": "(base+flat)*f32 factor truncated; <=0 suppresses start; then haste/rate; then raw-341",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "deadline state",
+     "coords": [
+      "crates/combat/src/state.rs:733-781"
+     ],
+     "identity": "same modifier recomputed",
+     "stage": "commit",
+     "transformation": "same",
+     "validated": "identical inputs"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1075"
+     ],
+     "identity": "cooldowns.reset",
+     "stage": "reset",
+     "transformation": "deadlines cleared; modifier immutable",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "B"
+  },
+  {
+   "authority": "AUTH-B-003",
+   "fact": "selected operation-15 critical bonus SpellMod",
+   "finding_ids": [
+    "CSA-B-03"
+   ],
+   "id": "FF-B-003",
+   "stages": [
+    {
+     "consumed": "package",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:1090-1123"
+     ],
+     "identity": "raw-108 op 15 class mask",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "points>=-100"
+    },
+    {
+     "consumed": "authority",
+     "coords": [
+      "crates/combat/src/program/modifier/payload_spells.rs:32-52",
+      "crates/combat/src/program/passive_spell_modifier.rs:163-201"
+     ],
+     "identity": "CriticalBonus projection per crit-eligible *damage* program",
+     "stage": "combat_program",
+     "transformation": "binary32 factor^count",
+     "validated": "count>0"
+    },
+    {
+     "consumed": "runtime",
+     "coords": [
+      "crates/combat/src/spell_modifier_authority.rs:98-219"
+     ],
+     "identity": "BoundFactor(actor,payload,CriticalBonus)",
+     "stage": "state_construction",
+     "transformation": "product",
+     "validated": "Player"
+    },
+    {
+     "consumed": "critical multiplier",
+     "coords": [
+      "crates/combat/src/execution/planning/critical.rs:11-79",
+      "crates/combat/src/state/modifiers.rs:360-395"
+     ],
+     "identity": "(caster, program spell)",
+     "stage": "quote",
+     "transformation": "1+(M-1)F before school scaling for heals/physical, after for magic/periodic",
+     "validated": "finite, nonnegative"
+    },
+    {
+     "consumed": "amount",
+     "coords": [
+      "crates/combat/src/execution/planning/critical.rs:81-123"
+     ],
+     "identity": "crit draw",
+     "stage": "rng_outcome",
+     "transformation": "multiplier prepared before draw, consumed only on Critical",
+     "validated": "probability"
+    },
+    {
+     "consumed": "health",
+     "coords": [
+      "crates/combat/src/execution/planning/critical.rs:78"
+     ],
+     "identity": "ResolvedCriticalStrike",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1094"
+     ],
+     "identity": "immutable",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "immutable",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "B"
+  },
+  {
+   "authority": "AUTH-B-001",
+   "fact": "selected operation-3 PointsIndex0 flat/percent first-effect modifier",
+   "finding_ids": [
+    "CSA-B-01",
+    "CSA-B-04"
+   ],
+   "id": "FF-B-004",
+   "stages": [
+    {
+     "consumed": "package",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:1125-1271"
+     ],
+     "identity": "raw 107/219 op 3 integral points; raw 108/218 op 3 percent",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "exact_i32 / >=-100"
+    },
+    {
+     "consumed": "authority",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:537-583",
+      "crates/combat/src/program/passive_spell_modifier.rs:617-691"
+     ],
+     "identity": "FlatFirstEffectProjection(provider,target effect,points*count); FirstEffect percent (payload spell)",
+     "stage": "combat_program",
+     "transformation": "flat * count; percent 1+p/100 once",
+     "validated": "targets limited to declared self raw-87 / raw-20 effect 1; raw-20 flat must be positive"
+    },
+    {
+     "consumed": "runtime",
+     "coords": [
+      "crates/combat/src/spell_modifier_authority.rs:163-205",
+      "crates/combat/src/spell_modifier_authority.rs:277-288"
+     ],
+     "identity": "BoundFlatPoint(actor,target); FirstEffect factor (actor,spell)",
+     "stage": "state_construction",
+     "transformation": "binary32 narrowing of percent",
+     "validated": "checked add"
+    },
+    {
+     "consumed": "amount",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:1326-1369",
+      "crates/combat/src/damage_modifier.rs:283-320"
+     ],
+     "identity": "caster/holder Player self-cast only",
+     "stage": "quote",
+     "transformation": "raw-20: flat then factor before max-health scaling; raw-87: flat added to percent points before stack scaling",
+     "validated": "source==target==affected"
+    },
+    {
+     "consumed": "health",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:1371-1400"
+     ],
+     "identity": "quoted amount",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1094"
+     ],
+     "identity": "immutable",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "immutable",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "B"
+  },
+  {
+   "authority": "AUTH-B-008",
+   "fact": "raw-286 cooldown recovery-rate aura percentage",
+   "finding_ids": [],
+   "id": "FF-B-005",
+   "stages": [
+    {
+     "consumed": "definition",
+     "coords": [
+      "crates/combat/src/program/cooldown_recovery_rate.rs:307-387"
+     ],
+     "identity": "aura effect raw 286 authored base points",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "neutral misc, amount facts, caster delivery"
+    },
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/data/src/action/catalog/cooldown_recovery_rate.rs:1-40"
+     ],
+     "identity": "ResolvedCooldownRecoveryRate{effect, application_effect}",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": "schema"
+    },
+    {
+     "consumed": "runtime",
+     "coords": [
+      "crates/combat/src/program/cooldown_recovery_rate.rs:600-691"
+     ],
+     "identity": "action cells",
+     "stage": "combat_program",
+     "transformation": "Boolean applicability",
+     "validated": "effect_affects_spell per action"
+    },
+    {
+     "consumed": "deadline",
+     "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:550-630"
+     ],
+     "identity": "rate cell speed",
+     "stage": "quote",
+     "transformation": "live rebase of remaining at old/new speed",
+     "validated": "representable"
+    },
+    {
+     "consumed": "deadline",
+     "coords": [
+      "crates/combat/src/cooldown/deadline_rate.rs:437-448"
+     ],
+     "identity": "transition quote",
+     "stage": "commit",
+     "transformation": "store after",
+     "validated": "authored projection order"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1075"
+     ],
+     "identity": "cooldowns.reset",
+     "stage": "reset",
+     "transformation": "cleared",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "n/a",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "B"
+  },
+  {
+   "authority": "AUTH-C-003",
+   "fact": "Selected raw-290 all-crit rank amount (Keen Eyesight shape: entry 126473, def 131299, spell 378004 #1, Set curve 77725 rank1=2 rank2=4) -> critical probability",
+   "id": "FF-C-001",
+   "probe_test": "c_selected_rank.rs::holds_selected_rank_two_amount_reaches_critical_chance",
+   "stages": [
+    {
+     "consumed": "source resolution",
+     "coords": [
+      "crates/data/src/trait_source.rs:73-140"
+     ],
+     "identity": "TraitNodeEntry 126473 -> TraitDefinition 131299 -> spell 378004 effect #1 raw 290 bp 2; TraitDefinitionEffectPoints 22726 op 0 curve 77725 (DBC)",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "TraitSourceCatalog::try_from_input structural checks"
+    },
+    {
+     "consumed": "classifier and compiler",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:494-514"
+     ],
+     "identity": "(entry, effective_rank) -> SelectedTraitSpellEffects",
+     "stage": "source_resolution",
+     "transformation": "Set curve: rank 2 -> 4.0 (binary32 curve y)",
+     "validated": "rank domain, curve evaluation"
+    },
+    {
+     "consumed": "resolved catalog; probe bypasses candidate and declares the same input directly",
+     "coords": [
+      "crates/engine/src/trait_candidate.rs:112-212"
+     ],
+     "identity": "PreparedTraitCriticalCandidate -> ResolvedCriticalChanceModifierInput{SelectedTrait{entry,rank}} + Player binding",
+     "stage": "candidate",
+     "transformation": "none",
+     "validated": "single-effect AllCriticalChance/308 role"
+    },
+    {
+     "consumed": "critical_modifier compiler",
+     "coords": [
+      "crates/data/src/action/catalog/critical_chance_modifier.rs:1-60"
+     ],
+     "identity": "ResolvedCriticalChanceModifier(effect, SelectedTrait(entry, rank), Additive)",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": "wire shape"
+    },
+    {
+     "consumed": "passive crit handle",
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:370-430",
+      "crates/combat/src/program/critical_modifier.rs:494-575"
+     ],
+     "identity": "CriticalChanceModifierDefinition{effect, percent_points=selected, SOURCE_SPELL_AND_WEAPON}",
+     "stage": "combat_program",
+     "transformation": "selected_amount -> f64 percent_points",
+     "validated": "package contract, role, sibling declaration, owner policy, source shape"
+    },
+    {
+     "consumed": "effective_critical_values",
+     "coords": [
+      "crates/combat/src/critical/authority.rs:191-282"
+     ],
+     "identity": "PassiveCriticalModifierBinding(Player, effect) -> dense passive range",
+     "stage": "state_construction",
+     "transformation": "none",
+     "validated": "duplicate binding, missing actor, missing definition"
+    },
+    {
+     "consumed": "PreparedImpactQuote",
+     "coords": [
+      "crates/combat/src/state/modifiers.rs:397-441",
+      "crates/combat/src/critical_modifier.rs:176-242",
+      "crates/combat/src/critical/resolution.rs:95-113"
+     ],
+     "identity": "source actor = caster index",
+     "stage": "quote",
+     "transformation": "baseline + points/100, floor 0, clamp at 1 -> Probability",
+     "validated": "finite aggregate"
+    },
+    {
+     "consumed": "HitResult",
+     "coords": [
+      "crates/combat/src/attack/resolution.rs:497-501"
+     ],
+     "identity": "canonical RandomStream",
+     "stage": "rng_outcome",
+     "transformation": "occurs(p): no draw at 0 or >= 1",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "health",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:878-921",
+      "crates/combat/src/health_amount.rs:67-79"
+     ],
+     "identity": "ImpactResolved / DamageDealt",
+     "stage": "commit",
+     "transformation": "critical amount selected",
+     "validated": "quote already proved"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/state.rs:442-451",
+      "crates/combat/src/state.rs:1068-1120"
+     ],
+     "identity": "CriticalAuthority immutable",
+     "stage": "reset",
+     "transformation": "not reset (no mutable state); RNG stream reset",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "new RandomStreamIdentity",
+     "stage": "iteration_reset",
+     "transformation": "same immutable crit inputs",
+     "validated": "n/a"
+    }
+   ],
+   "track": "C"
+  },
+  {
+   "authority": "AUTH-C-006",
+   "evidence": [
+    "core_test: crates/engine/tests/selected_martial_expert.rs:80-94 school_critical_modifier_order_follows_direct_attack_family asserts both orders; matches Trinity Unit.cpp:1216-1231 vs 7279-7306."
+   ],
+   "fact": "Martial Expert op-15 critical bonus (selected 117409 r1, 429638 #1 +10, binary32 factor 1.1f) + raw-163 ordering -> critical damage multiplier",
+   "id": "FF-C-002",
+   "stages": [
+    {
+     "consumed": "classifier",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:1090-1100"
+     ],
+     "identity": "429638 #1 raw 108 op 15 mask [512,0,0,0]",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "DBC"
+    },
+    {
+     "consumed": "spell_properties authority",
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:131-200",
+      "crates/combat/src/program/passive_spell_modifier.rs:477-483",
+      "crates/combat/src/program/modifier/payload_spells.rs:32-54"
+     ],
+     "identity": "projection (effect, payload, CriticalBonus, factor)",
+     "stage": "combat_program",
+     "transformation": "binary32 (1+10/100)^bits",
+     "validated": "owner policy, sibling completeness, finite factor"
+    },
+    {
+     "consumed": "critical_bonus_multiplier",
+     "coords": [
+      "crates/combat/src/spell_modifier_authority.rs:90-220"
+     ],
+     "identity": "(actor, payload, op) -> combined factor",
+     "stage": "state_construction",
+     "transformation": "product of factors",
+     "validated": "binding / finiteness"
+    },
+    {
+     "consumed": "ResolvedCriticalStrike.multiplier",
+     "coords": [
+      "crates/combat/src/execution/planning/critical.rs:11-79",
+      "crates/combat/src/state/modifiers.rs:335-395"
+     ],
+     "identity": "caster index + payload spell + payload school",
+     "stage": "quote",
+     "transformation": "melee/ranged direct: (1+(m-1)F)*S163; magic/none/periodic: 1+(m*S163-1)F",
+     "validated": "finite, non-negative"
+    },
+    {
+     "consumed": "HitResult",
+     "coords": [
+      "crates/combat/src/attack/resolution.rs:497-501"
+     ],
+     "identity": "crit draw",
+     "stage": "rng_outcome",
+     "transformation": "n/a",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "DamageDealt",
+     "coords": [
+      "crates/combat/src/damage.rs:118-151",
+      "crates/combat/src/health_amount.rs:67-79"
+     ],
+     "identity": "normal x multiplier x block multiplier",
+     "stage": "commit",
+     "transformation": "f64, no intermediate rounding",
+     "validated": "finite"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1120"
+     ],
+     "identity": "immutable projections",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "immutable",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "C"
+  },
+  {
+   "authority": "AUTH-C-010",
+   "fact": "Martial Expert raw-638 selected amount (+20) -> defender critical-block retained multiplier",
+   "id": "FF-C-003",
+   "stages": [
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:157-254"
+     ],
+     "identity": "429638 #2 raw 638 bp 20",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "shape, owner attributes, passive attribute"
+    },
+    {
+     "consumed": "plan",
+     "coords": [
+      "crates/combat/src/program/critical_block_amount.rs:256-302"
+     ],
+     "identity": "CriticalBlockAmountDefinition{effect, percent_points=selected}",
+     "stage": "combat_program",
+     "transformation": "selected_amount",
+     "validated": "role, sibling declaration, percent >= -100"
+    },
+    {
+     "consumed": "attack runtime",
+     "coords": [
+      "crates/combat/src/critical_block_amount.rs:42-172"
+     ],
+     "identity": "CriticalBlockAmountBinding(defender, effect)",
+     "stage": "state_construction",
+     "transformation": "per-defender product of (1+p/100)",
+     "validated": "duplicate / missing actor / definition, exclusive ambiguity"
+    },
+    {
+     "consumed": "ResolvedAttackTable",
+     "coords": [
+      "crates/combat/src/state/modifiers.rs:238-247",
+      "crates/combat/src/attack/resolution.rs:382-398"
+     ],
+     "identity": "target index (defender)",
+     "stage": "quote",
+     "transformation": "max(0, 1-(1-m)F)",
+     "validated": "has_damage, block eligible, Melee/Ranged"
+    },
+    {
+     "consumed": "BlockResult",
+     "coords": [
+      "crates/combat/src/attack/resolution.rs:503-523"
+     ],
+     "identity": "block draw then critical-block draw",
+     "stage": "rng_outcome",
+     "transformation": "n/a",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "DamageDealt",
+     "coords": [
+      "crates/combat/src/health_amount.rs:67-79"
+     ],
+     "identity": "amount x critical-block multiplier",
+     "stage": "commit",
+     "transformation": "f64",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1120"
+     ],
+     "identity": "immutable factors",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "immutable",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "C"
+  },
+  {
+   "authority": "AUTH-C-002",
+   "fact": "Payload crit eligibility for a non-amount hostile impact (exact Stun 346197) -> critical draw and ImpactResolved result",
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "FF-C-004",
+   "probe_tests": [
+    "c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+    "c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw"
+   ],
+   "stages": [
+    {
+     "consumed": "impact policy",
+     "coords": [
+      "crates/combat/src/program/payload_policy.rs:18-47"
+     ],
+     "identity": "spell 346197 attributes (no CannotCrit), DefenseType None, school 1",
+     "stage": "source",
+     "transformation": "Eligible + Weapon channel",
+     "validated": "attribute catalog"
+    },
+    {
+     "consumed": "planning",
+     "coords": [
+      "crates/combat/src/program.rs:1158-1205"
+     ],
+     "identity": "ImpactDefinition{policy}",
+     "stage": "combat_program",
+     "transformation": "with_damage(false)/with_healing(false) recorded but crit left Eligible",
+     "validated": "only Instakill/Interrupt/Dispel/DispelMechanic clear crit"
+    },
+    {
+     "consumed": "quote",
+     "coords": [
+      "crates/combat/src/critical/authority.rs:146-189"
+     ],
+     "identity": "enemy baseline 1.0",
+     "stage": "state_construction",
+     "transformation": "dense",
+     "validated": "finite"
+    },
+    {
+     "consumed": "PreparedImpactQuote",
+     "coords": [
+      "crates/combat/src/execution/planning.rs:882-915",
+      "crates/combat/src/execution/planning/critical.rs:81-123"
+     ],
+     "identity": "caster (enemy) -> recipient (Player)",
+     "stage": "quote",
+     "transformation": "Probability 1.0",
+     "validated": "crit modifier arithmetic (fallible)"
+    },
+    {
+     "consumed": "ImpactResolved",
+     "coords": [
+      "crates/combat/src/attack/resolution.rs:497-501"
+     ],
+     "identity": "occurs(1.0) -> true without draw; occurs(0.5) consumes one draw",
+     "stage": "rng_outcome",
+     "transformation": "HitResult::Critical",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "observers / output",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:909-919"
+     ],
+     "identity": "ImpactResolved{result: Critical}",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/state.rs:442-446"
+     ],
+     "identity": "RNG stream reset",
+     "stage": "reset",
+     "transformation": "same draw sequence replays",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "fresh stream",
+     "stage": "iteration_reset",
+     "transformation": "spurious draw shifts subsequent outcomes",
+     "validated": "n/a"
+    }
+   ],
+   "track": "C"
+  },
+  {
+   "authority": "AUTH-D-001",
+   "fact": "raw-2 direct School Damage amount (base/AP/SP) and school identity, cast -> health",
+   "id": "FF-D-001",
+   "stages": [
+    {
+     "consumed": "GameDataInput",
+     "coords": [
+      "crates/data/src/effect_amount.rs:7-31"
+     ],
+     "identity": "SpellEffect row: EffectBasePointsF, EffectBonusCoefficient, BonusCoefficientFromAP, SchoolMask",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "DBC"
+    },
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/data/src/effect_amount.rs:52-66"
+     ],
+     "identity": "SpellEffectRef -> coefficients + EffectAmountFacts",
+     "stage": "source_resolution",
+     "transformation": "neutral fill when sparse",
+     "validated": "GameData input schema"
+    },
+    {
+     "consumed": "compile_damage",
+     "coords": [
+      "crates/combat/src/program/damage.rs:79-89"
+     ],
+     "identity": "ResolvedProgramStep::DirectDamage(effect_index of program spell)",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": "catalog step belongs to program spell"
+    },
+    {
+     "consumed": "quote",
+     "coords": [
+      "crates/combat/src/program/damage.rs:93-184",
+      "crates/combat/src/damage.rs:30-37"
+     ],
+     "identity": "DamageFormula{effect, coefficients}; DamageFormulaBinding{handle, mechanic}",
+     "stage": "combat_program",
+     "transformation": "base_points rounded",
+     "validated": "kind, recipient, delivery, NEUTRAL facts, attributes"
+    },
+    {
+     "consumed": "quote via context.power",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1072"
+     ],
+     "identity": "actor OffensivePower snapshot on ActorState",
+     "stage": "state_construction",
+     "transformation": "none",
+     "validated": "ActorState::try_new"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:857-996"
+     ],
+     "identity": "payload school = program node school",
+     "stage": "quote",
+     "transformation": "x scale x outgoing, clamp, x incoming, x crit multiplier; absorb bounds",
+     "validated": "dead target, immunity, finite checks"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/impact.rs:388-400"
+     ],
+     "identity": "impact-level hit/crit/block resolution",
+     "stage": "rng_outcome",
+     "transformation": "select normal/critical leg",
+     "validated": "impact table"
+    },
+    {
+     "consumed": "observation + thresholds",
+     "coords": [
+      "crates/combat/src/execution/commit/health.rs:245-329"
+     ],
+     "identity": "quoted PreparedHealthAmount by quote_index",
+     "stage": "commit",
+     "transformation": "resolve_damage x block multiplier -> absorb consume -> HealthPool damage",
+     "validated": "planned representable"
+    },
+    {
+     "consumed": "next run",
+     "coords": [
+      "crates/combat/src/state.rs:442-446",
+      "crates/combat/src/state.rs:1068-1072"
+     ],
+     "identity": "actors restored from baseline",
+     "stage": "reset",
+     "transformation": "health back to baseline; formula immutable",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same as reset + fresh random identity",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "D"
+  },
+  {
+   "authority": "AUTH-D-002",
+   "fact": "raw-10 fixed direct heal amount",
+   "id": "FF-D-002",
+   "stages": [
+    {
+     "consumed": "GameDataInput",
+     "coords": [
+      "crates/data/src/effect_amount.rs:7-31"
+     ],
+     "identity": "SpellEffect Effect 10 EffectBasePointsF",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "DBC"
+    },
+    {
+     "consumed": "compile_direct_heal",
+     "coords": [
+      "crates/combat/src/program/healing.rs:89-95"
+     ],
+     "identity": "ResolvedProgramStep::DirectHeal",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": "catalog"
+    },
+    {
+     "consumed": "quote",
+     "coords": [
+      "crates/combat/src/program/healing.rs:154-289",
+      "crates/combat/src/program/healing.rs:316-379"
+     ],
+     "identity": "HealingFormula{effect, coefficients}",
+     "stage": "combat_program",
+     "transformation": "none (no rounding)",
+     "validated": "kind, aura, trigger, misc, mechanic, attributes, NEUTRAL facts, nonnegative coefficients"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:1371-1526",
+      "crates/combat/src/execution/planning/health.rs:1528-1581"
+     ],
+     "identity": "recipient projected pool",
+     "stage": "quote",
+     "transformation": "base+AP+SP; x healing multiplier; critical leg x critical healing factor; heal absorbs",
+     "validated": "dead recipient, finite"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/impact.rs:388-400"
+     ],
+     "identity": "guaranteed-landed critical draw",
+     "stage": "rng_outcome",
+     "transformation": "leg select",
+     "validated": "impact"
+    },
+    {
+     "consumed": "HealingDone observation",
+     "coords": [
+      "crates/combat/src/execution/commit/health.rs:1-90"
+     ],
+     "identity": "quote_index",
+     "stage": "commit",
+     "transformation": "resolve_healing -> absorb -> heal capped at maximum",
+     "validated": "planned"
+    },
+    {
+     "consumed": "next run",
+     "coords": [
+      "crates/combat/src/state.rs:442-446"
+     ],
+     "identity": "baseline actors",
+     "stage": "reset",
+     "transformation": "restore",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "baseline actors",
+     "stage": "iteration_reset",
+     "transformation": "restore",
+     "validated": "n/a"
+    }
+   ],
+   "track": "D"
+  },
+  {
+   "authority": "AUTH-D-004",
+   "fact": "school-absorb capacity, school mask, priority and order",
+   "id": "FF-D-003",
+   "stages": [
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/combat/src/program/absorb.rs:716-790"
+     ],
+     "identity": "SpellEffect ApplyAura raw-69 base points, misc0 school, misc1 priority",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "DBC"
+    },
+    {
+     "consumed": "compile_definition",
+     "coords": [
+      "crates/combat/src/program/absorb.rs:1201-1265"
+     ],
+     "identity": "ResolvedAbsorbInput{aura, effect, application_effect}",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": "selected provenance"
+    },
+    {
+     "consumed": "state",
+     "coords": [
+      "crates/combat/src/program/absorb.rs:790-859",
+      "crates/combat/src/program/absorb.rs:861-904"
+     ],
+     "identity": "AbsorbDefinition{selector(channel,school,policies), priority, base_capacity}",
+     "stage": "combat_program",
+     "transformation": "cohorts per application",
+     "validated": "finite positive capacity, zero power coefficients, neutral facts, lifecycle"
+    },
+    {
+     "consumed": "quote",
+     "coords": [
+      "crates/combat/src/absorb/topology.rs:1-60"
+     ],
+     "identity": "AbsorbRuntime bindings/cells",
+     "stage": "state_construction",
+     "transformation": "cells inactive",
+     "validated": "topology"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/state/absorbs.rs:30-112",
+      "crates/combat/src/absorb/transaction.rs:902-925",
+      "crates/combat/src/execution/planning/health.rs:1241-1324"
+     ],
+     "identity": "aura quote -> AbsorbApplication(identity=(generation, sequence))",
+     "stage": "quote",
+     "transformation": "capacity x source (x recipient, staged rounding only then); candidate snapshot ordered by funding/priority/sequence",
+     "validated": "finite capacity"
+    },
+    {
+     "consumed": "health",
+     "coords": [
+      "crates/combat/src/state/absorbs.rs:114-148",
+      "crates/combat/src/execution/commit/health.rs:397-460"
+     ],
+     "identity": "captured application; quoted snapshot",
+     "stage": "commit",
+     "transformation": "replace cells; consume in snapshot order; depletion removes aura",
+     "validated": "generation/sequence match"
+    },
+    {
+     "consumed": "next run",
+     "coords": [
+      "crates/combat/src/state.rs:1128-1134",
+      "crates/combat/src/absorb/topology.rs:162-165"
+     ],
+     "identity": "runtime cells",
+     "stage": "reset",
+     "transformation": "clear",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "runtime cells",
+     "stage": "iteration_reset",
+     "transformation": "clear",
+     "validated": "n/a"
+    }
+   ],
+   "track": "D"
+  },
+  {
+   "authority": "AUTH-D-010",
+   "fact": "maximum health under raw-133 feeding raw-165",
+   "id": "FF-D-004",
+   "stages": [
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/combat/src/program/maximum_health_modifier.rs:41-66"
+     ],
+     "identity": "raw-133 percent points",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "DBC"
+    },
+    {
+     "consumed": "state",
+     "coords": [
+      "crates/combat/src/program/maximum_health_modifier.rs:57-66"
+     ],
+     "identity": "MaximumHealthModifierDefinition factor 1 + p x stacks/100",
+     "stage": "combat_program",
+     "transformation": "f64",
+     "validated": "finite, lifecycle"
+    },
+    {
+     "consumed": "quote",
+     "coords": [
+      "crates/combat/src/maximum_health_modifier.rs:120-170"
+     ],
+     "identity": "per-actor bounds",
+     "stage": "state_construction",
+     "transformation": "none",
+     "validated": "finite positive factor bounds"
+    },
+    {
+     "consumed": "raw-165 quote",
+     "coords": [
+      "crates/combat/src/state/maximum_health_modifiers.rs:88-103"
+     ],
+     "identity": "baseline maximum x factor",
+     "stage": "quote",
+     "transformation": "continuous maximum, current reconciled",
+     "validated": "finite positive (debug)"
+    },
+    {
+     "consumed": "cast failure (CSA-D-01)",
+     "coords": [
+      "crates/combat/src/maximum_health_damage.rs:36-48"
+     ],
+     "identity": "live maximum",
+     "stage": "quote",
+     "transformation": "reject fractional -> DamageCalculation",
+     "validated": "integral <= 2^53"
+    },
+    {
+     "consumed": "actor",
+     "coords": [
+      "crates/combat/src/state/maximum_health_modifiers.rs:106-131"
+     ],
+     "identity": "workspace mutation",
+     "stage": "commit",
+     "transformation": "commit_maximum_health",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next run",
+     "coords": [
+      "crates/combat/src/state.rs:1068-1105"
+     ],
+     "identity": "baseline actor + authority reset",
+     "stage": "reset",
+     "transformation": "restore",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "restore",
+     "validated": "n/a"
+    }
+   ],
+   "track": "D"
+  },
+  {
+   "authority": "AUTH-E-001",
+   "fact": "periodic trigger period / cadence / initial policy",
+   "id": "FF-E-001",
+   "probe_tests": [
+    "e_periodic_schedule.rs::holds_restart_cadence_refresh_discards_partial_period",
+    "e_periodic_schedule.rs::holds_preserve_cadence_refresh_keeps_anchor",
+    "e_periodic_schedule.rs::holds_tick_on_application_only_on_fresh_application"
+   ],
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/periodic.rs:986-1002"
+     ],
+     "identity": "SpellEffect.EffectAuraPeriod + EffectAura 23 + SpellMisc attributes 169/173",
+     "stage": "source",
+     "transformation": "i32 ms -> NonZeroU32",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/periodic.rs:537-647"
+     ],
+     "identity": "ResolvedPeriodicTrigger(effect, child, initial_tick, cadence_reapplication)",
+     "stage": "resolved_catalog",
+     "transformation": "authored cadence/initial carried; initial cross-checked against 169",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/periodic.rs:848-960"
+     ],
+     "identity": "PeriodicSchedule{effect, edge, period, policies}",
+     "stage": "combat_program",
+     "transformation": "policies packed in u8",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:55-185"
+     ],
+     "identity": "PeriodicDefinition(aura slot, schedule) for reachable mutation slots",
+     "stage": "state_construction",
+     "transformation": "per-slot cells, INACTIVE",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic.rs:647-769"
+     ],
+     "identity": "PeriodicMutationQuote(slot, before, after)",
+     "stage": "quote",
+     "transformation": "anchor/period/expiry projected against aura quote",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic.rs:442-469",
+      "crates/combat/src/periodic.rs:359-394"
+     ],
+     "identity": "cell + deadline upsert",
+     "stage": "commit",
+     "transformation": "deadline at pending tick",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic.rs:478-481",
+      "crates/combat/src/periodic_execution.rs:263-269"
+     ],
+     "identity": "cells INACTIVE, queue cleared, workspace reset",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:263-269"
+     ],
+     "identity": "same as reset (no RNG in periodic authority)",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "E"
+  },
+  {
+   "authority": "AUTH-E-005",
+   "fact": "natural-expiry trigger (raw 495) source policy and child",
+   "finding_ids": [
+    "CSA-E-01"
+   ],
+   "id": "FF-E-002",
+   "probe_tests": [
+    "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse"
+   ],
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/expiry.rs:122-146"
+     ],
+     "identity": "EffectAura 495, EffectTriggerSpell, EffectMiscValue_0",
+     "stage": "source",
+     "transformation": "misc0 != 0 -> OriginalAuraSource",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/expiry.rs:148-154"
+     ],
+     "identity": "ResolvedExpiryTrigger.source must equal source policy",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/expiry.rs:156-163"
+     ],
+     "identity": "ExpiryDriver(effect, edge, source)",
+     "stage": "combat_program",
+     "transformation": "edge allocation",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:1368-1397",
+      "crates/combat/src/expiry_execution.rs:9-40"
+     ],
+     "identity": "AuraExpiry generation -> driver range for aura",
+     "stage": "commit",
+     "transformation": "source/target actor from AuraKey; no recipient-liveness check",
+     "validated": false
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:263-269"
+     ],
+     "identity": "expiry deadlines live in AuraState and are cleared with it",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "E"
+  },
+  {
+   "authority": "AUTH-E-009",
+   "fact": "capped-carryover refresh deadline (raw 436)",
+   "id": "FF-E-003",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/aura_reapplication.rs:357-361"
+     ],
+     "identity": "aura spell attribute 436",
+     "stage": "source",
+     "transformation": "bool",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/aura_reapplication.rs:436-466",
+      "crates/combat/src/program/periodic.rs:1614-1640"
+     ],
+     "identity": "AuraReapplicationPolicy::CappedCarryover + PreserveCadence schedules",
+     "stage": "combat_program",
+     "transformation": "policy enum",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/aura_state.rs:1153-1200",
+      "crates/combat/src/periodic.rs:729-741"
+     ],
+     "identity": "expiry max(existing, now+d+min(rem, floor(0.3d))); periodic cell keeps anchor, moves aura_expires_at",
+     "stage": "quote",
+     "transformation": "u64 integer 3/10 floor",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic.rs:442-469"
+     ],
+     "identity": "terminal partial moves to new expiry",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "E"
+  },
+  {
+   "authority": "AUTH-E-003",
+   "fact": "periodic occurrence amount (stacks, elapsed/period)",
+   "id": "FF-E-004",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:471-483",
+      "crates/combat/src/periodic_health.rs:35-42"
+     ],
+     "identity": "live aura stacks x point stacking, tick.elapsed_millis / tick.period_millis",
+     "stage": "quote",
+     "transformation": "f64 stacks*elapsed/period",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/periodic_execution.rs:484-495"
+     ],
+     "identity": "critical policy SourceActorAtOccurrence => fresh source-current crit decision",
+     "stage": "rng_outcome",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "E"
+  },
+  {
+   "authority": "AUTH-F-003",
+   "fact": "host-prepared main-hand weapon range, chances and physical basis -> one swing damage/outcome",
+   "id": "FF-F-001",
+   "probe_test": "f_white_swing.rs::holds_white_lethal_stop_and_reset_replay",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:255-369"
+     ],
+     "identity": "WhiteMainHandInput (host)",
+     "stage": "state_construction",
+     "transformation": "validated to ValidatedWhiteMainHand; modifiers folded (period, crit share)",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state/white_main_hand.rs:89-95"
+     ],
+     "identity": "minimum mitigated damage",
+     "stage": "quote",
+     "transformation": "health quote (cannot fail)",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/resolution.rs:72-112"
+     ],
+     "identity": "weapon offset, outcome roll",
+     "stage": "rng_outcome",
+     "transformation": "forced draw width, draw 10000, cumulative strict thresholds",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state/white_main_hand.rs:100-152"
+     ],
+     "identity": "target health",
+     "stage": "commit",
+     "transformation": "trunc(f32(modified)*(1-min(a/(a+k),0.85))), crit x2, commit + observation, next deadline",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/runtime.rs:72-74"
+     ],
+     "identity": "next_at",
+     "stage": "reset",
+     "transformation": "ZERO; RNG rewound (state.rs:442-446)",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:448-452"
+     ],
+     "identity": "random stream",
+     "stage": "iteration_reset",
+     "transformation": "fresh stream, same admission",
+     "validated": true
+    }
+   ],
+   "track": "F"
+  },
+  {
+   "authority": "AUTH-F-008",
+   "fact": "selected raw-319 effect amount (rank) -> white period",
+   "id": "FF-F-002",
+   "probe_test": "f_white_swing.rs::holds_white_period_consumes_selected_rank_amount",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/data/src/trait_source/selected_spell.rs:215"
+     ],
+     "identity": "(entry, rank) -> SpellEffect base points / Set|Multiply curve",
+     "stage": "source",
+     "transformation": "rank curve y as f64",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/engine/src/trait_melee_auto_attack_speed_candidate.rs:1"
+     ],
+     "identity": "SelectedTraitEntry",
+     "stage": "candidate",
+     "transformation": "declaration + Player binding publication",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/passive_melee_auto_attack_speed.rs:53-63"
+     ],
+     "identity": "ResolvedMeleeAutoAttackSpeed (effect, selection)",
+     "stage": "resolved_catalog",
+     "transformation": "exactly one",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/passive_melee_auto_attack_speed.rs:104-130"
+     ],
+     "identity": "MeleeSpeedDefinition{effect, period_factor f32}",
+     "stage": "combat_program",
+     "transformation": "100/(100+binary32(selected amount))",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:378-381",
+      "crates/combat/src/white_swing.rs:452-462"
+     ],
+     "identity": "PassiveMeleeSpeedBinding(Player,effect) == [binding]",
+     "stage": "state_construction",
+     "transformation": "period = trunc(f32(base_ms)*factor), >0",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/runtime.rs:52-62"
+     ],
+     "identity": "next_at",
+     "stage": "commit",
+     "transformation": "now + period",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/runtime.rs:72-74"
+     ],
+     "identity": "next_at",
+     "stage": "reset",
+     "transformation": "ZERO, period retained",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:448-452"
+     ],
+     "identity": "random",
+     "stage": "iteration_reset",
+     "transformation": "fresh stream",
+     "validated": true
+    }
+   ],
+   "track": "F"
+  },
+  {
+   "authority": "AUTH-F-011",
+   "fact": "Dark Bite successful launch resets the main-hand deadline",
+   "id": "FF-F-003",
+   "probe_test": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/cooldown_start.rs:38-139"
+     ],
+     "identity": "spell 394463 (SpellName \"Dark Bite\"), SpellMisc attr 407 (Attributes_12 bit 23), SpellInterrupts row 190450 InterruptFlags 40",
+     "stage": "source",
+     "transformation": "audit: only attr 407, Shadow melee, sole effect 12 points",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/cooldown_start.rs:141-200"
+     ],
+     "identity": "one CastAction + one Program owner",
+     "stage": "resolved_catalog",
+     "transformation": "2 s hard cast, 3 s shared category 1152",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/spell_attribute.rs:262-272"
+     ],
+     "identity": "CastActivationFlags::RESETS_MAIN_HAND",
+     "stage": "combat_program",
+     "transformation": "attr407 && id==394463",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:436-440",
+      "crates/combat/src/program/white_idle.rs:51-117"
+     ],
+     "identity": "white_successful_launch_reset_only",
+     "stage": "state_construction",
+     "transformation": "no modifier; period = base",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast.rs:305-326",
+      "crates/combat/src/state/white_main_hand.rs:23-43"
+     ],
+     "identity": "next_at of the caster-owned main hand",
+     "stage": "commit",
+     "transformation": "completion time + period, or None when target dead",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/runtime.rs:72-74"
+     ],
+     "identity": "next_at",
+     "stage": "reset",
+     "transformation": "ZERO",
+     "validated": true
+    }
+   ],
+   "track": "F"
+  },
+  {
+   "authority": "AUTH-F-010",
+   "fact": "selected raw-344 points -> white damage factor (Precision Strikes / Heart of the Crusader)",
+   "id": "FF-F-004",
+   "notes": "rank-2 Heart pinned by Core crates/engine/tests/selected_heart_of_the_crusader.rs:36",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/data/src/trait_source/selected_spell.rs:215"
+     ],
+     "identity": "(entry, rank) amount",
+     "stage": "source",
+     "transformation": "f64",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/passive_auto_attack_damage.rs:169-208"
+     ],
+     "identity": "PassiveAutoDamageDefinition.factor f32",
+     "stage": "combat_program",
+     "transformation": "1 + binary32(p)/100, finite >=0",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:386-424",
+      "crates/combat/src/white_swing.rs:294-299"
+     ],
+     "identity": "exact package bindings",
+     "stage": "state_construction",
+     "transformation": "min/max modified for admission",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:84-86",
+      "crates/combat/src/state/white_main_hand.rs:100"
+     ],
+     "identity": "modified weapon damage",
+     "stage": "commit",
+     "transformation": "trunc(f32(weapon)*factor) before armor",
+     "validated": true
+    }
+   ],
+   "track": "F"
+  },
+  {
+   "authority": "AUTH-F-001",
+   "fact": "compiled raw-334/raw-290 crit points -> white critical share",
+   "id": "FF-F-005",
+   "notes": "raw-290 association vs Trinity owned by Track J (CSA-J-01); raw-334 addition point matches Trinity Unit.cpp:2398",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:411-418",
+      "crates/combat/src/white_swing.rs:425-435"
+     ],
+     "identity": "CriticalChanceModifierDefinition.percent_points",
+     "stage": "combat_program",
+     "transformation": "exact binary32 or InvalidPreparedBasis (32-39)",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:300-321"
+     ],
+     "identity": "host critical_percent_before_compiled_modifier f32",
+     "stage": "state_construction",
+     "transformation": "must truncate to chances.critical; (basis + points) clamp [0,100] then trunc(x*100f32)",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/resolution.rs:90-112"
+     ],
+     "identity": "critical threshold",
+     "stage": "rng_outcome",
+     "transformation": "cumulative after miss/dodge",
+     "validated": true
+    }
+   ],
+   "track": "F"
+  },
+  {
+   "authority": "AUTH-F-009",
+   "fact": "raw-193 all-haste points -> white period",
+   "id": "FF-F-006",
+   "notes": "pinned by Core crates/engine/tests/selected_all_haste_white.rs (Dark Enlightenment 3 -> 1941 ms)",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/passive_haste.rs:110-188",
+      "crates/combat/src/program/passive_haste.rs:47-51"
+     ],
+     "identity": "PassiveHasteAllDefinition.points f64",
+     "stage": "combat_program",
+     "transformation": "period_factor = 100/(100+points as f32)",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:382-385",
+      "crates/combat/src/white_swing.rs:452-462"
+     ],
+     "identity": "PassiveHasteAllBinding(Player) == [binding]",
+     "stage": "state_construction",
+     "transformation": "period trunc",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/runtime.rs:52-62"
+     ],
+     "identity": "next_at",
+     "stage": "commit",
+     "transformation": "now+period",
+     "validated": true
+    }
+   ],
+   "track": "F"
+  },
+  {
+   "authority": "AUTH-F-012",
+   "fact": "raw-366 96 points -> spell power from attack power",
+   "id": "FF-F-007",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/attack_power_conversion.rs:220-280"
+     ],
+     "identity": "1258153:9 raw 366 base 96",
+     "stage": "source",
+     "transformation": "exact coordinate/points audit",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/attack_power_conversion.rs:165"
+     ],
+     "identity": "factor f64 0.96",
+     "stage": "combat_program",
+     "transformation": "base/100",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/spell_power_from_attack_power.rs:17-85"
+     ],
+     "identity": "PowerConversionBinding",
+     "stage": "state_construction",
+     "transformation": "single actor, no duplicates",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/spell_power_from_attack_power.rs:99-116"
+     ],
+     "identity": "OffensivePower.spell_power",
+     "stage": "commit",
+     "transformation": "(AP*factor).round()",
+     "validated": true
+    }
+   ],
+   "track": "F"
+  },
+  {
+   "authority": "AUTH-G-003",
+   "fact": "start recovery (GCD) of a hard cast",
+   "finding_ids": [
+    "CSA-G-02"
+   ],
+   "id": "FF-G-001",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [],
+     "identity": "SpellCooldowns.StartRecoveryTime + SpellCategories.StartRecoveryCategory (Fireball 133: rows 29/60, 1500 ms, cat 133)",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "data crate"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/data/src/action/catalog.rs:1640-1675"
+     ],
+     "identity": "ResolvedStartRecovery(category, base, rate, minimum)",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program.rs:1006-1112",
+      "crates/combat/src/program.rs:949-960"
+     ],
+     "identity": "StartRecoveryBinding(handle, recovery)",
+     "stage": "combat_program",
+     "transformation": "category -> dense handle",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/recovery.rs:190-217"
+     ],
+     "identity": "StartRecoveryState ready_at[actor x category]=0",
+     "stage": "state_construction",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast.rs:762-790"
+     ],
+     "identity": "now<ready_at -> StartRecovery blocker; else ready_at=now+effective_duration(haste at quote)",
+     "stage": "quote",
+     "transformation": "f64 base/speed truncated ms",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast.rs:223-227",
+      "crates/combat/src/cast.rs:853-855"
+     ],
+     "identity": "start at acceptance (hard) or commit (instant); not restored on cancel",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:1073",
+      "crates/combat/src/recovery.rs:242-244"
+     ],
+     "identity": "fill ZERO",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same reset_runtime",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "G"
+  },
+  {
+   "authority": "AUTH-G-005",
+   "fact": "raw-68 interrupt lockout",
+   "finding_ids": [
+    "CSA-G-02",
+    "CSA-G-04"
+   ],
+   "id": "FF-G-002",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [],
+     "identity": "SpellEffect 222633 (159006 idx0, Effect 68, target 6)",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "exact carrier"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/data/src/action/catalog.rs:877-880"
+     ],
+     "identity": "ResolvedInterrupt lockout 6000 ms",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/interrupt.rs:81-130"
+     ],
+     "identity": "ProgramOp::InterruptCast(InterruptDefinition)",
+     "stage": "combat_program",
+     "transformation": "none",
+     "validated": "duration==6000, sole op, no SpellInterrupts hard casts"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/execution/planning/interrupt.rs:10-69"
+     ],
+     "identity": "active target cast token + lockout_until=now+6000",
+     "stage": "quote",
+     "transformation": "checked_add",
+     "validated": "target life (no-op if dead), Silence prevention"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/execution/commit.rs:575-596",
+      "crates/combat/src/school_lock.rs:52-65"
+     ],
+     "identity": "cancel generation + per-school deadline",
+     "stage": "commit",
+     "transformation": "school bits",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast_authority.rs:440-447",
+      "crates/combat/src/school_lock.rs:67-69"
+     ],
+     "identity": "deadlines ZERO",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:1076-1078"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "G"
+  },
+  {
+   "authority": "AUTH-G-007",
+   "fact": "stun admission and fresh-application cancellation",
+   "finding_ids": [
+    "CSA-G-03",
+    "CSA-G-05"
+   ],
+   "id": "FF-G-003",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [],
+     "identity": "SpellEffect 872577 (346197 idx0 ApplyAura subtype 12, target 25)",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "exact"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/stun.rs:32-60"
+     ],
+     "identity": "AuraMutationDefinition.action_prevention.stun",
+     "stage": "combat_program",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/stun.rs:15-39",
+      "crates/combat/src/action_prevention.rs:156-188"
+     ],
+     "identity": "StunView bindings (actor, aura, effect)",
+     "stage": "state_construction",
+     "transformation": "sorted dedup",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast.rs:662-683",
+      "crates/combat/src/cast_authority.rs:265-296"
+     ],
+     "identity": "admission Stunned(latest stun expiry); fresh cancel if actor not already stunned",
+     "stage": "quote",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/execution/commit.rs:517-573"
+     ],
+     "identity": "cancel_cast + CastStunned",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:1115"
+     ],
+     "identity": "through AuraState reset",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "G"
+  },
+  {
+   "authority": "AUTH-G-002",
+   "fact": "hard-cast deadline",
+   "finding_ids": [
+    "CSA-G-01"
+   ],
+   "id": "FF-G-004",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [],
+     "identity": "SpellMisc.CastingTimeIndex -> SpellCastTimes",
+     "stage": "source",
+     "transformation": "ms",
+     "validated": "data crate"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/data/src/action/catalog/timing.rs:44-80"
+     ],
+     "identity": "ResolvedCastTime(base, rate, minimum)",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program.rs:1090-1100",
+      "crates/combat/src/cast_authority.rs:17-46"
+     ],
+     "identity": "CastTiming + prepared_cost_count",
+     "stage": "combat_program",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast.rs:355-386",
+      "crates/combat/src/cast.rs:1178-1186"
+     ],
+     "identity": "completes_at=now+duration(haste at acceptance), must progress",
+     "stage": "quote",
+     "transformation": "f64 truncation to ms",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast_authority.rs:366-391"
+     ],
+     "identity": "ActiveCast in actor cell",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast.rs:284-352"
+     ],
+     "identity": "completion at completes_at; payload RNG only at commit after successful re-plan",
+     "stage": "rng_outcome",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast_authority.rs:440-447"
+     ],
+     "identity": "cells default (generation 0)",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:1076-1078"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "G"
+  },
+  {
+   "authority": "AUTH-G-015",
+   "fact": "prepared hard-cast resource cost",
+   "id": "FF-G-005",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/data/src/action/catalog/action.rs:75-78"
+     ],
+     "identity": "ResolvedResourceSpends (required/optional)",
+     "stage": "resolved_catalog",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program.rs:875-890"
+     ],
+     "identity": "ResourceSpendDefinition slice",
+     "stage": "combat_program",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast/resource.rs:97-243"
+     ],
+     "identity": "amount=required+min(optional,remaining) with modifiers at acceptance",
+     "stage": "quote",
+     "transformation": "f64",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast_authority.rs:366-391",
+      "crates/combat/src/cast.rs:875-886"
+     ],
+     "identity": "snapshot at acceptance; spent at completion via quote_prepared_cast_cost",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": "re-quoted against balance at completion"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast_authority.rs:440-447"
+     ],
+     "identity": "prepared costs default",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": true
+    }
+   ],
+   "track": "G"
+  },
+  {
+   "authority": "AUTH-H-010",
+   "fact": "actor resource/health baseline through run and reset",
+   "id": "FF-H-001",
+   "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state/construction.rs:124-131",
+      "crates/combat/src/state/construction.rs:331-341"
+     ],
+     "identity": "ActorId -> canonical index",
+     "stage": "state_construction",
+     "transformation": "passives applied once, baseline cloned",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast.rs:149-173"
+     ],
+     "identity": "actor index",
+     "stage": "quote",
+     "transformation": "projection only",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/actor.rs:147-205"
+     ],
+     "identity": "actor index",
+     "stage": "commit",
+     "transformation": "commit_* writes",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:1069-1071"
+     ],
+     "identity": "index zip",
+     "stage": "reset",
+     "transformation": "clone_from_slice baseline",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "same + new RNG",
+     "validated": true
+    }
+   ],
+   "track": "H"
+  },
+  {
+   "authority": "AUTH-H-010",
+   "fact": "random stream identity",
+   "id": "FF-H-002",
+   "probe_tests": [
+    "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+    "h_reset_fingerprint.rs::holds_reset_fingerprints"
+   ],
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state/construction.rs:232"
+     ],
+     "identity": "RandomStreamIdentity(root, iteration)",
+     "stage": "state_construction",
+     "transformation": "stream()",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/execution/planning/health.rs:533-534"
+     ],
+     "identity": "cloned stream",
+     "stage": "quote",
+     "transformation": "draws on clone",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/execution/commit.rs:905"
+     ],
+     "identity": "live stream",
+     "stage": "rng_outcome",
+     "transformation": "draws at commit",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:444"
+     ],
+     "identity": "same identity",
+     "stage": "reset",
+     "transformation": "stream.reset()",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:450"
+     ],
+     "identity": "new identity",
+     "stage": "iteration_reset",
+     "transformation": "identity.stream()",
+     "validated": true
+    }
+   ],
+   "track": "H"
+  },
+  {
+   "authority": "AUTH-H-014",
+   "fact": "actor death -> aura lifecycle (raw 495 expiry trigger)",
+   "finding_ids": [
+    "CSA-H-01"
+   ],
+   "id": "FF-H-003",
+   "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/dbc/src/aura_subtype.rs:574"
+     ],
+     "identity": "SpellEffect EffectAura 495, misc, trigger spell",
+     "stage": "source",
+     "transformation": "none",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/expiry.rs:52-167"
+     ],
+     "identity": "(aura, effect) -> ExpiryDriver edge",
+     "stage": "combat_program",
+     "transformation": "misc!=0 -> OriginalAuraSource",
+     "validated": true
+    },
+    {
+     "consumed": false,
+     "coords": [
+      "crates/combat/src/execution/commit/health.rs:923-930"
+     ],
+     "identity": "recipient ActorId",
+     "stage": "commit",
+     "transformation": "ActorDied observation only",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:1368-1395",
+      "crates/combat/src/expiry_execution.rs:9-40"
+     ],
+     "identity": "AuraExpiry(handle, generation)",
+     "stage": "commit",
+     "transformation": "natural expiry of corpse aura fires driver",
+     "validated": false
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/aura_state.rs:676-680"
+     ],
+     "identity": "all cells",
+     "stage": "reset",
+     "transformation": "INACTIVE",
+     "validated": true
+    }
+   ],
+   "track": "H"
+  },
+  {
+   "authority": "AUTH-H-009",
+   "fact": "host passive-flow update",
+   "id": "FF-H-004",
+   "probe_test": "h_construction_mutations.rs::holds_host_flow_update_is_reverted_by_reset",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state/construction.rs:929"
+     ],
+     "identity": "(actor index, resource)",
+     "stage": "state_construction",
+     "transformation": "current+baseline halves",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:253-317"
+     ],
+     "identity": "exact configured pool",
+     "stage": "commit",
+     "transformation": "settle old rate then replace",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/passive_resource_flow.rs:951-956"
+     ],
+     "identity": "cells",
+     "stage": "reset",
+     "transformation": "baseline copied over current",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/resource_authority.rs:1152-1186"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "threshold replan at ZERO",
+     "validated": true
+    }
+   ],
+   "track": "H"
+  },
+  {
+   "authority": "AUTH-I-005",
+   "fact": "raw-38 dispel selection ordinal (Purging Gaze 220640#1)",
+   "id": "FF-I-001",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_miss_consumes_only_the_impact_draw",
+   "stages": [
+    {
+     "consumed": "compiler",
+     "coords": [
+      "crates/combat/src/program/dispel.rs:21-28"
+     ],
+     "identity": "exact carrier 220640 effect 1, family 1 Magic, beneficial disposition",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "exact identity + sole effect"
+    },
+    {
+     "consumed": "quote",
+     "coords": [
+      "crates/combat/src/program/dispel.rs:30-80",
+      "crates/combat/src/program/dispel.rs:150-170"
+     ],
+     "identity": "ProgramOp::Dispel + impact policy",
+     "stage": "combat_program",
+     "transformation": "impact policy configured",
+     "validated": "sole impact operation, attempts=1"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/execution/planning/dispel.rs:78-151"
+     ],
+     "identity": "DispelSelectionReceipt(count, ordinal) from a cloned stream",
+     "stage": "quote",
+     "transformation": "preview draw on clone only",
+     "validated": "impact landed on clone; candidate enumeration"
+    },
+    {
+     "consumed": "aura removal",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:208-232"
+     ],
+     "identity": "uniform_index(count) on state stream",
+     "stage": "rng_outcome",
+     "transformation": "none",
+     "validated": "asserted equal to preview"
+    },
+    {
+     "consumed": "observations",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:167-206"
+     ],
+     "identity": "selected aura removed via quoted Aura mutation",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": "preview reproduction asserts"
+    },
+    {
+     "consumed": "next run",
+     "coords": [
+      "crates/combat/src/state.rs:442-445"
+     ],
+     "identity": "stream + auras restored",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "probe replay equality"
+    },
+    {
+     "consumed": "next iteration",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "new identity stream",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "probe"
+    }
+   ],
+   "track": "I"
+  },
+  {
+   "authority": "AUTH-I-002",
+   "fact": "spell attack outcome (miss/crit/block/critical block) for an instant direct-damage probe",
+   "id": "FF-I-002",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "stages": [
+    {
+     "consumed": "attack_table",
+     "coords": [
+      "crates/combat/src/topology.rs:213-219",
+      "crates/combat/src/topology.rs:854-860"
+     ],
+     "identity": "CriticalStrikeBaseline, ActiveDefenseBaseline(miss, BlockDefense, capabilities)",
+     "stage": "state_construction",
+     "transformation": "none",
+     "validated": "validated non-negative/finite; overcap retained"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/execution/planning.rs:791-940",
+      "crates/combat/src/state/modifiers.rs:117-240"
+     ],
+     "identity": "ResolvedAttackTable + ResolvedCriticalStrike in PreparedImpactQuote",
+     "stage": "quote",
+     "transformation": "min(1.0) clamp to Probability",
+     "validated": "reachable damages validated"
+    },
+    {
+     "consumed": "health commit",
+     "coords": [
+      "crates/combat/src/attack/resolution.rs:464-532"
+     ],
+     "identity": "ordered_outcome -> occurs crit -> occurs block -> occurs crit block",
+     "stage": "rng_outcome",
+     "transformation": "none",
+     "validated": "boundary skips"
+    },
+    {
+     "consumed": "observations",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:156-206"
+     ],
+     "identity": "ImpactResolved(result, block) + DamageDealt",
+     "stage": "commit",
+     "transformation": "resolve_damage(multiplier)",
+     "validated": "infallible"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/state.rs:442-445"
+     ],
+     "identity": "stream reset",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "probe"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "new identity",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "probe"
+    }
+   ],
+   "track": "I"
+  },
+  {
+   "authority": "AUTH-I-007",
+   "fact": "white main-hand weapon damage and outcome",
+   "id": "FF-I-003",
+   "probe_test": "i_rng_white.rs::holds_white_swing_matches_independent_replay_of_documented_draw_order",
+   "stages": [
+    {
+     "consumed": "runtime",
+     "coords": [
+      "crates/combat/src/white_swing.rs:255-356"
+     ],
+     "identity": "ValidatedWhiteMainHand(weapon range, basis-point chances)",
+     "stage": "state_construction",
+     "transformation": "critical modifier quantized to basis points",
+     "validated": "parry=block=0, bounded damage envelope"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/white_swing/resolution.rs:72-111"
+     ],
+     "identity": "forced weapon draw, 10_000 outcome draw",
+     "stage": "rng_outcome",
+     "transformation": "integer thresholds",
+     "validated": "none needed"
+    },
+    {
+     "consumed": "observations",
+     "coords": [
+      "crates/combat/src/state/white_main_hand.rs:96-150"
+     ],
+     "identity": "WhiteMainHandSwing observation, health commit",
+     "stage": "commit",
+     "transformation": "mitigation + crit x2",
+     "validated": "expect after admission proof"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/white_swing/runtime.rs:72",
+      "crates/combat/src/state.rs:442-445"
+     ],
+     "identity": "deadline + stream reset",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "probe replay"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "new identity",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": "probe (reset path)"
+    }
+   ],
+   "track": "I"
+  },
+  {
+   "authority": "AUTH-I-003",
+   "fact": "fixed-travel launch outcome captured and replayed at arrival",
+   "finding_ids": [
+    "CSA-I-02"
+   ],
+   "id": "FF-I-004",
+   "probe_test": "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival",
+   "stages": [
+    {
+     "consumed": "execution plan",
+     "coords": [
+      "crates/combat/src/program/fixed_travel_time.rs:60-150"
+     ],
+     "identity": "exact 373932 Magic hard cast, 1s delay",
+     "stage": "combat_program",
+     "transformation": "none",
+     "validated": "exact identity + Magic defense only"
+    },
+    {
+     "consumed": "launch commit",
+     "coords": [
+      "crates/combat/src/execution/planning/segment.rs:22-39",
+      "crates/combat/src/execution/planning.rs:791-940"
+     ],
+     "identity": "segment marked DelayedLaunch; launch table includes magic block when capable",
+     "stage": "quote",
+     "transformation": "none",
+     "validated": "reachable (blocked) damage validated"
+    },
+    {
+     "consumed": "PendingFixedImpact",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:893-906"
+     ],
+     "identity": "launch resolves hit/crit/block",
+     "stage": "rng_outcome",
+     "transformation": "none",
+     "validated": "none"
+    },
+    {
+     "consumed": "arrival",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:411-451"
+     ],
+     "identity": "PendingFixedImpact(amount, resolution, suppression)",
+     "stage": "commit",
+     "transformation": "amount = resolve_damage(resolution)",
+     "validated": "none"
+    },
+    {
+     "consumed": "arrival commit",
+     "coords": [
+      "crates/combat/src/fixed_impact_execution.rs:43-160",
+      "crates/combat/src/impact.rs:262-280"
+     ],
+     "identity": "arrival re-quote -> PreparedImpactQuote::captured",
+     "stage": "quote",
+     "transformation": "none",
+     "validated": "asserts Unblocked + unit multiplier"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/fixed_impact.rs:248-251"
+     ],
+     "identity": "pending cleared",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "core test reset_discards_in_flight_impacts_and_replays_the_same_timeline"
+    }
+   ],
+   "track": "I"
+  },
+  {
+   "authority": "AUTH-I-006",
+   "evidence": [
+    "core_test: crates/engine/tests/mechanic_dispel.rs::exact_mechanic_dispel_reaches_engine_with_ordered_removal_rng_and_reset"
+   ],
+   "fact": "raw-108 mechanic dispel forced trials",
+   "id": "FF-I-005",
+   "stages": [
+    {
+     "consumed": "quote",
+     "coords": [
+      "crates/combat/src/program/dispel_mechanic.rs:18-60"
+     ],
+     "identity": "exact 1248984 effects 1,2 (mechanics 9,12), caster recipient",
+     "stage": "combat_program",
+     "transformation": "none",
+     "validated": "exact identity"
+    },
+    {
+     "consumed": "commit",
+     "coords": [
+      "crates/combat/src/execution/planning/mechanic_dispel.rs:10-68"
+     ],
+     "identity": "MechanicDispelScan{scanned_active}",
+     "stage": "quote",
+     "transformation": "none",
+     "validated": "overflow-checked count, one matching aura"
+    },
+    {
+     "consumed": "none",
+     "coords": [
+      "crates/combat/src/execution/commit.rs:453-464"
+     ],
+     "identity": "occurs_forced(ONE) x scanned_active",
+     "stage": "rng_outcome",
+     "transformation": "none",
+     "validated": "asserted true"
+    },
+    {
+     "consumed": "replay",
+     "coords": [
+      "crates/combat/src/state.rs:442-445"
+     ],
+     "identity": "stream reset",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "core test"
+    }
+   ],
+   "track": "I"
+  },
+  {
+   "authority": "AUTH-J-001",
+   "fact": "selected raw-290 rank amount -> white critical basis-point threshold",
+   "finding_ids": [
+    "CSA-J-01"
+   ],
+   "id": "FF-J-001",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/data/src/trait_source/selected_spell.rs:84-95"
+     ],
+     "identity": "(entry, rank, SpellEffectRef)",
+     "stage": "source",
+     "transformation": "Set/Multiply f64",
+     "validated": "exact rank curve"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/engine/src/trait_critical_package_candidate.rs:107-176"
+     ],
+     "identity": "selected entry",
+     "stage": "candidate",
+     "transformation": "none",
+     "validated": "package admission"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/critical_modifier.rs:240-270",
+      "crates/combat/src/program/white_idle.rs:27-40"
+     ],
+     "identity": "CriticalChanceModifierDefinition.effect",
+     "stage": "combat_program",
+     "transformation": "f64 percent points retained",
+     "validated": "finite"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing.rs:32-44",
+      "crates/combat/src/white_swing.rs:296-313",
+      "crates/combat/src/white_swing.rs:403-414"
+     ],
+     "identity": "white source actor",
+     "stage": "state_construction",
+     "transformation": "binary32 add, clamp, *100 truncate -> u32",
+     "validated": "exact binary32 round trip; basis truncation == host share"
+    },
+    {
+     "consumed": false,
+     "coords": [
+      "crates/combat/src/state/white_main_hand.rs:90-96"
+     ],
+     "identity": "white runtime",
+     "stage": "quote",
+     "transformation": "none",
+     "validated": "minimum damage progress"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/resolution.rs:73-116"
+     ],
+     "identity": "roll in 0..10000",
+     "stage": "rng_outcome",
+     "transformation": "saturating cumulative thresholds",
+     "validated": "fixed domain"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state/white_main_hand.rs:97-135"
+     ],
+     "identity": "target health",
+     "stage": "commit",
+     "transformation": "mitigated*2 on critical",
+     "validated": "quote"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/white_swing/runtime.rs:72-75"
+     ],
+     "identity": "validated retained",
+     "stage": "reset",
+     "transformation": "deadline to zero; threshold immutable",
+     "validated": "n/a"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "same as reset + new stream",
+     "validated": "n/a"
+    }
+   ],
+   "track": "J"
+  },
+  {
+   "authority": "AUTH-J-002",
+   "fact": "host spell haste multiplier -> hard-cast completion and hasted cooldown ready time",
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "FF-J-002",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/haste.rs:56-120"
+     ],
+     "identity": "actor",
+     "stage": "source",
+     "transformation": "none",
+     "validated": "finite positive f64"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state/construction.rs:620-650"
+     ],
+     "identity": "ActorState.haste",
+     "stage": "state_construction",
+     "transformation": "none",
+     "validated": "HasteMultipliers::try_from_input"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast_authority.rs:37-45",
+      "crates/combat/src/recovery.rs:94-116",
+      "crates/combat/src/cast.rs:780-790"
+     ],
+     "identity": "cast binding",
+     "stage": "quote",
+     "transformation": "f64 division, truncation",
+     "validated": "progressing deadline"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/cast.rs:370-385"
+     ],
+     "identity": "PendingCast",
+     "stage": "commit",
+     "transformation": "completes_at = now + duration",
+     "validated": "quote"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:1068-1080"
+     ],
+     "identity": "cooldowns/casts reset",
+     "stage": "reset",
+     "transformation": "cleared",
+     "validated": "n/a"
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "same",
+     "stage": "iteration_reset",
+     "transformation": "same",
+     "validated": "n/a"
+    }
+   ],
+   "track": "J"
+  },
+  {
+   "authority": "AUTH-K-005",
+   "fact": "external spell-policy presence (effective proc entry etc.) for a selected passive owner",
+   "finding_ids": [
+    "CSA-A-02",
+    "CSA-K-05"
+   ],
+   "id": "FF-K-001",
+   "stages": [
+    {
+     "consumed": "no",
+     "coords": [
+      "crates/data/src/spell_external_policy.rs:23-43"
+     ],
+     "identity": "spell_id u32",
+     "stage": "source",
+     "transformation": "host projection (no generator exists)",
+     "validated": "serde deny_unknown_fields"
+    },
+    {
+     "consumed": "no",
+     "coords": [
+      "crates/data/src/spell_external_policy.rs:166-254"
+     ],
+     "identity": "SpellId + GameDataIdentity",
+     "stage": "source_resolution",
+     "transformation": "sorted boxed rows",
+     "validated": "schema, identity, invalid/unknown/duplicate/missing"
+    },
+    {
+     "consumed": "no",
+     "coords": [
+      "crates/engine/src/trait_critical_package_candidate.rs:107-163"
+     ],
+     "identity": "n/a",
+     "stage": "candidate",
+     "transformation": "none",
+     "validated": "not consulted (by design)"
+    },
+    {
+     "consumed": "yes (8 selected role compilers; not raw 638; not ordinary Passive)",
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:440-461",
+      "crates/combat/src/program/spell_attribute.rs:110-130"
+     ],
+     "identity": "catalog.identity()==data.identity(); row by owner SpellId",
+     "stage": "combat_program",
+     "transformation": "boolean admission",
+     "validated": "all nine == Absent"
+    },
+    {
+     "consumed": "no",
+     "coords": [
+      "crates/combat/src/program.rs:321"
+     ],
+     "identity": "n/a",
+     "stage": "state_construction",
+     "transformation": "not retained",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "no",
+     "coords": [
+      "crates/combat/src/state.rs:76"
+     ],
+     "identity": "n/a",
+     "stage": "quote",
+     "transformation": "none",
+     "validated": "n/a"
+    },
+    {
+     "consumed": "no",
+     "coords": [
+      "crates/combat/src/state.rs:76"
+     ],
+     "identity": "n/a",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": "n/a"
+    }
+   ],
+   "track": "K"
+  },
+  {
+   "authority": "AUTH-K-007",
+   "fact": "raw-289 ModifyAuraStacks source mode/amount/trigger identity",
+   "finding_ids": [
+    "CSA-K-01"
+   ],
+   "id": "FF-K-002",
+   "stages": [
+    {
+     "consumed": "no",
+     "coords": [
+      "crates/data/src/input.rs:219-239"
+     ],
+     "identity": "SpellEffectRef",
+     "stage": "source",
+     "transformation": "misc_value_0, base_points, trigger_spell retained",
+     "validated": "number finiteness"
+    },
+    {
+     "consumed": "host values only",
+     "coords": [
+      "crates/data/src/action/catalog/operation.rs:861-902"
+     ],
+     "identity": "host aura_id + effect_index",
+     "stage": "resolved_catalog",
+     "transformation": "StoredAuraMutation{aura,count,kind}",
+     "validated": "aura exists, count>0 (<=max for apply)"
+    },
+    {
+     "consumed": "misc/base points/trigger NOT consumed",
+     "coords": [
+      "crates/combat/src/program.rs:1595-1618",
+      "crates/combat/src/program.rs:1620-1690"
+     ],
+     "identity": "effect kind family",
+     "stage": "combat_program",
+     "transformation": "AuraMutationKind::AddStacks/RemoveStacks(count)",
+     "validated": "kind==289, attributes, recipient selector"
+    },
+    {
+     "consumed": "yes (host count)",
+     "coords": [
+      "crates/combat/src/program.rs:1675-1690"
+     ],
+     "identity": "AuraHandle",
+     "stage": "commit",
+     "transformation": "host count applied",
+     "validated": "n/a"
+    }
+   ],
+   "track": "K"
+  },
+  {
+   "authority": "AUTH-L-001",
+   "fact": "selected multi-effect package provenance (entry_id, effective_rank, exact effect) - allocation/residency view",
+   "finding_ids": [
+    "CSA-L-01"
+   ],
+   "id": "FF-L-001",
+   "stages": [
+    {
+     "consumed": true,
+     "coords": [
+      "crates/data/src/trait_source/selected_spell.rs:215"
+     ],
+     "identity": "TraitSourceCatalog entry/rank",
+     "stage": "source",
+     "transformation": "resolved effect amounts (transient allocation)",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/engine/src/trait_candidate.rs:112-209"
+     ],
+     "identity": "SelectedTraitEntry",
+     "stage": "candidate",
+     "transformation": "cold candidate inputs",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:323-386"
+     ],
+     "identity": "SelectedTraitSource on each resolved declaration",
+     "stage": "resolved_catalog",
+     "transformation": "none; cold catalog, not retained by program",
+     "validated": true
+    },
+    {
+     "consumed": false,
+     "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:253-266",
+      "crates/combat/src/program/selected_trait_package.rs:213-288"
+     ],
+     "identity": "(SelectedTraitSource, SpellEffectRef) per member",
+     "stage": "combat_program",
+     "transformation": "boxed sorted slice inside PassiveSpellModifierPlan (16 B header inline in PassiveAmountModifierPlan)",
+     "validated": true
+    },
+    {
+     "consumed": true,
+     "coords": [
+      "crates/combat/src/state/construction.rs:244-282"
+     ],
+     "identity": "same",
+     "stage": "state_construction",
+     "transformation": "none-or-complete exactly-once per actor check; nothing retained in CombatState",
+     "validated": true
+    },
+    {
+     "consumed": false,
+     "coords": [
+      "crates/combat/src/passive_modifier.rs:217-241"
+     ],
+     "identity": "not read",
+     "stage": "quote",
+     "transformation": "warm paths read ordinary owners only; the plan holding the header is traversed",
+     "validated": false
+    },
+    {
+     "consumed": false,
+     "coords": [
+      "crates/combat/src/state/absorbs.rs:131"
+     ],
+     "identity": "not read",
+     "stage": "commit",
+     "transformation": "none",
+     "validated": false
+    },
+    {
+     "consumed": false,
+     "coords": [
+      "crates/combat/src/state.rs:1068-1136"
+     ],
+     "identity": "not touched",
+     "stage": "reset",
+     "transformation": "none",
+     "validated": false
+    },
+    {
+     "consumed": false,
+     "coords": [
+      "crates/combat/src/state.rs:448-451"
+     ],
+     "identity": "not touched",
+     "stage": "iteration_reset",
+     "transformation": "none",
+     "validated": false
+    }
+   ],
+   "track": "L"
+  }
+ ],
+ "schema": 1
+}

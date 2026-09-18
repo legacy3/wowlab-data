@@ -1,0 +1,65 @@
+[
+  {
+    "id": "REJ-L-001",
+    "track": "L",
+    "suspicion": "Per-definition selected (entry_id,effective_rank) provenance is duplicated into warm compiled definitions",
+    "why_rejected": "Compiled combat definitions carry no SelectedTraitSource (PassiveSpellModifierDefinition{effect}, PassiveAutoDamageDefinition, CriticalBlockAmountDefinition, PassiveHealingReceivedDefinition, CriticalChanceModifierDefinition). Per-definition (entry,rank) lives only in the cold ResolvedActionCatalog; the program retains exactly one (source,effect) entry per multi-effect package member, in the package box. The continuation prompt's 'Every compiled selected definition retains (entry_id,effective_rank)' is true only of resolved-catalog declarations.",
+    "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:28-30",
+      "crates/combat/src/program/passive_auto_attack_damage.rs:23-28",
+      "crates/combat/src/program/critical_block_amount.rs:40-44",
+      "crates/combat/src/program/passive_healing_received.rs:33-36",
+      "crates/combat/src/program/critical_modifier.rs:63-70"
+    ]
+  },
+  {
+    "id": "REJ-L-002",
+    "track": "L",
+    "suspicion": "Precision/Heart sibling effect refs (spell_modifier_effect, critical_bonus_spell_modifier_effect) are extra retained provenance in the warm ModifierDefinition slab",
+    "why_rejected": "They are packed losslessly into existing ModifierDefinition fields (auxiliary, policy_bits) with no size change and are read only at state construction by the white admission path.",
+    "coords": [
+      "crates/combat/src/program/modifier/auto_attack_damage_storage.rs:6-28",
+      "crates/combat/src/white_swing.rs:371-406"
+    ]
+  },
+  {
+    "id": "REJ-L-003",
+    "track": "L",
+    "suspicion": "Arc clones of the program inside warm commit paths (state/absorbs.rs:131, aura_observation.rs:133) allocate",
+    "why_rejected": "CombatProgram clone is an Arc refcount increment; probe AL-L-001 shows zero allocation.",
+    "coords": [
+      "crates/combat/src/state/absorbs.rs:131",
+      "crates/combat/src/aura_observation.rs:133"
+    ]
+  },
+  {
+    "id": "REJ-L-004",
+    "track": "L",
+    "suspicion": "Critical-chance passive iterator clones in warm resolution (critical_modifier.rs:130,254,269,295) copy storage",
+    "why_rejected": "They clone `impl Iterator + Clone` adaptors over slices (bounded Passives: Iterator + Clone), not collections; covered by zero-alloc critical runtime budgets.",
+    "coords": [
+      "crates/combat/src/critical_modifier.rs:245-256"
+    ]
+  },
+  {
+    "id": "REJ-L-005",
+    "track": "L",
+    "suspicion": "Architecture doc states CombatState is 640 bytes; actual is 648 - hidden inline growth",
+    "why_rejected": "The growth (Option<Box<WhiteMainHandRuntime>>, 8 bytes) is recorded in development-ledger.md:24973 and pinned by state/layout_tests.rs:9 and tests/state_topology.rs:720; only the \u00a73.8 prose is stale. Pay-for-play pointer, not a contract violation.",
+    "coords": [
+      "docs/distributed-simulation-architecture.md:205",
+      "crates/combat/src/state/layout_tests.rs:9",
+      "crates/combat/src/state.rs:91"
+    ]
+  },
+  {
+    "id": "REJ-L-006",
+    "track": "L",
+    "suspicion": "compile_selected_passive_package_effects re-resolves each package through TraitSourceCatalog and allocates for single-effect selected sources",
+    "why_rejected": "Only sources with >=2 resolved effects are forwarded (passive_spell_modifier.rs:917); single-effect sources never reach the re-resolution. The re-resolution for multi-effect packages is one transient cold allocation, as recorded in the ledger.",
+    "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:917",
+      "crates/combat/src/program/selected_trait_package.rs:229-240"
+    ]
+  }
+]

@@ -1,0 +1,288 @@
+[
+ {
+  "id": "AUTH-C-001",
+  "name": "CriticalStrikeBaseline + CriticalAuthority (exact-actor critical baseline)",
+  "layer": "state_construction",
+  "coords": [
+   "crates/combat/src/critical.rs:62-162",
+   "crates/combat/src/critical/authority.rs:8-55",
+   "crates/combat/src/critical/authority.rs:146-282",
+   "crates/combat/src/critical/authority.rs:284-317",
+   "crates/combat/src/topology.rs:213-227"
+  ],
+  "semantic_facts": [
+   "Host supplies one CriticalStrikeBaseline per ActorId (spell chance, weapon chance, multiplier); chances finite >= 0 and retained unclamped, multiplier finite >= 1 (critical.rs:113-143).",
+   "CriticalAuthority::try_new sorts by actor and rejects duplicate actors, rejects baselines for actors absent from the roster, and stores a dense actor-indexed CriticalValues array (authority.rs:146-189).",
+   "Actors without a baseline read CriticalValues::NONE = (0, 0, x2.0) (authority.rs:16-20, 284-293); an actor with no baseline but bound passive crit modifiers therefore crits with the implicit x2.0 multiplier.",
+   "The same dense index also holds passive critical-modifier ranges (chance AND raw-163 damage handles) per actor plus an actor-local target-health capability bit (authority.rs:191-282).",
+   "Immutable after construction; not touched by reset_runtime (state.rs:1068-1120)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-002",
+  "name": "critical_chance_channel + ImpactPolicy critical flags (payload channel/eligibility)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:39-60",
+   "crates/combat/src/program/payload_policy.rs:33-47",
+   "crates/combat/src/program/payload_policy.rs:94-104",
+   "crates/combat/src/program/definition.rs:512-572",
+   "crates/combat/src/program/definition.rs:614-626",
+   "crates/combat/src/program.rs:1180-1205"
+  ],
+  "semantic_facts": [
+   "Melee/Ranged defense -> Weapon channel; None/Magic defense -> Spell (non-physical), Weapon (physical only) or HybridMax (both) by payload school (critical_modifier.rs:39-60). Matches Trinity SpellCritChanceDone max(physical, magic) (Unit.cpp:7132-7155).",
+   "Eligibility is Eligible for every payload unless the spell carries CannotCrit (payload_policy.rs:33-47); it is NOT conditioned on the impact carrying a damage or healing operation.",
+   "Only four operation kinds clear the channel afterwards: Instakill (program.rs:1185-1192), InterruptCast, Dispel, DispelMechanic (program.rs:1194-1196 -> definition.rs:614-626). Stun, silence, pacify, aura application, resource, cooldown-adjustment and other non-amount impacts keep crit eligibility (see CSA-C-01)."
+  ],
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-003",
+  "name": "critical-chance modifier compiler (raw 52/57/183/187/197/290/308/334)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:62-300",
+   "crates/combat/src/program/critical_modifier.rs:370-430",
+   "crates/combat/src/program/critical_modifier.rs:494-575",
+   "crates/combat/src/program/critical_modifier.rs:576-642",
+   "crates/combat/src/program/critical_modifier.rs:644-758",
+   "crates/combat/src/program/critical_modifier.rs:1175-1290",
+   "crates/combat/src/program/critical_modifier.rs:1393-1445",
+   "crates/combat/src/program/critical_modifier.rs:1447-1497"
+  ],
+  "semantic_facts": [
+   "Subtype -> packed applicability: 52 SOURCE_WEAPON, 57 SOURCE_SPELL, 290 SOURCE_SPELL_AND_WEAPON, 334 SOURCE_AUTO_ATTACK (no spell/weapon bit), 187 TARGET_WEAPON_MELEE, 197 TARGET_SPELL_AND_WEAPON_ATTACK (no None defense), 308 TARGET_CASTER_SPELL_MAGIC, 183 SOURCE_SPELL_AND_WEAPON_ATTACK + predicate (604-642).",
+   "Activation: Passive admits 183/187/197/290/308; SelectedTrait admits 290/308/334; Aura admits all but 183/308/334 (1175-1290).",
+   "SelectedTrait amount = TraitSourceCatalog::selected_amount(effect) after package-contract role check, complete sibling declaration and owner-policy check (494-575); probe c_selected_rank.rs proves rank-2 Set-curve amount (+4) is consumed, not authored +2.",
+   "Raw-183 comparator is host-declared and must equal exactly (Above,50)/(AtOrAbove,80) with misc (0,percent) (1447-1497).",
+   "Undeclared crit-subtype siblings of selected/passive owners are rejected (1393-1445)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-004",
+  "name": "critical-chance runtime aggregation (apply_critical_modifiers)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/critical_modifier.rs:94-145",
+   "crates/combat/src/critical_modifier.rs:176-242",
+   "crates/combat/src/critical_modifier.rs:244-302",
+   "crates/combat/src/critical_modifier.rs:321-436",
+   "crates/combat/src/critical_modifier.rs:467-481",
+   "crates/combat/src/state/modifiers.rs:397-441"
+  ],
+  "semantic_facts": [
+   "Source-holder points (active committed cohorts x effective stacks + passive terms x1) and target-holder points are summed in f64 percentage points, divided by 100, added to the channel baseline, and floored at 0 exactly once (critical_modifier.rs:188-241).",
+   "Target holder is queried for damage impacts, or for spell-channel Magic impacts restricted to raw-308 caster-spell terms (202-223).",
+   "HybridMax applies spell-channel terms to spell chance and weapon-channel terms to weapon chance, then resolve_critical takes max (125-143, critical/resolution.rs:14-28). A spell-only target term (raw 308) is added before the max, Trinity adds it after (see CSA-C-03).",
+   "Exclusive groups: greatest absolute stacked amount, canonical key tie-break, equal opposite-sign tie fails (401-436). Predicate filtering precedes exclusivity (381-399).",
+   "Target health snapshot read from committed ActorState health only if the source actor has a raw-183 binding (state/modifiers.rs:409-418)."
+  ],
+  "finding_ids": [
+   "CSA-C-03"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-005",
+  "name": "resolve_critical (points -> probability)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/critical/resolution.rs:5-29",
+   "crates/combat/src/critical/resolution.rs:95-113",
+   "crates/combat/src/execution/planning/critical.rs:81-123"
+  ],
+  "semantic_facts": [
+   "Forbidden or chance <= 0 -> probability None (no draw); otherwise Probability(min(chance,1)) - clamp only at the probability boundary (resolution.rs:95-113).",
+   "Forbidden eligibility skips modifier evaluation entirely (planning/critical.rs:89-90) so CannotCrit payloads cannot fail on crit arithmetic."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-006",
+  "name": "critical multiplier preparation (baseline x raw 163, SpellMod op-15 bonus ordering)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/execution/planning/critical.rs:11-79",
+   "crates/combat/src/state/modifiers.rs:335-395",
+   "crates/combat/src/critical_damage_modifier.rs:24-186"
+  ],
+  "semantic_facts": [
+   "Only computed when a critical probability exists (planning/critical.rs:26-28).",
+   "Direct Melee/Ranged damage and all non-damage impacts: bonus (1+(m-1)F) before raw-163 school product; Magic/None and all periodic damage: raw-163 first, bonus second (35-76). Matches Trinity melee path (Unit.cpp:1216-1231) and SpellCriticalDamageBonus (Unit.cpp:7279-7307), incl. periodic via AuraEffect (SpellAuraEffects.cpp:5707,5791).",
+   "raw 163: every school-intersecting definition multiplies the whole multiplier by (1+stacked/100); passives always once, never in exclusive groups (critical_damage_modifier.rs:24-69,138-169).",
+   "op-15 bonus reads one pre-aggregated passive projection factor per (actor, payload) (state/modifiers.rs:360-395)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-007",
+  "name": "SpellMod op-15 CriticalBonus projection payload set",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/modifier/payload_spells.rs:32-54",
+   "crates/combat/src/program/passive_spell_modifier.rs:430-441",
+   "crates/combat/src/program/passive_spell_modifier.rs:477-483",
+   "crates/combat/src/program/passive_spell_modifier.rs:785-800"
+  ],
+  "semantic_facts": [
+   "CriticalBonus projections are compiled only for payload programs that have a crit-eligible impact with a damage-family operation (payload_spells.rs:32-54); heal-only payloads matched by the class mask silently get no projection (CSA-C-02).",
+   "Factor = binary32 (1+p/100)^matching_bits (passive_spell_modifier.rs:477-483).",
+   "Only selected-trait activation exists for spell modifiers; admitted op-15 population = Heart of the Crusader 406154 #4 and Martial Expert 429638 #1 (selected_package.py admitted)."
+  ],
+  "finding_ids": [
+   "CSA-C-02"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-008",
+  "name": "critical-damage-modifier compiler (raw 163)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/critical_damage_modifier.rs:129-154",
+   "crates/combat/src/program/critical_damage_modifier.rs:332-414",
+   "crates/combat/src/program/critical_damage_modifier.rs:463-488"
+  ],
+  "semantic_facts": [
+   "Passive activation always compiles exclusive group 0; only Aura activation can carry ExclusiveSameEffect (332-414).",
+   "No selected-trait activation; raw 501 (caster-spell crit damage taken) stays Disabled with no consumer."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-009",
+  "name": "critical-healing-amount compiler + authority (raw 50)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/critical_healing_modifier.rs:59-130",
+   "crates/combat/src/program/critical_healing_modifier/validation.rs:16-60",
+   "crates/combat/src/critical_healing_amount.rs:16-86",
+   "crates/combat/src/execution/planning/health.rs:1565-1580"
+  ],
+  "semantic_facts": [
+   "Passive-only; state construction multiplies per-actor factors (1+p/100) with finiteness check (critical_healing_amount.rs:16-86).",
+   "Applied to the whole critical heal (normal x bonus-adjusted multiplier) via scaled_critical when chance > 0, after ordinary healing modifiers (health.rs:1565-1580). Trinity SpellCriticalHealingBonus: (damage + bonus) x MOD_CRITICAL_HEALING_AMOUNT (Unit.cpp:7309-7325) - same product in reals."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-010",
+  "name": "critical-block-amount compiler (raw 638, passive + selected Martial Expert)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/critical_block_amount.rs:83-112",
+   "crates/combat/src/program/critical_block_amount.rs:157-254",
+   "crates/combat/src/program/critical_block_amount.rs:256-302",
+   "crates/combat/src/program/critical_block_amount.rs:388-418",
+   "crates/combat/src/program/critical_block_amount.rs:486-519"
+  ],
+  "semantic_facts": [
+   "Selected activation consumes resolved.selected_amount(effect) (297-301) - the raw-638 selected->authored defect (09d4fdab) stays fixed.",
+   "Percent >= -100 and factor >= 0 enforced for both activations (388-418).",
+   "Selected path performs NO selected_trait_owner_policy_issue check itself (contrast critical_modifier.rs:558-566); the only admitted package (Martial Expert) is protected because its op-15 sibling's compiler runs the owner-policy check on the same owner spell (passive_spell_modifier.rs:977-983) - see XC-C-004."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-011",
+  "name": "CriticalBlockAmountAuthority + attack-table application",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/critical_block_amount.rs:42-200",
+   "crates/combat/src/state/modifiers.rs:238-247",
+   "crates/combat/src/attack/resolution.rs:382-398"
+  ],
+  "semantic_facts": [
+   "Defender-held factors aggregated multiplicatively per actor, exclusive groups by magnitude, at fallible construction (critical_block_amount.rs:42-172).",
+   "Applied only for damaging, block-eligible Melee/Ranged tables: retained = max(0, 1-(1-m)F) (resolution.rs:382-398). Trinity reads the aura from the ATTACKER (Unit.cpp:1243,1463) - Core's defender ownership follows the talent semantics (REJ-C-004)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-012",
+  "name": "attack table: ordered non-landing + critical + block + critical-block draws",
+  "layer": "rng",
+  "coords": [
+   "crates/combat/src/attack/resolution.rs:275-353",
+   "crates/combat/src/attack/resolution.rs:464-524",
+   "crates/combat/src/impact.rs:388-418",
+   "crates/combat/src/health_amount.rs:67-79"
+  ],
+  "semantic_facts": [
+   "One ordered draw over [miss, dodge|resist, parry] (skipped when all zero or first >= 1), then critical `occurs`, then block `occurs`, then (damage only) critical-block `occurs` (464-524).",
+   "Crit and block are independent after landing; block multiplier applies to the already critical amount (health_amount.rs:67-79) - Trinity also blocks the crit-boosted amount (Unit.cpp:1216-1250).",
+   "Resolution happens at commit; every fallible crit computation happened at quote (planning.rs:852-915)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-013",
+  "name": "defense-chance modifier compiler + runtime (raw 47/49/51/251)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/defense_chance_modifier.rs:133-209",
+   "crates/combat/src/program/defense_chance_modifier.rs:358-540",
+   "crates/combat/src/defense_chance_modifier.rs:325-420",
+   "crates/combat/src/attack/resolution.rs:299-320"
+  ],
+  "semantic_facts": [
+   "Axes dodge/parry/physical-block (defender-held) and enemy-dodge (source-held raw 251) add percentage points to the table baseline, each floored at 0 once (resolution.rs:299-320).",
+   "Physical block adjustment applies only to Melee/Ranged; magic block untouched (resolution.rs:312-320)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-014",
+  "name": "hit-chance modifier compiler + runtime (raw 54/55/184/186)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/hit_chance_modifier.rs:198-260",
+   "crates/combat/src/program/hit_chance_modifier.rs:414-460",
+   "crates/combat/src/hit_chance_modifier.rs:265-340",
+   "crates/combat/src/state/modifiers.rs:185-222",
+   "crates/combat/src/attack/resolution.rs:286-293"
+  ],
+  "semantic_facts": [
+   "Hit adjustment evaluated only when source != target, the impact has damage, and miss is eligible (state/modifiers.rs:185); aura-only hostile impacts keep the miss roll with baseline accuracy but ignore hit modifiers (documented scope, aura_subtype.rs:416,476; XC-C-003).",
+   "Magic: source raw 55 + target raw 186 (school-selected); Melee: source raw 54 + target raw 184; Ranged: source raw 54 only; None: none (state/modifiers.rs:185-222). Matches Trinity MeleeSpellMissChance sign/holder (Unit.cpp:12454-12488)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-015",
+  "name": "passive parry capability compiler (learned parry)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_parry.rs:48-100",
+   "crates/combat/src/passive_parry.rs:1-60"
+  ],
+  "semantic_facts": [
+   "Capability only (can_parry), exact single source effect, host-proven weapon eligibility; no chance arithmetic."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "AUTH-C-016",
+  "name": "white main-hand critical share (raw 290 / raw 334 in binary32 basis points)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/white_swing.rs:23-70",
+   "crates/combat/src/white_swing.rs:300-322",
+   "crates/combat/src/white_swing.rs:376-440",
+   "crates/combat/src/white_swing/resolution.rs:72-110",
+   "crates/combat/src/state/white_main_hand.rs:96-110"
+  ],
+  "semantic_facts": [
+   "Host supplies binary32 pre-modifier percent whose truncation must equal the prepared share; Core adds exactly-representable f32 points, clamps [0,100], x100 in f32 and truncates once (white_swing.rs:23-70,300-322).",
+   "Outcome draw: uniform_index(10000) against saturating cumulative thresholds miss,dodge,parry,glancing,block,critical,crushing (resolution.rs:88-110).",
+   "White critical damage is hardcoded mitigated x2 (white_main_hand.rs:105); unreachable divergence because admission requires empty critical_strikes and an isolated program (topology.rs:1099-1125, REJ-C-003)."
+  ],
+  "track": "C"
+ }
+]

@@ -1,0 +1,116 @@
+[
+ {
+  "id": "REJ-A-001",
+  "suspicion": "selected_passive_bindings covers 5 families while SelectedTraitEffectRole has 12 roles -> a package member of an omitted family could escape the atomicity check",
+  "why_rejected": "Every role reachable in a recorded (arity>=2) package is one of the 10 composition slots (SpellMod x6 kinds, CriticalBlockAmount, HealingReceived, AutoAttackDamage, AutoAttackCriticalChance); all map to the 5 chained families (AutoAttackCriticalChance -> passive_critical). HasteAll, AllCriticalChance, CritChanceForCaster, MeleeAutoAttackSpeed, DamageDone/Taken, AbsorbReceived are singleton-only (counts.other rejects them in any multi-effect package) and singletons are never recorded. Safe today; latent seam only if a future composition admits them (MUT-A-044). Note: the family identity is still lost (CSA-A-01).",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:845-886",
+   "crates/combat/src/program/selected_trait_package.rs:888-970",
+   "crates/combat/src/program/selected_trait_package.rs:246",
+   "crates/combat/src/state/construction.rs:284-322"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-002",
+  "suspicion": "selected_passive_package_source returns the first find() match; two sources could share an exact effect and the wrong package would be required",
+  "why_rejected": "Recorded effects come only from sources whose every member is declared under that exact (entry,rank); a catalog family holds at most one declaration per exact effect; owner-role count must equal arity. Two entries (or two ranks) naming one provider therefore cannot both compile (MUT-A-040/041).",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:291-304",
+   "crates/combat/src/program/selected_trait_package.rs:246-254",
+   "crates/combat/src/program/selected_trait_package.rs:401-416"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-003",
+  "suspicion": "compile_selected_passive_package_effects is only called from the spell-modifier compiler, so a package without a SpellMod member would be invisible to state validation",
+  "why_rejected": "composition_is_admitted_by admits no multi-effect multiset without a SpellModifier role (arity 2: direct+periodic, direct+label, critbonus+block, direct+auto-damage; 3: healing+2 first-effect label; 4: Heart; 5-8 all SpellMod). Every member compiler requires all siblings declared, so the spell-modifier family is non-empty and PassiveSpellModifierPlan is compiled (modifier.rs:911-917 unconditional; passive_spell_modifier.rs:139-141). The code comment at crates/combat/src/program/selected_trait_package.rs:224-228 states the invariant accurately.",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:213-288",
+   "crates/combat/src/program/selected_trait_package.rs:920-968",
+   "crates/combat/src/program/passive_spell_modifier.rs:132-161"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-004",
+  "suspicion": "raw-638-class bug (selected amount replaced by authored points) at another final compiler",
+  "why_rejected": "All nine selected final compilers read resolved.selected_amount or the role value built from it (PL-A-002..PL-A-010); authored base points are used only for non-selected activations or fixed carriers.",
+  "coords": [
+   "crates/combat/src/program/critical_block_amount.rs:297-301",
+   "crates/combat/src/program/critical_modifier.rs:568-570",
+   "crates/combat/src/program/passive_auto_attack_damage.rs:169-171",
+   "crates/combat/src/program/passive_healing_received.rs:185-187",
+   "crates/combat/src/program/passive_haste.rs:154-156",
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:104-106",
+   "crates/combat/src/program/passive_damage_modifier.rs:169-171",
+   "crates/combat/src/program/passive_absorb_received.rs:178-180",
+   "crates/combat/src/program/passive_spell_modifier.rs:898-918"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-005",
+  "suspicion": "source order determines role / unknown siblings can be filtered away",
+  "why_rejected": "Roles are computed per exact effect; probe holds_source_order_does_not_determine_role. Unknown siblings make the whole contract None and a source-declared but unretained effect makes the resolver refuse IncompleteEffects.",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:600-629",
+   "crates/combat/src/program/selected_trait_package.rs:789-807",
+   "crates/data/src/trait_source/selected_spell.rs:265-274"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-006",
+  "suspicion": "unrelated packages can satisfy completeness",
+  "why_rejected": "Required members are enumerated by exact source equality and matched against exact (actor, member) pairs.",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:306-320",
+   "crates/combat/src/state/construction.rs:253-256"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-007",
+  "suspicion": "one valid actor masks another orphan actor",
+  "why_rejected": "Validation iterates every bound (actor,effect) independently; probe holds_complete_actor_does_not_mask_orphan_actor.",
+  "coords": [
+   "crates/combat/src/state/construction.rs:248-279"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-008",
+  "suspicion": "generic mutable package runtime exists",
+  "why_rejected": "selected_package_effects is an immutable boxed slice inside PassiveSpellModifierPlan read only during state construction; CombatState has no package field; ordinary authorities remain owners.",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:124-129",
+   "crates/combat/src/state/construction.rs:244-282",
+   "crates/combat/src/state/construction.rs:214-240"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-009",
+  "suspicion": "declarations not atomic: one member compiles while another is undeclared",
+  "why_rejected": "Each member compiler (and the provenance recorder) refuses the program unless every member is declared under the exact source; program build is all-or-nothing (probes a_selected_owner_policy.rs::holds_only_spell_modifier_member_declared_rejects, holds_only_block_member_declared_rejects).",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:323-386",
+   "crates/combat/src/program/selected_trait_package.rs:246-254",
+   "crates/combat/src/program/passive_spell_modifier.rs:932-948",
+   "crates/combat/src/program/critical_block_amount.rs:287-295"
+  ],
+  "track": "A"
+ },
+ {
+  "id": "REJ-A-010",
+  "suspicion": "single-effect sole-authority path and contract path disagree on admission of a live effect",
+  "why_rejected": "Both call the same selected_trait_package_contract (arity 1 always admitted) and the same classifier; the only divergence found is the missing owner policy in the raw-638 compiler (CSA-A-02), which has no live singleton.",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:888-891",
+   "crates/combat/src/program/passive_spell_modifier.rs:880-897"
+  ],
+  "track": "A"
+ }
+]

@@ -1,0 +1,116 @@
+[
+ {
+  "id": "REJ-G-001",
+  "track": "G",
+  "suspicion": "fresh Stun cancels an allow-while-stunned (raw-163) pending cast although admission exempts it",
+  "why_rejected": "matches direct consumer: Trinity SetControlled -> CastStop interrupts all non-melee spells unconditionally (Unit.cpp:11569-11570, 11673); documented in ledger L22497",
+  "coords": [
+   "crates/combat/src/cast_authority.rs:280-282"
+  ]
+ },
+ {
+  "id": "REJ-G-002",
+  "track": "G",
+  "suspicion": "Silence cancellation ignores the silenced school",
+  "why_rejected": "Trinity InterruptSpellsWithPreventionTypeOnAuraApply ignores school (SpellAuraEffects.cpp:2521-2528); all admitted silence carriers are misc 127 so admission and cancellation agree on source data",
+  "coords": [
+   "crates/combat/src/cast_authority.rs:284-295",
+   "crates/combat/src/silence.rs:94-126"
+  ]
+ },
+ {
+  "id": "REJ-G-003",
+  "track": "G",
+  "suspicion": "two interruption quotes against the same generation in one segment panic in cancel_cast expect",
+  "why_rejected": "UNREACHABLE: raw 68 must be the sole program operation (program/interrupt.rs:59) and every prevention carrier is a sole-effect owner with a sole application and no child roles (program/action_prevention_carrier.rs:186-251, program/stun.rs:250-306); chained segments re-quote after commit",
+  "coords": [
+   "crates/combat/src/state/casting.rs:100-107",
+   "crates/combat/src/execution/commit.rs:517-525"
+  ]
+ },
+ {
+  "id": "REJ-G-004",
+  "track": "G",
+  "suspicion": "school-lock commit overwrites and could shorten a longer active lock",
+  "why_rejected": "UNREACHABLE: only lockout duration 6000 ms is admitted (program/interrupt.rs:115-120) and now is monotone, so a new deadline is never earlier",
+  "coords": [
+   "crates/combat/src/school_lock.rs:52-65"
+  ]
+ },
+ {
+  "id": "REJ-G-005",
+  "track": "G",
+  "suspicion": "missile timing validated only for root spells, letting a missile-bearing child execute instantly",
+  "why_rejected": "validate_missile_timing runs in compile_program for every compiled program node (program.rs:1133)",
+  "coords": [
+   "crates/combat/src/program.rs:1133",
+   "crates/combat/src/program/missile_timing.rs:9-37"
+  ]
+ },
+ {
+  "id": "REJ-G-006",
+  "track": "G",
+  "suspicion": "target death during a hard cast should cancel immediately (and reset GCD) rather than fail at completion",
+  "why_rejected": "Trinity keeps the cast until cast() and fails CheckCast (Spell.cpp:4247-4273 cancels only if the target object disappears); completion failure does not cancel GCD in Trinity",
+  "coords": [
+   "crates/combat/src/cast.rs:329-343"
+  ]
+ },
+ {
+  "id": "REJ-G-007",
+  "track": "G",
+  "suspicion": "start recovery overwrite could shorten an active GCD",
+  "why_rejected": "start only follows a quote that required now >= ready_at (cast.rs:775-787), so the new ready_at is strictly later",
+  "coords": [
+   "crates/combat/src/recovery.rs:231-240",
+   "crates/combat/src/cast.rs:762-790"
+  ]
+ },
+ {
+  "id": "REJ-G-008",
+  "track": "G",
+  "suspicion": "prepared optional cost over-demands at completion",
+  "why_rejected": "Trinity also stores m_powerCost (incl. optional) at prepare and CheckPower fails at cast if unaffordable",
+  "coords": [
+   "crates/combat/src/cast_cost.rs:36-63"
+  ]
+ },
+ {
+  "id": "REJ-G-009",
+  "track": "G",
+  "suspicion": "stale cast completion transition fires after interruption",
+  "why_rejected": "next completion recomputed from live cells every advance (state.rs next_cast_completion) and complete_hard_cast checks authoritative_pending_cast (cast.rs:137-147)",
+  "coords": [
+   "crates/combat/src/cast.rs:137-147",
+   "crates/combat/src/cast_authority.rs:410-417"
+  ]
+ },
+ {
+  "id": "REJ-G-010",
+  "track": "G",
+  "suspicion": "casting-speed change mid-cast should rebase the completion deadline",
+  "why_rejected": "Trinity fixes m_casttime at prepare; ledger L20822-20826 documents capture-at-install",
+  "coords": [
+   "crates/combat/src/cast.rs:355-386"
+  ]
+ },
+ {
+  "id": "REJ-G-011",
+  "track": "G",
+  "suspicion": "failed hard completion mutates state (costs, cooldowns, RNG)",
+  "why_rejected": "Err branch only finishes the cast and pushes CastCompleted Failed; planning is pure (quote in scratch)",
+  "coords": [
+   "crates/combat/src/cast.rs:329-343"
+  ]
+ },
+ {
+  "id": "REJ-G-012",
+  "track": "G",
+  "suspicion": "a hard error (e.g. DeadTarget) masking a timed blocker strands the engine",
+  "why_rejected": "hard errors surfaced before blockers are permanent for the current request (dead/missing/unsupported target, invalid config); readiness Invalid/Blocked without recheck is correct for them",
+  "coords": [
+   "crates/combat/src/cast.rs:428-437",
+   "crates/combat/src/cast.rs:537-540"
+  ]
+ }
+]

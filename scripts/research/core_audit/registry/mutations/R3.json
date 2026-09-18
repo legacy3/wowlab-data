@@ -1,0 +1,70 @@
+[
+  {
+    "id": "MUT-R3-001",
+    "contract": "reset / iteration reset / quote and failure purity on owners outside H's fixture set",
+    "dimension": "actor",
+    "mutation": "stochastic state input (miss/dodge/parry/physical block on both actors, crit, reverse hostile relation) over 24 extra fixtures; casts in three caster/target directions",
+    "outcome": "accepted_inert",
+    "method": "probe",
+    "evidence": [
+      "2,999 commits; all fresh-equal, identical replays"
+    ],
+    "probe_test": "r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures",
+    "track": "R3"
+  },
+  {
+    "id": "MUT-R3-002",
+    "contract": "charge recovery equals base recharge once no rate aura is active",
+    "dimension": "amount facts",
+    "mutation": "+40% raw-148 aura applied and naturally expiring during a 2-missing-charge serial recovery, then another consumption",
+    "outcome": "accepted_suspicious",
+    "method": "probe",
+    "evidence": [
+      "full_recovery_interval 14999, third charge ready 38998 vs consumer 38999; control without aura 15000"
+    ],
+    "probe_test": "r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions",
+    "finding_ids": [
+      "CSA-R3-02"
+    ],
+    "track": "R3"
+  },
+  {
+    "id": "MUT-R3-003",
+    "contract": "raw-286 rate composition parity",
+    "dimension": "source order",
+    "mutation": "(+50,+60) and (+60,+50) on 60/30/15 s cooldowns",
+    "outcome": "accepted_inert",
+    "method": "probe",
+    "evidence": [
+      "Core == consumer association (24999/12499/6249)"
+    ],
+    "probe_test": "r3_recovery_rate.rs::holds_recovery_rate_sixty_second_witness_matches_consumer_association",
+    "track": "R3"
+  },
+  {
+    "id": "MUT-R3-004",
+    "contract": "independent-stack reset",
+    "dimension": "exact attributes",
+    "mutation": "raw-490 AsynchronousStackingBuff on the rate aura, three staggered applications, reset mid-flight",
+    "outcome": "accepted_inert",
+    "method": "probe",
+    "evidence": [
+      "reset and reset_for_iteration Debug-equal to fresh; replay identical"
+    ],
+    "probe_test": "r3_charge_rate_drift.rs::holds_independent_stack_authority_reset_and_iteration_reset",
+    "track": "R3"
+  },
+  {
+    "id": "MUT-R3-005",
+    "contract": "allocation-free warm iteration (gate 9)",
+    "dimension": "actor",
+    "mutation": "16 fresh RandomStreamIdentity values per fixture after one warm-up, 24 fixtures x 2 inputs",
+    "outcome": "accepted_inert",
+    "method": "probe",
+    "evidence": [
+      "608 measured warm iterations, 0 allocation/realloc events (debug and release)"
+    ],
+    "probe_test": "r3_warm_allocation.rs::holds_warm_iteration_reset_and_replay_are_allocation_free_on_uncovered_fixtures",
+    "track": "R3"
+  }
+]

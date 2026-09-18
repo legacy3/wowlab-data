@@ -1,0 +1,179 @@
+[
+ {
+  "id": "FF-J-001",
+  "track": "J",
+  "authority": "AUTH-J-001",
+  "fact": "selected raw-290 rank amount -> white critical basis-point threshold",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/trait_source/selected_spell.rs:84-95"
+    ],
+    "identity": "(entry, rank, SpellEffectRef)",
+    "validated": "exact rank curve",
+    "transformation": "Set/Multiply f64",
+    "consumed": true
+   },
+   {
+    "stage": "candidate",
+    "coords": [
+     "crates/engine/src/trait_critical_package_candidate.rs:107-176"
+    ],
+    "identity": "selected entry",
+    "validated": "package admission",
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:240-270",
+     "crates/combat/src/program/white_idle.rs:27-40"
+    ],
+    "identity": "CriticalChanceModifierDefinition.effect",
+    "validated": "finite",
+    "transformation": "f64 percent points retained",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/white_swing.rs:32-44",
+     "crates/combat/src/white_swing.rs:296-313",
+     "crates/combat/src/white_swing.rs:403-414"
+    ],
+    "identity": "white source actor",
+    "validated": "exact binary32 round trip; basis truncation == host share",
+    "transformation": "binary32 add, clamp, *100 truncate -> u32",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/state/white_main_hand.rs:90-96"
+    ],
+    "identity": "white runtime",
+    "validated": "minimum damage progress",
+    "transformation": "none",
+    "consumed": false
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/white_swing/resolution.rs:73-116"
+    ],
+    "identity": "roll in 0..10000",
+    "validated": "fixed domain",
+    "transformation": "saturating cumulative thresholds",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state/white_main_hand.rs:97-135"
+    ],
+    "identity": "target health",
+    "validated": "quote",
+    "transformation": "mitigated*2 on critical",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/white_swing/runtime.rs:72-75"
+    ],
+    "identity": "validated retained",
+    "validated": "n/a",
+    "transformation": "deadline to zero; threshold immutable",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "same",
+    "validated": "n/a",
+    "transformation": "same as reset + new stream",
+    "consumed": true
+   }
+  ],
+  "finding_ids": [
+   "CSA-J-01"
+  ]
+ },
+ {
+  "id": "FF-J-002",
+  "track": "J",
+  "authority": "AUTH-J-002",
+  "fact": "host spell haste multiplier -> hard-cast completion and hasted cooldown ready time",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/haste.rs:56-120"
+    ],
+    "identity": "actor",
+    "validated": "finite positive f64",
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/state/construction.rs:620-650"
+    ],
+    "identity": "ActorState.haste",
+    "validated": "HasteMultipliers::try_from_input",
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/cast_authority.rs:37-45",
+     "crates/combat/src/recovery.rs:94-116",
+     "crates/combat/src/cast.rs:780-790"
+    ],
+    "identity": "cast binding",
+    "validated": "progressing deadline",
+    "transformation": "f64 division, truncation",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/cast.rs:370-385"
+    ],
+    "identity": "PendingCast",
+    "validated": "quote",
+    "transformation": "completes_at = now + duration",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1068-1080"
+    ],
+    "identity": "cooldowns/casts reset",
+    "validated": "n/a",
+    "transformation": "cleared",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "same",
+    "validated": "n/a",
+    "transformation": "same",
+    "consumed": true
+   }
+  ],
+  "finding_ids": [
+   "CSA-J-02"
+  ]
+ }
+]

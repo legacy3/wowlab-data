@@ -1,0 +1,110 @@
+[
+ {
+  "id": "XC-E-001",
+  "concept": "reapplication vs cadence pairing validation",
+  "compilers": [
+   {
+    "authority": "AUTH-E-001 damage/heal",
+    "coords": [
+     "crates/combat/src/program/periodic.rs:1642-1673"
+    ],
+    "behavior": "RestartLifetime+PreserveCadence rejected"
+   },
+   {
+    "authority": "AUTH-E-001 trigger/energize",
+    "coords": [
+     "crates/combat/src/program/periodic.rs:1614-1640"
+    ],
+    "behavior": "RestartLifetime+PreserveCadence admitted"
+   },
+   {
+    "authority": "mana leech / max-power-percent energize",
+    "coords": [
+     "crates/combat/src/program/periodic/mana_leech.rs:120-139",
+     "crates/combat/src/program/periodic/energize/maximum_power_percent.rs:180-197"
+    ],
+    "behavior": "RestartCadence required"
+   }
+  ],
+  "class": "B",
+  "evidence": "Intentional per ledger ('Reapplication preserves latent cadence or restarts ... exactly as resolved'); damage/heal need the pairing for terminal-partial semantics. Behaviour pinned by e_periodic_schedule.rs::holds_preserve_cadence_refresh_keeps_anchor.",
+  "probe_tests": [
+   "e_periodic_schedule.rs::holds_preserve_cadence_refresh_keeps_anchor"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "XC-E-002",
+  "concept": "aura removal -> periodic cancellation",
+  "compilers": [
+   {
+    "authority": "AuraMutation Remove/RemoveStacks",
+    "coords": [
+     "crates/combat/src/execution/planning/aura_lifecycle.rs:287-322"
+    ],
+    "behavior": "quotes periodic deactivation when program has periodic quotes"
+   },
+   {
+    "authority": "Dispel / DispelMechanic",
+    "coords": [
+     "crates/combat/src/program/planning.rs:565-573",
+     "crates/combat/src/execution/planning/dispel.rs:136-151"
+    ],
+    "behavior": "counted 0 periodic quotes; relies on compile gate that dispellable auras have no schedules"
+   },
+   {
+    "authority": "natural expiry / independent expiry / absorb depletion / dead-recipient",
+    "coords": [
+     "crates/combat/src/state.rs:1385",
+     "crates/combat/src/state/independent_stack_lifetime.rs:141-142",
+     "crates/combat/src/state/absorbs.rs:183",
+     "crates/combat/src/periodic_execution.rs:454-456"
+    ],
+    "behavior": "explicit cancel_periodic_aura"
+   }
+  ],
+  "class": "E",
+  "evidence": "Dispel paths would leave a live periodic cell on a removed aura, masked by dispel.rs:243-247 and dispel_mechanic.rs:394 gates.",
+  "finding_ids": [
+   "CSA-E-02"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "XC-E-003",
+  "concept": "liveness gating of aura-scoped work",
+  "compilers": [
+   {
+    "authority": "periodic tick",
+    "coords": [
+     "crates/combat/src/periodic_execution.rs:449-457"
+    ],
+    "behavior": "recipient death cancels schedules"
+   },
+   {
+    "authority": "expiry driver",
+    "coords": [
+     "crates/combat/src/expiry_execution.rs:9-40"
+    ],
+    "behavior": "no gate; runs on corpse"
+   },
+   {
+    "authority": "aura application",
+    "coords": [
+     "crates/combat/src/aura_state.rs:713-834"
+    ],
+    "behavior": "no gate; applies to corpse"
+   }
+  ],
+  "class": "D",
+  "evidence": "probes e_death_lifecycle.rs",
+  "finding_ids": [
+   "CSA-E-01"
+  ],
+  "probe_tests": [
+   "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse",
+   "e_death_lifecycle.rs::holds_periodic_trigger_cancels_silently_after_recipient_death"
+  ],
+  "track": "E"
+ }
+]

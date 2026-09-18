@@ -1,0 +1,353 @@
+[
+ {
+  "id": "MUT-B-001",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "baseline",
+  "mutation": "sole raw-108 op0 +50 class mask 1 bit",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "150 damage (control)",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_001_baseline_direct_class_mask_applies",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-002",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "mask",
+  "mutation": "two overlapping bits",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "225 = 100*1.5^2 (Trinity pow(applyCount))",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_002_mask_bit_count_is_exponent",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-003",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "mask",
+  "mutation": "overlap only in word 3",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "150; all four words consulted",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_003_fourth_mask_word_participates",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-004",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "definition",
+  "mutation": "payload family 11 vs provider 10",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "100; no application",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_004_family_mismatch_is_inert",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-005",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "owner attributes",
+  "mutation": "provider family 0 with class-mask selector",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierOwnerFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_005_family_zero_class_mask_owner_rejected",
+  "error": "InvalidSpellModifierOwnerFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-006",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "mask",
+  "mutation": "empty provider class mask on raw 108",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierSourceFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_006_empty_class_mask_rejected",
+  "error": "InvalidSpellModifierSourceFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-007",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "misc",
+  "mutation": "misc1=5 on class-mask raw 108",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierSourceFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_007_class_mask_secondary_misc_rejected",
+  "error": "InvalidSpellModifierSourceFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-008",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "operation",
+  "mutation": "misc0=1 Duration",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierSourceFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_008_unadmitted_operation_rejected",
+  "error": "InvalidSpellModifierSourceFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-009",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "sign/range",
+  "mutation": "op 11 with +50%",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierSourceFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_009_positive_cooldown_percent_rejected",
+  "error": "InvalidSpellModifierSourceFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-010",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "amount facts",
+  "mutation": "points -150",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierSourceFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_010_points_below_minus_100_rejected",
+  "error": "InvalidSpellModifierSourceFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-011",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "target",
+  "mutation": "provider implicit target 6",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierSourceFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_011_non_self_provider_rejected",
+  "error": "InvalidSpellModifierSourceFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-012",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "period",
+  "mutation": "aura period 1000",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierSourceFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_012_periodic_provider_rejected",
+  "error": "InvalidSpellModifierSourceFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-013",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "trigger",
+  "mutation": "trigger spell on raw 108",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "150; trigger treated as inert (selected_trait_package.rs:743-755)",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_013_trigger_spell_on_raw108_is_inert",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-014",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "owner attributes",
+  "mutation": "nonempty owner spell class mask",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "InvalidSpellModifierOwnerFact",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_014_owner_class_mask_rejected",
+  "error": "InvalidSpellModifierOwnerFact",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-015",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "label",
+  "mutation": "raw 218 label selector, payload in other family; with/without label row",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "100 without label, 150 with",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_015_label_selector_boolean_membership",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-016",
+  "contract": "selected SpellMod compiler admission/applicability",
+  "dimension": "actor",
+  "mutation": "no binding / Enemy binding / duplicate binding",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "inert 100; UnsupportedPassiveSpellModifierActor; DuplicatePassiveSpellModifierBinding",
+  "probe_test": "b_spellmod_mutations.rs::holds_mut_b_016_binding_actor_and_multiplicity",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-017",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "rank",
+  "mutation": "two-rank flat op-11 Set/Multiply, rank 1 vs 2",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": "crates/combat/tests/selected_cooldown_spell_modifier.rs::selected_ranked_flat_operation_11_uses_set_and_multiply_rank_amounts (selected rank amount consumed at final compile)",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-018",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "exact attributes",
+  "mutation": "payload carries uncataloged raw 223 No Category Cooldown Mods",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": "crates/combat/tests/selected_cooldown_spell_modifier.rs::uncataloged_no_category_modifier_payload_remains_fail_closed",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-019",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "sign/range",
+  "mutation": "flat op-11 zero or positive ms",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": "crates/combat/tests/selected_cooldown_spell_modifier.rs::one_rank_flat_cooldown_rejects_zero_and_positive_milliseconds",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-020",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "label",
+  "mutation": "duplicate SpellLabel rows for one payload",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": "crates/combat/tests/selected_flat_label_first_effect_spell_modifier.rs::duplicate_label_rows_are_one_membership_not_two_additions",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-021",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "mask",
+  "mutation": "raw-108 op-3 percent with 2 overlapping bits",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "b_first_effect_mask.rs::defect_percent_first_effect_class_mask_ignores_overlapping_bit_count (CSA-B-01)",
+  "probe_test": "b_first_effect_mask.rs::defect_percent_first_effect_class_mask_ignores_overlapping_bit_count",
+  "finding_ids": [
+   "CSA-B-01"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-022",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "definition",
+  "mutation": "op-15 payload is a pure heal instead of damage",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "b_critical_bonus_heal.rs::defect_operation15_skips_matching_pure_healing_payload (CSA-B-03)",
+  "probe_test": "b_critical_bonus_heal.rs::defect_operation15_skips_matching_pure_healing_payload",
+  "finding_ids": [
+   "CSA-B-03"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-023",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "effect kind",
+  "mutation": "op-3 payload first effect is SchoolDamage instead of raw-87/raw-20",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "b_first_effect_scope.rs::defect_flat_first_effect_provider_is_silently_inert_on_ordinary_damage_payload (CSA-B-04)",
+  "probe_test": "b_first_effect_scope.rs::defect_flat_first_effect_provider_is_silently_inert_on_ordinary_damage_payload",
+  "finding_ids": [
+   "CSA-B-04"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-024",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "aura subtype",
+  "mutation": "raw-218 op 3 as sole effect (not Ephemeral Bond)",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "b_first_effect_mask.rs::defect_sole_effect_raw218_operation3_label_is_admitted_beyond_catalog_row (CSA-B-02)",
+  "probe_test": "b_first_effect_mask.rs::defect_sole_effect_raw218_operation3_label_is_admitted_beyond_catalog_row",
+  "finding_ids": [
+   "CSA-B-02"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-025",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "misc",
+  "mutation": "raw-286 nonzero misc0/misc1",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "cooldown_recovery_rate.rs:401-420 UnsupportedMiscValues",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-026",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "owner attributes",
+  "mutation": "raw-286 Passive or AsynchronousStackingBuff owner",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "cooldown_recovery_rate.rs:513-550",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-027",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "mask",
+  "mutation": "raw-341/453/454 nonempty class mask",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "duration_modifier_source.rs:135-141",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-028",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "amount facts",
+  "mutation": "cooldown adjustment non-integral or AP/SP-coefficient amount",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "cooldown_adjustment.rs:390-406",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-029",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "mask",
+  "mutation": "ModifyCooldownsByCategory with class mask",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "cooldown_adjustment/category.rs:208-223",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-030",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "amount facts",
+  "mutation": "raw-411 amount != +1 on Second Helping",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "charge_capacity.rs:294-306 InvalidAdditionalCharges",
+  "track": "B"
+ },
+ {
+  "id": "MUT-B-031",
+  "contract": "SpellMod / cooldown modifier admission",
+  "dimension": "operation",
+  "mutation": "cooldown adjustment ModifyCooldownsByCategory category shared by non-member starter",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": "cooldown_adjustment/category.rs:84-117 ambiguous_category_authority",
+  "track": "B"
+ }
+]

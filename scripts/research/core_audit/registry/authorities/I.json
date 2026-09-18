@@ -1,0 +1,159 @@
+[
+ {
+  "id": "AUTH-I-001",
+  "name": "RandomStream canonical boundary",
+  "layer": "rng",
+  "coords": [
+   "crates/sim/src/random.rs:1-207"
+  ],
+  "semantic_facts": [
+   "xoshiro256++ seeded by FNV(root_seed,global_iteration)->SplitMix64; chunk identity absent",
+   "occurs/ordered_outcome/uniform_index skip draws at deterministic boundaries; *_forced variants always draw",
+   "raw next_u64/next_unit_f64 private; RandomStream derives Debug (public observation channel used by probes)"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-002",
+  "name": "ResolvedAttackTable::resolve (spell attack outcome)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/attack/resolution.rs:365-557"
+  ],
+  "semantic_facts": [
+   "one shared non-landing draw, then critical, block, critical-block occurs",
+   "critical block only when resolve_critical_block (= impact has damage)",
+   "resolution_for rebuilds cached outcomes without drawing"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-003",
+  "name": "PreparedImpactQuote (per-actor shared impact outcome cache)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/impact.rs:103-416",
+   "crates/combat/src/execution/planning.rs:791-940"
+  ],
+  "semantic_facts": [
+   "one quote per (actor, beneficial) inside a program frame",
+   "first resolve draws and caches (hit,block); later resolves replay",
+   "captured() for fixed-travel arrival asserts Unblocked and unit landed multiplier"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-004",
+  "name": "commit_execution draw sequencing",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/execution/commit.rs:141-232",
+   "crates/combat/src/execution/commit.rs:453-464",
+   "crates/combat/src/execution/commit.rs:879-926"
+  ],
+  "semantic_facts": [
+   "impact resolve -> dispel selection -> ordered operations (mechanic scans)",
+   "asserts preview reproduction for dispel",
+   "suppressed delayed launch skips resolution"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-005",
+  "name": "raw-38 dispel selection receipt and preview",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/execution/planning/dispel.rs:9-180"
+  ],
+  "semantic_facts": [
+   "preview clones the stream; receipt keeps count and ordinal",
+   "candidates filtered by projected activity, affected==origin target, dispel family/disposition"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-006",
+  "name": "raw-108 mechanic dispel scan",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/execution/planning/mechanic_dispel.rs:10-73"
+  ],
+  "semantic_facts": [
+   "scanned_active counts projected active auras affecting the origin target",
+   "commit draws occurs_forced(ONE) per scanned aura when landed"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-007",
+  "name": "white main-hand roll",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/white_swing/resolution.rs:1-111",
+   "crates/combat/src/state/white_main_hand.rs:45-150"
+  ],
+  "semantic_facts": [
+   "forced weapon draw then 10_000-domain outcome draw",
+   "basis-point ordered thresholds; admission forbids parry/block",
+   "dead target: no draw"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-008",
+  "name": "cast quote/commit pipeline",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/cast.rs:73-340",
+   "crates/combat/src/cast.rs:792-1045"
+  ],
+  "semantic_facts": [
+   "quote on &self; readiness/acceptance draw nothing",
+   "commit order: cooldowns, start recovery, costs, (thresholds + fresh re-quote) then root segment commit",
+   "resource-threshold cost path discards the stale root quote and re-quotes after threshold work"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-009",
+  "name": "segment chain continuation",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/driver_execution.rs:303-480",
+   "crates/combat/src/driver_execution.rs:594-700"
+  ],
+  "semantic_facts": [
+   "each segment quoted immediately before its commit, after the previous commit",
+   "quote failure fizzles without draws; committed earlier segments keep their draws"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-010",
+  "name": "same-time transition precedence",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/state/transition.rs:1-72",
+   "crates/combat/src/state.rs:1212-1316"
+  ],
+  "semantic_facts": [
+   "ordering key (at, kind rank, key) with canonical actor index for casts",
+   "actor roster canonicalized by ActorId (construction.rs:1018)"
+  ],
+  "track": "I"
+ },
+ {
+  "id": "AUTH-I-011",
+  "name": "stream reset lifecycle",
+  "layer": "reset",
+  "coords": [
+   "crates/combat/src/state.rs:439-451",
+   "crates/combat/src/state/construction.rs:232",
+   "crates/engine/src/lib.rs:847-859"
+  ],
+  "semantic_facts": [
+   "reset replays identity; reset_for_iteration adopts new identity; Engine forwards both"
+  ],
+  "track": "I"
+ }
+]

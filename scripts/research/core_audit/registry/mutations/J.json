@@ -1,0 +1,164 @@
+[
+ {
+  "id": "MUT-J-001",
+  "track": "J",
+  "contract": "white crit basis-point parity",
+  "dimension": "amount facts",
+  "mutation": "host basis f32(5 + 0x3f9ffffb) with raw-290 +2",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "825 bp vs Trinity 824"
+  ],
+  "probe_test": "j_white_binary32.rs::defect_white_critical_adds_passive_after_host_sum_binary32_association",
+  "finding_ids": [
+   "CSA-J-01"
+  ]
+ },
+ {
+  "id": "MUT-J-002",
+  "track": "J",
+  "contract": "white zero-armor narrowing",
+  "dimension": "amount facts",
+  "mutation": "prepared damage 16,777,217 at armor 0 vs 1",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "magnitude unreachable for source-valid weapons"
+  ],
+  "probe_test": "j_white_binary32.rs::holds_white_zero_armor_skips_binary32_narrowing_above_2_pow_24"
+ },
+ {
+  "id": "MUT-J-003",
+  "track": "J",
+  "contract": "hasted duration parity",
+  "dimension": "amount facts",
+  "mutation": "spell haste 1 + f32(2.02)/100 on 30 s cast and SpellHaste cooldown",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "29405 vs Trinity 29406"
+  ],
+  "probe_test": "j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer",
+  "finding_ids": [
+   "CSA-J-02"
+  ]
+ },
+ {
+  "id": "MUT-J-004",
+  "track": "J",
+  "contract": "raw-407 carrier shape",
+  "dimension": "cooldown/cost/cast requirements",
+  "mutation": "raw-407 carrier cooldown 30000 ms SpellHaste",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "observed during probe development: \"selected carrier fact one three-second snapshot shared category-1152 cooldown without other recovery\""
+  ]
+ },
+ {
+  "id": "MUT-J-005",
+  "track": "J",
+  "contract": "raw-183 threshold parity",
+  "dimension": "amount facts",
+  "mutation": "target maximum 1001 at 800 current, AtOrAbove 80",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "Core Hit, Trinity Critical"
+  ],
+  "probe_test": "j_target_health_threshold.rs::defect_target_health_at_or_above_uses_untruncated_threshold",
+  "finding_ids": [
+   "CSA-J-03"
+  ]
+ },
+ {
+  "id": "MUT-J-006",
+  "track": "J",
+  "contract": "mechanic-duration applicand gate",
+  "dimension": "duration",
+  "mutation": "silence applicand lifetime 5000 -> 1250 ms",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   "program build error"
+  ],
+  "probe_test": "j_mechanic_duration.rs::holds_mechanic_duration_rounding_divergence_is_gated_by_exact_five_second_carrier",
+  "error": "CombatProgramBuildError: silence carrier \"five-second single-stack aura lifetime\"",
+  "finding_ids": [
+   "CSA-J-04"
+  ]
+ },
+ {
+  "id": "MUT-J-007",
+  "track": "J",
+  "contract": "mechanic-duration provider gate",
+  "dimension": "amount facts",
+  "mutation": "raw-232 provider 55366 amount -10 -> -25",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "observed during probe development: MechanicDurationModifier InvalidProviderFact \"fixed negative-10 amount without shaping or trigger\""
+  ]
+ },
+ {
+  "id": "MUT-J-008",
+  "track": "J",
+  "contract": "raw-286 rate parity",
+  "dimension": "amount facts",
+  "mutation": "rate +10% on 16.5 s; +50%,+60% on 60 s",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "14999/24999 vs Trinity 15000/25000"
+  ],
+  "probe_test": "j_recovery_rate.rs::holds_recovery_rate_two_source_amounts_match_consumer_product_order",
+  "finding_ids": [
+   "CSA-J-05"
+  ]
+ },
+ {
+  "id": "MUT-J-009",
+  "track": "J",
+  "contract": "raw-423 cost integerization",
+  "dimension": "amount facts",
+  "mutation": "mana cost 20 -> 13 with -5%",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "12.35 vs Trinity 12"
+  ],
+  "probe_test": "j_mana_cost_percent.rs::defect_mana_cost_percent_leaves_fractional_cost",
+  "finding_ids": [
+   "CSA-J-06"
+  ]
+ },
+ {
+  "id": "MUT-J-010",
+  "track": "J",
+  "contract": "rotation projection vs combat",
+  "dimension": "source order",
+  "mutation": "last rotation evaluation moved from t=0 to t=1 ms",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "fallback at 5001 vs combat threshold at 5000"
+  ],
+  "probe_test": "j_resource_projection.rs::defect_rotation_resource_wake_is_one_ms_after_combat_crossing",
+  "finding_ids": [
+   "CSA-J-07"
+  ]
+ },
+ {
+  "id": "MUT-J-011",
+  "track": "J",
+  "contract": "white raw-290 representability",
+  "dimension": "amount facts",
+  "mutation": "raw-290 percent not exactly binary32 (e.g. 5.0*10.0223)",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "white_swing.rs:32-38 try_new -> InvalidPreparedBasis"
+  ]
+ }
+]

@@ -1,0 +1,145 @@
+[
+ {
+  "id": "REJ-H-001",
+  "track": "H",
+  "suspicion": "reset/reset_for_iteration/reset_runtime restore different subsets (reset topology drift)",
+  "why_rejected": "reset() = reset_runtime + random.reset(); reset_for_iteration() = reset_runtime + new stream; the only difference is the RNG, by contract. Full-state Debug after reset equals a freshly constructed state in 29 fixture scenarios + 20 targeted scenarios; reset_for_iteration(B) equals a fresh state built with B and replays identically",
+  "coords": [
+   "crates/combat/src/state.rs:442-451",
+   "crates/combat/src/state.rs:1068-1139"
+  ],
+  "probe_tests": [
+   "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+   "h_reset_fingerprint.rs::holds_reset_fingerprints",
+   "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+  ]
+ },
+ {
+  "id": "REJ-H-002",
+  "track": "H",
+  "suspicion": "critical and spell_power_from_attack_power authorities are not reset",
+  "why_rejected": "both are immutable after construction (no &mut self methods; only by-value builders in critical/authority.rs:34-43), so there is nothing to reset",
+  "coords": [
+   "crates/combat/src/state.rs:87",
+   "crates/combat/src/state.rs:89",
+   "crates/combat/src/critical/authority.rs:34-43",
+   "crates/combat/src/spell_power_from_attack_power.rs:121-127"
+  ]
+ },
+ {
+  "id": "REJ-H-003",
+  "track": "H",
+  "suspicion": "absorb transaction workspace (projected cells) survives reset and could leak stale capacity into the next iteration",
+  "why_rejected": "full Debug after reset differs only in AbsorbTransactionWorkspace.projected for mana_shield/non_bypassable_absorb fixtures; every read goes through projected_cell guarded by projected_present, which is cleared per transaction (absorb/transaction.rs:327-330, 678-701); semantic Debug and replay are identical",
+  "coords": [
+   "crates/combat/src/absorb/transaction.rs:143-144",
+   "crates/combat/src/absorb/transaction.rs:326-331",
+   "crates/combat/src/absorb/transaction.rs:678-701"
+  ],
+  "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints"
+ },
+ {
+  "id": "REJ-H-004",
+  "track": "H",
+  "suspicion": "cast_readiness (&mut self quote) mutates state (ResourceThresholdInterruptWorkspace.admitted_work 1->0 observed)",
+  "why_rejected": "admitted_work is per-transaction scratch zeroed by prepare() at the start of every threshold transaction (execution/resource_threshold_interrupt.rs:135-139); no semantic owner changes across 1,000+ readiness quotes (probe)",
+  "coords": [
+   "crates/combat/src/execution/resource_threshold_interrupt.rs:112-139",
+   "crates/combat/src/cast.rs:74-86"
+  ],
+  "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints"
+ },
+ {
+  "id": "REJ-H-005",
+  "track": "H",
+  "suspicion": "ActorBaseline omits haste and offensive power, so runtime haste changes survive reset",
+  "why_rejected": "offensive_power has no mutator; haste is mutated at construction by passive all-haste (before the baseline is captured) and at runtime only by ActiveCastingSpeedRuntime, whose reset restores the captured casting-speed channels (active_casting_speed.rs:159-163) from timing.reset (state.rs:1112-1114); active-casting-speed fixtures reset fresh-equal",
+  "coords": [
+   "crates/combat/src/actor.rs:23-29",
+   "crates/combat/src/actor.rs:129-138",
+   "crates/combat/src/active_casting_speed.rs:159-180",
+   "crates/combat/src/state.rs:1112-1114"
+  ],
+  "probe_test": "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+ },
+ {
+  "id": "REJ-H-006",
+  "track": "H",
+  "suspicion": "host update_passive_resource_flow mutations become the new baseline (survive reset)",
+  "why_rejected": "PassiveResourceFlowStorage keeps an immutable baseline half and reset copies it over the current half (passive_resource_flow.rs:951-956) before thresholds replan at ZERO (resource_authority.rs:1152-1186); probe updates flow mid-run then reset == fresh",
+  "coords": [
+   "crates/combat/src/passive_resource_flow.rs:951-956",
+   "crates/combat/src/resource_authority.rs:1152-1186"
+  ],
+  "probe_tests": [
+   "h_construction_mutations.rs::holds_host_flow_update_is_reverted_by_reset",
+   "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+  ]
+ },
+ {
+  "id": "REJ-H-007",
+  "track": "H",
+  "suspicion": "rotation RotationState is not reset by Engine::reset and could carry frames into the next iteration",
+  "why_rejected": "PreparedRotation::evaluate clears state on entry and exit (rotation execution.rs:367, 410-412); the only residue is popped ListFrame values above depth 0, which push always overwrites; Engine Debug minus that scratch equals a fresh Engine after reset and iteration reset",
+  "coords": [
+   "crates/engine/src/lib.rs:847-859"
+  ],
+  "probe_test": "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent"
+ },
+ {
+  "id": "REJ-H-008",
+  "track": "H",
+  "suspicion": "runtime host/data lookup (GameData/catalog/content resolver consulted after construction)",
+  "why_rejected": "non-test combat runtime modules reference catalogs only in compile-time constructors (cooldown.rs:222-227 CooldownPlan::compile); the engine ContentResolver is used only by ProgramResolver inside EngineProgram::try_new (engine lib.rs:271-340); runtime host inputs are limited to cast/advance/update_passive_resource_flow",
+  "coords": [
+   "crates/engine/src/lib.rs:271-340",
+   "crates/combat/src/cooldown.rs:222-227"
+  ]
+ },
+ {
+  "id": "REJ-H-009",
+  "track": "H",
+  "suspicion": "failed public host calls (advance_to backwards, unconfigured/unknown passive-flow update) partially mutate state",
+  "why_rejected": "backwards time returns before any mutation (state.rs:402-406); update_passive_resource_flow rejects unsupported rates before settlement and PassiveResourceFlowStorage::update fails before writing; full Debug unchanged in probe",
+  "coords": [
+   "crates/combat/src/state.rs:397-406",
+   "crates/combat/src/state.rs:253-317"
+  ],
+  "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free"
+ },
+ {
+  "id": "REJ-H-010",
+  "track": "H",
+  "suspicion": "rejected casts consume RNG or leave partial state (failure purity)",
+  "why_rejected": "quotes resolve on a cloned RandomStream (planning/health.rs:533-534, planning/dispel.rs:94-95); semantic Debug including random identical before/after every rejected begin_cast in all scenarios (hundreds of rejections incl. CastInProgress, ResourceSpend, cooldown, DeadTarget)",
+  "coords": [
+   "crates/combat/src/execution/planning/health.rs:533-534",
+   "crates/combat/src/execution/planning/dispel.rs:94-95",
+   "crates/combat/src/cast.rs:175-203"
+  ],
+  "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints"
+ },
+ {
+  "id": "REJ-H-011",
+  "track": "H",
+  "suspicion": "white main-hand validated from the raw pre-canonical input could bind the wrong actor or skip passive adjustments",
+  "why_rejected": "white admission requires an exact two-actor roster, one hostile relation, UNHASTED actors, and default health/resource/cooldown bindings (topology.rs:950-1124), so canonicalization and construction passives cannot change what it validated; duplicate actors are still rejected later (only error precedence differs)",
+  "coords": [
+   "crates/combat/src/state/construction.rs:87",
+   "crates/combat/src/state/construction.rs:343-356",
+   "crates/combat/src/white_swing.rs:255-369",
+   "crates/combat/src/topology.rs:1099-1124"
+  ]
+ },
+ {
+  "id": "REJ-H-012",
+  "track": "H",
+  "suspicion": "state construction order-dependence: actor/relation input order changes compiled state",
+  "why_rejected": "actors sorted by ActorId and relations by (pair, disposition) before any index-bearing owner is compiled; permuted inputs produce bit-identical full Debug",
+  "coords": [
+   "crates/combat/src/state/construction.rs:1013-1040",
+   "crates/combat/src/state/topology.rs:33-72"
+  ],
+  "probe_test": "h_construction_mutations.rs::holds_actor_and_relation_order_is_canonicalized"
+ }
+]

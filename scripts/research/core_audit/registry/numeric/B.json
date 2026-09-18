@@ -1,0 +1,82 @@
+[
+ {
+  "id": "NUM-B-001",
+  "coords": [
+   "crates/combat/src/spell_modifier_authority.rs:370-377"
+  ],
+  "conversion": "percent SpellMod factors multiplied as binary32 per term in canonical exact-effect order",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "projection factor",
+  "note": "Trinity GetSpellModValues accumulates float pct *= pow(...) (Player.cpp ~22800-22840) but iterates class-mask pct mods before label pct mods in m_spellMods order; Core orders by exact effect. Order only matters for >=3 non-exact factors.",
+  "track": "B"
+ },
+ {
+  "id": "NUM-B-002",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:472-483"
+  ],
+  "conversion": "binary32 (1+p/100)^count via powf",
+  "evidence_class": "source_backed",
+  "observable": "per-payload factor",
+  "note": "Trinity std::pow(1.0f + CalculatePct(1.0f, value), float(applyCount)); exact for count 1; libm ulp agreement for count>=2 is UNK-B-003.",
+  "track": "B"
+ },
+ {
+  "id": "NUM-B-003",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:544",
+   "crates/combat/src/spell_modifier_authority.rs:375-377"
+  ],
+  "conversion": "PercentFirstEffect factor computed in f64 1+p/100 then narrowed to binary32 at aggregation",
+  "evidence_class": "core_choice",
+  "observable": "raw-20 first-effect percent",
+  "witness": "p=-99: f32(1+(-99)/100 f64)=0.0099999998 vs binary32 1+f32(-99)/100 = 0.0099999905; 80 of 301 integer p in [-100,200] differ; common +8/+10/+20/+50 agree.",
+  "track": "B"
+ },
+ {
+  "id": "NUM-B-004",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:537-548"
+  ],
+  "conversion": "cooldown (base + flat) * binary32 factor, truncated once, clamp <=0 to suppression",
+  "evidence_class": "direct_consumer_reproduced",
+  "observable": "cooldown start duration",
+  "note": "Trinity ApplySpellMod<int32>: T((double(base)+flat)*float pct) (Player.cpp ApplySpellMod) then negative -> 0 (SpellHistory.cpp:491-496).",
+  "track": "B"
+ },
+ {
+  "id": "NUM-B-005",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:231-240",
+   "crates/combat/src/cooldown/time_math.rs:5-24"
+  ],
+  "conversion": "ordinary cooldown duration = trunc(base / haste / rate_speed).max(1)",
+  "evidence_class": "core_choice",
+  "observable": "deadline duration ms",
+  "witness": "base 66000 ms, one +10% raw-286 rate: Core trunc(66000/1.1)=59999; Trinity floor(66000*(100/110))=60000 (SpellHistory.cpp:431-445). Same shape for base 110000/+10% (99999 vs 100000). Division by f64 speed vs multiplication by reciprocal.",
+  "track": "B"
+ },
+ {
+  "id": "NUM-B-006",
+  "coords": [
+   "crates/combat/src/charge_duration.rs:288-313",
+   "crates/combat/src/cooldown/charge_recovery_input.rs:43-67"
+  ],
+  "conversion": "charge duration (base+flat) * f64 prod(1+p/100) / haste / speed, truncated once",
+  "evidence_class": "core_choice",
+  "observable": "charge recovery interval",
+  "note": "Trinity GetChargeRecoveryTime uses float multipliers and floor (SpellHistory.cpp:975-1010).",
+  "track": "B"
+ },
+ {
+  "id": "NUM-B-007",
+  "coords": [
+   "crates/combat/src/state/modifiers.rs:360-395"
+  ],
+  "conversion": "op-15 excess 1+(M-1)F in f64 with binary32 F",
+  "evidence_class": "core_choice",
+  "observable": "critical multiplier",
+  "note": "Trinity applies op 15 to an int32 crit_bonus (Unit.cpp:7296-7317) truncating the scaled excess to an integer; Core keeps fractional amounts.",
+  "track": "B"
+ }
+]

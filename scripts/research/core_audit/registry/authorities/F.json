@@ -1,0 +1,202 @@
+[
+ {
+  "id": "AUTH-F-001",
+  "track": "F",
+  "name": "white main-hand admission (validate_white_input / compile_white_modifiers)",
+  "layer": "state_construction",
+  "coords": [
+   "crates/combat/src/white_swing.rs:255-369",
+   "crates/combat/src/white_swing.rs:371-450",
+   "crates/combat/src/state/construction.rs:343-356",
+   "crates/combat/src/state/construction.rs:87"
+  ],
+  "semantic_facts": [
+   "exactly two actors, Player source, Enemy target, one hostile Player->Enemy relation (white_swing.rs:265-280)",
+   "positive equal levels and six engagement booleans; parry/block must be 0 unless defender faces (white_swing.rs:193-201,282-287)",
+   "weapon range min>0, max<=u32::MAX/2, inclusive width fits u32 (white_swing.rs:289-292, resolution.rs:14-23)",
+   "chances each <=10000, parry=block=0; armor finite >=0, constant finite >0; mitigated(modified min)>0 and mitigated(modified max)<=u32::MAX/2 (white_swing.rs:326-333)",
+   "source and target alive and minimum damage quote progresses (white_swing.rs:341-358)",
+   "exactly one modifier composition: idle | raw-319 | raw-193 | raw-344(+334) package | raw-290 all-crit | Dark Bite reset; each requires exact input isolation (white_swing.rs:376-443, topology.rs:950-1125)",
+   "admission runs before any RNG stream exists; failure returns WhiteAdmissionRejection, no draw"
+  ]
+ },
+ {
+  "id": "AUTH-F-002",
+  "track": "F",
+  "name": "white deadline scheduling (WhiteMainHandRuntime + transition peek)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/white_swing/runtime.rs:7-75",
+   "crates/combat/src/state/white_main_hand.rs:6-21",
+   "crates/combat/src/state.rs:1212-1226",
+   "crates/combat/src/state/transition.rs:54-74"
+  ],
+  "semantic_facts": [
+   "first deadline is SimTime::ZERO (host proves timer ready) (runtime.rs:15-20)",
+   "next = now + period after each due swing; None when target dead or lethal (runtime.rs:52-62)",
+   "due time = max(ready_at, active hard-cast completes_at of source, now) - suppression without catch-up (white_main_hand.rs:6-21)",
+   "same-instant order: cast completion (key 2) before white (key 4) (transition.rs:60-68)"
+  ]
+ },
+ {
+  "id": "AUTH-F-003",
+  "track": "F",
+  "name": "white swing commit (complete_white_main_hand)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/state/white_main_hand.rs:45-153"
+  ],
+  "semantic_facts": [
+   "dead target -> finish_due(false), no draw, no observation (white_main_hand.rs:77-84)",
+   "pre-draw quote of minimum mitigated damage (expect; cannot fail by monotone progress) (89-95)",
+   "draw weapon then outcome; damage = mitigated(modified(weapon)); Critical x2 after truncation; Miss/Dodge no damage (99-117)",
+   "emits WhiteMainHandSwing (+WhiteMainHandDeath on lethal), next deadline cleared on lethal (131-152)"
+  ]
+ },
+ {
+  "id": "AUTH-F-004",
+  "track": "F",
+  "name": "white roll (roll_white_swing / select_outcome)",
+  "layer": "rng",
+  "coords": [
+   "crates/combat/src/white_swing/resolution.rs:72-112",
+   "crates/combat/src/white_swing/resolution.rs:14-32"
+  ],
+  "semantic_facts": [
+   "forced inclusive weapon draw even for singleton, then fixed 10000 outcome draw, always both (72-88)",
+   "ordered cumulative saturating thresholds Miss>Dodge>Parry>Glancing>Block>Critical>Crushing>Hit, strict roll<threshold (90-112)"
+  ]
+ },
+ {
+  "id": "AUTH-F-005",
+  "track": "F",
+  "name": "white program admission predicates (white_idle.rs)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/white_idle.rs:8-117",
+   "crates/combat/src/program/white_idle.rs:119-136",
+   "crates/combat/src/program/white_idle.rs:142-200"
+  ],
+  "semantic_facts": [
+   "actionless-except-stats-and-modifiers exhaustive destructuring (142-200)",
+   "haste-only white requires no defense/hit/critical-block/AP-conversion/passive-attack stats (119-136)",
+   "Dark Bite reset admission: exactly one activation with reset flag, one program/cast timing/cooldown/operation/impact/damage formula/execution plan, nothing else (51-117)"
+  ]
+ },
+ {
+  "id": "AUTH-F-006",
+  "track": "F",
+  "name": "combat stat program container (CombatStatProgram / PassiveAttackDefinitions)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/combat_stats.rs:1-61"
+  ],
+  "semantic_facts": [
+   "holds optional defense/hit/critical-block/AP-conversion/haste plans and passive parry/mechanic-resistance bit set; white admission requires every non-haste member absent (white_idle.rs:126-133)"
+  ]
+ },
+ {
+  "id": "AUTH-F-007",
+  "track": "F",
+  "name": "haste program composition (HasteProgram)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/haste_program.rs:13-122"
+  ],
+  "semantic_facts": [
+   "compiles passive all-haste (raw 193), passive melee auto-attack speed (raw 319), active casting speed independently",
+   "passive_all_only / passive_melee_auto_attack_speed_only return a definition only when the other two are absent (87-121): white never composes two period factors"
+  ]
+ },
+ {
+  "id": "AUTH-F-008",
+  "track": "F",
+  "name": "selected raw-319 melee auto-attack speed compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:43-131",
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:138-160"
+  ],
+  "semantic_facts": [
+   "exactly one selected declaration; selected-rank amount via try_selected_spell_effect_amounts; complete package; owner policy (51-102)",
+   "period_factor = 100f32/(100f32 + binary32(points)), finite and >0 required (115-123)",
+   "every raw-319 effect of selected owners must be declared (138-160)"
+  ]
+ },
+ {
+  "id": "AUTH-F-009",
+  "track": "F",
+  "name": "raw-193 passive all-haste definition (white period factor)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_haste.rs:32-56",
+   "crates/combat/src/program/passive_haste.rs:110-188"
+  ],
+  "semantic_facts": [
+   "white period_factor = 100f32/(100f32 + points as f32) with no local finite/positive guard (47-51); spell haste factor = 1 + p/100 f64 (53-55)",
+   "selected path uses selected-rank amount; fixed carrier 28830 effect 1 = 5 points otherwise (123-187)"
+  ]
+ },
+ {
+  "id": "AUTH-F-010",
+  "track": "F",
+  "name": "raw-344 passive auto-attack damage + white modifier package",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/passive_auto_attack_damage.rs:104-209",
+   "crates/combat/src/program/modifier/program_accessors.rs:67-139"
+  ],
+  "semantic_facts": [
+   "factor = 1f32 + binary32(points)/100f32, finite >=0 (194-201); requires direct raw-108 sibling, optional crit-bonus sibling",
+   "white package: exactly one raw-344 definition, optional one raw-334 auto-attack-only crit definition on same provider, exact spell-modifier bindings (program_accessors.rs:67-121)",
+   "raw-290 all-crit white path: single definition SOURCE_SPELL_AND_WEAPON, no exclusive group/target-health/point-stacking suppression (123-139)"
+  ]
+ },
+ {
+  "id": "AUTH-F-011",
+  "track": "F",
+  "name": "Dark Bite successful-launch main-hand reset flag",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/cooldown_start.rs:14-36",
+   "crates/combat/src/program/spell_attribute.rs:262-272",
+   "crates/combat/src/cast.rs:305-326",
+   "crates/combat/src/state/white_main_hand.rs:23-43"
+  ],
+  "semantic_facts": [
+   "flag = StartCooldownOnCastStart(407) && spell == 394463 (spell_attribute.rs:262-263, cooldown_start.rs:20-22)",
+   "applied only on successful hard-cast completion after commit_cast, for the white source only, target-alive gated (cast.rs:309-326, white_main_hand.rs:23-43)",
+   "SpellInterrupts InterruptFlags / attr2 DoNotResetCombatTimers / attr7 ResetSwingTimerAtSpellStart / attr6 DelayCombatTimer are not consulted; only-attribute-407 audit excludes the latter three (cooldown_start.rs:51-83)"
+  ]
+ },
+ {
+  "id": "AUTH-F-012",
+  "track": "F",
+  "name": "raw-366 spell power from attack power conversion",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/attack_power_conversion.rs:20-26",
+   "crates/combat/src/program/attack_power_conversion.rs:150-175",
+   "crates/combat/src/spell_power_from_attack_power.rs:99-116"
+  ],
+  "semantic_facts": [
+   "exact carrier 1258153 effect 9 (DBC index 8) raw 366 with 96 points (source SpellEffect row 1267419)",
+   "factor = base_points/100 (f64); runtime spell_power = (AP * factor).round() f64 (spell_power_from_attack_power.rs:108)",
+   "not consumed by the white path (white haste-only admission rejects AP conversion, white_idle.rs:129)"
+  ]
+ },
+ {
+  "id": "AUTH-F-013",
+  "track": "F",
+  "name": "white reset and iteration reset",
+  "layer": "reset",
+  "coords": [
+   "crates/combat/src/state.rs:442-452",
+   "crates/combat/src/state.rs:1068-1110",
+   "crates/combat/src/white_swing/runtime.rs:72-74"
+  ],
+  "semantic_facts": [
+   "reset_runtime restores next_at = ZERO; validated admission retained; reset() rewinds RNG, reset_for_iteration assigns a fresh stream; actors restored from baselines"
+  ]
+ }
+]

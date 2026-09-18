@@ -1,0 +1,115 @@
+[
+ {
+  "id": "REJ-D-001",
+  "suspicion": "Payload school could be reconstructed from a different spell than the effect's owner (identity drift between compiler and consumer)",
+  "why_rejected": "Resolved program steps carry only effect_index; effects are owned by the program spell, and school is taken from that payload spell once (program.rs:1124) and reused for immunity, modifiers, absorbs and share.",
+  "coords": [
+   "crates/combat/src/program.rs:1114-1130",
+   "crates/combat/src/execution/planning/health.rs:899-941"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-002",
+  "suspicion": "Incoming mechanic-filtered damage modifiers use spell-level mechanic mask instead of per-effect mechanic",
+  "why_rejected": "Binding uses the payload spell's all-effect mechanic mask (program/modifier.rs:1507-1530), matching Trinity SpellDamageBonusTaken's GetAllEffectsMechanicMask semantics.",
+  "coords": [
+   "crates/combat/src/program/modifier.rs:1500-1531",
+   "crates/combat/src/damage_modifier.rs:351-370"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-003",
+  "suspicion": "Outgoing school damage modifiers on multi-school payloads should multiply all matching auras",
+  "why_rejected": "Core takes the per-school product then the max across payload schools (damage_modifier.rs:247-252), matching Trinity's player branch of SpellDamagePctDone (max over ModDamageDonePercent per school).",
+  "coords": [
+   "crates/combat/src/damage_modifier.rs:137-280"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-004",
+  "suspicion": "Damage-immunity program audit omits ProgramOp::PowerBurn, letting burn damage reach an Ethereal holder (debug_assert admits_payload)",
+  "why_rejected": "compile_pool_plans rejects Power Burn whenever any immunity family is declared (UnsupportedImmunityPlan).",
+  "coords": [
+   "crates/combat/src/program/compile.rs:833-855",
+   "crates/combat/src/program/damage_immunity.rs:537-580"
+  ],
+  "probe_test": "d_damage_immunity_power_burn.rs::holds_power_burn_rejects_any_declared_immunity_family",
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-005",
+  "suspicion": "Share Damage copies only the aura source's own damage while Trinity copies every attacker's damage",
+  "why_rejected": "Divergence is unreachable: with the exact Venomshade plan compiled, state construction rejects any topology beyond the source/target pair (UnsupportedShareDamageTopology), so no third party can damage the holder.",
+  "coords": [
+   "crates/combat/src/execution/planning/health.rs:1117-1122",
+   "crates/combat/src/program/share_damage.rs:237-296"
+  ],
+  "probe_tests": [
+   "d_share_damage_attacker.rs::holds_share_damage_topology_rejects_third_party_attackers",
+   "d_share_damage_attacker.rs::holds_share_damage_copies_the_sources_own_damage"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-006",
+  "suspicion": "Target absorb bypass aggregates multiple sources additively",
+  "why_rejected": "Percentage points fold with f64::max (target_absorb_bypass_authority.rs:143), matching Trinity GetMaxPositiveAuraModifierByMiscMask.",
+  "coords": [
+   "crates/combat/src/target_absorb_bypass_authority.rs:101-145"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-007",
+  "suspicion": "Commit-time absorb consumption re-derives candidate order and could diverge from the quote",
+  "why_rejected": "Commit consumes the quoted ordered snapshot (next_snapshot) and skips candidates whose generation/sequence changed; order is carried, not reconstructed.",
+  "coords": [
+   "crates/combat/src/execution/commit/health.rs:397-440",
+   "crates/combat/src/absorb/transaction.rs:203-280"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-008",
+  "suspicion": "School-immunity coverage uses intersection (any covered school) instead of full coverage",
+  "why_rejected": "Both compile audit and runtime use complete-subset coverage (incoming & !provider == 0), matching Trinity (immuneMask & schoolMask) == schoolMask.",
+  "coords": [
+   "crates/combat/src/school_immunity.rs:38-40",
+   "crates/combat/src/program/school_immunity.rs:246-248"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-009",
+  "suspicion": "A second damage operation in one impact after a lethal first operation is checked against committed (alive) health and could deal damage",
+  "why_rejected": "The health quote workspace projects the first operation's lethal result; the second quote_damage reads projected current 0 and applies 0 (HealthPool::quote_damage_from min(current)); only the dead_target signal differs from the healing path's projected check (INCONSISTENT, no wrong state).",
+  "coords": [
+   "crates/combat/src/execution/planning/health.rs:871-889",
+   "crates/combat/src/execution/health.rs:55-68",
+   "crates/combat/src/health.rs:86-116"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-010",
+  "suspicion": "Damage immunity or no-immunity bypass payload could be suppressed/admitted by spell rather than exact effect",
+  "why_rejected": "admits_payload/suppresses_payload compare exact SpellEffectRef (damage_immunity.rs:124-130); raw-29 bypass is an exact effect predicate (no_immunities.rs:50-53).",
+  "coords": [
+   "crates/combat/src/program/damage_immunity.rs:124-130",
+   "crates/combat/src/program/no_immunities.rs:50-53"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "REJ-D-011",
+  "suspicion": "Self-applied periodic damage of a covered school bypasses raw-39 like raw-165 (caster-recipient route)",
+  "why_rejected": "Periodic tick child programs execute Target-recipient impacts on the aura recipient (resolved periodic damage tick nodes), so the raw-39 compile audit (has_target_impact) inspects them and rejects covered non-applicand programs; only direct caster-recipient payloads such as raw-165 escape. Static argument; not probed.",
+  "coords": [
+   "crates/combat/src/program/school_immunity.rs:246-274"
+  ],
+  "track": "D"
+ }
+]

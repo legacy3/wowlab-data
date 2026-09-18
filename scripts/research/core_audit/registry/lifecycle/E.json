@@ -1,0 +1,69 @@
+[
+ {
+  "id": "LC-E-001",
+  "owner": "OptionalCombatAuthorities",
+  "field": "periodic",
+  "coords": [
+   "crates/combat/src/state.rs:1437-1445",
+   "crates/combat/src/periodic_execution.rs:23-28",
+   "crates/combat/src/periodic_execution.rs:55-185"
+  ],
+  "init": "Some only when program has schedules AND some reachable mutation slot owns them (periodic_execution.rs:68-137)",
+  "mutation_sites": [
+   "crates/combat/src/periodic_execution.rs:337-350",
+   "crates/combat/src/periodic_execution.rs:352-402",
+   "crates/combat/src/periodic_execution.rs:428-436"
+  ],
+  "quote_visible": "workspace projections only (last_quote overlay), authority untouched until commit",
+  "failure": "quote failure leaves authority unchanged; workspace reset on next prepare",
+  "reset": "PeriodicRuntime::reset clears cells+queue+workspace (periodic_execution.rs:263-269)",
+  "iteration_reset": "same as reset; no RNG owned",
+  "death": "recipient death does not touch cells until the next due tick cancels them; aura remains active",
+  "allocation": "cells/deadlines/workspace sized at construction; no warm allocation (debug_assert on quote capacity periodic.rs:772-775)",
+  "work_identity": "(aura slot, canonical schedule slot)",
+  "finding_ids": [
+   "CSA-E-01"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "LC-E-002",
+  "owner": "PeriodicCell",
+  "field": "initial_pending",
+  "coords": [
+   "crates/combat/src/periodic.rs:198-229",
+   "crates/combat/src/periodic.rs:743-745"
+  ],
+  "init": "false",
+  "mutation_sites": [
+   "crates/combat/src/periodic.rs:318-322",
+   "crates/combat/src/periodic.rs:743-745",
+   "crates/combat/src/periodic.rs:218-224"
+  ],
+  "quote_visible": "yes via PeriodicMutationQuote.after",
+  "failure": "unchanged",
+  "reset": "false",
+  "iteration_reset": "false",
+  "death": "cleared by cancel on dead-recipient tick",
+  "track": "E"
+ },
+ {
+  "id": "LC-E-003",
+  "owner": "IndependentStackAuthority",
+  "field": "cohorts",
+  "coords": [
+   "crates/combat/src/independent_stack.rs:111-117"
+  ],
+  "init": "default cohorts sized sum(max stacks)",
+  "mutation_sites": [
+   "crates/combat/src/independent_stack.rs:190-232",
+   "crates/combat/src/independent_stack.rs:271-298",
+   "crates/combat/src/independent_stack.rs:317-328"
+  ],
+  "quote_visible": "aura quote carries IndependentStackMutation; authority mutated at commit",
+  "failure": "unchanged",
+  "reset": "independent_stack.rs:339-348",
+  "iteration_reset": "same",
+  "track": "E"
+ }
+]

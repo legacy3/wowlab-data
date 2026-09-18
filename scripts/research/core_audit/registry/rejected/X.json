@@ -1,0 +1,34 @@
+[
+  {
+    "id": "REJ-X-001",
+    "suspicion": "White main hand keeps swinging from a dead source (G cross-track note) contradicts REJ-F-011",
+    "why_rejected": "Both hold: runtime never re-checks source life, but admission requires a living source (white_swing.rs:341-343) and isolation admits exactly one Player->Enemy hostile relation with actionless or Dark-Bite-only programs (white_swing.rs:265-280, program/white_idle.rs:40-120), so no admitted program can lower Player health. Class E masking, no finding.",
+    "coords": [
+      "crates/combat/src/white_swing.rs:265-280",
+      "crates/combat/src/white_swing.rs:335-343",
+      "crates/combat/src/program/white_idle.rs:51-117"
+    ],
+    "track": "X"
+  },
+  {
+    "id": "REJ-X-002",
+    "suspicion": "CSA-C-02 protection claim: sole-effect op-15 providers are admitted only through the named Martial/Heart branches",
+    "why_rejected": "Disproved: composition_is_admitted_by returns true for arity 1 and generic_spell_modifier routes raw-108 op 15 to CriticalBonus; the production candidate admits exact Awestruck rows (x_op15_real_rows.rs). What actually protects real data is the payload owner attribute audit, not the provider admission.",
+    "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:888-891",
+      "crates/combat/src/program/selected_trait_package.rs:1090-1098",
+      "crates/combat/src/program/spell_attribute.rs:17-81"
+    ],
+    "track": "X"
+  },
+  {
+    "id": "REJ-X-003",
+    "suspicion": "Direct Energize amount/resource not bound to the source effect is a K-01-class defect",
+    "why_rejected": "Documented architecture: resolved instant resource gains remain host-authoritative (development-ledger.md:1643-1649); periodic energize is deliberately source-bound. Class B.",
+    "coords": [
+      "crates/combat/src/program/resource_gain.rs:14-55",
+      "crates/combat/src/program/periodic/energize.rs:57-140"
+    ],
+    "track": "X"
+  }
+]

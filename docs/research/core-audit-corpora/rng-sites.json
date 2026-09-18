@@ -1,0 +1,482 @@
+{
+ "count": 25,
+ "kind": "rng",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "commit": "draw at commit via PreparedImpactQuote::resolve (impact.rs:388-418); captured outcome reused by later operations of the same impact",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:497-501"
+   ],
+   "draws": "0 if probability None/0/>=1, else 1",
+   "failure": "quote failure -> no draw; commit infallible",
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "RNG-C-001",
+   "iteration_reset": "fresh stream; identical immutable crit inputs",
+   "note": "Also consumed by impacts without any amount (CSA-C-01).",
+   "order": "after the ordered non-landing draw (if any), before block draws",
+   "outcome_dependent_after_draw": "selects normal vs critical PreparedHealthAmount (health_amount.rs:67-79); no fallible work after the draw",
+   "probe_test": "c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw",
+   "quote": "probability and multiplier fully prepared at quote (planning/critical.rs:11-123); crit-modifier failures abort before any RNG",
+   "reset": "stream reset replays identically (CriticalAuthority immutable)",
+   "site": "critical occurs draw (spell/impact table)",
+   "track": "C"
+  },
+  {
+   "commit": "landed impacts only",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:503"
+   ],
+   "draws": "0 if block chance 0 or >=1, else 1",
+   "failure": "defense/hit calculation errors surface at quote",
+   "id": "RNG-C-002",
+   "iteration_reset": "fresh stream",
+   "order": "after crit draw",
+   "quote": "block chance, defense adjustments and critical-block factor prepared at quote (state/modifiers.rs:117-250)",
+   "reset": "replays",
+   "site": "block occurs draw",
+   "track": "C"
+  },
+  {
+   "commit": "multiplier = critical_block_multiplier",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:511"
+   ],
+   "draws": "only when block succeeded and resolve_critical_block (= impact has damage); 0/1 per occurs short-circuit",
+   "failure": "n/a",
+   "id": "RNG-C-003",
+   "iteration_reset": "fresh stream",
+   "order": "after block draw",
+   "outcome_dependent_after_draw": "retained multiplier choice only",
+   "quote": "critical block chance from BlockDefense input; raw-638 factor prepared at quote",
+   "reset": "replays",
+   "site": "critical-block occurs draw",
+   "track": "C"
+  },
+  {
+   "commit": "non-landing short-circuits crit and block draws",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:471"
+   ],
+   "draws": "0 if all zero or first positive >= 1, else 1",
+   "failure": "n/a",
+   "id": "RNG-C-004",
+   "iteration_reset": "fresh stream",
+   "note": "Track I owns the denominator; recorded here because a non-landing result suppresses the crit draw.",
+   "order": "first",
+   "quote": "hit/defense adjustments prepared at quote",
+   "reset": "replays",
+   "site": "ordered non-landing draw (miss/dodge|resist/parry)",
+   "track": "C"
+  },
+  {
+   "commit": "crit -> mitigated x2",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:81"
+   ],
+   "draws": "exactly 1 (uniform_index(10000)) even on guaranteed outcomes",
+   "failure": "admission rejection consumes no draw",
+   "id": "RNG-C-005",
+   "iteration_reset": "fresh stream",
+   "order": "after forced weapon draw",
+   "quote": "critical share prepared at state construction (white_swing.rs:300-322)",
+   "reset": "replays",
+   "site": "white outcome draw (includes critical threshold)",
+   "track": "C"
+  },
+  {
+   "commit": "commit_dispel_selection replays the receipt (execution/commit.rs:167)",
+   "coords": [
+    "crates/combat/src/execution/planning/dispel.rs:94-116"
+   ],
+   "draws": "impact.resolve on a cloned stream, then one uniform_index(candidate_count) when landed (0 draws for 0 candidates per uniform_index contract)",
+   "failure": "quote failure after the clone leaves the real stream untouched",
+   "id": "RNG-E-001",
+   "note": "Track I owns the canonical RNG record; this is the E-local view.",
+   "order": "impact resolution first, then ordinal; candidate order = aura_projections canonical order",
+   "quote": "quote operates on context.state.random.clone(); receipt recorded, stream not advanced",
+   "reset": "stream reset by CombatState reset/iteration reset (track I owns)",
+   "site": "dispel candidate ordinal uniform_index",
+   "track": "E"
+  },
+  {
+   "commit": "weapon offset feeds damage only",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:78"
+   ],
+   "draws": "exactly 1 uniform_index_forced(width) per due swing on a live target, also for width 1",
+   "failure": "none after quote (expect); dead target returns before any draw (white_main_hand.rs:77-84)",
+   "id": "RNG-F-001",
+   "iteration_reset": "identical replay for identical identity",
+   "order": "first in the white commit; precedes outcome draw; no other draw site shares the transition",
+   "outcome_dependent_after_draw": "no",
+   "probe_test": "f_white_swing.rs::holds_white_forced_singleton_weapon_draw_precedes_outcome_draw",
+   "quote": "minimum-damage quote precedes it and cannot fail; admission never draws",
+   "reset": "reset(): stream rewound; reset_for_iteration(): fresh stream; next_at ZERO",
+   "site": "white weapon damage draw",
+   "track": "F"
+  },
+  {
+   "commit": "selects Miss/Dodge/Critical/Hit; Critical doubles mitigated damage",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:81"
+   ],
+   "draws": "exactly 1 uniform_index(10000) per due swing (also on miss and all-zero tables)",
+   "failure": "none",
+   "id": "RNG-F-002",
+   "iteration_reset": "identical replay",
+   "order": "second, after weapon draw",
+   "outcome_dependent_after_draw": "no further draws",
+   "probe_test": "f_white_swing.rs::holds_white_forced_singleton_weapon_draw_precedes_outcome_draw",
+   "quote": "as RNG-F-001",
+   "reset": "as RNG-F-001",
+   "site": "white outcome draw",
+   "track": "F"
+  },
+  {
+   "commit": "commit_execution -> resolve_execution_impact draws on self.random before any operation commits (commit.rs:156-166, 905)",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:464-494",
+    "crates/sim/src/random.rs:111-132",
+    "crates/combat/src/impact.rs:388-416",
+    "crates/combat/src/execution/commit.rs:879-906"
+   ],
+   "draws": "0 when every entry is 0 or the first positive entry is >=1 (random.rs:112-118); otherwise exactly one next_unit_f64 (one u64) shared by all three slots",
+   "failure": "a quote-time failure never reaches commit. A certain miss (sum>=1) is rejected at quote as NonProgressing with zero draws (probe i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay)",
+   "id": "RNG-I-001",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "first draw of an impact resolution; precedes critical/block/critical-block; one resolution per PreparedImpactQuote (shared by all operations of that actor+beneficial flag in one program frame, impact.rs:388-391 caches the outcome)",
+   "outcome_dependent_after_draw": "miss short-circuits crit/block draws (resolution.rs:486-492). Damage amounts were validated before the draw for every reachable multiplier (impact.rs try_for_each_reachable_damage 356-386)",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "quote": "never on the state stream. Quote reads only &CombatState; the raw-38 and split-leech previews clone the stream (dispel.rs:94-95, health.rs:533-534)",
+   "reset": "CombatState::reset -> RandomStream::reset restores the identity's first draw (state.rs:442-445, random.rs:83-85); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "site": "attack/resolution.rs:471 ordered_outcome over [miss|resist, dodge, parry] (spell attack table non-landing)",
+   "track": "I"
+  },
+  {
+   "commit": "same commit-time resolve as RNG-I-001",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:497-501",
+    "crates/sim/src/random.rs:88-98",
+    "crates/combat/src/critical/resolution.rs:95-113"
+   ],
+   "draws": "0 when critical is None (chance<=0 or Forbidden, critical/resolution.rs:99-104) or probability>=1; else 1",
+   "failure": "no fallible step between the draw and the landed outcome; commit is infallible",
+   "id": "RNG-I-002",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "after the non-landing draw, before block",
+   "outcome_dependent_after_draw": "Critical selects PreparedHealthAmount.critical (health_amount.rs:67-79), both amounts pre-validated",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "quote": "probability prepared at program-frame push (planning.rs:341-366, 791-940); no draw",
+   "reset": "CombatState::reset -> RandomStream::reset restores the identity's first draw (state.rs:442-445, random.rs:83-85); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "site": "attack/resolution.rs:497 occurs(critical) for a landed impact whose ResolvedCriticalStrike carries Some(probability)",
+   "track": "I"
+  },
+  {
+   "commit": "commit-time resolve; for the fixed-travel carrier this happens at launch (delayed_launch) and the captured outcome is replayed at arrival",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:503-509",
+    "crates/combat/src/attack/resolution.rs:244-252"
+   ],
+   "draws": "0 at block 0 or >=1; else 1. Drawn for non-damage impacts too (only critical block is gated by has_damage)",
+   "failure": "fixed-travel arrival cannot represent a Blocked/Critical-block launch outcome and panics (CSA-I-02)",
+   "finding_ids": [
+    "CSA-I-02"
+   ],
+   "id": "RNG-I-003",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "after critical, before critical block",
+   "outcome_dependent_after_draw": "Blocked multiplies landed damage by block_multiplier; at fixed-travel arrival PreparedImpactQuote::captured asserts Unblocked (impact.rs:262-280)",
+   "probe_test": "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival",
+   "quote": "table prepared at frame push; no draw",
+   "reset": "CombatState::reset -> RandomStream::reset restores the identity's first draw (state.rs:442-445, random.rs:83-85); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "site": "attack/resolution.rs:503 occurs(block) for every landed impact whose table admits block (melee/ranged block capability, or Magic with magic-block capability)",
+   "track": "I"
+  },
+  {
+   "commit": "commit-time resolve",
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:511-523"
+   ],
+   "draws": "0 unless blocked and has_damage and chance in (0,1); else 1",
+   "failure": "same fixed-travel arrival panic as RNG-I-003 for BlockResult::Critical",
+   "finding_ids": [
+    "CSA-I-02"
+   ],
+   "id": "RNG-I-004",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "last draw of an impact resolution",
+   "outcome_dependent_after_draw": "selects critical_block_multiplier",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "quote": "no draw",
+   "reset": "CombatState::reset -> RandomStream::reset restores the identity's first draw (state.rs:442-445, random.rs:83-85); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "site": "attack/resolution.rs:511 occurs(critical_block), only when blocked and resolve_critical_block (= impact has damage)",
+   "track": "I"
+  },
+  {
+   "commit": "asserts landed == preview_landed and the redrawn ordinal == quoted ordinal (commit.rs:218-231)",
+   "coords": [
+    "crates/combat/src/execution/commit.rs:208-232",
+    "crates/combat/src/execution/planning/dispel.rs:78-151"
+   ],
+   "draws": "0 for 0 or 1 candidates, 1 u64 (rejection-sampled; practically 1) for >=2, only when the impact landed and was not suppressed",
+   "failure": "preview and commit start from the same stream position: segments are quoted one at a time after the previous commit (driver_execution.rs:303-480) and nothing between the root quote and root commit draws (cast.rs:792-925)",
+   "id": "RNG-I-005",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "after the segment's impact resolution and before any quoted operation commits (commit.rs:156-170)",
+   "outcome_dependent_after_draw": "selected aura removal was quoted from the preview ordinal; commit only re-verifies",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index",
+   "quote": "dispel.rs:94-116 clones the stream, resolves a copy of the impact and draws the ordinal on the clone; receipt stores (count, ordinal)",
+   "reset": "CombatState::reset -> RandomStream::reset restores the identity's first draw (state.rs:442-445, random.rs:83-85); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "site": "execution/commit.rs:228 uniform_index(candidate_count) for the raw-38 dispel selection",
+   "track": "I"
+  },
+  {
+   "commit": "asserts each forced draw succeeds (always true at probability one)",
+   "coords": [
+    "crates/combat/src/execution/commit.rs:453-464",
+    "crates/combat/src/execution/planning/mechanic_dispel.rs:10-68"
+   ],
+   "draws": "exactly scanned_active u64 draws per MechanicDispelScan operation when the impact landed; 0 on miss/suppression",
+   "evidence_core_test": "crates/engine/tests/mechanic_dispel.rs exact_mechanic_dispel_reaches_engine_with_ordered_removal_rng_and_reset",
+   "failure": "no failure path after the draws",
+   "id": "RNG-I-006",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "inside the ordered operation loop (after impact + dispel draws); the two raw-108 effects scan n then n-removed",
+   "outcome_dependent_after_draw": "none (draw values are ignored); mirrors Trinity EffectDispelMechanic roll_chance per owned aura (SpellEffects.cpp:4247-4252)",
+   "quote": "scanned_active counted from projected auras (mechanic_dispel.rs:23-39); no draw",
+   "reset": "CombatState::reset -> RandomStream::reset restores the identity's first draw (state.rs:442-445, random.rs:83-85); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "site": "execution/commit.rs:460 occurs_forced(Probability::ONE) once per active aura affecting the raw-108 recipient",
+   "track": "I"
+  },
+  {
+   "commit": "white_main_hand.rs:99 draws on self.random",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:72-88",
+    "crates/combat/src/state/white_main_hand.rs:45-150"
+   ],
+   "draws": "always >=1 u64 (singleton domain included) per due main-hand swing against a living target",
+   "failure": "dead target finishes the deadline with no draw (white_main_hand.rs:73-80); probe i_rng_white.rs::holds_white_swing_after_target_death_consumes_no_draw",
+   "id": "RNG-I-007",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "first of two white draws; white transitions order at (at, 4, 0) after casts/fixed impacts and before periodic/expiry (transition.rs:54-72)",
+   "outcome_dependent_after_draw": "health quote_damage().expect after the draw is covered by admission (mitigated max <= u32::MAX/2, white_swing.rs:289-331); Parry/Block/Glancing/Crushing unreachable because admission requires parry=block=0 (white_swing.rs:125-132)",
+   "probe_test": "i_rng_white.rs::holds_white_swing_consumes_two_draws_even_when_fully_deterministic",
+   "quote": "no quote; minimum-damage envelope proved before the draw (white_main_hand.rs:86-94)",
+   "reset": "white.reset() + stream reset replay the identical swing sequence (probe i_rng_white.rs::holds_white_swing_matches_independent_replay_of_documented_draw_order)",
+   "site": "white_swing/resolution.rs:78 uniform_index_forced(weapon.width)",
+   "track": "I"
+  },
+  {
+   "commit": "same as RNG-I-007",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:80-111"
+   ],
+   "draws": "always >=1 (domain 10_000 > 1), including misses and all-zero tables",
+   "failure": "none after the draw",
+   "id": "RNG-I-008",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "second white draw, immediately after the weapon draw",
+   "outcome_dependent_after_draw": "ordered integer thresholds with saturating_add (resolution.rs:90-111); independent replay matches (probe)",
+   "probe_test": "i_rng_white.rs::holds_white_swing_matches_independent_replay_of_documented_draw_order",
+   "quote": "none",
+   "reset": "see RNG-I-007",
+   "site": "white_swing/resolution.rs:81 uniform_index(10_000) outcome roll",
+   "track": "I"
+  },
+  {
+   "commit": "re-executed by RNG-I-005",
+   "coords": [
+    "crates/combat/src/execution/planning/dispel.rs:94-120"
+   ],
+   "draws": "0 on the state stream; clone draws impact + ordinal",
+   "failure": "a quote failure after the preview (quote_remove_from, aura_lifecycle) drops the clone; nothing mutated",
+   "id": "RNG-I-009",
+   "iteration_reset": "n/a",
+   "order": "mirrors commit order impact -> ordinal",
+   "outcome_dependent_after_draw": "selected candidate is re-enumerated by nth(ordinal) over the same projected filter (dispel.rs:125-134)",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_quotes_acceptance_and_rejection_consume_no_rng",
+   "quote": "random-pure: the clone is dropped; probe i_rng_dispel.rs::holds_dispel_quotes_acceptance_and_rejection_consume_no_rng (8x cast_readiness + hard-cast acceptance: 0 draws)",
+   "reset": "n/a (no retained stream)",
+   "site": "execution/planning/dispel.rs:116 uniform_index on a CLONE of state.random (quote-time preview)",
+   "track": "I"
+  },
+  {
+   "commit": "the same stream position is guaranteed at commit (see RNG-I-005 failure note)",
+   "coords": [
+    "crates/combat/src/impact.rs:388-416",
+    "crates/combat/src/execution/commit.rs:879-926",
+    "crates/combat/src/execution/planning/health.rs:504-550"
+   ],
+   "draws": "first resolve of a quote draws per RNG-I-001..004; later resolves (continuation segments of the same impact, captured arrivals) replay the cached (hit, block) with no draw",
+   "failure": "n/a",
+   "id": "RNG-I-010",
+   "iteration_reset": "same",
+   "order": "impact phases in program order; activation phase has no impact",
+   "outcome_dependent_after_draw": "resolution_for rebuilds the multiplier from the cached result (resolution.rs:526-546)",
+   "quote": "split health-leech preview (absorb plan present) resolves a copied impact on a clone to fix the transfer multiplier (health.rs:504-550)",
+   "reset": "execution_scratch.reset clears impact_quotes (scratch.rs:745-750)",
+   "site": "path: PreparedImpactQuote::resolve (caching wrapper over RNG-I-001..004); callers commit.rs:905 (state stream), dispel.rs:95 and health.rs:534 (clones)",
+   "track": "I"
+  },
+  {
+   "commit": "n/a",
+   "coords": [
+    "crates/combat/src/state.rs:439-451",
+    "crates/sim/src/random.rs:79-85",
+    "crates/combat/src/state/construction.rs:232"
+   ],
+   "draws": "none; construction and reset_for_iteration open identity.stream(); reset re-derives the same initial state",
+   "failure": "n/a",
+   "id": "RNG-I-011",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "n/a",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "quote": "n/a",
+   "reset": "CombatState::reset -> RandomStream::reset restores the identity's first draw (state.rs:442-445, random.rs:83-85); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "site": "path: stream lifecycle (construction, reset, reset_for_iteration)",
+   "track": "I"
+  },
+  {
+   "commit": "n/a",
+   "coords": [
+    "crates/combat/src/cast.rs:73-199",
+    "crates/combat/src/cast.rs:201-253",
+    "crates/combat/src/cast.rs:347-420"
+   ],
+   "draws": "0 for readiness, rejected casts, and hard-cast acceptance",
+   "failure": "Err paths restore scratch and never touch self.random",
+   "id": "RNG-I-012",
+   "iteration_reset": "n/a",
+   "order": "n/a",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+   "quote": "planning takes &self (plan_cast_core, plan_resolved_cast_core); every non-scratch CombatState field is byte-identical after readiness/rejection (probe i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical); scratch retains the last readiness frame/impact quote, which every entry re-prepares",
+   "reset": "n/a",
+   "site": "path: cast_readiness / cast / begin_cast (hard acceptance) quote boundary",
+   "track": "I"
+  },
+  {
+   "commit": "see draws",
+   "coords": [
+    "crates/combat/src/execution/commit.rs:893-906",
+    "crates/combat/src/execution/planning.rs:504-506",
+    "crates/combat/src/execution/planning/segment.rs:22-39"
+   ],
+   "draws": "ordinary impact: full underlying table draws then exposes Immune. Fixed-travel launch with launch suppression: zero draws (short-circuit at commit.rs:895)",
+   "failure": "n/a",
+   "finding_ids": [
+    "CSA-I-01"
+   ],
+   "id": "RNG-I-013",
+   "iteration_reset": "reset_for_iteration assigns random_identity.stream() (state.rs:448-451); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "order": "as RNG-I-001",
+   "outcome_dependent_after_draw": "operations skipped (commit.rs:961-990)",
+   "probe_test": "i_rng_immunity.rs::defect_fixed_travel_immune_launch_skips_the_draw_ordinary_immune_consumes",
+   "quote": "suppression captured once per logical impact at quote (planning.rs:611-664)",
+   "reset": "CombatState::reset -> RandomStream::reset restores the identity's first draw (state.rs:442-445, random.rs:83-85); probe i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "site": "path: delivery-suppressed (immune) impacts",
+   "track": "I"
+  },
+  {
+   "commit": "n/a",
+   "coords": [
+    "crates/combat/src/state/transition.rs:22-72",
+    "crates/combat/src/state.rs:1212-1316",
+    "crates/combat/src/execution/deferred.rs:126-168"
+   ],
+   "draws": "n/a",
+   "failure": "n/a",
+   "id": "RNG-I-014",
+   "iteration_reset": "same",
+   "order": "(at, kind rank, per-kind key): startup 0, passive-flow threshold 1, cast completion 2 keyed by canonical actor index, fixed impact 3 by sequence, white 4, periodic 5, aura/independent-stack expiry 6 by sequence; deferred activations FIFO",
+   "probe_test": "i_rng_attack_table.rs::holds_roster_input_order_does_not_change_draws",
+   "quote": "n/a",
+   "reset": "sequences reset with their owners",
+   "site": "path: same-time transition precedence and deferred FIFO decide cross-site draw order",
+   "track": "I"
+  },
+  {
+   "commit": "launch retains amount/resolution/suppression in PendingFixedImpact",
+   "coords": [
+    "crates/combat/src/fixed_impact_execution.rs:43-199",
+    "crates/combat/src/execution/commit.rs:411-451",
+    "crates/combat/src/impact.rs:262-280",
+    "crates/combat/src/execution/planning.rs:815-825"
+   ],
+   "draws": "launch commit resolves hit/crit/block once (unless launch-suppressed); arrival consumes none (captured outcome)",
+   "failure": "captured() asserts Unblocked + unit multiplier: a Blocked/Critical-block launch outcome panics at arrival (CSA-I-02); dead target drops the packet with no draw",
+   "finding_ids": [
+    "CSA-I-02"
+   ],
+   "id": "RNG-I-015",
+   "iteration_reset": "same",
+   "order": "launch at hard-cast completion; arrival ordered (at, 3, sequence)",
+   "outcome_dependent_after_draw": "arrival panics after the launch draw was committed",
+   "probe_test": "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival",
+   "quote": "arrival re-quotes with captured_damage -> PreparedImpactQuote::captured",
+   "reset": "fixed_impacts.reset clears pending packets (fixed_impact.rs:248-251)",
+   "site": "path: fixed-travel launch/arrival (exact 373932)",
+   "track": "I"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/commit.rs:208-232",
+    "crates/combat/src/execution/planning/dispel.rs:94-116"
+   ],
+   "draws": "0 for 0 or 1 candidates, 1 u64 for >= 2 (rejection-sampled: extra u64 with probability (2^64 mod n)/2^64); the consumer shape would be urand + RollDispel per attempt (2 trials) even for 1 candidate",
+   "failure": "quote failure drops the clone; suppressed quote skips the commit draw (commit.rs:209-211)",
+   "finding_ids": [
+    "CSA-R3-01"
+   ],
+   "id": "RNG-R3-001",
+   "iteration_reset": "identity.stream()",
+   "order": "impact table first, then selector (commit.rs:156-167)",
+   "outcome_dependent_after_draw": "commit re-verifies the quoted ordinal with assert_eq (commit.rs:227-231); cannot diverge because nothing draws between preview and commit",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index",
+   "quote": "clone only",
+   "reset": "stream restored by RandomStream::reset",
+   "site": "raw-38 dispel selector (re-derived)",
+   "track": "R3"
+  },
+  {
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:464-523",
+    "crates/combat/src/impact.rs:262-280",
+    "crates/combat/src/execution/commit.rs:879-906"
+   ],
+   "draws": "block draw only when the defender has the magic-block capability and chance in (0,1); chance 1.0 blocks with 0 draws (occurs short-circuit) and still panics at arrival",
+   "failure": "arrival re-quote asserts Unblocked (impact.rs:263-267): panic inside advance_to after the launch commit",
+   "finding_ids": [
+    "CSA-I-02"
+   ],
+   "id": "RNG-R3-002",
+   "iteration_reset": "same",
+   "order": "non-landing -> critical -> block -> critical block, at launch",
+   "outcome_dependent_after_draw": "consumer never blocks magic spells (MagicSpellHitResult has no block roll; block is only in MeleeSpellHitResult Unit.cpp:2654-2754) and decides melee block with the hit roll at AddUnitTarget (Spell.cpp:2486), not at hit",
+   "probe_test": "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival",
+   "quote": "launch quote validates blocked amounts as reachable (impact.rs:356-386)",
+   "reset": "fixed-impact packets cleared by HealthAuthorities::reset (health_authorities.rs:144-151)",
+   "site": "fixed-travel launch block draw (re-derived for CSA-I-02)",
+   "track": "R3"
+  }
+ ],
+ "schema": 1
+}

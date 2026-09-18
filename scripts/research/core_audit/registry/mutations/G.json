@@ -1,0 +1,328 @@
+[
+ {
+  "id": "MUT-G-001",
+  "contract": "caster must be alive to act",
+  "dimension": "actor",
+  "mutation": "caster health reduced to 0 before instant cast",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "probe_test": "g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage",
+  "error": "none",
+  "evidence": [
+   "cast Ok, DamageDealt source=Player"
+  ],
+  "finding_ids": [
+   "CSA-G-01"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-002",
+  "contract": "pending cast cancelled on caster death",
+  "dimension": "actor",
+  "mutation": "caster killed mid hard cast",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "probe_test": "g_cast_lifecycle.rs::defect_pending_hard_cast_survives_caster_death_and_succeeds",
+  "error": "none",
+  "evidence": [
+   "CastCompleted Succeeded at 1000 ms"
+  ],
+  "finding_ids": [
+   "CSA-G-01"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-003",
+  "contract": "interruption resets GCD",
+  "dimension": "interrupt",
+  "mutation": "raw-68 interrupt of hard cast carrying 1500 ms start recovery",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "probe_test": "g_cast_lifecycle.rs::defect_interrupt_retains_accepted_start_recovery",
+  "error": "StartRecovery",
+  "evidence": [
+   "unlocked Nature action blocked until 1500 ms"
+  ],
+  "finding_ids": [
+   "CSA-G-02"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-004",
+  "contract": "interruption resets GCD",
+  "dimension": "aura subtype",
+  "mutation": "raw-12 stun (346197) instead of raw 68",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "probe_test": "g_cast_lifecycle.rs::defect_stun_interruption_retains_accepted_start_recovery",
+  "error": "StartRecovery",
+  "evidence": [
+   "retry after stun expiry blocked until 1500 ms"
+  ],
+  "finding_ids": [
+   "CSA-G-02"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-005",
+  "contract": "readiness recheck is the latest time-only blocker",
+  "dimension": "interrupt",
+  "mutation": "add 100 ms stun on top of 4000 ms pacify",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "probe_test": "g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify",
+  "error": "Stunned",
+  "evidence": [
+   "recheck 100 ms, then Pacified recheck 4000 ms"
+  ],
+  "finding_ids": [
+   "CSA-G-03"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-006",
+  "contract": "raw 68 requires a living target",
+  "dimension": "target",
+  "mutation": "interrupt target health 0",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "probe_test": "g_admission_order.rs::defect_interrupt_carrier_commits_against_dead_target",
+  "error": "none",
+  "evidence": [
+   "Ok with SpellCast"
+  ],
+  "finding_ids": [
+   "CSA-G-04"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-007",
+  "contract": "completion revalidates target",
+  "dimension": "target",
+  "mutation": "target killed during hard cast",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "core_test: combat/tests/hard_cast_concurrency.rs::hard_cast_completion_failure_is_atomic_after_target_dies (Failed(DeadTarget), energy unchanged)",
+   "trinity: Spell.cpp:4247-4273 dead target is not cancelled early; cast() CheckCast fails"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-008",
+  "contract": "stun cancels only on transition to stunned",
+  "dimension": "actor",
+  "mutation": "second stun source while already stunned",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "core_test: combat/tests/stuns.rs::reapplication_and_second_source_do_not_cancel_cast_admitted_during_stun",
+   "trinity: Unit.cpp:11566-11567"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-009",
+  "contract": "stun cancels even allow-while-stunned casts",
+  "dimension": "owner attributes",
+  "mutation": "fresh stun during raw-163 Full Heal",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "core_test: combat/tests/stuns.rs::first_stun_transition_cancels_raw_163_pending_cast_with_exact_observation",
+   "trinity: Unit.cpp:11569-11570 CastStop unconditional"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-010",
+  "contract": "haste change does not rebase an accepted cast",
+  "dimension": "duration",
+  "mutation": "raw-65 casting speed applied mid cast",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": [
+   "core_test: combat/src/state/active_casting_speed.rs::tests::activation_does_not_reschedule_an_accepted_hard_cast"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-011",
+  "contract": "acceptance-owned cooldown survives cancellation",
+  "dimension": "cooldown/cost/cast requirements",
+  "mutation": "attr 407 Dark Bite cancelled or failed",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "core: cast.rs:257-282 commits at acceptance; cast.rs:496-497 skips re-quote at completion; nothing restores on cancel",
+   "trinity: Spell.cpp:3569-3570, 3892-3893, 5790 same"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-012",
+  "contract": "cost snapshot at preparation",
+  "dimension": "amount facts",
+  "mutation": "power cost modifier aura expires mid cast",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   "core: prepared cost stored at acceptance (cast_authority.rs:366-391) and re-quoted from snapshot (cast.rs:293-300, cast/resource.rs:121-170)",
+   "trinity: m_powerCost computed in prepare and taken at cast"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-013",
+  "contract": "silence cancellation school-agnostic",
+  "dimension": "misc",
+  "mutation": "silence school disjoint from pending cast school",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": [
+   "core_test: combat/src/silence/tests.rs::only_a_fresh_exact_application_identifies_a_cast_to_cancel",
+   "source: all carriers misc 127",
+   "trinity: SpellAuraEffects.cpp:2521-2528"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-014",
+  "contract": "raw 68 incompatible with SpellInterrupts hard casts",
+  "dimension": "interrupt",
+  "mutation": "add SpellInterrupts row to any hard cast alongside 159006",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "core: program/interrupt.rs:59-70 UnsupportedTargetCastPolicy"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-015",
+  "contract": "lockout duration exact",
+  "dimension": "duration",
+  "mutation": "resolved lockout != 6000 ms",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "core: program/interrupt.rs:115-120 UnsupportedDuration"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-016",
+  "contract": "same-time interruption beats peeked completion",
+  "dimension": "source order",
+  "mutation": "interrupt committed at completes_at before completion",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "core_test: combat/src/state/casting/tests.rs::interrupt_committed_at_due_timestamp_makes_peeked_completion_inert"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-017",
+  "contract": "completion committed first is final",
+  "dimension": "source order",
+  "mutation": "silence at completes_at through public advance",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "core_test: combat/tests/silences.rs::completion_committed_first_is_not_retroactively_silenced",
+   "core: state/transition.rs:54-74 cast completion key 2"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-018",
+  "contract": "one foreground cast per actor",
+  "dimension": "cooldown/cost/cast requirements",
+  "mutation": "second hard cast / instant without overlap flag during hard cast",
+  "outcome": "rejected_intended",
+  "method": "core_test",
+  "evidence": [
+   "core_test: combat/src/cast_authority/tests.rs::one_actor_cannot_begin_two_hard_casts",
+   "core: cast.rs:438-446"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-019",
+  "contract": "completion re-quotes completion-owned cooldown",
+  "dimension": "cooldown/cost/cast requirements",
+  "mutation": "shared category started by another action during cast",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "core: cast.rs:485-496 skips_committed false for ordinary hard casts; blocked quote -> Failed",
+   "trinity: Spell.cpp:5790 non-strict CheckCast still checks cooldown for non-attr-407"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-020",
+  "contract": "allow-while-stunned is a stun-only exemption",
+  "dimension": "owner attributes",
+  "mutation": "raw-163 action with Silence prevention while stunned+silenced",
+  "outcome": "unreachable",
+  "method": "static",
+  "evidence": [
+   "core: cast.rs:669-674 returns None; upstream program/stun.rs:474-480 requires empty prevention"
+  ],
+  "finding_ids": [
+   "CSA-G-05"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-021",
+  "contract": "completion failure mutates nothing but the cast cell",
+  "dimension": "cooldown/cost/cast requirements",
+  "mutation": "insufficient resource at completion",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   "core: cast.rs:329-343 Err branch: finish_cast + CastCompleted Failed only; prepared cost blocker returned without recheck (cast/resource.rs:97-117)"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-023",
+  "contract": "caster must be alive to act",
+  "dimension": "actor",
+  "mutation": "Engine rotation after share-damage kills the Player",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "probe_test": "g_engine_dead_caster.rs::defect_engine_rotation_keeps_casting_for_dead_player",
+  "error": "none",
+  "evidence": [
+   "StepOutcome::Cast continues; DamageDealt source=Player after ActorDied Player"
+  ],
+  "finding_ids": [
+   "CSA-G-01"
+  ],
+  "track": "G"
+ },
+ {
+  "id": "MUT-G-022",
+  "contract": "interrupt only Silence-prevention casts",
+  "dimension": "interrupt",
+  "mutation": "target cast with prevention mask lacking Silence",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "probe_test": "g_admission_order.rs::holds_interrupt_ignores_cast_without_silence_prevention",
+  "error": "none",
+  "evidence": [
+   "core: execution/planning/interrupt.rs:40-49 returns Ok without cancellation; transition still progressing"
+  ],
+  "track": "G"
+ }
+]

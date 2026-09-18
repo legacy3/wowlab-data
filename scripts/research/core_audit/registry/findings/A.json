@@ -1,0 +1,105 @@
+[
+ {
+  "id": "CSA-A-01",
+  "title": "Selected-package binding validator is authority-family-agnostic: a package member \"bound\" only through the unvalidated, discarded passive auto-attack-damage family satisfies none-or-complete while no owning authority binds it",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/state/construction.rs:244-282",
+   "crates/combat/src/state/construction.rs:284-322",
+   "crates/combat/src/state/construction.rs:838-858",
+   "crates/combat/src/critical_block_amount.rs:43-50",
+   "crates/combat/src/topology.rs:122-141",
+   "crates/engine/src/input.rs:982-1000"
+  ],
+  "evidence": [
+   "core: selected_passive_bindings (construction.rs:284-322) flattens five binding families to bare (actor, effect) pairs; validate_selected_passive_package_bindings (244-282) counts any family occurrence as the member binding.",
+   "core: attack_inputs (construction.rs:838-858) destructures passive_auto_attack_damage: _ and drops it; auto-attack bindings are only examined by white-main-hand validation, which never runs without a white input (construction.rs:343-356).",
+   "core: when a white main hand IS supplied, validate_white_input requires exact isolated binding topologies (crates/combat/src/white_swing.rs:376-440; topology.rs white_isolated_with_* e.g. crates/combat/src/topology.rs:992-1031), so the wrong-family entry is refused there; the gap is confined to inputs without white main hand (inferred from code; not probed).",
+   "core: CriticalBlockAmountAuthority::try_compile returns None for an empty binding vec (crates/combat/src/critical_block_amount.rs:48), so the raw-638 member has no runtime owner.",
+   "probe: a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package - Engine::try_new succeeds with (Player, 429638#1) in the spell-modifier family and (Player, 429638#2 raw-638) only in the auto-attack family; the critical-bonus half executes (critical damage 100*(1+1.1f32)=210.00000238) and input.critical_block_amount_bindings() is empty.",
+   "probe: a_package_binding.rs::holds_block_member_in_block_and_auto_attack_family_is_duplicate - the same auto-attack-family entry is counted as a package member (DuplicateSelectedPassivePackageBinding), proving the validator attributes it to the package.",
+   "probe: a_package_binding.rs::holds_missing_block_member_rejects - without that wrong-family entry the identical input is refused (IncompleteSelectedPassivePackageBinding).",
+   "source: TraitNodeEntry 117409 -> TraitDefinition 122421 -> SpellEffect spell 429638 idx0 (raw6/raw108 op15, BasePoints 10) and idx1 (raw6/raw638, BasePoints 20); live Martial Expert shape reproduced by tools/test-support selected_martial_expert.rs."
+  ],
+  "probe_test": "a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package",
+  "probe_tests": [
+   "a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package",
+   "a_package_binding.rs::holds_block_member_in_block_and_auto_attack_family_is_duplicate",
+   "a_package_binding.rs::holds_missing_block_member_rejects"
+  ],
+  "reproducer": "EngineInput::new([Player, Enemy0]).with_critical_strike(uniform 1.0/2.0).with_passive_spell_modifier((Player, 429638#1)).with_passive_auto_attack_damage_binding((Player, 429638#2)) with no white main hand, against the candidate-published Martial Expert CombatProgram: Engine::try_new returns Ok; expected IncompleteSelectedPassivePackageBinding for (Player, 429638#2) in its owning critical-block family.",
+  "why_tests_missed": "The b24359bd corrective and its tests mutate presence, multiplicity and actor within the correct families only; the family dimension of a binding was never mutated. The only family whose consumer is conditional (auto-attack, consumed solely by white validation) makes the wrong-family entry silently disappear after the family-agnostic count has accepted it.",
+  "correction_boundary": "Inside validate_selected_passive_package_bindings / selected_passive_bindings: tag each yielded binding with its family and require, for every required package member, exactly one binding in the family owned by that member's SelectedTraitEffectRole (role->family is total for the 10 composition slots). Alternatively (or additionally) validate every passive auto-attack-damage binding against compiled definitions/actors even when no white main hand is supplied.",
+  "must_not_widen": "Do not add a generic package binding store or runtime package authority; do not make auto-attack bindings executable without white input; do not relax per-family authority validation; keep the check cold (construction only) and allocation-free on warm paths.",
+  "track": "A"
+ },
+ {
+  "id": "CSA-A-02",
+  "title": "Selected raw-638 critical-block final compiler never proves the immutable selected-owner policy (external proc/script/lifetime policy, neutral owner, owner-role count, aura options, equipment, missile, unconditional application)",
+  "severity": "medium",
+  "reachability": "LATENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/critical_block_amount.rs:157-254",
+   "crates/combat/src/program/critical_block_amount.rs:256-302",
+   "crates/combat/src/program/critical_block_amount.rs:427-484",
+   "crates/combat/src/program/selected_trait_package.rs:388-417",
+   "crates/combat/src/program/selected_trait_package.rs:419-527",
+   "crates/combat/src/program/builder.rs:37-45"
+  ],
+  "evidence": [
+   "core: critical_block_amount.rs selected_percentage_points (256-302) resolves the package, checks role and sibling declarations, stores the selected amount, but never calls selected_trait_owner_policy_issue; compile_definition (157-254) takes no SpellExternalPolicyCatalog. package.owner() is consumed by every other selected final compiler (passive_spell_modifier.rs:915, passive_auto_attack_damage.rs:186, passive_healing_received.rs:201, passive_haste.rs:149, passive_melee_auto_attack_speed.rs:99, passive_damage_modifier.rs:164, passive_absorb_received.rs:174, critical_modifier.rs:563).",
+   "core: builder.rs:37-38 documents \"Selected-passive package admission fails closed if this catalog is absent\"; development-ledger 2026-09-18 claims every path to executable state repeats owner validation (navigation only).",
+   "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy (no external policy catalog at all -> Ok)",
+   "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_present_proc_policy (effective_proc_entry=Present, server_script=Unknown -> Ok)",
+   "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_owner_defense (owner DefenseType::Melee -> Ok)",
+   "probe: a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy (live two-effect shape rejects, via the spell-modifier sibling)",
+   "source: DBC census (SpellEffect x TraitDefinition x TraitNodeEntry, difficulty 0): exactly one trait entry reaches raw 638 - entry 117409 (Martial Expert, spell 429638, 2 effects, max_ranks 1). No singleton raw-638 selected package exists in 12.1.0.69497."
+  ],
+  "probe_test": "a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy",
+  "probe_tests": [
+   "a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy",
+   "a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_present_proc_policy",
+   "a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_owner_defense",
+   "a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy",
+   "a_selected_owner_policy.rs::holds_singleton_selected_block_with_clean_owner_compiles"
+  ],
+  "reproducer": "Martial Expert source reduced to its raw-638 effect (index 1, source_effect_count 1), declared as CriticalBlockAmountInput{SelectedTrait{117409,1}, Multiplicative}; CombatProgram::builder(...).trait_source(..).build() without external_spell_policy -> Ok.",
+  "upstream_gate": "Live DBC content: the only raw-638 trait (entry 117409) is a two-effect package whose critical-bonus SpellModifier sibling is compiled by passive_spell_modifier.rs, which proves the shared owner policy (validate_owner, passive_spell_modifier.rs:950-986) for the same owner spell; composition gate admits raw-638 in a multi-effect package only with that sibling (selected_trait_package.rs:924-925).",
+  "why_tests_missed": "All raw-638 selected tests use the live two-effect package, whose sibling compiler masks the omission; owner-policy mutation tests are written against the sibling-bearing shape; the research sole-authority census recorded raw 638 as \"no selected branch\" (stale since 09d4fdab added one).",
+  "correction_boundary": "Thread the identity-matched external policy into the critical-block compiler (as critical_modifier.rs does via CriticalCompileSources) and call selected_trait_owner_policy_issue(data, actions, policy, effect, package.owner()) inside selected_percentage_points; replace the private validate_owner_attributes for selected activation by the shared policy.",
+  "must_not_widen": "Do not move owner-policy proof into the candidate; do not change the ordinary Passive critical-block path; do not admit new raw-638 compositions.",
+  "track": "A"
+ },
+ {
+  "id": "CSA-A-03",
+  "title": "Selected owner-attribute policy is not uniform: raw-638 compiler rejects a Passive owner with raw attribute 416 that the shared selected owner policy admits",
+  "severity": "low",
+  "reachability": "INCONSISTENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:504-520",
+   "crates/combat/src/program/critical_block_amount.rs:427-484"
+  ],
+  "evidence": [
+   "core: selected_trait_immutable_owner_policy_issue admits AllowClassAbilityProcs (raw 416) on a Passive owner (selected_trait_package.rs:513-517); critical_block_amount validate_owner_attributes accepts only Implemented Passive and Ignored (427-484).",
+   "probe: a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416 (shared policy admits)",
+   "probe: a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler (BlockAmount UnsupportedSpellAttribute)",
+   "source: SpellMisc 429638 Attributes_0=192 (raw 6,7), Attributes_11=8 (raw 355); no raw 416 - no live package reaches the disagreement."
+  ],
+  "probe_tests": [
+   "a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416",
+   "a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler"
+  ],
+  "reproducer": "Set word 13 bit 0 on the Martial Expert owner and declare both members: build fails in the raw-638 compiler while the SpellModifier member alone compiles.",
+  "why_tests_missed": "Ledger claims owner attribute policy is uniform across selected authorities; the raw-638 compiler keeps a private attribute check that predates the shared policy and no test mutates owner attributes on a raw-638 package.",
+  "correction_boundary": "Same as CSA-A-02: selected raw-638 activation uses selected_trait_owner_policy_issue; keep the private check for Passive activation only.",
+  "must_not_widen": "Do not globally change raw-416 catalog support.",
+  "finding_ids": [
+   "CSA-A-02"
+  ],
+  "track": "A"
+ }
+]

@@ -1,0 +1,151 @@
+[
+ {
+  "id": "XC-F-001",
+  "track": "F",
+  "concept": "haste percent points -> time factor",
+  "compilers": [
+   {
+    "authority": "AUTH-F-009",
+    "coords": [
+     "crates/combat/src/program/passive_haste.rs:47-51"
+    ],
+    "behavior": "white: 100f32/(100f32+p as f32), multiplied into u32 ms in f32"
+   },
+   {
+    "authority": "AUTH-F-008",
+    "coords": [
+     "crates/combat/src/program/passive_melee_auto_attack_speed.rs:115-116"
+    ],
+    "behavior": "white raw-319: identical f32 form"
+   },
+   {
+    "authority": "AUTH-F-009",
+    "coords": [
+     "crates/combat/src/program/passive_haste.rs:53-55"
+    ],
+    "behavior": "spell haste multiplier: 1 + p/100 in f64 (cast/GCD consumers)"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "trinity",
+    "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:10978-11007",
+    "note": "attack timer consumer is f32 ApplyPercentModFloatVar; cast consumer ApplyCastTimePercentMod separate"
+   },
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_period_uses_binary32_attack_time_order"
+   }
+  ],
+  "class": "B"
+ },
+ {
+  "id": "XC-F-002",
+  "track": "F",
+  "concept": "passive haste-family actor binding validation",
+  "compilers": [
+   {
+    "authority": "AUTH-F-001",
+    "coords": [
+     "crates/combat/src/state/construction.rs:111-112",
+     "crates/combat/src/topology.rs:957-973"
+    ],
+    "behavior": "raw-319 PassiveMeleeSpeedBinding: validated only by white isolation; discarded otherwise"
+   },
+   {
+    "authority": "AUTH-F-009",
+    "coords": [
+     "crates/combat/src/state/construction.rs:124-131",
+     "crates/combat/src/state/construction.rs:604"
+    ],
+    "behavior": "raw-193 PassiveHasteAllBinding: prepare_actor_topology fails closed (MissingPassiveHasteAllDefinition)"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+   }
+  ],
+  "finding_ids": [
+   "CSA-F-01"
+  ],
+  "class": "D"
+ },
+ {
+  "id": "XC-F-003",
+  "track": "F",
+  "concept": "finite positive period-factor guard",
+  "compilers": [
+   {
+    "authority": "AUTH-F-008",
+    "coords": [
+     "crates/combat/src/program/passive_melee_auto_attack_speed.rs:118-123"
+    ],
+    "behavior": "rejects non-finite or <=0 factor"
+   },
+   {
+    "authority": "AUTH-F-009",
+    "coords": [
+     "crates/combat/src/program/passive_haste.rs:47-51",
+     "crates/combat/src/program/passive_haste.rs:170-187"
+    ],
+    "behavior": "no guard; relies on package rule"
+   },
+   {
+    "authority": "AUTH-F-001",
+    "coords": [
+     "crates/combat/src/white_swing.rs:458-462"
+    ],
+    "behavior": "effective_period rejects 0 ms (NaN/negative factor -> 0) but admits +inf factor as u32::MAX ms"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/selected_trait_package.rs:669-697",
+    "note": "HasteAll and MeleeAutoAttackSpeed PassiveEffectPointsPolicy::Positive -> factor in (0,1)"
+   },
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/passive_haste.rs:28-30",
+    "note": "non-selected carrier fixed at 5 points"
+   }
+  ],
+  "class": "E"
+ },
+ {
+  "id": "XC-F-004",
+  "track": "F",
+  "concept": "auto-attack vs spell handling of the Heart raw-108 crit-damage sibling",
+  "compilers": [
+   {
+    "authority": "AUTH-F-003",
+    "coords": [
+     "crates/combat/src/state/white_main_hand.rs:105"
+    ],
+    "behavior": "white crit = mitigated x2, raw-108 op15 sibling not applied"
+   },
+   {
+    "authority": "AUTH-F-010",
+    "coords": [
+     "crates/combat/src/program/modifier/program_accessors.rs:100-119"
+    ],
+    "behavior": "critical-bonus spell modifier is bound for class-mask spells only"
+   }
+  ],
+  "evidence": [
+   {
+    "class": "trinity",
+    "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:1417-1423",
+    "note": "melee crit: Damage*=2 then only SPELL_AURA_MOD_CRIT_DAMAGE_BONUS; spellmods need spellProto (8123-8125)"
+   },
+   {
+    "class": "simc",
+    "ref": "/home/dev/pallet/simc/engine/class_modules/paladin/sc_paladin.cpp:962-968",
+    "note": "auto attack takes effect#1 multiplier and effect#2 crit only"
+   }
+  ],
+  "class": "B"
+ }
+]

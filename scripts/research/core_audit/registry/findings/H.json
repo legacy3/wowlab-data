@@ -1,0 +1,83 @@
+[
+ {
+  "id": "CSA-H-01",
+  "track": "H",
+  "title": "Actor death never ends aura lifecycle: auras stay active on the corpse and TriggerSpellOnExpire drivers fire at natural expiry after death",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/state.rs:1368-1395",
+   "crates/combat/src/expiry_execution.rs:9-40",
+   "crates/combat/src/execution/commit/health.rs:923-930",
+   "crates/combat/src/periodic_execution.rs:449-457",
+   "crates/combat/src/aura_state.rs:676-680",
+   "crates/dbc/src/aura_subtype.rs:574",
+   "crates/dbc/src/spell_attribute.rs:391"
+  ],
+  "evidence": [
+   "probe: h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient \u2014 APPLY (aura with raw-495 TriggerSpellOnExpire, misc 1) then a lethal NUKE on the recipient at t=0: ActorDied is emitted, active_aura(key) stays Some, pending_timer_count stays 1, and at t=100 ms AuraExpired + ResourceGained (+10 Energy to the living source) are committed",
+   "control: h_death_lifecycle.rs::holds_on_expire_driver_fires_for_living_recipient (same +10 energy only because the recipient lived)",
+   "core: lethal commit only pushes ActorDied (commit/health.rs:923-930); no aura/driver cleanup exists; the ordinary AuraExpiry transition (state.rs:1368-1395) commits natural removal and calls execute_expiry_drivers with no liveness check; expiry_execution.rs:9-40 executes each driver",
+   "core (internal inconsistency): periodic schedules ARE cancelled when the aura recipient is dead (periodic_execution.rs:449-457), but the owning aura, its deadline, and its expiry driver survive",
+   "trinity: Unit::RemoveAllAurasOnDeath removes every non-passive, non-death-persistent aura with AURA_REMOVE_BY_DEATH (TrinityCore src/server/game/Entities/Unit/Unit.cpp:4472-4493, called from setDeathState Unit.cpp:9179); AuraEffect::HandleTriggerSpellOnExpire returns unless removeMode == AURA_REMOVE_BY_EXPIRE (src/server/game/Spells/Auras/SpellAuraEffects.cpp:5422-5425)",
+   "core catalog: raw 116 AllowAuraWhileDead is unimplemented (fails closed, spell_attribute.rs:391), so every admitted aura is a non-death-persistent aura whose source semantics is removal at death",
+   "source: 683 SpellEffect rows carry EffectAura 495 (wowlab-data data/tables/SpellEffect.csv, e.g. spell 347350 effect 0 misc 1 trigger 347488); raw 495 is Implemented in AURA_SUBTYPE_REQUIREMENTS (aura_subtype.rs:574)"
+  ],
+  "reproducer": "cd scripts/research/core_audit/probe && cargo test --offline --test h_death_lifecycle defect_on_expire_driver_fires_from_aura_on_dead_recipient -- --nocapture",
+  "why_tests_missed": "crates/combat/tests/expiry_drivers.rs exercises natural expiry, explicit removal, refresh and fizzles only with living recipients; periodic tests cover recipient-death cancellation of schedules but never assert the aura/expiry lifecycle after ActorDied; the reset fingerprint suites never kill an aura recipient",
+  "correction_boundary": "one death-transition owner at the lethal health commit (the sites that emit ActorDied / WhiteMainHandDeath) that quotes and commits a non-natural (death) removal of every active aura, independent-stack cohort, absorb provider and modifier cohort whose affected actor died, reusing the explicit-removal path that already suppresses expiry drivers; periodic cancellation then follows from aura removal",
+  "must_not_widen": "do not admit AllowAuraWhileDead (116) / DisableAuraWhileDead (226) semantics as part of the fix; do not add an ad-hoc liveness check only inside execute_expiry_drivers (leaves the corpse aura active for observations/modifiers); do not let death removal consume RNG or fire any driver",
+  "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient"
+ },
+ {
+  "id": "CSA-H-02",
+  "track": "H",
+  "title": "Aura-only actions admit dead targets: ApplyAura on a dead actor commits a live aura (and re-arms its on-expire driver), while damage on the same corpse rejects with DeadTarget",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/execution/planning/health.rs:881-889",
+   "crates/combat/src/execution/health.rs:230-245",
+   "crates/combat/src/cast.rs:537-539",
+   "crates/combat/src/execution/planning/resource.rs:141-149",
+   "crates/combat/src/execution/planning/interrupt.rs:28-32"
+  ],
+  "evidence": [
+   "probe: h_death_lifecycle.rs::defect_aura_application_to_dead_target_commits \u2014 after a lethal NUKE, a second NUKE rejects with CastErrorCode::DeadTarget, but APPLY on the same dead External commits, active_aura(key) is Some, and its expiry driver later energizes the caster (+10)",
+   "core: the only dead-target gates are operation-local \u2014 damage/power-burn/fixed-travel quote dead_target (planning/health.rs:881-889, cast.rs:537-539), heal preflight (execution/health.rs:240-241), resource gain no-op for dead source (planning/resource.rs:141-149), interrupt no-op (planning/interrupt.rs:28-32); aura mutations have no liveness check",
+   "trinity: SpellInfo::CheckTarget returns SPELL_FAILED_TARGETS_DEAD for any spell unless IsAllowingDeadTarget (src/server/game/Spells/SpellInfo.cpp:2452-2453, 1838-1853)",
+   "core ledger (docs/development-ledger.md ~L10505-10508) deliberately keeps generic cast progress on dead instakill targets as a no-op effect; aura application is not a no-op, it creates new live aura state on a corpse"
+  ],
+  "reproducer": "cd scripts/research/core_audit/probe && cargo test --offline --test h_death_lifecycle defect_aura_application_to_dead_target_commits",
+  "why_tests_missed": "dead-target tests are per-operation (damage, instakill, interrupt, heal); no aura-application test uses a dead recipient",
+  "correction_boundary": "one action-level target liveness policy applied during root planning for every recipient-bound mutation family (aura apply/stack/remove included), aligned with the existing DeadTarget rejection; or explicitly document and gate aura mutations as dead-target no-ops like instakill",
+  "must_not_widen": "do not implement SPELL_ATTR2_ALLOW_DEAD_TARGET / corpse targeting while fixing; do not change instakill's documented cast-progress behaviour without its own ledger decision",
+  "probe_test": "h_death_lifecycle.rs::defect_aura_application_to_dead_target_commits"
+ },
+ {
+  "id": "CSA-H-03",
+  "track": "H",
+  "title": "A dead caster keeps acting: after ActorDied the dead actor's casts pass admission and commit damage/auras",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/cast.rs:74-134",
+   "crates/combat/src/cast.rs:430-560",
+   "crates/combat/src/execution/commit/health.rs:923-930",
+   "crates/combat/src/state/casting.rs:69-104"
+  ],
+  "evidence": [
+   "probe: h_death_lifecycle.rs::defect_dead_caster_keeps_casting \u2014 two-way hostile relations; External's NUKE kills the Player (ActorDied); the dead Player's NUKE then commits (DamageDealt source=Player, External 100000->80000)",
+   "core: cast admission (cast.rs:74-134 and plan_resolved_cast_core ~430-560) has no caster-liveness gate; the only source-liveness check is the resource-gain no-op (planning/resource.rs:141-149); lethal commit only emits ActorDied and never touches CastAuthority, so a dead actor's pending hard cast is also left to complete (static)",
+   "trinity: Spell::CheckCast returns SPELL_FAILED_CASTER_DEAD unless the spell is passive, SPELL_ATTR0_ALLOW_CAST_WHILE_DEAD, or aura-triggered (src/server/game/Spells/Spell.cpp:5742-5746); Unit::setDeathState interrupts non-melee spells (src/server/game/Entities/Unit/Unit.cpp:9160-9172)"
+  ],
+  "reproducer": "cd scripts/research/core_audit/probe && cargo test --offline --test h_death_lifecycle defect_dead_caster_keeps_casting",
+  "why_tests_missed": "Engine fixtures have one acting caster that never takes damage; combat tests kill only targets",
+  "correction_boundary": "caster liveness in the shared root cast admission (before quote, failure mutation-free and RNG-free) plus death-transition cancellation of the dead actor's pending hard cast (same owner as CSA-H-01)",
+  "must_not_widen": "do not implement SPELL_ATTR0_ALLOW_CAST_WHILE_DEAD / resurrection; do not gate autonomous drivers whose source is a living aura owner",
+  "probe_test": "h_death_lifecycle.rs::defect_dead_caster_keeps_casting"
+ }
+]

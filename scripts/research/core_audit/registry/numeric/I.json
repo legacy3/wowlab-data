@@ -1,0 +1,43 @@
+[
+ {
+  "id": "NUM-I-001",
+  "coords": [
+   "crates/sim/src/random.rs:195-206"
+  ],
+  "conversion": "u64 >> 11 -> 53-bit f64 in [0,1) via two u32 halves",
+  "evidence_class": "core_choice",
+  "observable": "draw < probability comparisons; stable known output pinned by core tests",
+  "track": "I"
+ },
+ {
+  "id": "NUM-I-002",
+  "coords": [
+   "crates/sim/src/random.rs:164-175"
+  ],
+  "conversion": "Lemire widening multiply with rejection threshold (2^64 mod upper)",
+  "evidence_class": "core_choice",
+  "observable": "uniform ordinals; rejection may consume >1 u64 (probability < 2^-50 for upper=10_000)",
+  "track": "I"
+ },
+ {
+  "id": "NUM-I-003",
+  "coords": [
+   "crates/sim/src/random.rs:120-129",
+   "crates/combat/src/attack/resolution.rs:400-406"
+  ],
+  "conversion": "cumulative threshold (t+p).min(1.0) in ordered_outcome vs can_land iterator sum < 1.0",
+  "evidence_class": "core_choice",
+  "observable": "same addition order in both, so quote reachability and commit outcome agree bit-for-bit",
+  "track": "I"
+ },
+ {
+  "id": "NUM-I-004",
+  "coords": [
+   "crates/combat/src/white_swing/resolution.rs:90-111"
+  ],
+  "conversion": "u32 basis-point thresholds with saturating_add",
+  "evidence_class": "source_backed",
+  "observable": "outcome selection; admission bounds each chance <= 10_000",
+  "track": "I"
+ }
+]

@@ -1,0 +1,406 @@
+[
+ {
+  "id": "FF-C-001",
+  "authority": "AUTH-C-003",
+  "fact": "Selected raw-290 all-crit rank amount (Keen Eyesight shape: entry 126473, def 131299, spell 378004 #1, Set curve 77725 rank1=2 rank2=4) -> critical probability",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/data/src/trait_source.rs:73-140"
+    ],
+    "identity": "TraitNodeEntry 126473 -> TraitDefinition 131299 -> spell 378004 effect #1 raw 290 bp 2; TraitDefinitionEffectPoints 22726 op 0 curve 77725 (DBC)",
+    "validated": "TraitSourceCatalog::try_from_input structural checks",
+    "transformation": "none",
+    "consumed": "source resolution"
+   },
+   {
+    "stage": "source_resolution",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:494-514"
+    ],
+    "identity": "(entry, effective_rank) -> SelectedTraitSpellEffects",
+    "validated": "rank domain, curve evaluation",
+    "transformation": "Set curve: rank 2 -> 4.0 (binary32 curve y)",
+    "consumed": "classifier and compiler"
+   },
+   {
+    "stage": "candidate",
+    "coords": [
+     "crates/engine/src/trait_candidate.rs:112-212"
+    ],
+    "identity": "PreparedTraitCriticalCandidate -> ResolvedCriticalChanceModifierInput{SelectedTrait{entry,rank}} + Player binding",
+    "validated": "single-effect AllCriticalChance/308 role",
+    "transformation": "none",
+    "consumed": "resolved catalog; probe bypasses candidate and declares the same input directly"
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/data/src/action/catalog/critical_chance_modifier.rs:1-60"
+    ],
+    "identity": "ResolvedCriticalChanceModifier(effect, SelectedTrait(entry, rank), Additive)",
+    "validated": "wire shape",
+    "transformation": "none",
+    "consumed": "critical_modifier compiler"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:370-430",
+     "crates/combat/src/program/critical_modifier.rs:494-575"
+    ],
+    "identity": "CriticalChanceModifierDefinition{effect, percent_points=selected, SOURCE_SPELL_AND_WEAPON}",
+    "validated": "package contract, role, sibling declaration, owner policy, source shape",
+    "transformation": "selected_amount -> f64 percent_points",
+    "consumed": "passive crit handle"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/critical/authority.rs:191-282"
+    ],
+    "identity": "PassiveCriticalModifierBinding(Player, effect) -> dense passive range",
+    "validated": "duplicate binding, missing actor, missing definition",
+    "transformation": "none",
+    "consumed": "effective_critical_values"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/state/modifiers.rs:397-441",
+     "crates/combat/src/critical_modifier.rs:176-242",
+     "crates/combat/src/critical/resolution.rs:95-113"
+    ],
+    "identity": "source actor = caster index",
+    "validated": "finite aggregate",
+    "transformation": "baseline + points/100, floor 0, clamp at 1 -> Probability",
+    "consumed": "PreparedImpactQuote"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/attack/resolution.rs:497-501"
+    ],
+    "identity": "canonical RandomStream",
+    "validated": "n/a",
+    "transformation": "occurs(p): no draw at 0 or >= 1",
+    "consumed": "HitResult"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:878-921",
+     "crates/combat/src/health_amount.rs:67-79"
+    ],
+    "identity": "ImpactResolved / DamageDealt",
+    "validated": "quote already proved",
+    "transformation": "critical amount selected",
+    "consumed": "health"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-451",
+     "crates/combat/src/state.rs:1068-1120"
+    ],
+    "identity": "CriticalAuthority immutable",
+    "validated": "n/a",
+    "transformation": "not reset (no mutable state); RNG stream reset",
+    "consumed": "replay"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "new RandomStreamIdentity",
+    "validated": "n/a",
+    "transformation": "same immutable crit inputs",
+    "consumed": "next iteration"
+   }
+  ],
+  "probe_test": "c_selected_rank.rs::holds_selected_rank_two_amount_reaches_critical_chance",
+  "track": "C"
+ },
+ {
+  "id": "FF-C-002",
+  "authority": "AUTH-C-006",
+  "fact": "Martial Expert op-15 critical bonus (selected 117409 r1, 429638 #1 +10, binary32 factor 1.1f) + raw-163 ordering -> critical damage multiplier",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:1090-1100"
+    ],
+    "identity": "429638 #1 raw 108 op 15 mask [512,0,0,0]",
+    "validated": "DBC",
+    "transformation": "none",
+    "consumed": "classifier"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:131-200",
+     "crates/combat/src/program/passive_spell_modifier.rs:477-483",
+     "crates/combat/src/program/modifier/payload_spells.rs:32-54"
+    ],
+    "identity": "projection (effect, payload, CriticalBonus, factor)",
+    "validated": "owner policy, sibling completeness, finite factor",
+    "transformation": "binary32 (1+10/100)^bits",
+    "consumed": "spell_properties authority"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/spell_modifier_authority.rs:90-220"
+    ],
+    "identity": "(actor, payload, op) -> combined factor",
+    "validated": "binding / finiteness",
+    "transformation": "product of factors",
+    "consumed": "critical_bonus_multiplier"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning/critical.rs:11-79",
+     "crates/combat/src/state/modifiers.rs:335-395"
+    ],
+    "identity": "caster index + payload spell + payload school",
+    "validated": "finite, non-negative",
+    "transformation": "melee/ranged direct: (1+(m-1)F)*S163; magic/none/periodic: 1+(m*S163-1)F",
+    "consumed": "ResolvedCriticalStrike.multiplier"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/attack/resolution.rs:497-501"
+    ],
+    "identity": "crit draw",
+    "validated": "n/a",
+    "transformation": "n/a",
+    "consumed": "HitResult"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/damage.rs:118-151",
+     "crates/combat/src/health_amount.rs:67-79"
+    ],
+    "identity": "normal x multiplier x block multiplier",
+    "validated": "finite",
+    "transformation": "f64, no intermediate rounding",
+    "consumed": "DamageDealt"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1068-1120"
+    ],
+    "identity": "immutable projections",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "replay"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "immutable",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "next iteration"
+   }
+  ],
+  "evidence": [
+   "core_test: crates/engine/tests/selected_martial_expert.rs:80-94 school_critical_modifier_order_follows_direct_attack_family asserts both orders; matches Trinity Unit.cpp:1216-1231 vs 7279-7306."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "FF-C-003",
+  "authority": "AUTH-C-010",
+  "fact": "Martial Expert raw-638 selected amount (+20) -> defender critical-block retained multiplier",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:157-254"
+    ],
+    "identity": "429638 #2 raw 638 bp 20",
+    "validated": "shape, owner attributes, passive attribute",
+    "transformation": "none",
+    "consumed": "compiler"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:256-302"
+    ],
+    "identity": "CriticalBlockAmountDefinition{effect, percent_points=selected}",
+    "validated": "role, sibling declaration, percent >= -100",
+    "transformation": "selected_amount",
+    "consumed": "plan"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/critical_block_amount.rs:42-172"
+    ],
+    "identity": "CriticalBlockAmountBinding(defender, effect)",
+    "validated": "duplicate / missing actor / definition, exclusive ambiguity",
+    "transformation": "per-defender product of (1+p/100)",
+    "consumed": "attack runtime"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/state/modifiers.rs:238-247",
+     "crates/combat/src/attack/resolution.rs:382-398"
+    ],
+    "identity": "target index (defender)",
+    "validated": "has_damage, block eligible, Melee/Ranged",
+    "transformation": "max(0, 1-(1-m)F)",
+    "consumed": "ResolvedAttackTable"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/attack/resolution.rs:503-523"
+    ],
+    "identity": "block draw then critical-block draw",
+    "validated": "n/a",
+    "transformation": "n/a",
+    "consumed": "BlockResult"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/health_amount.rs:67-79"
+    ],
+    "identity": "amount x critical-block multiplier",
+    "validated": "n/a",
+    "transformation": "f64",
+    "consumed": "DamageDealt"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1068-1120"
+    ],
+    "identity": "immutable factors",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "replay"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "immutable",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "next iteration"
+   }
+  ],
+  "track": "C"
+ },
+ {
+  "id": "FF-C-004",
+  "authority": "AUTH-C-002",
+  "fact": "Payload crit eligibility for a non-amount hostile impact (exact Stun 346197) -> critical draw and ImpactResolved result",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/payload_policy.rs:18-47"
+    ],
+    "identity": "spell 346197 attributes (no CannotCrit), DefenseType None, school 1",
+    "validated": "attribute catalog",
+    "transformation": "Eligible + Weapon channel",
+    "consumed": "impact policy"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program.rs:1158-1205"
+    ],
+    "identity": "ImpactDefinition{policy}",
+    "validated": "only Instakill/Interrupt/Dispel/DispelMechanic clear crit",
+    "transformation": "with_damage(false)/with_healing(false) recorded but crit left Eligible",
+    "consumed": "planning"
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/critical/authority.rs:146-189"
+    ],
+    "identity": "enemy baseline 1.0",
+    "validated": "finite",
+    "transformation": "dense",
+    "consumed": "quote"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning.rs:882-915",
+     "crates/combat/src/execution/planning/critical.rs:81-123"
+    ],
+    "identity": "caster (enemy) -> recipient (Player)",
+    "validated": "crit modifier arithmetic (fallible)",
+    "transformation": "Probability 1.0",
+    "consumed": "PreparedImpactQuote"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/attack/resolution.rs:497-501"
+    ],
+    "identity": "occurs(1.0) -> true without draw; occurs(0.5) consumes one draw",
+    "validated": "n/a",
+    "transformation": "HitResult::Critical",
+    "consumed": "ImpactResolved"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:909-919"
+    ],
+    "identity": "ImpactResolved{result: Critical}",
+    "validated": "n/a",
+    "transformation": "none",
+    "consumed": "observers / output"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-446"
+    ],
+    "identity": "RNG stream reset",
+    "validated": "n/a",
+    "transformation": "same draw sequence replays",
+    "consumed": "replay"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "fresh stream",
+    "validated": "n/a",
+    "transformation": "spurious draw shifts subsequent outcomes",
+    "consumed": "next iteration"
+   }
+  ],
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "probe_tests": [
+   "c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+   "c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw"
+  ],
+  "track": "C"
+ }
+]

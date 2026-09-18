@@ -1,0 +1,37 @@
+[
+ {
+  "id": "CSA-F-01",
+  "track": "F",
+  "title": "Passive melee auto-attack-speed bindings are validated only by white admission and silently discarded otherwise",
+  "severity": "low",
+  "reachability": "INCONSISTENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/state/construction.rs:111-112",
+   "crates/combat/src/topology.rs:957-973",
+   "crates/combat/src/topology.rs:649-670",
+   "crates/combat/src/state/construction.rs:284-323"
+  ],
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+    "note": "uncompiled effect / Enemy actor / duplicate Player binding all accepted without a main hand; raw-193 uncompiled binding -> MissingPassiveHasteAllDefinition"
+   },
+   {
+    "class": "core",
+    "ref": "crates/combat/src/state/construction.rs:111-112",
+    "note": "stat_bindings.into_parts() binds melee-speed bindings to `_`"
+   },
+   {
+    "class": "inferred",
+    "ref": "no other consumer of raw-319 exists, so the accepted state is behaviourally identical; the defect is a fail-open input boundary, not a wrong executable value"
+   }
+  ],
+  "reproducer": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+  "why_tests_missed": "raw-319 tests (engine/tests/selected_melee_auto_attack_speed.rs, program/passive_melee_auto_attack_speed/tests) always pair the binding with an admitted main hand; negative binding tests exercise only white isolation",
+  "correction_boundary": "state construction: validate PassiveMeleeSpeedBinding (compiled definition exists, Player actor, no duplicates) independently of the main hand, as prepare_actor_topology does for PassiveHasteAllBinding, or reject melee-speed bindings when no main hand consumes them",
+  "must_not_widen": "do not give raw-319 a consumer outside the isolated main hand; do not relax white isolation (exact [Player binding]); do not fold into the 5-family package-binding iterator unless raw-319 becomes a package member there",
+  "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+ }
+]

@@ -1,0 +1,338 @@
+[
+ {
+  "id": "FF-I-001",
+  "authority": "AUTH-I-005",
+  "fact": "raw-38 dispel selection ordinal (Purging Gaze 220640#1)",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/dispel.rs:21-28"
+    ],
+    "identity": "exact carrier 220640 effect 1, family 1 Magic, beneficial disposition",
+    "validated": "exact identity + sole effect",
+    "transformation": "none",
+    "consumed": "compiler"
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/dispel.rs:30-80",
+     "crates/combat/src/program/dispel.rs:150-170"
+    ],
+    "identity": "ProgramOp::Dispel + impact policy",
+    "validated": "sole impact operation, attempts=1",
+    "transformation": "impact policy configured",
+    "consumed": "quote"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning/dispel.rs:78-151"
+    ],
+    "identity": "DispelSelectionReceipt(count, ordinal) from a cloned stream",
+    "validated": "impact landed on clone; candidate enumeration",
+    "transformation": "preview draw on clone only",
+    "consumed": "commit"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:208-232"
+    ],
+    "identity": "uniform_index(count) on state stream",
+    "validated": "asserted equal to preview",
+    "transformation": "none",
+    "consumed": "aura removal"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:167-206"
+    ],
+    "identity": "selected aura removed via quoted Aura mutation",
+    "validated": "preview reproduction asserts",
+    "transformation": "none",
+    "consumed": "observations"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-445"
+    ],
+    "identity": "stream + auras restored",
+    "validated": "probe replay equality",
+    "transformation": "none",
+    "consumed": "next run"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "new identity stream",
+    "validated": "probe",
+    "transformation": "none",
+    "consumed": "next iteration"
+   }
+  ],
+  "probe_test": "i_rng_dispel.rs::holds_dispel_miss_consumes_only_the_impact_draw",
+  "track": "I"
+ },
+ {
+  "id": "FF-I-002",
+  "authority": "AUTH-I-002",
+  "fact": "spell attack outcome (miss/crit/block/critical block) for an instant direct-damage probe",
+  "stages": [
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/topology.rs:213-219",
+     "crates/combat/src/topology.rs:854-860"
+    ],
+    "identity": "CriticalStrikeBaseline, ActiveDefenseBaseline(miss, BlockDefense, capabilities)",
+    "validated": "validated non-negative/finite; overcap retained",
+    "transformation": "none",
+    "consumed": "attack_table"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning.rs:791-940",
+     "crates/combat/src/state/modifiers.rs:117-240"
+    ],
+    "identity": "ResolvedAttackTable + ResolvedCriticalStrike in PreparedImpactQuote",
+    "validated": "reachable damages validated",
+    "transformation": "min(1.0) clamp to Probability",
+    "consumed": "commit"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/attack/resolution.rs:464-532"
+    ],
+    "identity": "ordered_outcome -> occurs crit -> occurs block -> occurs crit block",
+    "validated": "boundary skips",
+    "transformation": "none",
+    "consumed": "health commit"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:156-206"
+    ],
+    "identity": "ImpactResolved(result, block) + DamageDealt",
+    "validated": "infallible",
+    "transformation": "resolve_damage(multiplier)",
+    "consumed": "observations"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-445"
+    ],
+    "identity": "stream reset",
+    "validated": "probe",
+    "transformation": "none",
+    "consumed": "replay"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "new identity",
+    "validated": "probe",
+    "transformation": "none",
+    "consumed": "replay"
+   }
+  ],
+  "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+  "track": "I"
+ },
+ {
+  "id": "FF-I-003",
+  "authority": "AUTH-I-007",
+  "fact": "white main-hand weapon damage and outcome",
+  "stages": [
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/white_swing.rs:255-356"
+    ],
+    "identity": "ValidatedWhiteMainHand(weapon range, basis-point chances)",
+    "validated": "parry=block=0, bounded damage envelope",
+    "transformation": "critical modifier quantized to basis points",
+    "consumed": "runtime"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/white_swing/resolution.rs:72-111"
+    ],
+    "identity": "forced weapon draw, 10_000 outcome draw",
+    "validated": "none needed",
+    "transformation": "integer thresholds",
+    "consumed": "commit"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state/white_main_hand.rs:96-150"
+    ],
+    "identity": "WhiteMainHandSwing observation, health commit",
+    "validated": "expect after admission proof",
+    "transformation": "mitigation + crit x2",
+    "consumed": "observations"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/white_swing/runtime.rs:72",
+     "crates/combat/src/state.rs:442-445"
+    ],
+    "identity": "deadline + stream reset",
+    "validated": "probe replay",
+    "transformation": "none",
+    "consumed": "replay"
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "new identity",
+    "validated": "probe (reset path)",
+    "transformation": "none",
+    "consumed": "replay"
+   }
+  ],
+  "probe_test": "i_rng_white.rs::holds_white_swing_matches_independent_replay_of_documented_draw_order",
+  "track": "I"
+ },
+ {
+  "id": "FF-I-004",
+  "authority": "AUTH-I-003",
+  "fact": "fixed-travel launch outcome captured and replayed at arrival",
+  "stages": [
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/fixed_travel_time.rs:60-150"
+    ],
+    "identity": "exact 373932 Magic hard cast, 1s delay",
+    "validated": "exact identity + Magic defense only",
+    "transformation": "none",
+    "consumed": "execution plan"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning/segment.rs:22-39",
+     "crates/combat/src/execution/planning.rs:791-940"
+    ],
+    "identity": "segment marked DelayedLaunch; launch table includes magic block when capable",
+    "validated": "reachable (blocked) damage validated",
+    "transformation": "none",
+    "consumed": "launch commit"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:893-906"
+    ],
+    "identity": "launch resolves hit/crit/block",
+    "validated": "none",
+    "transformation": "none",
+    "consumed": "PendingFixedImpact"
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:411-451"
+    ],
+    "identity": "PendingFixedImpact(amount, resolution, suppression)",
+    "validated": "none",
+    "transformation": "amount = resolve_damage(resolution)",
+    "consumed": "arrival"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/fixed_impact_execution.rs:43-160",
+     "crates/combat/src/impact.rs:262-280"
+    ],
+    "identity": "arrival re-quote -> PreparedImpactQuote::captured",
+    "validated": "asserts Unblocked + unit multiplier",
+    "transformation": "none",
+    "consumed": "arrival commit"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/fixed_impact.rs:248-251"
+    ],
+    "identity": "pending cleared",
+    "validated": "core test reset_discards_in_flight_impacts_and_replays_the_same_timeline",
+    "transformation": "none",
+    "consumed": "replay"
+   }
+  ],
+  "finding_ids": [
+   "CSA-I-02"
+  ],
+  "probe_test": "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival",
+  "track": "I"
+ },
+ {
+  "id": "FF-I-005",
+  "authority": "AUTH-I-006",
+  "fact": "raw-108 mechanic dispel forced trials",
+  "stages": [
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/dispel_mechanic.rs:18-60"
+    ],
+    "identity": "exact 1248984 effects 1,2 (mechanics 9,12), caster recipient",
+    "validated": "exact identity",
+    "transformation": "none",
+    "consumed": "quote"
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning/mechanic_dispel.rs:10-68"
+    ],
+    "identity": "MechanicDispelScan{scanned_active}",
+    "validated": "overflow-checked count, one matching aura",
+    "transformation": "none",
+    "consumed": "commit"
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:453-464"
+    ],
+    "identity": "occurs_forced(ONE) x scanned_active",
+    "validated": "asserted true",
+    "transformation": "none",
+    "consumed": "none"
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:442-445"
+    ],
+    "identity": "stream reset",
+    "validated": "core test",
+    "transformation": "none",
+    "consumed": "replay"
+   }
+  ],
+  "evidence": [
+   "core_test: crates/engine/tests/mechanic_dispel.rs::exact_mechanic_dispel_reaches_engine_with_ordered_removal_rng_and_reset"
+  ],
+  "track": "I"
+ }
+]

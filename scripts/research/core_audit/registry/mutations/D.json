@@ -1,0 +1,523 @@
+[
+ {
+  "id": "MUT-D-001",
+  "track": "D",
+  "contract": "raw-10 direct heal amount",
+  "dimension": "amount facts",
+  "mutation": "authored base 30 -> 1.5 (15278:0)",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points"
+   }
+  ],
+  "probe_test": "d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points",
+  "finding_ids": [
+   "CSA-D-02"
+  ]
+ },
+ {
+  "id": "MUT-D-002",
+  "track": "D",
+  "contract": "raw-9 direct leech amount",
+  "dimension": "amount facts",
+  "mutation": "authored base -> 5.55555582047 (3243:0)",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points"
+   }
+  ],
+  "probe_test": "d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points",
+  "finding_ids": [
+   "CSA-D-02"
+  ]
+ },
+ {
+  "id": "MUT-D-003",
+  "track": "D",
+  "contract": "raw-2 direct damage amount",
+  "dimension": "effect kind",
+  "mutation": "raw-10 1.5 heal row -> raw-2 twin",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points"
+   }
+  ],
+  "probe_test": "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points",
+  "note": "outcome: rounded to 2 as intended"
+ },
+ {
+  "id": "MUT-D-004",
+  "track": "D",
+  "contract": "raw-165 live maximum domain",
+  "dimension": "actor",
+  "mutation": "baseline maximum 1000 -> 1001 under raw-133 +50%",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133"
+   }
+  ],
+  "probe_test": "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133",
+  "error": "DamageCalculation",
+  "finding_ids": [
+   "CSA-D-01"
+  ]
+ },
+ {
+  "id": "MUT-D-005",
+  "track": "D",
+  "contract": "absorb consumption order",
+  "dimension": "source order",
+  "mutation": "two equal-priority providers, application order A then B",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first"
+   }
+  ],
+  "probe_test": "d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first",
+  "finding_ids": [
+   "CSA-D-03"
+  ]
+ },
+ {
+  "id": "MUT-D-006",
+  "track": "D",
+  "contract": "school absorb capacity",
+  "dimension": "provider",
+  "mutation": "add raw-421 +5% source modifier to capacity 55",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded"
+   }
+  ],
+  "probe_test": "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded",
+  "finding_ids": [
+   "CSA-D-04"
+  ]
+ },
+ {
+  "id": "MUT-D-007",
+  "track": "D",
+  "contract": "raw-39 immunity composition",
+  "dimension": "target",
+  "mutation": "add caster-recipient raw-165 Shadow payload to the 161901 program",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage"
+   }
+  ],
+  "probe_test": "d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage",
+  "finding_ids": [
+   "CSA-D-05"
+  ]
+ },
+ {
+  "id": "MUT-D-008",
+  "track": "D",
+  "contract": "raw-40 immunity composition",
+  "dimension": "effect kind",
+  "mutation": "add raw-62 Power Burn 46266:1 to the Ethereal program",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_damage_immunity_power_burn.rs::holds_power_burn_rejects_any_declared_immunity_family"
+   }
+  ],
+  "probe_test": "d_damage_immunity_power_burn.rs::holds_power_burn_rejects_any_declared_immunity_family",
+  "error": "UnsupportedImmunityPlan"
+ },
+ {
+  "id": "MUT-D-009",
+  "track": "D",
+  "contract": "raw-300 share damage topology",
+  "dimension": "actor",
+  "mutation": "add third actor with hostile relation to the Venomshade holder",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "d_share_damage_attacker.rs::holds_share_damage_topology_rejects_third_party_attackers"
+   }
+  ],
+  "probe_test": "d_share_damage_attacker.rs::holds_share_damage_topology_rejects_third_party_attackers",
+  "error": "UnsupportedShareDamageTopology"
+ },
+ {
+  "id": "MUT-D-010",
+  "track": "D",
+  "contract": "direct damage amount facts",
+  "dimension": "amount facts",
+  "mutation": "non-neutral variance/scaling/pvp on raw-2",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/damage.rs:138-142"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-011",
+  "track": "D",
+  "contract": "direct damage recipient",
+  "dimension": "target",
+  "mutation": "raw-2 recipient Target -> Caster without raw-29",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/damage.rs:255-277"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-012",
+  "track": "D",
+  "contract": "direct heal",
+  "dimension": "aura subtype",
+  "mutation": "raw-10 with aura facts / trigger / misc / mechanic",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/healing.rs:172-214"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-013",
+  "track": "D",
+  "contract": "direct heal coefficients",
+  "dimension": "sign/range",
+  "mutation": "negative base/AP/SP or all-zero",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/healing.rs:323-334"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-014",
+  "track": "D",
+  "contract": "missing-or-maximum heal",
+  "dimension": "amount facts",
+  "mutation": "fractional discriminator base points",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/healing.rs:343-355"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-015",
+  "track": "D",
+  "contract": "health leech",
+  "dimension": "coefficient",
+  "mutation": "amplitude 0 or negative on direct leech",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/damage.rs:468-477"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-016",
+  "track": "D",
+  "contract": "health leech",
+  "dimension": "exact attributes",
+  "mutation": "CannotLifestealOrLeech / TreatAsPeriodic / MasteryAffectsPoints owner attribute",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/damage.rs:497-516"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-017",
+  "track": "D",
+  "contract": "periodic max-health damage",
+  "dimension": "misc",
+  "mutation": "raw-89 misc0/misc1 non-zero or mechanic set",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/damage.rs:297-340"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-018",
+  "track": "D",
+  "contract": "raw-165",
+  "dimension": "owner attributes",
+  "mutation": "any owner spell attribute present",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/maximum_health_damage.rs:163-174"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-019",
+  "track": "D",
+  "contract": "raw-165",
+  "dimension": "sibling set",
+  "mutation": "second source effect or second damage op in program",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/maximum_health_damage.rs:49-73"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-020",
+  "track": "D",
+  "contract": "school absorb",
+  "dimension": "period",
+  "mutation": "raw-69 with aura period > 0",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/absorb.rs:744-751"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-021",
+  "track": "D",
+  "contract": "school absorb",
+  "dimension": "mask",
+  "mutation": "raw-69 misc0 outside the 7 known school bits",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/absorb.rs:760-770",
+    "note": "school_mask() rejects unknown bits"
+   },
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/absorb.rs:1266-1273"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-022",
+  "track": "D",
+  "contract": "school absorb",
+  "dimension": "coefficient",
+  "mutation": "non-zero AP/SP coefficient on raw-69",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/absorb.rs:804-815"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-023",
+  "track": "D",
+  "contract": "school absorb",
+  "dimension": "duration",
+  "mutation": "indefinite ordinary absorb / finite CannotBeIgnored",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/absorb.rs:990-1019"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-024",
+  "track": "D",
+  "contract": "school absorb",
+  "dimension": "trigger",
+  "mutation": "trigger spell on raw-69",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/absorb.rs:753-758"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-025",
+  "track": "D",
+  "contract": "instakill",
+  "dimension": "sibling set",
+  "mutation": "instakill with a second operation or source effect",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/instakill.rs:34-54"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-026",
+  "track": "D",
+  "contract": "instakill",
+  "dimension": "mechanic",
+  "mutation": "spell mechanic non-zero / DefenseType != None",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/instakill.rs:88-115"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-027",
+  "track": "D",
+  "contract": "school immunity",
+  "dimension": "target",
+  "mutation": "covered-school program with a Target impact that is not the exact applicand",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/school_immunity.rs:246-274"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-028",
+  "track": "D",
+  "contract": "damage immunity",
+  "dimension": "effect kind",
+  "mutation": "any non-exact direct/periodic/leech/max-health damage in program",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/damage_immunity.rs:496-580"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-029",
+  "track": "D",
+  "contract": "no immunities",
+  "dimension": "provider",
+  "mutation": "raw-29 caster damage composed with school/mechanic/effect immunity",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/no_immunities.rs:211-233"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-030",
+  "track": "D",
+  "contract": "raw-421 source modifier",
+  "dimension": "sign/range",
+  "mutation": "raw-421 factor 0 after a non-finite product",
+  "outcome": "accepted_inert",
+  "method": "core_test",
+  "evidence": [
+   {
+    "class": "core_test",
+    "ref": "crates/combat/tests/source_absorb_capacity_modifiers.rs:369-387 later_zero_factor_dominates_an_earlier_non_finite_product"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-031",
+  "track": "D",
+  "contract": "direct damage",
+  "dimension": "mechanic",
+  "mutation": "retain_effective_mechanic false vs true for same effect",
+  "outcome": "accepted_inert",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/damage.rs:227-232",
+    "note": "mechanic NONE when not retained; only outgoing mechanic modifiers consume it"
+   }
+  ]
+ },
+ {
+  "id": "MUT-D-032",
+  "track": "D",
+  "contract": "raw-2 direct damage",
+  "dimension": "chain",
+  "mutation": "raw chain targets / amplitude non-neutral",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/damage.rs:116"
+   },
+   {
+    "class": "core",
+    "ref": "crates/dbc/src/spell_effect.rs:225"
+   }
+  ]
+ }
+]

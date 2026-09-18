@@ -1,0 +1,19 @@
+[package]
+name = "core-audit-probe"
+version = "0.0.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+wowlab-combat = { path = "../../../../../core/crates/combat" }
+wowlab-data = { path = "../../../../../core/crates/data" }
+wowlab-dbc = { path = "../../../../../core/crates/dbc" }
+wowlab-engine = { path = "../../../../../core/crates/engine" }
+wowlab-model = { path = "../../../../../core/crates/model" }
+wowlab-rotation = { path = "../../../../../core/crates/rotation" }
+wowlab-sim = { path = "../../../../../core/crates/sim" }
+wowlab-test-support = { path = "../../../../../core/tools/test-support" }
+googletest = "0.14"
+serde_json = "1"

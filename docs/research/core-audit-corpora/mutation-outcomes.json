@@ -1,0 +1,4350 @@
+{
+ "count": 305,
+ "kind": "mutations",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "sibling set",
+   "evidence": [
+    "builds; critical damage 210.0000023841858 (control, accepted as intended)",
+    "probe: a_package_binding.rs::holds_complete_martial_package_builds"
+   ],
+   "id": "MUT-A-001",
+   "method": "probe",
+   "mutation": "control: both members bound in owning families",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_binding.rs::holds_complete_martial_package_builds",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "sibling set",
+   "error": "IncompleteSelectedPassivePackageBinding",
+   "evidence": [
+    "probe: a_package_binding.rs::holds_missing_block_member_rejects"
+   ],
+   "id": "MUT-A-002",
+   "method": "probe",
+   "mutation": "omit raw-638 member binding",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_binding.rs::holds_missing_block_member_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "actor",
+   "error": "IncompleteSelectedPassivePackageBinding",
+   "evidence": [
+    "probe: a_package_binding.rs::holds_split_actor_package_rejects"
+   ],
+   "id": "MUT-A-003",
+   "method": "probe",
+   "mutation": "raw-638 member bound on Enemy, SpellMod member on Player (split actors)",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_binding.rs::holds_split_actor_package_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "sibling set",
+   "error": "DuplicateSelectedPassivePackageBinding",
+   "evidence": [
+    "proves wrong-family entries are counted",
+    "probe: a_package_binding.rs::holds_block_member_in_block_and_auto_attack_family_is_duplicate"
+   ],
+   "id": "MUT-A-004",
+   "method": "probe",
+   "mutation": "raw-638 member bound twice (crit-block family + auto-attack family)",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_binding.rs::holds_block_member_in_block_and_auto_attack_family_is_duplicate",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "package provenance",
+   "evidence": [
+    "CSA-A-01: partial package executes",
+    "probe: a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package"
+   ],
+   "finding_ids": [
+    "CSA-A-01"
+   ],
+   "id": "MUT-A-005",
+   "method": "probe",
+   "mutation": "raw-638 member bound only through passive auto-attack-damage family, no white main hand",
+   "outcome": "accepted_suspicious",
+   "probe_test": "a_package_binding.rs::defect_block_member_in_auto_attack_family_admits_partial_package",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "package provenance",
+   "error": "MissingCriticalBlockAmountDefinition",
+   "evidence": [
+    "rejected by the ordinary authority, not by the package validator",
+    "probe: a_package_binding.rs::holds_spell_modifier_member_in_block_family_rejects"
+   ],
+   "id": "MUT-A-006",
+   "method": "probe",
+   "mutation": "SpellMod member bound in critical-block family",
+   "outcome": "rejected_accidental",
+   "probe_test": "a_package_binding.rs::holds_spell_modifier_member_in_block_family_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "actor",
+   "error": "IncompleteSelectedPassivePackageBinding",
+   "evidence": [
+    "one valid actor cannot mask another orphan",
+    "probe: a_package_binding.rs::holds_complete_actor_does_not_mask_orphan_actor"
+   ],
+   "id": "MUT-A-007",
+   "method": "probe",
+   "mutation": "complete on Player plus orphan raw-638 member on Enemy",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_binding.rs::holds_complete_actor_does_not_mask_orphan_actor",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "actor",
+   "error": "SpellModifier(UnsupportedActor)",
+   "evidence": [
+    "package validator accepts per-actor completeness; ordinary spell-modifier authority is Player-only",
+    "probe: a_package_binding.rs::holds_complete_package_on_enemy_rejected_by_spell_modifier_authority"
+   ],
+   "id": "MUT-A-008",
+   "method": "probe",
+   "mutation": "complete package on both Player and Enemy",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_binding.rs::holds_complete_package_on_enemy_rejected_by_spell_modifier_authority",
+   "track": "A"
+  },
+  {
+   "contract": "selected immutable owner policy at every final compiler",
+   "dimension": "owner attributes",
+   "evidence": [
+    "compiles (control)",
+    "probe: a_selected_owner_policy.rs::holds_singleton_selected_block_with_clean_owner_compiles"
+   ],
+   "id": "MUT-A-010",
+   "method": "probe",
+   "mutation": "control: singleton raw-638 with clean owner",
+   "outcome": "rejected_intended",
+   "probe_test": "a_selected_owner_policy.rs::holds_singleton_selected_block_with_clean_owner_compiles",
+   "track": "A"
+  },
+  {
+   "contract": "selected immutable owner policy at every final compiler",
+   "dimension": "AuraOptions/external policy",
+   "evidence": [
+    "CSA-A-02",
+    "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy"
+   ],
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "MUT-A-011",
+   "method": "probe",
+   "mutation": "singleton raw-638, no external policy catalog",
+   "outcome": "accepted_suspicious",
+   "probe_test": "a_selected_owner_policy.rs::defect_singleton_selected_block_compiles_without_external_policy",
+   "track": "A"
+  },
+  {
+   "contract": "selected immutable owner policy at every final compiler",
+   "dimension": "AuraOptions/external policy",
+   "evidence": [
+    "CSA-A-02",
+    "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_present_proc_policy"
+   ],
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "MUT-A-012",
+   "method": "probe",
+   "mutation": "singleton raw-638, effective proc Present + script Unknown",
+   "outcome": "accepted_suspicious",
+   "probe_test": "a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_present_proc_policy",
+   "track": "A"
+  },
+  {
+   "contract": "selected immutable owner policy at every final compiler",
+   "dimension": "owner attributes",
+   "evidence": [
+    "CSA-A-02",
+    "probe: a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_owner_defense"
+   ],
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "MUT-A-013",
+   "method": "probe",
+   "mutation": "singleton raw-638, owner defense Melee",
+   "outcome": "accepted_suspicious",
+   "probe_test": "a_selected_owner_policy.rs::defect_singleton_selected_block_ignores_owner_defense",
+   "track": "A"
+  },
+  {
+   "contract": "selected immutable owner policy at every final compiler",
+   "dimension": "AuraOptions/external policy",
+   "error": "InvalidOwnerFact (complete absent external proc, script...)",
+   "evidence": [
+    "masked by SpellMod sibling",
+    "probe: a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy"
+   ],
+   "id": "MUT-A-014",
+   "method": "probe",
+   "mutation": "live two-effect Martial, no external policy catalog",
+   "outcome": "rejected_intended",
+   "probe_test": "a_selected_owner_policy.rs::holds_two_effect_martial_rejects_without_external_policy",
+   "track": "A"
+  },
+  {
+   "contract": "selected immutable owner policy at every final compiler",
+   "dimension": "owner attributes",
+   "evidence": [
+    "shared policy admits",
+    "probe: a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416"
+   ],
+   "id": "MUT-A-015",
+   "method": "probe",
+   "mutation": "singleton SpellMod owner with raw 416",
+   "outcome": "accepted_inert",
+   "probe_test": "a_selected_owner_policy.rs::holds_singleton_selected_spell_modifier_accepts_owner_attribute_416",
+   "track": "A"
+  },
+  {
+   "contract": "selected immutable owner policy at every final compiler",
+   "dimension": "owner attributes",
+   "error": "BlockAmount UnsupportedSpellAttribute",
+   "evidence": [
+    "CSA-A-03",
+    "probe: a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler"
+   ],
+   "finding_ids": [
+    "CSA-A-03"
+   ],
+   "id": "MUT-A-016",
+   "method": "probe",
+   "mutation": "two-effect Martial owner with raw 416",
+   "outcome": "rejected_accidental",
+   "probe_test": "a_selected_owner_policy.rs::holds_two_effect_package_with_owner_attribute_416_rejected_by_block_compiler",
+   "track": "A"
+  },
+  {
+   "contract": "complete declaration atomicity across member compilers",
+   "dimension": "sibling set",
+   "error": "program build error",
+   "evidence": [
+    "whole program refuses",
+    "probe: a_selected_owner_policy.rs::holds_only_spell_modifier_member_declared_rejects"
+   ],
+   "id": "MUT-A-017",
+   "method": "probe",
+   "mutation": "declare only the SpellMod member of the live two-effect package",
+   "outcome": "rejected_intended",
+   "probe_test": "a_selected_owner_policy.rs::holds_only_spell_modifier_member_declared_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete declaration atomicity across member compilers",
+   "dimension": "sibling set",
+   "error": "program build error",
+   "evidence": [
+    "whole program refuses",
+    "probe: a_selected_owner_policy.rs::holds_only_block_member_declared_rejects"
+   ],
+   "id": "MUT-A-018",
+   "method": "probe",
+   "mutation": "declare only the raw-638 member of the live two-effect package",
+   "outcome": "rejected_intended",
+   "probe_test": "a_selected_owner_policy.rs::holds_only_block_member_declared_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "definition",
+   "evidence": [
+    "admitted {CriticalBonus ClassMask, CriticalBlockAmount} (control)",
+    "probe: a_package_contract.rs::holds_live_martial_classifies"
+   ],
+   "id": "MUT-A-020",
+   "method": "probe",
+   "mutation": "control: live Martial shape",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_live_martial_classifies",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "source order",
+   "evidence": [
+    "roles follow effects",
+    "probe: a_package_contract.rs::holds_source_order_does_not_determine_role"
+   ],
+   "id": "MUT-A-021",
+   "method": "probe",
+   "mutation": "swap effect indices of the two members",
+   "outcome": "accepted_inert",
+   "probe_test": "a_package_contract.rs::holds_source_order_does_not_determine_role",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "sibling set",
+   "error": "contract None",
+   "evidence": [
+    "probe: a_package_contract.rs::holds_unknown_sibling_rejects_package"
+   ],
+   "id": "MUT-A-022",
+   "method": "probe",
+   "mutation": "add unsupported raw-29 sibling (arity 3)",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_unknown_sibling_rejects_package",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "sibling set",
+   "error": "IncompleteEffects",
+   "evidence": [
+    "unknown siblings cannot be filtered away",
+    "probe: a_package_contract.rs::holds_unretained_sibling_rejects_source"
+   ],
+   "id": "MUT-A-023",
+   "method": "probe",
+   "mutation": "source_effect_count 3 with 2 retained effects",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_unretained_sibling_rejects_source",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "sibling set",
+   "error": "contract None",
+   "evidence": [
+    "probe: a_package_contract.rs::holds_repeated_block_sibling_rejects"
+   ],
+   "id": "MUT-A-024",
+   "method": "probe",
+   "mutation": "second raw-638 sibling (same authority, arity 3)",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_repeated_block_sibling_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "operation",
+   "error": "contract None",
+   "evidence": [
+    "probe: a_package_contract.rs::holds_operation_mutation_rejects"
+   ],
+   "id": "MUT-A-025",
+   "method": "probe",
+   "mutation": "SpellMod misc0 15 -> 16",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_operation_mutation_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "mask",
+   "error": "contract None",
+   "evidence": [
+    "probe: a_package_contract.rs::holds_empty_class_mask_rejects"
+   ],
+   "id": "MUT-A-026",
+   "method": "probe",
+   "mutation": "empty class mask on class-mask SpellMod",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_empty_class_mask_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "sign/range",
+   "error": "contract None",
+   "evidence": [
+    "probe: a_package_contract.rs::holds_block_points_below_minus_hundred_rejects"
+   ],
+   "id": "MUT-A-027",
+   "method": "probe",
+   "mutation": "raw-638 points -150",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_block_points_below_minus_hundred_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "rank",
+   "error": "UnsupportedRank",
+   "evidence": [
+    "probe: a_package_contract.rs::holds_rank_above_max_rejects"
+   ],
+   "id": "MUT-A-028",
+   "method": "probe",
+   "mutation": "effective rank 2 on max_ranks 1",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_rank_above_max_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "period",
+   "error": "contract None",
+   "evidence": [
+    "probe: a_package_contract.rs::holds_block_period_rejects"
+   ],
+   "id": "MUT-A-029",
+   "method": "probe",
+   "mutation": "raw-638 aura period 1000 ms",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_block_period_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "target",
+   "error": "contract None",
+   "evidence": [
+    "probe: a_package_contract.rs::holds_block_target_mutation_rejects"
+   ],
+   "id": "MUT-A-030",
+   "method": "probe",
+   "mutation": "raw-638 implicit target A 1 -> 6",
+   "outcome": "rejected_intended",
+   "probe_test": "a_package_contract.rs::holds_block_target_mutation_rejects",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "trigger",
+   "evidence": [
+    "trigger inert list includes raw 638 (selected_trait_package.rs:743-756); Trinity handles 638 as HandleNoImmediateEffect (SpellAuraEffects.cpp:710) so the trigger field is not consumed",
+    "probe: a_package_contract.rs::holds_block_trigger_spell_is_accepted_as_inert"
+   ],
+   "id": "MUT-A-031",
+   "method": "probe",
+   "mutation": "trigger spell on raw-638 effect",
+   "outcome": "accepted_inert",
+   "probe_test": "a_package_contract.rs::holds_block_trigger_spell_is_accepted_as_inert",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "package provenance",
+   "evidence": [
+    "core: catalog rejects a second declaration of the same exact effect per family (crates/data/src/action/error/spell_modifier.rs:20, critical_block_amount_modifier.rs:35)",
+    "core: every member must be declared with activation == exact (entry,rank) (crates/combat/src/program/selected_trait_package.rs:323-386) and owner-role count must equal arity (crates/combat/src/program/selected_trait_package.rs:401-416), so two sources can never both own one exact effect; find-first at crates/combat/src/program/selected_trait_package.rs:291-304 is therefore unambiguous"
+   ],
+   "id": "MUT-A-040",
+   "method": "static",
+   "mutation": "second entry whose definition names the same provider spell (same exact effects)",
+   "outcome": "unreachable",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "rank",
+   "evidence": [
+    "core: same exact-effect duplicate gate as MUT-A-040; source resolver accepts one effective rank per resolution (crates/data/src/trait_source/selected_spell.rs:235-243)"
+   ],
+   "id": "MUT-A-041",
+   "method": "static",
+   "mutation": "both ranks of one two-rank entry declared",
+   "outcome": "unreachable",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "point operation",
+   "evidence": [
+    "core: crates/data/src/trait_source/selected_spell.rs:314-325 rejects any operation other than 0/1 (UnsupportedEffectPoints); trinity: SpellInfo.cpp:550-552 treats None as no-op. Fail-closed divergence, not wrong execution"
+   ],
+   "id": "MUT-A-042",
+   "method": "static",
+   "mutation": "TraitDefinitionEffectPoints OperationType -1 (None)",
+   "outcome": "rejected_intended",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "shaped index",
+   "evidence": [
+    "core: crates/data/src/trait_source/selected_spell.rs:338-346 UnsupportedEffectPoints; duplicate row per effect rejected at 327-334"
+   ],
+   "id": "MUT-A-043",
+   "method": "static",
+   "mutation": "effect point row naming a nonexistent effect index",
+   "outcome": "rejected_intended",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "sibling set",
+   "evidence": [
+    "core: composition_role_slot maps HasteAll/AllCrit/CritForCaster/MeleeSpeed/DamageDone/DamageTaken/AbsorbReceived to None -> counts.other -> multi-effect reject (crates/combat/src/program/selected_trait_package.rs:845-886, 893-895). If a future gate admitted one, selected_passive_bindings (crates/combat/src/state/construction.rs:284-322) has no family for it: complete bindings would be falsely rejected and a binding of only the omitted member would never trigger validation. Safe today; seam recorded in REJ-A-001"
+   ],
+   "id": "MUT-A-044",
+   "method": "static",
+   "mutation": "future composition admitting a role outside the 10 slots (e.g. HasteAll) with a SpellMod sibling",
+   "outcome": "unreachable",
+   "track": "A"
+  },
+  {
+   "contract": "state-construction none-or-complete exactly-once per actor/package (construction.rs:244-322)",
+   "dimension": "entry",
+   "evidence": [
+    "core: arity-1 sources are never recorded (crates/combat/src/program/selected_trait_package.rs:246), so the validator skips them; per-effect duplicate/actor/definition checks remain in each ordinary authority (e.g. crates/combat/src/spell_modifier_authority.rs:108-118, crates/combat/src/critical_block_amount.rs:52-63)"
+   ],
+   "id": "MUT-A-045",
+   "method": "static",
+   "mutation": "bound effect belongs to a singleton (arity 1) selected package",
+   "outcome": "accepted_inert",
+   "track": "A"
+  },
+  {
+   "contract": "complete-package classification + composition gate (selected_trait_package_contract)",
+   "dimension": "amount facts",
+   "evidence": [
+    "core_test: crates/combat/src/program/critical_block_amount/tests.rs:655 selected_critical_block_uses_exact_rank_resolved_amount (selected 40 stored, not authored 20); fixed in 09d4fdab"
+   ],
+   "id": "MUT-A-046",
+   "method": "core_test",
+   "mutation": "selected rank-2 Set curve on raw-638 (20 -> 40)",
+   "outcome": "rejected_intended",
+   "track": "A"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "baseline",
+   "evidence": "150 damage (control)",
+   "id": "MUT-B-001",
+   "method": "probe",
+   "mutation": "sole raw-108 op0 +50 class mask 1 bit",
+   "outcome": "accepted_inert",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_001_baseline_direct_class_mask_applies",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "mask",
+   "evidence": "225 = 100*1.5^2 (Trinity pow(applyCount))",
+   "id": "MUT-B-002",
+   "method": "probe",
+   "mutation": "two overlapping bits",
+   "outcome": "accepted_inert",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_002_mask_bit_count_is_exponent",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "mask",
+   "evidence": "150; all four words consulted",
+   "id": "MUT-B-003",
+   "method": "probe",
+   "mutation": "overlap only in word 3",
+   "outcome": "accepted_inert",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_003_fourth_mask_word_participates",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "definition",
+   "evidence": "100; no application",
+   "id": "MUT-B-004",
+   "method": "probe",
+   "mutation": "payload family 11 vs provider 10",
+   "outcome": "accepted_inert",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_004_family_mismatch_is_inert",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "owner attributes",
+   "error": "InvalidSpellModifierOwnerFact",
+   "evidence": "InvalidSpellModifierOwnerFact",
+   "id": "MUT-B-005",
+   "method": "probe",
+   "mutation": "provider family 0 with class-mask selector",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_005_family_zero_class_mask_owner_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "mask",
+   "error": "InvalidSpellModifierSourceFact",
+   "evidence": "InvalidSpellModifierSourceFact",
+   "id": "MUT-B-006",
+   "method": "probe",
+   "mutation": "empty provider class mask on raw 108",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_006_empty_class_mask_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "misc",
+   "error": "InvalidSpellModifierSourceFact",
+   "evidence": "InvalidSpellModifierSourceFact",
+   "id": "MUT-B-007",
+   "method": "probe",
+   "mutation": "misc1=5 on class-mask raw 108",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_007_class_mask_secondary_misc_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "operation",
+   "error": "InvalidSpellModifierSourceFact",
+   "evidence": "InvalidSpellModifierSourceFact",
+   "id": "MUT-B-008",
+   "method": "probe",
+   "mutation": "misc0=1 Duration",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_008_unadmitted_operation_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "sign/range",
+   "error": "InvalidSpellModifierSourceFact",
+   "evidence": "InvalidSpellModifierSourceFact",
+   "id": "MUT-B-009",
+   "method": "probe",
+   "mutation": "op 11 with +50%",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_009_positive_cooldown_percent_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "amount facts",
+   "error": "InvalidSpellModifierSourceFact",
+   "evidence": "InvalidSpellModifierSourceFact",
+   "id": "MUT-B-010",
+   "method": "probe",
+   "mutation": "points -150",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_010_points_below_minus_100_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "target",
+   "error": "InvalidSpellModifierSourceFact",
+   "evidence": "InvalidSpellModifierSourceFact",
+   "id": "MUT-B-011",
+   "method": "probe",
+   "mutation": "provider implicit target 6",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_011_non_self_provider_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "period",
+   "error": "InvalidSpellModifierSourceFact",
+   "evidence": "InvalidSpellModifierSourceFact",
+   "id": "MUT-B-012",
+   "method": "probe",
+   "mutation": "aura period 1000",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_012_periodic_provider_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "trigger",
+   "evidence": "150; trigger treated as inert (selected_trait_package.rs:743-755)",
+   "id": "MUT-B-013",
+   "method": "probe",
+   "mutation": "trigger spell on raw 108",
+   "outcome": "accepted_inert",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_013_trigger_spell_on_raw108_is_inert",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "owner attributes",
+   "error": "InvalidSpellModifierOwnerFact",
+   "evidence": "InvalidSpellModifierOwnerFact",
+   "id": "MUT-B-014",
+   "method": "probe",
+   "mutation": "nonempty owner spell class mask",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_014_owner_class_mask_rejected",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "label",
+   "evidence": "100 without label, 150 with",
+   "id": "MUT-B-015",
+   "method": "probe",
+   "mutation": "raw 218 label selector, payload in other family; with/without label row",
+   "outcome": "accepted_inert",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_015_label_selector_boolean_membership",
+   "track": "B"
+  },
+  {
+   "contract": "selected SpellMod compiler admission/applicability",
+   "dimension": "actor",
+   "evidence": "inert 100; UnsupportedPassiveSpellModifierActor; DuplicatePassiveSpellModifierBinding",
+   "id": "MUT-B-016",
+   "method": "probe",
+   "mutation": "no binding / Enemy binding / duplicate binding",
+   "outcome": "rejected_intended",
+   "probe_test": "b_spellmod_mutations.rs::holds_mut_b_016_binding_actor_and_multiplicity",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "rank",
+   "evidence": "crates/combat/tests/selected_cooldown_spell_modifier.rs::selected_ranked_flat_operation_11_uses_set_and_multiply_rank_amounts (selected rank amount consumed at final compile)",
+   "id": "MUT-B-017",
+   "method": "core_test",
+   "mutation": "two-rank flat op-11 Set/Multiply, rank 1 vs 2",
+   "outcome": "accepted_inert",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "exact attributes",
+   "evidence": "crates/combat/tests/selected_cooldown_spell_modifier.rs::uncataloged_no_category_modifier_payload_remains_fail_closed",
+   "id": "MUT-B-018",
+   "method": "core_test",
+   "mutation": "payload carries uncataloged raw 223 No Category Cooldown Mods",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "sign/range",
+   "evidence": "crates/combat/tests/selected_cooldown_spell_modifier.rs::one_rank_flat_cooldown_rejects_zero_and_positive_milliseconds",
+   "id": "MUT-B-019",
+   "method": "core_test",
+   "mutation": "flat op-11 zero or positive ms",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "label",
+   "evidence": "crates/combat/tests/selected_flat_label_first_effect_spell_modifier.rs::duplicate_label_rows_are_one_membership_not_two_additions",
+   "id": "MUT-B-020",
+   "method": "core_test",
+   "mutation": "duplicate SpellLabel rows for one payload",
+   "outcome": "accepted_inert",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "mask",
+   "evidence": "b_first_effect_mask.rs::defect_percent_first_effect_class_mask_ignores_overlapping_bit_count (CSA-B-01)",
+   "finding_ids": [
+    "CSA-B-01"
+   ],
+   "id": "MUT-B-021",
+   "method": "probe",
+   "mutation": "raw-108 op-3 percent with 2 overlapping bits",
+   "outcome": "accepted_suspicious",
+   "probe_test": "b_first_effect_mask.rs::defect_percent_first_effect_class_mask_ignores_overlapping_bit_count",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "definition",
+   "evidence": "b_critical_bonus_heal.rs::defect_operation15_skips_matching_pure_healing_payload (CSA-B-03)",
+   "finding_ids": [
+    "CSA-B-03"
+   ],
+   "id": "MUT-B-022",
+   "method": "probe",
+   "mutation": "op-15 payload is a pure heal instead of damage",
+   "outcome": "accepted_suspicious",
+   "probe_test": "b_critical_bonus_heal.rs::defect_operation15_skips_matching_pure_healing_payload",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "effect kind",
+   "evidence": "b_first_effect_scope.rs::defect_flat_first_effect_provider_is_silently_inert_on_ordinary_damage_payload (CSA-B-04)",
+   "finding_ids": [
+    "CSA-B-04"
+   ],
+   "id": "MUT-B-023",
+   "method": "probe",
+   "mutation": "op-3 payload first effect is SchoolDamage instead of raw-87/raw-20",
+   "outcome": "accepted_suspicious",
+   "probe_test": "b_first_effect_scope.rs::defect_flat_first_effect_provider_is_silently_inert_on_ordinary_damage_payload",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "aura subtype",
+   "evidence": "b_first_effect_mask.rs::defect_sole_effect_raw218_operation3_label_is_admitted_beyond_catalog_row (CSA-B-02)",
+   "finding_ids": [
+    "CSA-B-02"
+   ],
+   "id": "MUT-B-024",
+   "method": "probe",
+   "mutation": "raw-218 op 3 as sole effect (not Ephemeral Bond)",
+   "outcome": "accepted_suspicious",
+   "probe_test": "b_first_effect_mask.rs::defect_sole_effect_raw218_operation3_label_is_admitted_beyond_catalog_row",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "misc",
+   "evidence": "cooldown_recovery_rate.rs:401-420 UnsupportedMiscValues",
+   "id": "MUT-B-025",
+   "method": "static",
+   "mutation": "raw-286 nonzero misc0/misc1",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "owner attributes",
+   "evidence": "cooldown_recovery_rate.rs:513-550",
+   "id": "MUT-B-026",
+   "method": "static",
+   "mutation": "raw-286 Passive or AsynchronousStackingBuff owner",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "mask",
+   "evidence": "duration_modifier_source.rs:135-141",
+   "id": "MUT-B-027",
+   "method": "static",
+   "mutation": "raw-341/453/454 nonempty class mask",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "amount facts",
+   "evidence": "cooldown_adjustment.rs:390-406",
+   "id": "MUT-B-028",
+   "method": "static",
+   "mutation": "cooldown adjustment non-integral or AP/SP-coefficient amount",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "mask",
+   "evidence": "cooldown_adjustment/category.rs:208-223",
+   "id": "MUT-B-029",
+   "method": "static",
+   "mutation": "ModifyCooldownsByCategory with class mask",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "amount facts",
+   "evidence": "charge_capacity.rs:294-306 InvalidAdditionalCharges",
+   "id": "MUT-B-030",
+   "method": "static",
+   "mutation": "raw-411 amount != +1 on Second Helping",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "SpellMod / cooldown modifier admission",
+   "dimension": "operation",
+   "evidence": "cooldown_adjustment/category.rs:84-117 ambiguous_category_authority",
+   "id": "MUT-B-031",
+   "method": "static",
+   "mutation": "cooldown adjustment ModifyCooldownsByCategory category shared by non-member starter",
+   "outcome": "rejected_intended",
+   "track": "B"
+  },
+  {
+   "contract": "crit eligibility belongs to amount-bearing impacts",
+   "dimension": "effect kind",
+   "evidence": [
+    "ImpactResolved{result: Critical} observed"
+   ],
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "MUT-C-001",
+   "method": "probe",
+   "mutation": "Stun (raw-12 ApplyAura, no amount) cast by an actor with crit baseline 1.0",
+   "outcome": "accepted_suspicious",
+   "probe_test": "c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+   "track": "C"
+  },
+  {
+   "contract": "crit eligibility belongs to amount-bearing impacts",
+   "dimension": "amount facts",
+   "evidence": [
+    "both Critical and Hit observed -> a stochastic crit draw consumed"
+   ],
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "MUT-C-002",
+   "method": "probe",
+   "mutation": "same Stun with baseline 0.5 across 64 seeds",
+   "outcome": "accepted_suspicious",
+   "probe_test": "c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw",
+   "track": "C"
+  },
+  {
+   "contract": "crit eligibility belongs to amount-bearing impacts",
+   "dimension": "effect kind",
+   "evidence": [
+    "program.rs:1185-1196 clears the crit channel; no draw (development-ledger.md:10496-10505)."
+   ],
+   "id": "MUT-C-003",
+   "method": "static",
+   "mutation": "Instakill / InterruptCast / Dispel impacts with a crit baseline",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "selected rank amount reaches critical chance",
+   "dimension": "rank",
+   "evidence": [
+    "accepted and consumed correctly: rank 2 (+4) makes 97% baseline guaranteed; rank 1 (+2) still draws (not suspicious)"
+   ],
+   "id": "MUT-C-004",
+   "method": "probe",
+   "mutation": "raw-290 two-rank Set curve: rank 1 -> rank 2",
+   "outcome": "accepted_inert",
+   "probe_test": "c_selected_rank.rs::holds_selected_rank_two_amount_reaches_critical_chance",
+   "track": "C"
+  },
+  {
+   "contract": "selected package contract",
+   "dimension": "activation",
+   "evidence": [
+    "Passive raw-290 requires the Passive owner attribute and compiles authored points; the selected-owner audit (critical_modifier.rs:1393-1445) plus package owner roles keep a selected provider from compiling as ordinary passive only if declarations match; covered by Track A for dual declarations."
+   ],
+   "id": "MUT-C-005",
+   "method": "static",
+   "mutation": "raw-290 selected entry declared with Passive activation instead of SelectedTrait",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "raw-183 comparator is source-matched",
+   "dimension": "misc",
+   "evidence": [
+    "compile_target_health_predicate admits only (Above,50)/(AtOrAbove,80) and requires misc (0, percent) (program/critical_modifier.rs:1447-1497)."
+   ],
+   "id": "MUT-C-006",
+   "method": "static",
+   "mutation": "raw 183 with host comparator Above and misc_1=80 (or AtOrAbove with 50)",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "raw-183 is source-held only",
+   "dimension": "actor",
+   "evidence": [
+    "SOURCE applicability: target-held query never matches (critical_modifier.rs:381-399); binding accepted but inert for incoming attacks, matching the ledger's rejection of Trinity's target read for melee."
+   ],
+   "id": "MUT-C-007",
+   "method": "static",
+   "mutation": "raw 183 bound to the target actor",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "raw-308 caster identity",
+   "dimension": "actor",
+   "evidence": [
+    "applies() requires query.actor == source_actor for target holder (critical_modifier.rs:393-398); Trinity requires aura caster == spell caster on the target (Unit.cpp:7246-7252) - consistent."
+   ],
+   "id": "MUT-C-008",
+   "method": "static",
+   "mutation": "raw-308 Vital Clarity holder heals an ally (target != source)",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "raw-308 channel placement",
+   "dimension": "selector",
+   "evidence": [
+    "Only admitted carrier 1266748 matches nature-only Vivify/Sheilun's Gift; divergence documented in CSA-C-03."
+   ],
+   "finding_ids": [
+    "CSA-C-03"
+   ],
+   "id": "MUT-C-009",
+   "method": "static",
+   "mutation": "raw-308 mask covering a hybrid physical+magic Magic payload",
+   "outcome": "unreachable",
+   "track": "C"
+  },
+  {
+   "contract": "critical bonus ordering",
+   "dimension": "defense",
+   "evidence": [
+    "crates/engine/tests/selected_martial_expert.rs:80-94 proves melee uses bonus-then-school and magic school-then-bonus; matches Trinity."
+   ],
+   "id": "MUT-C-010",
+   "method": "core_test",
+   "mutation": "Martial Expert payload DefenseType Melee -> Magic",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "critical bonus scope",
+   "dimension": "effect kind",
+   "evidence": [
+    "payload_spells.rs:32-54 omits the payload; heal crit keeps unmodified multiplier (CSA-C-02)."
+   ],
+   "finding_ids": [
+    "CSA-C-02"
+   ],
+   "id": "MUT-C-011",
+   "method": "static",
+   "mutation": "op-15 class mask matching a heal-only payload",
+   "outcome": "accepted_suspicious",
+   "track": "C"
+  },
+  {
+   "contract": "raw-638 selected amount",
+   "dimension": "amount facts",
+   "evidence": [
+    "selected_percentage_points consumes resolved.selected_amount (critical_block_amount.rs:297-301); the prior authored-points defect is fixed."
+   ],
+   "id": "MUT-C-012",
+   "method": "static",
+   "mutation": "selected Martial Expert rank amount != authored (hypothetical curve)",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "raw-638 percent domain",
+   "dimension": "sign/range",
+   "evidence": [
+    "validate_percentage rejects percent < -100 or factor < 0 (critical_block_amount.rs:388-418)."
+   ],
+   "id": "MUT-C-013",
+   "method": "static",
+   "mutation": "raw 638 percent -150",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "raw-638 applies to physical damage blocks only",
+   "dimension": "target",
+   "evidence": [
+    "Factor applied only for Melee/Ranged block-eligible damage (state/modifiers.rs:238-247)."
+   ],
+   "id": "MUT-C-014",
+   "method": "static",
+   "mutation": "raw 638 defender vs Magic-defense damage",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "critical baseline domain",
+   "dimension": "sign/range",
+   "evidence": [
+    "crates/combat/src/critical.rs:185-223 invalid_values_retain_their_typed_parameter."
+   ],
+   "id": "MUT-C-015",
+   "method": "core_test",
+   "mutation": "CriticalStrikeBaseline multiplier 0.9 / chance NaN / chance -0.1",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "critical baseline binding",
+   "dimension": "actor",
+   "evidence": [
+    "duplicate_critical_strike (critical/authority.rs:156-164)."
+   ],
+   "id": "MUT-C-016",
+   "method": "static",
+   "mutation": "two baselines for the same actor",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "critical baseline binding",
+   "dimension": "actor",
+   "evidence": [
+    "baseline NONE (0,0,x2.0) + modifier points -> actor crits with implicit x2.0 (critical/authority.rs:16-20). Core choice; no source-valid expectation contradicts it."
+   ],
+   "id": "MUT-C-017",
+   "method": "static",
+   "mutation": "no baseline for an actor that has a passive raw-290 binding",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "CannotCrit bypass",
+   "dimension": "owner attributes",
+   "evidence": [
+    "crates/combat/tests/critical_damage_modifiers.rs:513 cannot_crit_bypasses_modifier_math_and_does_not_advance_critical_rng; planning/critical.rs:89-90."
+   ],
+   "id": "MUT-C-018",
+   "method": "core_test",
+   "mutation": "CannotCrit payload with ambiguous exclusive crit group active",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "raw-163 school filtering",
+   "dimension": "mask",
+   "evidence": [
+    "critical_damage_modifier.rs:144-146 returns current; hybrid school applies once (crates/combat/tests/critical_damage_modifiers.rs:502)."
+   ],
+   "id": "MUT-C-019",
+   "method": "core_test",
+   "mutation": "raw-163 misc mask not intersecting payload school",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "raw-334 scope",
+   "dimension": "selector",
+   "evidence": [
+    "SOURCE_AUTO_ATTACK has no spell/weapon bit so apply_channel never includes it (critical_modifier.rs:168-173); only white path consumes it."
+   ],
+   "id": "MUT-C-020",
+   "method": "static",
+   "mutation": "raw-334 Heart package with a spell damage payload",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "white crit composition",
+   "dimension": "sibling set",
+   "evidence": [
+    "white_baseline_isolated_except_stats requires critical_strikes empty (topology.rs:1114) -> UnsupportedComposition."
+   ],
+   "id": "MUT-C-021",
+   "method": "static",
+   "mutation": "white main hand + CriticalStrikeBaseline",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "white crit exactness",
+   "dimension": "amount facts",
+   "evidence": [
+    "WhiteCriticalChanceModifier::try_new round-trip check -> InvalidPreparedBasis (white_swing.rs:31-38)."
+   ],
+   "id": "MUT-C-022",
+   "method": "static",
+   "mutation": "white all-crit amount not binary32-representable",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "hit modifiers scope",
+   "dimension": "effect kind",
+   "evidence": [
+    "has_damage gate (state/modifiers.rs:185): baseline miss roll kept, modifier ignored (documented scope, XC-C-003)."
+   ],
+   "id": "MUT-C-023",
+   "method": "static",
+   "mutation": "raw-55 spell hit on an aura-only Magic-defense hostile impact",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "crit channel selection",
+   "dimension": "definition",
+   "evidence": [
+    "HybridMax selects max of modified channels (critical/resolution.rs:136-147 unit test); matches Trinity SpellCritChanceDone."
+   ],
+   "id": "MUT-C-024",
+   "method": "core_test",
+   "mutation": "payload school physical+arcane with DefenseType Magic",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "passive raw-163 exclusivity",
+   "dimension": "point operation",
+   "evidence": [
+    "CritDamageActivationInput::Passive has no composition field; compile_activation returns group 0 (program/critical_damage_modifier.rs:341-349)."
+   ],
+   "id": "MUT-C-025",
+   "method": "static",
+   "mutation": "passive raw-163 declared with exclusive composition",
+   "outcome": "unreachable",
+   "track": "C"
+  },
+  {
+   "contract": "crit eligibility follows the effect's consumer semantics",
+   "dimension": "effect kind",
+   "evidence": [
+    "HealingDone{Critical, requested 1000, applied 500}; consumer evidence conflicts (UNK-C-004)"
+   ],
+   "id": "MUT-C-026",
+   "method": "probe",
+   "mutation": "raw-67 recipient-missing Full Heal with caster baseline 1.0",
+   "outcome": "inconclusive",
+   "probe_test": "c_missing_max_heal_crit.rs::holds_missing_health_heal_shares_impact_critical",
+   "track": "C"
+  },
+  {
+   "contract": "crit eligibility follows the effect's consumer semantics",
+   "dimension": "amount facts",
+   "evidence": [
+    "applied 400 (Hit) vs 800 (Critical) with all First Aid 7162 source facts; consumer evidence conflicts (UNK-C-004)"
+   ],
+   "id": "MUT-C-027",
+   "method": "probe",
+   "mutation": "raw-67 discriminator 1 -> 0 (caster maximum, First Aid 7162 facts) onto a pet missing more than caster max",
+   "outcome": "inconclusive",
+   "probe_test": "c_missing_max_heal_crit.rs::holds_caster_maximum_heal_critical_doubles_applied_health",
+   "track": "C"
+  },
+  {
+   "contract": "raw-638 retained-damage formula",
+   "dimension": "point operation",
+   "evidence": [
+    "crates/combat/tests/critical_block_amount_modifiers.rs:491 prevented_share_factors_multiply_and_the_retained_result_is_bounded: retained = max(0, 1-(1-m)*F1*F2); matches Trinity blocked = pct*2*mult (Unit.cpp:1238-1244)."
+   ],
+   "id": "MUT-C-028",
+   "method": "core_test",
+   "mutation": "two raw-638 factors (multiplicative) vs the alternative m*F reading",
+   "outcome": "rejected_intended",
+   "track": "C"
+  },
+  {
+   "contract": "raw-638 holder",
+   "dimension": "actor",
+   "evidence": [
+    "crates/combat/tests/critical_block_amount_modifiers.rs:528 modifier_is_defender_owned_and_isolated_to_the_bound_actor (Trinity reads attacker; REJ-C-004)."
+   ],
+   "id": "MUT-C-029",
+   "method": "core_test",
+   "mutation": "raw 638 bound to the attacker instead of the defender",
+   "outcome": "accepted_inert",
+   "track": "C"
+  },
+  {
+   "contract": "raw-10 direct heal amount",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-02"
+   ],
+   "id": "MUT-D-001",
+   "method": "probe",
+   "mutation": "authored base 30 -> 1.5 (15278:0)",
+   "outcome": "accepted_suspicious",
+   "probe_test": "d_base_point_rounding.rs::defect_direct_heal_keeps_fractional_base_points",
+   "track": "D"
+  },
+  {
+   "contract": "raw-9 direct leech amount",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-02"
+   ],
+   "id": "MUT-D-002",
+   "method": "probe",
+   "mutation": "authored base -> 5.55555582047 (3243:0)",
+   "outcome": "accepted_suspicious",
+   "probe_test": "d_base_point_rounding.rs::defect_direct_health_leech_keeps_fractional_base_points",
+   "track": "D"
+  },
+  {
+   "contract": "raw-2 direct damage amount",
+   "dimension": "effect kind",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points"
+    }
+   ],
+   "id": "MUT-D-003",
+   "method": "probe",
+   "mutation": "raw-10 1.5 heal row -> raw-2 twin",
+   "note": "outcome: rounded to 2 as intended",
+   "outcome": "rejected_intended",
+   "probe_test": "d_base_point_rounding.rs::holds_direct_school_damage_rounds_the_same_base_points",
+   "track": "D"
+  },
+  {
+   "contract": "raw-165 live maximum domain",
+   "dimension": "actor",
+   "error": "DamageCalculation",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-01"
+   ],
+   "id": "MUT-D-004",
+   "method": "probe",
+   "mutation": "baseline maximum 1000 -> 1001 under raw-133 +50%",
+   "outcome": "accepted_suspicious",
+   "probe_test": "d_maximum_health_domain.rs::defect_raw165_rejects_fractional_maximum_produced_by_raw133",
+   "track": "D"
+  },
+  {
+   "contract": "absorb consumption order",
+   "dimension": "source order",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-03"
+   ],
+   "id": "MUT-D-005",
+   "method": "probe",
+   "mutation": "two equal-priority providers, application order A then B",
+   "outcome": "accepted_suspicious",
+   "probe_test": "d_absorb_order.rs::defect_equal_priority_absorbs_consume_oldest_application_first",
+   "track": "D"
+  },
+  {
+   "contract": "school absorb capacity",
+   "dimension": "provider",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-04"
+   ],
+   "id": "MUT-D-006",
+   "method": "probe",
+   "mutation": "add raw-421 +5% source modifier to capacity 55",
+   "outcome": "accepted_suspicious",
+   "probe_test": "d_absorb_capacity_rounding.rs::defect_source_only_absorb_capacity_is_not_rounded",
+   "track": "D"
+  },
+  {
+   "contract": "raw-39 immunity composition",
+   "dimension": "target",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage"
+    }
+   ],
+   "finding_ids": [
+    "CSA-D-05"
+   ],
+   "id": "MUT-D-007",
+   "method": "probe",
+   "mutation": "add caster-recipient raw-165 Shadow payload to the 161901 program",
+   "outcome": "accepted_suspicious",
+   "probe_test": "d_school_immunity_self_damage.rs::defect_school_immune_holder_takes_covered_caster_delivered_damage",
+   "track": "D"
+  },
+  {
+   "contract": "raw-40 immunity composition",
+   "dimension": "effect kind",
+   "error": "UnsupportedImmunityPlan",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_damage_immunity_power_burn.rs::holds_power_burn_rejects_any_declared_immunity_family"
+    }
+   ],
+   "id": "MUT-D-008",
+   "method": "probe",
+   "mutation": "add raw-62 Power Burn 46266:1 to the Ethereal program",
+   "outcome": "rejected_intended",
+   "probe_test": "d_damage_immunity_power_burn.rs::holds_power_burn_rejects_any_declared_immunity_family",
+   "track": "D"
+  },
+  {
+   "contract": "raw-300 share damage topology",
+   "dimension": "actor",
+   "error": "UnsupportedShareDamageTopology",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "d_share_damage_attacker.rs::holds_share_damage_topology_rejects_third_party_attackers"
+    }
+   ],
+   "id": "MUT-D-009",
+   "method": "probe",
+   "mutation": "add third actor with hostile relation to the Venomshade holder",
+   "outcome": "rejected_intended",
+   "probe_test": "d_share_damage_attacker.rs::holds_share_damage_topology_rejects_third_party_attackers",
+   "track": "D"
+  },
+  {
+   "contract": "direct damage amount facts",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/damage.rs:138-142"
+    }
+   ],
+   "id": "MUT-D-010",
+   "method": "static",
+   "mutation": "non-neutral variance/scaling/pvp on raw-2",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "direct damage recipient",
+   "dimension": "target",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/damage.rs:255-277"
+    }
+   ],
+   "id": "MUT-D-011",
+   "method": "static",
+   "mutation": "raw-2 recipient Target -> Caster without raw-29",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "direct heal",
+   "dimension": "aura subtype",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/healing.rs:172-214"
+    }
+   ],
+   "id": "MUT-D-012",
+   "method": "static",
+   "mutation": "raw-10 with aura facts / trigger / misc / mechanic",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "direct heal coefficients",
+   "dimension": "sign/range",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/healing.rs:323-334"
+    }
+   ],
+   "id": "MUT-D-013",
+   "method": "static",
+   "mutation": "negative base/AP/SP or all-zero",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "missing-or-maximum heal",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/healing.rs:343-355"
+    }
+   ],
+   "id": "MUT-D-014",
+   "method": "static",
+   "mutation": "fractional discriminator base points",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "health leech",
+   "dimension": "coefficient",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/damage.rs:468-477"
+    }
+   ],
+   "id": "MUT-D-015",
+   "method": "static",
+   "mutation": "amplitude 0 or negative on direct leech",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "health leech",
+   "dimension": "exact attributes",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/damage.rs:497-516"
+    }
+   ],
+   "id": "MUT-D-016",
+   "method": "static",
+   "mutation": "CannotLifestealOrLeech / TreatAsPeriodic / MasteryAffectsPoints owner attribute",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "periodic max-health damage",
+   "dimension": "misc",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/damage.rs:297-340"
+    }
+   ],
+   "id": "MUT-D-017",
+   "method": "static",
+   "mutation": "raw-89 misc0/misc1 non-zero or mechanic set",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "raw-165",
+   "dimension": "owner attributes",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/maximum_health_damage.rs:163-174"
+    }
+   ],
+   "id": "MUT-D-018",
+   "method": "static",
+   "mutation": "any owner spell attribute present",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "raw-165",
+   "dimension": "sibling set",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/maximum_health_damage.rs:49-73"
+    }
+   ],
+   "id": "MUT-D-019",
+   "method": "static",
+   "mutation": "second source effect or second damage op in program",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "school absorb",
+   "dimension": "period",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/absorb.rs:744-751"
+    }
+   ],
+   "id": "MUT-D-020",
+   "method": "static",
+   "mutation": "raw-69 with aura period > 0",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "school absorb",
+   "dimension": "mask",
+   "evidence": [
+    {
+     "class": "core",
+     "note": "school_mask() rejects unknown bits",
+     "ref": "crates/combat/src/program/absorb.rs:760-770"
+    },
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/absorb.rs:1266-1273"
+    }
+   ],
+   "id": "MUT-D-021",
+   "method": "static",
+   "mutation": "raw-69 misc0 outside the 7 known school bits",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "school absorb",
+   "dimension": "coefficient",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/absorb.rs:804-815"
+    }
+   ],
+   "id": "MUT-D-022",
+   "method": "static",
+   "mutation": "non-zero AP/SP coefficient on raw-69",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "school absorb",
+   "dimension": "duration",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/absorb.rs:990-1019"
+    }
+   ],
+   "id": "MUT-D-023",
+   "method": "static",
+   "mutation": "indefinite ordinary absorb / finite CannotBeIgnored",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "school absorb",
+   "dimension": "trigger",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/absorb.rs:753-758"
+    }
+   ],
+   "id": "MUT-D-024",
+   "method": "static",
+   "mutation": "trigger spell on raw-69",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "instakill",
+   "dimension": "sibling set",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/instakill.rs:34-54"
+    }
+   ],
+   "id": "MUT-D-025",
+   "method": "static",
+   "mutation": "instakill with a second operation or source effect",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "instakill",
+   "dimension": "mechanic",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/instakill.rs:88-115"
+    }
+   ],
+   "id": "MUT-D-026",
+   "method": "static",
+   "mutation": "spell mechanic non-zero / DefenseType != None",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "school immunity",
+   "dimension": "target",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/school_immunity.rs:246-274"
+    }
+   ],
+   "id": "MUT-D-027",
+   "method": "static",
+   "mutation": "covered-school program with a Target impact that is not the exact applicand",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "damage immunity",
+   "dimension": "effect kind",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/damage_immunity.rs:496-580"
+    }
+   ],
+   "id": "MUT-D-028",
+   "method": "static",
+   "mutation": "any non-exact direct/periodic/leech/max-health damage in program",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "no immunities",
+   "dimension": "provider",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/no_immunities.rs:211-233"
+    }
+   ],
+   "id": "MUT-D-029",
+   "method": "static",
+   "mutation": "raw-29 caster damage composed with school/mechanic/effect immunity",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "raw-421 source modifier",
+   "dimension": "sign/range",
+   "evidence": [
+    {
+     "class": "core_test",
+     "ref": "crates/combat/tests/source_absorb_capacity_modifiers.rs:369-387 later_zero_factor_dominates_an_earlier_non_finite_product"
+    }
+   ],
+   "id": "MUT-D-030",
+   "method": "core_test",
+   "mutation": "raw-421 factor 0 after a non-finite product",
+   "outcome": "accepted_inert",
+   "track": "D"
+  },
+  {
+   "contract": "direct damage",
+   "dimension": "mechanic",
+   "evidence": [
+    {
+     "class": "core",
+     "note": "mechanic NONE when not retained; only outgoing mechanic modifiers consume it",
+     "ref": "crates/combat/src/program/damage.rs:227-232"
+    }
+   ],
+   "id": "MUT-D-031",
+   "method": "static",
+   "mutation": "retain_effective_mechanic false vs true for same effect",
+   "outcome": "accepted_inert",
+   "track": "D"
+  },
+  {
+   "contract": "raw-2 direct damage",
+   "dimension": "chain",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/damage.rs:116"
+    },
+    {
+     "class": "core",
+     "ref": "crates/dbc/src/spell_effect.rs:225"
+    }
+   ],
+   "id": "MUT-D-032",
+   "method": "static",
+   "mutation": "raw chain targets / amplitude non-neutral",
+   "outcome": "rejected_intended",
+   "track": "D"
+  },
+  {
+   "contract": "periodic cadence",
+   "dimension": "cadence",
+   "error": "none (behavioural observation)",
+   "evidence": "admitted; refresh at 50 keeps 20ms anchor (ticks 20..140)",
+   "id": "MUT-E-001",
+   "method": "probe",
+   "mutation": "RestartCadence -> PreserveCadence on subtype-23 trigger with RestartLifetime",
+   "outcome": "accepted_inert",
+   "probe_test": "e_periodic_schedule.rs::holds_preserve_cadence_refresh_keeps_anchor",
+   "track": "E"
+  },
+  {
+   "contract": "periodic cadence",
+   "dimension": "period",
+   "error": "none (behavioural observation)",
+   "evidence": "partial 10ms discarded; ticks 20,40,70..150 (Trinity ResetPeriodic parity)",
+   "id": "MUT-E-002",
+   "method": "probe",
+   "mutation": "refresh at mid-period with RestartCadence",
+   "outcome": "rejected_intended",
+   "probe_test": "e_periodic_schedule.rs::holds_restart_cadence_refresh_discards_partial_period",
+   "track": "E"
+  },
+  {
+   "contract": "initial occurrence",
+   "dimension": "attributes",
+   "error": "none (behavioural observation)",
+   "evidence": "initial only at 0; refresh at 50 adds no occurrence",
+   "id": "MUT-E-003",
+   "method": "probe",
+   "mutation": "add raw 169 + OnFreshApplication; refresh while active",
+   "outcome": "rejected_intended",
+   "probe_test": "e_periodic_schedule.rs::holds_tick_on_application_only_on_fresh_application",
+   "track": "E"
+  },
+  {
+   "contract": "initial occurrence",
+   "dimension": "attributes",
+   "evidence": "periodic.rs:1449-1474 periodic_initial_policy_mismatch",
+   "id": "MUT-E-004",
+   "method": "static",
+   "mutation": "OnFreshApplication without raw 169 (or 169 with AfterFirstPeriod)",
+   "outcome": "rejected_intended",
+   "track": "E"
+  },
+  {
+   "contract": "haste cadence",
+   "dimension": "attributes",
+   "evidence": "periodic.rs:1398-1404 unsupported owner attribute",
+   "id": "MUT-E-005",
+   "method": "static",
+   "mutation": "raw 173 with PreserveCadence",
+   "outcome": "rejected_intended",
+   "track": "E"
+  },
+  {
+   "contract": "haste cadence",
+   "dimension": "amount facts",
+   "error": "none (behavioural observation)",
+   "evidence": "cadence 769ms, duration unchanged",
+   "id": "MUT-E-006",
+   "method": "probe",
+   "mutation": "raw 173 + spell_cast_speed 1.3, authored 1000ms",
+   "outcome": "accepted_inert",
+   "probe_test": "e_periodic_schedule.rs::holds_spell_cast_speed_period_truncates",
+   "track": "E"
+  },
+  {
+   "contract": "same-time order",
+   "dimension": "duration",
+   "error": "none (behavioural observation)",
+   "evidence": "final full tick at expiry fires before AuraExpired",
+   "id": "MUT-E-007",
+   "method": "probe",
+   "mutation": "duration exact multiple of period",
+   "outcome": "rejected_intended",
+   "probe_test": "e_periodic_schedule.rs::holds_exact_expiry_tick_runs_before_aura_expiry",
+   "track": "E"
+  },
+  {
+   "contract": "stale deadline",
+   "dimension": "trigger",
+   "error": "none (behavioural observation)",
+   "evidence": "no tick after removal",
+   "id": "MUT-E-008",
+   "method": "probe",
+   "mutation": "explicit Remove mid-period",
+   "outcome": "rejected_intended",
+   "probe_test": "e_periodic_schedule.rs::holds_explicit_removal_leaves_no_stale_tick",
+   "track": "E"
+  },
+  {
+   "contract": "death lifecycle",
+   "dimension": "actor",
+   "error": "none (behavioural observation)",
+   "evidence": "driver child runs at natural expiry and reapplies aura to the corpse",
+   "finding_ids": [
+    "CSA-E-01"
+   ],
+   "id": "MUT-E-009",
+   "method": "probe",
+   "mutation": "kill aura recipient while aura with raw-495 driver is active",
+   "outcome": "accepted_suspicious",
+   "probe_test": "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse",
+   "track": "E"
+  },
+  {
+   "contract": "death lifecycle",
+   "dimension": "actor",
+   "error": "none (behavioural observation)",
+   "evidence": "Applied; aura + periodic deadlines armed on corpse",
+   "finding_ids": [
+    "CSA-E-01"
+   ],
+   "id": "MUT-E-010",
+   "method": "probe",
+   "mutation": "cast aura application on already-dead target",
+   "outcome": "accepted_suspicious",
+   "probe_test": "e_death_lifecycle.rs::defect_fresh_periodic_application_onto_dead_recipient_is_admitted",
+   "track": "E"
+  },
+  {
+   "contract": "death lifecycle",
+   "dimension": "actor",
+   "error": "none (behavioural observation)",
+   "evidence": "next tick cancels silently, no fizzle",
+   "id": "MUT-E-011",
+   "method": "probe",
+   "mutation": "kill recipient of periodic trigger aura",
+   "outcome": "rejected_intended",
+   "probe_test": "e_death_lifecycle.rs::holds_periodic_trigger_cancels_silently_after_recipient_death",
+   "track": "E"
+  },
+  {
+   "contract": "dispel",
+   "dimension": "aura subtype",
+   "evidence": "dispel.rs:243-247 'no periodic lifecycle fanout'; dispel_mechanic.rs:394",
+   "finding_ids": [
+    "CSA-E-02"
+   ],
+   "id": "MUT-E-012",
+   "method": "static",
+   "mutation": "make a dispellable aura carry a periodic schedule",
+   "outcome": "rejected_intended",
+   "track": "E"
+  },
+  {
+   "contract": "independent stacks",
+   "dimension": "owner attributes",
+   "evidence": "periodic.rs:87-121 lists raw AsynchronousStackingBuff in every periodic audit",
+   "id": "MUT-E-013",
+   "method": "static",
+   "mutation": "periodic schedule on AsynchronousStackingBuff owner",
+   "outcome": "rejected_intended",
+   "track": "E"
+  },
+  {
+   "contract": "expiry",
+   "dimension": "owner attributes",
+   "evidence": "expiry.rs:14-18,169-182",
+   "id": "MUT-E-014",
+   "method": "static",
+   "mutation": "raw-495 carrier on AsynchronousStackingBuff owner",
+   "outcome": "rejected_intended",
+   "track": "E"
+  },
+  {
+   "contract": "capped carryover",
+   "dimension": "cadence",
+   "evidence": "periodic.rs:1614-1640 conflicting_periodic_reapplication",
+   "id": "MUT-E-015",
+   "method": "static",
+   "mutation": "raw 436 aura with RestartCadence schedule",
+   "outcome": "rejected_intended",
+   "track": "E"
+  },
+  {
+   "contract": "passive flow",
+   "dimension": "rank",
+   "evidence": "passive_flow_flat/validation.rs:321-332 max_stacks==1, single deadline",
+   "id": "MUT-E-016",
+   "method": "static",
+   "mutation": "AddStacks on flat/percentage passive-flow carrier",
+   "outcome": "unreachable",
+   "track": "E"
+  },
+  {
+   "contract": "expiry source",
+   "dimension": "misc",
+   "evidence": "expiry.rs:142-154; core test expiry_drivers.rs raw_misc_zero_uses_recipient_power_while_every_nonzero_uses_original_source_power",
+   "id": "MUT-E-017",
+   "method": "core_test",
+   "mutation": "raw-495 misc0 0 vs nonzero vs resolved source mismatch",
+   "outcome": "rejected_intended",
+   "track": "E"
+  },
+  {
+   "contract": "haste cadence",
+   "dimension": "coefficient",
+   "error": "none (behavioural observation)",
+   "evidence": "999ms cadence (f64 division truncation); no real period witnesses",
+   "id": "MUT-E-018",
+   "method": "probe",
+   "mutation": "authored 1100ms with spell_cast_speed 1.1",
+   "outcome": "accepted_inert",
+   "probe_test": "e_periodic_schedule.rs::holds_division_truncation_witness_1100_over_1_1_is_999",
+   "track": "E"
+  },
+  {
+   "contract": "outcome thresholds strict",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+    }
+   ],
+   "id": "MUT-F-010",
+   "method": "probe",
+   "mutation": "miss share = roll -> Hit; roll+1 -> Miss",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative",
+   "track": "F"
+  },
+  {
+   "contract": "outcome thresholds cumulative",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+    }
+   ],
+   "id": "MUT-F-011",
+   "method": "probe",
+   "mutation": "miss=roll, dodge=1 -> Dodge; miss=roll-1,dodge=1 -> Hit",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative",
+   "track": "F"
+  },
+  {
+   "contract": "outcome thresholds cumulative",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+    }
+   ],
+   "id": "MUT-F-012",
+   "method": "probe",
+   "mutation": "critical share roll / roll+1 / after miss roll-1 + 2",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative",
+   "track": "F"
+  },
+  {
+   "contract": "overlapping shares keep precedence",
+   "dimension": "sign/range",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+    }
+   ],
+   "id": "MUT-F-013",
+   "method": "probe",
+   "mutation": "miss 10000 + critical 10000 (sum 20000) admitted, Miss",
+   "outcome": "accepted_inert",
+   "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative",
+   "track": "F"
+  },
+  {
+   "contract": "lethal stops white",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_lethal_stop_and_reset_replay"
+    }
+   ],
+   "id": "MUT-F-020",
+   "method": "probe",
+   "mutation": "target health 30 vs 13/swing",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_lethal_stop_and_reset_replay",
+   "track": "F"
+  },
+  {
+   "contract": "white period consumes selected rank",
+   "dimension": "rank",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_period_consumes_selected_rank_amount"
+    }
+   ],
+   "id": "MUT-F-030",
+   "method": "probe",
+   "mutation": "rank 1 -> rank 2 on Set curve 20/40",
+   "note": "period 2333 -> 2000 ms; authored points not consumed",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_period_consumes_selected_rank_amount",
+   "track": "F"
+  },
+  {
+   "contract": "white period arithmetic order",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_period_uses_binary32_attack_time_order"
+    }
+   ],
+   "id": "MUT-F-031",
+   "method": "probe",
+   "mutation": "raw-319 points 5 -> 15, base 2300",
+   "outcome": "accepted_inert",
+   "probe_test": "f_white_swing.rs::holds_white_period_uses_binary32_attack_time_order",
+   "track": "F"
+  },
+  {
+   "contract": "haste sign",
+   "dimension": "sign/range",
+   "evidence": [
+    {
+     "class": "core",
+     "note": "Positive policy",
+     "ref": "crates/combat/src/program/selected_trait_package.rs:669-697"
+    },
+    {
+     "class": "trinity",
+     "note": "Trinity slow is (100+|v|)/100, differs from Core 100/(100+p): unreachable",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:10995-10998"
+    }
+   ],
+   "id": "MUT-F-032",
+   "method": "static",
+   "mutation": "raw-319/raw-193 selected points <= 0 (slow)",
+   "outcome": "rejected_intended",
+   "track": "F"
+  },
+  {
+   "contract": "raw-344 range",
+   "dimension": "sign/range",
+   "evidence": [
+    {
+     "class": "core",
+     "note": "mitigated(modified min)==0 -> InvalidPreparedBasis",
+     "ref": "crates/combat/src/white_swing.rs:326-333"
+    },
+    {
+     "class": "trinity",
+     "note": "Trinity would swing for 0",
+     "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:8127"
+    }
+   ],
+   "id": "MUT-F-033",
+   "method": "static",
+   "mutation": "raw-344 points -100 -> factor 0",
+   "outcome": "rejected_intended",
+   "track": "F"
+  },
+  {
+   "contract": "hard cast suppresses without catch-up; launch resets",
+   "dimension": "period",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset"
+    }
+   ],
+   "id": "MUT-F-040",
+   "method": "probe",
+   "mutation": "period 500 < Dark Bite cast 2000",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset",
+   "track": "F"
+  },
+  {
+   "contract": "reset keyed on exact carrier",
+   "dimension": "entry",
+   "evidence": [
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/cooldown_start.rs:51-83"
+    },
+    {
+     "class": "core",
+     "ref": "crates/combat/src/program/white_idle.rs:88-90"
+    }
+   ],
+   "id": "MUT-F-041",
+   "method": "static",
+   "mutation": "Dark Bite owner attributes gain any attribute besides 407 / spell id differs",
+   "outcome": "rejected_intended",
+   "track": "F"
+  },
+  {
+   "contract": "forced singleton draw",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_forced_singleton_weapon_draw_precedes_outcome_draw"
+    }
+   ],
+   "id": "MUT-F-042",
+   "method": "probe",
+   "mutation": "weapon range width 1",
+   "note": "draw still consumed; discriminated from skip model",
+   "outcome": "accepted_inert",
+   "probe_test": "f_white_swing.rs::holds_white_forced_singleton_weapon_draw_precedes_outcome_draw",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-050",
+   "method": "probe",
+   "mutation": "parry share 1",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-051",
+   "method": "probe",
+   "mutation": "block share 1",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-052",
+   "method": "probe",
+   "mutation": "critical 10001",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "UnsupportedEligibility",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-053",
+   "method": "probe",
+   "mutation": "unequal levels 80/83",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "UnsupportedEligibility",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-054",
+   "method": "probe",
+   "mutation": "zero levels",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "UnsupportedEligibility",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-055",
+   "method": "probe",
+   "mutation": "out of range",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "UnsupportedEligibility",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-056",
+   "method": "probe",
+   "mutation": "defender not standing",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "target",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-057",
+   "method": "probe",
+   "mutation": "defender not facing with parry=block=0",
+   "note": "matches Trinity canDodge for creature victims (Unit.cpp:2416-2419)",
+   "outcome": "accepted_inert",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-058",
+   "method": "probe",
+   "mutation": "weapon minimum 0",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-059",
+   "method": "probe",
+   "mutation": "reversed weapon range",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-060",
+   "method": "probe",
+   "mutation": "weapon max u32::MAX/2+1",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-061",
+   "method": "probe",
+   "mutation": "base period 0",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "period",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-062",
+   "method": "probe",
+   "mutation": "base period 1 ms",
+   "outcome": "accepted_inert",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-063",
+   "method": "probe",
+   "mutation": "armor 1e9 makes mitigated min 0",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-064",
+   "method": "probe",
+   "mutation": "negative armor",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-065",
+   "method": "probe",
+   "mutation": "armor constant 0",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "InvalidPreparedBasis",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-066",
+   "method": "probe",
+   "mutation": "NaN armor",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "amount facts",
+   "error": "UnsupportedComposition",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-067",
+   "method": "probe",
+   "mutation": "critical basis without compiled crit modifier",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "target",
+   "error": "UnsupportedEngagement",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-068",
+   "method": "probe",
+   "mutation": "Enemy source / Player target",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "owner attributes",
+   "error": "UnsupportedComposition",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-069",
+   "method": "probe",
+   "mutation": "actor auto_attack_speed 1.1 (non-UNHASTED)",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "selected binding exactness",
+   "dimension": "actor",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+    }
+   ],
+   "finding_ids": [
+    "CSA-F-01"
+   ],
+   "id": "MUT-F-070",
+   "method": "probe",
+   "mutation": "PassiveMeleeSpeedBinding for uncompiled effect, no main hand",
+   "outcome": "accepted_suspicious",
+   "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+   "track": "F"
+  },
+  {
+   "contract": "selected binding exactness",
+   "dimension": "actor",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+    }
+   ],
+   "finding_ids": [
+    "CSA-F-01"
+   ],
+   "id": "MUT-F-071",
+   "method": "probe",
+   "mutation": "Furious Blows binding on Enemy, no main hand",
+   "outcome": "accepted_suspicious",
+   "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+   "track": "F"
+  },
+  {
+   "contract": "selected binding exactness",
+   "dimension": "sibling set",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+    }
+   ],
+   "finding_ids": [
+    "CSA-F-01"
+   ],
+   "id": "MUT-F-072",
+   "method": "probe",
+   "mutation": "duplicate Furious Blows Player binding, no main hand",
+   "outcome": "accepted_suspicious",
+   "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+   "track": "F"
+  },
+  {
+   "contract": "selected binding exactness",
+   "dimension": "actor",
+   "error": "MissingPassiveHasteAllDefinition",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+    }
+   ],
+   "id": "MUT-F-073",
+   "method": "probe",
+   "mutation": "raw-193 binding for uncompiled effect (control)",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+   "track": "F"
+  },
+  {
+   "contract": "white requires binding",
+   "dimension": "actor",
+   "evidence": [
+    {
+     "class": "core",
+     "note": "isolation requires exactly [Player binding] -> UnsupportedComposition",
+     "ref": "crates/combat/src/white_swing.rs:378-381,441-443"
+    }
+   ],
+   "id": "MUT-F-074",
+   "method": "static",
+   "mutation": "Furious Blows compiled + main hand + no melee binding",
+   "outcome": "rejected_intended",
+   "track": "F"
+  },
+  {
+   "contract": "white admission fails closed",
+   "dimension": "target",
+   "error": "UnsupportedEngagement",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+    }
+   ],
+   "id": "MUT-F-075",
+   "method": "probe",
+   "mutation": "no hostile relation",
+   "outcome": "rejected_intended",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "track": "F"
+  },
+  {
+   "contract": "caster must be alive to act",
+   "dimension": "actor",
+   "error": "none",
+   "evidence": [
+    "cast Ok, DamageDealt source=Player"
+   ],
+   "finding_ids": [
+    "CSA-G-01"
+   ],
+   "id": "MUT-G-001",
+   "method": "probe",
+   "mutation": "caster health reduced to 0 before instant cast",
+   "outcome": "accepted_suspicious",
+   "probe_test": "g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage",
+   "track": "G"
+  },
+  {
+   "contract": "pending cast cancelled on caster death",
+   "dimension": "actor",
+   "error": "none",
+   "evidence": [
+    "CastCompleted Succeeded at 1000 ms"
+   ],
+   "finding_ids": [
+    "CSA-G-01"
+   ],
+   "id": "MUT-G-002",
+   "method": "probe",
+   "mutation": "caster killed mid hard cast",
+   "outcome": "accepted_suspicious",
+   "probe_test": "g_cast_lifecycle.rs::defect_pending_hard_cast_survives_caster_death_and_succeeds",
+   "track": "G"
+  },
+  {
+   "contract": "interruption resets GCD",
+   "dimension": "interrupt",
+   "error": "StartRecovery",
+   "evidence": [
+    "unlocked Nature action blocked until 1500 ms"
+   ],
+   "finding_ids": [
+    "CSA-G-02"
+   ],
+   "id": "MUT-G-003",
+   "method": "probe",
+   "mutation": "raw-68 interrupt of hard cast carrying 1500 ms start recovery",
+   "outcome": "accepted_suspicious",
+   "probe_test": "g_cast_lifecycle.rs::defect_interrupt_retains_accepted_start_recovery",
+   "track": "G"
+  },
+  {
+   "contract": "interruption resets GCD",
+   "dimension": "aura subtype",
+   "error": "StartRecovery",
+   "evidence": [
+    "retry after stun expiry blocked until 1500 ms"
+   ],
+   "finding_ids": [
+    "CSA-G-02"
+   ],
+   "id": "MUT-G-004",
+   "method": "probe",
+   "mutation": "raw-12 stun (346197) instead of raw 68",
+   "outcome": "accepted_suspicious",
+   "probe_test": "g_cast_lifecycle.rs::defect_stun_interruption_retains_accepted_start_recovery",
+   "track": "G"
+  },
+  {
+   "contract": "readiness recheck is the latest time-only blocker",
+   "dimension": "interrupt",
+   "error": "Stunned",
+   "evidence": [
+    "recheck 100 ms, then Pacified recheck 4000 ms"
+   ],
+   "finding_ids": [
+    "CSA-G-03"
+   ],
+   "id": "MUT-G-005",
+   "method": "probe",
+   "mutation": "add 100 ms stun on top of 4000 ms pacify",
+   "outcome": "accepted_suspicious",
+   "probe_test": "g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify",
+   "track": "G"
+  },
+  {
+   "contract": "raw 68 requires a living target",
+   "dimension": "target",
+   "error": "none",
+   "evidence": [
+    "Ok with SpellCast"
+   ],
+   "finding_ids": [
+    "CSA-G-04"
+   ],
+   "id": "MUT-G-006",
+   "method": "probe",
+   "mutation": "interrupt target health 0",
+   "outcome": "accepted_suspicious",
+   "probe_test": "g_admission_order.rs::defect_interrupt_carrier_commits_against_dead_target",
+   "track": "G"
+  },
+  {
+   "contract": "completion revalidates target",
+   "dimension": "target",
+   "evidence": [
+    "core_test: combat/tests/hard_cast_concurrency.rs::hard_cast_completion_failure_is_atomic_after_target_dies (Failed(DeadTarget), energy unchanged)",
+    "trinity: Spell.cpp:4247-4273 dead target is not cancelled early; cast() CheckCast fails"
+   ],
+   "id": "MUT-G-007",
+   "method": "core_test",
+   "mutation": "target killed during hard cast",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "stun cancels only on transition to stunned",
+   "dimension": "actor",
+   "evidence": [
+    "core_test: combat/tests/stuns.rs::reapplication_and_second_source_do_not_cancel_cast_admitted_during_stun",
+    "trinity: Unit.cpp:11566-11567"
+   ],
+   "id": "MUT-G-008",
+   "method": "core_test",
+   "mutation": "second stun source while already stunned",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "stun cancels even allow-while-stunned casts",
+   "dimension": "owner attributes",
+   "evidence": [
+    "core_test: combat/tests/stuns.rs::first_stun_transition_cancels_raw_163_pending_cast_with_exact_observation",
+    "trinity: Unit.cpp:11569-11570 CastStop unconditional"
+   ],
+   "id": "MUT-G-009",
+   "method": "core_test",
+   "mutation": "fresh stun during raw-163 Full Heal",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "haste change does not rebase an accepted cast",
+   "dimension": "duration",
+   "evidence": [
+    "core_test: combat/src/state/active_casting_speed.rs::tests::activation_does_not_reschedule_an_accepted_hard_cast"
+   ],
+   "id": "MUT-G-010",
+   "method": "core_test",
+   "mutation": "raw-65 casting speed applied mid cast",
+   "outcome": "accepted_inert",
+   "track": "G"
+  },
+  {
+   "contract": "acceptance-owned cooldown survives cancellation",
+   "dimension": "cooldown/cost/cast requirements",
+   "evidence": [
+    "core: cast.rs:257-282 commits at acceptance; cast.rs:496-497 skips re-quote at completion; nothing restores on cancel",
+    "trinity: Spell.cpp:3569-3570, 3892-3893, 5790 same"
+   ],
+   "id": "MUT-G-011",
+   "method": "static",
+   "mutation": "attr 407 Dark Bite cancelled or failed",
+   "outcome": "accepted_inert",
+   "track": "G"
+  },
+  {
+   "contract": "cost snapshot at preparation",
+   "dimension": "amount facts",
+   "evidence": [
+    "core: prepared cost stored at acceptance (cast_authority.rs:366-391) and re-quoted from snapshot (cast.rs:293-300, cast/resource.rs:121-170)",
+    "trinity: m_powerCost computed in prepare and taken at cast"
+   ],
+   "id": "MUT-G-012",
+   "method": "static",
+   "mutation": "power cost modifier aura expires mid cast",
+   "outcome": "accepted_inert",
+   "track": "G"
+  },
+  {
+   "contract": "silence cancellation school-agnostic",
+   "dimension": "misc",
+   "evidence": [
+    "core_test: combat/src/silence/tests.rs::only_a_fresh_exact_application_identifies_a_cast_to_cancel",
+    "source: all carriers misc 127",
+    "trinity: SpellAuraEffects.cpp:2521-2528"
+   ],
+   "id": "MUT-G-013",
+   "method": "core_test",
+   "mutation": "silence school disjoint from pending cast school",
+   "outcome": "accepted_inert",
+   "track": "G"
+  },
+  {
+   "contract": "raw 68 incompatible with SpellInterrupts hard casts",
+   "dimension": "interrupt",
+   "evidence": [
+    "core: program/interrupt.rs:59-70 UnsupportedTargetCastPolicy"
+   ],
+   "id": "MUT-G-014",
+   "method": "static",
+   "mutation": "add SpellInterrupts row to any hard cast alongside 159006",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "lockout duration exact",
+   "dimension": "duration",
+   "evidence": [
+    "core: program/interrupt.rs:115-120 UnsupportedDuration"
+   ],
+   "id": "MUT-G-015",
+   "method": "static",
+   "mutation": "resolved lockout != 6000 ms",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "same-time interruption beats peeked completion",
+   "dimension": "source order",
+   "evidence": [
+    "core_test: combat/src/state/casting/tests.rs::interrupt_committed_at_due_timestamp_makes_peeked_completion_inert"
+   ],
+   "id": "MUT-G-016",
+   "method": "core_test",
+   "mutation": "interrupt committed at completes_at before completion",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "completion committed first is final",
+   "dimension": "source order",
+   "evidence": [
+    "core_test: combat/tests/silences.rs::completion_committed_first_is_not_retroactively_silenced",
+    "core: state/transition.rs:54-74 cast completion key 2"
+   ],
+   "id": "MUT-G-017",
+   "method": "core_test",
+   "mutation": "silence at completes_at through public advance",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "one foreground cast per actor",
+   "dimension": "cooldown/cost/cast requirements",
+   "evidence": [
+    "core_test: combat/src/cast_authority/tests.rs::one_actor_cannot_begin_two_hard_casts",
+    "core: cast.rs:438-446"
+   ],
+   "id": "MUT-G-018",
+   "method": "core_test",
+   "mutation": "second hard cast / instant without overlap flag during hard cast",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "completion re-quotes completion-owned cooldown",
+   "dimension": "cooldown/cost/cast requirements",
+   "evidence": [
+    "core: cast.rs:485-496 skips_committed false for ordinary hard casts; blocked quote -> Failed",
+    "trinity: Spell.cpp:5790 non-strict CheckCast still checks cooldown for non-attr-407"
+   ],
+   "id": "MUT-G-019",
+   "method": "static",
+   "mutation": "shared category started by another action during cast",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "allow-while-stunned is a stun-only exemption",
+   "dimension": "owner attributes",
+   "evidence": [
+    "core: cast.rs:669-674 returns None; upstream program/stun.rs:474-480 requires empty prevention"
+   ],
+   "finding_ids": [
+    "CSA-G-05"
+   ],
+   "id": "MUT-G-020",
+   "method": "static",
+   "mutation": "raw-163 action with Silence prevention while stunned+silenced",
+   "outcome": "unreachable",
+   "track": "G"
+  },
+  {
+   "contract": "completion failure mutates nothing but the cast cell",
+   "dimension": "cooldown/cost/cast requirements",
+   "evidence": [
+    "core: cast.rs:329-343 Err branch: finish_cast + CastCompleted Failed only; prepared cost blocker returned without recheck (cast/resource.rs:97-117)"
+   ],
+   "id": "MUT-G-021",
+   "method": "static",
+   "mutation": "insufficient resource at completion",
+   "outcome": "rejected_intended",
+   "track": "G"
+  },
+  {
+   "contract": "interrupt only Silence-prevention casts",
+   "dimension": "interrupt",
+   "error": "none",
+   "evidence": [
+    "core: execution/planning/interrupt.rs:40-49 returns Ok without cancellation; transition still progressing"
+   ],
+   "id": "MUT-G-022",
+   "method": "probe",
+   "mutation": "target cast with prevention mask lacking Silence",
+   "outcome": "accepted_inert",
+   "probe_test": "g_admission_order.rs::holds_interrupt_ignores_cast_without_silence_prevention",
+   "track": "G"
+  },
+  {
+   "contract": "caster must be alive to act",
+   "dimension": "actor",
+   "error": "none",
+   "evidence": [
+    "StepOutcome::Cast continues; DamageDealt source=Player after ActorDied Player"
+   ],
+   "finding_ids": [
+    "CSA-G-01"
+   ],
+   "id": "MUT-G-023",
+   "method": "probe",
+   "mutation": "Engine rotation after share-damage kills the Player",
+   "outcome": "accepted_suspicious",
+   "probe_test": "g_engine_dead_caster.rs::defect_engine_rotation_keeps_casting_for_dead_player",
+   "track": "G"
+  },
+  {
+   "contract": "state construction is independent of actor/relation input order",
+   "dimension": "source order",
+   "evidence": "bit-identical full Debug",
+   "id": "MUT-H-001",
+   "method": "probe",
+   "mutation": "permute actor roster and relation order",
+   "outcome": "accepted_inert",
+   "probe_test": "h_construction_mutations.rs::holds_actor_and_relation_order_is_canonicalized",
+   "track": "H"
+  },
+  {
+   "contract": "unique actor roster",
+   "dimension": "actor",
+   "error": "DuplicateActor",
+   "evidence": "CombatStateErrorCode::DuplicateActor",
+   "id": "MUT-H-002",
+   "method": "probe",
+   "mutation": "duplicate Enemy actor",
+   "outcome": "rejected_intended",
+   "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes",
+   "track": "H"
+  },
+  {
+   "contract": "no explicit self relation",
+   "dimension": "target",
+   "error": "ExplicitSelfTargetRelation",
+   "evidence": "ExplicitSelfTargetRelation",
+   "id": "MUT-H-003",
+   "method": "probe",
+   "mutation": "Player->Player Friendly relation",
+   "outcome": "rejected_intended",
+   "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes",
+   "track": "H"
+  },
+  {
+   "contract": "one relation per ordered pair",
+   "dimension": "target",
+   "error": "DuplicateTargetRelation",
+   "evidence": "DuplicateTargetRelation",
+   "id": "MUT-H-004",
+   "method": "probe",
+   "mutation": "duplicate hostile relation",
+   "outcome": "rejected_intended",
+   "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes",
+   "track": "H"
+  },
+  {
+   "contract": "one disposition per ordered pair",
+   "dimension": "target",
+   "error": "ConflictingTargetRelation",
+   "evidence": "ConflictingTargetRelation",
+   "id": "MUT-H-005",
+   "method": "probe",
+   "mutation": "hostile + friendly for same pair",
+   "outcome": "rejected_intended",
+   "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes",
+   "track": "H"
+  },
+  {
+   "contract": "relations reference roster actors",
+   "dimension": "actor",
+   "error": "MissingTargetRelationActor",
+   "evidence": "MissingTargetRelationActor",
+   "id": "MUT-H-006",
+   "method": "probe",
+   "mutation": "relation to absent Enemy 1",
+   "outcome": "rejected_intended",
+   "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes",
+   "track": "H"
+  },
+  {
+   "contract": "host passive-flow update binds an exact configured pool",
+   "dimension": "provider",
+   "error": "UnconfiguredPassiveFlow",
+   "evidence": "PassiveFlowErrorCode::UnconfiguredPassiveFlow, full Debug unchanged",
+   "id": "MUT-H-007",
+   "method": "probe",
+   "mutation": "update Energy flow never configured",
+   "outcome": "rejected_intended",
+   "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free",
+   "track": "H"
+  },
+  {
+   "contract": "host passive-flow update binds a roster actor",
+   "dimension": "actor",
+   "error": "MissingActor",
+   "evidence": "PassiveFlowErrorCode::MissingActor, full Debug unchanged",
+   "id": "MUT-H-008",
+   "method": "probe",
+   "mutation": "update flow for absent Enemy 1",
+   "outcome": "rejected_intended",
+   "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free",
+   "track": "H"
+  },
+  {
+   "contract": "clock is monotonic",
+   "dimension": "duration",
+   "evidence": "TimeAdvanceError, full Debug unchanged",
+   "id": "MUT-H-009",
+   "method": "probe",
+   "mutation": "advance_to earlier than now",
+   "outcome": "rejected_intended",
+   "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free",
+   "track": "H"
+  },
+  {
+   "contract": "host flow updates are runtime state, not baseline",
+   "dimension": "provider",
+   "evidence": "reset full Debug == fresh",
+   "id": "MUT-H-010",
+   "method": "probe",
+   "mutation": "update configured Mana flow 5->50/s at 750 ms then reset",
+   "outcome": "accepted_inert",
+   "probe_test": "h_construction_mutations.rs::holds_host_flow_update_is_reverted_by_reset",
+   "track": "H"
+  },
+  {
+   "contract": "iteration identity only selects the RNG stream",
+   "dimension": "entry",
+   "evidence": "full Debug differs only in the random subtree",
+   "id": "MUT-H-011",
+   "method": "probe",
+   "mutation": "RandomStreamIdentity(1,1) vs (1,2)",
+   "outcome": "accepted_inert",
+   "probe_test": "h_construction_mutations.rs::holds_random_identity_only_changes_random_stream",
+   "track": "H"
+  },
+  {
+   "contract": "aura lifecycle ends at recipient death (Trinity RemoveAllAurasOnDeath)",
+   "dimension": "actor",
+   "evidence": "aura persists and expiry driver energizes the source at 100 ms",
+   "finding_ids": [
+    "CSA-H-01"
+   ],
+   "id": "MUT-H-012",
+   "method": "probe",
+   "mutation": "kill the aura recipient before natural expiry of a raw-495 aura",
+   "outcome": "accepted_suspicious",
+   "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient",
+   "track": "H"
+  },
+  {
+   "contract": "dead targets are not valid action targets (SPELL_FAILED_TARGETS_DEAD)",
+   "dimension": "target",
+   "evidence": "APPLY commits on dead External while NUKE rejects DeadTarget",
+   "finding_ids": [
+    "CSA-H-02"
+   ],
+   "id": "MUT-H-013",
+   "method": "probe",
+   "mutation": "aura-only action on a dead target",
+   "outcome": "accepted_suspicious",
+   "probe_test": "h_death_lifecycle.rs::defect_aura_application_to_dead_target_commits",
+   "track": "H"
+  },
+  {
+   "contract": "reset mid-flight (pending hard cast, pending fixed impacts, active auras, periodic, thresholds) equals fresh",
+   "dimension": "duration",
+   "evidence": "semantic Debug == fresh, replay identical",
+   "id": "MUT-H-014",
+   "method": "probe",
+   "mutation": "reset after 12-14 driven rounds with pending timers",
+   "outcome": "accepted_inert",
+   "probe_tests": [
+    "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "track": "H"
+  },
+  {
+   "contract": "quote purity (§19 gate 7) at state level",
+   "dimension": "interrupt",
+   "evidence": "no semantic owner changes (scratch residue only)",
+   "id": "MUT-H-015",
+   "method": "probe",
+   "mutation": "cast_readiness before every begin_cast in 49 scenarios",
+   "outcome": "accepted_inert",
+   "probe_tests": [
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "track": "H"
+  },
+  {
+   "contract": "dead casters cannot cast (SPELL_FAILED_CASTER_DEAD)",
+   "dimension": "actor",
+   "evidence": "dead Player's NUKE commits 20000 damage",
+   "finding_ids": [
+    "CSA-H-03"
+   ],
+   "id": "MUT-H-016",
+   "method": "probe",
+   "mutation": "kill the Player via External's NUKE, then cast from the Player",
+   "outcome": "accepted_suspicious",
+   "probe_test": "h_death_lifecycle.rs::defect_dead_caster_keeps_casting",
+   "track": "H"
+  },
+  {
+   "contract": "canonical boundary skip",
+   "dimension": "amount facts (miss probability)",
+   "evidence": [
+    "draw count 0 at 0, 1 at 0.5; outcomes equal independent replay"
+   ],
+   "id": "MUT-I-001",
+   "method": "probe",
+   "mutation": "miss in {0, 0.5}",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "track": "I"
+  },
+  {
+   "contract": "canonical boundary skip",
+   "dimension": "amount facts (critical chance)",
+   "evidence": [
+    "0 and 1 draw nothing, 0.5 draws once after landing"
+   ],
+   "id": "MUT-I-002",
+   "method": "probe",
+   "mutation": "critical in {0, 0.5, 1}",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "track": "I"
+  },
+  {
+   "contract": "canonical boundary skip",
+   "dimension": "amount facts (block chance, magic-block capability)",
+   "evidence": [
+    "replay-equal for the ordinary instant probe"
+   ],
+   "id": "MUT-I-003",
+   "method": "probe",
+   "mutation": "block in {0, 0.5, 1}",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "track": "I"
+  },
+  {
+   "contract": "canonical boundary skip",
+   "dimension": "amount facts (critical-block chance)",
+   "evidence": [
+    "drawn only when blocked; replay-equal"
+   ],
+   "id": "MUT-I-004",
+   "method": "probe",
+   "mutation": "critical block in {0, 0.5, 1}",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "track": "I"
+  },
+  {
+   "contract": "failure consumes no RNG",
+   "dimension": "amount facts (certain miss)",
+   "error": "NonProgressing",
+   "evidence": [
+    "cast Err(NonProgressing), 0 draws"
+   ],
+   "id": "MUT-I-005",
+   "method": "probe",
+   "mutation": "miss = 1.0",
+   "outcome": "rejected_intended",
+   "probe_test": "i_rng_attack_table.rs::holds_attack_table_draw_order_and_boundary_skips_match_independent_replay",
+   "track": "I"
+  },
+  {
+   "contract": "deterministic semantic order (gate 3)",
+   "dimension": "source order (actor roster input order)",
+   "evidence": [
+    "identical outcomes and stream over 8 identities"
+   ],
+   "id": "MUT-I-006",
+   "method": "probe",
+   "mutation": "reverse CombatStateInput actors",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_attack_table.rs::holds_roster_input_order_does_not_change_draws",
+   "track": "I"
+  },
+  {
+   "contract": "dispel selection draw",
+   "dimension": "sibling set (candidate count)",
+   "evidence": [
+    "0/0/1 draws"
+   ],
+   "id": "MUT-I-007",
+   "method": "probe",
+   "mutation": "0/1/2 active candidates",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_commit_draw_count_matches_canonical_uniform_index",
+   "track": "I"
+  },
+  {
+   "contract": "dispel selection draw",
+   "dimension": "source order (data/action input order)",
+   "evidence": [
+    "core_test crates/combat/src/execution/planning/dispel/runtime_tests.rs canonical_selection_is_independent_of_source_input_order_and_replays_after_reset"
+   ],
+   "id": "MUT-I-008",
+   "method": "core_test",
+   "mutation": "reverse spells/effects/actions/programs/auras",
+   "outcome": "accepted_inert",
+   "track": "I"
+  },
+  {
+   "contract": "failure consumes no RNG",
+   "dimension": "target",
+   "error": "unsupported target",
+   "evidence": [
+    "Err, no observations, 0 draws, semantic state identical"
+   ],
+   "id": "MUT-I-009",
+   "method": "probe",
+   "mutation": "dispel requested enemy->Player (no relation)",
+   "outcome": "rejected_intended",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+   "track": "I"
+  },
+  {
+   "contract": "quote purity",
+   "dimension": "cast/requirements (hard-cast acceptance vs completion)",
+   "evidence": [
+    "acceptance consumes 0 draws; completion performs draws"
+   ],
+   "id": "MUT-I-010",
+   "method": "probe",
+   "mutation": "begin_cast of hard cast without advancing",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_quotes_acceptance_and_rejection_consume_no_rng",
+   "track": "I"
+  },
+  {
+   "contract": "immune impact draw policy",
+   "dimension": "AuraOptions/external policy (target school immunity active)",
+   "evidence": [
+    "ordinary immune Pacify: 1 draw; fixed-travel immune launch: 0 draws; open launch: 1 draw"
+   ],
+   "finding_ids": [
+    "CSA-I-01"
+   ],
+   "id": "MUT-I-011",
+   "method": "probe",
+   "mutation": "apply Felbreaker Rune before Pacify / Illusionary Bolt",
+   "outcome": "accepted_suspicious",
+   "probe_test": "i_rng_immunity.rs::defect_fixed_travel_immune_launch_skips_the_draw_ordinary_immune_consumes",
+   "track": "I"
+  },
+  {
+   "contract": "white draw count",
+   "dimension": "amount facts (weapon domain width, zero chances)",
+   "evidence": [
+    "2 draws per swing"
+   ],
+   "id": "MUT-I-012",
+   "method": "probe",
+   "mutation": "prepared_damage (20,20) + all-zero chances",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_white.rs::holds_white_swing_consumes_two_draws_even_when_fully_deterministic",
+   "track": "I"
+  },
+  {
+   "contract": "cleanup consumes no RNG",
+   "dimension": "actor (target alive state)",
+   "evidence": [
+    "later due deadlines draw nothing (4 draws total for 2 swings)"
+   ],
+   "id": "MUT-I-013",
+   "method": "probe",
+   "mutation": "target killed by second swing",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_white.rs::holds_white_swing_after_target_death_consumes_no_draw",
+   "track": "I"
+  },
+  {
+   "contract": "commit infallible after quote",
+   "dimension": "amount facts (magic block on fixed-travel target)",
+   "evidence": [
+    "launch accepted and committed; arrival panics in PreparedImpactQuote::captured"
+   ],
+   "finding_ids": [
+    "CSA-I-02"
+   ],
+   "id": "MUT-I-014",
+   "method": "probe",
+   "mutation": "ActiveDefenseCapabilities::with_magic_block + block 0.5/1.0",
+   "outcome": "accepted_suspicious",
+   "probe_test": "i_fixed_travel_block.rs::defect_fixed_travel_launch_block_draw_panics_at_arrival",
+   "track": "I"
+  },
+  {
+   "contract": "quote purity (whole state)",
+   "dimension": "period (repeated readiness)",
+   "evidence": [
+    "non-scratch Debug identical; following dispel commits identical observations and stream to a never-quoted control"
+   ],
+   "id": "MUT-I-015",
+   "method": "probe",
+   "mutation": "4x cast_readiness before cast",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+   "track": "I"
+  },
+  {
+   "contract": "iteration reset",
+   "dimension": "entry (global iteration identity)",
+   "evidence": [
+    "stream at new identity's first draw"
+   ],
+   "id": "MUT-I-016",
+   "method": "probe",
+   "mutation": "reset_for_iteration(new identity)",
+   "outcome": "accepted_inert",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_reset_and_iteration_reset_restart_the_stream",
+   "track": "I"
+  },
+  {
+   "contract": "white crit basis-point parity",
+   "dimension": "amount facts",
+   "evidence": [
+    "825 bp vs Trinity 824"
+   ],
+   "finding_ids": [
+    "CSA-J-01"
+   ],
+   "id": "MUT-J-001",
+   "method": "probe",
+   "mutation": "host basis f32(5 + 0x3f9ffffb) with raw-290 +2",
+   "outcome": "accepted_suspicious",
+   "probe_test": "j_white_binary32.rs::defect_white_critical_adds_passive_after_host_sum_binary32_association",
+   "track": "J"
+  },
+  {
+   "contract": "white zero-armor narrowing",
+   "dimension": "amount facts",
+   "evidence": [
+    "magnitude unreachable for source-valid weapons"
+   ],
+   "id": "MUT-J-002",
+   "method": "probe",
+   "mutation": "prepared damage 16,777,217 at armor 0 vs 1",
+   "outcome": "accepted_inert",
+   "probe_test": "j_white_binary32.rs::holds_white_zero_armor_skips_binary32_narrowing_above_2_pow_24",
+   "track": "J"
+  },
+  {
+   "contract": "hasted duration parity",
+   "dimension": "amount facts",
+   "evidence": [
+    "29405 vs Trinity 29406"
+   ],
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "MUT-J-003",
+   "method": "probe",
+   "mutation": "spell haste 1 + f32(2.02)/100 on 30 s cast and SpellHaste cooldown",
+   "outcome": "accepted_suspicious",
+   "probe_test": "j_haste_duration.rs::defect_hasted_duration_f64_division_truncates_one_ms_below_binary32_consumer",
+   "track": "J"
+  },
+  {
+   "contract": "raw-407 carrier shape",
+   "dimension": "cooldown/cost/cast requirements",
+   "evidence": [
+    "observed during probe development: \"selected carrier fact one three-second snapshot shared category-1152 cooldown without other recovery\""
+   ],
+   "id": "MUT-J-004",
+   "method": "static",
+   "mutation": "raw-407 carrier cooldown 30000 ms SpellHaste",
+   "outcome": "rejected_intended",
+   "track": "J"
+  },
+  {
+   "contract": "raw-183 threshold parity",
+   "dimension": "amount facts",
+   "evidence": [
+    "Core Hit, Trinity Critical"
+   ],
+   "finding_ids": [
+    "CSA-J-03"
+   ],
+   "id": "MUT-J-005",
+   "method": "probe",
+   "mutation": "target maximum 1001 at 800 current, AtOrAbove 80",
+   "outcome": "accepted_suspicious",
+   "probe_test": "j_target_health_threshold.rs::defect_target_health_at_or_above_uses_untruncated_threshold",
+   "track": "J"
+  },
+  {
+   "contract": "mechanic-duration applicand gate",
+   "dimension": "duration",
+   "error": "CombatProgramBuildError: silence carrier \"five-second single-stack aura lifetime\"",
+   "evidence": [
+    "program build error"
+   ],
+   "finding_ids": [
+    "CSA-J-04"
+   ],
+   "id": "MUT-J-006",
+   "method": "probe",
+   "mutation": "silence applicand lifetime 5000 -> 1250 ms",
+   "outcome": "rejected_intended",
+   "probe_test": "j_mechanic_duration.rs::holds_mechanic_duration_rounding_divergence_is_gated_by_exact_five_second_carrier",
+   "track": "J"
+  },
+  {
+   "contract": "mechanic-duration provider gate",
+   "dimension": "amount facts",
+   "evidence": [
+    "observed during probe development: MechanicDurationModifier InvalidProviderFact \"fixed negative-10 amount without shaping or trigger\""
+   ],
+   "id": "MUT-J-007",
+   "method": "static",
+   "mutation": "raw-232 provider 55366 amount -10 -> -25",
+   "outcome": "rejected_intended",
+   "track": "J"
+  },
+  {
+   "contract": "raw-286 rate parity",
+   "dimension": "amount facts",
+   "evidence": [
+    "14999/24999 vs Trinity 15000/25000"
+   ],
+   "finding_ids": [
+    "CSA-J-05"
+   ],
+   "id": "MUT-J-008",
+   "method": "probe",
+   "mutation": "rate +10% on 16.5 s; +50%,+60% on 60 s",
+   "outcome": "accepted_suspicious",
+   "probe_test": "j_recovery_rate.rs::holds_recovery_rate_two_source_amounts_match_consumer_product_order",
+   "track": "J"
+  },
+  {
+   "contract": "raw-423 cost integerization",
+   "dimension": "amount facts",
+   "evidence": [
+    "12.35 vs Trinity 12"
+   ],
+   "finding_ids": [
+    "CSA-J-06"
+   ],
+   "id": "MUT-J-009",
+   "method": "probe",
+   "mutation": "mana cost 20 -> 13 with -5%",
+   "outcome": "accepted_suspicious",
+   "probe_test": "j_mana_cost_percent.rs::defect_mana_cost_percent_leaves_fractional_cost",
+   "track": "J"
+  },
+  {
+   "contract": "rotation projection vs combat",
+   "dimension": "source order",
+   "evidence": [
+    "fallback at 5001 vs combat threshold at 5000"
+   ],
+   "finding_ids": [
+    "CSA-J-07"
+   ],
+   "id": "MUT-J-010",
+   "method": "probe",
+   "mutation": "last rotation evaluation moved from t=0 to t=1 ms",
+   "outcome": "accepted_suspicious",
+   "probe_test": "j_resource_projection.rs::defect_rotation_resource_wake_is_one_ms_after_combat_crossing",
+   "track": "J"
+  },
+  {
+   "contract": "white raw-290 representability",
+   "dimension": "amount facts",
+   "evidence": [
+    "white_swing.rs:32-38 try_new -> InvalidPreparedBasis"
+   ],
+   "id": "MUT-J-011",
+   "method": "static",
+   "mutation": "raw-290 percent not exactly binary32 (e.g. 5.0*10.0223)",
+   "outcome": "rejected_intended",
+   "track": "J"
+  },
+  {
+   "contract": "selected owner external policy",
+   "dimension": "AuraOptions/external policy",
+   "error": "InvalidOwnerFact",
+   "evidence": "probe k_external_policy.rs::holds_martial_package_requires_external_policy_catalog",
+   "id": "MUT-K-001",
+   "method": "probe",
+   "mutation": "remove the SpellExternalPolicyCatalog from the builder for the complete Martial Expert package",
+   "outcome": "rejected_intended",
+   "probe_test": "k_external_policy.rs::holds_martial_package_requires_external_policy_catalog",
+   "track": "K"
+  },
+  {
+   "contract": "selected owner external policy",
+   "dimension": "AuraOptions/external policy",
+   "error": "InvalidOwnerFact",
+   "evidence": "probe k_external_policy.rs::holds_martial_package_rejects_each_present_or_unknown_column",
+   "id": "MUT-K-002",
+   "method": "probe",
+   "mutation": "set each of 9 presence columns to Present, then Unknown, on the Martial provider",
+   "outcome": "rejected_intended",
+   "probe_test": "k_external_policy.rs::holds_martial_package_rejects_each_present_or_unknown_column",
+   "track": "K"
+  },
+  {
+   "contract": "policy/GameData identity binding",
+   "dimension": "definition",
+   "error": "InvalidOwnerFact",
+   "evidence": "probe k_external_policy.rs::holds_identity_mismatched_policy_fails_closed",
+   "id": "MUT-K-003",
+   "method": "probe",
+   "mutation": "supply a complete all-Absent catalog bound to game_build+1",
+   "outcome": "rejected_intended",
+   "probe_test": "k_external_policy.rs::holds_identity_mismatched_policy_fails_closed",
+   "track": "K"
+  },
+  {
+   "contract": "policy source validation",
+   "dimension": "entry",
+   "error": "MissingSpell/DuplicateSpell/InvalidSpell/UnknownSpell/UnsupportedSchema/WrongGameDataIdentity",
+   "evidence": "probe k_external_policy.rs::holds_policy_catalog_rejects_incomplete_or_foreign_input",
+   "id": "MUT-K-004",
+   "method": "probe",
+   "mutation": "drop/duplicate/zero/unknown spell rows, bump schema, change identity, empty rows",
+   "outcome": "rejected_intended",
+   "probe_test": "k_external_policy.rs::holds_policy_catalog_rejects_incomplete_or_foreign_input",
+   "track": "K"
+  },
+  {
+   "contract": "selected owner external policy",
+   "dimension": "sibling set",
+   "evidence": "probe k_external_policy.rs::defect_selected_raw638_single_package_skips_external_policy",
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "MUT-K-005",
+   "method": "probe",
+   "mutation": "remove Martial raw-108 sibling so raw 638 is a complete one-effect selected package; build with no catalog / Present proc+script / Unknown",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_external_policy.rs::defect_selected_raw638_single_package_skips_external_policy",
+   "track": "K"
+  },
+  {
+   "contract": "selected package atomicity via activation route",
+   "dimension": "provider",
+   "evidence": "probe k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive",
+   "finding_ids": [
+    "CSA-K-05"
+   ],
+   "id": "MUT-K-006",
+   "method": "probe",
+   "mutation": "declare live Martial 429638:2 with ordinary Passive activation, no trait source, no policy, no sibling",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_external_policy.rs::defect_live_martial_block_admitted_alone_as_ordinary_passive",
+   "track": "K"
+  },
+  {
+   "contract": "trigger inertness premise",
+   "dimension": "trigger",
+   "evidence": "probe k_external_policy.rs::defect_selected_raw638_trigger_accepted_inert_with_present_proc",
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "MUT-K-007",
+   "method": "probe",
+   "mutation": "add EffectTriggerSpell to the single raw-638 selected effect and mark effective proc Present",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_external_policy.rs::defect_selected_raw638_trigger_accepted_inert_with_present_proc",
+   "track": "K"
+  },
+  {
+   "contract": "selected package atomicity via activation route",
+   "dimension": "provider",
+   "error": "InvalidAuraSubtype (Heart control only)",
+   "evidence": "probe k_catalog_admission.rs::defect_trait_carrier_admitted_as_ordinary_passive_without_policy",
+   "finding_ids": [
+    "CSA-K-05"
+   ],
+   "id": "MUT-K-008",
+   "method": "probe",
+   "mutation": "declare live-shaped Canny Strikes raw-290 trait provider with ordinary Passive activation (no trait source/policy); control Heart raw-334 ordinary Passive",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_catalog_admission.rs::defect_trait_carrier_admitted_as_ordinary_passive_without_policy",
+   "track": "K"
+  },
+  {
+   "contract": "aura removal identity",
+   "dimension": "target",
+   "evidence": "probe k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity",
+   "finding_ids": [
+    "CSA-K-01"
+   ],
+   "id": "MUT-K-009",
+   "method": "probe",
+   "mutation": "raw 203 / raw 164 row whose EffectTriggerSpell names aura B declared as removing aura A",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_aura_mutation_source.rs::defect_remove_aura_ignores_source_trigger_identity",
+   "track": "K"
+  },
+  {
+   "contract": "aura stack mode",
+   "dimension": "misc",
+   "evidence": "probe k_aura_mutation_source.rs::defect_modify_aura_stacks_set_mode_admitted_as_add",
+   "finding_ids": [
+    "CSA-K-01"
+   ],
+   "id": "MUT-K-010",
+   "method": "probe",
+   "mutation": "raw-289 row with EffectMiscValue_0 = 1 (Set 2) declared as AddAuraStacks 2",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_aura_mutation_source.rs::defect_modify_aura_stacks_set_mode_admitted_as_add",
+   "track": "K"
+  },
+  {
+   "contract": "aura stack amount/direction/identity",
+   "dimension": "amount facts",
+   "evidence": "probe k_aura_mutation_source.rs::defect_modify_aura_stacks_direction_count_identity_unbound",
+   "finding_ids": [
+    "CSA-K-01"
+   ],
+   "id": "MUT-K-011",
+   "method": "probe",
+   "mutation": "raw-289 add-mode +1 row on aura A declared as RemoveAuraStacks 4 on aura B",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_aura_mutation_source.rs::defect_modify_aura_stacks_direction_count_identity_unbound",
+   "track": "K"
+  },
+  {
+   "contract": "aura application identity",
+   "dimension": "definition",
+   "evidence": "probe k_aura_mutation_source.rs::accepted_apply_aura_row_of_a_applies_foreign_aura_b",
+   "id": "MUT-K-012",
+   "method": "probe",
+   "mutation": "ApplyAura row of spell A declared as applying aura B",
+   "outcome": "accepted_inert",
+   "probe_test": "k_aura_mutation_source.rs::accepted_apply_aura_row_of_a_applies_foreign_aura_b",
+   "track": "K"
+  },
+  {
+   "contract": "sibling effect coverage",
+   "dimension": "effect kind",
+   "evidence": "probe k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored",
+   "finding_ids": [
+    "CSA-K-04"
+   ],
+   "id": "MUT-K-013",
+   "method": "probe",
+   "mutation": "add undeclared sibling effect 2 of kind 3 (Unimplemented), 17 (Disabled), 999 (uncataloged), 6/raw-4 (Disabled aura) to an ordinary SchoolDamage action",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_sibling_coverage.rs::accepted_undeclared_sibling_effects_are_silently_ignored",
+   "track": "K"
+  },
+  {
+   "contract": "raw-334 exact-carrier wording",
+   "dimension": "sibling set",
+   "evidence": "probe k_catalog_admission.rs::defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording",
+   "finding_ids": [
+    "CSA-K-03"
+   ],
+   "id": "MUT-K-014",
+   "method": "probe",
+   "mutation": "reduce Heart of the Crusader to its raw-334 effect only (complete one-effect selected package)",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_catalog_admission.rs::defect_single_raw334_selected_package_admitted_despite_exact_carrier_wording",
+   "track": "K"
+  },
+  {
+   "contract": "raw-290 one-rank wording",
+   "dimension": "rank",
+   "evidence": "probe k_catalog_admission.rs::defect_two_rank_raw290_selected_package_admitted_despite_one_rank_wording",
+   "finding_ids": [
+    "CSA-K-03"
+   ],
+   "id": "MUT-K-015",
+   "method": "probe",
+   "mutation": "give Canny Strikes max_ranks 2 with Set curve 2->4 and select rank 2",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_catalog_admission.rs::defect_two_rank_raw290_selected_package_admitted_despite_one_rank_wording",
+   "track": "K"
+  },
+  {
+   "contract": "Disabled aura subtype inertness",
+   "dimension": "aura subtype",
+   "evidence": "probe k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes",
+   "finding_ids": [
+    "CSA-K-02"
+   ],
+   "id": "MUT-K-016",
+   "method": "probe",
+   "mutation": "declare a raw-468 health-threshold aura through the public API",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_catalog_admission.rs::defect_disabled_raw468_threshold_trigger_executes",
+   "track": "K"
+  },
+  {
+   "contract": "selected owner neutrality",
+   "dimension": "owner attributes",
+   "error": "control rejected",
+   "evidence": "probe k_external_policy.rs::defect_selected_raw638_single_package_skips_owner_neutrality",
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "MUT-K-017",
+   "method": "probe",
+   "mutation": "single raw-638 selected package with Magic dispel type, then with proc_charges=1 AuraOptions; control: same proc-charged owner with complete Martial package",
+   "outcome": "accepted_suspicious",
+   "probe_test": "k_external_policy.rs::defect_selected_raw638_single_package_skips_owner_neutrality",
+   "track": "K"
+  },
+  {
+   "contract": "effect attribute 24 Disabled",
+   "dimension": "exact attributes",
+   "evidence": "charge_duration_modifier.rs:286-309 requires the attribute only on the exact Swift Justice carrier; flat charge-duration is not a time-rate term.",
+   "id": "MUT-K-018",
+   "method": "static",
+   "mutation": "accept Disabled EA24 only on Swift Justice 383228 effects 1/2",
+   "outcome": "accepted_inert",
+   "track": "K"
+  },
+  {
+   "contract": "raw 416 inert domain",
+   "dimension": "owner attributes",
+   "error": "UnsupportedSelectedSpellAttribute when policy absent",
+   "evidence": "spell_attribute.rs:49-53,83-130 plus 68-75 (Disabled rejects otherwise).",
+   "id": "MUT-K-019",
+   "method": "static",
+   "mutation": "raw 416 on Passive PassiveModifier-only owner with identity-matched all-Absent policy vs without policy",
+   "outcome": "rejected_intended",
+   "track": "K"
+  },
+  {
+   "contract": "implicit target pairs",
+   "dimension": "target",
+   "error": "SourceRecipient UnsupportedImplicitTargets",
+   "evidence": "source_recipient.rs:9-53, 55-101; census of ImplicitTargetKind variants and raw pair comparisons across crates/combat/src finds no other admitted pair.",
+   "id": "MUT-K-020",
+   "method": "static",
+   "mutation": "any selector pair outside (0,0),(1,0),(6,0),(21,0),(25,0) or non-empty secondary",
+   "outcome": "rejected_intended",
+   "track": "K"
+  },
+  {
+   "contract": "package provenance is pay-for-play",
+   "dimension": "package provenance",
+   "evidence": [
+    {
+     "class": "inferred",
+     "note": "programs WITHOUT spell modifiers shrink by 16 requested bytes (passive damage 1,752->1,736, healing 1,318->1,302, absorb-received 1,470->1,454); Engine budgets unchanged",
+     "ref": "/home/dev/bag/core-audit-pass/scratch/L/mutant_no_package_field.diff"
+    }
+   ],
+   "finding_ids": [
+    "CSA-L-01"
+   ],
+   "id": "MUT-L-001",
+   "method": "mutant_build",
+   "mutation": "remove selected_package_effects field from PassiveSpellModifierPlan (compile result discarded)",
+   "outcome": "accepted_suspicious",
+   "track": "L"
+  },
+  {
+   "contract": "warm white occurrence allocation-free",
+   "dimension": "sign/range",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free"
+    }
+   ],
+   "id": "MUT-L-002",
+   "method": "probe",
+   "mutation": "outcome table all-zero -> miss 15%/dodge 15%/crit 30%; one seed -> 64 distinct iteration identities",
+   "outcome": "accepted_inert",
+   "probe_test": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free",
+   "track": "L"
+  },
+  {
+   "contract": "warm critical cast allocation-free",
+   "dimension": "amount facts",
+   "evidence": [
+    {
+     "class": "probe",
+     "ref": "l_warm_iteration.rs::holds_martial_fresh_iterations_allocation_free"
+    }
+   ],
+   "id": "MUT-L-003",
+   "method": "probe",
+   "mutation": "critical baseline 1.0 -> 0.5 with 64 distinct iteration identities",
+   "outcome": "accepted_inert",
+   "probe_test": "l_warm_iteration.rs::holds_martial_fresh_iterations_allocation_free",
+   "track": "L"
+  },
+  {
+   "contract": "white admission gate",
+   "dimension": "sign/range",
+   "error": "InvalidCombatState/WhiteMainHand(InvalidPreparedBasis)",
+   "evidence": [
+    {
+     "class": "core",
+     "note": "observed while building the probe fixture; parry/block must be zero in this slice",
+     "ref": "crates/combat/src/white_swing.rs:125-131"
+    }
+   ],
+   "id": "MUT-L-004",
+   "method": "probe",
+   "mutation": "parry=1000, block=1000 in WhiteMainHandChances",
+   "outcome": "rejected_intended",
+   "probe_test": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free",
+   "track": "L"
+  },
+  {
+   "contract": "raw-165 accepts every raw-133 produced maximum",
+   "dimension": "real source rows",
+   "error": "DamageCalculation",
+   "evidence": [
+    "1001 -> 1101.1; real raw-165 cast fails; control 1000 -> 1100 casts (990)"
+   ],
+   "finding_ids": [
+    "CSA-D-01"
+   ],
+   "id": "MUT-R1-001",
+   "method": "probe",
+   "mutation": "synthetic 165_001/165_002 (+50) replaced by real Light of Ata'luur 156021 (+10, single effect) and Sacrificial Aegis 1257873; host maximum 1001",
+   "outcome": "rejected_accidental",
+   "probe_tests": [
+    "r1_real_rows.rs::defect_real_raw133_raw165_rows_fail_the_cast",
+    "r1_real_rows.rs::holds_real_raw133_raw165_rows_cast_on_integral_maximum"
+   ],
+   "track": "R1"
+  },
+  {
+   "contract": "non-amount impacts never crit",
+   "dimension": "caster critical channel",
+   "evidence": [
+    "ImpactResolved Critical via the weapon channel; weapon 0.0 -> Hit"
+   ],
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "MUT-R1-002",
+   "method": "probe",
+   "mutation": "exact Stun 346197 cast by an enemy with spell chance 0.0 and weapon chance 1.0 (Trinity creatures have spell crit 0, Unit.cpp:7124-7125)",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_rows.rs::defect_exact_stun_crits_from_enemy_weapon_channel_with_zero_spell_chance",
+   "track": "R1"
+  },
+  {
+   "contract": "non-amount impacts never crit",
+   "dimension": "impact recipient",
+   "evidence": [
+    "ImpactResolved Hit; C-01 scope is Target-recipient impacts only"
+   ],
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "MUT-R1-003",
+   "method": "probe",
+   "mutation": "Player casts real Caster-recipient self buff 156021 with Player crit 1.0",
+   "outcome": "accepted_inert",
+   "probe_test": "r1_real_rows.rs::holds_real_player_self_buff_impact_never_resolves_critical",
+   "track": "R1"
+  },
+  {
+   "contract": "equal-priority absorb order",
+   "dimension": "real source rows",
+   "evidence": [
+    "older Ward removed, Deaden keeps 49; Trinity newest-first keeps the Ward"
+   ],
+   "finding_ids": [
+    "CSA-D-03"
+   ],
+   "id": "MUT-R1-004",
+   "method": "probe",
+   "mutation": "synthetic 910_1xx providers replaced by real Herbalist's Ward 53678 (1) then Deaden Magic 334538 (50); real Storm Cloud 57411 hit (2)",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_absorb.rs::defect_real_equal_priority_absorbs_deplete_oldest_first",
+   "track": "R1"
+  },
+  {
+   "contract": "source-stage absorb capacity rounding",
+   "dimension": "real source rows",
+   "evidence": [
+    "capacity 52.5, health loss 31.5 (Trinity 53 / 31); control without raw 421 loses 34"
+   ],
+   "finding_ids": [
+    "CSA-D-04"
+   ],
+   "id": "MUT-R1-005",
+   "method": "probe",
+   "mutation": "real Entropic Embrace 256374 raw-421 +5 (siblings 79/136 declared, raw-257 undeclared) + Deaden Magic 334538 (50) + Wrath of the Titans 228917 (84)",
+   "outcome": "accepted_suspicious",
+   "probe_tests": [
+    "r1_real_absorb.rs::defect_real_source_only_absorb_capacity_is_not_rounded",
+    "r1_real_absorb.rs::holds_real_absorb_without_source_modifier_is_integral"
+   ],
+   "track": "R1"
+  },
+  {
+   "contract": "death ends aura lifecycle",
+   "dimension": "real source rows",
+   "evidence": [
+    "aura active on the corpse, deadline still scheduled"
+   ],
+   "finding_ids": [
+    "CSA-E-01",
+    "CSA-H-01"
+   ],
+   "id": "MUT-R1-006",
+   "method": "probe",
+   "mutation": "real Foul Chill 6873 (raw 87) on an enemy then real lethal 228917",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_death.rs::defect_real_debuff_survives_recipient_death",
+   "track": "R1"
+  },
+  {
+   "contract": "raw-495 driver after recipient death",
+   "dimension": "real carrier admission",
+   "error": "UnsupportedImplicitTargets",
+   "evidence": [
+    "the other owner-clean carriers are 1252143 (Instakill (1,0) + Script Effect 77 children) and 1279208 (indefinite, stacking); driver clause LATENT"
+   ],
+   "finding_ids": [
+    "CSA-E-01",
+    "CSA-H-01"
+   ],
+   "id": "MUT-R1-007",
+   "method": "probe",
+   "mutation": "owner-clean real raw-495 carrier Explosion Timer 433258 with its real child 433259 Instakill (1,0)",
+   "outcome": "rejected_intended",
+   "probe_test": "r1_real_death.rs::holds_real_raw495_carrier_child_is_refused",
+   "track": "R1"
+  },
+  {
+   "contract": "dead caster cannot cast",
+   "dimension": "real source rows",
+   "evidence": [
+    "dead Player deals 84"
+   ],
+   "finding_ids": [
+    "CSA-G-01",
+    "CSA-H-03"
+   ],
+   "id": "MUT-R1-008",
+   "method": "probe",
+   "mutation": "Player killed by real 228917, then casts real 228917",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_death.rs::defect_real_dead_caster_commits_damage",
+   "track": "R1"
+  },
+  {
+   "contract": "dead targets refuse aura application",
+   "dimension": "real source rows",
+   "evidence": [
+    "228917 -> DeadTarget, 6873 commits a live aura"
+   ],
+   "finding_ids": [
+    "CSA-H-02",
+    "CSA-G-04"
+   ],
+   "id": "MUT-R1-009",
+   "method": "probe",
+   "mutation": "enemy killed by real 228917, then real Foul Chill 6873 on the corpse",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_death.rs::defect_real_debuff_application_to_dead_target_commits",
+   "track": "R1"
+  },
+  {
+   "contract": "no regeneration while dead",
+   "dimension": "real lethal row",
+   "evidence": [
+    "0 -> 50 Mana after 5 s dead"
+   ],
+   "finding_ids": [
+    "CSA-R2-01"
+   ],
+   "id": "MUT-R1-010",
+   "method": "probe",
+   "mutation": "host +10 Mana/s flow on an enemy killed by real 228917",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_death.rs::defect_real_passive_flow_accrues_on_corpse",
+   "track": "R1"
+  },
+  {
+   "contract": "interrupt cancels the start recovery",
+   "dimension": "real source rows",
+   "error": "StartRecovery",
+   "evidence": [
+    "StartRecovery until 1500 ms; Trinity cancel -> CancelGlobalCooldown (Spell.cpp:3617-3632, 9227-9240); Player caster because creatures have no GCD (Spell.cpp:9159-9166)"
+   ],
+   "finding_ids": [
+    "CSA-G-02"
+   ],
+   "id": "MUT-R1-011",
+   "method": "probe",
+   "mutation": "Player hard-casts real Blood Feast 465275 (no SpellInterrupts row, Prevention 7, GCD 1500); enemy real Spell Lock 159006 at 500 ms; Player real 58912 readiness",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_interrupt.rs::defect_real_interrupted_hard_cast_keeps_its_gcd",
+   "track": "R1"
+  },
+  {
+   "contract": "interrupt target-cast policy",
+   "dimension": "real hard cast with SpellInterrupts row",
+   "error": "UnsupportedTargetCastPolicy",
+   "evidence": [
+    "program/interrupt.rs:65-73 refuses any hard cast carrying SpellInterrupts; admitted real population = hard casts without one"
+   ],
+   "finding_ids": [
+    "CSA-G-02"
+   ],
+   "id": "MUT-R1-012",
+   "method": "probe",
+   "mutation": "real Smite 295678 (InterruptFlags 15) beside the raw-68 program",
+   "outcome": "rejected_intended",
+   "probe_test": "r1_real_interrupt.rs::holds_real_hard_cast_with_spell_interrupts_row_is_refused_beside_raw68",
+   "track": "R1"
+  },
+  {
+   "contract": "raw-183 threshold equals consumer integer threshold",
+   "dimension": "real source rows",
+   "evidence": [
+    "some seeds Hit at 800 (Trinity threshold 800 -> always crit); 801 all crit"
+   ],
+   "finding_ids": [
+    "CSA-J-03"
+   ],
+   "id": "MUT-R1-013",
+   "method": "probe",
+   "mutation": "real Initiation 213539 (+30, AtOrAbove 80) + real 228917; target 800/1001; baseline 0.70",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_numeric.rs::defect_real_initiation_threshold_is_untruncated",
+   "track": "R1"
+  },
+  {
+   "contract": "raw-183 owner admission",
+   "dimension": "cited source row",
+   "error": "SelectedSpellAttribute",
+   "evidence": [
+    "the cited witness row is refused; 213539 is the admissible duplicate"
+   ],
+   "finding_ids": [
+    "CSA-J-03"
+   ],
+   "id": "MUT-R1-014",
+   "method": "probe",
+   "mutation": "J's cited Initiation 193878 (owner attributes 4, 122, 254, 385 Disabled)",
+   "outcome": "rejected_intended",
+   "probe_test": "r1_real_numeric.rs::holds_cited_initiation_193878_is_refused_by_owner_attribute_audit",
+   "track": "R1"
+  },
+  {
+   "contract": "mana cost integerization",
+   "dimension": "real source rows",
+   "evidence": [
+    "cost 4.75, balance 95.25 (Trinity int32 -> 4)"
+   ],
+   "finding_ids": [
+    "CSA-J-06"
+   ],
+   "id": "MUT-R1-015",
+   "method": "probe",
+   "mutation": "real Mana Confluence 1270845 (-5) on the SpellPower ManaCost 5 of Time Step 111",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r1_real_numeric.rs::defect_real_mana_confluence_leaves_fractional_cost",
+   "track": "R1"
+  },
+  {
+   "contract": "resource gain recipient liveness",
+   "dimension": "actor",
+   "error": "none (accepted)",
+   "evidence": "cast succeeds, Mana 0 -> 100 on the corpse",
+   "finding_ids": [
+    "CSA-R2-01"
+   ],
+   "id": "MUT-R2-001",
+   "method": "probe",
+   "mutation": "GainResource (Energize +100 Mana) recipient Target: living -> dead primary target",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r2_resource_death.rs::defect_resource_gain_commits_onto_dead_target",
+   "track": "R2"
+  },
+  {
+   "contract": "passive resource flow lifetime",
+   "dimension": "actor",
+   "error": "none (accepted)",
+   "evidence": "projected Mana 50 at t=5000 while dead",
+   "finding_ids": [
+    "CSA-R2-01"
+   ],
+   "id": "MUT-R2-002",
+   "method": "probe",
+   "mutation": "flowing pool owner: living -> killed at t=0, advance 5 s",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r2_resource_death.rs::defect_passive_resource_flow_keeps_accruing_after_death",
+   "track": "R2"
+  },
+  {
+   "contract": "death transition resource reset",
+   "dimension": "actor",
+   "error": "none (accepted)",
+   "evidence": "500 Mana retained after ActorDied (Trinity zeroes the power type)",
+   "finding_ids": [
+    "CSA-R2-01"
+   ],
+   "id": "MUT-R2-003",
+   "method": "probe",
+   "mutation": "lethal damage on an actor holding 500 Mana",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r2_resource_death.rs::defect_primary_power_is_retained_at_death",
+   "track": "R2"
+  },
+  {
+   "contract": "resource gain pool presence",
+   "dimension": "actor",
+   "error": "MissingResource",
+   "evidence": "construction admits the state; the cast fails as a whole with MissingResource (execution/resource.rs:281-321). Trinity Spell::EffectEnergize returns silently for GetMaxPower(power) == 0 (SpellEffects.cpp:1586-1587) and the spell's other effects proceed. Source reachability open (UNK-R2-001).",
+   "id": "MUT-R2-004",
+   "method": "probe",
+   "mutation": "GainResource Mana recipient: actor owning a Mana pool -> living actor without a Mana pool",
+   "outcome": "rejected_accidental",
+   "probe_test": "r2_resource_death.rs::holds_energize_for_absent_pool_rejects_whole_cast_with_missing_resource",
+   "track": "R2"
+  },
+  {
+   "contract": "maximum-resource transition vs same-segment resource write",
+   "dimension": "source order",
+   "evidence": "resource_policy_boundary (execution/planning.rs:760-785) ends the segment right after any aura mutation that maximum_resource_modifier_affects_mutation, so the gain suffix is freshly quoted against the committed maximum; quote_maximum_resource_from never sees a stale gain.",
+   "id": "MUT-R2-005",
+   "method": "static",
+   "mutation": "raw-418 aura application followed by GainResource on the same pool in one program",
+   "outcome": "rejected_intended",
+   "track": "R2"
+  },
+  {
+   "contract": "Power Drain caster gain",
+   "dimension": "amount facts",
+   "evidence": "compile_amount requires has_exact_neutral_amount_facts (program/power_drain.rs:253-262), so a nonzero amplitude (Trinity gainMultiplier = CalcValueMultiplier, SpellEffects.cpp:1167-1173) fails closed; with amplitude 0 Trinity's caster gain is 0, matching Core's drain-only op.",
+   "id": "MUT-R2-006",
+   "method": "static",
+   "mutation": "EffectAmplitude 0 (NEUTRAL) -> 1.0 on a raw-8 Power Drain",
+   "outcome": "rejected_intended",
+   "track": "R2"
+  },
+  {
+   "contract": "passive raw-396 threshold lifetime",
+   "dimension": "actor",
+   "error": "none (accepted)",
+   "evidence": "state construction admits the dead owner; the passive-flow threshold deadline stays at 6000 ms and the raw-396 child 396002 executes, gaining Rage 80 -> 85 for the corpse. Uses a construction-time 0-health owner (equivalent state to after a lethal commit) to reach the passive raw-396 fixture.",
+   "finding_ids": [
+    "CSA-R2-01"
+   ],
+   "id": "MUT-R2-007",
+   "method": "probe",
+   "mutation": "passive gain-threshold pool owner (Core fixture BoundInactive, Rage 20/100, +10/s flow): living -> 0-health owner",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r2_threshold_death.rs::defect_passive_threshold_child_executes_for_dead_owner",
+   "track": "R2"
+  },
+  {
+   "contract": "reset / iteration reset / quote and failure purity on owners outside H's fixture set",
+   "dimension": "actor",
+   "evidence": [
+    "2,999 commits; all fresh-equal, identical replays"
+   ],
+   "id": "MUT-R3-001",
+   "method": "probe",
+   "mutation": "stochastic state input (miss/dodge/parry/physical block on both actors, crit, reverse hostile relation) over 24 extra fixtures; casts in three caster/target directions",
+   "outcome": "accepted_inert",
+   "probe_test": "r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures",
+   "track": "R3"
+  },
+  {
+   "contract": "charge recovery equals base recharge once no rate aura is active",
+   "dimension": "amount facts",
+   "evidence": [
+    "full_recovery_interval 14999, third charge ready 38998 vs consumer 38999; control without aura 15000"
+   ],
+   "finding_ids": [
+    "CSA-R3-02"
+   ],
+   "id": "MUT-R3-002",
+   "method": "probe",
+   "mutation": "+40% raw-148 aura applied and naturally expiring during a 2-missing-charge serial recovery, then another consumption",
+   "outcome": "accepted_suspicious",
+   "probe_test": "r3_charge_rate_drift.rs::defect_charge_rate_rebase_leaves_truncated_full_interval_for_later_consumptions",
+   "track": "R3"
+  },
+  {
+   "contract": "raw-286 rate composition parity",
+   "dimension": "source order",
+   "evidence": [
+    "Core == consumer association (24999/12499/6249)"
+   ],
+   "id": "MUT-R3-003",
+   "method": "probe",
+   "mutation": "(+50,+60) and (+60,+50) on 60/30/15 s cooldowns",
+   "outcome": "accepted_inert",
+   "probe_test": "r3_recovery_rate.rs::holds_recovery_rate_sixty_second_witness_matches_consumer_association",
+   "track": "R3"
+  },
+  {
+   "contract": "independent-stack reset",
+   "dimension": "exact attributes",
+   "evidence": [
+    "reset and reset_for_iteration Debug-equal to fresh; replay identical"
+   ],
+   "id": "MUT-R3-004",
+   "method": "probe",
+   "mutation": "raw-490 AsynchronousStackingBuff on the rate aura, three staggered applications, reset mid-flight",
+   "outcome": "accepted_inert",
+   "probe_test": "r3_charge_rate_drift.rs::holds_independent_stack_authority_reset_and_iteration_reset",
+   "track": "R3"
+  },
+  {
+   "contract": "allocation-free warm iteration (gate 9)",
+   "dimension": "actor",
+   "evidence": [
+    "608 measured warm iterations, 0 allocation/realloc events (debug and release)"
+   ],
+   "id": "MUT-R3-005",
+   "method": "probe",
+   "mutation": "16 fresh RandomStreamIdentity values per fixture after one warm-up, 24 fixtures x 2 inputs",
+   "outcome": "accepted_inert",
+   "probe_test": "r3_warm_allocation.rs::holds_warm_iteration_reset_and_replay_are_allocation_free_on_uncovered_fixtures",
+   "track": "R3"
+  },
+  {
+   "contract": "op-15 heal applicability (XC-X-001)",
+   "dimension": "payload owner attributes",
+   "error": "UnsupportedSelectedSpellAttribute",
+   "evidence": [
+    "program build refused before any heal can crit"
+   ],
+   "finding_ids": [
+    "CSA-B-03"
+   ],
+   "id": "MUT-X-001",
+   "method": "probe",
+   "mutation": "exact Awestruck candidate + exact Flash of Light SpellMisc words (raw 16/217/280/416) and effect row",
+   "outcome": "rejected_intended",
+   "probe_test": "x_op15_real_rows.rs::holds_real_flash_of_light_payload_is_refused_by_owner_attribute_gate",
+   "track": "X"
+  },
+  {
+   "contract": "op-15 heal applicability (XC-X-001)",
+   "dimension": "payload owner attributes",
+   "evidence": [
+    "heal crit 200 with the candidate-published declaration; Trinity 220"
+   ],
+   "finding_ids": [
+    "CSA-B-03"
+   ],
+   "id": "MUT-X-002",
+   "method": "probe",
+   "mutation": "same, attribute words cleared and amount facts neutral (gate-clean twin)",
+   "outcome": "accepted_suspicious",
+   "probe_test": "x_op15_real_rows.rs::defect_candidate_awestruck_skips_gate_clean_flash_of_light_twin",
+   "track": "X"
+  },
+  {
+   "contract": "hasted duration parity (XC-X-002)",
+   "dimension": "haste value",
+   "evidence": [
+    "percent speed: Core 15625 vs consumer 15624 (Core later); reciprocal speed: 15624 (agrees)"
+   ],
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "MUT-X-003",
+   "method": "probe",
+   "mutation": "30000 ms at 92% (percent speed vs reciprocal-of-binary32 speed)",
+   "outcome": "accepted_suspicious",
+   "probe_test": "x_haste_direction.rs::defect_hasted_duration_divergence_is_bidirectional_core_one_ms_later_at_92_percent",
+   "track": "X"
+  },
+  {
+   "contract": "hasted periodic period parity (XC-X-002)",
+   "dimension": "haste value",
+   "evidence": [
+    "first tick 5113 ms vs consumer 5114 ms"
+   ],
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "MUT-X-004",
+   "method": "probe",
+   "mutation": "real raw-173 period 12000 ms at 134.65% cast speed",
+   "outcome": "accepted_suspicious",
+   "probe_test": "x_periodic_haste_witness.rs::defect_real_period_12000_at_134_65_percent_ticks_one_ms_before_consumer",
+   "track": "X"
+  }
+ ],
+ "schema": 1
+}

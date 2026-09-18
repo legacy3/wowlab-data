@@ -1,0 +1,275 @@
+[
+  {
+    "id": "AL-L-001",
+    "track": "L",
+    "contract": "distributed-simulation-architecture.md \u00a73.8: immutable CombatProgram clones allocate nothing",
+    "coords": [
+      "crates/combat/src/program.rs:321-324",
+      "docs/distributed-simulation-architecture.md:201"
+    ],
+    "evidence": [
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::holds_combat_program_clone_is_allocation_free"
+      },
+      {
+        "class": "core",
+        "ref": "crates/combat/src/program.rs:321-324",
+        "note": "Arc<CompiledCombatProgram> + Option<Arc<CombatStatProgram>>"
+      }
+    ],
+    "probe_test": "l_warm_iteration.rs::holds_combat_program_clone_is_allocation_free",
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-002",
+    "track": "L",
+    "contract": "tracked inline sizes of public runtime roots (CombatState/CombatProgram/ActorState/RandomStream)",
+    "coords": [
+      "crates/combat/src/state.rs:76-98",
+      "crates/combat/src/state/layout_tests.rs:8-9",
+      "docs/distributed-simulation-architecture.md:205-206"
+    ],
+    "evidence": [
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::holds_public_runtime_root_inline_sizes",
+        "note": "CombatState 648, CombatProgram 16, ActorState 104, RandomStream 48"
+      },
+      {
+        "class": "core_test",
+        "ref": "crates/combat/src/state/layout_tests.rs:9"
+      },
+      {
+        "class": "core",
+        "ref": "docs/distributed-simulation-architecture.md:205",
+        "note": "doc still says 640; development-ledger.md:24973 records the 640->648 change (white_main_hand Option<Box>); documentation drift only"
+      }
+    ],
+    "probe_test": "l_warm_iteration.rs::holds_public_runtime_root_inline_sizes",
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-003",
+    "track": "L",
+    "contract": "warmed engine occurrences allocation-free; reassignment to a global iteration allocation-free (\u00a73.8, Engine::reset_for_iteration doc) - exercised with a non-degenerate white outcome table and 64 distinct iteration identities for the selected Precision package",
+    "coords": [
+      "crates/engine/src/lib.rs:847-860",
+      "crates/combat/src/state.rs:442-451",
+      "crates/combat/src/state.rs:1068-1136"
+    ],
+    "evidence": [
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free",
+        "note": "miss 15%, dodge 15%, crit 30% (parry/block must be 0: white_swing.rs:125-131); Core's own budget replays one seed with an all-zero table (selected_auto_attack_damage.rs:176-226)"
+      }
+    ],
+    "probe_test": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free",
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-004",
+    "track": "L",
+    "contract": "warmed selected Martial Expert critical cast path allocation-free across fresh iterations with a 50% critical baseline (crit/non-crit order varies)",
+    "coords": [
+      "crates/engine/src/lib.rs:856-860"
+    ],
+    "evidence": [
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::holds_martial_fresh_iterations_allocation_free"
+      },
+      {
+        "class": "core_test",
+        "ref": "tools/allocation-tests/tests/allocation_budgets/selected_martial_expert.rs:94-103",
+        "note": "Core replays one seed with reset()"
+      }
+    ],
+    "probe_test": "l_warm_iteration.rs::holds_martial_fresh_iterations_allocation_free",
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-005",
+    "track": "L",
+    "contract": "optional semantics pay for play: package provenance must not tax programs that have no package",
+    "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:124-129",
+      "crates/combat/src/program/passive_outgoing_modifier.rs:21-28"
+    ],
+    "evidence": [
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::defect_package_provenance_header_taxes_program_without_spell_modifiers"
+      },
+      {
+        "class": "inferred",
+        "ref": "/home/dev/bag/core-audit-pass/scratch/L/mutant_no_package_field.diff",
+        "note": "mutant attribution, see CSA-L-01"
+      }
+    ],
+    "probe_test": "l_warm_iteration.rs::defect_package_provenance_header_taxes_program_without_spell_modifiers",
+    "verdict": "finding",
+    "finding_ids": [
+      "CSA-L-01"
+    ]
+  },
+  {
+    "id": "AL-L-006",
+    "track": "L",
+    "contract": "package infrastructure allocates nothing when no multi-effect package exists",
+    "coords": [
+      "crates/combat/src/program/selected_trait_package.rs:213-288",
+      "crates/combat/src/program/passive_spell_modifier.rs:147-160",
+      "crates/combat/src/program/passive_spell_modifier.rs:853-922"
+    ],
+    "evidence": [
+      {
+        "class": "core",
+        "ref": "crates/combat/src/program/selected_trait_package.rs:219-221",
+        "note": "no trait source -> Box::new([]) (ZST, no allocation)"
+      },
+      {
+        "class": "core",
+        "ref": "crates/combat/src/program/passive_spell_modifier.rs:917",
+        "note": "only sources with >=2 effects are forwarded; empty Vec::new + into_boxed_slice allocate nothing"
+      },
+      {
+        "class": "inferred",
+        "ref": "/home/dev/bag/core-audit-pass/scratch/L/mutant_no_package_field.diff",
+        "note": "mutant: one-effect selected programs differ only by the 16-byte header (1,322->1,306), alloc events unchanged; passive-damage-only programs never call the package compiler (plan absent) and alloc events unchanged"
+      }
+    ],
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-007",
+    "track": "L",
+    "contract": "package validation is cold and allocation-free; no warm package lookup (performance-ledger 'Selected-passive complete-package corrective'; continuation prompt L118-123)",
+    "coords": [
+      "crates/combat/src/state/construction.rs:88-89",
+      "crates/combat/src/state/construction.rs:244-320",
+      "crates/combat/src/program/selected_trait_package.rs:290-321"
+    ],
+    "evidence": [
+      {
+        "class": "core",
+        "ref": "crates/combat/src/state/construction.rs:244-282",
+        "note": "iterator chains + count(); no collect/Vec"
+      },
+      {
+        "class": "core",
+        "ref": "crates/combat/src/program/selected_trait_package.rs:290-321",
+        "note": "only callers are construction.rs:249,253 (rg over crates/combat/src)"
+      },
+      {
+        "class": "inferred",
+        "ref": "/home/dev/bag/core-audit-pass/scratch/L/mutant_no_package_field.diff",
+        "note": "mutant leaves every Engine construction budget unchanged (Precision 8/0/1/506, Heart 11/0/1/626): state retains no provenance"
+      }
+    ],
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-008",
+    "track": "L",
+    "contract": "performance-ledger pinned numbers for the latest milestones still reproduce (Precision reopening, raw-638 hostile closeout, exact-cardinality closeout, complete-package corrective arithmetic)",
+    "coords": [
+      "docs/performance-ledger.md:11257-11342",
+      "docs/performance-ledger.md:11183-11196",
+      "tools/allocation-tests/tests/allocation_budgets/selected_auto_attack_damage.rs:101-173",
+      "tools/allocation-tests/tests/allocation_budgets/selected_martial_expert.rs:20-104"
+    ],
+    "evidence": [
+      {
+        "class": "core_test",
+        "ref": "cargo test -p wowlab-allocation-tests (debug) 735/735 pass; --release 735/735 pass (scratch/L/alloc_tests*.log)"
+      },
+      {
+        "class": "core_test",
+        "ref": "selected_auto_attack_damage.rs:153-168",
+        "note": "1/0/0/64 r64, 6/0/0/536 r472, 2/0/0/32 r-80, 11/0/0/936 r736, 8/0/1/506 r-30 == ledger"
+      },
+      {
+        "class": "core_test",
+        "ref": "selected_martial_expert.rs:33-92",
+        "note": "1/64 r0, 5/376 r376, Engine 21/0/2/1,346 r514 == ledger"
+      },
+      {
+        "class": "inferred",
+        "ref": "/home/dev/bag/core-audit-pass/scratch/L/mutant_no_package_field.diff",
+        "note": "mutant confirms ledger arithmetic: header 16 B, +16 B retained per package member (2 members -> 48, 4 -> 80)"
+      }
+    ],
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-009",
+    "track": "L",
+    "contract": "warm reset / reset_for_iteration allocate nothing (\u00a719 gate 9; \u00a73.8)",
+    "coords": [
+      "crates/combat/src/state.rs:1068-1136",
+      "crates/combat/src/execution/scratch.rs:745-776",
+      "crates/combat/src/actor.rs:222-236"
+    ],
+    "evidence": [
+      {
+        "class": "core",
+        "ref": "crates/combat/src/state.rs:1068-1136",
+        "note": "static scan of all 99 reset/restore/clear fns in crates/combat/src found no allocating call (clone_from_slice, copy_from_slice, clear, fill only)"
+      },
+      {
+        "class": "core_test",
+        "ref": "735 allocation budgets incl. reset/iteration-reset zero budgets"
+      },
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free"
+      }
+    ],
+    "probe_test": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free",
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-010",
+    "track": "L",
+    "contract": "no hidden catalog clones: programs/engine do not retain GameData, ResolvedActionCatalog, TraitSourceCatalog or SpellExternalPolicyCatalog",
+    "coords": [
+      "crates/combat/src/program.rs:328-357",
+      "crates/combat/src/program/combat_stats.rs:54-61",
+      "crates/engine/src/lib.rs:256-260",
+      "crates/engine/src/lib.rs:652-666"
+    ],
+    "evidence": [
+      {
+        "class": "core",
+        "ref": "crates/combat/src/program.rs:328-357",
+        "note": "only compiled slabs/plans"
+      },
+      {
+        "class": "core",
+        "ref": "rg '(data|actions|catalog|traits|policy)\\.clone\\(\\)' over crates: only a bench"
+      }
+    ],
+    "verdict": "holds"
+  },
+  {
+    "id": "AL-L-011",
+    "track": "L",
+    "contract": "quoted-cost scratch is preallocated to the exact maximum spend count so warm quotes never grow it",
+    "coords": [
+      "crates/combat/src/state/construction.rs:234",
+      "crates/combat/src/program/compile.rs:163-168",
+      "crates/combat/src/cast/resource.rs:122-175",
+      "crates/combat/src/cast/quote.rs:13-31"
+    ],
+    "evidence": [
+      {
+        "class": "core",
+        "ref": "crates/combat/src/cast/resource.rs:192-240",
+        "note": "prepared costs merge by resource slot, count <= spend definitions <= maximum_resource_spends; recorder.reserve(count) on a cleared Vec of that capacity is a no-op; take/restore returns the Vec on success and error arms"
+      }
+    ],
+    "verdict": "holds"
+  }
+]

@@ -1,0 +1,29 @@
+[
+ {
+  "id": "CSA-R2-01",
+  "title": "Resource authorities ignore actor death: passive resource flow keeps accruing on a corpse, resource gains (Energize) commit onto dead targets, and the primary power is retained at death",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/execution/resource.rs:281-321",
+   "crates/combat/src/execution/resource.rs:324-340",
+   "crates/combat/src/execution/planning/resource.rs:17-57",
+   "crates/combat/src/state.rs:571-600",
+   "crates/combat/src/execution/commit/health.rs:200-235",
+   "crates/combat/src/program/target_requirements.rs:50-61"
+  ],
+  "evidence": "core: the lethal commit only pushes CombatObservation::ActorDied (execution/commit/health.rs:229); no resource authority observes death. ExecutionResourceProjection::quote_gain (execution/resource.rs:281-321) has no liveness gate, unlike quote_drain (:336-340, used by Power Drain / Power Burn / mana leech), and OperationTargetRequirements::resource_mutation (program/target_requirements.rs:50-61) carries no target-health requirement, so admission does not reject a dead target. projected_resource_balance (state.rs:571-600) projects passive flow without consulting health. probe: r2_resource_death.rs::defect_passive_resource_flow_keeps_accruing_after_death (External killed at t=0 with 0 Mana and +10 Mana/s flow reads 50 Mana at t=5000 while dead), ::defect_resource_gain_commits_onto_dead_target (+100 Mana Energize on the dead primary target is committed), ::defect_primary_power_is_retained_at_death (500 Mana retained on the corpse); r2_threshold_death.rs::defect_passive_threshold_child_executes_for_dead_owner (Core's own passive raw-396 fixture with a 0-health owner: the flow deadline fires at 6000 ms and the child gains Rage 80 -> 85 on the corpse, so threshold drivers also run for the dead). Inconsistency inside Core: drains (execution/resource.rs:336-340), periodic mana leech source (execution/planning/resource.rs:141-148) and periodic ticks (periodic_execution.rs:449-457) are liveness-gated, direct gains and passive flow are not. trinity: Player::Update regenerates only `if (IsAlive())` (Player.cpp:1025-1029); Spell::EffectEnergize returns for `!unitTarget->IsAlive()` (SpellEffects.cpp:1579-1580); Unit::setDeathState(JUST_DIED) does SetPower(GetPowerType(), 0) (Unit.cpp:9197-9198).",
+  "reproducer": "cargo test --offline --test r2_resource_death --test r2_threshold_death (probe crate, CARGO_TARGET_DIR=/home/dev/bag/core-audit-pass/targets/r2)",
+  "why_tests_missed": "Death work (CSA-E-01, CSA-H-01..03, CSA-G-01/04) was scoped to aura lifecycle and cast admission; the resource projection tests exercise only living actors, and the drain path's liveness check made resource writes look uniformly gated.",
+  "correction_boundary": "The same single death-lifecycle transition proposed for CSA-E-01 (at the lethal health commit) must also settle and stop the dead actor's passive resource flows (and their raw-396 passive-flow deadlines) and zero the primary power; resource-gain quoting needs the same recipient liveness rule as quote_drain.",
+  "must_not_widen": "Do not add per-operation death special cases in individual compilers; do not change drain semantics (already gated); do not make passive-flow projection consult health on every read in the warm path (settle once at death).",
+  "probe_tests": [
+   "r2_resource_death.rs::defect_passive_resource_flow_keeps_accruing_after_death",
+   "r2_resource_death.rs::defect_resource_gain_commits_onto_dead_target",
+   "r2_resource_death.rs::defect_primary_power_is_retained_at_death",
+   "r2_threshold_death.rs::defect_passive_threshold_child_executes_for_dead_owner"
+  ],
+  "track": "R2"
+ }
+]

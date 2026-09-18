@@ -1,0 +1,153 @@
+[
+ {
+  "id": "XC-B-001",
+  "concept": "class-mask applicability semantics",
+  "class": "B",
+  "compilers": [
+   {
+    "authority": "AUTH-B-001",
+    "coords": [
+     "crates/data/src/game_data.rs:590-612",
+     "crates/combat/src/program/passive_spell_modifier.rs:693-709"
+    ],
+    "behavior": "popcount of overlap within equal family; universal branches gated off by nonempty-mask + nonzero-family checks"
+   },
+   {
+    "authority": "AUTH-B-008",
+    "coords": [
+     "crates/combat/src/program/cooldown_recovery_rate.rs:633-640"
+    ],
+    "behavior": "effect_affects_spell Boolean; family 0 universal; empty mask selects family"
+   },
+   {
+    "authority": "AUTH-B-017",
+    "coords": [
+     "crates/combat/src/program/modifier.rs:1485-1498",
+     "crates/combat/src/program/modifier.rs:1631-1650"
+    ],
+    "behavior": "affect-list damage/healing payload expansion via effect_affects_spell"
+   }
+  ],
+  "evidence": "Matches Trinity split: SpellInfo::IsAffectedBySpellMod popcount/no universal branches (SpellInfo.cpp:1989-2019) vs SpellInfo::IsAffected for auras (MOD_RECOVERY_RATE via IsAffectingSpell). Probes MUT-B-002/003/005/006.",
+  "track": "B"
+ },
+ {
+  "id": "XC-B-002",
+  "concept": "operation-3 applicability multiplicity (flat vs percent)",
+  "class": "A",
+  "compilers": [
+   {
+    "authority": "AUTH-B-001",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:617-691"
+    ],
+    "behavior": "flat points * overlap count"
+   },
+   {
+    "authority": "AUTH-B-001",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:537-583"
+    ],
+    "behavior": "percent factor applied once when count > 0"
+   }
+  ],
+  "evidence": "probe b_first_effect_mask.rs (15 vs 15 for 1/2 bits percent; 20 vs 30 flat).",
+  "finding_ids": [
+   "CSA-B-01"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "XC-B-003",
+  "concept": "op-15 payload set vs runtime consumer",
+  "class": "A",
+  "compilers": [
+   {
+    "authority": "AUTH-B-023",
+    "coords": [
+     "crates/combat/src/program/modifier/payload_spells.rs:32-52"
+    ],
+    "behavior": "damage-impact programs only"
+   },
+   {
+    "authority": "AUTH-B-003",
+    "coords": [
+     "crates/combat/src/execution/planning/critical.rs:11-79"
+    ],
+    "behavior": "applies to heal and damage impacts"
+   }
+  ],
+  "evidence": "probe b_critical_bonus_heal.rs",
+  "finding_ids": [
+   "CSA-B-03"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "XC-B-004",
+  "concept": "percentage aggregation precision across cooldown/modifier families",
+  "class": "F",
+  "compilers": [
+   {
+    "authority": "AUTH-B-002",
+    "coords": [
+     "crates/combat/src/spell_modifier_authority.rs:370-377"
+    ],
+    "behavior": "binary32 product per term"
+   },
+   {
+    "authority": "AUTH-B-024",
+    "coords": [
+     "crates/combat/src/charge_duration.rs:288-313"
+    ],
+    "behavior": "f64 product of 1+p/100"
+   },
+   {
+    "authority": "AUTH-B-017",
+    "coords": [
+     "crates/combat/src/damage_modifier.rs:451-457"
+    ],
+    "behavior": "f64 1+p*stacks/100 clamped at 0"
+   },
+   {
+    "authority": "AUTH-B-024",
+    "coords": [
+     "crates/combat/src/cooldown/deadline_rate.rs:231-240"
+    ],
+    "behavior": "f64 division by speed"
+   }
+  ],
+  "evidence": "Trinity uses float accumulators (Unit::GetTotalAuraMultiplier*, GetSpellModValues pct float) and multiplies by reciprocal rates; no probe here, see NUM-B-*",
+  "track": "B"
+ },
+ {
+  "id": "XC-B-005",
+  "concept": "cooldown duration modifier layering",
+  "class": "B",
+  "compilers": [
+   {
+    "authority": "AUTH-B-004",
+    "coords": [
+     "crates/combat/src/cooldown/deadline_rate.rs:537-548"
+    ],
+    "behavior": "SpellMod (base+flat)*pct, pre-haste, all deadlines of the activation"
+   },
+   {
+    "authority": "AUTH-B-015",
+    "coords": [
+     "crates/combat/src/cooldown/deadline_rate.rs:661-691"
+    ],
+    "behavior": "raw-341 flat after haste/rate, private + same-category shared"
+   },
+   {
+    "authority": "AUTH-B-008",
+    "coords": [
+     "crates/combat/src/cooldown/deadline_rate.rs:693-730"
+    ],
+    "behavior": "raw-286 live rate rebase"
+   }
+  ],
+  "evidence": "Same order as Trinity SpellHistory::StartCooldown (SpellHistory.cpp:398-500): SpellMod, haste, recovery rate, MOD_COOLDOWN, category modifier, clamp.",
+  "track": "B"
+ }
+]

@@ -1,0 +1,137 @@
+[
+ {
+  "id": "REJ-E-001",
+  "suspicion": "Exact-expiry full tick could be lost to same-time aura expiry",
+  "why_rejected": "Periodic rank 5 precedes aura expiry rank 6 (state/transition.rs:25,70); probe holds_exact_expiry_tick_runs_before_aura_expiry.",
+  "coords": [
+   "crates/combat/src/state/transition.rs:22-75"
+  ],
+  "probe_test": "e_periodic_schedule.rs::holds_exact_expiry_tick_runs_before_aura_expiry",
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-002",
+  "suspicion": "Stale periodic deadline survives refresh (double tick)",
+  "why_rejected": "One deadline per schedule slot; commit upserts by slot (periodic.rs:483-496); refresh replaces the cell.",
+  "coords": [
+   "crates/combat/src/periodic.rs:483-496",
+   "crates/combat/src/deadline_queue.rs:1-227"
+  ],
+  "probe_test": "e_periodic_schedule.rs::holds_restart_cadence_refresh_discards_partial_period",
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-003",
+  "suspicion": "SpellCastSpeed re-arm could resurrect a cell the child removed/refreshed",
+  "why_rejected": "rearm_after_occurrence compares the full cell against the pre-fire snapshot and aborts on any change (periodic.rs:403-407).",
+  "coords": [
+   "crates/combat/src/periodic.rs:396-440"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-004",
+  "suspicion": "Zero-length terminal partial after a full tick exactly at expiry",
+  "why_rejected": "pending_tick requires aura_expires_at > cadence_anchor for the terminal branch (periodic.rs:534-538).",
+  "coords": [
+   "crates/combat/src/periodic.rs:534-548"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-005",
+  "suspicion": "Capped carryover arithmetic deviates from direct consumers",
+  "why_rejected": "floor(3d/10) carry with max(existing) equals simc DOT_REFRESH_PANDEMIC (action.cpp:4604) and Trinity min(new+rem, 130%) (Spell.cpp:3284-3287) except Trinity may shorten when remaining > 130%, which Core deliberately never does.",
+  "coords": [
+   "crates/combat/src/aura_state.rs:1153-1200"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-006",
+  "suspicion": "TickOnApplication should re-tick on refresh",
+  "why_rejected": "Consumers disagree (UNK-E-002); Core matches simc and its own catalog contract; not provable.",
+  "coords": [
+   "crates/combat/src/program/periodic.rs:1449-1474",
+   "crates/combat/src/periodic.rs:743-745"
+  ],
+  "probe_test": "e_periodic_schedule.rs::holds_tick_on_application_only_on_fresh_application",
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-007",
+  "suspicion": "Resource-threshold crossing predicate off-by-one vs Trinity",
+  "why_rejected": "Core gain before<T<=after / loss before>T>=after is identical to Trinity TriggerOnPowerChangeAuras (Unit.cpp:10144-10153).",
+  "coords": [
+   "crates/combat/src/resource_threshold.rs:860-870"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-008",
+  "suspicion": "AddStacks on passive-flow modifier auras changes flow rate without rebase (retroactive projection)",
+  "why_rejected": "Flat/percentage carriers must be max_stacks==1 single-deadline (passive_flow_flat/validation.rs:321-332, passive_flow_percentage/validation.rs:328-332).",
+  "coords": [
+   "crates/combat/src/program/passive_flow_flat.rs:115-127"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-009",
+  "suspicion": "Haste changes retroactively re-project passive flow",
+  "why_rejected": "Only runtime haste writer is active casting speed; its commit settles before and rebases/replans after (state/active_casting_speed.rs:8-46; execution/commit.rs:631-635).",
+  "coords": [
+   "crates/combat/src/passive_resource_flow.rs:973-1000",
+   "crates/combat/src/state/active_casting_speed.rs:8-46"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-010",
+  "suspicion": "Independent-stack aura final expiry skips raw-495 driver",
+  "why_rejected": "Combination unreachable: expiry owners with AsynchronousStackingBuff reject (expiry.rs:14-18) and independent lifetime requires it (aura_lifetime.rs:20-21).",
+  "coords": [
+   "crates/combat/src/program/expiry.rs:14-18",
+   "crates/combat/src/program/aura_lifetime.rs:11-35"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-011",
+  "suspicion": "Periodic cell committed for missed impact while aura not applied (or vice versa)",
+  "why_rejected": "Aura commit and periodic workspace commit share impact_landed (execution/commit.rs:617-619, 1010).",
+  "coords": [
+   "crates/combat/src/execution/commit.rs:596-620",
+   "crates/combat/src/execution/commit.rs:992-1015"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-012",
+  "suspicion": "Live (non-snapshot) periodic amounts are wrong",
+  "why_rejected": "Occurrence-current evaluation is documented and matches retail/simc dynamic dots; Trinity snapshots SpellDamageBonusDone into _estimatedAmount (SpellAuraEffects.cpp:872-895) \u2014 consumer disagreement, not a Core defect.",
+  "coords": [
+   "crates/combat/src/periodic_health.rs:35-38"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-014",
+  "suspicion": "Periodic work of a dead aura SOURCE should stop",
+  "why_rejected": "Core keeps ticking (child damage lands). Trinity gates periodic damage only on target liveness (SpellAuraEffects.cpp:5632-5635) and RemoveAllAurasOnDeath removes only the dying unit's own applied auras (Unit.cpp:4472-4493); inferred retail parity.",
+  "coords": [
+   "crates/combat/src/periodic_execution.rs:438-505"
+  ],
+  "probe_test": "e_death_lifecycle.rs::holds_dead_source_periodic_trigger_keeps_ticking",
+  "track": "E"
+ },
+ {
+  "id": "REJ-E-013",
+  "suspicion": "Haste-affected duration alignment (Venom 391428) diverges from Trinity",
+  "why_rejected": "aligned = max(d/p,1)*p with hastened period equals Trinity Spell.cpp:3270-3278.",
+  "coords": [
+   "crates/combat/src/periodic.rs:564-582"
+  ],
+  "track": "E"
+ }
+]

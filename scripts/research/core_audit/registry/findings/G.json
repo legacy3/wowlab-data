@@ -1,0 +1,134 @@
+[
+ {
+  "id": "CSA-G-01",
+  "track": "G",
+  "title": "Dead caster passes readiness, commits instant casts, and a pending hard cast survives caster death and completes successfully",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/cast.rs:412-580",
+   "crates/combat/src/execution/health.rs:190-211",
+   "crates/combat/src/program/target_requirements.rs:63-76",
+   "crates/combat/src/cast_authority.rs:410-431",
+   "crates/combat/src/cast.rs:284-352"
+  ],
+  "evidence": [
+   "core: plan_resolved_cast_core (cast.rs:412-580) has no caster-life gate; the only liveness check is preflight_execution_health (execution/health.rs:196-201) which requires caster life only when the program writes caster health (OperationTargetRequirements::health(Caster), target_requirements.rs:63-76)",
+   "core: nothing cancels a pending hard cast on death: CastAuthority cells are cleared only by finish_next/cancel (cast_authority.rs:419-431); completion re-plans in HardCompletion mode which again has no caster-life gate",
+   "probe: g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage (player at 0 health: readiness Ready, cast Ok, DamageDealt source=Player)",
+   "probe: g_cast_lifecycle.rs::defect_pending_hard_cast_survives_caster_death_and_succeeds (caster killed at t=0 mid-cast, CastCompleted Succeeded at 1000 ms and payload lands)",
+   "trinity: src/server/game/Spells/Spell.cpp:5744-5746 CheckCast returns SPELL_FAILED_CASTER_DEAD for a dead caster (non-passive, no ALLOW_CAST_WHILE_DEAD); Entities/Unit/Unit.cpp:9160-9172 setDeathState -> InterruptNonMeleeSpells",
+   "simc: engine/player/player.cpp:7138-7165 demise sets sleeping and cancels readying/off_gcd events; a sleeping actor executes no actions",
+   "core_test: engine/tests/share_damage.rs::copied_damage_and_death_commit_before_the_original_victim shows Player death is reachable through Engine inputs",
+   "probe: g_engine_dead_caster.rs::defect_engine_rotation_keeps_casting_for_dead_player (Engine + Core's exact share-damage fixture: after copied damage kills the Player, the rotation keeps casting and DamageDealt source=Player keeps landing)"
+  ],
+  "reproducer": "probe_test g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage and ::defect_pending_hard_cast_survives_caster_death_and_succeeds (public CombatProgram/CombatState API, two SchoolDamage fire spells, mutual hostile relations)",
+  "probe_test": "g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage",
+  "why_tests_missed": "all death tests exercise dead targets/recipients (DeadTarget, periodic cancellation, white-swing target death); no test casts from or completes a cast for an actor whose own health reached zero",
+  "correction_boundary": "one caster-life admission predicate in plan_resolved_cast_core for Instant/HardAcceptance/HardCompletion modes (dead caster -> typed non-timed blocker), plus generation-safe cancellation of the actor's pending cast when a committed damage transition makes that actor lethal",
+  "must_not_widen": "do not add liveness to ActorState-wide or program-generic health requirements; programs that legitimately run from dead sources (already launched fixed impacts, periodic ticks owned by an aura) must keep their existing owners; do not invent resurrection or ALLOW_CAST_WHILE_DEAD support without an exact carrier"
+ },
+ {
+  "id": "CSA-G-02",
+  "track": "G",
+  "title": "Interrupting a pending hard cast (raw-68, Stun, Silence, Pacify) keeps the start recovery (GCD) committed at acceptance",
+  "severity": "medium",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/cast.rs:223-229",
+   "crates/combat/src/cast_authority.rs:423-431",
+   "crates/combat/src/state/casting.rs:100-107",
+   "crates/combat/src/execution/commit.rs:517-596",
+   "crates/combat/src/recovery.rs:231-244"
+  ],
+  "evidence": [
+   "core: acceptance commits start recovery before publishing the pending cast (cast.rs:225-227); cancellation (cast_authority.rs:423-431 -> clear_exact) clears only the cast cell and prepared costs; commit_interrupt/commit_action_prevention_interrupt (execution/commit.rs:517-596) never touch StartRecoveryState",
+   "probe: g_cast_lifecycle.rs::defect_interrupt_retains_accepted_start_recovery (raw-68 interrupt at 500 ms; unlocked Nature action still StartRecovery until 1500 ms)",
+   "probe: g_cast_lifecycle.rs::defect_stun_interruption_retains_accepted_start_recovery (346197 stun cancels ordinary hard cast; after stun expiry at 100 ms, retry still StartRecovery until 1500 ms)",
+   "trinity: src/server/game/Spells/Spell.cpp:3617-3632 Spell::cancel in SPELL_STATE_PREPARING calls CancelGlobalCooldown (Spell.cpp:9227-9240); InterruptSpell/CastStop/InterruptSpellsWithPreventionTypeOnAuraApply all route through cancel",
+   "simc: engine/action/action.cpp:3135-3140 interrupt_action resets player->gcd_ready to now (+2x lag) for an interrupted cast",
+   "source: SpellCooldowns row 29 (Fireball 133) StartRecoveryTime 1500; SpellCategories row 60 StartRecoveryCategory 133, PreventionType 1 (Silence) -> real hard casts carry both a GCD and Silence prevention",
+   "inferred: Engine has one rotation-driven caster that cannot be interrupted by its own target (enemy never acts), so reachability is through the multi-actor CombatState public API, not Engine inputs",
+   "inferred: completion failure (not cancellation) retains GCD in Trinity too (Spell.cpp cast() failure path uses cleanupSpell/finish, not cancel), so only cancellation diverges"
+  ],
+  "reproducer": "probe_test g_cast_lifecycle.rs::defect_interrupt_retains_accepted_start_recovery (interrupt fixture with Fireball-shaped category-133 1500 ms start recovery added to the Fire and Nature hard casts)",
+  "probe_test": "g_cast_lifecycle.rs::defect_interrupt_retains_accepted_start_recovery",
+  "why_tests_missed": "interruption fixtures (interrupt/silence/pacify/stun test-support) give their hard casts no start recovery; hard-cast start-recovery tests (hard_cast_concurrency.rs) never interrupt",
+  "correction_boundary": "the single cancellation commit (state/casting.rs cancel_cast callers in execution/commit.rs) restores the actor's start-recovery cell for the cancelled cast's category to its pre-acceptance value (needs the prior ready_at retained with the pending cast or a cancel-time clamp to now)",
+  "must_not_widen": "do not reset ordinary/shared cooldowns or acceptance-owned (attr 407) cooldowns on cancel (Trinity keeps them); do not reset GCD on completion failure; do not model simc's 2x latency"
+ },
+ {
+  "id": "CSA-G-03",
+  "track": "G",
+  "title": "Active Stun short-circuits prevention folding: readiness reports the Stun expiry as recheck while a longer Pacify/Silence still blocks",
+  "severity": "low",
+  "reachability": "INCONSISTENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/cast.rs:662-683",
+   "crates/combat/src/cast.rs:1062-1085",
+   "crates/combat/src/cast.rs:1170-1176",
+   "crates/combat/src/readiness.rs:79-86"
+  ],
+  "evidence": [
+   "core: prevention_blocker_for returns the Stunned error (or None for raw-163) before folding Silence/Pacify with dominant_timed_blocker (cast.rs:669-674 vs 676-682); every other blocker is folded to the latest recheck (cast.rs:1062-1085)",
+   "probe: g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify (Pacify to 4000 ms + Stun to 100 ms: readiness Stunned recheck 100 ms; at 100 ms still Pacified recheck 4000 ms)",
+   "core: public doc of CastReadiness::recheck_at (readiness.rs:79-80) 'Earliest authoritative retry time, when time alone can unblock it' and ledger L168/L322/L466 'readiness reports the true latest time-only blocker' vs ledger L22495 'Admission checks active Stun before Pacify and Silence. A susceptible action receives the latest active Stun expiry'",
+   "core_test: combat/tests/stuns.rs::active_stun_has_admission_precedence_over_active_pacify asserts only the code, not the recheck"
+  ],
+  "reproducer": "probe_test g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify",
+  "probe_test": "g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify",
+  "why_tests_missed": "the precedence test asserts error_code only; no test asserts recheck_at with overlapping Stun and a longer Pacify/Silence",
+  "correction_boundary": "either keep Stunned as reported code but fold its ready_at with silence/pacify via dominant_timed_blocker (recheck = latest), or document the stun-first early wake as an explicit exception to the latest-blocker contract",
+  "must_not_widen": "do not change which actions Stun blocks or the raw-163 exemption; no change to interruption"
+ },
+ {
+  "id": "CSA-G-04",
+  "track": "G",
+  "title": "Exact raw-68 interrupt carrier 159006 is admitted and committed against a dead explicit target as a successful no-op",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/execution/planning/interrupt.rs:16-32",
+   "crates/combat/src/program/interrupt.rs:128-129",
+   "crates/combat/src/execution/health.rs:203-208"
+  ],
+  "evidence": [
+   "core: interrupt quote sets has_transition=true and returns Ok when the target is dead (execution/planning/interrupt.rs:28-32); the compiler declares only with_target(true)+Hostile (program/interrupt.rs:128-129), so preflight_execution_health never requires target life for this program",
+   "probe: g_admission_order.rs::defect_interrupt_carrier_commits_against_dead_target (readiness Ready, cast Ok with SpellCast, no CastInterrupted)",
+   "trinity: src/server/game/Spells/SpellInfo.cpp:2452-2453 CheckTarget returns SPELL_FAILED_TARGETS_DEAD for a dead unit target (159006 attributes 0/0/0, no ALLOW_DEAD_TARGET); Spell.cpp:5956 applies it to the explicit target in CheckCast",
+   "core: development-ledger L17936-17938 records that direct server raw 68 'requires a living target'",
+   "source: SpellEffect row 222633 (159006 idx0 Effect 68 ImplicitTarget 6); SpellMisc 159006 Attributes_0..2 = 0"
+  ],
+  "reproducer": "probe_test g_admission_order.rs::defect_interrupt_carrier_commits_against_dead_target",
+  "probe_test": "g_admission_order.rs::defect_interrupt_carrier_commits_against_dead_target",
+  "why_tests_missed": "interrupt tests always use a live target; the dead branch at planning/interrupt.rs:28-30 is treated as a no-op rather than a rejection",
+  "correction_boundary": "raw-68 compile should declare target-health requirement (require live target at preflight) or the quote should return dead_target instead of a progressing no-op",
+  "must_not_widen": "do not add generic target-life requirements to programs that already fizzle per-operation; keep idle-live-target no-op interrupt success (Trinity allows kicking a non-casting live target)"
+ },
+ {
+  "id": "CSA-G-05",
+  "track": "G",
+  "title": "Allow-while-stunned early return also skips Silence and Pacify admission blockers",
+  "severity": "low",
+  "reachability": "LATENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/cast.rs:669-674",
+   "crates/combat/src/program/stun.rs:474-480"
+  ],
+  "evidence": [
+   "core: while stunned, prevention_blocker_for returns None for an allows_while_stunned action without evaluating silence_blocker_for/pacify_blocker_for (cast.rs:669-674)",
+   "core: upstream gate: the only admitted raw-163 owner (Full Heal 25840) must have an empty prevention mask (program/stun.rs:474-480 'empty prevention policy'), so silence/pacify blockers would be None anyway",
+   "trinity: Spell.cpp:6957-6958 treats ALLOW_WHILE_STUNNED as a stun-mechanic exemption only; silence/pacify checks are independent in CheckCasterAuras",
+   "inferred: reopening raw 163 for an owner with Silence/Pacify prevention bits would admit it while silenced/pacified"
+  ],
+  "reproducer": "static only; requires a raw-163 owner with nonzero prevention mask which program/stun.rs audit rejects",
+  "why_tests_missed": "the exact raw-163 carrier has empty prevention, so no test can combine stun+silence against it",
+  "correction_boundary": "in prevention_blocker_for, when stunned and allows_while_stunned, fall through to the silence/pacify fold instead of returning None",
+  "must_not_widen": "do not relax the exact Full Heal audit to prove this; fix is a local control-flow change"
+ }
+]

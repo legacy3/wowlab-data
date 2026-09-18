@@ -1,0 +1,87 @@
+[
+ {
+  "id": "CSA-C-01",
+  "title": "Impacts with no damage or healing operation are critical-eligible: a hostile Stun (or any aura-only/buff/resource impact) resolves HitResult::Critical and consumes a critical draw",
+  "severity": "low",
+  "reachability": "LIVE",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/payload_policy.rs:33-47",
+   "crates/combat/src/program/payload_policy.rs:94-104",
+   "crates/combat/src/program.rs:1180-1205",
+   "crates/combat/src/program/definition.rs:614-626",
+   "crates/combat/src/execution/planning.rs:867-915",
+   "crates/combat/src/execution/planning/critical.rs:81-123",
+   "crates/combat/src/attack/resolution.rs:497-501",
+   "crates/combat/src/execution/commit.rs:878-921"
+  ],
+  "evidence": [
+   "core: payload crit eligibility is Eligible unless CannotCrit (payload_policy.rs:33-47) and is cleared afterwards only for Instakill / InterruptCast / Dispel / DispelMechanic impacts (program.rs:1185-1196). The has_damage / has_healing flags are recorded (program.rs:1198-1203) but never gate the critical channel.",
+   "core: planning.rs:867-915 prepares a critical for every targeted hostile impact and every beneficial impact regardless of has_damage, and ResolvedAttackTable::resolve draws `critical.is_some_and(|c| random.occurs(c))` (attack/resolution.rs:497-501); commit publishes the result as CombatObservation::ImpactResolved (commit.rs:909-919).",
+   "probe: c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result - Core's own exact Stun fixture (spell 346197 'Cover (DNT)', raw-12 ApplyAura, DefenseType::None, physical; source-matching DBC SpellEffect row 872577) cast by an enemy with CriticalStrikeBaseline 1.0 emits ImpactResolved{result: Critical}; with no baseline or 0.0 it emits Hit.",
+   "probe: c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw - at 0.5 the same Stun yields Critical for some seeds and Hit for others, i.e. a stochastic critical draw is consumed by an impact whose amount cannot change.",
+   "core (static): because prepare_impact_critical evaluates crit-chance modifiers, raw-163 and op-15 factors for these impacts (planning/critical.rs:11-79), an ambiguous exclusive group or negative crit-damage factor can reject a Stun/debuff cast with a critical-calculation CastError.",
+   "trinity: SPELL_ATTR0_CU_CAN_CRIT is set only for amount effects (school damage, leech, heal, weapon damage, power burn, heal pct, damage from max health) (SpellMgr.cpp:3073-3087); SpellCritChanceDone/Taken return 0 without it (Unit.cpp:7127-7128, 7177-7178), so aura-only spells never crit.",
+   "core docs: architecture.md:122-126 describes the baseline being resolved per *damage occurrence*; ledger 'Executable Instakill' (development-ledger.md:10496) explicitly clears eligibility for a non-amount op - the same reasoning was never generalized."
+  ],
+  "reproducer": "cd core_audit/probe && cargo test --offline --test c_noncritical_payload (stun_inputs fixture + CombatStateInput::with_critical_strike(CriticalStrikeBaseline::try_uniform(enemy, 1.0, 2.0)); CombatState::cast(enemy -> Player, 346197); observe ImpactResolved).",
+  "why_tests_missed": "Critical tests always use damage/heal payloads; stun/silence/pacify/aura tests build states without CriticalStrikeBaseline, so the eligible-but-irrelevant crit draw never had a nonzero chance there. The three opt-outs were added per-compiler (instakill, interrupt, dispel) rather than as a general 'no amount -> no crit' rule.",
+  "correction_boundary": "At impact-policy finalization (crates/combat/src/program.rs:1180-1205) clear the critical channel when the impact has no damage, healing or periodic-health operation (impact_requirements.has_damage/has_healing/has_periodic_health all false), subsuming the four per-compiler opt-outs; periodic ticks keep their own PeriodicCriticalPolicy.",
+  "must_not_widen": "Do not remove the shared per-recipient impact result for mixed payloads (a damage impact that also applies an aura must keep one crit/hit result); do not change CannotCrit handling, periodic tick crit policy, the miss/avoidance draw for non-damage hostile impacts, or ImpactResolved emission; do not add crit semantics to absorb amounts.",
+  "probe_tests": [
+   "c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+   "c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw"
+  ],
+  "probe_test": "c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+  "track": "C"
+ },
+ {
+  "id": "CSA-C-02",
+  "title": "SpellMod op-15 CriticalBonus projections are compiled only for payloads with critical damage impacts; a class-mask-matched heal-only payload silently receives no critical bonus",
+  "severity": "low",
+  "reachability": "LATENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/program/modifier/payload_spells.rs:32-54",
+   "crates/combat/src/program/passive_spell_modifier.rs:430-441",
+   "crates/combat/src/execution/planning/critical.rs:35-57",
+   "crates/combat/src/state/modifiers.rs:360-395"
+  ],
+  "evidence": [
+   "core: critical_damage_spell_modifier_payload_spells requires an Eligible impact with has_damage and a damage-family operation (payload_spells.rs:36-44); percent_payloads(CriticalBonus) uses only that list (passive_spell_modifier.rs:438-440).",
+   "core: prepare_impact_critical still calls critical_bonus_multiplier for healing impacts (bonus_before_school = !has_damage, planning/critical.rs:35-55), so a heal payload outside the list gets factor-less baseline silently (state/modifiers.rs:366-379 returns Ok(baseline)). No compile-time rejection exists for a matching heal-only payload.",
+   "trinity: SpellCriticalHealingBonus applies SpellModOp::CritDamageAndHealing to healing crits (Unit.cpp:7309-7325).",
+   "source/inferred: current admitted op-15 population is Heart of the Crusader 406154 effect 4 (family 10 mask [0,0x80008000,0x40,0] -> Crusader Strike family, all physical melee damage) and Martial Expert 429638 effect 1 (family 4 mask [0x200,0,0,0] -> warrior damage abilities); none matches a heal-only payload (DBC SpellClassOptions scan, scratch/C). Catalog text aura_subtype.rs:450 states the damage-only scope is justified by this population."
+  ],
+  "reproducer": "Static: add any heal-only payload whose SpellClassOptions mask intersects an admitted op-15 mask; the CriticalBonus projection list excludes it and the heal crit keeps the unmodified multiplier. Protected today only by the named-branch op-15 admission (selected_trait_package.rs:900-940).",
+  "why_tests_missed": "Martial Expert/Heart tests use only damage payloads; the omission is documented as population-justified rather than enforced fail-closed.",
+  "correction_boundary": "Either include crit-eligible healing payloads in the CriticalBonus payload set (payload_spells.rs:32-54) or reject at compile time any admitted op-15 modifier whose mask matches a crit-eligible heal-only payload.",
+  "must_not_widen": "Do not apply op-15 to noncritical or CannotCrit impacts, to raw-163 ordering, or to white swings; do not broaden op-15 admission beyond the named packages while fixing.",
+  "track": "C"
+ },
+ {
+  "id": "CSA-C-03",
+  "title": "Target-held raw-308 caster-spell crit chance is added to the spell channel before the HybridMax maximum instead of to the selected maximum",
+  "severity": "low",
+  "reachability": "LATENT",
+  "status": "confirmed",
+  "coords": [
+   "crates/combat/src/critical_modifier.rs:125-143",
+   "crates/combat/src/critical_modifier.rs:202-223",
+   "crates/combat/src/program/critical_modifier.rs:167-172",
+   "crates/combat/src/critical/resolution.rs:14-28"
+  ],
+  "evidence": [
+   "core: HybridMax runs apply_channel(Spell) then apply_channel(Weapon) and resolve_critical selects max(spell, weapon); raw 308 is TARGET_CASTER_SPELL_MAGIC (spell bit only), so it raises only spell chance before the max.",
+   "trinity: SpellCritChanceDone takes max(physical, magic) for DmgClass None/Magic (Unit.cpp:7132-7155); SpellCritChanceTaken adds MOD_CRIT_CHANCE_FOR_CASTER_WITH_ABILITIES afterwards for non-melee classes (Unit.cpp:7246-7252), i.e. to the maximum.",
+   "witness (static): spell 0.10, weapon 0.30, raw 308 +20 on a physical+nature Magic payload: Core max(0.30, 0.30) = 0.30; Trinity 0.30 + 0.20 = 0.50.",
+   "source: the only admitted raw-308 carrier is Vital Clarity 1266748 (passive/selected, targets (1,0)); its family-53 mask matches only Vivify 116670 and Sheilun's Gift 399491, both school 8 (nature only) -> Spell channel, so no hybrid payload is reachable.",
+   "core: raw-197 (spell+weapon target term) and raw-183 apply to both channels, so max(a+x, b+x) = max(a,b)+x and they do not diverge."
+  ],
+  "reproducer": "Static witness above; reachable only after a raw-308 carrier whose mask covers a physical+magic Magic/None-defense payload is admitted.",
+  "why_tests_missed": "raw-308 tests use a single-school Magic payload; HybridMax tests use raw 290/57/52 whose applicability is symmetric or family-local.",
+  "correction_boundary": "In apply_critical_modifiers HybridMax branch, add raw-308 (caster-spell target) points after the family maximum, or reject raw-308 definitions whose projected payloads are HybridMax.",
+  "must_not_widen": "Do not move raw 57 / raw 52 family-local terms after the max (Trinity bakes them into per-family percentages before max); keep raw-308 Magic-only and caster-identity gated.",
+  "track": "C"
+ }
+]

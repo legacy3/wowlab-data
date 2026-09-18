@@ -1,0 +1,89 @@
+[
+ {
+  "id": "REJ-C-001",
+  "suspicion": "critical bonus (op 15) and raw 163 applied in the wrong order for some damage family",
+  "why_rejected": "Direct Melee/Ranged: bonus then school; Magic/None and periodic: school then bonus; non-damage: bonus only. Reproduces Trinity melee path (Unit.cpp:1216-1231), SpellCriticalDamageBonus (7279-7306, also used by periodic ticks SpellAuraEffects.cpp:5707,5791) and SpellCriticalHealingBonus (7309-7325). core_test selected_martial_expert.rs:80-94.",
+  "coords": [
+   "crates/combat/src/execution/planning/critical.rs:35-76"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "REJ-C-002",
+  "suspicion": "passive raw-163 terms bypass exclusive-group arbitration",
+  "why_rejected": "Passive raw-163 activation always compiles group 0 (no composition on the passive wire shape), so no passive term can belong to a group.",
+  "coords": [
+   "crates/combat/src/critical_damage_modifier.rs:33-39",
+   "crates/combat/src/program/critical_damage_modifier.rs:341-349"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "REJ-C-003",
+  "suspicion": "white main-hand crit ignores the actor multiplier, raw 163 and op-15",
+  "why_rejected": "White admission requires critical_strikes empty and an isolated program with no raw-163 definitions; Heart's op-15 mask covers only Crusader Strike family payloads (not auto attack), matching Trinity where spellmods need a SpellInfo. White crit x2 therefore matches every admitted configuration.",
+  "coords": [
+   "crates/combat/src/state/white_main_hand.rs:105",
+   "crates/combat/src/topology.rs:1099-1125",
+   "crates/combat/src/white_swing.rs:376-440"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "REJ-C-004",
+  "suspicion": "raw-638 read from the defender while Trinity reads it from the attacker",
+  "why_rejected": "Trinity multiplies by the attacker's MOD_CRITICAL_BLOCK_AMOUNT (Unit.cpp:1243,1463) although the only carrier (Martial Expert 429638, a warrior talent that blocks) describes the holder's own critical blocks; Core's defender ownership is the semantic reading and Trinity is the outlier.",
+  "coords": [
+   "crates/combat/src/state/modifiers.rs:238-247"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "REJ-C-005",
+  "suspicion": "HybridMax adds target-held raw 197 / raw 183 to both channels and so double counts",
+  "why_rejected": "Adding the same x to both channels before max equals adding x to the max (max(a+x,b+x) = max(a,b)+x); matches Trinity's single post-max addition.",
+  "coords": [
+   "crates/combat/src/critical_modifier.rs:125-143"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "REJ-C-006",
+  "suspicion": "selected raw-290/308/334 compile authored points (raw-638 class)",
+  "why_rejected": "selected_percent_points returns the selected amount; probe with a two-rank Set curve proves +4 (rank 2) is consumed.",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:494-575"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "REJ-C-007",
+  "suspicion": "crit chance clamped before modifiers (overcap baseline lost)",
+  "why_rejected": "Baseline retained unclamped (critical.rs:71-75); floor 0 after modifiers, clamp to 1 only in resolve_critical.",
+  "coords": [
+   "crates/combat/src/critical.rs:71-81",
+   "crates/combat/src/critical/resolution.rs:95-113"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "REJ-C-008",
+  "suspicion": "fallible crit calculation after the crit draw",
+  "why_rejected": "All crit arithmetic (chance modifiers, raw 163, op 15) runs inside prepare_impact_critical at quote; commit only draws and selects precomputed normal/critical amounts.",
+  "coords": [
+   "crates/combat/src/execution/planning/critical.rs:11-123",
+   "crates/combat/src/health_amount.rs:67-79"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "REJ-C-009",
+  "suspicion": "periodic ticks snapshot or ignore live crit chance",
+  "why_rejected": "PeriodicCriticalPolicy::SourceActorAtOccurrence recomputes crit from the source actor at every tick (planning.rs:852-858) and requires SPELL_ATTR8 PeriodicCanCrit (program/periodic.rs:1518-1541); Trinity evaluates GetCritChanceFor at each tick (SpellAuraEffects.cpp:1278-1281, 5705) gated by CanPeriodicTickCrit (6132-6135); simc adds STATE_CRIT to update_flags (action.cpp:2729, 2787).",
+  "coords": [
+   "crates/combat/src/execution/planning.rs:852-858",
+   "crates/combat/src/program/periodic.rs:1518-1541"
+  ],
+  "track": "C"
+ }
+]

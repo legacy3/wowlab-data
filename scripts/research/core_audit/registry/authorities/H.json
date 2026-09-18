@@ -1,0 +1,225 @@
+[
+ {
+  "id": "AUTH-H-001",
+  "track": "H",
+  "name": "CombatProgramBuilder",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/builder.rs:1-68"
+  ],
+  "semantic_facts": [
+   "build() rejects GameData/ResolvedActionCatalog identity mismatch before compiling (builder.rs:54-59)",
+   "trait_source and external_spell_policy are optional; absent catalogs make selected declarations fail closed downstream"
+  ]
+ },
+ {
+  "id": "AUTH-H-002",
+  "track": "H",
+  "name": "compile_combat_program_with_sources (authority ordering)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/compile.rs:40-201"
+  ],
+  "semantic_facts": [
+   "order: selected-owner audit -> attack-power conversion -> auras -> capacities -> cooldown plan -> program bindings -> fixed travel -> program structure (periodic schedules, definitions, dispel, reapplication audits) -> expiry drivers -> health thresholds -> resource thresholds -> action preventions -> pool plans -> passive flow plans -> execution plans -> absorb capacity -> actions -> cooldown modifiers -> stats -> modifiers/power cost -> threshold execution capacity -> resources compose -> aura ordinals -> execution layout",
+   "every compiled plan is moved into CompiledCombatProgram or finish_combat_program(stats); no compiled output is dropped (fixed travel is consumed through execution plans; health/resource thresholds, expiry drivers, periodic schedules stored)",
+   "aura ordinals are assigned after all aura consumers compile (compile.rs:162), and state-side AuraBindings consume those ordinals"
+  ]
+ },
+ {
+  "id": "AUTH-H-003",
+  "track": "H",
+  "name": "compact handles",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/compact.rs:1-176"
+  ],
+  "semantic_facts": [
+   "u32 compact handles with u32::MAX sentinel for optional edge/slab handles; overflow maps to program_too_large",
+   "ProgramHandle/CastActivationHandle have no sentinel so u32::MAX is a valid index (no sentinel collision)"
+  ]
+ },
+ {
+  "id": "AUTH-H-004",
+  "track": "H",
+  "name": "compile_capacities",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/capacity.rs:35-153"
+  ],
+  "semantic_facts": [
+   "slab Vec capacity hints only (cold); undercount would only reallocate at compile time, not change semantics",
+   "StartRecoveryPlan built from every action's start-recovery category"
+  ]
+ },
+ {
+  "id": "AUTH-H-005",
+  "track": "H",
+  "name": "program definitions (handles, formulas, operation definitions)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/definition.rs:29-260"
+  ],
+  "semantic_facts": [
+   "immutable per-effect definitions (damage formula binding with mechanic, health leech f32 multiplier promoted to f64 at read, power burn/mana leech definitions carrying expected mana percent)",
+   "handles index program slabs; no runtime mutable state"
+  ]
+ },
+ {
+  "id": "AUTH-H-006",
+  "track": "H",
+  "name": "execution layout",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/execution_layout.rs:1-270"
+  ],
+  "semantic_facts": [
+   "per-program quote/aura/health/impact capacities, immediate depth, fixed travel seconds and node flags",
+   "CombatExecutionLayout sizes state scratch (quoted_costs, ExecutionScratch) at construction"
+  ]
+ },
+ {
+  "id": "AUTH-H-007",
+  "track": "H",
+  "name": "execution planning graph (capacities by postorder)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/planning.rs:11-614"
+  ],
+  "semantic_facts": [
+   "compile_execution_plans walks programs in postorder accumulating child periodic/deferred/absorb capacities with checked u32 adds (planning.rs:597-610)",
+   "capacity bound correctness is UNKNOWN (UNK-H-002) but no reachable fixture exceeded it"
+  ]
+ },
+ {
+  "id": "AUTH-H-008",
+  "track": "H",
+  "name": "HasteProgram",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/haste_program.rs:13-122"
+  ],
+  "semantic_facts": [
+   "composes passive all-haste, passive melee auto-attack speed and active casting speed plans; None when all absent",
+   "white-only predicates (passive_all_only / melee-only) require the other two plans absent"
+  ]
+ },
+ {
+  "id": "AUTH-H-009",
+  "track": "H",
+  "name": "CombatState construction",
+  "layer": "state_construction",
+  "coords": [
+   "crates/combat/src/state/construction.rs:82-242",
+   "crates/combat/src/state/construction.rs:604-623",
+   "crates/combat/src/state/construction.rs:1013-1061",
+   "crates/combat/src/program.rs:395-400"
+  ],
+  "semantic_facts": [
+   "white main hand and selected-package bindings validated on raw input first",
+   "actors canonicalized, then passive haste-all / maximum health / maximum resources applied once, then every index-bearing owner compiled against the canonical roster",
+   "baselines captured after passives (construction.rs:331-341)",
+   "random stream from input identity; now ZERO"
+  ]
+ },
+ {
+  "id": "AUTH-H-010",
+  "track": "H",
+  "name": "CombatState reset topology",
+  "layer": "reset",
+  "coords": [
+   "crates/combat/src/state.rs:442-451",
+   "crates/combat/src/state.rs:1068-1139"
+  ],
+  "semantic_facts": [
+   "reset_runtime order: actors restore -> start recovery -> cooldowns -> casts -> periodic -> modifiers -> health -> attacks -> white -> timing (restores haste channels on actors) -> auras -> resources (restore flow baseline, replan thresholds at ZERO) -> independent stacks -> absorbs -> now -> scratch",
+   "reset keeps identity (random.reset), reset_for_iteration assigns identity.stream()",
+   "does not model death cleanup (CSA-H-01)"
+  ],
+  "finding_ids": [
+   "CSA-H-01"
+  ]
+ },
+ {
+  "id": "AUTH-H-011",
+  "track": "H",
+  "name": "ActorState / ActorBaseline",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/actor.rs:12-237"
+  ],
+  "semantic_facts": [
+   "resources sorted by ResourceType with duplicate/active-resource validation",
+   "commit_* mutators are the only health/resource writers",
+   "baseline restores resources, active resource and health (not haste/offensive power; see REJ-H-005)"
+  ]
+ },
+ {
+  "id": "AUTH-H-012",
+  "track": "H",
+  "name": "CombatStateInput topology",
+  "layer": "state_construction",
+  "coords": [
+   "crates/combat/src/topology.rs:76-116",
+   "crates/combat/src/state/topology.rs:33-131"
+  ],
+  "semantic_facts": [
+   "relations canonicalized; self/duplicate/conflicting/missing-actor relations rejected",
+   "self target implicit for every roster actor"
+  ]
+ },
+ {
+  "id": "AUTH-H-013",
+  "track": "H",
+  "name": "CombatLayout",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/layout.rs:1-24"
+  ],
+  "semantic_facts": [
+   "immutable start-recovery and cooldown plans shared by state storage and quotes"
+  ]
+ },
+ {
+  "id": "AUTH-H-014",
+  "track": "H",
+  "name": "CombatObservation death events",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/event.rs:451-462",
+   "crates/combat/src/execution/commit/health.rs:923-930"
+  ],
+  "semantic_facts": [
+   "ActorDied / WhiteMainHandDeath are observations only; no state owner reacts to them"
+  ],
+  "finding_ids": [
+   "CSA-H-01"
+  ]
+ },
+ {
+  "id": "AUTH-H-015",
+  "track": "H",
+  "name": "Engine reset / iteration reset",
+  "layer": "reset",
+  "coords": [
+   "crates/engine/src/lib.rs:652-666",
+   "crates/engine/src/lib.rs:847-859"
+  ],
+  "semantic_facts": [
+   "Engine reset forwards to CombatState and clears observations; rotation scratch cleared per evaluation",
+   "EngineProgram (combat program, rotation, field plan) immutable"
+  ]
+ },
+ {
+  "id": "AUTH-H-016",
+  "track": "H",
+  "name": "crate public surface",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/lib.rs:136-233"
+  ],
+  "semantic_facts": [
+   "only CombatProgram/CombatState/CombatStateInput and binding value types are public; runtime owners are pub(crate), so all probes reach them only through construction/cast/advance/update_passive_resource_flow/reset"
+  ]
+ }
+]

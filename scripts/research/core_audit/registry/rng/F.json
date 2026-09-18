@@ -1,0 +1,36 @@
+[
+ {
+  "id": "RNG-F-001",
+  "track": "F",
+  "coords": [
+   "crates/combat/src/white_swing/resolution.rs:78"
+  ],
+  "site": "white weapon damage draw",
+  "draws": "exactly 1 uniform_index_forced(width) per due swing on a live target, also for width 1",
+  "order": "first in the white commit; precedes outcome draw; no other draw site shares the transition",
+  "quote": "minimum-damage quote precedes it and cannot fail; admission never draws",
+  "failure": "none after quote (expect); dead target returns before any draw (white_main_hand.rs:77-84)",
+  "reset": "reset(): stream rewound; reset_for_iteration(): fresh stream; next_at ZERO",
+  "commit": "weapon offset feeds damage only",
+  "iteration_reset": "identical replay for identical identity",
+  "outcome_dependent_after_draw": "no",
+  "probe_test": "f_white_swing.rs::holds_white_forced_singleton_weapon_draw_precedes_outcome_draw"
+ },
+ {
+  "id": "RNG-F-002",
+  "track": "F",
+  "coords": [
+   "crates/combat/src/white_swing/resolution.rs:81"
+  ],
+  "site": "white outcome draw",
+  "draws": "exactly 1 uniform_index(10000) per due swing (also on miss and all-zero tables)",
+  "order": "second, after weapon draw",
+  "quote": "as RNG-F-001",
+  "failure": "none",
+  "reset": "as RNG-F-001",
+  "commit": "selects Miss/Dodge/Critical/Hit; Critical doubles mitigated damage",
+  "iteration_reset": "identical replay",
+  "outcome_dependent_after_draw": "no further draws",
+  "probe_test": "f_white_swing.rs::holds_white_forced_singleton_weapon_draw_precedes_outcome_draw"
+ }
+]

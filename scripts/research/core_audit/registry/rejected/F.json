@@ -1,0 +1,140 @@
+[
+ {
+  "id": "REJ-F-001",
+  "track": "F",
+  "suspicion": "white damage order (roll -> raw-344 -> armor -> crit x2) differs from source",
+  "why_rejected": "identical to Trinity CalculateMeleeDamage: CalculateDamage, MeleeDamageBonusDone (raw 344 AddPct), CalcArmorReducedDamage, RollMeleeOutcomeAgainst, Damage*=2 (Unit.cpp:1382-1420)",
+  "coords": [
+   "crates/combat/src/state/white_main_hand.rs:99-117"
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_critical_doubles_truncated_armor_result"
+ },
+ {
+  "id": "REJ-F-002",
+  "track": "F",
+  "suspicion": "Core haste/slow formula 100/(100+p) differs from Trinity for negative p ((100+|p|)/100)",
+  "why_rejected": "negative raw-319/raw-193 points are rejected by the package Positive policy; the only non-selected raw-193 carrier is fixed +5",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:669-697",
+   "crates/combat/src/program/passive_haste.rs:28-30"
+  ]
+ },
+ {
+  "id": "REJ-F-003",
+  "track": "F",
+  "suspicion": "passive_haste period_factor lacks finite/positive guard (inf at p=-100 would give u32::MAX ms period)",
+  "why_rejected": "unreachable: Positive policy; recorded as XC-F-003 class E",
+  "coords": [
+   "crates/combat/src/program/passive_haste.rs:47-51",
+   "crates/combat/src/white_swing.rs:458-462"
+  ]
+ },
+ {
+  "id": "REJ-F-004",
+  "track": "F",
+  "suspicion": "WHITE_MAIN_HAND_SEMANTICS_VERSION was not bumped by b6fdc81a (suppression, v5) nor bd9b891d (quantization order, v6)",
+  "why_rejected": "historical only: HEAD is v7 (62b51085) and differs from every earlier value; bd9b891d also changed the input struct; no white semantic change between 62b51085 and the pin (diff of white files shows only test-helper removals)",
+  "coords": [
+   "crates/combat/src/white_swing.rs:10"
+  ]
+ },
+ {
+  "id": "REJ-F-005",
+  "track": "F",
+  "suspicion": "Dark Bite reset should depend on source interrupt/attribute facts, not spell identity",
+  "why_rejected": "equivalent at pin: SpellInterrupts 190450 InterruptFlags=40 has Combat 0x08; attr2/6/7 absent (only attr 407 admitted); 2 s cast; Trinity resets at launch (Spell.cpp:3887, 8310-8319). Provenance recorded as PL-F-002 inert / UNK-F-003",
+  "coords": [
+   "crates/combat/src/program/cooldown_start.rs:20-22"
+  ]
+ },
+ {
+  "id": "REJ-F-006",
+  "track": "F",
+  "suspicion": "Heart raw-108 op15 (+crit damage) should also scale white crits",
+  "why_rejected": "spellmods apply to spells only; Trinity melee crit only uses SPELL_AURA_MOD_CRIT_DAMAGE_BONUS and ApplySpellMod needs spellProto (Unit.cpp:1417-1423, 8123-8125); simc auto attack consumes effects #1/#2 only (sc_paladin.cpp:962-968)",
+  "coords": [
+   "crates/combat/src/state/white_main_hand.rs:105"
+  ]
+ },
+ {
+  "id": "REJ-F-007",
+  "track": "F",
+  "suspicion": "unreachable! for Parry/Block/Glancing/Crushing can fire",
+  "why_rejected": "admission forces parry=block=0 and WhiteMainHandChances::outcome sets glancing/crushing 0",
+  "coords": [
+   "crates/combat/src/white_swing.rs:125-131",
+   "crates/combat/src/white_swing.rs:114-123",
+   "crates/combat/src/state/white_main_hand.rs:109-116"
+  ]
+ },
+ {
+  "id": "REJ-F-008",
+  "track": "F",
+  "suspicion": "commit-phase health quote expect() can panic",
+  "why_rejected": "admission proves minimum progresses at full health; health only decreases (no healing in white-admitted programs) and f64 ulp is monotone, rolled damage >= minimum",
+  "coords": [
+   "crates/combat/src/state/white_main_hand.rs:89-95",
+   "crates/combat/src/state/white_main_hand.rs:118-121",
+   "crates/combat/src/white_swing.rs:354-358"
+  ]
+ },
+ {
+  "id": "REJ-F-009",
+  "track": "F",
+  "suspicion": "base period near 2^24..u32::MAX ms mis-rounds",
+  "why_rejected": "SimTime is u32 ms; f32 rounding identical to the uint32 x float consumer; overflow of now+period yields None only at SimTime::MAX horizon",
+  "coords": [
+   "crates/combat/src/white_swing.rs:452-462",
+   "crates/combat/src/white_swing/runtime.rs:57-61"
+  ]
+ },
+ {
+  "id": "REJ-F-010",
+  "track": "F",
+  "suspicion": "suppressed swings should catch up after a cast",
+  "why_rejected": "Trinity attack timer clamps at 0 and swings once (Unit.cpp:461-465, 2215-2222); Core swings once at max(ready, completion) then now+period",
+  "coords": [
+   "crates/combat/src/state/white_main_hand.rs:6-21"
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset"
+ },
+ {
+  "id": "REJ-F-011",
+  "track": "F",
+  "suspicion": "white never handles source death",
+  "why_rejected": "Player cannot take damage in any white-admitted program (actionless, or single Player->Enemy Dark Bite); exactly one hostile Player->Enemy relation",
+  "coords": [
+   "crates/combat/src/white_swing.rs:265-280",
+   "crates/combat/src/program/white_idle.rs:51-117"
+  ]
+ },
+ {
+  "id": "REJ-F-012",
+  "track": "F",
+  "suspicion": "dodge admitted when defender is not facing",
+  "why_rejected": "Trinity: creature victims can dodge from behind (canDodge = victim not player || canParryOrBlock, Unit.cpp:2416-2419); Core only forces parry/block to 0",
+  "coords": [
+   "crates/combat/src/white_swing.rs:193-201"
+  ]
+ },
+ {
+  "id": "REJ-F-013",
+  "track": "F",
+  "suspicion": "Dark Bite reset applied on a failed completion or to the wrong actor",
+  "why_rejected": "reset only in the Ok(core) arm after commit_cast and only when caster == white source",
+  "coords": [
+   "crates/combat/src/cast.rs:305-326",
+   "crates/combat/src/state/white_main_hand.rs:23-43"
+  ]
+ },
+ {
+  "id": "REJ-F-014",
+  "track": "F",
+  "suspicion": "actor auto-attack haste channel ignored by white period",
+  "why_rejected": "white admission requires every actor UNHASTED, so a host auto_attack_speed multiplier fails closed",
+  "coords": [
+   "crates/combat/src/topology.rs:1099-1125"
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+ }
+]

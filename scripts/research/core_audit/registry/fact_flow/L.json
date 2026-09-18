@@ -1,0 +1,104 @@
+[
+  {
+    "id": "FF-L-001",
+    "track": "L",
+    "authority": "AUTH-L-001",
+    "fact": "selected multi-effect package provenance (entry_id, effective_rank, exact effect) - allocation/residency view",
+    "stages": [
+      {
+        "stage": "source",
+        "coords": [
+          "crates/data/src/trait_source/selected_spell.rs:215"
+        ],
+        "identity": "TraitSourceCatalog entry/rank",
+        "validated": true,
+        "transformation": "resolved effect amounts (transient allocation)",
+        "consumed": true
+      },
+      {
+        "stage": "candidate",
+        "coords": [
+          "crates/engine/src/trait_candidate.rs:112-209"
+        ],
+        "identity": "SelectedTraitEntry",
+        "validated": true,
+        "transformation": "cold candidate inputs",
+        "consumed": true
+      },
+      {
+        "stage": "resolved_catalog",
+        "coords": [
+          "crates/combat/src/program/selected_trait_package.rs:323-386"
+        ],
+        "identity": "SelectedTraitSource on each resolved declaration",
+        "validated": true,
+        "transformation": "none; cold catalog, not retained by program",
+        "consumed": true
+      },
+      {
+        "stage": "combat_program",
+        "coords": [
+          "crates/combat/src/program/passive_spell_modifier.rs:253-266",
+          "crates/combat/src/program/selected_trait_package.rs:213-288"
+        ],
+        "identity": "(SelectedTraitSource, SpellEffectRef) per member",
+        "validated": true,
+        "transformation": "boxed sorted slice inside PassiveSpellModifierPlan (16 B header inline in PassiveAmountModifierPlan)",
+        "consumed": false
+      },
+      {
+        "stage": "state_construction",
+        "coords": [
+          "crates/combat/src/state/construction.rs:244-282"
+        ],
+        "identity": "same",
+        "validated": true,
+        "transformation": "none-or-complete exactly-once per actor check; nothing retained in CombatState",
+        "consumed": true
+      },
+      {
+        "stage": "quote",
+        "coords": [
+          "crates/combat/src/passive_modifier.rs:217-241"
+        ],
+        "identity": "not read",
+        "validated": false,
+        "transformation": "warm paths read ordinary owners only; the plan holding the header is traversed",
+        "consumed": false
+      },
+      {
+        "stage": "commit",
+        "coords": [
+          "crates/combat/src/state/absorbs.rs:131"
+        ],
+        "identity": "not read",
+        "validated": false,
+        "transformation": "none",
+        "consumed": false
+      },
+      {
+        "stage": "reset",
+        "coords": [
+          "crates/combat/src/state.rs:1068-1136"
+        ],
+        "identity": "not touched",
+        "validated": false,
+        "transformation": "none",
+        "consumed": false
+      },
+      {
+        "stage": "iteration_reset",
+        "coords": [
+          "crates/combat/src/state.rs:448-451"
+        ],
+        "identity": "not touched",
+        "validated": false,
+        "transformation": "none",
+        "consumed": false
+      }
+    ],
+    "finding_ids": [
+      "CSA-L-01"
+    ]
+  }
+]

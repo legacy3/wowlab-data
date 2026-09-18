@@ -1,0 +1,182 @@
+[
+ {
+  "id": "XC-C-001",
+  "concept": "clearing critical eligibility for impacts without amounts",
+  "compilers": [
+   {
+    "authority": "instakill",
+    "coords": [
+     "crates/combat/src/program.rs:1185-1192"
+    ],
+    "behavior": "without_critical"
+   },
+   {
+    "authority": "interrupt",
+    "coords": [
+     "crates/combat/src/program/interrupt.rs:146-160"
+    ],
+    "behavior": "with_guaranteed_noncritical_delivery"
+   },
+   {
+    "authority": "dispel / dispel_mechanic",
+    "coords": [
+     "crates/combat/src/program/dispel.rs:150-164",
+     "crates/combat/src/program/dispel_mechanic.rs:113-122"
+    ],
+    "behavior": "without_critical"
+   },
+   {
+    "authority": "stun / silence / pacify / aura application / resource / cooldown adjustment",
+    "coords": [
+     "crates/combat/src/program/payload_policy.rs:33-47"
+    ],
+    "behavior": "left Eligible -> crit draw + Critical result"
+   },
+   {
+    "authority": "raw-67 missing-or-maximum heal (isolated sole health op like instakill)",
+    "coords": [
+     "crates/combat/src/healing.rs:211-236"
+    ],
+    "behavior": "left Eligible by design -> multiplier applied (UNK-C-004)"
+   }
+  ],
+  "class": "D",
+  "evidence": [
+   "probe: c_noncritical_payload.rs::defect_aura_only_hostile_impact_reports_critical_result",
+   "probe: c_missing_max_heal_crit.rs::holds_caster_maximum_heal_critical_doubles_applied_health (raw 67 recorded as UNK-C-004)"
+  ],
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "track": "C"
+ },
+ {
+  "id": "XC-C-002",
+  "concept": "exclusive-group composition across active and passive terms",
+  "compilers": [
+   {
+    "authority": "critical chance",
+    "coords": [
+     "crates/combat/src/critical_modifier.rs:321-379"
+    ],
+    "behavior": "winner selected over active cohorts AND passive terms"
+   },
+   {
+    "authority": "critical damage (raw 163)",
+    "coords": [
+     "crates/combat/src/critical_damage_modifier.rs:33-39",
+     "crates/combat/src/critical_damage_modifier.rs:71-102"
+    ],
+    "behavior": "passives applied unconditionally; winner only over actives"
+   },
+   {
+    "authority": "critical block amount",
+    "coords": [
+     "crates/combat/src/critical_block_amount.rs:123-172"
+    ],
+    "behavior": "passive-only; winner among passives"
+   }
+  ],
+  "class": "C",
+  "evidence": [
+   "Passive raw-163 activation compiles exclusive group 0 unconditionally (program/critical_damage_modifier.rs:341-349), so the asymmetric raw-163 loop cannot observe a passive group member: harmless redundancy (REJ-C-002)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "XC-C-003",
+  "concept": "which impacts consult attack-table modifiers (hit / crit / defense)",
+  "compilers": [
+   {
+    "authority": "hit-chance modifiers",
+    "coords": [
+     "crates/combat/src/state/modifiers.rs:185"
+    ],
+    "behavior": "damage-bearing impacts only; aura-only impacts keep baseline miss roll without modifiers"
+   },
+   {
+    "authority": "critical chance",
+    "coords": [
+     "crates/combat/src/execution/planning.rs:882-915"
+    ],
+    "behavior": "every targeted/beneficial impact (CSA-C-01)"
+   },
+   {
+    "authority": "critical-block amount",
+    "coords": [
+     "crates/combat/src/state/modifiers.rs:238-247"
+    ],
+    "behavior": "damage-bearing Melee/Ranged only"
+   },
+   {
+    "authority": "defense chance",
+    "coords": [
+     "crates/combat/src/state/modifiers.rs:143-178"
+    ],
+    "behavior": "any impact with dodge/parry/block eligibility"
+   }
+  ],
+  "class": "B",
+  "evidence": [
+   "Hit-chance damage-only scope is documented (aura_subtype.rs:416, 476: 'non-damaging ... aura-only impacts remain unchanged'); Trinity applies hit modifiers to all hostile spells (Unit.cpp:12454-12488) - documented core_choice, not recorded as a finding. The crit inconsistency is recorded as CSA-C-01."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "XC-C-004",
+  "concept": "selected-trait owner-policy check in final compilers of the Martial Expert package",
+  "compilers": [
+   {
+    "authority": "passive_spell_modifier (op 15 member)",
+    "coords": [
+     "crates/combat/src/program/passive_spell_modifier.rs:950-985"
+    ],
+    "behavior": "validate_owner incl. selected_trait_owner_policy_issue"
+   },
+   {
+    "authority": "critical_block_amount (raw 638 member)",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:256-302"
+    ],
+    "behavior": "no owner-policy check"
+   },
+   {
+    "authority": "critical_modifier (290/308/334)",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:558-566"
+    ],
+    "behavior": "owner-policy check"
+   }
+  ],
+  "class": "E",
+  "evidence": [
+   "The raw-638 member skips the owner-policy check but cannot compile without its op-15 sibling being declared (critical_block_amount.rs:287-295) and the sibling compiler rejects the same owner spell 429638; masked by the sibling today. Latent only if a future package admits raw 638 without a policy-checking sibling (UNK-C-003)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "XC-C-005",
+  "concept": "critical multiplier baseline source for spell impacts vs white swings",
+  "compilers": [
+   {
+    "authority": "spell impacts",
+    "coords": [
+     "crates/combat/src/execution/planning/critical.rs:11-79"
+    ],
+    "behavior": "actor baseline multiplier x raw 163 x op-15"
+   },
+   {
+    "authority": "white main hand",
+    "coords": [
+     "crates/combat/src/state/white_main_hand.rs:105"
+    ],
+    "behavior": "hardcoded x2"
+   }
+  ],
+  "class": "B",
+  "evidence": [
+   "White admission requires critical_strikes empty and isolated modifier programs (topology.rs:1099-1125, white_swing.rs:376-440) so no configuration combines a non-2.0 multiplier or raw 163 with white swings (REJ-C-003)."
+  ],
+  "track": "C"
+ }
+]

@@ -1,0 +1,85 @@
+[
+ {
+  "id": "RNG-C-001",
+  "coords": [
+   "crates/combat/src/attack/resolution.rs:497-501"
+  ],
+  "site": "critical occurs draw (spell/impact table)",
+  "draws": "0 if probability None/0/>=1, else 1",
+  "order": "after the ordered non-landing draw (if any), before block draws",
+  "quote": "probability and multiplier fully prepared at quote (planning/critical.rs:11-123); crit-modifier failures abort before any RNG",
+  "failure": "quote failure -> no draw; commit infallible",
+  "reset": "stream reset replays identically (CriticalAuthority immutable)",
+  "commit": "draw at commit via PreparedImpactQuote::resolve (impact.rs:388-418); captured outcome reused by later operations of the same impact",
+  "iteration_reset": "fresh stream; identical immutable crit inputs",
+  "outcome_dependent_after_draw": "selects normal vs critical PreparedHealthAmount (health_amount.rs:67-79); no fallible work after the draw",
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "note": "Also consumed by impacts without any amount (CSA-C-01).",
+  "probe_test": "c_noncritical_payload.rs::defect_aura_only_hostile_impact_samples_critical_draw",
+  "track": "C"
+ },
+ {
+  "id": "RNG-C-002",
+  "coords": [
+   "crates/combat/src/attack/resolution.rs:503"
+  ],
+  "site": "block occurs draw",
+  "draws": "0 if block chance 0 or >=1, else 1",
+  "order": "after crit draw",
+  "quote": "block chance, defense adjustments and critical-block factor prepared at quote (state/modifiers.rs:117-250)",
+  "failure": "defense/hit calculation errors surface at quote",
+  "reset": "replays",
+  "commit": "landed impacts only",
+  "iteration_reset": "fresh stream",
+  "track": "C"
+ },
+ {
+  "id": "RNG-C-003",
+  "coords": [
+   "crates/combat/src/attack/resolution.rs:511"
+  ],
+  "site": "critical-block occurs draw",
+  "draws": "only when block succeeded and resolve_critical_block (= impact has damage); 0/1 per occurs short-circuit",
+  "order": "after block draw",
+  "quote": "critical block chance from BlockDefense input; raw-638 factor prepared at quote",
+  "failure": "n/a",
+  "reset": "replays",
+  "commit": "multiplier = critical_block_multiplier",
+  "iteration_reset": "fresh stream",
+  "outcome_dependent_after_draw": "retained multiplier choice only",
+  "track": "C"
+ },
+ {
+  "id": "RNG-C-004",
+  "coords": [
+   "crates/combat/src/attack/resolution.rs:471"
+  ],
+  "site": "ordered non-landing draw (miss/dodge|resist/parry)",
+  "draws": "0 if all zero or first positive >= 1, else 1",
+  "order": "first",
+  "quote": "hit/defense adjustments prepared at quote",
+  "failure": "n/a",
+  "reset": "replays",
+  "commit": "non-landing short-circuits crit and block draws",
+  "iteration_reset": "fresh stream",
+  "note": "Track I owns the denominator; recorded here because a non-landing result suppresses the crit draw.",
+  "track": "C"
+ },
+ {
+  "id": "RNG-C-005",
+  "coords": [
+   "crates/combat/src/white_swing/resolution.rs:81"
+  ],
+  "site": "white outcome draw (includes critical threshold)",
+  "draws": "exactly 1 (uniform_index(10000)) even on guaranteed outcomes",
+  "order": "after forced weapon draw",
+  "quote": "critical share prepared at state construction (white_swing.rs:300-322)",
+  "failure": "admission rejection consumes no draw",
+  "reset": "replays",
+  "commit": "crit -> mitigated x2",
+  "iteration_reset": "fresh stream",
+  "track": "C"
+ }
+]

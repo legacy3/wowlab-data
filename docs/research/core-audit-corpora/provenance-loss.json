@@ -1,0 +1,837 @@
+{
+ "count": 60,
+ "kind": "provenance_loss",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "authority": "AUTH-A-006",
+   "coords": [
+    "crates/combat/src/state/construction.rs:284-322",
+    "crates/combat/src/state/construction.rs:838-858"
+   ],
+   "fact": "binding family identity of a package member binding",
+   "finding_ids": [
+    "CSA-A-01"
+   ],
+   "id": "PL-A-001",
+   "note": "family dropped when flattening to (actor,effect); discarded family satisfies membership",
+   "pattern": "package_to_authority_family",
+   "track": "A",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-A-017",
+   "coords": [
+    "crates/combat/src/program/critical_block_amount.rs:297-301"
+   ],
+   "fact": "selected-rank amount at raw-638 final compile",
+   "id": "PL-A-002",
+   "note": "resolved.selected_amount(effect) stored; authored only for Passive activation (266)",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-007",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:898-918",
+    "crates/combat/src/program/selected_trait_package.rs:1308-1312",
+    "crates/combat/src/program/selected_trait_package.rs:1228",
+    "crates/combat/src/program/selected_trait_package.rs:1256"
+   ],
+   "fact": "selected-rank amount at spell-modifier final compile",
+   "id": "PL-A-003",
+   "note": "value taken from the package role computed from selected_amount",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-008",
+   "coords": [
+    "crates/combat/src/program/passive_auto_attack_damage.rs:169-171"
+   ],
+   "fact": "selected-rank amount at auto-attack damage final compile",
+   "id": "PL-A-004",
+   "note": "",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-009",
+   "coords": [
+    "crates/combat/src/program/passive_healing_received.rs:185-187"
+   ],
+   "fact": "selected-rank amount at healing-received final compile",
+   "id": "PL-A-005",
+   "note": "",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-010",
+   "coords": [
+    "crates/combat/src/program/passive_haste.rs:154-156",
+    "crates/combat/src/program/passive_haste.rs:186"
+   ],
+   "fact": "selected-rank amount at all-haste final compile",
+   "id": "PL-A-006",
+   "note": "carrier constant only when selected_trait() is None",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-011",
+   "coords": [
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:104-116"
+   ],
+   "fact": "selected-rank amount at melee speed final compile",
+   "id": "PL-A-007",
+   "note": "",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-012",
+   "coords": [
+    "crates/combat/src/program/passive_damage_modifier.rs:169-171"
+   ],
+   "fact": "selected-rank amount at school-damage final compile",
+   "id": "PL-A-008",
+   "note": "",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-013",
+   "coords": [
+    "crates/combat/src/program/passive_absorb_received.rs:178-185"
+   ],
+   "fact": "selected-rank amount at absorb-received final compile",
+   "id": "PL-A-009",
+   "note": "",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-018",
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:418-423",
+    "crates/combat/src/program/critical_modifier.rs:568-570"
+   ],
+   "fact": "selected-rank amount at critical-chance final compile",
+   "id": "PL-A-010",
+   "note": "authored base points only returned for non-selected activation (500-502)",
+   "pattern": "selected_amount_to_authored",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-004",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:291-304"
+   ],
+   "fact": "exact effect -> package source lookup (find first)",
+   "id": "PL-A-011",
+   "note": "lossless because one exact effect has exactly one selected declaration source (REJ-A-002)",
+   "pattern": "exact_effect_to_provider",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-A-017",
+   "coords": [
+    "crates/combat/src/program/critical_block_amount.rs:273-302"
+   ],
+   "fact": "SelectedTraitOwnerContract computed but not consumed by raw-638",
+   "finding_ids": [
+    "CSA-A-02"
+   ],
+   "id": "PL-A-012",
+   "note": "package.owner() never read in critical_block_amount.rs",
+   "pattern": "retained_never_consumed",
+   "track": "A",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-A-001",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:29-33"
+   ],
+   "fact": "SelectedTraitPackageContract::source()",
+   "id": "PL-A-013",
+   "note": "no production consumer; compilers carry the selection from the declaration",
+   "pattern": "retained_never_consumed",
+   "track": "A",
+   "verdict": "inert"
+  },
+  {
+   "authority": "AUTH-A-019",
+   "coords": [
+    "crates/data/src/action/catalog/selected_trait_source.rs:1-27",
+    "crates/combat/src/program/selected_trait_package.rs:197-211"
+   ],
+   "fact": "(entry,effective_rank) through catalog declarations to compiled definitions",
+   "id": "PL-A-014",
+   "note": "exact pair retained; each final compiler re-resolves from it",
+   "pattern": "lossless",
+   "track": "A",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-B-001",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:853-930",
+    "crates/combat/src/program/passive_spell_modifier.rs:790-837"
+   ],
+   "evidence": "value (points/ms) is taken from the package role computed from resolved.selected_amount; authored base points are never re-read; core_test selected_cooldown_spell_modifier.rs::selected_ranked_flat_operation_11_uses_set_and_multiply_rank_amounts (Static Charge 265046 authored -15000 vs -10000/-20000).",
+   "fact": "selected rank amount at final SpellMod compile",
+   "id": "PL-B-001",
+   "pattern": "lossless",
+   "track": "B",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-B-002",
+   "coords": [
+    "crates/combat/src/spell_modifier_authority.rs:122-160",
+    "crates/combat/src/spell_modifier_authority.rs:163-201"
+   ],
+   "evidence": "BoundFactor/BoundFlatPoint retain only the last contributing exact effect; used solely for non-finite error attribution.",
+   "fact": "contributing provider identity after aggregation",
+   "id": "PL-B-002",
+   "pattern": "exact_effect_to_provider",
+   "track": "B",
+   "verdict": "inert"
+  },
+  {
+   "authority": "AUTH-B-001",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:574-581",
+    "crates/combat/src/spell_modifier_authority.rs:277-288"
+   ],
+   "evidence": "projection keyed by payload spell + FirstEffect, reconstructed at lookup by effect_index()==1; only effect 1 targets are compiled.",
+   "fact": "first-effect target identity for percent op-3",
+   "id": "PL-B-003",
+   "pattern": "dropped_then_reconstructed",
+   "track": "B",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-B-004",
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:476-485",
+    "crates/combat/src/cooldown.rs:477-500"
+   ],
+   "evidence": "DeadlineRecovery.base_duration stores the unmodified base; consumed only in semantics() equality, never to recompute duration.",
+   "fact": "spell-modified cooldown base vs retained base_duration",
+   "id": "PL-B-004",
+   "pattern": "retained_never_consumed",
+   "track": "B",
+   "verdict": "inert"
+  },
+  {
+   "authority": "AUTH-B-003",
+   "coords": [
+    "crates/combat/src/program/modifier/payload_spells.rs:32-52",
+    "crates/combat/src/execution/planning/critical.rs:34-76"
+   ],
+   "evidence": "compile filters payload programs by damage-impact presence and keys the projection by payload spell only; runtime re-applies it to every crit-eligible impact of that spell, heals included.",
+   "fact": "impact kind (heal vs damage) for op-15 applicability",
+   "finding_ids": [
+    "CSA-B-03"
+   ],
+   "id": "PL-B-005",
+   "pattern": "dropped_then_reconstructed",
+   "track": "B",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-B-001",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:912-919"
+   ],
+   "evidence": "(resolved.effects().len() >= 2).then_some(selection): sole-effect providers keep no package provenance; with no siblings there is nothing to bind atomically (Track A owns package atomicity).",
+   "fact": "selected (entry, rank) for sole-effect providers",
+   "id": "PL-B-006",
+   "pattern": "package_to_authority_family",
+   "track": "B",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-C-003",
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:494-575"
+   ],
+   "evidence": [
+    "Selected amount returned from resolved.selected_amount(effect) after package/role/sibling/owner checks; probe proves rank-2 Set-curve +4 reaches runtime (vs authored +2)."
+   ],
+   "fact": "selected raw-290/308/334 rank amount",
+   "id": "PL-C-001",
+   "pattern": "lossless",
+   "probe_test": "c_selected_rank.rs::holds_selected_rank_two_amount_reaches_critical_chance",
+   "track": "C",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-C-010",
+   "coords": [
+    "crates/combat/src/program/critical_block_amount.rs:256-302"
+   ],
+   "evidence": [
+    "Final compile uses resolved.selected_amount(effect) (297-301); authored base points only used for Passive activation (265-267). Previous defect 09d4fdab stays fixed. Martial Expert is one-rank so selected == authored at the pin; path audited statically."
+   ],
+   "fact": "selected raw-638 rank amount",
+   "id": "PL-C-002",
+   "pattern": "selected_amount_to_authored",
+   "track": "C",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-C-007",
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:900-915",
+    "crates/combat/src/program/selected_trait_package.rs:1100-1124"
+   ],
+   "evidence": [
+    "Classification reads percent_points(resolved) (selected amount) and compile_definition uses selected_spell_modifier_amount(value) from that classification; Heart rank 2 (+20) exercised by crates/engine/tests/selected_heart_of_the_crusader.rs."
+   ],
+   "fact": "selected op-15 critical-bonus amount",
+   "id": "PL-C-003",
+   "pattern": "selected_amount_to_authored",
+   "track": "C",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-C-016",
+   "coords": [
+    "crates/combat/src/white_swing.rs:31-38",
+    "crates/combat/src/white_swing.rs:406-412"
+   ],
+   "evidence": [
+    "WhiteCriticalChanceModifier::try_new requires the f64 compiled (selected) amount to round-trip exactly through binary32; otherwise InvalidPreparedBasis (fail closed)."
+   ],
+   "fact": "selected raw-334 / raw-290 amount into white basis points",
+   "id": "PL-C-004",
+   "pattern": "lossless",
+   "track": "C",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-C-001",
+   "coords": [
+    "crates/combat/src/critical/authority.rs:174-189",
+    "crates/combat/src/execution/planning/critical.rs:89-108"
+   ],
+   "evidence": [
+    "Baseline bound by ActorId -> dense index; quote reads context.caster_index (the exact source actor), periodic ticks use SourceActorAtOccurrence (planning.rs:852-858)."
+   ],
+   "fact": "critical baseline actor identity",
+   "id": "PL-C-005",
+   "pattern": "lossless",
+   "track": "C",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-C-002",
+   "coords": [
+    "crates/combat/src/program.rs:1198-1203",
+    "crates/combat/src/program/definition.rs:512-572"
+   ],
+   "evidence": [
+    "The impact policy retains HAS_DAMAGE / HAS_HEALING bits next to the crit channel, but nothing combines them: crit eligibility of a non-amount impact is decided from payload attributes alone."
+   ],
+   "fact": "impact has_damage/has_healing vs critical eligibility",
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "PL-C-006",
+   "pattern": "retained_never_consumed",
+   "track": "C",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-D-003",
+   "coords": [
+    "crates/combat/src/program.rs:1124",
+    "crates/combat/src/execution/planning/health.rs:899-963",
+    "crates/combat/src/execution/commit/health.rs:11-33"
+   ],
+   "fact": "payload school identity",
+   "id": "PL-D-001",
+   "note": "school computed once per program node; commit receives school via HealthCommitContext",
+   "pattern": "lossless",
+   "track": "D",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-D-004",
+   "coords": [
+    "crates/combat/src/execution/commit/health.rs:424-436",
+    "crates/combat/src/absorb/transaction.rs:203-235"
+   ],
+   "fact": "absorb candidate order from quote to commit",
+   "id": "PL-D-002",
+   "pattern": "lossless",
+   "track": "D",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-D-004",
+   "coords": [
+    "crates/combat/src/state/absorbs.rs:114-129"
+   ],
+   "fact": "absorb creation multiplier captured at quote",
+   "id": "PL-D-003",
+   "note": "commit reconstructs the application from effect but requires the captured quote for school absorbs (expect), so multipliers are not recomputed",
+   "pattern": "dropped_then_reconstructed",
+   "track": "D",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-D-001",
+   "coords": [
+    "crates/combat/src/damage.rs:30-37",
+    "crates/combat/src/healing.rs:65-94"
+   ],
+   "fact": "authored fractional base points of raw-9/raw-10 vs rounded raw-2",
+   "finding_ids": [
+    "CSA-D-02"
+   ],
+   "id": "PL-D-004",
+   "pattern": "retained_never_validated",
+   "track": "D",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-D-009",
+   "coords": [
+    "crates/combat/src/program/maximum_health_damage.rs:81-98",
+    "crates/combat/src/program/school_immunity.rs:236-282"
+   ],
+   "fact": "raw-165 immunity-absent assumption",
+   "finding_ids": [
+    "CSA-D-05"
+   ],
+   "id": "PL-D-005",
+   "pattern": "retained_never_validated",
+   "track": "D",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-D-001",
+   "coords": [
+    "crates/combat/src/program/damage.rs:219-235",
+    "crates/combat/src/execution/planning/health/damage_source.rs:1-23"
+   ],
+   "fact": "effective mechanic identity for outgoing mechanic modifiers",
+   "id": "PL-D-006",
+   "note": "mechanic retained in DamageFormulaBinding only when requested; health-leech source reports None",
+   "pattern": "lossless",
+   "track": "D",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-D-001",
+   "coords": [
+    "crates/combat/src/execution/planning/health.rs:616-632"
+   ],
+   "fact": "health-leech pending continuation effect identity",
+   "id": "PL-D-007",
+   "note": "formula.effect must equal pending.effect and beneficiary must equal caster",
+   "pattern": "lossless",
+   "track": "D",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-E-001",
+   "coords": [
+    "crates/combat/src/program/periodic.rs:1588-1678",
+    "crates/data/src/action/catalog/periodic.rs:160-168"
+   ],
+   "fact": "trigger/energize PreserveCadence under RestartLifetime",
+   "id": "PL-E-001",
+   "note": "Resolved cadence for subtype 23/24 is authored and retained; Core validates the pairing only for damage/heal (1646-1673). Trinity derives reset-vs-preserve from StackAmount<2 (Spell.cpp:3240), which Core never checks. No authoritative 12.x source rule found; see UNK-E-001.",
+   "pattern": "retained_never_validated",
+   "track": "E",
+   "verdict": "unknown"
+  },
+  {
+   "authority": "AUTH-E-005",
+   "coords": [
+    "crates/combat/src/program/expiry.rs:142-154",
+    "crates/combat/src/expiry_execution.rs:19-22"
+   ],
+   "fact": "expiry driver source actor",
+   "id": "PL-E-002",
+   "pattern": "lossless",
+   "track": "E",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-E-002",
+   "coords": [
+    "crates/combat/src/periodic.rs:729-741"
+   ],
+   "fact": "captured periodic target index across PreserveCadence refresh",
+   "id": "PL-E-003",
+   "note": "Retargeting on preserve refresh is documented behaviour (ledger 'Periodic trigger spell execution').",
+   "pattern": "lossless",
+   "track": "E",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-F-001",
+   "coords": [
+    "crates/combat/src/state/construction.rs:111-112",
+    "crates/combat/src/topology.rs:957-973",
+    "crates/combat/src/state/construction.rs:284-323"
+   ],
+   "fact": "PassiveMeleeSpeedBinding (actor, effect)",
+   "finding_ids": [
+    "CSA-F-01"
+   ],
+   "id": "PL-F-001",
+   "note": "bindings reach only white admission; without a main hand they are discarded unvalidated (not one of the 5 package-binding families either)",
+   "pattern": "retained_never_validated",
+   "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+   "track": "F",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-F-011",
+   "coords": [
+    "crates/combat/src/program/cooldown_start.rs:20-22",
+    "crates/combat/src/program/spell_attribute.rs:262-263"
+   ],
+   "fact": "source auto-action reset eligibility (SpellInterrupts Combat flag, attr2 DoNotResetCombatTimers, attr6 DoesntResetSwingIfInstant, attr7 ResetSwingAtStart)",
+   "id": "PL-F-002",
+   "note": "reconstructed from spell identity 394463 + attr 407. Pinned source SpellInterrupts.csv row 190450 InterruptFlags=40 (Combat 0x08 set), attributes limited to 407 by audit, cast time 2 s: Trinity IsAutoActionResetSpell (Spell.cpp:8310-8319) is true and reset occurs at launch (Spell.cpp:3887). Equivalent at pin; InterruptFlags is not audited so a data change there would not be detected.",
+   "pattern": "dropped_then_reconstructed",
+   "track": "F",
+   "verdict": "inert"
+  },
+  {
+   "authority": "AUTH-F-008",
+   "coords": [
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:104-116"
+   ],
+   "fact": "selected raw-319 rank amount",
+   "id": "PL-F-003",
+   "note": "selected rank amount (not authored points) consumed; narrowed to binary32 once as the attack-time consumer does",
+   "pattern": "lossless",
+   "probe_test": "f_white_swing.rs::holds_white_period_consumes_selected_rank_amount",
+   "track": "F",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-F-010",
+   "coords": [
+    "crates/combat/src/program/passive_auto_attack_damage.rs:169-194"
+   ],
+   "fact": "selected raw-344 rank amount",
+   "id": "PL-F-004",
+   "note": "resolved.selected_amount used; Heart rank-2 Core test crates/engine/tests/selected_heart_of_the_crusader.rs:36",
+   "pattern": "lossless",
+   "track": "F",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-F-004",
+   "coords": [
+    "crates/combat/src/white_swing/resolution.rs:38-47",
+    "crates/combat/src/white_swing.rs:114-123",
+    "crates/combat/src/state/white_main_hand.rs:109-116"
+   ],
+   "fact": "WhiteOutcomeChances glancing/crushing shares",
+   "id": "PL-F-005",
+   "note": "always default 0 (equal levels, Player attacker); matching unreachable! arm for Parry/Block/Glancing/Crushing",
+   "pattern": "retained_never_consumed",
+   "track": "F",
+   "verdict": "inert"
+  },
+  {
+   "authority": "AUTH-G-008",
+   "coords": [
+    "crates/combat/src/program/silence.rs:62-72",
+    "crates/combat/src/silence.rs:94-126"
+   ],
+   "fact": "silence school mask",
+   "id": "PL-G-001",
+   "note": "misc_0 school retained per binding and used for admission; intentionally unused for cancellation (Trinity parity)",
+   "pattern": "lossless",
+   "track": "G",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-G-008",
+   "coords": [
+    "crates/combat/src/program/silence/carrier_326836.rs:218-223"
+   ],
+   "fact": "326836 SpellInterrupts words (flags 41, channel 0/0)",
+   "id": "PL-G-002",
+   "note": "validated exactly but no runtime consumer (movement/combat interrupt flags have no simulated trigger); raw-68 audit rejects coexistence (program/interrupt.rs:59-70)",
+   "pattern": "retained_never_consumed",
+   "track": "G",
+   "verdict": "inert"
+  },
+  {
+   "authority": "AUTH-G-002",
+   "coords": [
+    "crates/combat/src/cast.rs:223-229",
+    "crates/combat/src/cast_authority.rs:423-431"
+   ],
+   "fact": "start-recovery pre-acceptance value on cancellation",
+   "finding_ids": [
+    "CSA-G-02"
+   ],
+   "id": "PL-G-003",
+   "note": "the pending cast does not retain what the GCD cell was before acceptance, so cancellation cannot restore it",
+   "pattern": "retained_never_consumed",
+   "track": "G",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-G-015",
+   "coords": [
+    "crates/combat/src/cast_cost.rs:5-27",
+    "crates/combat/src/cast_authority.rs:366-391"
+   ],
+   "fact": "prepared cost amount",
+   "id": "PL-G-004",
+   "pattern": "lossless",
+   "track": "G",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-G-005",
+   "coords": [
+    "crates/combat/src/execution/planning/interrupt.rs:58-66",
+    "crates/combat/src/execution/commit.rs:575-596"
+   ],
+   "fact": "interrupted action school",
+   "id": "PL-G-005",
+   "pattern": "lossless",
+   "track": "G",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-H-009",
+   "coords": [
+    "crates/combat/src/state/construction.rs:1018",
+    "crates/combat/src/state.rs:949-953"
+   ],
+   "evidence": "index recovered by binary search on the canonical roster; ActorId retained on ActorState; permuted input bit-identical",
+   "fact": "actor identity -> index",
+   "id": "PL-H-001",
+   "pattern": "lossless",
+   "probe_test": "h_construction_mutations.rs::holds_actor_and_relation_order_is_canonicalized",
+   "track": "H",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-H-014",
+   "coords": [
+    "crates/combat/src/execution/commit/health.rs:923-930",
+    "crates/combat/src/state.rs:1368-1395"
+   ],
+   "evidence": "death is published as an observation and health==0 but no aura/expiry owner consumes it (periodic alone checks liveness)",
+   "fact": "actor death",
+   "finding_ids": [
+    "CSA-H-01"
+   ],
+   "id": "PL-H-002",
+   "pattern": "retained_never_consumed",
+   "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient",
+   "track": "H",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-H-010",
+   "coords": [
+    "crates/combat/src/state/construction.rs:604-623",
+    "crates/combat/src/state/construction.rs:331-341"
+   ],
+   "evidence": "applied before baseline capture, never re-applied, restored by baseline",
+   "fact": "construction passives (haste-all, max health, max resource)",
+   "id": "PL-H-003",
+   "pattern": "lossless",
+   "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints",
+   "track": "H",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-J-001",
+   "coords": [
+    "crates/combat/src/program/modifier/auto_attack_damage_storage.rs:19-56"
+   ],
+   "fact": "raw-344 binary32 factor packed into ModifierDefinition.percent_points f64",
+   "id": "PL-J-001",
+   "note": "debug_assert round trip; f32->f64->f32 exact",
+   "pattern": "lossless",
+   "track": "J",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-J-001",
+   "coords": [
+    "crates/combat/src/white_swing.rs:32-38"
+   ],
+   "fact": "raw-290 selected f64 percent narrowed to binary32",
+   "id": "PL-J-002",
+   "note": "try_new rejects any value not exactly binary32-representable (fail closed)",
+   "pattern": "premature_f64_promotion",
+   "track": "J",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-J-001",
+   "coords": [
+    "crates/combat/src/white_swing.rs:226-228",
+    "crates/combat/src/white_swing.rs:296-313"
+   ],
+   "fact": "split (flat raw290 + 5.0 base) and rating binary32 terms collapsed into one host basis",
+   "finding_ids": [
+    "CSA-J-01"
+   ],
+   "id": "PL-J-003",
+   "pattern": "dropped_then_reconstructed",
+   "track": "J",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-J-002",
+   "coords": [
+    "crates/combat/src/haste.rs:56-77",
+    "crates/combat/src/recovery.rs:113-116"
+   ],
+   "fact": "consumer binary32 period multiplier (ModCastingSpeed/ModSpellHaste) replaced by f64 frequency",
+   "finding_ids": [
+    "CSA-J-02"
+   ],
+   "id": "PL-J-004",
+   "pattern": "premature_f64_promotion",
+   "track": "J",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-J-005",
+   "coords": [
+    "crates/engine/src/lib.rs:1273-1300",
+    "crates/rotation/src/projection.rs:89-100"
+   ],
+   "fact": "passive-flow basis (basis_at, basis_balance) dropped; rotation rebuilds projection from observed current",
+   "finding_ids": [
+    "CSA-J-07"
+   ],
+   "id": "PL-J-005",
+   "pattern": "dropped_then_reconstructed",
+   "track": "J",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-J-003",
+   "coords": [
+    "crates/data/src/trait_source/selected_spell.rs:84-95"
+   ],
+   "fact": "selected rank amount authored * curve kept in f64",
+   "id": "PL-J-006",
+   "pattern": "lossless",
+   "track": "J",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-J-004",
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:105-140",
+    "crates/combat/src/spell_modifier_authority.rs:370-377"
+   ],
+   "fact": "cooldown SpellMod aggregate factor stored as binary32 bits",
+   "id": "PL-J-007",
+   "note": "producer always yields f64::from(f32); release build would silently narrow a non-binary32 factor but none is constructible",
+   "pattern": "lossless",
+   "track": "J",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-K-005",
+   "coords": [
+    "crates/data/src/spell_external_policy.rs:214-225",
+    "crates/combat/src/program/selected_trait_package.rs:440-457"
+   ],
+   "evidence": "All nine columns copied verbatim; consumers read the same accessors; Unknown/Present preserved distinct from Absent.",
+   "fact": "external policy identity/presence",
+   "id": "PL-K-001",
+   "pattern": "lossless",
+   "track": "K",
+   "verdict": "clean"
+  },
+  {
+   "authority": "AUTH-K-007",
+   "coords": [
+    "crates/combat/src/program.rs:1595-1618",
+    "crates/data/src/action/catalog/operation.rs:861-902"
+   ],
+   "evidence": "GameData retains the facts but aura-mutation lowering never reads them; the host step supplies aura, direction and count instead.",
+   "fact": "raw-289 EffectMiscValue_0 mode, signed base points, EffectTriggerSpell",
+   "finding_ids": [
+    "CSA-K-01"
+   ],
+   "id": "PL-K-002",
+   "pattern": "retained_never_consumed",
+   "track": "K",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-K-006",
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:1182-1220",
+    "crates/combat/src/program/critical_block_amount.rs:256-268"
+   ],
+   "evidence": "A host can declare a trait-provider effect as Passive, dropping (entry,rank) provenance; compilation then applies the authored amount without trait source, package or external policy.",
+   "fact": "selected-trait provenance for trait-provider rows declared with ordinary Passive activation",
+   "finding_ids": [
+    "CSA-K-05"
+   ],
+   "id": "PL-K-003",
+   "pattern": "dropped_then_reconstructed",
+   "track": "K",
+   "verdict": "finding"
+  },
+  {
+   "authority": "AUTH-L-001",
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:257-263"
+   ],
+   "fact": "package (entry_id,effective_rank) per member",
+   "id": "PL-L-001",
+   "note": "lossless and stored once per member; residency issue (cold data in a warm-read struct) is recorded as CSA-L-01, not a provenance loss",
+   "pattern": "lossless",
+   "track": "L",
+   "verdict": "clean"
+  }
+ ],
+ "schema": 1
+}

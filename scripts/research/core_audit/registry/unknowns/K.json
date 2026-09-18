@@ -1,0 +1,33 @@
+[
+ {
+  "id": "UNK-K-001",
+  "question": "Is Ignored raw spell attribute 103 (DotStackingRule) behavior-bearing for Core? Trinity lets same-spell auras from different casters coexist only with this flag (or when both are non-area periodic); otherwise the newer non-periodic aura replaces the older one.",
+  "why_unknown": "Core keys aura instances by (aura, source, affected) (aura_state.rs:1226-1228) and never consults 103; whether two sources can currently apply the same non-periodic aura to one target through admitted content was not constructed.",
+  "reopen": "Probe two actors casting the same admitted non-periodic aura on one target; if both instances coexist, compare against Trinity Aura::CanStackWith (SpellAuras.cpp:1644-1766) and reclassify 103.",
+  "coords": [
+   "crates/dbc/src/spell_attribute.rs:384",
+   "crates/combat/src/aura_state.rs:1226-1228"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "UNK-K-002",
+  "question": "Is there a trustworthy producer of SpellPolicyCatalogInput?",
+  "why_unknown": "No generator exists in core, wowlab-data, core-sidecar or wowlab; Core only validates structure/coverage/identity and must trust presence values.",
+  "reopen": "When a host projection (TDB spell_proc/spell_script_names + DB2 cooldown/cost/cast/interrupt/empower/stack layers) is added, audit it for Unknown-vs-Absent defaulting and complete coverage.",
+  "coords": [
+   "crates/data/src/spell_external_policy.rs:36-43"
+  ],
+  "track": "K"
+ },
+ {
+  "id": "UNK-K-003",
+  "question": "Do any other ordinary-Passive families beyond raw 290/638 admit trait-provider spells (bypassing SelectedTrait policy), e.g. raw 47/49/51, 34, 63, 454?",
+  "why_unknown": "Only raw 290 (Canny Strikes) and raw 638 (Martial Expert) were probed; the others are generic by catalog text but no trait-provider fixture was built.",
+  "reopen": "For each generic-passive family build a live-shaped trait-provider row as ordinary Passive and check admission; extend CSA-K-05.",
+  "coords": [
+   "crates/combat/src/program/defense_chance_modifier.rs:693"
+  ],
+  "track": "K"
+ }
+]

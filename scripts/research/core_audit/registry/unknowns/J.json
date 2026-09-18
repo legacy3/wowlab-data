@@ -1,0 +1,23 @@
+[
+ {
+  "id": "UNK-J-001",
+  "track": "J",
+  "question": "Is the continuous f64 resource-cost domain intentional for raw 423 (as continuous health is)?",
+  "why_unknown": "Ledger documents continuous health/absorb capacity but the raw-423 selection text omits the consumer int32 store.",
+  "reopen": "Core owner states the resource-domain policy; if intentional downgrade CSA-J-06 to info/INCONSISTENT."
+ },
+ {
+  "id": "UNK-J-002",
+  "track": "J",
+  "question": "Does retail (not TrinityCore) use the same binary32 association/rounding for CritPercentage, haste period products, recovery rates and CountPctFromMaxHealth?",
+  "why_unknown": "TrinityCore is an emulator (build skew <= 12.0.7); CSA-J-01/02/03/05 are parity divergences against it.",
+  "reopen": "Client/server disassembly or sidecar evidence of the retail arithmetic."
+ },
+ {
+  "id": "UNK-J-003",
+  "track": "J",
+  "question": "Raw-183 Conduit of Flame (444843, misc1=50) is admitted as (Above,50); Trinity evaluates every raw-183 as !HealthBelowPct (AtOrAbove).",
+  "why_unknown": "Comparison direction is host-resolver input; outside numeric precision (track C).",
+  "reopen": "Track C confirms the resolver comparison source for 444843."
+ }
+]

@@ -1,0 +1,67 @@
+[
+ {
+  "id": "PL-G-001",
+  "track": "G",
+  "authority": "AUTH-G-008",
+  "fact": "silence school mask",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/program/silence.rs:62-72",
+   "crates/combat/src/silence.rs:94-126"
+  ],
+  "verdict": "clean",
+  "note": "misc_0 school retained per binding and used for admission; intentionally unused for cancellation (Trinity parity)"
+ },
+ {
+  "id": "PL-G-002",
+  "track": "G",
+  "authority": "AUTH-G-008",
+  "fact": "326836 SpellInterrupts words (flags 41, channel 0/0)",
+  "pattern": "retained_never_consumed",
+  "coords": [
+   "crates/combat/src/program/silence/carrier_326836.rs:218-223"
+  ],
+  "verdict": "inert",
+  "note": "validated exactly but no runtime consumer (movement/combat interrupt flags have no simulated trigger); raw-68 audit rejects coexistence (program/interrupt.rs:59-70)"
+ },
+ {
+  "id": "PL-G-003",
+  "track": "G",
+  "authority": "AUTH-G-002",
+  "fact": "start-recovery pre-acceptance value on cancellation",
+  "pattern": "retained_never_consumed",
+  "coords": [
+   "crates/combat/src/cast.rs:223-229",
+   "crates/combat/src/cast_authority.rs:423-431"
+  ],
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-G-02"
+  ],
+  "note": "the pending cast does not retain what the GCD cell was before acceptance, so cancellation cannot restore it"
+ },
+ {
+  "id": "PL-G-004",
+  "track": "G",
+  "authority": "AUTH-G-015",
+  "fact": "prepared cost amount",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/cast_cost.rs:5-27",
+   "crates/combat/src/cast_authority.rs:366-391"
+  ],
+  "verdict": "clean"
+ },
+ {
+  "id": "PL-G-005",
+  "track": "G",
+  "authority": "AUTH-G-005",
+  "fact": "interrupted action school",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/execution/planning/interrupt.rs:58-66",
+   "crates/combat/src/execution/commit.rs:575-596"
+  ],
+  "verdict": "clean"
+ }
+]

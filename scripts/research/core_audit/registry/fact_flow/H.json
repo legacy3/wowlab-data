@@ -1,0 +1,236 @@
+[
+ {
+  "id": "FF-H-001",
+  "track": "H",
+  "authority": "AUTH-H-010",
+  "fact": "actor resource/health baseline through run and reset",
+  "stages": [
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/state/construction.rs:124-131",
+     "crates/combat/src/state/construction.rs:331-341"
+    ],
+    "identity": "ActorId -> canonical index",
+    "validated": true,
+    "transformation": "passives applied once, baseline cloned",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/cast.rs:149-173"
+    ],
+    "identity": "actor index",
+    "validated": true,
+    "transformation": "projection only",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/actor.rs:147-205"
+    ],
+    "identity": "actor index",
+    "validated": true,
+    "transformation": "commit_* writes",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:1069-1071"
+    ],
+    "identity": "index zip",
+    "validated": true,
+    "transformation": "clone_from_slice baseline",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:448-451"
+    ],
+    "identity": "same",
+    "validated": true,
+    "transformation": "same + new RNG",
+    "consumed": true
+   }
+  ],
+  "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints"
+ },
+ {
+  "id": "FF-H-002",
+  "track": "H",
+  "authority": "AUTH-H-010",
+  "fact": "random stream identity",
+  "stages": [
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/state/construction.rs:232"
+    ],
+    "identity": "RandomStreamIdentity(root, iteration)",
+    "validated": true,
+    "transformation": "stream()",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/execution/planning/health.rs:533-534"
+    ],
+    "identity": "cloned stream",
+    "validated": true,
+    "transformation": "draws on clone",
+    "consumed": true
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/execution/commit.rs:905"
+    ],
+    "identity": "live stream",
+    "validated": true,
+    "transformation": "draws at commit",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/state.rs:444"
+    ],
+    "identity": "same identity",
+    "validated": true,
+    "transformation": "stream.reset()",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/state.rs:450"
+    ],
+    "identity": "new identity",
+    "validated": true,
+    "transformation": "identity.stream()",
+    "consumed": true
+   }
+  ],
+  "probe_tests": [
+   "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+   "h_reset_fingerprint.rs::holds_reset_fingerprints"
+  ]
+ },
+ {
+  "id": "FF-H-003",
+  "track": "H",
+  "authority": "AUTH-H-014",
+  "fact": "actor death -> aura lifecycle (raw 495 expiry trigger)",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/dbc/src/aura_subtype.rs:574"
+    ],
+    "identity": "SpellEffect EffectAura 495, misc, trigger spell",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/expiry.rs:52-167"
+    ],
+    "identity": "(aura, effect) -> ExpiryDriver edge",
+    "validated": true,
+    "transformation": "misc!=0 -> OriginalAuraSource",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/execution/commit/health.rs:923-930"
+    ],
+    "identity": "recipient ActorId",
+    "validated": true,
+    "transformation": "ActorDied observation only",
+    "consumed": false
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state.rs:1368-1395",
+     "crates/combat/src/expiry_execution.rs:9-40"
+    ],
+    "identity": "AuraExpiry(handle, generation)",
+    "validated": false,
+    "transformation": "natural expiry of corpse aura fires driver",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/aura_state.rs:676-680"
+    ],
+    "identity": "all cells",
+    "validated": true,
+    "transformation": "INACTIVE",
+    "consumed": true
+   }
+  ],
+  "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient",
+  "finding_ids": [
+   "CSA-H-01"
+  ]
+ },
+ {
+  "id": "FF-H-004",
+  "track": "H",
+  "authority": "AUTH-H-009",
+  "fact": "host passive-flow update",
+  "stages": [
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/state/construction.rs:929"
+    ],
+    "identity": "(actor index, resource)",
+    "validated": true,
+    "transformation": "current+baseline halves",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state.rs:253-317"
+    ],
+    "identity": "exact configured pool",
+    "validated": true,
+    "transformation": "settle old rate then replace",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/passive_resource_flow.rs:951-956"
+    ],
+    "identity": "cells",
+    "validated": true,
+    "transformation": "baseline copied over current",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/resource_authority.rs:1152-1186"
+    ],
+    "identity": "same",
+    "validated": true,
+    "transformation": "threshold replan at ZERO",
+    "consumed": true
+   }
+  ],
+  "probe_test": "h_construction_mutations.rs::holds_host_flow_update_is_reverted_by_reset"
+ }
+]

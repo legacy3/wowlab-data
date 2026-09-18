@@ -1,0 +1,15 @@
+[
+ {
+  "id": "EP-H-001",
+  "track": "H",
+  "boundary": "runtime host interaction surface",
+  "coords": [
+   "crates/combat/src/state.rs:253-317",
+   "crates/combat/src/state.rs:361-451",
+   "crates/combat/src/cast.rs:74-134"
+  ],
+  "claim": "after construction the host can only cast/begin_cast/cast_readiness, advance*, update_passive_resource_flow and reset; no world/catalog lookup occurs at runtime",
+  "verdict": "holds",
+  "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free"
+ }
+]

@@ -1,0 +1,94 @@
+[
+ {
+  "id": "XC-K-001",
+  "concept": "immutable passive owner external-policy validation",
+  "compilers": [
+   {
+    "authority": "selected role compilers (8)",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:558-566",
+     "crates/combat/src/program/passive_spell_modifier.rs:979"
+    ],
+    "behavior": "call selected_trait_owner_policy_issue"
+   },
+   {
+    "authority": "raw-638 selected",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:256-302"
+    ],
+    "behavior": "no owner policy"
+   },
+   {
+    "authority": "ordinary Passive crit / crit-block",
+    "coords": [
+     "crates/combat/src/program/critical_modifier.rs:1182-1220",
+     "crates/combat/src/program/critical_block_amount.rs:427-484"
+    ],
+    "behavior": "DB2 aura options/equipment/attributes only; no external policy"
+   }
+  ],
+  "evidence": "Same owner rows are admitted under different policy regimes depending on activation route.",
+  "finding_ids": [
+   "CSA-A-02",
+   "CSA-K-05"
+  ],
+  "track": "K",
+  "class": "D"
+ },
+ {
+  "id": "XC-K-002",
+  "concept": "sibling source-effect completeness",
+  "compilers": [
+   {
+    "authority": "selected package classifier",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:789-806"
+    ],
+    "behavior": "every sibling classified; unknown rejects package"
+   },
+   {
+    "authority": "per-family aura audits",
+    "coords": [
+     "crates/combat/src/program/critical_block_amount.rs:486-518"
+    ],
+    "behavior": "undeclared same-subtype sibling on declared aura owner rejects"
+   },
+   {
+    "authority": "ordinary action programs",
+    "coords": [
+     "crates/combat/src/program/compile.rs:39-45"
+    ],
+    "behavior": "undeclared siblings of any status silently ignored"
+   }
+  ],
+  "evidence": "Probe k_sibling_coverage.rs.",
+  "finding_ids": [
+   "CSA-K-04"
+  ],
+  "track": "K",
+  "class": "D"
+ },
+ {
+  "id": "XC-K-003",
+  "concept": "all-Absent external-policy predicate",
+  "compilers": [
+   {
+    "authority": "selected owner policy",
+    "coords": [
+     "crates/combat/src/program/selected_trait_package.rs:440-457"
+    ],
+    "behavior": "identity filter + nine Absent"
+   },
+   {
+    "authority": "raw-416 inert check",
+    "coords": [
+     "crates/combat/src/program/spell_attribute.rs:110-130"
+    ],
+    "behavior": "identity filter + nine Absent (+Passive, PassiveModifier roles)"
+   }
+  ],
+  "evidence": "Redundant but equivalent predicates.",
+  "track": "K",
+  "class": "C"
+ }
+]

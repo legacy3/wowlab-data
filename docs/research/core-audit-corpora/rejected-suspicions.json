@@ -1,0 +1,1672 @@
+{
+ "count": 159,
+ "kind": "rejected",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:845-886",
+    "crates/combat/src/program/selected_trait_package.rs:888-970",
+    "crates/combat/src/program/selected_trait_package.rs:246",
+    "crates/combat/src/state/construction.rs:284-322"
+   ],
+   "id": "REJ-A-001",
+   "suspicion": "selected_passive_bindings covers 5 families while SelectedTraitEffectRole has 12 roles -> a package member of an omitted family could escape the atomicity check",
+   "track": "A",
+   "why_rejected": "Every role reachable in a recorded (arity>=2) package is one of the 10 composition slots (SpellMod x6 kinds, CriticalBlockAmount, HealingReceived, AutoAttackDamage, AutoAttackCriticalChance); all map to the 5 chained families (AutoAttackCriticalChance -> passive_critical). HasteAll, AllCriticalChance, CritChanceForCaster, MeleeAutoAttackSpeed, DamageDone/Taken, AbsorbReceived are singleton-only (counts.other rejects them in any multi-effect package) and singletons are never recorded. Safe today; latent seam only if a future composition admits them (MUT-A-044). Note: the family identity is still lost (CSA-A-01)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:291-304",
+    "crates/combat/src/program/selected_trait_package.rs:246-254",
+    "crates/combat/src/program/selected_trait_package.rs:401-416"
+   ],
+   "id": "REJ-A-002",
+   "suspicion": "selected_passive_package_source returns the first find() match; two sources could share an exact effect and the wrong package would be required",
+   "track": "A",
+   "why_rejected": "Recorded effects come only from sources whose every member is declared under that exact (entry,rank); a catalog family holds at most one declaration per exact effect; owner-role count must equal arity. Two entries (or two ranks) naming one provider therefore cannot both compile (MUT-A-040/041)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:213-288",
+    "crates/combat/src/program/selected_trait_package.rs:920-968",
+    "crates/combat/src/program/passive_spell_modifier.rs:132-161"
+   ],
+   "id": "REJ-A-003",
+   "suspicion": "compile_selected_passive_package_effects is only called from the spell-modifier compiler, so a package without a SpellMod member would be invisible to state validation",
+   "track": "A",
+   "why_rejected": "composition_is_admitted_by admits no multi-effect multiset without a SpellModifier role (arity 2: direct+periodic, direct+label, critbonus+block, direct+auto-damage; 3: healing+2 first-effect label; 4: Heart; 5-8 all SpellMod). Every member compiler requires all siblings declared, so the spell-modifier family is non-empty and PassiveSpellModifierPlan is compiled (modifier.rs:911-917 unconditional; passive_spell_modifier.rs:139-141). The code comment at crates/combat/src/program/selected_trait_package.rs:224-228 states the invariant accurately."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_block_amount.rs:297-301",
+    "crates/combat/src/program/critical_modifier.rs:568-570",
+    "crates/combat/src/program/passive_auto_attack_damage.rs:169-171",
+    "crates/combat/src/program/passive_healing_received.rs:185-187",
+    "crates/combat/src/program/passive_haste.rs:154-156",
+    "crates/combat/src/program/passive_melee_auto_attack_speed.rs:104-106",
+    "crates/combat/src/program/passive_damage_modifier.rs:169-171",
+    "crates/combat/src/program/passive_absorb_received.rs:178-180",
+    "crates/combat/src/program/passive_spell_modifier.rs:898-918"
+   ],
+   "id": "REJ-A-004",
+   "suspicion": "raw-638-class bug (selected amount replaced by authored points) at another final compiler",
+   "track": "A",
+   "why_rejected": "All nine selected final compilers read resolved.selected_amount or the role value built from it (PL-A-002..PL-A-010); authored base points are used only for non-selected activations or fixed carriers."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:600-629",
+    "crates/combat/src/program/selected_trait_package.rs:789-807",
+    "crates/data/src/trait_source/selected_spell.rs:265-274"
+   ],
+   "id": "REJ-A-005",
+   "suspicion": "source order determines role / unknown siblings can be filtered away",
+   "track": "A",
+   "why_rejected": "Roles are computed per exact effect; probe holds_source_order_does_not_determine_role. Unknown siblings make the whole contract None and a source-declared but unretained effect makes the resolver refuse IncompleteEffects."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:306-320",
+    "crates/combat/src/state/construction.rs:253-256"
+   ],
+   "id": "REJ-A-006",
+   "suspicion": "unrelated packages can satisfy completeness",
+   "track": "A",
+   "why_rejected": "Required members are enumerated by exact source equality and matched against exact (actor, member) pairs."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/construction.rs:248-279"
+   ],
+   "id": "REJ-A-007",
+   "suspicion": "one valid actor masks another orphan actor",
+   "track": "A",
+   "why_rejected": "Validation iterates every bound (actor,effect) independently; probe holds_complete_actor_does_not_mask_orphan_actor."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:124-129",
+    "crates/combat/src/state/construction.rs:244-282",
+    "crates/combat/src/state/construction.rs:214-240"
+   ],
+   "id": "REJ-A-008",
+   "suspicion": "generic mutable package runtime exists",
+   "track": "A",
+   "why_rejected": "selected_package_effects is an immutable boxed slice inside PassiveSpellModifierPlan read only during state construction; CombatState has no package field; ordinary authorities remain owners."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:323-386",
+    "crates/combat/src/program/selected_trait_package.rs:246-254",
+    "crates/combat/src/program/passive_spell_modifier.rs:932-948",
+    "crates/combat/src/program/critical_block_amount.rs:287-295"
+   ],
+   "id": "REJ-A-009",
+   "suspicion": "declarations not atomic: one member compiles while another is undeclared",
+   "track": "A",
+   "why_rejected": "Each member compiler (and the provenance recorder) refuses the program unless every member is declared under the exact source; program build is all-or-nothing (probes a_selected_owner_policy.rs::holds_only_spell_modifier_member_declared_rejects, holds_only_block_member_declared_rejects)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:888-891",
+    "crates/combat/src/program/passive_spell_modifier.rs:880-897"
+   ],
+   "id": "REJ-A-010",
+   "suspicion": "single-effect sole-authority path and contract path disagree on admission of a live effect",
+   "track": "A",
+   "why_rejected": "Both call the same selected_trait_package_contract (arity 1 always admitted) and the same classifier; the only divergence found is the missing owner policy in the raw-638 compiler (CSA-A-02), which has no live singleton."
+  },
+  {
+   "coords": [
+    "crates/dbc/src/spell_attribute.rs:395",
+    "crates/combat/src/program/spell_attribute.rs:17-80"
+   ],
+   "id": "REJ-B-001",
+   "suspicion": "payload SPELL_ATTR3_IGNORE_CASTER_MODIFIERS could still receive caster SpellMods",
+   "track": "B",
+   "why_rejected": "raw 125 is Unimplemented and fails centrally for every program shape"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/spell_attribute.rs:40-48",
+    "crates/data/src/action/catalog/selected_owner.rs:54-62"
+   ],
+   "id": "REJ-B-002",
+   "suspicion": "cooldown SpellMod applied to shared category starts despite SPELL_ATTR6_NO_CATEGORY_COOLDOWN_MODS (Trinity SpellHistory.cpp:411)",
+   "track": "B",
+   "why_rejected": "raw 223 is uncataloged; action payload owners are audited (selected_owner primary_owners) and uncataloged attributes fail closed; core_test uncataloged_no_category_modifier_payload_remains_fail_closed"
+  },
+  {
+   "coords": [
+    "crates/data/src/game_data.rs:590-612",
+    "crates/combat/src/program/selected_trait_package.rs:1100-1123",
+    "crates/combat/src/program/passive_spell_modifier.rs:950-988"
+   ],
+   "id": "REJ-B-003",
+   "suspicion": "effect_spell_match_count treats family 0 and empty masks as universal, unlike Trinity IsAffectedBySpellMod",
+   "track": "B",
+   "why_rejected": "unreachable for SpellMods: class-mask classification requires nonempty mask and validate_owner requires nonzero family (probes MUT-B-005/006)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/healing_modifier.rs:29-40",
+    "crates/combat/src/program/modifier/payload_spells.rs:21-30"
+   ],
+   "id": "REJ-B-004",
+   "suspicion": "op 0/22 should scale raw-20 periodic percent heals",
+   "track": "B",
+   "why_rejected": "Trinity HandlePeriodicHealAurasTick skips SpellHealingBonusDone for OBS_MOD_HEALTH (SpellAuraEffects.cpp:5913-5916); Core PeriodicPercent -> no operation and excluded from payload set"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:853-930",
+    "crates/combat/src/program/selected_trait_package.rs:1308-1312"
+   ],
+   "id": "REJ-B-005",
+   "suspicion": "raw-638-class: final SpellMod compile consumes authored points instead of the selected rank",
+   "track": "B",
+   "why_rejected": "value comes from the package role built from resolved.selected_amount; authored base_points never read (PL-B-001)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_adjustment.rs:386-425",
+    "crates/combat/src/cooldown/deadline_rate.rs:363-391"
+   ],
+   "id": "REJ-B-006",
+   "suspicion": "ReduceRemainingCooldown/ModifyCooldownsByCategory sign or erase boundary diverges from Trinity",
+   "track": "B",
+   "why_rejected": "negative -> Reduce, amount>=remaining clears, positive extends; Trinity ModifySpellCooldown erases CooldownEnd<=now (SpellHistory.cpp:578-606)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown.rs:1700-1782"
+   ],
+   "id": "REJ-B-007",
+   "suspicion": "charge reduce recovers only one charge",
+   "track": "B",
+   "why_rejected": "adjust_charge_recovery counts 1 + after_first/full_interval charges, like Trinity popping every expired entry (SpellHistory.cpp:861-868)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_recovery_rate.rs:633-640"
+   ],
+   "id": "REJ-B-008",
+   "suspicion": "raw-286 applicability should use SpellMod popcount/no-universal rules",
+   "track": "B",
+   "why_rejected": "Trinity MOD_RECOVERY_RATE uses AuraEffect::IsAffectingSpell -> SpellInfo::IsAffected (family 0 universal, empty mask = family) (SpellAuraEffects.cpp:6274-6284); Core effect_affects_spell matches"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:450-487",
+    "crates/combat/src/cooldown/deadline_rate.rs:661-691"
+   ],
+   "id": "REJ-B-009",
+   "suspicion": "cooldown modifier ordering (SpellMod vs haste vs recovery rate vs raw-341) differs from the direct consumer",
+   "track": "B",
+   "why_rejected": "Core: SpellMod pre-haste -> haste/rate -> raw-341 flat -> suppress<=0, same as Trinity StartCooldown (SpellHistory.cpp:398-500)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/charge_duration.rs:245-345",
+    "crates/combat/src/cooldown/charge_recovery_input.rs:43-67"
+   ],
+   "id": "REJ-B-010",
+   "suspicion": "charge recovery phase order differs",
+   "track": "B",
+   "why_rejected": "Core 453(+205) flat -> 454 pct -> haste regen -> 148 speed -> truncate, same as Trinity GetChargeRecoveryTime (SpellHistory.cpp:975-1010)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/ordinary_category_duration_modifier.rs:250-365",
+    "crates/combat/src/program/charge_duration_modifier.rs:192-342"
+   ],
+   "id": "REJ-B-011",
+   "suspicion": "Passive-activation cooldown/charge witnesses (238100, 1254251, 1272844, 1239537, 1272842, 383228) consume authored amounts of ranked traits",
+   "track": "B",
+   "why_rejected": "all are one-rank TraitNodeEntry rows without TraitDefinitionEffectPoints (source: TraitNodeEntry/TraitDefinitionEffectPoints 12.1.0), so authored == selected"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/modifiers.rs:360-395"
+   ],
+   "id": "REJ-B-012",
+   "suspicion": "op-15 excess formula wrong",
+   "track": "B",
+   "why_rejected": "Trinity crit_bonus -= damage; ApplySpellMod(CritDamageAndHealing); += damage (Unit.cpp:7296-7303) equals 1+(M-1)F"
+  },
+  {
+   "coords": [
+    "crates/combat/src/damage_modifier.rs:305-320",
+    "crates/combat/src/spell_modifier_authority.rs:298-305"
+   ],
+   "id": "REJ-B-013",
+   "suspicion": "flat first-effect on raw-87 applied with foreign caster/holder",
+   "track": "B",
+   "why_rejected": "applied only when target is Player and aura key source==affected==target; bindings are Player-only"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/health.rs:365-470",
+    "crates/combat/src/execution/planning/health.rs:698-741"
+   ],
+   "id": "REJ-B-014",
+   "suspicion": "health-leech heal leg receives operation 0 once instead of on both legs",
+   "track": "B",
+   "why_rejected": "Core heal = effective damage (already op-0 scaled on the damage route) * transfer * healing multiplier (op-0 again on the heal route), matching Trinity EffectHealthLeech SpellDamageBonusDone then SpellHealingBonusDone (SpellEffects.cpp:1328-1365)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:693-722",
+    "crates/combat/src/cooldown_recovery_rate.rs:366-392"
+   ],
+   "id": "REJ-B-015",
+   "suspicion": "raw-286 live rebase lets an unaffected alias inherit a modifier on a shared deadline",
+   "track": "B",
+   "why_rejected": "rebase_recovery only rebases when the stored initiating rate cell equals the transitioning cell; provenance written at commit_start from the initiating activation"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/critical.rs:35-76"
+   ],
+   "id": "REJ-C-001",
+   "suspicion": "critical bonus (op 15) and raw 163 applied in the wrong order for some damage family",
+   "track": "C",
+   "why_rejected": "Direct Melee/Ranged: bonus then school; Magic/None and periodic: school then bonus; non-damage: bonus only. Reproduces Trinity melee path (Unit.cpp:1216-1231), SpellCriticalDamageBonus (7279-7306, also used by periodic ticks SpellAuraEffects.cpp:5707,5791) and SpellCriticalHealingBonus (7309-7325). core_test selected_martial_expert.rs:80-94."
+  },
+  {
+   "coords": [
+    "crates/combat/src/critical_damage_modifier.rs:33-39",
+    "crates/combat/src/program/critical_damage_modifier.rs:341-349"
+   ],
+   "id": "REJ-C-002",
+   "suspicion": "passive raw-163 terms bypass exclusive-group arbitration",
+   "track": "C",
+   "why_rejected": "Passive raw-163 activation always compiles group 0 (no composition on the passive wire shape), so no passive term can belong to a group."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:105",
+    "crates/combat/src/topology.rs:1099-1125",
+    "crates/combat/src/white_swing.rs:376-440"
+   ],
+   "id": "REJ-C-003",
+   "suspicion": "white main-hand crit ignores the actor multiplier, raw 163 and op-15",
+   "track": "C",
+   "why_rejected": "White admission requires critical_strikes empty and an isolated program with no raw-163 definitions; Heart's op-15 mask covers only Crusader Strike family payloads (not auto attack), matching Trinity where spellmods need a SpellInfo. White crit x2 therefore matches every admitted configuration."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/modifiers.rs:238-247"
+   ],
+   "id": "REJ-C-004",
+   "suspicion": "raw-638 read from the defender while Trinity reads it from the attacker",
+   "track": "C",
+   "why_rejected": "Trinity multiplies by the attacker's MOD_CRITICAL_BLOCK_AMOUNT (Unit.cpp:1243,1463) although the only carrier (Martial Expert 429638, a warrior talent that blocks) describes the holder's own critical blocks; Core's defender ownership is the semantic reading and Trinity is the outlier."
+  },
+  {
+   "coords": [
+    "crates/combat/src/critical_modifier.rs:125-143"
+   ],
+   "id": "REJ-C-005",
+   "suspicion": "HybridMax adds target-held raw 197 / raw 183 to both channels and so double counts",
+   "track": "C",
+   "why_rejected": "Adding the same x to both channels before max equals adding x to the max (max(a+x,b+x) = max(a,b)+x); matches Trinity's single post-max addition."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/critical_modifier.rs:494-575"
+   ],
+   "id": "REJ-C-006",
+   "suspicion": "selected raw-290/308/334 compile authored points (raw-638 class)",
+   "track": "C",
+   "why_rejected": "selected_percent_points returns the selected amount; probe with a two-rank Set curve proves +4 (rank 2) is consumed."
+  },
+  {
+   "coords": [
+    "crates/combat/src/critical.rs:71-81",
+    "crates/combat/src/critical/resolution.rs:95-113"
+   ],
+   "id": "REJ-C-007",
+   "suspicion": "crit chance clamped before modifiers (overcap baseline lost)",
+   "track": "C",
+   "why_rejected": "Baseline retained unclamped (critical.rs:71-75); floor 0 after modifiers, clamp to 1 only in resolve_critical."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/critical.rs:11-123",
+    "crates/combat/src/health_amount.rs:67-79"
+   ],
+   "id": "REJ-C-008",
+   "suspicion": "fallible crit calculation after the crit draw",
+   "track": "C",
+   "why_rejected": "All crit arithmetic (chance modifiers, raw 163, op 15) runs inside prepare_impact_critical at quote; commit only draws and selects precomputed normal/critical amounts."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning.rs:852-858",
+    "crates/combat/src/program/periodic.rs:1518-1541"
+   ],
+   "id": "REJ-C-009",
+   "suspicion": "periodic ticks snapshot or ignore live crit chance",
+   "track": "C",
+   "why_rejected": "PeriodicCriticalPolicy::SourceActorAtOccurrence recomputes crit from the source actor at every tick (planning.rs:852-858) and requires SPELL_ATTR8 PeriodicCanCrit (program/periodic.rs:1518-1541); Trinity evaluates GetCritChanceFor at each tick (SpellAuraEffects.cpp:1278-1281, 5705) gated by CanPeriodicTickCrit (6132-6135); simc adds STATE_CRIT to update_flags (action.cpp:2729, 2787)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program.rs:1114-1130",
+    "crates/combat/src/execution/planning/health.rs:899-941"
+   ],
+   "id": "REJ-D-001",
+   "suspicion": "Payload school could be reconstructed from a different spell than the effect's owner (identity drift between compiler and consumer)",
+   "track": "D",
+   "why_rejected": "Resolved program steps carry only effect_index; effects are owned by the program spell, and school is taken from that payload spell once (program.rs:1124) and reused for immunity, modifiers, absorbs and share."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/modifier.rs:1500-1531",
+    "crates/combat/src/damage_modifier.rs:351-370"
+   ],
+   "id": "REJ-D-002",
+   "suspicion": "Incoming mechanic-filtered damage modifiers use spell-level mechanic mask instead of per-effect mechanic",
+   "track": "D",
+   "why_rejected": "Binding uses the payload spell's all-effect mechanic mask (program/modifier.rs:1507-1530), matching Trinity SpellDamageBonusTaken's GetAllEffectsMechanicMask semantics."
+  },
+  {
+   "coords": [
+    "crates/combat/src/damage_modifier.rs:137-280"
+   ],
+   "id": "REJ-D-003",
+   "suspicion": "Outgoing school damage modifiers on multi-school payloads should multiply all matching auras",
+   "track": "D",
+   "why_rejected": "Core takes the per-school product then the max across payload schools (damage_modifier.rs:247-252), matching Trinity's player branch of SpellDamagePctDone (max over ModDamageDonePercent per school)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/compile.rs:833-855",
+    "crates/combat/src/program/damage_immunity.rs:537-580"
+   ],
+   "id": "REJ-D-004",
+   "probe_test": "d_damage_immunity_power_burn.rs::holds_power_burn_rejects_any_declared_immunity_family",
+   "suspicion": "Damage-immunity program audit omits ProgramOp::PowerBurn, letting burn damage reach an Ethereal holder (debug_assert admits_payload)",
+   "track": "D",
+   "why_rejected": "compile_pool_plans rejects Power Burn whenever any immunity family is declared (UnsupportedImmunityPlan)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/health.rs:1117-1122",
+    "crates/combat/src/program/share_damage.rs:237-296"
+   ],
+   "id": "REJ-D-005",
+   "probe_tests": [
+    "d_share_damage_attacker.rs::holds_share_damage_topology_rejects_third_party_attackers",
+    "d_share_damage_attacker.rs::holds_share_damage_copies_the_sources_own_damage"
+   ],
+   "suspicion": "Share Damage copies only the aura source's own damage while Trinity copies every attacker's damage",
+   "track": "D",
+   "why_rejected": "Divergence is unreachable: with the exact Venomshade plan compiled, state construction rejects any topology beyond the source/target pair (UnsupportedShareDamageTopology), so no third party can damage the holder."
+  },
+  {
+   "coords": [
+    "crates/combat/src/target_absorb_bypass_authority.rs:101-145"
+   ],
+   "id": "REJ-D-006",
+   "suspicion": "Target absorb bypass aggregates multiple sources additively",
+   "track": "D",
+   "why_rejected": "Percentage points fold with f64::max (target_absorb_bypass_authority.rs:143), matching Trinity GetMaxPositiveAuraModifierByMiscMask."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/commit/health.rs:397-440",
+    "crates/combat/src/absorb/transaction.rs:203-280"
+   ],
+   "id": "REJ-D-007",
+   "suspicion": "Commit-time absorb consumption re-derives candidate order and could diverge from the quote",
+   "track": "D",
+   "why_rejected": "Commit consumes the quoted ordered snapshot (next_snapshot) and skips candidates whose generation/sequence changed; order is carried, not reconstructed."
+  },
+  {
+   "coords": [
+    "crates/combat/src/school_immunity.rs:38-40",
+    "crates/combat/src/program/school_immunity.rs:246-248"
+   ],
+   "id": "REJ-D-008",
+   "suspicion": "School-immunity coverage uses intersection (any covered school) instead of full coverage",
+   "track": "D",
+   "why_rejected": "Both compile audit and runtime use complete-subset coverage (incoming & !provider == 0), matching Trinity (immuneMask & schoolMask) == schoolMask."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/health.rs:871-889",
+    "crates/combat/src/execution/health.rs:55-68",
+    "crates/combat/src/health.rs:86-116"
+   ],
+   "id": "REJ-D-009",
+   "suspicion": "A second damage operation in one impact after a lethal first operation is checked against committed (alive) health and could deal damage",
+   "track": "D",
+   "why_rejected": "The health quote workspace projects the first operation's lethal result; the second quote_damage reads projected current 0 and applies 0 (HealthPool::quote_damage_from min(current)); only the dead_target signal differs from the healing path's projected check (INCONSISTENT, no wrong state)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/damage_immunity.rs:124-130",
+    "crates/combat/src/program/no_immunities.rs:50-53"
+   ],
+   "id": "REJ-D-010",
+   "suspicion": "Damage immunity or no-immunity bypass payload could be suppressed/admitted by spell rather than exact effect",
+   "track": "D",
+   "why_rejected": "admits_payload/suppresses_payload compare exact SpellEffectRef (damage_immunity.rs:124-130); raw-29 bypass is an exact effect predicate (no_immunities.rs:50-53)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/school_immunity.rs:246-274"
+   ],
+   "id": "REJ-D-011",
+   "suspicion": "Self-applied periodic damage of a covered school bypasses raw-39 like raw-165 (caster-recipient route)",
+   "track": "D",
+   "why_rejected": "Periodic tick child programs execute Target-recipient impacts on the aura recipient (resolved periodic damage tick nodes), so the raw-39 compile audit (has_target_impact) inspects them and rejects covered non-applicand programs; only direct caster-recipient payloads such as raw-165 escape. Static argument; not probed."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/transition.rs:22-75"
+   ],
+   "id": "REJ-E-001",
+   "probe_test": "e_periodic_schedule.rs::holds_exact_expiry_tick_runs_before_aura_expiry",
+   "suspicion": "Exact-expiry full tick could be lost to same-time aura expiry",
+   "track": "E",
+   "why_rejected": "Periodic rank 5 precedes aura expiry rank 6 (state/transition.rs:25,70); probe holds_exact_expiry_tick_runs_before_aura_expiry."
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic.rs:483-496",
+    "crates/combat/src/deadline_queue.rs:1-227"
+   ],
+   "id": "REJ-E-002",
+   "probe_test": "e_periodic_schedule.rs::holds_restart_cadence_refresh_discards_partial_period",
+   "suspicion": "Stale periodic deadline survives refresh (double tick)",
+   "track": "E",
+   "why_rejected": "One deadline per schedule slot; commit upserts by slot (periodic.rs:483-496); refresh replaces the cell."
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic.rs:396-440"
+   ],
+   "id": "REJ-E-003",
+   "suspicion": "SpellCastSpeed re-arm could resurrect a cell the child removed/refreshed",
+   "track": "E",
+   "why_rejected": "rearm_after_occurrence compares the full cell against the pre-fire snapshot and aborts on any change (periodic.rs:403-407)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic.rs:534-548"
+   ],
+   "id": "REJ-E-004",
+   "suspicion": "Zero-length terminal partial after a full tick exactly at expiry",
+   "track": "E",
+   "why_rejected": "pending_tick requires aura_expires_at > cadence_anchor for the terminal branch (periodic.rs:534-538)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/aura_state.rs:1153-1200"
+   ],
+   "id": "REJ-E-005",
+   "suspicion": "Capped carryover arithmetic deviates from direct consumers",
+   "track": "E",
+   "why_rejected": "floor(3d/10) carry with max(existing) equals simc DOT_REFRESH_PANDEMIC (action.cpp:4604) and Trinity min(new+rem, 130%) (Spell.cpp:3284-3287) except Trinity may shorten when remaining > 130%, which Core deliberately never does."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/periodic.rs:1449-1474",
+    "crates/combat/src/periodic.rs:743-745"
+   ],
+   "id": "REJ-E-006",
+   "probe_test": "e_periodic_schedule.rs::holds_tick_on_application_only_on_fresh_application",
+   "suspicion": "TickOnApplication should re-tick on refresh",
+   "track": "E",
+   "why_rejected": "Consumers disagree (UNK-E-002); Core matches simc and its own catalog contract; not provable."
+  },
+  {
+   "coords": [
+    "crates/combat/src/resource_threshold.rs:860-870"
+   ],
+   "id": "REJ-E-007",
+   "suspicion": "Resource-threshold crossing predicate off-by-one vs Trinity",
+   "track": "E",
+   "why_rejected": "Core gain before<T<=after / loss before>T>=after is identical to Trinity TriggerOnPowerChangeAuras (Unit.cpp:10144-10153)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_flow_flat.rs:115-127"
+   ],
+   "id": "REJ-E-008",
+   "suspicion": "AddStacks on passive-flow modifier auras changes flow rate without rebase (retroactive projection)",
+   "track": "E",
+   "why_rejected": "Flat/percentage carriers must be max_stacks==1 single-deadline (passive_flow_flat/validation.rs:321-332, passive_flow_percentage/validation.rs:328-332)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/passive_resource_flow.rs:973-1000",
+    "crates/combat/src/state/active_casting_speed.rs:8-46"
+   ],
+   "id": "REJ-E-009",
+   "suspicion": "Haste changes retroactively re-project passive flow",
+   "track": "E",
+   "why_rejected": "Only runtime haste writer is active casting speed; its commit settles before and rebases/replans after (state/active_casting_speed.rs:8-46; execution/commit.rs:631-635)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/expiry.rs:14-18",
+    "crates/combat/src/program/aura_lifetime.rs:11-35"
+   ],
+   "id": "REJ-E-010",
+   "suspicion": "Independent-stack aura final expiry skips raw-495 driver",
+   "track": "E",
+   "why_rejected": "Combination unreachable: expiry owners with AsynchronousStackingBuff reject (expiry.rs:14-18) and independent lifetime requires it (aura_lifetime.rs:20-21)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/commit.rs:596-620",
+    "crates/combat/src/execution/commit.rs:992-1015"
+   ],
+   "id": "REJ-E-011",
+   "suspicion": "Periodic cell committed for missed impact while aura not applied (or vice versa)",
+   "track": "E",
+   "why_rejected": "Aura commit and periodic workspace commit share impact_landed (execution/commit.rs:617-619, 1010)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic_health.rs:35-38"
+   ],
+   "id": "REJ-E-012",
+   "suspicion": "Live (non-snapshot) periodic amounts are wrong",
+   "track": "E",
+   "why_rejected": "Occurrence-current evaluation is documented and matches retail/simc dynamic dots; Trinity snapshots SpellDamageBonusDone into _estimatedAmount (SpellAuraEffects.cpp:872-895) — consumer disagreement, not a Core defect."
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic.rs:564-582"
+   ],
+   "id": "REJ-E-013",
+   "suspicion": "Haste-affected duration alignment (Venom 391428) diverges from Trinity",
+   "track": "E",
+   "why_rejected": "aligned = max(d/p,1)*p with hastened period equals Trinity Spell.cpp:3270-3278."
+  },
+  {
+   "coords": [
+    "crates/combat/src/periodic_execution.rs:438-505"
+   ],
+   "id": "REJ-E-014",
+   "probe_test": "e_death_lifecycle.rs::holds_dead_source_periodic_trigger_keeps_ticking",
+   "suspicion": "Periodic work of a dead aura SOURCE should stop",
+   "track": "E",
+   "why_rejected": "Core keeps ticking (child damage lands). Trinity gates periodic damage only on target liveness (SpellAuraEffects.cpp:5632-5635) and RemoveAllAurasOnDeath removes only the dying unit's own applied auras (Unit.cpp:4472-4493); inferred retail parity."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:99-117"
+   ],
+   "id": "REJ-F-001",
+   "probe_test": "f_white_swing.rs::holds_white_critical_doubles_truncated_armor_result",
+   "suspicion": "white damage order (roll -> raw-344 -> armor -> crit x2) differs from source",
+   "track": "F",
+   "why_rejected": "identical to Trinity CalculateMeleeDamage: CalculateDamage, MeleeDamageBonusDone (raw 344 AddPct), CalcArmorReducedDamage, RollMeleeOutcomeAgainst, Damage*=2 (Unit.cpp:1382-1420)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:669-697",
+    "crates/combat/src/program/passive_haste.rs:28-30"
+   ],
+   "id": "REJ-F-002",
+   "suspicion": "Core haste/slow formula 100/(100+p) differs from Trinity for negative p ((100+|p|)/100)",
+   "track": "F",
+   "why_rejected": "negative raw-319/raw-193 points are rejected by the package Positive policy; the only non-selected raw-193 carrier is fixed +5"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_haste.rs:47-51",
+    "crates/combat/src/white_swing.rs:458-462"
+   ],
+   "id": "REJ-F-003",
+   "suspicion": "passive_haste period_factor lacks finite/positive guard (inf at p=-100 would give u32::MAX ms period)",
+   "track": "F",
+   "why_rejected": "unreachable: Positive policy; recorded as XC-F-003 class E"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:10"
+   ],
+   "id": "REJ-F-004",
+   "suspicion": "WHITE_MAIN_HAND_SEMANTICS_VERSION was not bumped by b6fdc81a (suppression, v5) nor bd9b891d (quantization order, v6)",
+   "track": "F",
+   "why_rejected": "historical only: HEAD is v7 (62b51085) and differs from every earlier value; bd9b891d also changed the input struct; no white semantic change between 62b51085 and the pin (diff of white files shows only test-helper removals)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/cooldown_start.rs:20-22"
+   ],
+   "id": "REJ-F-005",
+   "suspicion": "Dark Bite reset should depend on source interrupt/attribute facts, not spell identity",
+   "track": "F",
+   "why_rejected": "equivalent at pin: SpellInterrupts 190450 InterruptFlags=40 has Combat 0x08; attr2/6/7 absent (only attr 407 admitted); 2 s cast; Trinity resets at launch (Spell.cpp:3887, 8310-8319). Provenance recorded as PL-F-002 inert / UNK-F-003"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:105"
+   ],
+   "id": "REJ-F-006",
+   "suspicion": "Heart raw-108 op15 (+crit damage) should also scale white crits",
+   "track": "F",
+   "why_rejected": "spellmods apply to spells only; Trinity melee crit only uses SPELL_AURA_MOD_CRIT_DAMAGE_BONUS and ApplySpellMod needs spellProto (Unit.cpp:1417-1423, 8123-8125); simc auto attack consumes effects #1/#2 only (sc_paladin.cpp:962-968)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:125-131",
+    "crates/combat/src/white_swing.rs:114-123",
+    "crates/combat/src/state/white_main_hand.rs:109-116"
+   ],
+   "id": "REJ-F-007",
+   "suspicion": "unreachable! for Parry/Block/Glancing/Crushing can fire",
+   "track": "F",
+   "why_rejected": "admission forces parry=block=0 and WhiteMainHandChances::outcome sets glancing/crushing 0"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:89-95",
+    "crates/combat/src/state/white_main_hand.rs:118-121",
+    "crates/combat/src/white_swing.rs:354-358"
+   ],
+   "id": "REJ-F-008",
+   "suspicion": "commit-phase health quote expect() can panic",
+   "track": "F",
+   "why_rejected": "admission proves minimum progresses at full health; health only decreases (no healing in white-admitted programs) and f64 ulp is monotone, rolled damage >= minimum"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:452-462",
+    "crates/combat/src/white_swing/runtime.rs:57-61"
+   ],
+   "id": "REJ-F-009",
+   "suspicion": "base period near 2^24..u32::MAX ms mis-rounds",
+   "track": "F",
+   "why_rejected": "SimTime is u32 ms; f32 rounding identical to the uint32 x float consumer; overflow of now+period yields None only at SimTime::MAX horizon"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:6-21"
+   ],
+   "id": "REJ-F-010",
+   "probe_test": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset",
+   "suspicion": "suppressed swings should catch up after a cast",
+   "track": "F",
+   "why_rejected": "Trinity attack timer clamps at 0 and swings once (Unit.cpp:461-465, 2215-2222); Core swings once at max(ready, completion) then now+period"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:265-280",
+    "crates/combat/src/program/white_idle.rs:51-117"
+   ],
+   "id": "REJ-F-011",
+   "suspicion": "white never handles source death",
+   "track": "F",
+   "why_rejected": "Player cannot take damage in any white-admitted program (actionless, or single Player->Enemy Dark Bite); exactly one hostile Player->Enemy relation"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:193-201"
+   ],
+   "id": "REJ-F-012",
+   "suspicion": "dodge admitted when defender is not facing",
+   "track": "F",
+   "why_rejected": "Trinity: creature victims can dodge from behind (canDodge = victim not player || canParryOrBlock, Unit.cpp:2416-2419); Core only forces parry/block to 0"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:305-326",
+    "crates/combat/src/state/white_main_hand.rs:23-43"
+   ],
+   "id": "REJ-F-013",
+   "suspicion": "Dark Bite reset applied on a failed completion or to the wrong actor",
+   "track": "F",
+   "why_rejected": "reset only in the Ok(core) arm after commit_cast and only when caster == white source"
+  },
+  {
+   "coords": [
+    "crates/combat/src/topology.rs:1099-1125"
+   ],
+   "id": "REJ-F-014",
+   "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+   "suspicion": "actor auto-attack haste channel ignored by white period",
+   "track": "F",
+   "why_rejected": "white admission requires every actor UNHASTED, so a host auto_attack_speed multiplier fails closed"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast_authority.rs:280-282"
+   ],
+   "id": "REJ-G-001",
+   "suspicion": "fresh Stun cancels an allow-while-stunned (raw-163) pending cast although admission exempts it",
+   "track": "G",
+   "why_rejected": "matches direct consumer: Trinity SetControlled -> CastStop interrupts all non-melee spells unconditionally (Unit.cpp:11569-11570, 11673); documented in ledger L22497"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast_authority.rs:284-295",
+    "crates/combat/src/silence.rs:94-126"
+   ],
+   "id": "REJ-G-002",
+   "suspicion": "Silence cancellation ignores the silenced school",
+   "track": "G",
+   "why_rejected": "Trinity InterruptSpellsWithPreventionTypeOnAuraApply ignores school (SpellAuraEffects.cpp:2521-2528); all admitted silence carriers are misc 127 so admission and cancellation agree on source data"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/casting.rs:100-107",
+    "crates/combat/src/execution/commit.rs:517-525"
+   ],
+   "id": "REJ-G-003",
+   "suspicion": "two interruption quotes against the same generation in one segment panic in cancel_cast expect",
+   "track": "G",
+   "why_rejected": "UNREACHABLE: raw 68 must be the sole program operation (program/interrupt.rs:59) and every prevention carrier is a sole-effect owner with a sole application and no child roles (program/action_prevention_carrier.rs:186-251, program/stun.rs:250-306); chained segments re-quote after commit"
+  },
+  {
+   "coords": [
+    "crates/combat/src/school_lock.rs:52-65"
+   ],
+   "id": "REJ-G-004",
+   "suspicion": "school-lock commit overwrites and could shorten a longer active lock",
+   "track": "G",
+   "why_rejected": "UNREACHABLE: only lockout duration 6000 ms is admitted (program/interrupt.rs:115-120) and now is monotone, so a new deadline is never earlier"
+  },
+  {
+   "coords": [
+    "crates/combat/src/program.rs:1133",
+    "crates/combat/src/program/missile_timing.rs:9-37"
+   ],
+   "id": "REJ-G-005",
+   "suspicion": "missile timing validated only for root spells, letting a missile-bearing child execute instantly",
+   "track": "G",
+   "why_rejected": "validate_missile_timing runs in compile_program for every compiled program node (program.rs:1133)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:329-343"
+   ],
+   "id": "REJ-G-006",
+   "suspicion": "target death during a hard cast should cancel immediately (and reset GCD) rather than fail at completion",
+   "track": "G",
+   "why_rejected": "Trinity keeps the cast until cast() and fails CheckCast (Spell.cpp:4247-4273 cancels only if the target object disappears); completion failure does not cancel GCD in Trinity"
+  },
+  {
+   "coords": [
+    "crates/combat/src/recovery.rs:231-240",
+    "crates/combat/src/cast.rs:762-790"
+   ],
+   "id": "REJ-G-007",
+   "suspicion": "start recovery overwrite could shorten an active GCD",
+   "track": "G",
+   "why_rejected": "start only follows a quote that required now >= ready_at (cast.rs:775-787), so the new ready_at is strictly later"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast_cost.rs:36-63"
+   ],
+   "id": "REJ-G-008",
+   "suspicion": "prepared optional cost over-demands at completion",
+   "track": "G",
+   "why_rejected": "Trinity also stores m_powerCost (incl. optional) at prepare and CheckPower fails at cast if unaffordable"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:137-147",
+    "crates/combat/src/cast_authority.rs:410-417"
+   ],
+   "id": "REJ-G-009",
+   "suspicion": "stale cast completion transition fires after interruption",
+   "track": "G",
+   "why_rejected": "next completion recomputed from live cells every advance (state.rs next_cast_completion) and complete_hard_cast checks authoritative_pending_cast (cast.rs:137-147)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:355-386"
+   ],
+   "id": "REJ-G-010",
+   "suspicion": "casting-speed change mid-cast should rebase the completion deadline",
+   "track": "G",
+   "why_rejected": "Trinity fixes m_casttime at prepare; ledger L20822-20826 documents capture-at-install"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:329-343"
+   ],
+   "id": "REJ-G-011",
+   "suspicion": "failed hard completion mutates state (costs, cooldowns, RNG)",
+   "track": "G",
+   "why_rejected": "Err branch only finishes the cast and pushes CastCompleted Failed; planning is pure (quote in scratch)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:428-437",
+    "crates/combat/src/cast.rs:537-540"
+   ],
+   "id": "REJ-G-012",
+   "suspicion": "a hard error (e.g. DeadTarget) masking a timed blocker strands the engine",
+   "track": "G",
+   "why_rejected": "hard errors surfaced before blockers are permanent for the current request (dead/missing/unsupported target, invalid config); readiness Invalid/Blocked without recheck is correct for them"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:442-451",
+    "crates/combat/src/state.rs:1068-1139"
+   ],
+   "id": "REJ-H-001",
+   "probe_tests": [
+    "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+    "h_reset_fingerprint.rs::holds_reset_fingerprints",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "suspicion": "reset/reset_for_iteration/reset_runtime restore different subsets (reset topology drift)",
+   "track": "H",
+   "why_rejected": "reset() = reset_runtime + random.reset(); reset_for_iteration() = reset_runtime + new stream; the only difference is the RNG, by contract. Full-state Debug after reset equals a freshly constructed state in 29 fixture scenarios + 20 targeted scenarios; reset_for_iteration(B) equals a fresh state built with B and replays identically"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:87",
+    "crates/combat/src/state.rs:89",
+    "crates/combat/src/critical/authority.rs:34-43",
+    "crates/combat/src/spell_power_from_attack_power.rs:121-127"
+   ],
+   "id": "REJ-H-002",
+   "suspicion": "critical and spell_power_from_attack_power authorities are not reset",
+   "track": "H",
+   "why_rejected": "both are immutable after construction (no &mut self methods; only by-value builders in critical/authority.rs:34-43), so there is nothing to reset"
+  },
+  {
+   "coords": [
+    "crates/combat/src/absorb/transaction.rs:143-144",
+    "crates/combat/src/absorb/transaction.rs:326-331",
+    "crates/combat/src/absorb/transaction.rs:678-701"
+   ],
+   "id": "REJ-H-003",
+   "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints",
+   "suspicion": "absorb transaction workspace (projected cells) survives reset and could leak stale capacity into the next iteration",
+   "track": "H",
+   "why_rejected": "full Debug after reset differs only in AbsorbTransactionWorkspace.projected for mana_shield/non_bypassable_absorb fixtures; every read goes through projected_cell guarded by projected_present, which is cleared per transaction (absorb/transaction.rs:327-330, 678-701); semantic Debug and replay are identical"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/resource_threshold_interrupt.rs:112-139",
+    "crates/combat/src/cast.rs:74-86"
+   ],
+   "id": "REJ-H-004",
+   "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints",
+   "suspicion": "cast_readiness (&mut self quote) mutates state (ResourceThresholdInterruptWorkspace.admitted_work 1->0 observed)",
+   "track": "H",
+   "why_rejected": "admitted_work is per-transaction scratch zeroed by prepare() at the start of every threshold transaction (execution/resource_threshold_interrupt.rs:135-139); no semantic owner changes across 1,000+ readiness quotes (probe)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/actor.rs:23-29",
+    "crates/combat/src/actor.rs:129-138",
+    "crates/combat/src/active_casting_speed.rs:159-180",
+    "crates/combat/src/state.rs:1112-1114"
+   ],
+   "id": "REJ-H-005",
+   "probe_test": "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints",
+   "suspicion": "ActorBaseline omits haste and offensive power, so runtime haste changes survive reset",
+   "track": "H",
+   "why_rejected": "offensive_power has no mutator; haste is mutated at construction by passive all-haste (before the baseline is captured) and at runtime only by ActiveCastingSpeedRuntime, whose reset restores the captured casting-speed channels (active_casting_speed.rs:159-163) from timing.reset (state.rs:1112-1114); active-casting-speed fixtures reset fresh-equal"
+  },
+  {
+   "coords": [
+    "crates/combat/src/passive_resource_flow.rs:951-956",
+    "crates/combat/src/resource_authority.rs:1152-1186"
+   ],
+   "id": "REJ-H-006",
+   "probe_tests": [
+    "h_construction_mutations.rs::holds_host_flow_update_is_reverted_by_reset",
+    "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+   ],
+   "suspicion": "host update_passive_resource_flow mutations become the new baseline (survive reset)",
+   "track": "H",
+   "why_rejected": "PassiveResourceFlowStorage keeps an immutable baseline half and reset copies it over the current half (passive_resource_flow.rs:951-956) before thresholds replan at ZERO (resource_authority.rs:1152-1186); probe updates flow mid-run then reset == fresh"
+  },
+  {
+   "coords": [
+    "crates/engine/src/lib.rs:847-859"
+   ],
+   "id": "REJ-H-007",
+   "probe_test": "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+   "suspicion": "rotation RotationState is not reset by Engine::reset and could carry frames into the next iteration",
+   "track": "H",
+   "why_rejected": "PreparedRotation::evaluate clears state on entry and exit (rotation execution.rs:367, 410-412); the only residue is popped ListFrame values above depth 0, which push always overwrites; Engine Debug minus that scratch equals a fresh Engine after reset and iteration reset"
+  },
+  {
+   "coords": [
+    "crates/engine/src/lib.rs:271-340",
+    "crates/combat/src/cooldown.rs:222-227"
+   ],
+   "id": "REJ-H-008",
+   "suspicion": "runtime host/data lookup (GameData/catalog/content resolver consulted after construction)",
+   "track": "H",
+   "why_rejected": "non-test combat runtime modules reference catalogs only in compile-time constructors (cooldown.rs:222-227 CooldownPlan::compile); the engine ContentResolver is used only by ProgramResolver inside EngineProgram::try_new (engine lib.rs:271-340); runtime host inputs are limited to cast/advance/update_passive_resource_flow"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:397-406",
+    "crates/combat/src/state.rs:253-317"
+   ],
+   "id": "REJ-H-009",
+   "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free",
+   "suspicion": "failed public host calls (advance_to backwards, unconfigured/unknown passive-flow update) partially mutate state",
+   "track": "H",
+   "why_rejected": "backwards time returns before any mutation (state.rs:402-406); update_passive_resource_flow rejects unsupported rates before settlement and PassiveResourceFlowStorage::update fails before writing; full Debug unchanged in probe"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning/health.rs:533-534",
+    "crates/combat/src/execution/planning/dispel.rs:94-95",
+    "crates/combat/src/cast.rs:175-203"
+   ],
+   "id": "REJ-H-010",
+   "probe_test": "h_reset_fingerprint.rs::holds_reset_fingerprints",
+   "suspicion": "rejected casts consume RNG or leave partial state (failure purity)",
+   "track": "H",
+   "why_rejected": "quotes resolve on a cloned RandomStream (planning/health.rs:533-534, planning/dispel.rs:94-95); semantic Debug including random identical before/after every rejected begin_cast in all scenarios (hundreds of rejections incl. CastInProgress, ResourceSpend, cooldown, DeadTarget)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/construction.rs:87",
+    "crates/combat/src/state/construction.rs:343-356",
+    "crates/combat/src/white_swing.rs:255-369",
+    "crates/combat/src/topology.rs:1099-1124"
+   ],
+   "id": "REJ-H-011",
+   "suspicion": "white main-hand validated from the raw pre-canonical input could bind the wrong actor or skip passive adjustments",
+   "track": "H",
+   "why_rejected": "white admission requires an exact two-actor roster, one hostile relation, UNHASTED actors, and default health/resource/cooldown bindings (topology.rs:950-1124), so canonicalization and construction passives cannot change what it validated; duplicate actors are still rejected later (only error precedence differs)"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/construction.rs:1013-1040",
+    "crates/combat/src/state/topology.rs:33-72"
+   ],
+   "id": "REJ-H-012",
+   "probe_test": "h_construction_mutations.rs::holds_actor_and_relation_order_is_canonicalized",
+   "suspicion": "state construction order-dependence: actor/relation input order changes compiled state",
+   "track": "H",
+   "why_rejected": "actors sorted by ActorId and relations by (pair, disposition) before any index-bearing owner is compiled; permuted inputs produce bit-identical full Debug"
+  },
+  {
+   "coords": [
+    "crates/engine/src/lib.rs:833-840",
+    "crates/engine/src/lib.rs:901-950",
+    "crates/engine/src/lib.rs:1036-1046"
+   ],
+   "id": "REJ-I-001",
+   "suspicion": "Engine::step/advance return Err after committing drained/advanced transitions (RNG consumed, observations not in the Err)",
+   "track": "I",
+   "why_rejected": "documented contract: last_observations 'remains available when evaluation fails after the combat clock has advanced'; drained transitions are independent committed events, not part of the failed cast quote"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/commit.rs:893-906"
+   ],
+   "id": "REJ-I-002",
+   "suspicion": "fixed-travel critical rolled at launch instead of arrival",
+   "track": "I",
+   "why_rejected": "Trinity rolls IsCrit in Spell::PreprocessSpellLaunch (Spell.cpp:8526-8563) at launch"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/commit.rs:453-464",
+    "crates/combat/src/execution/planning/mechanic_dispel.rs:23-39"
+   ],
+   "id": "REJ-I-003",
+   "suspicion": "mechanic dispel draws for non-matching auras",
+   "track": "I",
+   "why_rejected": "Trinity EffectDispelMechanic rolls roll_chance(CalcDispelChance) for every owned applied aura before the mechanic check (SpellEffects.cpp:4247-4254); draw values unused"
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/commit.rs:156-198",
+    "crates/combat/src/program/dispel.rs:21-80",
+    "crates/combat/src/program/dispel_mechanic.rs:18-60"
+   ],
+   "id": "REJ-I-004",
+   "suspicion": "dispel selection is drawn before mechanic-dispel scans regardless of authored operation order in one segment",
+   "track": "I",
+   "why_rejected": "unreachable: raw-38 carrier 220640 is a sole-effect exact program and raw-108 is exact 1248984; the two never share a segment"
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/construction.rs:1018",
+    "crates/combat/src/state/transition.rs:54-72"
+   ],
+   "id": "REJ-I-005",
+   "probe_test": "i_rng_attack_table.rs::holds_roster_input_order_does_not_change_draws",
+   "suspicion": "actor roster input order changes same-time cast-completion draw order (ordering key uses actor index)",
+   "track": "I",
+   "why_rejected": "actors sorted by ActorId at construction; probe shows identical streams for reversed roster"
+  },
+  {
+   "coords": [
+    "crates/combat/src/driver_execution.rs:303-480",
+    "crates/combat/src/cast.rs:792-925",
+    "crates/combat/src/execution/commit.rs:142-232"
+   ],
+   "id": "REJ-I-006",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_miss_consumes_only_the_impact_draw",
+   "suspicion": "dispel / split-leech preview clones a stream that differs from the commit-time stream (assert panic or wrong selection)",
+   "track": "I",
+   "why_rejected": "segments are quoted immediately before their own commit after the previous commit; within commit_execution the impact is resolved first, then dispel, then operations; the root cast commits only cooldowns/recovery/costs (no draws) between quote and commit, and the resource-threshold path discards and re-quotes"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:114-133",
+    "crates/combat/src/white_swing.rs:289-331",
+    "crates/combat/src/state/white_main_hand.rs:102-118"
+   ],
+   "id": "REJ-I-007",
+   "suspicion": "white swing unreachable!(Parry|Block|Glancing|Crushing) or u32 crit doubling can fire after the draw",
+   "track": "I",
+   "why_rejected": "admission requires parry==block==0, glancing/crushing never set, mitigated maximum <= u32::MAX/2"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:149-173",
+    "crates/combat/src/execution/scratch.rs:704-757"
+   ],
+   "id": "REJ-I-008",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_readiness_and_rejection_leave_semantic_state_identical",
+   "suspicion": "cast_readiness is not quote-pure: whole CombatState Debug changes",
+   "track": "I",
+   "why_rejected": "only transient execution_scratch retains the last readiness program frame/impact quote; every execution entry prepares scratch first; a following cast commits identical observations and stream to a never-quoted control"
+  },
+  {
+   "coords": [
+    "crates/combat/src/cast.rs:201-253"
+   ],
+   "id": "REJ-I-009",
+   "probe_test": "i_rng_dispel.rs::holds_dispel_quotes_acceptance_and_rejection_consume_no_rng",
+   "suspicion": "hard-cast acceptance quotes the full program and could draw (dispel preview)",
+   "track": "I",
+   "why_rejected": "acceptance uses only &self planning and clones; 0 draws until completion"
+  },
+  {
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:400-406",
+    "crates/sim/src/random.rs:120-129"
+   ],
+   "id": "REJ-I-010",
+   "suspicion": "quote reachability (can_land sum) and commit ordered_outcome thresholds could disagree by float rounding",
+   "track": "I",
+   "why_rejected": "both add the same probabilities in the same order; ordered_outcome only additionally caps at 1.0"
+  },
+  {
+   "coords": [
+    "crates/combat/src/impact.rs:222-251",
+    "crates/combat/src/attack/resolution.rs:526-546"
+   ],
+   "id": "REJ-I-011",
+   "suspicion": "cached impact outcome replay loses the critical flag or block multiplier in continuation segments",
+   "track": "I",
+   "why_rejected": "state stores hit (incl. Critical) and block; resolution_for recomputes the block multiplier from the same table"
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing/runtime.rs:38-42",
+    "crates/combat/src/state/white_main_hand.rs:96-101",
+    "crates/combat/src/white_swing.rs:293-298"
+   ],
+   "id": "REJ-J-001",
+   "suspicion": "White raw-344 damage modifier applied to weapon range bounds (then uniform roll) instead of roll-then-multiply, changing the damage distribution",
+   "track": "J",
+   "why_rejected": "Runtime applies the modifier to the rolled value (runtime.rs:38-42, state/white_main_hand.rs:99-101); bounds are only used for admission/progress checks."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/white_main_hand.rs:99-107",
+    "crates/combat/src/white_swing.rs:325-331"
+   ],
+   "id": "REJ-J-002",
+   "suspicion": "White critical doubling before armor mitigation or u32 overflow on doubling",
+   "track": "J",
+   "why_rejected": "Order is roll -> raw344 -> armor -> *2, matching Trinity CalculateMeleeDamage; u32 overflow excluded by admission guard mitigated(modified_maximum) <= u32::MAX/2."
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:151-153"
+   ],
+   "id": "REJ-J-003",
+   "suspicion": "Zero-armor exact integer path above 2^24 (NUM-J-004) as a finding",
+   "track": "J",
+   "why_rejected": "Divergence requires prepared white damage > 16,777,216 with exactly zero target armor; no source-valid prepared weapon damage approaches 2^24. Recorded as numeric known_divergence only."
+  },
+  {
+   "coords": [
+    "crates/data/src/trait_source/amount.rs:10-41",
+    "crates/data/src/trait_source/selected_spell.rs:84-95"
+   ],
+   "id": "REJ-J-004",
+   "suspicion": "Selected rank curve evaluated with interpolation/float error so that Core rank amounts differ from Trinity GetCurveValueAt",
+   "track": "J",
+   "why_rejected": "Core admits only type-0/flags-0 curves whose point x equals the rank exactly; Trinity Linear/Constant at an exact point returns point.Y exactly, and Multiply is double*float in both."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:1314-1335"
+   ],
+   "id": "REJ-J-005",
+   "suspicion": "Negative-zero selected amount (authored -10 * curve 0) mis-validated by exact_i32 bit round trip",
+   "track": "J",
+   "why_rejected": "Only source instance is Skrog Tooth 1223600 effect 1 (aura 218, 11-point curve, TraitDefinitionEffectPoints 23704/23864); exact_i32 is only used by flat SpellMod compilers (selected_trait_package.rs:1228,1256) and aura 218 is a percent label modifier where -0.0 gives factor 1.0 (Trinity skips value==1.0f). Rejection of -0.0 by a flat consumer would fail closed, not mis-execute."
+  },
+  {
+   "coords": [
+    "crates/combat/src/spell_modifier_authority.rs:121-165"
+   ],
+   "id": "REJ-J-006",
+   "suspicion": "SpellMod percent product order (effect-ref sorted) diverges from the consumer order",
+   "track": "J",
+   "why_rejected": "Trinity orders equal-op/type SpellModifiers by pointer address (Player.h:315-327), so the consumer has no deterministic order to diverge from; two factors commute exactly in IEEE multiplication."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/aura_reapplication.rs:92-107",
+    "crates/combat/src/program/passive_haste.rs:260-289",
+    "crates/combat/src/program/target_aura_state_modifier.rs:413-418",
+    "crates/combat/src/program/periodic/haste_affected_duration.rs:115-124"
+   ],
+   "id": "REJ-K-001",
+   "suspicion": "Ignored spell attributes (e.g. Hidden, DoNotSheath, NameplateEnemyDebuff, NotInSpellbook, DoNotLogOnLearn) alter executable state",
+   "track": "K",
+   "why_rejected": "Every executable use is an owner-shell allow-list comparison (aura_reapplication.rs:92-107, passive_haste.rs:260-289, target_aura_state_modifier.rs:413-418, periodic/haste_affected_duration.rs:115-124); none branches behavior on the attribute."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/charge_duration_modifier.rs:286-309",
+    "crates/dbc/src/effect_attribute.rs:222"
+   ],
+   "id": "REJ-K-002",
+   "suspicion": "Disabled effect attribute 24 leaks through Swift Justice charge-duration admission",
+   "track": "K",
+   "why_rejected": "Accepted only on exact 383228 effects 1/2 which are flat charge-duration terms, never part of cooldown time-rate aggregation; the attribute stays inert."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/effect_attribute.rs:30-32",
+    "crates/combat/src/program/health_threshold/validation.rs:114-122"
+   ],
+   "id": "REJ-K-003",
+   "suspicion": "effect_attribute.rs skips the effect-attribute audit for raw-468 health-threshold consumers",
+   "track": "K",
+   "why_rejected": "health_threshold/validation.rs:114-122 rejects any exact-effect attribute on the raw-468 carrier itself."
+  },
+  {
+   "coords": [
+    "crates/combat/src/error/operation_effect.rs:17-42",
+    "crates/combat/src/program.rs:1600-1606",
+    "crates/combat/src/program/resource_gain.rs:26-34"
+   ],
+   "id": "REJ-K-004",
+   "suspicion": "Implemented catalog rows without an executable consumer",
+   "track": "K",
+   "why_rejected": "All 154 implemented rows have at least one admission site (scratch/K/consumers.json); rows referenced only in error/operation_effect.rs (raw 30,137,164,203,289) are consumed through OperationEffectContract at program.rs:1600-1606 and resource_gain.rs:26-34."
+  },
+  {
+   "coords": [
+    "crates/data/src/action/catalog/selected_owner.rs:54-62",
+    "crates/data/src/action/catalog.rs:290-367",
+    "crates/combat/src/program/spell_attribute.rs:17-81"
+   ],
+   "id": "REJ-K-005",
+   "suspicion": "Owner spells of some ResolvedActionCatalog family escape the global spell-attribute audit (Disabled attributes leaking)",
+   "track": "K",
+   "why_rejected": "selected_spell_ownership_stream covers every spell-bearing family field of ResolvedActionCatalog (scripted field-by-field comparison); the remaining fields are program sub-structures of already-audited owners or identity-only tables."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/interrupt.rs:169",
+    "crates/combat/src/program/dispel.rs:311",
+    "crates/combat/src/program/stun.rs:67-72",
+    "crates/combat/src/program/dispel_mechanic.rs:484"
+   ],
+   "id": "REJ-K-006",
+   "suspicion": "Exact-carrier catalog rows are admitted generically by their compilers",
+   "track": "K",
+   "why_rejected": "Every implemented row whose text names an exact carrier spell has a matching compiler constant/pin (pin scan of 57 rows); exceptions where the id is only a named witness are generic by wording (76487, 126156, 59173, 256374, 1272844). The raw-334/290/79/118 selected wording is the reported CSA-K-03."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/effect_attribute.rs:77-91",
+    "crates/combat/src/program/periodic.rs:1578-1584",
+    "crates/combat/src/program/expiry.rs:115-118",
+    "crates/combat/src/program/critical_modifier.rs:839-850"
+   ],
+   "id": "REJ-K-007",
+   "suspicion": "SuppressPointsStacking (EA 7) is admitted on consumers that ignore point stacking",
+   "track": "K",
+   "why_rejected": "Amount consumers carry the compiled EffectPointStacking; periodic-trigger and expiry consumers explicitly audit it as amount-insensitive, exactly as the row states; raw 52/334/308 crit carriers reject any exact attribute."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/source_recipient.rs:14-44",
+    "crates/dbc/src/implicit_target.rs:442"
+   ],
+   "id": "REJ-K-008",
+   "suspicion": "Implicit-target catalog axes disagree with the compiler interpretation of admitted pairs",
+   "track": "K",
+   "why_rejected": "Raw 1/6/21/25 axes (Unit, Caster/Target, Default/Enemy/Ally) equal Trinity SpellInfo.cpp:249,254,269,273 and the compiler mapping in source_recipient.rs:14-44."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/spell_attribute.rs:83-130"
+   ],
+   "id": "REJ-K-009",
+   "suspicion": "The raw-416 external-policy exception admits Disabled 416 for ordinary (non-selected) passive owners whose family validator is a deny-list",
+   "track": "K",
+   "why_rejected": "The exception requires identity-matched all-Absent policy in all nine columns; Trinity consumes 416 only behind an effective proc entry, so with effective_proc_entry Absent the attribute is inert regardless of family."
+  },
+  {
+   "coords": [
+    "crates/engine/src/lib.rs:8-9",
+    "crates/engine/src/test_support.rs:4-16"
+   ],
+   "id": "REJ-K-010",
+   "suspicion": "Engine production code synthesizes an all-Absent external policy",
+   "track": "K",
+   "why_rejected": "engine/src/test_support.rs is #[cfg(test)] (lib.rs:8-9); test-support is only a dev-dependency of runtime crates."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:28-30",
+    "crates/combat/src/program/passive_auto_attack_damage.rs:23-28",
+    "crates/combat/src/program/critical_block_amount.rs:40-44",
+    "crates/combat/src/program/passive_healing_received.rs:33-36",
+    "crates/combat/src/program/critical_modifier.rs:63-70"
+   ],
+   "id": "REJ-L-001",
+   "suspicion": "Per-definition selected (entry_id,effective_rank) provenance is duplicated into warm compiled definitions",
+   "track": "L",
+   "why_rejected": "Compiled combat definitions carry no SelectedTraitSource (PassiveSpellModifierDefinition{effect}, PassiveAutoDamageDefinition, CriticalBlockAmountDefinition, PassiveHealingReceivedDefinition, CriticalChanceModifierDefinition). Per-definition (entry,rank) lives only in the cold ResolvedActionCatalog; the program retains exactly one (source,effect) entry per multi-effect package member, in the package box. The continuation prompt's 'Every compiled selected definition retains (entry_id,effective_rank)' is true only of resolved-catalog declarations."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/modifier/auto_attack_damage_storage.rs:6-28",
+    "crates/combat/src/white_swing.rs:371-406"
+   ],
+   "id": "REJ-L-002",
+   "suspicion": "Precision/Heart sibling effect refs (spell_modifier_effect, critical_bonus_spell_modifier_effect) are extra retained provenance in the warm ModifierDefinition slab",
+   "track": "L",
+   "why_rejected": "They are packed losslessly into existing ModifierDefinition fields (auxiliary, policy_bits) with no size change and are read only at state construction by the white admission path."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/absorbs.rs:131",
+    "crates/combat/src/aura_observation.rs:133"
+   ],
+   "id": "REJ-L-003",
+   "suspicion": "Arc clones of the program inside warm commit paths (state/absorbs.rs:131, aura_observation.rs:133) allocate",
+   "track": "L",
+   "why_rejected": "CombatProgram clone is an Arc refcount increment; probe AL-L-001 shows zero allocation."
+  },
+  {
+   "coords": [
+    "crates/combat/src/critical_modifier.rs:245-256"
+   ],
+   "id": "REJ-L-004",
+   "suspicion": "Critical-chance passive iterator clones in warm resolution (critical_modifier.rs:130,254,269,295) copy storage",
+   "track": "L",
+   "why_rejected": "They clone `impl Iterator + Clone` adaptors over slices (bounded Passives: Iterator + Clone), not collections; covered by zero-alloc critical runtime budgets."
+  },
+  {
+   "coords": [
+    "docs/distributed-simulation-architecture.md:205",
+    "crates/combat/src/state/layout_tests.rs:9",
+    "crates/combat/src/state.rs:91"
+   ],
+   "id": "REJ-L-005",
+   "suspicion": "Architecture doc states CombatState is 640 bytes; actual is 648 - hidden inline growth",
+   "track": "L",
+   "why_rejected": "The growth (Option<Box<WhiteMainHandRuntime>>, 8 bytes) is recorded in development-ledger.md:24973 and pinned by state/layout_tests.rs:9 and tests/state_topology.rs:720; only the §3.8 prose is stale. Pay-for-play pointer, not a contract violation."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/passive_spell_modifier.rs:917",
+    "crates/combat/src/program/selected_trait_package.rs:229-240"
+   ],
+   "id": "REJ-L-006",
+   "suspicion": "compile_selected_passive_package_effects re-resolves each package through TraitSourceCatalog and allocates for single-effect selected sources",
+   "track": "L",
+   "why_rejected": "Only sources with >=2 resolved effects are forwarded (passive_spell_modifier.rs:917); single-effect sources never reach the re-resolution. The re-resolution for multi-effect packages is one transient cold allocation, as recorded in the ledger."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/school_immunity.rs:236-282",
+    "crates/combat/src/school_immunity.rs:22-39",
+    "crates/dbc/src/spell_effect.rs:262"
+   ],
+   "finding_ids": [
+    "CSA-D-05"
+   ],
+   "id": "REJ-R1-001",
+   "suspicion": "CSA-D-05: a raw-39 school-immunity holder taking covered caster-delivered (self) raw-165 damage diverges from Trinity, which would zero it.",
+   "track": "R1",
+   "why_rejected": "Trinity applies school immunity only to negative effects: Unit::IsImmunedToSpell skips an immunity entry unless NegativeEffects & effectMask or the immunity aura has SPELL_ATTR1_IMMUNITY_TO_HOSTILE_AND_FRIENDLY_EFFECTS (Unit.cpp:7797-7800), and Unit::IsImmunedToDamage(caster, spellInfo) skips it for spellInfo->IsPositive() under the same attribute test (Unit.cpp:7890-7891); Spell.cpp:2912 (damage-time check) and Object.cpp:1957 (SpellHitResult) both route through these. A raw-165 DAMAGE_FROM_MAX_HEALTH_PCT effect is not in the negative-effect switch of _isPositiveEffectImpl (SpellInfo.cpp:4747-4767), targets TARGET_UNIT_CASTER (positive target) and therefore returns positive (SpellInfo.cpp:5062); no TDB/SpellMgr override exists for 1257873. The only admitted provider 161901 has no attributes. So Trinity also lands the damage: Core matches the consumer. Every raw-165 (1,0) row that passes Core owner-attribute gates lacks ATTR0_AURA_IS_DEBUFF (raw 26, uncataloged) and IsHarmful effect attributes (census, scratch/R1). Core's own catalog row names the slice \"admitted positive neutral self-targeted\". Residual: only the catalog wording \"assumes absent immunity\" (spell_effect.rs:262) is stale, info."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning.rs:790-944"
+   ],
+   "finding_ids": [
+    "CSA-C-01"
+   ],
+   "id": "REJ-R1-002",
+   "probe_test": "r1_real_rows.rs::holds_real_player_self_buff_impact_never_resolves_critical",
+   "suspicion": "CSA-C-01 scope: every beneficial / buff / resource impact is critical-eligible (evidence \"every beneficial impact regardless of has_damage\").",
+   "track": "R1",
+   "why_rejected": "In prepare_impact_quotes \"beneficial\" means has_healing (planning.rs:808); a critical is prepared only for periodic-health, healing, Target-recipient, or damage impacts (planning.rs:850-935). A Caster-recipient aura-only self buff never resolves Critical: probe r1_real_rows.rs::holds_real_player_self_buff_impact_never_resolves_critical (real 156021 under Player crit 1.0 -> Hit). The finding survives only for Target-recipient impacts without amounts (defect_exact_stun_crits_from_enemy_weapon_channel_with_zero_spell_chance)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:233-240",
+    "crates/combat/src/cooldown_recovery_rate.rs:850-852"
+   ],
+   "finding_ids": [
+    "CSA-J-05"
+   ],
+   "id": "REJ-R1-003",
+   "suspicion": "CSA-J-05 two-source witness: 60 s with +50/+60 gives Core 24999 where Trinity gives 25000.",
+   "track": "R1",
+   "why_rejected": "Trinity forms the recovery-rate product first and multiplies once: recoveryRate *= 100/(amount+100) per aura, then int64(cooldown * recoveryRate) (SpellHistory.cpp:432-455). 60000 * (100/150 * 100/160) = 24999.999999999996 -> 24999, equal to Core. Only the single-source 16.5 s / +10 witness diverges (Core 14999, Trinity 15000), and R3 found no real raw-286/raw-148 amount x SpellCooldowns value that diverges. Supports R3 (REJ-R3-002): LATENT, info."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program.rs:1620-1690"
+   ],
+   "finding_ids": [
+    "CSA-K-01"
+   ],
+   "id": "REJ-R1-004",
+   "suspicion": "CSA-K-01 Set-mode clause: a real raw-289 Set-mode row executes with a wrong stack count because Core can only Add/Remove.",
+   "track": "R1",
+   "why_rejected": "Of 21 base-difficulty raw-289 Set-mode rows, one passes the owner-attribute audit: Golden Hubris 1213197 (Set 7 on 1213195, (1,0)). Its target aura 1213195 has CumulativeAura 7, so the best host declaration AddAuraStacks{count: 7} yields min(current+7, 7) = 7 from any state, identical to Trinity SetStackAmount(7) (SpellEffects.cpp:6126-6146). No real Set-mode row is observably wrong for a faithful host; the identity/direction clauses need a host declaration that contradicts its own source row (validation fail-open)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning.rs:699-785",
+    "crates/combat/src/execution/resource.rs:281-321"
+   ],
+   "id": "REJ-R2-001",
+   "suspicion": "A raw-418 maximum change and a later resource gain/drain in the same program quote against stale maxima (projection tracks only balances)",
+   "track": "R2",
+   "why_rejected": "resource_policy_boundary ends the segment after any maximum-resource-affecting aura mutation; the suffix is quoted after commit (MUT-R2-005)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/resource_threshold.rs:852-870",
+    "crates/combat/src/resource_threshold/active.rs:257-330"
+   ],
+   "id": "REJ-R2-002",
+   "suspicion": "Active raw-396 fresh application fires its child when the pool already satisfies the threshold, unlike a crossing-only consumer",
+   "track": "R2",
+   "why_rejected": "Trinity AuraEffect::HandleTriggerSpellOnPowerAmount casts on REAL apply when power >= amount (gain) / <= amount (loss) (SpellAuraEffects.cpp:5394-5419); crossing predicate equals Unit::TriggerOnPowerChangeAuras (Unit.cpp:10144-10152); refresh (no REAL mode) does not re-fire, as Core's Reapplied fresh=false."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/power_drain.rs:253-300"
+   ],
+   "id": "REJ-R2-003",
+   "suspicion": "Power Drain drops the caster energize half of the effect",
+   "track": "R2",
+   "why_rejected": "Admitted Power Drain requires NEUTRAL amount facts (amplitude 0); Trinity's gain is int32(drained * amplitude) = 0 (MUT-R2-006)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/maximum_resource_modifier.rs:115-160",
+    "crates/combat/src/resource.rs:220-248"
+   ],
+   "id": "REJ-R2-004",
+   "suspicion": "Active raw-418 recomputation drops the construction-time passive flat/percentage maximum stage",
+   "track": "R2",
+   "why_rejected": "Runtime pools are seeded from PassiveMaximumResourceStage initial_maximum (flat-adjusted) and factor (maximum_resource_modifier.rs:134-147) and project (initial + deltas) * factor, the same (base+flat)*pct order as construction (resource.rs:220-248) and Trinity TOTAL_VALUE then TOTAL_PCT."
+  },
+  {
+   "coords": [
+    "crates/combat/src/passive_maximum_resource/expansiveness.rs:67-137"
+   ],
+   "id": "REJ-R2-005",
+   "suspicion": "Expansiveness construction-only maximum is lost when an active raw-418 aura recomputes Astral Power",
+   "track": "R2",
+   "why_rejected": "Expansiveness stages return the adjusted maximum as initial_maximum with factor 1.0 (passive_maximum_resource/expansiveness.rs:67-137)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state/modifiers.rs:215-230",
+    "crates/combat/src/attack/resolution.rs:203-226"
+   ],
+   "id": "REJ-R2-006",
+   "suspicion": "Resist Silence (19786) is read from the caster of Curse of Suppression rather than the victim",
+   "track": "R2",
+   "why_rejected": "The resisted-mechanic lookup uses the impact target index (state/modifiers.rs:223-225), the holder of 19786; Trinity reads victim->GetMechanicResistChance in the miss/resist roll. Defense None disables resist in both."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/dispel_duration_modifier.rs:17-23",
+    "crates/combat/src/program/dispel_duration_modifier.rs:64-76"
+   ],
+   "id": "REJ-R2-007",
+   "suspicion": "Raw-245 dispel-duration floors 0.75*duration while Trinity AddPct truncates the negative delta (rounds up)",
+   "track": "R2",
+   "why_rejected": "The admitted applicand duration is exactly 3000 ms and mechanic duration is neutral for it, so 3000*75/100 = 2250 in both; the rounding difference is unobservable at the admitted slice."
+  },
+  {
+   "coords": [
+    "crates/combat/src/modifier.rs:639-656",
+    "crates/combat/src/program/target_aura_state_modifier.rs:236-258"
+   ],
+   "id": "REJ-R2-008",
+   "suspicion": "Slaughter the Weak Bleed-state condition is caster-specific or ignores other Bleed auras",
+   "track": "R2",
+   "why_rejected": "Marker match accepts any source (modifier.rs:639-656), matching Trinity's non-per-caster AURA_STATE_BLEED; every other selected aura with a Bleed mechanic is rejected at compile (target_aura_state_modifier.rs:236-258)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown_recovery_rate.rs:850-852"
+   ],
+   "id": "REJ-R2-009",
+   "suspicion": "Raw-286 recovery rate lacks Trinity's max(amount, -99) clamp",
+   "track": "R2",
+   "why_rejected": "rate_factor clamps the speed at 0.01 (cooldown_recovery_rate.rs:850-852), identical to 100/(max(amount,-99)+100) inverted; per-effect factors multiply as in SpellHistory.cpp:443-446."
+  },
+  {
+   "coords": [
+    "crates/engine/src/lib.rs:652-666",
+    "crates/engine/src/lib.rs:847-859"
+   ],
+   "id": "REJ-R2-010",
+   "suspicion": "Engine::reset leaves prepared aura observations holding state from the previous iteration",
+   "track": "R2",
+   "why_rejected": "PreparedAuraObservations is only borrowed immutably after construction (engine/src/lib.rs:662, 967); observations Vec is cleared by reset."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:717-722",
+    "crates/combat/src/absorb_received_authority.rs:17-60"
+   ],
+   "id": "REJ-R2-011",
+   "suspicion": "Passive absorb-received factor admits a negative multiplier or double counting",
+   "track": "R2",
+   "why_rejected": "Role policy AtLeastNegativeHundred (selected_trait_package.rs:717-722) bounds the factor at >= 0, the selected rank amount is consumed (passive_absorb_received.rs:189-201), and the state authority admits exactly one Player binding."
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing/runtime.rs:52-71",
+    "crates/combat/src/program/white_idle.rs:51-117"
+   ],
+   "id": "REJ-R2-012",
+   "suspicion": "White main-hand period is not rescaled when haste changes mid-swing",
+   "track": "R2",
+   "why_rejected": "The admitted white program has no active haste authority (period frozen from passive haste at admission, white_swing/runtime.rs:52-62; white_idle.rs:51-117), so no mid-swing haste change is constructible."
+  },
+  {
+   "coords": [
+    "crates/sim/src/random.rs:111-207"
+   ],
+   "id": "REJ-R2-013",
+   "suspicion": "RandomStream ordered_outcome/uniform_index skip or bias draws",
+   "track": "R2",
+   "why_rejected": "ordered_outcome skips only when the first positive probability is certain or all are zero, else one shared draw with clamped cumulative thresholds; uniform_index uses Lemire rejection with threshold 2^64 mod n; next_unit_f64 is 53-bit exact."
+  },
+  {
+   "coords": [
+    "crates/combat/src/state.rs:439-451",
+    "crates/combat/src/state.rs:1068-1139"
+   ],
+   "id": "REJ-R3-001",
+   "probe_test": "r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures",
+   "suspicion": "Track H's reset/iteration-reset fingerprints only hold for the 29+20 fixtures it drove; owners it never exercised (raw-133/145 maximum-health runtime, absorb/healing-absorb cells, crit runtimes, power drain, aura-unique/cadence periodic owners, raw-165, mana shield, target absorb bypass, school/mechanic immunity RNG, active-defense tables with dodge/parry/block draws) might not reset or might replay differently",
+   "track": "R3",
+   "why_rejected": "probe r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures (PASS): 24 more public fixtures x {plain, stochastic defense/crit input}, casts Player->enemy, Player->Player and enemy->Player, 14 rounds, 2,999 committed casts: quote purity, failure purity, reset == fresh, reset replay identical, reset_for_iteration == fresh for the new identity and identical replay. Unmasked renderings differ only in absorb transaction workspaces (same residue as REJ-H-003). Skipped (need host bindings): power_burn, periodic_mana_leech, passive_flow_flat_runtime; no-commit: mod_maximum_resource_percent, base_mana_percentage."
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown/deadline_rate.rs:229-240",
+    "crates/combat/src/cooldown_recovery_rate.rs:850-852",
+    "crates/combat/src/charge_recharge_rate.rs:716-718"
+   ],
+   "finding_ids": [
+    "CSA-J-05"
+   ],
+   "id": "REJ-R3-002",
+   "probe_tests": [
+    "r3_recovery_rate.rs::holds_recovery_rate_sixty_second_witness_matches_consumer_association",
+    "r3_recovery_rate.rs::defect_recovery_rate_mechanism_diverges_only_on_non_coapplicable_pair"
+   ],
+   "suspicion": "CSA-J-05 source witness: raw-286 +50/+60 on a 60 s cooldown gives Core 24999 vs consumer 25000 (also 15 s and 30 s)",
+   "track": "R3",
+   "why_rejected": "The consumer forms the complete rate product before touching the cooldown (SpellHistory.cpp:443-450 recoveryRate *= ...; :452-455 int64(cooldown.count() * recoveryRate)), so 60000 * (2/3 * 5/8 in double = 0.41666666666666663) = 24999.999999999996 -> 24999, identical to Core; J's replica 60000*(100/150)*(100/160) multiplies the base first. 15 s -> 6249 and 30 s -> 12499 also agree. Divergences for (+50,+60) exist only at 1.5/3/6/12/21/24 s etc., and the only 12.1.0 raw-286 carriers with those amounts are Ancient Ankh Talisman 287777 (+50) and Trueshot 288613 (+60), which never modify one action together. Every single source raw-286 amount and every same-category pair of raw-148 amounts shows 0 witnesses over all SpellCooldowns/SpellCategory durations (scan in scratch/R3). CSA-J-05's mechanism stays real for synthetic amounts (J's +10% witness) -> downgrade to info LATENT."
+  },
+  {
+   "coords": [
+    "crates/combat/src/cooldown.rs:1446-1457",
+    "crates/combat/src/cooldown/capacity.rs:106-129"
+   ],
+   "id": "REJ-R3-003",
+   "suspicion": "CooldownState::reset rebuilds charges from the current (possibly runtime-modified) maximum rather than the construction maximum",
+   "track": "R3",
+   "why_rejected": "ChargeState.maximum is written only at construction (cooldown/capacity.rs:56-66 base, :106-129 raw-411 passive capacity) and copied by ready()/projections; no runtime path changes it, so reset (cooldown.rs:1446-1457) restores the construction maximum."
+  },
+  {
+   "coords": [
+    "crates/combat/src/versatility.rs:413-421",
+    "crates/sim/src/random.rs:7-12"
+   ],
+   "id": "REJ-R3-004",
+   "probe_test": "r3_reset_coverage.rs::holds_reset_fingerprints_on_uncovered_fixtures",
+   "suspicion": "H's Debug-based fingerprint could hide divergence through custom Debug impls or masked scratch subtrees that carry semantic state",
+   "track": "R3",
+   "why_rejected": "The only custom Debug impl in combat/sim state is VersatilityAuthority (versatility.rs:413-421), which prints every field; RandomStream derives Debug (random.rs:7) and prints root_seed, global_iteration and full state; masked subtrees are *Workspace/*scratch/quoted_costs, which every entry re-prepares (RNG-I-012), and the unmasked diff is limited to absorb workspace residue in both H's and R3's fixtures."
+  },
+  {
+   "coords": [
+    "crates/combat/src/fixed_impact_execution.rs:43-56"
+   ],
+   "id": "REJ-R3-005",
+   "suspicion": "Fixed-travel arrival drops a packet silently (no observation) when the target's liveness changed after the launch draw was committed",
+   "track": "R3",
+   "why_rejected": "Mirrors the consumer: Spell::TargetInfo::DoTargetSpellHit returns when unit->IsAlive() != IsAlive (Spell.cpp:2811) for delayed hits; the launch draw is committed in both."
+  },
+  {
+   "coords": [
+    "crates/sim/src/random.rs:72-85",
+    "crates/combat/src/state.rs:447-451",
+    "crates/engine/src/lib.rs:842-859"
+   ],
+   "id": "REJ-R3-006",
+   "suspicion": "Iteration reset could mix identities (e.g. RandomStream::reset after reset_for_iteration replays the old identity, or Engine derives a chunk-local iteration)",
+   "track": "R3",
+   "why_rejected": "RandomStream stores root_seed/global_iteration and reset() re-derives from them (random.rs:79-85); reset_for_iteration replaces the whole stream with identity.stream() (state.rs:447-451); Engine forwards the host identity unchanged (engine/src/lib.rs:856-859) and owns no other RNG or rotation state (RotationState is pure scratch, rotation/src/execution.rs:304-309)."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/commit.rs:208-232",
+    "crates/combat/src/execution/planning/dispel.rs:78-120"
+   ],
+   "id": "REJ-R3-007",
+   "suspicion": "raw-38 preview ignores delivery suppression, so preview and commit could consume different draws",
+   "track": "R3",
+   "why_rejected": "The preview only draws on a clone (dispel.rs:94-116); commit_dispel_selection returns before any draw when the quote is suppressed (commit.rs:209-211), and the ordinary suppressed impact resolves its table on the state stream exactly as the preview does before the ordinal."
+  },
+  {
+   "coords": [
+    "crates/combat/src/attack/resolution.rs:164-174",
+    "crates/combat/src/attack/resolution.rs:226-241",
+    "crates/combat/src/attack/resolution.rs:332-345"
+   ],
+   "id": "REJ-R3-008",
+   "suspicion": "ExactMechanicResistance tables assert dodge/parry are +0.0; a dodge-capable defender could panic resolve_with_adjustments",
+   "track": "R3",
+   "why_rejected": "with_resisted_mechanic asserts Magic defense (attack/resolution.rs:164-174) and dodge/parry eligibility require DefenseType::Melee (:226-241), so both are the literal 0.0."
+  },
+  {
+   "coords": [
+    "crates/combat/src/execution/planning.rs:815-825",
+    "crates/combat/src/impact.rs:262-288",
+    "crates/combat/src/execution/commit.rs:453-464"
+   ],
+   "id": "REJ-R3-009",
+   "suspicion": "CSA-I-02 shares its flaw with other captured/deferred paths (dispel preview assert, mechanic-dispel forced trials, deferred activations, split-leech preview)",
+   "track": "R3",
+   "why_rejected": "PreparedImpactQuote::captured is constructed only for fixed-travel arrival (planning.rs:815-825); deferred activations re-quote children fresh without captured outcomes (commit.rs:957-993); the raw-38 and split-leech previews replay the same stream position (REJ-I-006) and the mechanic-dispel trials are fixed at 100% (occurs_forced ONE always true). Only the fixed-travel carrier freezes a table outcome across a quote boundary."
+  },
+  {
+   "coords": [
+    "crates/combat/src/white_swing.rs:265-280",
+    "crates/combat/src/white_swing.rs:335-343",
+    "crates/combat/src/program/white_idle.rs:51-117"
+   ],
+   "id": "REJ-X-001",
+   "suspicion": "White main hand keeps swinging from a dead source (G cross-track note) contradicts REJ-F-011",
+   "track": "X",
+   "why_rejected": "Both hold: runtime never re-checks source life, but admission requires a living source (white_swing.rs:341-343) and isolation admits exactly one Player->Enemy hostile relation with actionless or Dark-Bite-only programs (white_swing.rs:265-280, program/white_idle.rs:40-120), so no admitted program can lower Player health. Class E masking, no finding."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:888-891",
+    "crates/combat/src/program/selected_trait_package.rs:1090-1098",
+    "crates/combat/src/program/spell_attribute.rs:17-81"
+   ],
+   "id": "REJ-X-002",
+   "suspicion": "CSA-C-02 protection claim: sole-effect op-15 providers are admitted only through the named Martial/Heart branches",
+   "track": "X",
+   "why_rejected": "Disproved: composition_is_admitted_by returns true for arity 1 and generic_spell_modifier routes raw-108 op 15 to CriticalBonus; the production candidate admits exact Awestruck rows (x_op15_real_rows.rs). What actually protects real data is the payload owner attribute audit, not the provider admission."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/resource_gain.rs:14-55",
+    "crates/combat/src/program/periodic/energize.rs:57-140"
+   ],
+   "id": "REJ-X-003",
+   "suspicion": "Direct Energize amount/resource not bound to the source effect is a K-01-class defect",
+   "track": "X",
+   "why_rejected": "Documented architecture: resolved instant resource gains remain host-authoritative (development-ledger.md:1643-1649); periodic energize is deliberately source-bound. Class B."
+  }
+ ],
+ "schema": 1
+}

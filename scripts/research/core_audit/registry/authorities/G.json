@@ -1,0 +1,353 @@
+[
+ {
+  "id": "AUTH-G-001",
+  "track": "G",
+  "name": "cast admission planner (plan_resolved_cast_core)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/cast.rs:412-580",
+   "crates/combat/src/cast/resource.rs:15-56",
+   "crates/combat/src/cast.rs:1062-1085",
+   "crates/combat/src/cast.rs:1170-1186"
+  ],
+  "semantic_facts": [
+   "hard errors via ? in order: target policy, caster index, cost hard errors, cooldown schedule error, root-program quote (target support, health preflight), start-recovery schedule, operation dead target",
+   "timed blockers folded by dominant_timed_blocker (latest recheck wins, non-timed wins): cost, start recovery, cast in progress, school lock, prevention (stun short-circuits silence/pacify)",
+   "HardCompletion mode skips cast-in-progress, school lock, stun/silence/pacify and start recovery; cooldown skipped only for attr-407 acceptance-owned cooldowns",
+   "no caster-life gate (CSA-G-01)",
+   "validate_cast_progress runs last (NonProgressing)"
+  ],
+  "finding_ids": [
+   "CSA-G-01",
+   "CSA-G-03",
+   "CSA-G-05"
+  ]
+ },
+ {
+  "id": "AUTH-G-002",
+  "track": "G",
+  "name": "hard-cast lifecycle (CastAuthority + begin/complete)",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/cast.rs:201-352",
+   "crates/combat/src/cast_authority.rs:17-47",
+   "crates/combat/src/cast_authority.rs:314-462",
+   "crates/combat/src/hard_cast.rs:1-96",
+   "crates/combat/src/state/casting.rs:15-107"
+  ],
+  "semantic_facts": [
+   "acceptance commits acceptance-owned cooldown, start recovery, then pending cast with prepared costs (no resource spend)",
+   "completion re-plans against current state with prepared costs; failure -> finish_cast + CastCompleted Failed, nothing else mutated",
+   "one pending cast per actor; generation u64 per actor; next completion = min(completes_at, actor index)",
+   "cancel is generation-checked; reset zeroes cells/generations/prepared costs/school locks"
+  ],
+  "finding_ids": [
+   "CSA-G-01",
+   "CSA-G-02"
+  ]
+ },
+ {
+  "id": "AUTH-G-003",
+  "track": "G",
+  "name": "start recovery (GCD) authority",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/recovery.rs:1-231",
+   "crates/combat/src/cast.rs:762-790",
+   "crates/combat/src/program.rs:949-960"
+  ],
+  "semantic_facts": [
+   "per actor x category ready_at; quote blocks when now < ready_at; start overwrites ready_at = now + effective_duration(haste at start)",
+   "duration = base/speed truncated to ms, at least 1 ms, then max(minimum)",
+   "not restored on interruption (CSA-G-02)"
+  ],
+  "finding_ids": [
+   "CSA-G-02"
+  ]
+ },
+ {
+  "id": "AUTH-G-004",
+  "track": "G",
+  "name": "cast cooldown quote/commit wrappers",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/state.rs:700-780",
+   "crates/combat/src/cooldown.rs:974-1090",
+   "crates/combat/src/cast.rs:582-600",
+   "crates/combat/src/cast.rs:257-282"
+  ],
+  "semantic_facts": [
+   "quote folds deadline + charge readiness into Blocked/Ready; commit recomputes deadline-start input from the same state (cooldowns committed first in commit_cast so inputs are unchanged)",
+   "completion-owned by default; attr-407 (Dark Bite 394463) cooldown committed at acceptance and never re-quoted at completion; retained on cancel/failure (matches Trinity Spell.cpp:3569-3570, 5790)"
+  ]
+ },
+ {
+  "id": "AUTH-G-005",
+  "track": "G",
+  "name": "raw-68 interrupt compiler + runtime",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/interrupt.rs:23-163",
+   "crates/combat/src/program/interrupt/source.rs:1-235",
+   "crates/combat/src/execution/planning/interrupt.rs:10-69",
+   "crates/combat/src/execution/commit.rs:575-596"
+  ],
+  "semantic_facts": [
+   "exact carrier 159006:1, sole operation, 6000 ms lockout; any hard cast with SpellInterrupts row rejects the whole program",
+   "interrupts only a pending cast whose prevention mask contains Silence; installs lockout for each school bit of interrupted action school",
+   "dead target -> progressing no-op (CSA-G-04)"
+  ],
+  "finding_ids": [
+   "CSA-G-04"
+  ]
+ },
+ {
+  "id": "AUTH-G-006",
+  "track": "G",
+  "name": "school lock authority",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/school_lock.rs:9-70",
+   "crates/combat/src/cast.rs:602-624",
+   "crates/combat/src/cast_authority.rs:298-312",
+   "crates/combat/src/program/school_lockout_bypass.rs:15-249"
+  ],
+  "semantic_facts": [
+   "per actor x 7 school deadlines; commit overwrites deadline for each bit",
+   "admission blocks Silence-prevention actions whose school intersects an active lock unless IgnoreSchoolLockout (exact 117833)",
+   "not consulted at completion"
+  ]
+ },
+ {
+  "id": "AUTH-G-007",
+  "track": "G",
+  "name": "Stun compiler + StunView",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/stun.rs:32-100",
+   "crates/combat/src/program/stun.rs:344-409",
+   "crates/combat/src/stun.rs:9-90"
+  ],
+  "semantic_facts": [
+   "exact carrier 346197:1 100 ms; raw-163 exemption exact Full Heal 25840 (1 s hard cast, empty prevention)",
+   "fresh cancel only on the actor's transition from not-stunned to stunned; cancels regardless of allows_while_stunned (matches Trinity SetControlled/CastStop)"
+  ],
+  "finding_ids": [
+   "CSA-G-03",
+   "CSA-G-05"
+  ]
+ },
+ {
+  "id": "AUTH-G-008",
+  "track": "G",
+  "name": "Silence compiler + SilenceView",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/silence.rs:33-106",
+   "crates/combat/src/program/silence/carrier_326836.rs:16-306",
+   "crates/combat/src/silence.rs:18-138"
+  ],
+  "semantic_facts": [
+   "exact carriers 118370:2 (4 s) and 326836:1 (5 s, itself a 3 s hard cast); school from misc_0 (127 in source)",
+   "admission intersects school; fresh application cancels any Silence-prevention pending cast regardless of school (matches Trinity)"
+  ]
+ },
+ {
+  "id": "AUTH-G-009",
+  "track": "G",
+  "name": "Pacify compiler + PacifyView",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/pacify.rs:12-151",
+   "crates/combat/src/pacify.rs:9-80"
+  ],
+  "semantic_facts": [
+   "exact carrier 10730:1 4000 ms via ExactActionPreventionCarrier",
+   "fresh application cancels Pacify-prevention pending cast"
+  ]
+ },
+ {
+  "id": "AUTH-G-010",
+  "track": "G",
+  "name": "Pacify+Silence compiler",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/pacify_silence.rs:12-145"
+  ],
+  "semantic_facts": [
+   "exact carrier 32913:1 5000 ms enabling both pacify and silence bits on one application; runtime candidate order stun, pacify, silence (find_map first match)"
+  ]
+ },
+ {
+  "id": "AUTH-G-011",
+  "track": "G",
+  "name": "action prevention carrier audit + runtime view",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/action_prevention_carrier.rs:36-311",
+   "crates/combat/src/action_prevention.rs:70-244",
+   "crates/combat/src/cast_authority.rs:265-296",
+   "crates/combat/src/execution/planning/aura_lifecycle.rs:185-198",
+   "crates/combat/src/execution/commit.rs:400-409"
+  ],
+  "semantic_facts": [
+   "carrier owners are sole-effect, instant, primary-target, no costs/cooldowns, sole application -> at most one fresh prevention quote per segment",
+   "quote uses committed AuraState/CastAuthority; commit cancels generation-checked and emits CastStunned/CastSilenced/CastPacified only if impact landed"
+  ]
+ },
+ {
+  "id": "AUTH-G-012",
+  "track": "G",
+  "name": "active casting speed (raw 65 / raw 216)",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/active_casting_speed.rs:1-302",
+   "crates/combat/src/program/active_casting_speed/raw65.rs:1-286",
+   "crates/combat/src/program/active_casting_speed/raw216.rs:1-274",
+   "crates/combat/src/active_casting_speed.rs:1-364",
+   "crates/combat/src/state/active_casting_speed.rs:7-62"
+  ],
+  "semantic_facts": [
+   "changes actor haste multipliers at aura commit; accepted hard casts are not rescheduled (deadline captured at acceptance); passive resource flows settled before and rebased after"
+  ]
+ },
+ {
+  "id": "AUTH-G-013",
+  "track": "G",
+  "name": "fixed travel time + missile timing gate",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/fixed_travel_time.rs:13-349",
+   "crates/combat/src/program/missile_timing.rs:9-37",
+   "crates/combat/src/program.rs:1133",
+   "crates/combat/src/fixed_impact_execution.rs:44-60"
+  ],
+  "semantic_facts": [
+   "exact 373932:1, 1.5 s hard cast, 1 s delay; every compiled program (roots and children) with nonzero missile facts rejects unless it is the exact fixed plan root",
+   "fixed impact lands only if target life equals life at launch"
+  ]
+ },
+ {
+  "id": "AUTH-G-014",
+  "track": "G",
+  "name": "chain delivery gate",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/chain_delivery.rs:6-27"
+  ],
+  "semantic_facts": [
+   "any non-neutral effect chain facts reject (single-recipient delivery only)"
+  ]
+ },
+ {
+  "id": "AUTH-G-015",
+  "track": "G",
+  "name": "power cost compiler + prepared cast costs",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/power_cost.rs:1-557",
+   "crates/combat/src/cast_cost.rs:1-63",
+   "crates/combat/src/cast/resource.rs:97-243",
+   "crates/combat/src/state/power_cost.rs:1-272"
+  ],
+  "semantic_facts": [
+   "costs prepared at quote/acceptance (required + min(optional, remaining)), snapshotted into CastAuthority at acceptance, re-quoted with the snapshot and committed at completion",
+   "insufficient prepared cost at completion -> Failed without recheck"
+  ]
+ },
+ {
+  "id": "AUTH-G-016",
+  "track": "G",
+  "name": "additional power cost modifier",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/additional_power_cost.rs:1-458",
+   "crates/combat/src/program/additional_power_cost/validation.rs:1-429"
+  ],
+  "semantic_facts": [
+   "aura subtype ModAdditionalPowerCost contributes optional-points adjustment to prepared cost; evaluated at preparation time only"
+  ]
+ },
+ {
+  "id": "AUTH-G-017",
+  "track": "G",
+  "name": "mana cost percent modifier",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/mana_cost_percent.rs:1-269",
+   "crates/combat/src/program/mana_cost_percent/validation.rs:1-431"
+  ],
+  "semantic_facts": [
+   "aura subtype ModManaCostPercent contributes mana_percent points to prepared cost at preparation time"
+  ]
+ },
+ {
+  "id": "AUTH-G-018",
+  "track": "G",
+  "name": "school power cost percent modifier",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/school_power_cost_percent.rs:25-525"
+  ],
+  "semantic_facts": [
+   "exact carrier 23553:1 -15% Shadow mana cost; prepared at preparation time"
+  ]
+ },
+ {
+  "id": "AUTH-G-019",
+  "track": "G",
+  "name": "target requirements + health preflight",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/target_requirements.rs:1-172",
+   "crates/combat/src/program/execution_layout.rs:180-260",
+   "crates/combat/src/execution/health.rs:190-245"
+  ],
+  "semantic_facts": [
+   "caster life required only when an operation writes caster health; target life only when an operation writes target health; interrupt requires neither (CSA-G-01, CSA-G-04)"
+  ],
+  "finding_ids": [
+   "CSA-G-01",
+   "CSA-G-04"
+  ]
+ },
+ {
+  "id": "AUTH-G-020",
+  "track": "G",
+  "name": "source recipient validation",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/source_recipient.rs:9-101"
+  ],
+  "semantic_facts": [
+   "implicit targets (1|25|6|21, 0) map to Caster/Target with disposition Hostile for 6 and Friendly for 21; (0,0) admits no disposition; anything else rejects"
+  ]
+ },
+ {
+  "id": "AUTH-G-021",
+  "track": "G",
+  "name": "combat transition ordering",
+  "layer": "runtime",
+  "coords": [
+   "crates/combat/src/state/transition.rs:54-74",
+   "crates/combat/src/state.rs:1210-1400"
+  ],
+  "semantic_facts": [
+   "same-time order: resource-threshold startup(0) < passive-flow threshold(1) < cast completion(2, by actor index) < fixed impact(3) < white main hand(4) < periodic(5) < aura/stack expiry(6)",
+   "external API casts at time t run after advance processed all transitions at t (completion wins over a same-time interrupt through the public API)"
+  ]
+ },
+ {
+  "id": "AUTH-G-022",
+  "track": "G",
+  "name": "acceptance-owned cooldown (Dark Bite) carrier",
+  "layer": "compiler",
+  "coords": [
+   "crates/combat/src/program/cooldown_start.rs:14-287",
+   "crates/combat/src/cast.rs:257-282"
+  ],
+  "semantic_facts": [
+   "exact 394463 attr 407: shared category 1152 3 s cooldown committed at acceptance; resets white main hand after successful hard completion only"
+  ]
+ }
+]

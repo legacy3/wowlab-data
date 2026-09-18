@@ -1,0 +1,201 @@
+[
+ {
+  "id": "MUT-H-001",
+  "track": "H",
+  "contract": "state construction is independent of actor/relation input order",
+  "dimension": "source order",
+  "mutation": "permute actor roster and relation order",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "bit-identical full Debug",
+  "probe_test": "h_construction_mutations.rs::holds_actor_and_relation_order_is_canonicalized"
+ },
+ {
+  "id": "MUT-H-002",
+  "track": "H",
+  "contract": "unique actor roster",
+  "dimension": "actor",
+  "mutation": "duplicate Enemy actor",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "CombatStateErrorCode::DuplicateActor",
+  "error": "DuplicateActor",
+  "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes"
+ },
+ {
+  "id": "MUT-H-003",
+  "track": "H",
+  "contract": "no explicit self relation",
+  "dimension": "target",
+  "mutation": "Player->Player Friendly relation",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "ExplicitSelfTargetRelation",
+  "error": "ExplicitSelfTargetRelation",
+  "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes"
+ },
+ {
+  "id": "MUT-H-004",
+  "track": "H",
+  "contract": "one relation per ordered pair",
+  "dimension": "target",
+  "mutation": "duplicate hostile relation",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "DuplicateTargetRelation",
+  "error": "DuplicateTargetRelation",
+  "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes"
+ },
+ {
+  "id": "MUT-H-005",
+  "track": "H",
+  "contract": "one disposition per ordered pair",
+  "dimension": "target",
+  "mutation": "hostile + friendly for same pair",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "ConflictingTargetRelation",
+  "error": "ConflictingTargetRelation",
+  "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes"
+ },
+ {
+  "id": "MUT-H-006",
+  "track": "H",
+  "contract": "relations reference roster actors",
+  "dimension": "actor",
+  "mutation": "relation to absent Enemy 1",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "MissingTargetRelationActor",
+  "error": "MissingTargetRelationActor",
+  "probe_test": "h_construction_mutations.rs::holds_topology_mutations_reject_with_exact_codes"
+ },
+ {
+  "id": "MUT-H-007",
+  "track": "H",
+  "contract": "host passive-flow update binds an exact configured pool",
+  "dimension": "provider",
+  "mutation": "update Energy flow never configured",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "PassiveFlowErrorCode::UnconfiguredPassiveFlow, full Debug unchanged",
+  "error": "UnconfiguredPassiveFlow",
+  "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free"
+ },
+ {
+  "id": "MUT-H-008",
+  "track": "H",
+  "contract": "host passive-flow update binds a roster actor",
+  "dimension": "actor",
+  "mutation": "update flow for absent Enemy 1",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "PassiveFlowErrorCode::MissingActor, full Debug unchanged",
+  "error": "MissingActor",
+  "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free"
+ },
+ {
+  "id": "MUT-H-009",
+  "track": "H",
+  "contract": "clock is monotonic",
+  "dimension": "duration",
+  "mutation": "advance_to earlier than now",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": "TimeAdvanceError, full Debug unchanged",
+  "probe_test": "h_construction_mutations.rs::holds_host_api_failures_are_mutation_free"
+ },
+ {
+  "id": "MUT-H-010",
+  "track": "H",
+  "contract": "host flow updates are runtime state, not baseline",
+  "dimension": "provider",
+  "mutation": "update configured Mana flow 5->50/s at 750 ms then reset",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "reset full Debug == fresh",
+  "probe_test": "h_construction_mutations.rs::holds_host_flow_update_is_reverted_by_reset"
+ },
+ {
+  "id": "MUT-H-011",
+  "track": "H",
+  "contract": "iteration identity only selects the RNG stream",
+  "dimension": "entry",
+  "mutation": "RandomStreamIdentity(1,1) vs (1,2)",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "full Debug differs only in the random subtree",
+  "probe_test": "h_construction_mutations.rs::holds_random_identity_only_changes_random_stream"
+ },
+ {
+  "id": "MUT-H-012",
+  "track": "H",
+  "contract": "aura lifecycle ends at recipient death (Trinity RemoveAllAurasOnDeath)",
+  "dimension": "actor",
+  "mutation": "kill the aura recipient before natural expiry of a raw-495 aura",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "aura persists and expiry driver energizes the source at 100 ms",
+  "probe_test": "h_death_lifecycle.rs::defect_on_expire_driver_fires_from_aura_on_dead_recipient",
+  "finding_ids": [
+   "CSA-H-01"
+  ]
+ },
+ {
+  "id": "MUT-H-013",
+  "track": "H",
+  "contract": "dead targets are not valid action targets (SPELL_FAILED_TARGETS_DEAD)",
+  "dimension": "target",
+  "mutation": "aura-only action on a dead target",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "APPLY commits on dead External while NUKE rejects DeadTarget",
+  "probe_test": "h_death_lifecycle.rs::defect_aura_application_to_dead_target_commits",
+  "finding_ids": [
+   "CSA-H-02"
+  ]
+ },
+ {
+  "id": "MUT-H-014",
+  "track": "H",
+  "contract": "reset mid-flight (pending hard cast, pending fixed impacts, active auras, periodic, thresholds) equals fresh",
+  "dimension": "duration",
+  "mutation": "reset after 12-14 driven rounds with pending timers",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "semantic Debug == fresh, replay identical",
+  "probe_tests": [
+   "h_engine_reset.rs::holds_engine_reset_and_iteration_reset_are_fresh_equivalent",
+   "h_reset_fingerprint.rs::holds_reset_fingerprints",
+   "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+  ]
+ },
+ {
+  "id": "MUT-H-015",
+  "track": "H",
+  "contract": "quote purity (§19 gate 7) at state level",
+  "dimension": "interrupt",
+  "mutation": "cast_readiness before every begin_cast in 49 scenarios",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": "no semantic owner changes (scratch residue only)",
+  "probe_tests": [
+   "h_reset_fingerprint.rs::holds_reset_fingerprints",
+   "h_reset_fingerprint.rs::holds_targeted_reset_fingerprints"
+  ]
+ },
+ {
+  "id": "MUT-H-016",
+  "track": "H",
+  "contract": "dead casters cannot cast (SPELL_FAILED_CASTER_DEAD)",
+  "dimension": "actor",
+  "mutation": "kill the Player via External's NUKE, then cast from the Player",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": "dead Player's NUKE commits 20000 damage",
+  "probe_test": "h_death_lifecycle.rs::defect_dead_caster_keeps_casting",
+  "finding_ids": [
+   "CSA-H-03"
+  ]
+ }
+]

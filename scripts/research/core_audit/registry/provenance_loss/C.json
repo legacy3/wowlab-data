@@ -1,0 +1,94 @@
+[
+ {
+  "id": "PL-C-001",
+  "authority": "AUTH-C-003",
+  "fact": "selected raw-290/308/334 rank amount",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/program/critical_modifier.rs:494-575"
+  ],
+  "verdict": "clean",
+  "probe_test": "c_selected_rank.rs::holds_selected_rank_two_amount_reaches_critical_chance",
+  "evidence": [
+   "Selected amount returned from resolved.selected_amount(effect) after package/role/sibling/owner checks; probe proves rank-2 Set-curve +4 reaches runtime (vs authored +2)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "PL-C-002",
+  "authority": "AUTH-C-010",
+  "fact": "selected raw-638 rank amount",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/critical_block_amount.rs:256-302"
+  ],
+  "verdict": "clean",
+  "evidence": [
+   "Final compile uses resolved.selected_amount(effect) (297-301); authored base points only used for Passive activation (265-267). Previous defect 09d4fdab stays fixed. Martial Expert is one-rank so selected == authored at the pin; path audited statically."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "PL-C-003",
+  "authority": "AUTH-C-007",
+  "fact": "selected op-15 critical-bonus amount",
+  "pattern": "selected_amount_to_authored",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:900-915",
+   "crates/combat/src/program/selected_trait_package.rs:1100-1124"
+  ],
+  "verdict": "clean",
+  "evidence": [
+   "Classification reads percent_points(resolved) (selected amount) and compile_definition uses selected_spell_modifier_amount(value) from that classification; Heart rank 2 (+20) exercised by crates/engine/tests/selected_heart_of_the_crusader.rs."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "PL-C-004",
+  "authority": "AUTH-C-016",
+  "fact": "selected raw-334 / raw-290 amount into white basis points",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/white_swing.rs:31-38",
+   "crates/combat/src/white_swing.rs:406-412"
+  ],
+  "verdict": "clean",
+  "evidence": [
+   "WhiteCriticalChanceModifier::try_new requires the f64 compiled (selected) amount to round-trip exactly through binary32; otherwise InvalidPreparedBasis (fail closed)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "PL-C-005",
+  "authority": "AUTH-C-001",
+  "fact": "critical baseline actor identity",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/critical/authority.rs:174-189",
+   "crates/combat/src/execution/planning/critical.rs:89-108"
+  ],
+  "verdict": "clean",
+  "evidence": [
+   "Baseline bound by ActorId -> dense index; quote reads context.caster_index (the exact source actor), periodic ticks use SourceActorAtOccurrence (planning.rs:852-858)."
+  ],
+  "track": "C"
+ },
+ {
+  "id": "PL-C-006",
+  "authority": "AUTH-C-002",
+  "fact": "impact has_damage/has_healing vs critical eligibility",
+  "pattern": "retained_never_consumed",
+  "coords": [
+   "crates/combat/src/program.rs:1198-1203",
+   "crates/combat/src/program/definition.rs:512-572"
+  ],
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "evidence": [
+   "The impact policy retains HAS_DAMAGE / HAS_HEALING bits next to the crit channel, but nothing combines them: crit eligibility of a non-amount impact is decided from payload attributes alone."
+  ],
+  "track": "C"
+ }
+]

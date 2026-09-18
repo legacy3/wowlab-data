@@ -1,0 +1,71 @@
+[
+  {
+    "id": "MUT-L-001",
+    "track": "L",
+    "contract": "package provenance is pay-for-play",
+    "dimension": "package provenance",
+    "mutation": "remove selected_package_effects field from PassiveSpellModifierPlan (compile result discarded)",
+    "outcome": "accepted_suspicious",
+    "method": "mutant_build",
+    "evidence": [
+      {
+        "class": "inferred",
+        "ref": "/home/dev/bag/core-audit-pass/scratch/L/mutant_no_package_field.diff",
+        "note": "programs WITHOUT spell modifiers shrink by 16 requested bytes (passive damage 1,752->1,736, healing 1,318->1,302, absorb-received 1,470->1,454); Engine budgets unchanged"
+      }
+    ],
+    "finding_ids": [
+      "CSA-L-01"
+    ]
+  },
+  {
+    "id": "MUT-L-002",
+    "track": "L",
+    "contract": "warm white occurrence allocation-free",
+    "dimension": "sign/range",
+    "mutation": "outcome table all-zero -> miss 15%/dodge 15%/crit 30%; one seed -> 64 distinct iteration identities",
+    "outcome": "accepted_inert",
+    "method": "probe",
+    "probe_test": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free",
+    "evidence": [
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free"
+      }
+    ]
+  },
+  {
+    "id": "MUT-L-003",
+    "track": "L",
+    "contract": "warm critical cast allocation-free",
+    "dimension": "amount facts",
+    "mutation": "critical baseline 1.0 -> 0.5 with 64 distinct iteration identities",
+    "outcome": "accepted_inert",
+    "method": "probe",
+    "probe_test": "l_warm_iteration.rs::holds_martial_fresh_iterations_allocation_free",
+    "evidence": [
+      {
+        "class": "probe",
+        "ref": "l_warm_iteration.rs::holds_martial_fresh_iterations_allocation_free"
+      }
+    ]
+  },
+  {
+    "id": "MUT-L-004",
+    "track": "L",
+    "contract": "white admission gate",
+    "dimension": "sign/range",
+    "mutation": "parry=1000, block=1000 in WhiteMainHandChances",
+    "outcome": "rejected_intended",
+    "method": "probe",
+    "error": "InvalidCombatState/WhiteMainHand(InvalidPreparedBasis)",
+    "probe_test": "l_warm_iteration.rs::holds_precision_white_fresh_iterations_allocation_free",
+    "evidence": [
+      {
+        "class": "core",
+        "ref": "crates/combat/src/white_swing.rs:125-131",
+        "note": "observed while building the probe fixture; parry/block must be zero in this slice"
+      }
+    ]
+  }
+]

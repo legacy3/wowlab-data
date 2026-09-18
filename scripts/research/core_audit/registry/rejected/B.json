@@ -1,0 +1,150 @@
+[
+ {
+  "id": "REJ-B-001",
+  "suspicion": "payload SPELL_ATTR3_IGNORE_CASTER_MODIFIERS could still receive caster SpellMods",
+  "why_rejected": "raw 125 is Unimplemented and fails centrally for every program shape",
+  "coords": [
+   "crates/dbc/src/spell_attribute.rs:395",
+   "crates/combat/src/program/spell_attribute.rs:17-80"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-002",
+  "suspicion": "cooldown SpellMod applied to shared category starts despite SPELL_ATTR6_NO_CATEGORY_COOLDOWN_MODS (Trinity SpellHistory.cpp:411)",
+  "why_rejected": "raw 223 is uncataloged; action payload owners are audited (selected_owner primary_owners) and uncataloged attributes fail closed; core_test uncataloged_no_category_modifier_payload_remains_fail_closed",
+  "coords": [
+   "crates/combat/src/program/spell_attribute.rs:40-48",
+   "crates/data/src/action/catalog/selected_owner.rs:54-62"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-003",
+  "suspicion": "effect_spell_match_count treats family 0 and empty masks as universal, unlike Trinity IsAffectedBySpellMod",
+  "why_rejected": "unreachable for SpellMods: class-mask classification requires nonempty mask and validate_owner requires nonzero family (probes MUT-B-005/006)",
+  "coords": [
+   "crates/data/src/game_data.rs:590-612",
+   "crates/combat/src/program/selected_trait_package.rs:1100-1123",
+   "crates/combat/src/program/passive_spell_modifier.rs:950-988"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-004",
+  "suspicion": "op 0/22 should scale raw-20 periodic percent heals",
+  "why_rejected": "Trinity HandlePeriodicHealAurasTick skips SpellHealingBonusDone for OBS_MOD_HEALTH (SpellAuraEffects.cpp:5913-5916); Core PeriodicPercent -> no operation and excluded from payload set",
+  "coords": [
+   "crates/combat/src/healing_modifier.rs:29-40",
+   "crates/combat/src/program/modifier/payload_spells.rs:21-30"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-005",
+  "suspicion": "raw-638-class: final SpellMod compile consumes authored points instead of the selected rank",
+  "why_rejected": "value comes from the package role built from resolved.selected_amount; authored base_points never read (PL-B-001)",
+  "coords": [
+   "crates/combat/src/program/passive_spell_modifier.rs:853-930",
+   "crates/combat/src/program/selected_trait_package.rs:1308-1312"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-006",
+  "suspicion": "ReduceRemainingCooldown/ModifyCooldownsByCategory sign or erase boundary diverges from Trinity",
+  "why_rejected": "negative -> Reduce, amount>=remaining clears, positive extends; Trinity ModifySpellCooldown erases CooldownEnd<=now (SpellHistory.cpp:578-606)",
+  "coords": [
+   "crates/combat/src/program/cooldown_adjustment.rs:386-425",
+   "crates/combat/src/cooldown/deadline_rate.rs:363-391"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-007",
+  "suspicion": "charge reduce recovers only one charge",
+  "why_rejected": "adjust_charge_recovery counts 1 + after_first/full_interval charges, like Trinity popping every expired entry (SpellHistory.cpp:861-868)",
+  "coords": [
+   "crates/combat/src/cooldown.rs:1700-1782"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-008",
+  "suspicion": "raw-286 applicability should use SpellMod popcount/no-universal rules",
+  "why_rejected": "Trinity MOD_RECOVERY_RATE uses AuraEffect::IsAffectingSpell -> SpellInfo::IsAffected (family 0 universal, empty mask = family) (SpellAuraEffects.cpp:6274-6284); Core effect_affects_spell matches",
+  "coords": [
+   "crates/combat/src/program/cooldown_recovery_rate.rs:633-640"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-009",
+  "suspicion": "cooldown modifier ordering (SpellMod vs haste vs recovery rate vs raw-341) differs from the direct consumer",
+  "why_rejected": "Core: SpellMod pre-haste -> haste/rate -> raw-341 flat -> suppress<=0, same as Trinity StartCooldown (SpellHistory.cpp:398-500)",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:450-487",
+   "crates/combat/src/cooldown/deadline_rate.rs:661-691"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-010",
+  "suspicion": "charge recovery phase order differs",
+  "why_rejected": "Core 453(+205) flat -> 454 pct -> haste regen -> 148 speed -> truncate, same as Trinity GetChargeRecoveryTime (SpellHistory.cpp:975-1010)",
+  "coords": [
+   "crates/combat/src/charge_duration.rs:245-345",
+   "crates/combat/src/cooldown/charge_recovery_input.rs:43-67"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-011",
+  "suspicion": "Passive-activation cooldown/charge witnesses (238100, 1254251, 1272844, 1239537, 1272842, 383228) consume authored amounts of ranked traits",
+  "why_rejected": "all are one-rank TraitNodeEntry rows without TraitDefinitionEffectPoints (source: TraitNodeEntry/TraitDefinitionEffectPoints 12.1.0), so authored == selected",
+  "coords": [
+   "crates/combat/src/program/ordinary_category_duration_modifier.rs:250-365",
+   "crates/combat/src/program/charge_duration_modifier.rs:192-342"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-012",
+  "suspicion": "op-15 excess formula wrong",
+  "why_rejected": "Trinity crit_bonus -= damage; ApplySpellMod(CritDamageAndHealing); += damage (Unit.cpp:7296-7303) equals 1+(M-1)F",
+  "coords": [
+   "crates/combat/src/state/modifiers.rs:360-395"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-013",
+  "suspicion": "flat first-effect on raw-87 applied with foreign caster/holder",
+  "why_rejected": "applied only when target is Player and aura key source==affected==target; bindings are Player-only",
+  "coords": [
+   "crates/combat/src/damage_modifier.rs:305-320",
+   "crates/combat/src/spell_modifier_authority.rs:298-305"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-014",
+  "suspicion": "health-leech heal leg receives operation 0 once instead of on both legs",
+  "why_rejected": "Core heal = effective damage (already op-0 scaled on the damage route) * transfer * healing multiplier (op-0 again on the heal route), matching Trinity EffectHealthLeech SpellDamageBonusDone then SpellHealingBonusDone (SpellEffects.cpp:1328-1365)",
+  "coords": [
+   "crates/combat/src/execution/planning/health.rs:365-470",
+   "crates/combat/src/execution/planning/health.rs:698-741"
+  ],
+  "track": "B"
+ },
+ {
+  "id": "REJ-B-015",
+  "suspicion": "raw-286 live rebase lets an unaffected alias inherit a modifier on a shared deadline",
+  "why_rejected": "rebase_recovery only rebases when the stored initiating rate cell equals the transitioning cell; provenance written at commit_start from the initiating activation",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:693-722",
+   "crates/combat/src/cooldown_recovery_rate.rs:366-392"
+  ],
+  "track": "B"
+ }
+]

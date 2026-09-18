@@ -1,0 +1,13 @@
+[
+ {
+  "id": "AL-H-001",
+  "track": "H",
+  "contract": "warm reset reuses construction storage (no reallocation in reset_runtime)",
+  "coords": [
+   "crates/combat/src/state.rs:1068-1139",
+   "crates/combat/src/actor.rs:223-237"
+  ],
+  "evidence": "static: every reset path uses fill/clear/clone_from_slice/copy_from_slice on preallocated boxes; exact allocation counting is Track L (tools/allocation-tests)",
+  "verdict": "holds"
+ }
+]

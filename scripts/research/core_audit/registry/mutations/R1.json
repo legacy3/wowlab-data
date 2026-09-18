@@ -1,0 +1,257 @@
+[
+ {
+  "id": "MUT-R1-001",
+  "finding_ids": [
+   "CSA-D-01"
+  ],
+  "contract": "raw-165 accepts every raw-133 produced maximum",
+  "dimension": "real source rows",
+  "mutation": "synthetic 165_001/165_002 (+50) replaced by real Light of Ata'luur 156021 (+10, single effect) and Sacrificial Aegis 1257873; host maximum 1001",
+  "outcome": "rejected_accidental",
+  "method": "probe",
+  "error": "DamageCalculation",
+  "evidence": [
+   "1001 -> 1101.1; real raw-165 cast fails; control 1000 -> 1100 casts (990)"
+  ],
+  "probe_tests": [
+   "r1_real_rows.rs::defect_real_raw133_raw165_rows_fail_the_cast",
+   "r1_real_rows.rs::holds_real_raw133_raw165_rows_cast_on_integral_maximum"
+  ],
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-002",
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "contract": "non-amount impacts never crit",
+  "dimension": "caster critical channel",
+  "mutation": "exact Stun 346197 cast by an enemy with spell chance 0.0 and weapon chance 1.0 (Trinity creatures have spell crit 0, Unit.cpp:7124-7125)",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "ImpactResolved Critical via the weapon channel; weapon 0.0 -> Hit"
+  ],
+  "probe_test": "r1_real_rows.rs::defect_exact_stun_crits_from_enemy_weapon_channel_with_zero_spell_chance",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-003",
+  "finding_ids": [
+   "CSA-C-01"
+  ],
+  "contract": "non-amount impacts never crit",
+  "dimension": "impact recipient",
+  "mutation": "Player casts real Caster-recipient self buff 156021 with Player crit 1.0",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   "ImpactResolved Hit; C-01 scope is Target-recipient impacts only"
+  ],
+  "probe_test": "r1_real_rows.rs::holds_real_player_self_buff_impact_never_resolves_critical",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-004",
+  "finding_ids": [
+   "CSA-D-03"
+  ],
+  "contract": "equal-priority absorb order",
+  "dimension": "real source rows",
+  "mutation": "synthetic 910_1xx providers replaced by real Herbalist's Ward 53678 (1) then Deaden Magic 334538 (50); real Storm Cloud 57411 hit (2)",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "older Ward removed, Deaden keeps 49; Trinity newest-first keeps the Ward"
+  ],
+  "probe_test": "r1_real_absorb.rs::defect_real_equal_priority_absorbs_deplete_oldest_first",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-005",
+  "finding_ids": [
+   "CSA-D-04"
+  ],
+  "contract": "source-stage absorb capacity rounding",
+  "dimension": "real source rows",
+  "mutation": "real Entropic Embrace 256374 raw-421 +5 (siblings 79/136 declared, raw-257 undeclared) + Deaden Magic 334538 (50) + Wrath of the Titans 228917 (84)",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "capacity 52.5, health loss 31.5 (Trinity 53 / 31); control without raw 421 loses 34"
+  ],
+  "probe_tests": [
+   "r1_real_absorb.rs::defect_real_source_only_absorb_capacity_is_not_rounded",
+   "r1_real_absorb.rs::holds_real_absorb_without_source_modifier_is_integral"
+  ],
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-006",
+  "finding_ids": [
+   "CSA-E-01",
+   "CSA-H-01"
+  ],
+  "contract": "death ends aura lifecycle",
+  "dimension": "real source rows",
+  "mutation": "real Foul Chill 6873 (raw 87) on an enemy then real lethal 228917",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "aura active on the corpse, deadline still scheduled"
+  ],
+  "probe_test": "r1_real_death.rs::defect_real_debuff_survives_recipient_death",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-007",
+  "finding_ids": [
+   "CSA-E-01",
+   "CSA-H-01"
+  ],
+  "contract": "raw-495 driver after recipient death",
+  "dimension": "real carrier admission",
+  "mutation": "owner-clean real raw-495 carrier Explosion Timer 433258 with its real child 433259 Instakill (1,0)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "error": "UnsupportedImplicitTargets",
+  "evidence": [
+   "the other owner-clean carriers are 1252143 (Instakill (1,0) + Script Effect 77 children) and 1279208 (indefinite, stacking); driver clause LATENT"
+  ],
+  "probe_test": "r1_real_death.rs::holds_real_raw495_carrier_child_is_refused",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-008",
+  "finding_ids": [
+   "CSA-G-01",
+   "CSA-H-03"
+  ],
+  "contract": "dead caster cannot cast",
+  "dimension": "real source rows",
+  "mutation": "Player killed by real 228917, then casts real 228917",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "dead Player deals 84"
+  ],
+  "probe_test": "r1_real_death.rs::defect_real_dead_caster_commits_damage",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-009",
+  "finding_ids": [
+   "CSA-H-02",
+   "CSA-G-04"
+  ],
+  "contract": "dead targets refuse aura application",
+  "dimension": "real source rows",
+  "mutation": "enemy killed by real 228917, then real Foul Chill 6873 on the corpse",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "228917 -> DeadTarget, 6873 commits a live aura"
+  ],
+  "probe_test": "r1_real_death.rs::defect_real_debuff_application_to_dead_target_commits",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-010",
+  "finding_ids": [
+   "CSA-R2-01"
+  ],
+  "contract": "no regeneration while dead",
+  "dimension": "real lethal row",
+  "mutation": "host +10 Mana/s flow on an enemy killed by real 228917",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "0 -> 50 Mana after 5 s dead"
+  ],
+  "probe_test": "r1_real_death.rs::defect_real_passive_flow_accrues_on_corpse",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-011",
+  "finding_ids": [
+   "CSA-G-02"
+  ],
+  "contract": "interrupt cancels the start recovery",
+  "dimension": "real source rows",
+  "mutation": "Player hard-casts real Blood Feast 465275 (no SpellInterrupts row, Prevention 7, GCD 1500); enemy real Spell Lock 159006 at 500 ms; Player real 58912 readiness",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "error": "StartRecovery",
+  "evidence": [
+   "StartRecovery until 1500 ms; Trinity cancel -> CancelGlobalCooldown (Spell.cpp:3617-3632, 9227-9240); Player caster because creatures have no GCD (Spell.cpp:9159-9166)"
+  ],
+  "probe_test": "r1_real_interrupt.rs::defect_real_interrupted_hard_cast_keeps_its_gcd",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-012",
+  "finding_ids": [
+   "CSA-G-02"
+  ],
+  "contract": "interrupt target-cast policy",
+  "dimension": "real hard cast with SpellInterrupts row",
+  "mutation": "real Smite 295678 (InterruptFlags 15) beside the raw-68 program",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "error": "UnsupportedTargetCastPolicy",
+  "evidence": [
+   "program/interrupt.rs:65-73 refuses any hard cast carrying SpellInterrupts; admitted real population = hard casts without one"
+  ],
+  "probe_test": "r1_real_interrupt.rs::holds_real_hard_cast_with_spell_interrupts_row_is_refused_beside_raw68",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-013",
+  "finding_ids": [
+   "CSA-J-03"
+  ],
+  "contract": "raw-183 threshold equals consumer integer threshold",
+  "dimension": "real source rows",
+  "mutation": "real Initiation 213539 (+30, AtOrAbove 80) + real 228917; target 800/1001; baseline 0.70",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "some seeds Hit at 800 (Trinity threshold 800 -> always crit); 801 all crit"
+  ],
+  "probe_test": "r1_real_numeric.rs::defect_real_initiation_threshold_is_untruncated",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-014",
+  "finding_ids": [
+   "CSA-J-03"
+  ],
+  "contract": "raw-183 owner admission",
+  "dimension": "cited source row",
+  "mutation": "J's cited Initiation 193878 (owner attributes 4, 122, 254, 385 Disabled)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "error": "SelectedSpellAttribute",
+  "evidence": [
+   "the cited witness row is refused; 213539 is the admissible duplicate"
+  ],
+  "probe_test": "r1_real_numeric.rs::holds_cited_initiation_193878_is_refused_by_owner_attribute_audit",
+  "track": "R1"
+ },
+ {
+  "id": "MUT-R1-015",
+  "finding_ids": [
+   "CSA-J-06"
+  ],
+  "contract": "mana cost integerization",
+  "dimension": "real source rows",
+  "mutation": "real Mana Confluence 1270845 (-5) on the SpellPower ManaCost 5 of Time Step 111",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   "cost 4.75, balance 95.25 (Trinity int32 -> 4)"
+  ],
+  "probe_test": "r1_real_numeric.rs::defect_real_mana_confluence_leaves_fractional_cost",
+  "track": "R1"
+ }
+]

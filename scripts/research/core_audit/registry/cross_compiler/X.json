@@ -1,0 +1,658 @@
+[
+  {
+    "id": "XC-X-001",
+    "concept": "op-15 CritDamageAndHealing applicability: selected admission vs payload projection set vs runtime heal consumer vs payload owner gate",
+    "finding_ids": [
+      "CSA-B-03",
+      "CSA-C-02"
+    ],
+    "compilers": [
+      {
+        "authority": "selected classifier (A/B/K)",
+        "coords": [
+          "crates/combat/src/program/selected_trait_package.rs:888-891",
+          "crates/combat/src/program/selected_trait_package.rs:1033-1098"
+        ],
+        "behavior": "arity 1 returns true before any slot check; raw-108 op 15 is routed generically to percent_class_mask -> Percent/CriticalBonus/ClassMask. No named-branch gate exists for sole-effect op 15."
+      },
+      {
+        "authority": "production Engine candidate",
+        "coords": [
+          "crates/engine/src/trait_spell_modifier_candidate.rs:105-160"
+        ],
+        "behavior": "PreparedSpellModifierCandidate publishes any package whose roles are all SpellModifier (exact Awestruck rows admitted, probe)."
+      },
+      {
+        "authority": "payload projection set (B/C)",
+        "coords": [
+          "crates/combat/src/program/modifier/payload_spells.rs:32-52"
+        ],
+        "behavior": "CriticalBonus projections only for payloads with a crit-eligible damage impact."
+      },
+      {
+        "authority": "runtime crit planner (C)",
+        "coords": [
+          "crates/combat/src/execution/planning/critical.rs:11-79"
+        ],
+        "behavior": "applies whatever projection exists to heal impacts (bonus_before_school when !has_damage) -> heal of a mixed program gets 220, pure heal 200."
+      },
+      {
+        "authority": "global owner attribute audit (K)",
+        "coords": [
+          "crates/combat/src/program/spell_attribute.rs:17-81",
+          "crates/data/src/action/catalog/selected_owner.rs:54-62"
+        ],
+        "behavior": "CastAction/Program owners with Disabled/Unimplemented/uncataloged attributes fail the build; every real heal-only payload matched by a real sole-effect op-15 provider is refused here."
+      }
+    ],
+    "evidence": [
+      "core: C-02 claims protection by a named-branch op-15 admission (selected_trait_package.rs:900-940); at the pin those lines are the arity>=2 composition match, reached only after the arity-1 early return (888-891). The oracle corebaseline._generic_spell_modifier still mirrors an older Core that omitted op 15 (corebaseline.py:410-440) -- stale navigation, not Core.",
+      "source: scratch/X/op15_heal_scan.py over 12.1.0 tables: 25 sole-effect raw-108/218 op-15 trait providers, 16 with gate-clean owner attributes (Awestruck 417855 entry 102544, Intensity 1264649 entry 103105, Profound Rebuttal 392910 entries 101526/124923/136513 among them); 9 distinct heal-only matched payloads (19750, 25914, 82326, 8936, 1236647, 1264664, 322101, 344939, 451968) all carry at least one Disabled/Unimplemented/uncataloged owner attribute (16, 81, 83, 148, 217, 218, 265, 280, 308, 350, 416). Flash of Light also has variance 0.05.",
+      "probe: x_op15_real_rows.rs::holds_real_flash_of_light_payload_is_refused_by_owner_attribute_gate (UnsupportedSelectedSpellAttribute) and ::defect_candidate_awestruck_skips_gate_clean_flash_of_light_twin (production candidate declaration, heal crit 200 vs Trinity 220).",
+      "trinity: Unit.cpp:7309-7317 SpellCriticalHealingBonus applies CritDamageAndHealing to heal crits."
+    ],
+    "probe_tests": [
+      "x_op15_real_rows.rs::holds_real_flash_of_light_payload_is_refused_by_owner_attribute_gate",
+      "x_op15_real_rows.rs::defect_candidate_awestruck_skips_gate_clean_flash_of_light_twin"
+    ],
+    "track": "X",
+    "class": "A"
+  },
+  {
+    "id": "XC-X-002",
+    "concept": "haste-scaled millisecond conversion (cast, GCD, cooldown, periodic period, recovery rate, white period)",
+    "finding_ids": [
+      "CSA-J-02",
+      "CSA-J-05"
+    ],
+    "compilers": [
+      {
+        "authority": "recovery::effective_duration (G/J)",
+        "coords": [
+          "crates/combat/src/recovery.rs:94-125"
+        ],
+        "behavior": "trunc(f64 base / f64 speed) for cast time and start recovery"
+      },
+      {
+        "authority": "periodic period (E/J)",
+        "coords": [
+          "crates/combat/src/periodic.rs:551-562"
+        ],
+        "behavior": "same f64 division; E recorded it as core_choice (NUM-E-001)"
+      },
+      {
+        "authority": "cooldown deadline (B/J)",
+        "coords": [
+          "crates/combat/src/cooldown/deadline_rate.rs:233-240"
+        ],
+        "behavior": "f64 base / haste / rate speed; B recorded NUM-B-005 as core_choice"
+      },
+      {
+        "authority": "raw-286 / charge rates (B/J)",
+        "coords": [
+          "crates/combat/src/cooldown_recovery_rate.rs:850-852",
+          "crates/combat/src/charge_recharge_rate.rs:716-718"
+        ],
+        "behavior": "rate factor 1+p/100 used as divisor"
+      },
+      {
+        "authority": "white swing period (F/J)",
+        "coords": [
+          "crates/combat/src/white_swing.rs:452-463"
+        ],
+        "behavior": "binary32 product trunc(f32 base * f32(100/(100+p))) = consumer order"
+      }
+    ],
+    "evidence": [
+      "One conversion function; tracks disagreed on its label (E/B core_choice, J known_divergence, G assumed). Reconciled to known_divergence.",
+      "scratch/X/haste_scan.py: on Track E's own grid (8 real raw-173 periods x 0.01% haste) there is 1 witness: 12000 ms @ 134.65% -> Core 5113, consumer 5114 (E's zero-witness scan modelled the consumer as exact rational floor, not the binary32 product).",
+      "The divergence is bidirectional: 30000 ms @ 92% -> Core 15625, consumer 15624 (f32(100/192) rounds down); CSA-J-02 title states only the \"1 ms lower\" direction.",
+      "probe: x_haste_direction.rs::defect_hasted_duration_divergence_is_bidirectional_core_one_ms_later_at_92_percent; x_periodic_haste_witness.rs::defect_real_period_12000_at_134_65_percent_ticks_one_ms_before_consumer.",
+      "Internal inconsistency independent of Trinity: white period already uses the binary32 consumer order."
+    ],
+    "probe_tests": [
+      "x_haste_direction.rs::defect_hasted_duration_divergence_is_bidirectional_core_one_ms_later_at_92_percent",
+      "x_periodic_haste_witness.rs::defect_real_period_12000_at_134_65_percent_ticks_one_ms_before_consumer"
+    ],
+    "track": "X",
+    "class": "A"
+  },
+  {
+    "id": "XC-X-003",
+    "concept": "caster/source liveness per authority",
+    "finding_ids": [
+      "CSA-G-01",
+      "CSA-H-03"
+    ],
+    "compilers": [
+      {
+        "authority": "cast admission (G/H)",
+        "coords": [
+          "crates/combat/src/cast.rs:412-580"
+        ],
+        "behavior": "no caster-life gate in any mode (instant, hard acceptance, hard completion)"
+      },
+      {
+        "authority": "health preflight (G)",
+        "coords": [
+          "crates/combat/src/execution/health.rs:190-211"
+        ],
+        "behavior": "caster life required only when the program writes caster health"
+      },
+      {
+        "authority": "pending hard cast (G/H)",
+        "coords": [
+          "crates/combat/src/cast_authority.rs:410-431"
+        ],
+        "behavior": "cleared only by finish/cancel; death never cancels"
+      },
+      {
+        "authority": "white main hand (F/G)",
+        "coords": [
+          "crates/combat/src/white_swing.rs:335-343",
+          "crates/combat/src/state/white_main_hand.rs:70-83"
+        ],
+        "behavior": "source life checked once at admission; runtime checks only the target. Masked: white isolation admits exactly one Player->Enemy hostile relation and only actionless or Dark-Bite programs, so the Player cannot lose health (REJ-F-011 holds) -> class E for this row"
+      },
+      {
+        "authority": "periodic tick from dead source (E)",
+        "coords": [
+          "crates/combat/src/periodic_execution.rs:449-457"
+        ],
+        "behavior": "only recipient life gates ticks; dead source keeps ticking (Trinity parity, E REJ)"
+      }
+    ],
+    "evidence": [
+      "G-01 and H-03 prove the same missing cast-admission predicate with independent probes; G-01 additionally proves the pending-cast half and Engine reachability, so H-03 is a strict subset.",
+      "trinity: Spell.cpp:5744-5746 CASTER_DEAD; Unit.cpp:9160-9172 interrupts on death; Unit.cpp:4472-4493 removes only auras on the dying unit, so DoTs owned by a dead caster on others continue (parity with E)."
+    ],
+    "track": "X",
+    "class": "D"
+  },
+  {
+    "id": "XC-X-004",
+    "concept": "target/recipient liveness per operation family",
+    "finding_ids": [
+      "CSA-H-02",
+      "CSA-G-04",
+      "CSA-E-01"
+    ],
+    "compilers": [
+      {
+        "authority": "damage / power burn / fixed-travel quote",
+        "coords": [
+          "crates/combat/src/execution/planning/health.rs:876-889"
+        ],
+        "behavior": "reject DeadTarget"
+      },
+      {
+        "authority": "heal preflight",
+        "coords": [
+          "crates/combat/src/execution/health.rs:190-245"
+        ],
+        "behavior": "reject dead target"
+      },
+      {
+        "authority": "resource gain",
+        "coords": [
+          "crates/combat/src/execution/planning/resource.rs:141-149"
+        ],
+        "behavior": "no-op for dead recipient"
+      },
+      {
+        "authority": "interrupt (G-04)",
+        "coords": [
+          "crates/combat/src/execution/planning/interrupt.rs:16-32"
+        ],
+        "behavior": "Ok with has_transition: successful no-op"
+      },
+      {
+        "authority": "aura application (E/H-02)",
+        "coords": [
+          "crates/combat/src/aura_state.rs:713-834"
+        ],
+        "behavior": "no liveness check; commits a live aura with deadlines onto a corpse"
+      },
+      {
+        "authority": "fixed-impact arrival",
+        "coords": [
+          "crates/combat/src/fixed_impact_execution.rs:43-58"
+        ],
+        "behavior": "drops the packet silently when the target died in flight (documented, ledger 23541)"
+      }
+    ],
+    "evidence": [
+      "Trinity decides this once per spell target (SpellInfo.cpp:2452-2453 TARGETS_DEAD), not per effect; H-02 and G-04 are the same missing root-target predicate observed through two families; E-01 clause \"new applications admitted onto dead actors\" is the same observation (e_death_lifecycle.rs::defect_fresh_periodic_application_onto_dead_recipient_is_admitted).",
+      "Canonical: CSA-H-02 (one action-level target-liveness predicate at root planning); G-04 merges into it; the application clause of E-01 moves to it."
+    ],
+    "track": "X",
+    "class": "D"
+  },
+  {
+    "id": "XC-X-005",
+    "concept": "death lifecycle: who consumes a lethal health commit",
+    "finding_ids": [
+      "CSA-E-01",
+      "CSA-H-01",
+      "CSA-G-01"
+    ],
+    "compilers": [
+      {
+        "authority": "lethal commit",
+        "coords": [
+          "crates/combat/src/execution/commit/health.rs:200-235",
+          "crates/combat/src/execution/commit/health.rs:918-931"
+        ],
+        "behavior": "emits ActorDied only"
+      },
+      {
+        "authority": "periodic authority",
+        "coords": [
+          "crates/combat/src/periodic_execution.rs:449-457"
+        ],
+        "behavior": "cancels lazily at the next due tick"
+      },
+      {
+        "authority": "natural expiry drivers",
+        "coords": [
+          "crates/combat/src/state.rs:1368-1397",
+          "crates/combat/src/expiry_execution.rs:9-40"
+        ],
+        "behavior": "run raw-495 children at natural expiry with no liveness gate"
+      },
+      {
+        "authority": "cast authority",
+        "coords": [
+          "crates/combat/src/cast_authority.rs:410-431"
+        ],
+        "behavior": "pending cast of the dying actor survives"
+      }
+    ],
+    "evidence": [
+      "E-01 and H-01 are one defect (same code path, same probe observation: aura active on corpse, on-expire driver fires). E-01 carries the source census (683 raw-495 rows); H-01 carries the more precise correction boundary (death removal of auras, independent-stack cohorts, absorb providers and modifier cohorts via the explicit-removal path).",
+      "The pending-cast half of G-01 shares the same owner (death transition at the lethal commit) but a different consumer; keep G-01 separate with a cross-reference."
+    ],
+    "track": "X",
+    "class": "D"
+  },
+  {
+    "id": "XC-X-006",
+    "concept": "immutable selected-owner / external policy across final compilers and activation routes",
+    "finding_ids": [
+      "CSA-A-02",
+      "CSA-A-03",
+      "CSA-K-05"
+    ],
+    "compilers": [
+      {
+        "authority": "shared selected owner policy (8 compilers)",
+        "coords": [
+          "crates/combat/src/program/selected_trait_package.rs:419-461",
+          "crates/combat/src/program/passive_spell_modifier.rs:950-986"
+        ],
+        "behavior": "external proc/script/lifetime Absent, owner shell, owner-role count"
+      },
+      {
+        "authority": "selected raw 638",
+        "coords": [
+          "crates/combat/src/program/critical_block_amount.rs:256-302"
+        ],
+        "behavior": "never calls the shared policy; no external catalog input"
+      },
+      {
+        "authority": "raw-638 private owner attributes (selected and Passive)",
+        "coords": [
+          "crates/combat/src/program/critical_block_amount.rs:427-484"
+        ],
+        "behavior": "rejects raw 416 the shared policy admits (A-03)"
+      },
+      {
+        "authority": "ordinary Passive crit / crit block",
+        "coords": [
+          "crates/combat/src/program/critical_modifier.rs:1182-1220"
+        ],
+        "behavior": "no external policy, trait source or package atomicity (K-05)"
+      }
+    ],
+    "evidence": [
+      "UNK-C-003 (C) and EP-K-005/EP-K-012 (K) observe exactly the CSA-A-02 gap; XC-A-001, XC-C-004 and XC-K-001 are three views of this row. C classed it E (masked by the Martial op-15 sibling), A classed D: both correct for different inputs -- the mask holds for the two-effect Martial package, but a singleton raw-638 package compiles (A probes), and only the source census (no singleton raw-638 trait) keeps it LATENT.",
+      "UNK-B-002 (ranked trait spells declared Passive receive authored amounts) is a consequence of the K-05 bypass: no trait source means no rank on the Passive route."
+    ],
+    "track": "X",
+    "class": "D"
+  },
+  {
+    "id": "XC-X-007",
+    "concept": "generic arity-1 selected admission vs catalog-row claims",
+    "finding_ids": [
+      "CSA-B-02",
+      "CSA-K-03",
+      "CSA-B-03"
+    ],
+    "compilers": [
+      {
+        "authority": "composition gate",
+        "coords": [
+          "crates/combat/src/program/selected_trait_package.rs:888-891"
+        ],
+        "behavior": "arity 1 admits every classified role"
+      },
+      {
+        "authority": "raw-108 / raw-218 catalog rows (B)",
+        "coords": [
+          "crates/dbc/src/aura_subtype.rs:440-450",
+          "crates/dbc/src/aura_subtype.rs:488"
+        ],
+        "behavior": "claim op 0/22/11/15 only (108) and op 3 only for Ephemeral Bond (218); op-15 row justifies heal exclusion by the Martial population"
+      },
+      {
+        "authority": "raw-334/290/79/118 rows (K)",
+        "coords": [
+          "crates/dbc/src/aura_subtype.rs:534"
+        ],
+        "behavior": "claim exact-carrier / one-rank restrictions"
+      }
+    ],
+    "evidence": [
+      "One root: the deliberate arity-1 generalization (ledger L28569-28570) was not propagated to the catalog requirement text. B-02 and K-03 both prove admission beyond wording; in neither case is the admitted value itself wrong versus the consumer (B-02 probe 10 -> 15 matches Trinity PointsIndex0 percent). The wrong-value consequences reached through this admission are separate findings (CSA-B-01, CSA-B-04, CSA-B-03)."
+    ],
+    "track": "X",
+    "class": "D"
+  },
+  {
+    "id": "XC-X-008",
+    "concept": "binding-family validation on white vs non-white input",
+    "finding_ids": [
+      "CSA-A-01",
+      "CSA-F-01"
+    ],
+    "compilers": [
+      {
+        "authority": "white isolation",
+        "coords": [
+          "crates/combat/src/topology.rs:957-973"
+        ],
+        "behavior": "exact isolated binding sets when a main hand is supplied"
+      },
+      {
+        "authority": "construction without white",
+        "coords": [
+          "crates/combat/src/state/construction.rs:111-112",
+          "crates/combat/src/state/construction.rs:838-858"
+        ],
+        "behavior": "melee-speed and auto-attack-damage bindings discarded unvalidated"
+      },
+      {
+        "authority": "package validator",
+        "coords": [
+          "crates/combat/src/state/construction.rs:244-322"
+        ],
+        "behavior": "counts any of 5 families, so a discarded family satisfies completeness (A-01)"
+      },
+      {
+        "authority": "raw-193 sibling",
+        "coords": [
+          "crates/combat/src/state/construction.rs:124-131"
+        ],
+        "behavior": "fails closed on the same mutation"
+      }
+    ],
+    "evidence": [
+      "A-01 and F-01 share one missing boundary (white-only binding families are validated only by white admission); consequences differ (A-01 half-active package, F-01 inert), so keep both with a shared correction: validate white-only families at construction independent of white input, and match package members to the family owned by their role."
+    ],
+    "track": "X",
+    "class": "D"
+  },
+  {
+    "id": "XC-X-009",
+    "concept": "amount/identity binding of host-resolved steps to the exact source effect",
+    "finding_ids": [
+      "CSA-K-01"
+    ],
+    "compilers": [
+      {
+        "authority": "direct Energize / EnergizePowerPercent",
+        "coords": [
+          "crates/combat/src/program/resource_gain.rs:14-55",
+          "crates/data/src/action/catalog/operation.rs:819-858"
+        ],
+        "behavior": "amount and resource are host-resolved; only effect kind, delivery, attributes and recipient are checked; any finite positive amount (fractional too) admitted"
+      },
+      {
+        "authority": "periodic energize",
+        "coords": [
+          "crates/combat/src/program/periodic/energize.rs:57-140"
+        ],
+        "behavior": "resource from misc0, misc1 = 0, neutral amount facts, amount from the source effect"
+      },
+      {
+        "authority": "direct damage / heal",
+        "coords": [
+          "crates/combat/src/damage.rs:30-37",
+          "crates/combat/src/healing.rs:65-94"
+        ],
+        "behavior": "amount from source effect facts"
+      },
+      {
+        "authority": "aura mutation (K-01)",
+        "coords": [
+          "crates/combat/src/program.rs:1595-1618"
+        ],
+        "behavior": "host aura identity/mode/amount never bound"
+      }
+    ],
+    "evidence": [
+      "Direct resource gains are documented host-authoritative (development-ledger.md:1643-1649) -> class B for that row; periodic energize is source-bound by design. The aura-mutation row has no such documentation, which is why CSA-K-01 stands. Trinity CalcValue rounds ENERGIZE and POWER_BURN base points (SpellInfo.cpp:604-623); for direct energize that rounding is the host resolver's obligation."
+    ],
+    "track": "X",
+    "class": "B"
+  },
+  {
+    "id": "XC-X-010",
+    "concept": "recipient of implicit-target pair (0,0)",
+    "finding_ids": [],
+    "compilers": [
+      {
+        "authority": "source_recipient",
+        "coords": [
+          "crates/combat/src/program/source_recipient.rs:9-53"
+        ],
+        "behavior": "(0,0) returns Ok(None): any host recipient (Caster or Target) is accepted"
+      },
+      {
+        "authority": "Trinity effect-type targets",
+        "coords": [],
+        "behavior": "SpellInfo.cpp:964-1251: SCHOOL_DAMAGE/HEAL/APPLY_AURA/INTERRUPT/DISPEL -> EXPLICIT (explicit unit or caster); ENERGIZE -> NONE (no target, EffectEnergize SpellEffects.cpp:1570-1577 returns)"
+      }
+    ],
+    "evidence": [
+      "Real (0,0) base-difficulty rows of admitted kinds: raw 6 x813, 164 x94, 203 x75, 2 x33, 30 x4 (Frostscythe 283556, Shadow Word: Pain 284401, Weighted Tendrils 296873, Pistol Shot 1257324), 68 x3, 10 x2 (Penance 197419, Greater Smite 1253724), 9 x2, 108/67/137/62 x1.",
+      "Trinity would target nobody for (0,0) Energize, which contradicts live Pistol Shot combo-point gain, so Trinity is not a trustworthy comparator here; recorded as UNK-X-001."
+    ],
+    "track": "X",
+    "class": "F"
+  },
+  {
+    "id": "XC-X-011",
+    "concept": "authored base-point rounding per effect kind",
+    "finding_ids": [
+      "CSA-D-02"
+    ],
+    "compilers": [
+      {
+        "authority": "raw-2 school damage",
+        "coords": [
+          "crates/combat/src/damage.rs:30-37"
+        ],
+        "behavior": "round"
+      },
+      {
+        "authority": "raw-10 heal / raw-9 leech",
+        "coords": [
+          "crates/combat/src/healing.rs:65-94"
+        ],
+        "behavior": "no rounding"
+      },
+      {
+        "authority": "power burn receipt",
+        "coords": [
+          "crates/combat/src/damage.rs:157-165"
+        ],
+        "behavior": "truncation of the receipt"
+      },
+      {
+        "authority": "direct energize",
+        "coords": [
+          "crates/combat/src/program/resource_gain.rs:14-55"
+        ],
+        "behavior": "host-resolved amount, fractional admitted"
+      }
+    ],
+    "evidence": [
+      "trinity SpellInfo.cpp:604-623 rounds SCHOOL_DAMAGE, HEALTH_LEECH, HEAL, HEAL_MAX_HEALTH, POWER_DRAIN, ENERGIZE and POWER_BURN in one switch. D-02 covers 9/10; energize is host-authoritative (XC-X-009)."
+    ],
+    "track": "X",
+    "class": "D"
+  },
+  {
+    "id": "XC-X-012",
+    "concept": "critical eligibility and attack-table draws for impacts without amounts or delivery",
+    "finding_ids": [
+      "CSA-C-01",
+      "CSA-I-01"
+    ],
+    "compilers": [
+      {
+        "authority": "payload policy",
+        "coords": [
+          "crates/combat/src/program/payload_policy.rs:33-47"
+        ],
+        "behavior": "every targeted or beneficial impact is crit-eligible"
+      },
+      {
+        "authority": "carve-outs",
+        "coords": [
+          "crates/combat/src/program.rs:1180-1205"
+        ],
+        "behavior": "only instakill/interrupt/dispel/dispel-mechanic clear eligibility"
+      },
+      {
+        "authority": "immune ordinary vs fixed-travel launch",
+        "coords": [
+          "crates/combat/src/execution/commit.rs:893-906"
+        ],
+        "behavior": "ordinary path draws then exposes Immune; launch path returns before drawing"
+      }
+    ],
+    "evidence": [
+      "C-01 and I-01 are independent (eligibility vs suppression) but both change draw identity for impacts that cannot change an amount; one policy owner (impact-policy finalization) could fix both. Keep separate."
+    ],
+    "track": "X",
+    "class": "D"
+  },
+  {
+    "id": "XC-X-013",
+    "concept": "maximum-health integrality: producer vs threshold and damage consumers",
+    "finding_ids": [
+      "CSA-D-01",
+      "CSA-J-03"
+    ],
+    "compilers": [
+      {
+        "authority": "raw-133 producer",
+        "coords": [
+          "crates/combat/src/state/maximum_health_modifiers.rs:88-103"
+        ],
+        "behavior": "continuous product, no uint32 truncation"
+      },
+      {
+        "authority": "raw-165 consumer",
+        "coords": [
+          "crates/combat/src/maximum_health_damage.rs:36-48"
+        ],
+        "behavior": "requires integral maximum -> DamageCalculation"
+      },
+      {
+        "authority": "raw-183 threshold",
+        "coords": [
+          "crates/combat/src/program/critical_modifier.rs:127-141"
+        ],
+        "behavior": "exact real threshold; consumer truncates CountPctFromMaxHealth"
+      }
+    ],
+    "evidence": [
+      "D-01 and J-03 are two symptoms of one consumer fact (Trinity maximum health and percent thresholds are integers) that Core keeps continuous; UNK-D-002 asks for the global policy. Keep separate findings (different sites, different observables) but correct together."
+    ],
+    "track": "X",
+    "class": "A"
+  },
+  {
+    "id": "XC-X-014",
+    "concept": "periodic cancellation by removal kind",
+    "finding_ids": [
+      "CSA-E-02",
+      "CSA-E-01"
+    ],
+    "compilers": [
+      {
+        "authority": "explicit remove / remove stacks",
+        "coords": [
+          "crates/combat/src/execution/planning/aura_lifecycle.rs:270-325"
+        ],
+        "behavior": "quotes periodic cancellation"
+      },
+      {
+        "authority": "dispel / mechanic dispel",
+        "coords": [
+          "crates/combat/src/program/planning.rs:565-595"
+        ],
+        "behavior": "counts 0 periodic cancellations; masked by compile gates dispel.rs:243-247 and dispel_mechanic.rs:387-395"
+      },
+      {
+        "authority": "death",
+        "coords": [
+          "crates/combat/src/periodic_execution.rs:449-457"
+        ],
+        "behavior": "lazy cancel at next tick only"
+      }
+    ],
+    "evidence": [
+      "E-02 LATENT is correctly labelled (class E: the dispel carriers admit no periodic fanout). Correcting E-01 through the explicit-removal path (H-01 boundary) inherits the correct cancellation; correcting it through a dispel-like path would inherit E-02."
+    ],
+    "track": "X",
+    "class": "E"
+  },
+  {
+    "id": "XC-X-015",
+    "concept": "sign/range policy of selected percent points vs consumer guards",
+    "finding_ids": [],
+    "compilers": [
+      {
+        "authority": "selected classifier",
+        "coords": [
+          "crates/combat/src/program/selected_trait_package.rs:1323"
+        ],
+        "behavior": "CriticalBonus and op 0/22 points >= -100"
+      },
+      {
+        "authority": "passive haste / melee speed",
+        "coords": [
+          "crates/combat/src/program/passive_haste.rs:43-55"
+        ],
+        "behavior": "Positive policy; negative-haste formula unreachable (REJ-F)"
+      },
+      {
+        "authority": "white period factor guard",
+        "coords": [
+          "crates/combat/src/white_swing.rs:452-463"
+        ],
+        "behavior": "finite positive factor assumed"
+      }
+    ],
+    "evidence": [
+      "Consistent: every consumer that lacks a guard is protected by the classifier Positive/AtLeastNegativeHundred policy (XC-F-003). No cross-track conflict."
+    ],
+    "track": "X",
+    "class": "E"
+  }
+]

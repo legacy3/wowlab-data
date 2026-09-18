@@ -1,0 +1,119 @@
+[
+ {
+  "id": "XC-G-001",
+  "track": "G",
+  "concept": "timed admission blocker aggregation",
+  "class": "D",
+  "compilers": [
+   {
+    "authority": "AUTH-G-001",
+    "coords": [
+     "crates/combat/src/cast.rs:1062-1085"
+    ],
+    "behavior": "cooldown/cost/recovery/cast/school/prevention folded to latest recheck"
+   },
+   {
+    "authority": "AUTH-G-007",
+    "coords": [
+     "crates/combat/src/cast.rs:669-674"
+    ],
+    "behavior": "stun returns early; silence/pacify never folded"
+   }
+  ],
+  "evidence": [
+   "probe: g_admission_order.rs::defect_stun_precedence_reports_early_recheck_under_longer_pacify"
+  ],
+  "finding_ids": [
+   "CSA-G-03",
+   "CSA-G-05"
+  ]
+ },
+ {
+  "id": "XC-G-002",
+  "track": "G",
+  "concept": "fresh action-prevention cancellation trigger",
+  "class": "B",
+  "compilers": [
+   {
+    "authority": "AUTH-G-007",
+    "coords": [
+     "crates/combat/src/stun.rs:64-77"
+    ],
+    "behavior": "cancel only on actor transition to stunned"
+   },
+   {
+    "authority": "AUTH-G-008",
+    "coords": [
+     "crates/combat/src/action_prevention.rs:132-148"
+    ],
+    "behavior": "cancel on fresh Applied of the exact binding, even if another silence active"
+   }
+  ],
+  "evidence": [
+   "trinity: Unit.cpp:11562-11570 SetControlled returns if state already set (stun); SpellAuraEffects.cpp:2531-2543 silence interrupts on every REAL apply",
+   "cast cannot be pending under an active silence/pacify for a prevented action, so the difference is unobservable except for stun"
+  ]
+ },
+ {
+  "id": "XC-G-003",
+  "track": "G",
+  "concept": "source/caster liveness",
+  "class": "D",
+  "compilers": [
+   {
+    "authority": "AUTH-G-001",
+    "coords": [
+     "crates/combat/src/execution/health.rs:196-201"
+    ],
+    "behavior": "caster life only when program writes caster health"
+   },
+   {
+    "authority": "AUTH-G-013",
+    "coords": [
+     "crates/combat/src/fixed_impact_execution.rs:52-58"
+    ],
+    "behavior": "target life compared with launch; source life ignored"
+   },
+   {
+    "authority": "white main hand (F)",
+    "coords": [
+     "crates/combat/src/state/white_main_hand.rs:74-83"
+    ],
+    "behavior": "target life checked; source life never checked"
+   }
+  ],
+  "evidence": [
+   "probe: g_cast_lifecycle.rs::defect_dead_caster_commits_instant_damage"
+  ],
+  "finding_ids": [
+   "CSA-G-01"
+  ]
+ },
+ {
+  "id": "XC-G-004",
+  "track": "G",
+  "concept": "school scoping of silence",
+  "class": "B",
+  "compilers": [
+   {
+    "authority": "AUTH-G-008",
+    "coords": [
+     "crates/combat/src/silence.rs:94-126"
+    ],
+    "behavior": "admission requires school intersection"
+   },
+   {
+    "authority": "AUTH-G-011",
+    "coords": [
+     "crates/combat/src/cast_authority.rs:284-295"
+    ],
+    "behavior": "cancellation ignores school"
+   }
+  ],
+  "evidence": [
+   "trinity: SpellAuraEffects.cpp:2521-2543 same split",
+   "source: all silence carriers misc_0=127 (SpellEffect 134783, 818037)",
+   "core: ledger L18603-18604 documents the split"
+  ]
+ }
+]

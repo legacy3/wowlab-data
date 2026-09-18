@@ -1,0 +1,72 @@
+[
+ {
+  "id": "PL-F-001",
+  "track": "F",
+  "authority": "AUTH-F-001",
+  "fact": "PassiveMeleeSpeedBinding (actor, effect)",
+  "pattern": "retained_never_validated",
+  "coords": [
+   "crates/combat/src/state/construction.rs:111-112",
+   "crates/combat/src/topology.rs:957-973",
+   "crates/combat/src/state/construction.rs:284-323"
+  ],
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-F-01"
+  ],
+  "note": "bindings reach only white admission; without a main hand they are discarded unvalidated (not one of the 5 package-binding families either)",
+  "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+ },
+ {
+  "id": "PL-F-002",
+  "track": "F",
+  "authority": "AUTH-F-011",
+  "fact": "source auto-action reset eligibility (SpellInterrupts Combat flag, attr2 DoNotResetCombatTimers, attr6 DoesntResetSwingIfInstant, attr7 ResetSwingAtStart)",
+  "pattern": "dropped_then_reconstructed",
+  "coords": [
+   "crates/combat/src/program/cooldown_start.rs:20-22",
+   "crates/combat/src/program/spell_attribute.rs:262-263"
+  ],
+  "verdict": "inert",
+  "note": "reconstructed from spell identity 394463 + attr 407. Pinned source SpellInterrupts.csv row 190450 InterruptFlags=40 (Combat 0x08 set), attributes limited to 407 by audit, cast time 2 s: Trinity IsAutoActionResetSpell (Spell.cpp:8310-8319) is true and reset occurs at launch (Spell.cpp:3887). Equivalent at pin; InterruptFlags is not audited so a data change there would not be detected."
+ },
+ {
+  "id": "PL-F-003",
+  "track": "F",
+  "authority": "AUTH-F-008",
+  "fact": "selected raw-319 rank amount",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/program/passive_melee_auto_attack_speed.rs:104-116"
+  ],
+  "verdict": "clean",
+  "note": "selected rank amount (not authored points) consumed; narrowed to binary32 once as the attack-time consumer does",
+  "probe_test": "f_white_swing.rs::holds_white_period_consumes_selected_rank_amount"
+ },
+ {
+  "id": "PL-F-004",
+  "track": "F",
+  "authority": "AUTH-F-010",
+  "fact": "selected raw-344 rank amount",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/program/passive_auto_attack_damage.rs:169-194"
+  ],
+  "verdict": "clean",
+  "note": "resolved.selected_amount used; Heart rank-2 Core test crates/engine/tests/selected_heart_of_the_crusader.rs:36"
+ },
+ {
+  "id": "PL-F-005",
+  "track": "F",
+  "authority": "AUTH-F-004",
+  "fact": "WhiteOutcomeChances glancing/crushing shares",
+  "pattern": "retained_never_consumed",
+  "coords": [
+   "crates/combat/src/white_swing/resolution.rs:38-47",
+   "crates/combat/src/white_swing.rs:114-123",
+   "crates/combat/src/state/white_main_hand.rs:109-116"
+  ],
+  "verdict": "inert",
+  "note": "always default 0 (equal levels, Player attacker); matching unreachable! arm for Parry/Block/Glancing/Crushing"
+ }
+]

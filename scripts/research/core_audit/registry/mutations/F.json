@@ -1,0 +1,655 @@
+[
+ {
+  "id": "MUT-F-010",
+  "track": "F",
+  "contract": "outcome thresholds strict",
+  "dimension": "amount facts",
+  "mutation": "miss share = roll -> Hit; roll+1 -> Miss",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+ },
+ {
+  "id": "MUT-F-011",
+  "track": "F",
+  "contract": "outcome thresholds cumulative",
+  "dimension": "amount facts",
+  "mutation": "miss=roll, dodge=1 -> Dodge; miss=roll-1,dodge=1 -> Hit",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+ },
+ {
+  "id": "MUT-F-012",
+  "track": "F",
+  "contract": "outcome thresholds cumulative",
+  "dimension": "amount facts",
+  "mutation": "critical share roll / roll+1 / after miss roll-1 + 2",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+ },
+ {
+  "id": "MUT-F-013",
+  "track": "F",
+  "contract": "overlapping shares keep precedence",
+  "dimension": "sign/range",
+  "mutation": "miss 10000 + critical 10000 (sum 20000) admitted, Miss",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_outcome_thresholds_are_strict_and_cumulative"
+ },
+ {
+  "id": "MUT-F-020",
+  "track": "F",
+  "contract": "lethal stops white",
+  "dimension": "amount facts",
+  "mutation": "target health 30 vs 13/swing",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_lethal_stop_and_reset_replay"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_lethal_stop_and_reset_replay"
+ },
+ {
+  "id": "MUT-F-030",
+  "track": "F",
+  "contract": "white period consumes selected rank",
+  "dimension": "rank",
+  "mutation": "rank 1 -> rank 2 on Set curve 20/40",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_period_consumes_selected_rank_amount"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_period_consumes_selected_rank_amount",
+  "note": "period 2333 -> 2000 ms; authored points not consumed"
+ },
+ {
+  "id": "MUT-F-031",
+  "track": "F",
+  "contract": "white period arithmetic order",
+  "dimension": "amount facts",
+  "mutation": "raw-319 points 5 -> 15, base 2300",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_period_uses_binary32_attack_time_order"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_period_uses_binary32_attack_time_order"
+ },
+ {
+  "id": "MUT-F-032",
+  "track": "F",
+  "contract": "haste sign",
+  "dimension": "sign/range",
+  "mutation": "raw-319/raw-193 selected points <= 0 (slow)",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/selected_trait_package.rs:669-697",
+    "note": "Positive policy"
+   },
+   {
+    "class": "trinity",
+    "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:10995-10998",
+    "note": "Trinity slow is (100+|v|)/100, differs from Core 100/(100+p): unreachable"
+   }
+  ]
+ },
+ {
+  "id": "MUT-F-033",
+  "track": "F",
+  "contract": "raw-344 range",
+  "dimension": "sign/range",
+  "mutation": "raw-344 points -100 -> factor 0",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/white_swing.rs:326-333",
+    "note": "mitigated(modified min)==0 -> InvalidPreparedBasis"
+   },
+   {
+    "class": "trinity",
+    "ref": "/home/dev/pallet/TrinityCore/src/server/game/Entities/Unit/Unit.cpp:8127",
+    "note": "Trinity would swing for 0"
+   }
+  ]
+ },
+ {
+  "id": "MUT-F-040",
+  "track": "F",
+  "contract": "hard cast suppresses without catch-up; launch resets",
+  "dimension": "period",
+  "mutation": "period 500 < Dark Bite cast 2000",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_cast_suppression_without_catch_up_and_launch_reset"
+ },
+ {
+  "id": "MUT-F-041",
+  "track": "F",
+  "contract": "reset keyed on exact carrier",
+  "dimension": "entry",
+  "mutation": "Dark Bite owner attributes gain any attribute besides 407 / spell id differs",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/cooldown_start.rs:51-83"
+   },
+   {
+    "class": "core",
+    "ref": "crates/combat/src/program/white_idle.rs:88-90"
+   }
+  ]
+ },
+ {
+  "id": "MUT-F-042",
+  "track": "F",
+  "contract": "forced singleton draw",
+  "dimension": "amount facts",
+  "mutation": "weapon range width 1",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_forced_singleton_weapon_draw_precedes_outcome_draw"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_forced_singleton_weapon_draw_precedes_outcome_draw",
+  "note": "draw still consumed; discriminated from skip model"
+ },
+ {
+  "id": "MUT-F-050",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "parry share 1",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-051",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "block share 1",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-052",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "critical 10001",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-053",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "unequal levels 80/83",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "UnsupportedEligibility"
+ },
+ {
+  "id": "MUT-F-054",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "zero levels",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "UnsupportedEligibility"
+ },
+ {
+  "id": "MUT-F-055",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "out of range",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "UnsupportedEligibility"
+ },
+ {
+  "id": "MUT-F-056",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "defender not standing",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "UnsupportedEligibility"
+ },
+ {
+  "id": "MUT-F-058",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "weapon minimum 0",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-059",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "reversed weapon range",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-060",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "weapon max u32::MAX/2+1",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-061",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "base period 0",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-063",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "armor 1e9 makes mitigated min 0",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-064",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "negative armor",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-065",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "armor constant 0",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-066",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "NaN armor",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "InvalidPreparedBasis"
+ },
+ {
+  "id": "MUT-F-067",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "amount facts",
+  "mutation": "critical basis without compiled crit modifier",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "UnsupportedComposition"
+ },
+ {
+  "id": "MUT-F-068",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "target",
+  "mutation": "Enemy source / Player target",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "UnsupportedEngagement"
+ },
+ {
+  "id": "MUT-F-069",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "owner attributes",
+  "mutation": "actor auto_attack_speed 1.1 (non-UNHASTED)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "UnsupportedComposition"
+ },
+ {
+  "id": "MUT-F-075",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "target",
+  "mutation": "no hostile relation",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "error": "UnsupportedEngagement"
+ },
+ {
+  "id": "MUT-F-057",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "target",
+  "mutation": "defender not facing with parry=block=0",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed",
+  "note": "matches Trinity canDodge for creature victims (Unit.cpp:2416-2419)"
+ },
+ {
+  "id": "MUT-F-062",
+  "track": "F",
+  "contract": "white admission fails closed",
+  "dimension": "period",
+  "mutation": "base period 1 ms",
+  "outcome": "accepted_inert",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::holds_white_admission_mutations_fail_closed"
+ },
+ {
+  "id": "MUT-F-070",
+  "track": "F",
+  "contract": "selected binding exactness",
+  "dimension": "actor",
+  "mutation": "PassiveMeleeSpeedBinding for uncompiled effect, no main hand",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+  "finding_ids": [
+   "CSA-F-01"
+  ]
+ },
+ {
+  "id": "MUT-F-071",
+  "track": "F",
+  "contract": "selected binding exactness",
+  "dimension": "actor",
+  "mutation": "Furious Blows binding on Enemy, no main hand",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+  "finding_ids": [
+   "CSA-F-01"
+  ]
+ },
+ {
+  "id": "MUT-F-072",
+  "track": "F",
+  "contract": "selected binding exactness",
+  "dimension": "sibling set",
+  "mutation": "duplicate Furious Blows Player binding, no main hand",
+  "outcome": "accepted_suspicious",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+  "finding_ids": [
+   "CSA-F-01"
+  ]
+ },
+ {
+  "id": "MUT-F-073",
+  "track": "F",
+  "contract": "selected binding exactness",
+  "dimension": "actor",
+  "mutation": "raw-193 binding for uncompiled effect (control)",
+  "outcome": "rejected_intended",
+  "method": "probe",
+  "evidence": [
+   {
+    "class": "probe",
+    "ref": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand"
+   }
+  ],
+  "probe_test": "f_white_swing.rs::defect_melee_speed_bindings_unvalidated_without_main_hand",
+  "error": "MissingPassiveHasteAllDefinition"
+ },
+ {
+  "id": "MUT-F-074",
+  "track": "F",
+  "contract": "white requires binding",
+  "dimension": "actor",
+  "mutation": "Furious Blows compiled + main hand + no melee binding",
+  "outcome": "rejected_intended",
+  "method": "static",
+  "evidence": [
+   {
+    "class": "core",
+    "ref": "crates/combat/src/white_swing.rs:378-381,441-443",
+    "note": "isolation requires exactly [Player binding] -> UnsupportedComposition"
+   }
+  ]
+ }
+]

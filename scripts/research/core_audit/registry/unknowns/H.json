@@ -1,0 +1,16 @@
+[
+ {
+  "id": "UNK-H-001",
+  "track": "H",
+  "question": "Does a pending hard cast owned by an actor that dies mid-cast complete (Trinity interrupts it at setDeathState)?",
+  "why_unknown": "instant casts by a dead caster are proved (CSA-H-03); the pending-hard-cast variant is static only (no death hook touches CastAuthority) and was not probed because the available hard-cast fixtures cannot kill their caster before completion without a second lethal program",
+  "reopen": "build an enemy-sourced lethal action against the Player while the Player hard-casts; assert completion is rejected/cancelled like Trinity (caster death interrupts casts)"
+ },
+ {
+  "id": "UNK-H-002",
+  "track": "H",
+  "question": "Execution-plan capacity compilation (program/planning.rs, execution_layout.rs) is an upper bound for every reachable runtime transaction",
+  "why_unknown": "no fixture in the sweep panicked or reallocated, but capacity proofs are compile-time arithmetic; allocation-tests (Track L) would detect warm reallocation",
+  "reopen": "Track L allocation budgets or a fuzzed nested driver program exceeding quote/immediate depth"
+ }
+]

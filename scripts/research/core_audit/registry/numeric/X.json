@@ -1,0 +1,23 @@
+[
+  {
+    "id": "NUM-X-001",
+    "coords": [
+      "crates/combat/src/recovery.rs:94-125",
+      "crates/combat/src/periodic.rs:551-562",
+      "crates/combat/src/cooldown/deadline_rate.rs:233-240"
+    ],
+    "conversion": "trunc(f64 base / f64 speed) vs consumer int(f32 base * f32(100/(100+p)))",
+    "evidence_class": "known_divergence",
+    "observable": "yes: +-1 ms on cast completion, GCD, cooldown ready and periodic cadence; both directions",
+    "witness": "30000 ms @92%: Core 15625, consumer 15624; 30000 @2.02%: Core 29405, consumer 29406; real period 12000 @134.65%: Core 5113, consumer 5114",
+    "probe_tests": [
+      "x_haste_direction.rs::defect_hasted_duration_divergence_is_bidirectional_core_one_ms_later_at_92_percent",
+      "x_periodic_haste_witness.rs::defect_real_period_12000_at_134_65_percent_ticks_one_ms_before_consumer"
+    ],
+    "finding_ids": [
+      "CSA-J-02"
+    ],
+    "note": "supersedes the core_choice label of NUM-E-001 and NUM-B-005 and the assumed label of NUM-G-001 (lead to relabel)",
+    "track": "X"
+  }
+]

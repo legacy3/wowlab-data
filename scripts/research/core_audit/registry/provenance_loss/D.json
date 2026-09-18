@@ -1,0 +1,95 @@
+[
+ {
+  "id": "PL-D-001",
+  "authority": "AUTH-D-003",
+  "fact": "payload school identity",
+  "pattern": "lossless",
+  "verdict": "clean",
+  "coords": [
+   "crates/combat/src/program.rs:1124",
+   "crates/combat/src/execution/planning/health.rs:899-963",
+   "crates/combat/src/execution/commit/health.rs:11-33"
+  ],
+  "note": "school computed once per program node; commit receives school via HealthCommitContext",
+  "track": "D"
+ },
+ {
+  "id": "PL-D-002",
+  "authority": "AUTH-D-004",
+  "fact": "absorb candidate order from quote to commit",
+  "pattern": "lossless",
+  "verdict": "clean",
+  "coords": [
+   "crates/combat/src/execution/commit/health.rs:424-436",
+   "crates/combat/src/absorb/transaction.rs:203-235"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "PL-D-003",
+  "authority": "AUTH-D-004",
+  "fact": "absorb creation multiplier captured at quote",
+  "pattern": "dropped_then_reconstructed",
+  "verdict": "clean",
+  "coords": [
+   "crates/combat/src/state/absorbs.rs:114-129"
+  ],
+  "note": "commit reconstructs the application from effect but requires the captured quote for school absorbs (expect), so multipliers are not recomputed",
+  "track": "D"
+ },
+ {
+  "id": "PL-D-004",
+  "authority": "AUTH-D-001",
+  "fact": "authored fractional base points of raw-9/raw-10 vs rounded raw-2",
+  "pattern": "retained_never_validated",
+  "verdict": "finding",
+  "coords": [
+   "crates/combat/src/damage.rs:30-37",
+   "crates/combat/src/healing.rs:65-94"
+  ],
+  "finding_ids": [
+   "CSA-D-02"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "PL-D-005",
+  "authority": "AUTH-D-009",
+  "fact": "raw-165 immunity-absent assumption",
+  "pattern": "retained_never_validated",
+  "verdict": "finding",
+  "coords": [
+   "crates/combat/src/program/maximum_health_damage.rs:81-98",
+   "crates/combat/src/program/school_immunity.rs:236-282"
+  ],
+  "finding_ids": [
+   "CSA-D-05"
+  ],
+  "track": "D"
+ },
+ {
+  "id": "PL-D-006",
+  "authority": "AUTH-D-001",
+  "fact": "effective mechanic identity for outgoing mechanic modifiers",
+  "pattern": "lossless",
+  "verdict": "clean",
+  "coords": [
+   "crates/combat/src/program/damage.rs:219-235",
+   "crates/combat/src/execution/planning/health/damage_source.rs:1-23"
+  ],
+  "note": "mechanic retained in DamageFormulaBinding only when requested; health-leech source reports None",
+  "track": "D"
+ },
+ {
+  "id": "PL-D-007",
+  "authority": "AUTH-D-001",
+  "fact": "health-leech pending continuation effect identity",
+  "pattern": "lossless",
+  "verdict": "clean",
+  "coords": [
+   "crates/combat/src/execution/planning/health.rs:616-632"
+  ],
+  "note": "formula.effect must equal pending.effect and beneficiary must equal caster",
+  "track": "D"
+ }
+]

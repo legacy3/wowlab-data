@@ -1,0 +1,352 @@
+{
+ "CSA-A-01": {
+  "canonical_rank": 9,
+  "review": [
+   "R1: reviews/R1.md upheld; reachable only through a wrongly bound host input; medium->low"
+  ],
+  "severity": "low"
+ },
+ "CSA-A-02": {
+  "canonical_rank": 19,
+  "review": [
+   "X: reviews/X-reconciliation.md UNK-C-003 closed into it; EP-K-012 extends it (trigger inertness with Present proc policy)",
+   "R1: reviews/R1.md upheld medium LATENT"
+  ]
+ },
+ "CSA-A-03": {
+  "canonical_rank": 30,
+  "review": [
+   "R1: reviews/R1.md Core stricter than shared policy: fails closed; low->info"
+  ],
+  "severity": "info"
+ },
+ "CSA-B-01": {
+  "canonical_rank": 22,
+  "reachability": "LATENT",
+  "review": [
+   "R1: reviews/R1.md R2 census of 12.1.0: no real op-3 class-mask effect overlaps a same-family spell on more than one bit"
+  ]
+ },
+ "CSA-B-02": {
+  "merged_into": "CSA-K-03",
+  "review": [
+   "X: reviews/X-reconciliation.md merge",
+   "R1: reviews/R1.md agree"
+  ],
+  "status": "merged"
+ },
+ "CSA-B-03": {
+  "absorbs": [
+   "CSA-C-02"
+  ],
+  "canonical_rank": 21,
+  "reachability": "LATENT",
+  "review": [
+   "X: reviews/X-reconciliation.md every real heal-only payload matched by a real op-15 provider carries an owner attribute Core refuses (program/spell_attribute.rs:17-81); only a cleaned twin reproduces 200 vs 220",
+   "R1: reviews/R1.md agree"
+  ],
+  "severity": "low"
+ },
+ "CSA-B-04": {
+  "canonical_rank": 23,
+  "reachability": "LATENT",
+  "review": [
+   "R1: reviews/R1.md every real provider is multi-effect and refused"
+  ]
+ },
+ "CSA-B-05": {
+  "canonical_rank": 36,
+  "review": [
+   "R1: reviews/R1.md upheld"
+  ]
+ },
+ "CSA-C-01": {
+  "canonical_rank": 10,
+  "review": [
+   "R1: reviews/R1.md upheld narrowed: hostile non-healing impacts only (self buffs never crit); witness uses real stun with enemy weapon crit; the draw-consumption clause is not a divergence (Trinity also draws at 0%)"
+  ]
+ },
+ "CSA-C-02": {
+  "merged_into": "CSA-B-03",
+  "review": [
+   "X: reviews/X-reconciliation.md merge",
+   "R1: reviews/R1.md agree"
+  ],
+  "status": "merged"
+ },
+ "CSA-C-03": {
+  "canonical_rank": 24,
+  "review": [
+   "R1: reviews/R1.md upheld LATENT"
+  ]
+ },
+ "CSA-D-01": {
+  "canonical_rank": 3,
+  "review": [
+   "R1: reviews/R1.md upheld on real rows 156021 + 1257873",
+   "R3: reviews/R3.md Trinity uint32 max-health truncation confirmed"
+  ]
+ },
+ "CSA-D-02": {
+  "canonical_rank": 11,
+  "review": [
+   "R1: reviews/R1.md upheld; track probe uses real rows 15278 / 3243"
+  ]
+ },
+ "CSA-D-03": {
+  "canonical_rank": 13,
+  "review": [
+   "R1: reviews/R1.md upheld on real rows 53678 + 334538 + 57411; remains open for a Core ordering decision"
+  ]
+ },
+ "CSA-D-04": {
+  "canonical_rank": 12,
+  "review": [
+   "R1: reviews/R1.md upheld on real rows 256374 + 334538 + 228917 (Core 52.5, Trinity 53)"
+  ]
+ },
+ "CSA-D-05": {
+  "review": [
+   "R1: reviews/R1.md Trinity applies school immunity only to negative effects (Unit.cpp:7797-7800, 7890-7891); caster raw-165 is positive (SpellInfo.cpp:5062); Core matches; only spell_effect.rs:262 wording is stale"
+  ],
+  "status": "rejected"
+ },
+ "CSA-E-01": {
+  "absorbs": [
+   "CSA-H-01"
+  ],
+  "canonical_rank": 4,
+  "review": [
+   "X: reviews/X-reconciliation.md absorbs H-01; application clause moved to H-02",
+   "R1: reviews/R1.md LIVE only for aura persistence; on-expire trigger part LATENT; severity medium->low",
+   "R3: reviews/R3.md duplicate cluster confirmed"
+  ],
+  "severity": "low",
+  "title": "Actor death does not end aura lifecycle: auras persist on corpses (real 6873); the raw-495 on-expire trigger branch is LATENT (no admitted real on-expire carrier executes)"
+ },
+ "CSA-E-02": {
+  "canonical_rank": 25,
+  "review": [
+   "R1: reviews/R1.md upheld LATENT; both dispel compilers' periodic refusals must stay until removal quotes periodic cancellation"
+  ]
+ },
+ "CSA-F-01": {
+  "canonical_rank": 34,
+  "review": [
+   "R1: reviews/R1.md upheld"
+  ]
+ },
+ "CSA-G-01": {
+  "absorbs": [
+   "CSA-H-03"
+  ],
+  "canonical_rank": 2,
+  "review": [
+   "X: reviews/X-reconciliation.md absorbs H-03",
+   "R1: reviews/R1.md upheld on real 228917 cast by a dead Player"
+  ]
+ },
+ "CSA-G-02": {
+  "canonical_rank": 7,
+  "review": [
+   "R1: reviews/R1.md upheld via public CombatState API with Player caster on real 465275 + 159006 + 58912; Engine cannot reach it; medium->low"
+  ],
+  "severity": "low"
+ },
+ "CSA-G-03": {
+  "canonical_rank": 35,
+  "review": [
+   "R1: reviews/R1.md upheld"
+  ]
+ },
+ "CSA-G-04": {
+  "merged_into": "CSA-H-02",
+  "review": [
+   "X: reviews/X-reconciliation.md merge",
+   "R1: reviews/R1.md agree"
+  ],
+  "status": "merged"
+ },
+ "CSA-G-05": {
+  "canonical_rank": 26,
+  "review": [
+   "R1: reviews/R1.md upheld LATENT"
+  ]
+ },
+ "CSA-H-01": {
+  "merged_into": "CSA-E-01",
+  "review": [
+   "X: reviews/X-reconciliation.md merge",
+   "R1: reviews/R1.md agree"
+  ],
+  "status": "merged"
+ },
+ "CSA-H-02": {
+  "absorbs": [
+   "CSA-G-04"
+  ],
+  "canonical_rank": 5,
+  "review": [
+   "X: reviews/X-reconciliation.md absorbs G-04 and E-01 application clause",
+   "R1: reviews/R1.md upheld: real 6873 commits on a corpse while 228917 is refused"
+  ]
+ },
+ "CSA-H-03": {
+  "merged_into": "CSA-G-01",
+  "review": [
+   "X: reviews/X-reconciliation.md merge",
+   "R1: reviews/R1.md agree"
+  ],
+  "status": "merged"
+ },
+ "CSA-I-01": {
+  "canonical_rank": 37,
+  "review": [
+   "R1: reviews/R1.md only draw alignment; low->info",
+   "R3: reviews/R3.md upheld; the ordinary path matches Trinity"
+  ],
+  "severity": "info"
+ },
+ "CSA-I-02": {
+  "canonical_rank": 1,
+  "correction_boundary": "Fixed-travel launch contract (program/fixed_travel_time.rs admission + commit.rs launch resolution): make the captured launch table block-ineligible for Magic-defense fixed-travel payloads (Trinity never blocks magic; melee block is decided at target add), or reject the block-capable combination at quote before any draw. Do not relax the captured() unblocked assertion.",
+  "review": [
+   "R1: reviews/R1.md upheld medium LIVE; Trinity never blocks magic spells",
+   "R3: reviews/R3.md upheld; I's correction text wrong"
+  ]
+ },
+ "CSA-J-01": {
+  "canonical_rank": 14,
+  "review": [
+   "R1: reviews/R1.md upheld",
+   "R3: reviews/R3.md recomputed 824 vs 825"
+  ]
+ },
+ "CSA-J-02": {
+  "canonical_rank": 15,
+  "review": [
+   "X: reviews/X-reconciliation.md NUM-E-001 / NUM-B-005/006 / NUM-G-001 are the same conversion; divergence is bidirectional (12000 ms @134.65% -> 5113 vs 5114; 30000 @92% -> 15625 vs 15624)",
+   "R1: reviews/R1.md upheld",
+   "R3: reviews/R3.md upheld; periodic witness 5000 ms @2.02% -> 4900 vs 4901"
+  ],
+  "title": "Hasted durations divide by an f64 frequency while the consumer multiplies by a binary32 period factor, so truncation differs by +/-1 ms (cast, GCD, cooldown and periodic period)"
+ },
+ "CSA-J-03": {
+  "canonical_rank": 16,
+  "review": [
+   "R1: reviews/R1.md upheld on real row 213539 (J's 193878 is refused by Core)",
+   "R3: reviews/R3.md recomputed"
+  ]
+ },
+ "CSA-J-04": {
+  "canonical_rank": 28,
+  "review": [
+   "R1: reviews/R1.md upheld info LATENT"
+  ]
+ },
+ "CSA-J-05": {
+  "canonical_rank": 29,
+  "reachability": "LATENT",
+  "review": [
+   "R3: reviews/R3.md Trinity forms the rate product first: 60000 with +50/+60 gives 24999 in both; the pair never co-applies",
+   "R1: reviews/R1.md agree; probe corrected by LEAD to holds_recovery_rate_two_source_amounts_match_consumer_product_order"
+  ],
+  "severity": "info",
+  "title": "Raw-286 / charge recovery rates divide by (1+p/100) while the consumer multiplies by 100/(p+100); single-source results can truncate 1 ms low, but no real admitted input reaches the gap"
+ },
+ "CSA-J-06": {
+  "canonical_rank": 17,
+  "review": [
+   "R1: reviews/R1.md upheld on real 1270845 + spell 111 ManaCost 5 (Core 4.75, Trinity 4)"
+  ]
+ },
+ "CSA-J-07": {
+  "canonical_rank": 18,
+  "review": [
+   "R1: reviews/R1.md upheld (Core-internal inconsistency)",
+   "R3: reviews/R3.md upheld"
+  ]
+ },
+ "CSA-K-01": {
+  "canonical_rank": 8,
+  "review": [
+   "R1: reviews/R1.md upheld for aura identity/amount; Set-mode clause rejected on real data (only admissible row 1213197 equals add-stacks); medium->low"
+  ],
+  "severity": "low"
+ },
+ "CSA-K-02": {
+  "canonical_rank": 33,
+  "review": [
+   "R1: reviews/R1.md upheld"
+  ]
+ },
+ "CSA-K-03": {
+  "absorbs": [
+   "CSA-B-02"
+  ],
+  "canonical_rank": 31,
+  "review": [
+   "X: reviews/X-reconciliation.md same root as B-02: single-effect generalization never reached catalog text; admitted value matches Trinity (10->15)",
+   "R1: reviews/R1.md agree"
+  ]
+ },
+ "CSA-K-04": {
+  "canonical_rank": 32,
+  "reachability": "INCONSISTENT",
+  "review": [
+   "R1: reviews/R1.md dropped undeclared effects have nothing to represent them in Core; LIVE->INCONSISTENT"
+  ]
+ },
+ "CSA-K-05": {
+  "canonical_rank": 20,
+  "review": [
+   "X: reviews/X-reconciliation.md separate activation-route issue; UNK-B-002 is a symptom",
+   "R1: reviews/R1.md upheld medium LATENT"
+  ]
+ },
+ "CSA-L-01": {
+  "canonical_rank": 39,
+  "reachability": "INCONSISTENT",
+  "review": [
+   "R3: reviews/R3.md 16 immutable bytes with no runtime effect; the ledger scope statement is what is wrong",
+   "R1: reviews/R1.md agree"
+  ]
+ },
+ "CSA-R2-01": {
+  "canonical_rank": 6,
+  "review": [
+   "R1: reviews/R1.md upheld on real lethal row 228917; same death-transition correction point as E-01"
+  ]
+ },
+ "CSA-R3-01": {
+  "canonical_rank": 38,
+  "review": [
+   "LEAD: accepted from R3; outcome-neutral draw-consumption policy difference"
+  ]
+ },
+ "CSA-R3-02": {
+  "canonical_rank": 27,
+  "reachability": "LATENT",
+  "review": [
+   "LEAD: probe uses synthetic ids with Trueshot 288613 raw-148 shape; real-row admission of a full raw-148 carrier not demonstrated, so LATENT under the uniform LIVE rule; reopen with a real admitted raw-148 carrier"
+  ]
+ },
+ "UNK-B-001": {
+  "closed_by": "XC-X-001, MUT-X-001..002: provider admitted, no real heal payload admitted (CSA-B-03 LATENT)"
+ },
+ "UNK-B-002": {
+  "closed_by": "CSA-K-05 (Passive route has no rank; authored points)"
+ },
+ "UNK-C-003": {
+  "closed_by": "CSA-A-02 (duplicate)"
+ },
+ "UNK-G-002": {
+  "closed_by": "CSA-J-02 / NUM-X-001"
+ },
+ "UNK-H-001": {
+  "closed_by": "CSA-G-01 probe g_cast_lifecycle.rs::defect_pending_hard_cast_survives_caster_death_and_succeeds"
+ },
+ "UNK-J-003": {
+  "closed_by": "NUM-C-008: Conduit of Flame (Above,50) follows the live tooltip"
+ }
+}

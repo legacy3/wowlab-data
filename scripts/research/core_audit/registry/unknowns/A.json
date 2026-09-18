@@ -1,0 +1,13 @@
+[
+ {
+  "id": "UNK-A-001",
+  "question": "Is a host-supplied ExclusiveSameEffect{group} composition legitimate for a SelectedTrait critical-chance declaration, given raw-638 selected declarations are forced to Multiplicative?",
+  "why_unknown": "Composition groups model world/server stacking rules (not DB2 source); Core accepts any host group for Selected crit chance (critical_modifier.rs:425-430) and the selected declared check does not constrain it (selected_trait_package.rs:339-344, 365-371). No evidence located for the intended policy.",
+  "reopen": "If a selected crit-chance package is admitted with a group shared by another active crit modifier; or when the external-policy catalog gains spell-group stacking evidence.",
+  "coords": [
+   "crates/combat/src/program/selected_trait_package.rs:339-344",
+   "crates/combat/src/program/critical_modifier.rs:425-430"
+  ],
+  "track": "A"
+ }
+]

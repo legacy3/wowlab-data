@@ -1,0 +1,17 @@
+[
+ {
+  "id": "RNG-E-001",
+  "coords": [
+   "crates/combat/src/execution/planning/dispel.rs:94-116"
+  ],
+  "site": "dispel candidate ordinal uniform_index",
+  "draws": "impact.resolve on a cloned stream, then one uniform_index(candidate_count) when landed (0 draws for 0 candidates per uniform_index contract)",
+  "order": "impact resolution first, then ordinal; candidate order = aura_projections canonical order",
+  "quote": "quote operates on context.state.random.clone(); receipt recorded, stream not advanced",
+  "failure": "quote failure after the clone leaves the real stream untouched",
+  "reset": "stream reset by CombatState reset/iteration reset (track I owns)",
+  "commit": "commit_dispel_selection replays the receipt (execution/commit.rs:167)",
+  "note": "Track I owns the canonical RNG record; this is the E-local view.",
+  "track": "E"
+ }
+]

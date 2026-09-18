@@ -1,0 +1,293 @@
+{
+ "count": 33,
+ "kind": "unknowns",
+ "pins": {
+  "client_build": "12.1.0.69497",
+  "core": {
+   "branch": "wip/engine-port",
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836"
+  },
+  "core_sidecar": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+  "rust_toolchain": "1.96.1",
+  "simc": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+  "tdb": {
+   "file": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "sha256_prefix": "54ddf4c12d6034a3",
+   "used": false
+  },
+  "trinity": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+  "wowlab_data_base": "9448f80c6f2d87c47a93e89b1946f7aaa72e9384"
+ },
+ "records": [
+  {
+   "coords": [
+    "crates/combat/src/program/selected_trait_package.rs:339-344",
+    "crates/combat/src/program/critical_modifier.rs:425-430"
+   ],
+   "id": "UNK-A-001",
+   "question": "Is a host-supplied ExclusiveSameEffect{group} composition legitimate for a SelectedTrait critical-chance declaration, given raw-638 selected declarations are forced to Multiplicative?",
+   "reopen": "If a selected crit-chance package is admitted with a group shared by another active crit modifier; or when the external-policy catalog gains spell-group stacking evidence.",
+   "track": "A",
+   "why_unknown": "Composition groups model world/server stacking rules (not DB2 source); Core accepts any host group for Selected crit chance (critical_modifier.rs:425-430) and the selected declared check does not constrain it (selected_trait_package.rs:339-344, 365-371). No evidence located for the intended policy."
+  },
+  {
+   "closed_by": "XC-X-001, MUT-X-001..002: provider admitted, no real heal payload admitted (CSA-B-03 LATENT)",
+   "id": "UNK-B-001",
+   "question": "Does a real engine run (pinned 12.1.0 GameData + generated external policy) admit Awestruck 417855 / Intensity 1264649 as selected op-15 providers?",
+   "reopen": "Load pinned tables through the production data pipeline or re-run the oracle after updating corebaseline to the generic arity-1 composition; if admitted, CSA-B-03 has a real-data witness.",
+   "track": "B",
+   "why_unknown": "No real-DBC GameData loader in the probe crate; the research oracle selected_package corebaseline models an older Core and reports not admitted; admission depends on the external policy catalog content for the owner."
+  },
+  {
+   "closed_by": "CSA-K-05 (Passive route has no rank; authored points)",
+   "id": "UNK-B-002",
+   "question": "Can a ranked trait spell reach cooldown/charge Passive-activation compilers (authored amounts) through a caller-built ResolvedActionCatalog?",
+   "reopen": "If any resolver/engine path emits Passive declarations for trait-owned spells, audit authored-vs-selected at raw 341/453/454/411/457.",
+   "track": "B",
+   "why_unknown": "Passive activations carry no rank; no Core guard ties Passive declarations to TraitDefinitionEffectPoints absence. Engine candidates only emit SelectedTrait activations."
+  },
+  {
+   "id": "UNK-B-003",
+   "question": "Do Rust f32::powf and C++ std::pow(float,float) agree bit-for-bit for SpellMod factors with count >= 2?",
+   "reopen": "Exhaustive check over integer points [-100,300] and counts 2..8 against a C++ harness.",
+   "track": "B",
+   "why_unknown": "platform libm; not reproduced"
+  },
+  {
+   "id": "UNK-C-001",
+   "question": "Should DefenseType::None damage payloads be able to crit?",
+   "reopen": "Reopen with a None-defense damage spell whose live crit behaviour is observed (combat log) or simc may_crit evidence for DmgClass 0 payloads.",
+   "track": "C",
+   "why_unknown": "Core resolves crit for None-defense damage by school channel; Trinity SpellCritChanceTaken returns 0 for SPELL_DAMAGE_CLASS_NONE (Unit.cpp:7242-7244). No retail/simc evidence gathered for 12.1 None-class damage."
+  },
+  {
+   "id": "UNK-C-002",
+   "question": "Is Core's single floor of source+target crit points (vs Trinity done/taken double floor) observable with source-valid carriers?",
+   "reopen": "Compile those carriers through the raw-290/52 active compiler; if accepted together with an admitted positive raw 197/187 target term, build the NUM-C-001 witness probe.",
+   "track": "C",
+   "why_unknown": "Needs an admitted negative source-held crit term plus a positive target-held term (candidates: Impaired Eyesight 136181 raw 290 -20 self; Heightened Senses 30297 raw 52 -5) - admission not verified."
+  },
+  {
+   "closed_by": "CSA-A-02 (duplicate)",
+   "id": "UNK-C-003",
+   "question": "Will a future package admit raw 638 without an owner-policy-checking sibling?",
+   "reopen": "Any new composition row containing CriticalBlockAmount (selected_trait_package.rs composition_is_admitted_by) or an arity-1 638 package.",
+   "track": "C",
+   "why_unknown": "critical_block_amount selected path has no selected_trait_owner_policy_issue call; masked today by the Martial Expert op-15 sibling."
+  },
+  {
+   "id": "UNK-C-004",
+   "probe_tests": [
+    "c_missing_max_heal_crit.rs::holds_missing_health_heal_shares_impact_critical",
+    "c_missing_max_heal_crit.rs::holds_caster_maximum_heal_critical_doubles_applied_health"
+   ],
+   "question": "Should raw-67 Heal Missing or Maximum Health (no CannotCrit) be able to critically heal?",
+   "reopen": "Combat-log evidence of a raw-67 spell without attribute 93 (e.g. First Aid 7162, Bandaging 274450) critting or not; if it never crits, promote to a LIVE finding with probe_tests c_missing_max_heal_crit.rs::* and correction at program.rs:1180-1205.",
+   "track": "C",
+   "why_unknown": "Core deliberately shares the impact critical result (development-ledger.md:2719-2723; healing.rs:211-236); probes show the Full Heal request doubles and the caster-maximum branch (all First Aid 7162 facts) doubles committed healing (400 -> 800). Trinity never crits a pure raw-67 spell (effect 67 absent from CU_CAN_CRIT list SpellMgr.cpp:3073-3087; EffectHealMaxHealth SpellEffects.cpp:2966-2987) and simc hard-codes lay_on_hands may_crit=false (sc_paladin.cpp:728); but live player Lay on Hands 633/471195/234320 carry CannotCrit (attribute 93) explicitly, which suggests the effect is crit-capable without it."
+  },
+  {
+   "finding_ids": [
+    "CSA-D-03"
+   ],
+   "id": "UNK-D-001",
+   "question": "Is the equal-priority absorb tie-break (oldest-first) intended as a documented core choice or should it follow the direct consumer (newest-first)?",
+   "reopen": "Lead/Core owner decision or a retail combat-log capture with two equal-priority shields.",
+   "track": "D",
+   "why_unknown": "Core's catalog asserts the order without a cited source; Trinity and simc disagree with each other; retail behaviour not verified."
+  },
+  {
+   "id": "UNK-D-002",
+   "question": "Should Core's continuous f64 amounts (no int truncation after done/taken bonuses, max health, percent heals) be declared an explicit architecture choice?",
+   "reopen": "If any consumer requires integral health/amount domains (as raw-165 does), or architecture.md adds a numeric-domain section.",
+   "track": "D",
+   "why_unknown": "No architecture/ledger statement found for the global continuous-amount policy; only specific rounding points are documented."
+  },
+  {
+   "id": "UNK-E-001",
+   "question": "What source rule decides preserve-vs-restart cadence for subtype 23/24 periodic triggers/energizes on refresh?",
+   "reopen": "If a resolver/generator for the action catalog is audited (track K), check whether it emits PreserveCadence for StackAmount<2 non-pandemic triggers.",
+   "track": "E",
+   "why_unknown": "Core retains the authored ResolvedPeriodicCadenceReapplication without source validation (PL-E-001). Trinity uses StackAmount<2 && !TRIGGERED_DONT_RESET_PERIODIC_TIMER (Spell.cpp:3240) and pandemic override (SpellAuras.cpp:981-985); simc uses per-action dot_behavior. No 12.x client/data field identifies it."
+  },
+  {
+   "id": "UNK-E-002",
+   "question": "Should a TickOnApplication (raw 169) aura produce an extra occurrence on active restart-cadence refresh?",
+   "reopen": "Retail combat-log evidence for a raw-169 HoT/DoT refresh.",
+   "track": "E",
+   "why_unknown": "Direct consumers disagree: Trinity ResetPeriodic(true) sets _periodicTimer=_period so refresh ticks immediately (SpellAuraEffects.cpp:949-958, Spell.cpp:3240); simc ticks only on start for tick_on_application (dot.cpp:972-975). Core follows simc (catalog text spell_attribute.rs:407)."
+  },
+  {
+   "id": "UNK-E-003",
+   "question": "Is a hard-cast completion at the exact due time of a tick allowed to refresh/remove the aura before that tick (cast rank 2 < periodic rank 5), while an instant cast requested at the same time always observes the tick first (advance_to processes all transitions <= t before cast)?",
+   "reopen": "If a retail log or simc event-priority convention for same-timestamp dot tick vs cast completion is adopted by the ledger.",
+   "track": "E",
+   "why_unknown": "Deterministic Core choice (state/transition.rs:22-75); Trinity processes caster spell events and target aura updates in map update order at 50-100 ms granularity, so no discriminating direct-consumer evidence at 1 ms."
+  },
+  {
+   "id": "UNK-F-001",
+   "question": "Same-instant tie between a due white swing and a hard-cast start: Core swings first (engine processes transitions <= now before the rotation, e.g. crates/engine/tests/cooldown_start.rs:185-205); Trinity processes session packets (cast) before the unit update in the same map tick (Maps/Map.cpp:661-670, Unit.cpp:2185-2190), suppressing that swing until the launch reset.",
+   "reopen": "retail combat log showing a cast started on the exact swing-ready frame, or a Core decision recording the tie policy",
+   "track": "F",
+   "why_unknown": "tie semantics depend on server tick granularity; no retail capture at pin; Trinity is an emulator"
+  },
+  {
+   "id": "UNK-F-002",
+   "question": "Is the retail attack-time consumer binary32 (Core: base 2300 ms, +15% -> 1999 ms) or exact (2000 ms)?",
+   "reopen": "a live admitted raw-319/raw-193 amount with a witness base (e.g. 15%) or client disassembly",
+   "track": "F",
+   "why_unknown": "only Trinity (f32) reproduces; live admitted amounts (3,5,20,40) have no witness so it is unobservable today"
+  },
+  {
+   "id": "UNK-F-003",
+   "question": "Does the Dark Bite reset need the SpellInterrupts Combat flag audited (Trinity IsAutoActionResetSpell requires InterruptFlags & Combat)?",
+   "reopen": "DBC build where 394463 InterruptFlags lacks 0x08, or Core adding a SpellInterrupts projection",
+   "track": "F",
+   "why_unknown": "holds at pin (row 190450 InterruptFlags=40) but Core never reads the flag; future data could diverge undetected"
+  },
+  {
+   "closed_by": "CSA-J-02 / NUM-X-001",
+   "id": "UNK-G-002",
+   "question": "Do truncated f64 cast-time/GCD durations match Trinity float multiplications for all realistic haste values?",
+   "reopen": "track J: sweep haste in [0,2] for base 1500/2000/2500 and compare Core effective_duration vs Trinity int(float(base)*float(1/(1+h)))",
+   "track": "G",
+   "why_unknown": "no discriminating witness searched in track G"
+  },
+  {
+   "closed_by": "CSA-G-01 probe g_cast_lifecycle.rs::defect_pending_hard_cast_survives_caster_death_and_succeeds",
+   "id": "UNK-H-001",
+   "question": "Does a pending hard cast owned by an actor that dies mid-cast complete (Trinity interrupts it at setDeathState)?",
+   "reopen": "build an enemy-sourced lethal action against the Player while the Player hard-casts; assert completion is rejected/cancelled like Trinity (caster death interrupts casts)",
+   "track": "H",
+   "why_unknown": "instant casts by a dead caster are proved (CSA-H-03); the pending-hard-cast variant is static only (no death hook touches CastAuthority) and was not probed because the available hard-cast fixtures cannot kill their caster before completion without a second lethal program"
+  },
+  {
+   "id": "UNK-H-002",
+   "question": "Execution-plan capacity compilation (program/planning.rs, execution_layout.rs) is an upper bound for every reachable runtime transaction",
+   "reopen": "Track L allocation budgets or a fuzzed nested driver program exceeding quote/immediate depth",
+   "track": "H",
+   "why_unknown": "no fixture in the sweep panicked or reallocated, but capacity proofs are compile-time arithmetic; allocation-tests (Track L) would detect warm reallocation"
+  },
+  {
+   "id": "UNK-I-001",
+   "question": "Should non-damage impacts roll block (and ignore hit-chance modifiers) at all?",
+   "reopen": "a source-backed non-damage melee/magic-block impact against a block-capable defender",
+   "track": "I",
+   "why_unknown": "attack_table applies hit-chance adjustment only when has_damage (state/modifiers.rs:185) but block eligibility ignores has_damage (resolution.rs:244-252); Trinity decides block only in damage calculation; outside Track I semantics (Track C/D)"
+  },
+  {
+   "id": "UNK-I-002",
+   "question": "Is the mechanic-dispel forced-trial count meant to equal the source's owned-aura set (which includes passive/hidden auras Core does not model as AuraState entries)?",
+   "reopen": "when passive traits are represented as auras or a draw-address contract is introduced",
+   "track": "I",
+   "why_unknown": "draw values are unused, so only stream alignment differs; Core counts projected AuraState auras affecting the target"
+  },
+  {
+   "id": "UNK-J-001",
+   "question": "Is the continuous f64 resource-cost domain intentional for raw 423 (as continuous health is)?",
+   "reopen": "Core owner states the resource-domain policy; if intentional downgrade CSA-J-06 to info/INCONSISTENT.",
+   "track": "J",
+   "why_unknown": "Ledger documents continuous health/absorb capacity but the raw-423 selection text omits the consumer int32 store."
+  },
+  {
+   "id": "UNK-J-002",
+   "question": "Does retail (not TrinityCore) use the same binary32 association/rounding for CritPercentage, haste period products, recovery rates and CountPctFromMaxHealth?",
+   "reopen": "Client/server disassembly or sidecar evidence of the retail arithmetic.",
+   "track": "J",
+   "why_unknown": "TrinityCore is an emulator (build skew <= 12.0.7); CSA-J-01/02/03/05 are parity divergences against it."
+  },
+  {
+   "closed_by": "NUM-C-008: Conduit of Flame (Above,50) follows the live tooltip",
+   "id": "UNK-J-003",
+   "question": "Raw-183 Conduit of Flame (444843, misc1=50) is admitted as (Above,50); Trinity evaluates every raw-183 as !HealthBelowPct (AtOrAbove).",
+   "reopen": "Track C confirms the resolver comparison source for 444843.",
+   "track": "J",
+   "why_unknown": "Comparison direction is host-resolver input; outside numeric precision (track C)."
+  },
+  {
+   "coords": [
+    "crates/dbc/src/spell_attribute.rs:384",
+    "crates/combat/src/aura_state.rs:1226-1228"
+   ],
+   "id": "UNK-K-001",
+   "question": "Is Ignored raw spell attribute 103 (DotStackingRule) behavior-bearing for Core? Trinity lets same-spell auras from different casters coexist only with this flag (or when both are non-area periodic); otherwise the newer non-periodic aura replaces the older one.",
+   "reopen": "Probe two actors casting the same admitted non-periodic aura on one target; if both instances coexist, compare against Trinity Aura::CanStackWith (SpellAuras.cpp:1644-1766) and reclassify 103.",
+   "track": "K",
+   "why_unknown": "Core keys aura instances by (aura, source, affected) (aura_state.rs:1226-1228) and never consults 103; whether two sources can currently apply the same non-periodic aura to one target through admitted content was not constructed."
+  },
+  {
+   "coords": [
+    "crates/data/src/spell_external_policy.rs:36-43"
+   ],
+   "id": "UNK-K-002",
+   "question": "Is there a trustworthy producer of SpellPolicyCatalogInput?",
+   "reopen": "When a host projection (TDB spell_proc/spell_script_names + DB2 cooldown/cost/cast/interrupt/empower/stack layers) is added, audit it for Unknown-vs-Absent defaulting and complete coverage.",
+   "track": "K",
+   "why_unknown": "No generator exists in core, wowlab-data, core-sidecar or wowlab; Core only validates structure/coverage/identity and must trust presence values."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/defense_chance_modifier.rs:693"
+   ],
+   "id": "UNK-K-003",
+   "question": "Do any other ordinary-Passive families beyond raw 290/638 admit trait-provider spells (bypassing SelectedTrait policy), e.g. raw 47/49/51, 34, 63, 454?",
+   "reopen": "For each generic-passive family build a live-shaped trait-provider row as ordinary Passive and check admission; extend CSA-K-05.",
+   "track": "K",
+   "why_unknown": "Only raw 290 (Canny Strikes) and raw 638 (Martial Expert) were probed; the others are generic by catalog text but no trait-provider fixture was built."
+  },
+  {
+   "coords": [
+    "crates/engine/src/lib.rs:836-860",
+    "crates/engine/src/lib.rs:870-905"
+   ],
+   "id": "UNK-L-001",
+   "question": "Can a warmed Engine allocate in a later global iteration because caller-owned observation storage (EngineState.observations, Vec::new at construction, cleared per step) meets a new per-step high-water mark on an outcome-dependent path (e.g. a lethal critical adding a death observation on a step that previously had fewer observations)?",
+   "reopen": "A fixture where one RNG outcome changes the number of observations emitted within one Engine::step/advance; measure warm-up with the low-count seed, then a high-count seed.",
+   "track": "L",
+   "why_unknown": "Core pins 'warm' as replay of the same seed; the probes (AL-L-003/004) found no growth for Precision/Martial across 64 fresh identities, but no public fixture was found whose per-step observation count is outcome-dependent. Output storage growth is by design amortised caller-owned storage, so this is only a contract question if §3.8 'warmed engine decision-to-cast paths are allocation-free' is meant across iterations."
+  },
+  {
+   "finding_ids": [
+    "CSA-K-04"
+   ],
+   "id": "UNK-R1-001",
+   "question": "Is any undeclared sibling of an admitted ordinary owner a Core-representable effect whose omission changes an executable value versus Trinity, making CSA-K-04 LIVE rather than a catalog-contract inconsistency?",
+   "reopen": "A host-resolver contract that requires every implemented sibling to be declared, or a real admitted owner whose undeclared implemented sibling (e.g. Energize, ApplyAura of an implemented subtype) Core silently drops.",
+   "track": "R1",
+   "why_unknown": "Census of clean-owner raw-2 damage spells: dropped siblings are Dummy 3 (58), aura 33 slow (40), knock back 98 (31), aura 4, teleport 252, script 77, area trigger 179, summon 28 - none has a Core state representation, and the host alone decides which implemented siblings to declare. The track probe asserts acceptance plus the declared damage, which equals the consumer value."
+  },
+  {
+   "id": "UNK-R2-001",
+   "question": "Is there a source-valid action whose Energize targets a resource the recipient's class does not own (Trinity skips the effect; Core fails the whole cast with MissingResource)?",
+   "reopen": "Join SpellEffect Effect=30 rows (and their spells' other effects) with ChrClassesXPowerTypes / host pool builders; any multi-effect action whose energize resource is absent for its class makes MUT-R2-004 a LIVE divergence.",
+   "track": "R2",
+   "why_unknown": "Actor pools are host input; no resolver/class-power mapping is pinned for the audit, and no class-to-power table join was run over 12.1.0 Energize rows."
+  },
+  {
+   "coords": [
+    "crates/combat/src/program/resource_gain.rs:14-55",
+    "crates/data/src/action/catalog/operation.rs:820-860"
+   ],
+   "id": "UNK-R3-001",
+   "question": "Are direct Energize (raw 30) fixed amounts and resource types bound to the source effect? compile_resource_gain checks only the effect kind, delivery and attributes and consumes the host-authored ResolvedResourceGainAmount and ResourceType; the consumer rounds ENERGIZE/POWER_DRAIN/POWER_BURN base points (SpellInfo.cpp:607-620) and derives the power from EffectMiscValue",
+   "reopen": "If the resolved-action contract says fixed gains must equal the exact effect base, probe a fixture whose authored amount differs from EffectBasePointsF (or is fractional) and compare with raw-2 damage, which reads base points from GameData.",
+   "track": "R3",
+   "why_unknown": "The ResolvedActionCatalog is host-authored (data/src/action/catalog/operation.rs:820-860 validates only finite > 0); whether the host contract requires amount == SpellEffect base points is not stated in the catalog rows, and 56 base-difficulty raw-30 rows carry fractional base points."
+  },
+  {
+   "id": "UNK-R3-002",
+   "question": "UNK-L-001 narrowed: CombatState-level warm iterations are allocation-free across 16 fresh identities for 24 fixtures (AL-R3-001); can Engine observation storage still grow in a later iteration?",
+   "reopen": "Measure Engine::step under a rotation over a stochastic fixture whose observation count per step depends on the outcome (e.g. crit-triggered children).",
+   "track": "R3",
+   "why_unknown": "The R3 probe uses caller-owned, pre-reserved observation storage; Engine's internal observations Vec was not measured with outcome-dependent emission counts."
+  },
+  {
+   "id": "UNK-X-001",
+   "question": "Which recipient does a (0,0) implicit-target effect of an admitted kind have, and is the host-selected Caster/Target (source_recipient.rs:15) always equal to it?",
+   "reopen": "A host-resolver rule for (0,0) or combat-log evidence for a (0,0) Energize/Heal with a hostile explicit target.",
+   "track": "X",
+   "why_unknown": "Core delegates (0,0) to the host resolver; Trinity derives it from the effect kind (EXPLICIT/NONE) but its NONE for Energize contradicts live Pistol Shot 1257324 combo-point gain, so no trustworthy comparator."
+  }
+ ],
+ "schema": 1
+}

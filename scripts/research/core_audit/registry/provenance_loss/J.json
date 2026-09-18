@@ -1,0 +1,95 @@
+[
+ {
+  "id": "PL-J-001",
+  "track": "J",
+  "authority": "AUTH-J-001",
+  "fact": "raw-344 binary32 factor packed into ModifierDefinition.percent_points f64",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/program/modifier/auto_attack_damage_storage.rs:19-56"
+  ],
+  "verdict": "clean",
+  "note": "debug_assert round trip; f32->f64->f32 exact"
+ },
+ {
+  "id": "PL-J-002",
+  "track": "J",
+  "authority": "AUTH-J-001",
+  "fact": "raw-290 selected f64 percent narrowed to binary32",
+  "pattern": "premature_f64_promotion",
+  "coords": [
+   "crates/combat/src/white_swing.rs:32-38"
+  ],
+  "verdict": "clean",
+  "note": "try_new rejects any value not exactly binary32-representable (fail closed)"
+ },
+ {
+  "id": "PL-J-003",
+  "track": "J",
+  "authority": "AUTH-J-001",
+  "fact": "split (flat raw290 + 5.0 base) and rating binary32 terms collapsed into one host basis",
+  "pattern": "dropped_then_reconstructed",
+  "coords": [
+   "crates/combat/src/white_swing.rs:226-228",
+   "crates/combat/src/white_swing.rs:296-313"
+  ],
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-J-01"
+  ]
+ },
+ {
+  "id": "PL-J-004",
+  "track": "J",
+  "authority": "AUTH-J-002",
+  "fact": "consumer binary32 period multiplier (ModCastingSpeed/ModSpellHaste) replaced by f64 frequency",
+  "pattern": "premature_f64_promotion",
+  "coords": [
+   "crates/combat/src/haste.rs:56-77",
+   "crates/combat/src/recovery.rs:113-116"
+  ],
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-J-02"
+  ]
+ },
+ {
+  "id": "PL-J-005",
+  "track": "J",
+  "authority": "AUTH-J-005",
+  "fact": "passive-flow basis (basis_at, basis_balance) dropped; rotation rebuilds projection from observed current",
+  "pattern": "dropped_then_reconstructed",
+  "coords": [
+   "crates/engine/src/lib.rs:1273-1300",
+   "crates/rotation/src/projection.rs:89-100"
+  ],
+  "verdict": "finding",
+  "finding_ids": [
+   "CSA-J-07"
+  ]
+ },
+ {
+  "id": "PL-J-007",
+  "track": "J",
+  "authority": "AUTH-J-004",
+  "fact": "cooldown SpellMod aggregate factor stored as binary32 bits",
+  "pattern": "lossless",
+  "coords": [
+   "crates/combat/src/cooldown/deadline_rate.rs:105-140",
+   "crates/combat/src/spell_modifier_authority.rs:370-377"
+  ],
+  "verdict": "clean",
+  "note": "producer always yields f64::from(f32); release build would silently narrow a non-binary32 factor but none is constructible"
+ },
+ {
+  "id": "PL-J-006",
+  "track": "J",
+  "authority": "AUTH-J-003",
+  "fact": "selected rank amount authored * curve kept in f64",
+  "pattern": "lossless",
+  "coords": [
+   "crates/data/src/trait_source/selected_spell.rs:84-95"
+  ],
+  "verdict": "clean"
+ }
+]

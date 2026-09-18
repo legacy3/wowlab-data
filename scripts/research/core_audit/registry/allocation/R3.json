@@ -1,0 +1,33 @@
+[
+  {
+    "id": "AL-R3-001",
+    "contract": "gate 9: warm reset_for_iteration and warm replay allocate nothing",
+    "coords": [
+      "crates/combat/src/state.rs:447-451",
+      "crates/combat/src/state.rs:1068-1139"
+    ],
+    "evidence": [
+      "608 warm iterations over 24 extra fixtures x {plain, stochastic}, caller-owned pre-reserved observations: 0 events"
+    ],
+    "verdict": "holds",
+    "probe_test": "r3_warm_allocation.rs::holds_warm_iteration_reset_and_replay_are_allocation_free_on_uncovered_fixtures",
+    "track": "R3"
+  },
+  {
+    "id": "AL-R3-002",
+    "contract": "CSA-L-01 severity: gate 8 pay-for-play",
+    "coords": [
+      "crates/combat/src/program/passive_spell_modifier.rs:128",
+      "crates/combat/src/program/passive_outgoing_modifier.rs:23"
+    ],
+    "evidence": [
+      "gate 8 (distributed-simulation-architecture.md:1000-1002) concerns optional mutable authorities; the 16 B is an inline Box<[..]> header inside an immutable compiled plan, the same inline-Option pattern every compiled plan uses",
+      "no warm allocation, no warm work, no semantic change (L's own probe); the defect is the ledger's attribution (performance-ledger.md:11191-11193)"
+    ],
+    "verdict": "holds",
+    "finding_ids": [
+      "CSA-L-01"
+    ],
+    "track": "R3"
+  }
+]

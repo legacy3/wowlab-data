@@ -1,0 +1,35 @@
+[
+ {
+  "id": "NUM-G-001",
+  "track": "G",
+  "coords": [
+   "crates/combat/src/recovery.rs:96-130"
+  ],
+  "conversion": "hard-cast and start-recovery duration: f64(base_ms)/speed, clamp, truncate to u32 ms, max 1, then max(minimum)",
+  "evidence_class": "assumed",
+  "observable": "cast completion and GCD ready time at 1 ms granularity",
+  "witness": "sweep scratch/G/numwit.py: floor(f64 base/(1+h)) vs int(f32(base)*f32(1/(1+h))) for bases 1000-3000 ms, haste 0-200% in 0.01% steps differs only at (1500,184.63%)->526 vs 527, (2250,114.49%)->1048 vs 1049, (3000,184.63%)->1053 vs 1054; none below 114% haste",
+  "note": "Trinity formula shape assumed (Spell.cpp:9213 int64(gcd*ModSpellHaste), Unit::ModSpellCastTime float ModCastingSpeed); handed to track J"
+ },
+ {
+  "id": "NUM-G-002",
+  "track": "G",
+  "coords": [
+   "crates/combat/src/cast.rs:1178-1186",
+   "crates/combat/src/execution/planning/interrupt.rs:50-56"
+  ],
+  "conversion": "SimTime checked_add for completion/lockout deadlines; non-progressing or overflow -> Schedule error",
+  "evidence_class": "core_choice",
+  "observable": "cast rejected at clock boundary"
+ },
+ {
+  "id": "NUM-G-003",
+  "track": "G",
+  "coords": [
+   "crates/combat/src/cast/resource.rs:186-245"
+  ],
+  "conversion": "prepared cost = required + min(optional, available - required) in f64",
+  "evidence_class": "core_choice",
+  "observable": "spent amount when optional spend partially affordable"
+ }
+]

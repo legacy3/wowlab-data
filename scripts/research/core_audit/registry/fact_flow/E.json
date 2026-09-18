@@ -1,0 +1,241 @@
+[
+ {
+  "id": "FF-E-001",
+  "authority": "AUTH-E-001",
+  "fact": "periodic trigger period / cadence / initial policy",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/periodic.rs:986-1002"
+    ],
+    "identity": "SpellEffect.EffectAuraPeriod + EffectAura 23 + SpellMisc attributes 169/173",
+    "validated": true,
+    "transformation": "i32 ms -> NonZeroU32",
+    "consumed": true
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/combat/src/program/periodic.rs:537-647"
+    ],
+    "identity": "ResolvedPeriodicTrigger(effect, child, initial_tick, cadence_reapplication)",
+    "validated": true,
+    "transformation": "authored cadence/initial carried; initial cross-checked against 169",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/periodic.rs:848-960"
+    ],
+    "identity": "PeriodicSchedule{effect, edge, period, policies}",
+    "validated": true,
+    "transformation": "policies packed in u8",
+    "consumed": true
+   },
+   {
+    "stage": "state_construction",
+    "coords": [
+     "crates/combat/src/periodic_execution.rs:55-185"
+    ],
+    "identity": "PeriodicDefinition(aura slot, schedule) for reachable mutation slots",
+    "validated": true,
+    "transformation": "per-slot cells, INACTIVE",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/periodic.rs:647-769"
+    ],
+    "identity": "PeriodicMutationQuote(slot, before, after)",
+    "validated": true,
+    "transformation": "anchor/period/expiry projected against aura quote",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/periodic.rs:442-469",
+     "crates/combat/src/periodic.rs:359-394"
+    ],
+    "identity": "cell + deadline upsert",
+    "validated": true,
+    "transformation": "deadline at pending tick",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/periodic.rs:478-481",
+     "crates/combat/src/periodic_execution.rs:263-269"
+    ],
+    "identity": "cells INACTIVE, queue cleared, workspace reset",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "iteration_reset",
+    "coords": [
+     "crates/combat/src/periodic_execution.rs:263-269"
+    ],
+    "identity": "same as reset (no RNG in periodic authority)",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ],
+  "probe_tests": [
+   "e_periodic_schedule.rs::holds_restart_cadence_refresh_discards_partial_period",
+   "e_periodic_schedule.rs::holds_preserve_cadence_refresh_keeps_anchor",
+   "e_periodic_schedule.rs::holds_tick_on_application_only_on_fresh_application"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "FF-E-002",
+  "authority": "AUTH-E-005",
+  "fact": "natural-expiry trigger (raw 495) source policy and child",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/expiry.rs:122-146"
+    ],
+    "identity": "EffectAura 495, EffectTriggerSpell, EffectMiscValue_0",
+    "validated": true,
+    "transformation": "misc0 != 0 -> OriginalAuraSource",
+    "consumed": true
+   },
+   {
+    "stage": "resolved_catalog",
+    "coords": [
+     "crates/combat/src/program/expiry.rs:148-154"
+    ],
+    "identity": "ResolvedExpiryTrigger.source must equal source policy",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/expiry.rs:156-163"
+    ],
+    "identity": "ExpiryDriver(effect, edge, source)",
+    "validated": true,
+    "transformation": "edge allocation",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/state.rs:1368-1397",
+     "crates/combat/src/expiry_execution.rs:9-40"
+    ],
+    "identity": "AuraExpiry generation -> driver range for aura",
+    "validated": false,
+    "transformation": "source/target actor from AuraKey; no recipient-liveness check",
+    "consumed": true
+   },
+   {
+    "stage": "reset",
+    "coords": [
+     "crates/combat/src/periodic_execution.rs:263-269"
+    ],
+    "identity": "expiry deadlines live in AuraState and are cleared with it",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ],
+  "finding_ids": [
+   "CSA-E-01"
+  ],
+  "probe_tests": [
+   "e_death_lifecycle.rs::defect_expiry_driver_runs_after_recipient_death_and_reapplies_to_corpse"
+  ],
+  "track": "E"
+ },
+ {
+  "id": "FF-E-003",
+  "authority": "AUTH-E-009",
+  "fact": "capped-carryover refresh deadline (raw 436)",
+  "stages": [
+   {
+    "stage": "source",
+    "coords": [
+     "crates/combat/src/program/aura_reapplication.rs:357-361"
+    ],
+    "identity": "aura spell attribute 436",
+    "validated": true,
+    "transformation": "bool",
+    "consumed": true
+   },
+   {
+    "stage": "combat_program",
+    "coords": [
+     "crates/combat/src/program/aura_reapplication.rs:436-466",
+     "crates/combat/src/program/periodic.rs:1614-1640"
+    ],
+    "identity": "AuraReapplicationPolicy::CappedCarryover + PreserveCadence schedules",
+    "validated": true,
+    "transformation": "policy enum",
+    "consumed": true
+   },
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/aura_state.rs:1153-1200",
+     "crates/combat/src/periodic.rs:729-741"
+    ],
+    "identity": "expiry max(existing, now+d+min(rem, floor(0.3d))); periodic cell keeps anchor, moves aura_expires_at",
+    "validated": true,
+    "transformation": "u64 integer 3/10 floor",
+    "consumed": true
+   },
+   {
+    "stage": "commit",
+    "coords": [
+     "crates/combat/src/periodic.rs:442-469"
+    ],
+    "identity": "terminal partial moves to new expiry",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ],
+  "track": "E"
+ },
+ {
+  "id": "FF-E-004",
+  "authority": "AUTH-E-003",
+  "fact": "periodic occurrence amount (stacks, elapsed/period)",
+  "stages": [
+   {
+    "stage": "quote",
+    "coords": [
+     "crates/combat/src/periodic_execution.rs:471-483",
+     "crates/combat/src/periodic_health.rs:35-42"
+    ],
+    "identity": "live aura stacks x point stacking, tick.elapsed_millis / tick.period_millis",
+    "validated": true,
+    "transformation": "f64 stacks*elapsed/period",
+    "consumed": true
+   },
+   {
+    "stage": "rng_outcome",
+    "coords": [
+     "crates/combat/src/periodic_execution.rs:484-495"
+    ],
+    "identity": "critical policy SourceActorAtOccurrence => fresh source-current crit decision",
+    "validated": true,
+    "transformation": "none",
+    "consumed": true
+   }
+  ],
+  "track": "E"
+ }
+]
