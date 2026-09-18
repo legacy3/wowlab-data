@@ -1,0 +1,172 @@
+{
+ "by_core_branch": {
+  "generic_single_effect": 1,
+  "sole:CriticalChanceModifier/SourceSpellAndWeapon": 4
+ },
+ "by_fault": {
+  "contested": 4,
+  "core": 1
+ },
+ "false_negatives": 5,
+ "records": [
+  {
+   "adjudication": {
+    "conclusion": "CONTESTED, and the report must not claim otherwise. Core is inconsistent -- the same attribute blocks a spell-modifier package and passes a critical-chance package -- but the rule is ALSO wrong to block on attribute 416: Trinity gates the entire proc-attribute block behind `if (!procEntry) return 0;` in Aura::GetProcEffectMask, so AllowClassAbilityProcs is unreachable for a proc-inert Passive owner, and track C's sidecars.py already encodes that while owner.py does not. Attribute 4 (`Is Ability`) is a SEPARATE question the pass did not settle: Core catalogues it disabled for recovery-haste classification, which a permanent passive with no cooldown cannot exercise, but no consumer evidence was gathered. Fault is shared and the case stays open",
+    "evidence": "core: spell_attribute.rs:169,350,479; critical_modifier.rs:936; trinity: Aura::GetProcEffectMask SpellAuras.cpp:1834-1839",
+    "fault": "contested",
+    "finding": "the provider carries owner attributes 4 (Ability) and 416 (AllowClassAbilityProcs), both catalogued `disabled` in Core's own SPELL_ATTRIBUTE_REQUIREMENTS. Core admits it anyway because critical_modifier.rs:936 uses a three-name blacklist instead of the catalog check that passive_spell_modifier.rs applies",
+    "package": "Keen Eyesight, raw-290 (provider 378004)"
+   },
+   "core_branch": "sole:CriticalChanceModifier/SourceSpellAndWeapon",
+   "dimensions": {
+    "effect_ceiling": true,
+    "effects": true,
+    "integral_flats": true,
+    "owner": false,
+    "percent_floor": true,
+    "proc_policy": true,
+    "provenance": true,
+    "rank_amounts": true,
+    "role_uniqueness": true
+   },
+   "entry": 100635,
+   "fault": "contested",
+   "provider": 378004,
+   "rank": 1,
+   "rule_blockers": [
+    "[owner] owner attribute 4 has support 'disabled', not Ignored",
+    "[owner] owner attribute 416 has support 'disabled', not Ignored"
+   ]
+  },
+  {
+   "adjudication": {
+    "conclusion": "CONTESTED, and the report must not claim otherwise. Core is inconsistent -- the same attribute blocks a spell-modifier package and passes a critical-chance package -- but the rule is ALSO wrong to block on attribute 416: Trinity gates the entire proc-attribute block behind `if (!procEntry) return 0;` in Aura::GetProcEffectMask, so AllowClassAbilityProcs is unreachable for a proc-inert Passive owner, and track C's sidecars.py already encodes that while owner.py does not. Attribute 4 (`Is Ability`) is a SEPARATE question the pass did not settle: Core catalogues it disabled for recovery-haste classification, which a permanent passive with no cooldown cannot exercise, but no consumer evidence was gathered. Fault is shared and the case stays open",
+    "evidence": "core: spell_attribute.rs:169,350,479; critical_modifier.rs:936; trinity: Aura::GetProcEffectMask SpellAuras.cpp:1834-1839",
+    "fault": "contested",
+    "finding": "the provider carries owner attributes 4 (Ability) and 416 (AllowClassAbilityProcs), both catalogued `disabled` in Core's own SPELL_ATTRIBUTE_REQUIREMENTS. Core admits it anyway because critical_modifier.rs:936 uses a three-name blacklist instead of the catalog check that passive_spell_modifier.rs applies",
+    "package": "Keen Eyesight, raw-290 (provider 378004)"
+   },
+   "core_branch": "sole:CriticalChanceModifier/SourceSpellAndWeapon",
+   "dimensions": {
+    "effect_ceiling": true,
+    "effects": true,
+    "integral_flats": true,
+    "owner": false,
+    "percent_floor": true,
+    "proc_policy": true,
+    "provenance": true,
+    "rank_amounts": true,
+    "role_uniqueness": true
+   },
+   "entry": 100635,
+   "fault": "contested",
+   "provider": 378004,
+   "rank": 2,
+   "rule_blockers": [
+    "[owner] owner attribute 4 has support 'disabled', not Ignored",
+    "[owner] owner attribute 416 has support 'disabled', not Ignored"
+   ]
+  },
+  {
+   "adjudication": {
+    "conclusion": "a Core over-admission, but a CONTESTED one: hostile review 2 showed that spell_warl_pyrogenics only casts a debuff on the proc target and never touches the compiled effect's amount, stacks, charges or lifetime, so the compiled modifier value is not itself wrong today. What Core admits is nonetheless a provider whose real lifecycle includes proc state it cannot see, and the proc ICD/charge fields that DO gate mutable state are invisible to the same check. The `proc_policy` dimension is retained on that basis, not on the stronger claim that the compiled value is wrong",
+    "evidence": "trinity: SpellMgr::LoadSpellProcs (SpellMgr.cpp:1497-1658); world: spell_proc + spell_script_names overlay rows",
+    "fault": "core",
+    "finding": "Core admits it as an immutable raw-219 flat-label passive because the provider carries NO SpellAuraOptions row, so every DBC-only owner check passes; but the world DB supplies a spell_proc row (proc_flags 327680, chance 100) and spell_script_names binds spell_warl_pyrogenics with an OnEffectProc hook",
+    "package": "Pyrogenics (provider 387095)"
+   },
+   "core_branch": "generic_single_effect",
+   "dimensions": {
+    "effect_ceiling": true,
+    "effects": true,
+    "integral_flats": true,
+    "owner": true,
+    "percent_floor": true,
+    "proc_policy": false,
+    "provenance": true,
+    "rank_amounts": true,
+    "role_uniqueness": true
+   },
+   "entry": 115942,
+   "fault": "core",
+   "provider": 387095,
+   "rank": 1,
+   "rule_blockers": [
+    "[proc_policy] [trinity] effective proc entry exists (origin spell_proc)",
+    "[proc_policy] [unknown] spell_script_names binding(s) ['spell_warl_pyrogenics']; an AuraScript can create per-application state with no DBC evidence"
+   ]
+  },
+  {
+   "adjudication": {
+    "conclusion": "CONTESTED, and the report must not claim otherwise. Core is inconsistent -- the same attribute blocks a spell-modifier package and passes a critical-chance package -- but the rule is ALSO wrong to block on attribute 416: Trinity gates the entire proc-attribute block behind `if (!procEntry) return 0;` in Aura::GetProcEffectMask, so AllowClassAbilityProcs is unreachable for a proc-inert Passive owner, and track C's sidecars.py already encodes that while owner.py does not. Attribute 4 (`Is Ability`) is a SEPARATE question the pass did not settle: Core catalogues it disabled for recovery-haste classification, which a permanent passive with no cooldown cannot exercise, but no consumer evidence was gathered. Fault is shared and the case stays open",
+    "evidence": "core: spell_attribute.rs:169,350,479; critical_modifier.rs:936; trinity: Aura::GetProcEffectMask SpellAuras.cpp:1834-1839",
+    "fault": "contested",
+    "finding": "the provider carries owner attributes 4 (Ability) and 416 (AllowClassAbilityProcs), both catalogued `disabled` in Core's own SPELL_ATTRIBUTE_REQUIREMENTS. Core admits it anyway because critical_modifier.rs:936 uses a three-name blacklist instead of the catalog check that passive_spell_modifier.rs applies",
+    "package": "Keen Eyesight, raw-290 (provider 378004)"
+   },
+   "core_branch": "sole:CriticalChanceModifier/SourceSpellAndWeapon",
+   "dimensions": {
+    "effect_ceiling": true,
+    "effects": true,
+    "integral_flats": true,
+    "owner": false,
+    "percent_floor": true,
+    "proc_policy": true,
+    "provenance": true,
+    "rank_amounts": true,
+    "role_uniqueness": true
+   },
+   "entry": 126473,
+   "fault": "contested",
+   "provider": 378004,
+   "rank": 1,
+   "rule_blockers": [
+    "[owner] owner attribute 4 has support 'disabled', not Ignored",
+    "[owner] owner attribute 416 has support 'disabled', not Ignored"
+   ]
+  },
+  {
+   "adjudication": {
+    "conclusion": "CONTESTED, and the report must not claim otherwise. Core is inconsistent -- the same attribute blocks a spell-modifier package and passes a critical-chance package -- but the rule is ALSO wrong to block on attribute 416: Trinity gates the entire proc-attribute block behind `if (!procEntry) return 0;` in Aura::GetProcEffectMask, so AllowClassAbilityProcs is unreachable for a proc-inert Passive owner, and track C's sidecars.py already encodes that while owner.py does not. Attribute 4 (`Is Ability`) is a SEPARATE question the pass did not settle: Core catalogues it disabled for recovery-haste classification, which a permanent passive with no cooldown cannot exercise, but no consumer evidence was gathered. Fault is shared and the case stays open",
+    "evidence": "core: spell_attribute.rs:169,350,479; critical_modifier.rs:936; trinity: Aura::GetProcEffectMask SpellAuras.cpp:1834-1839",
+    "fault": "contested",
+    "finding": "the provider carries owner attributes 4 (Ability) and 416 (AllowClassAbilityProcs), both catalogued `disabled` in Core's own SPELL_ATTRIBUTE_REQUIREMENTS. Core admits it anyway because critical_modifier.rs:936 uses a three-name blacklist instead of the catalog check that passive_spell_modifier.rs applies",
+    "package": "Keen Eyesight, raw-290 (provider 378004)"
+   },
+   "core_branch": "sole:CriticalChanceModifier/SourceSpellAndWeapon",
+   "dimensions": {
+    "effect_ceiling": true,
+    "effects": true,
+    "integral_flats": true,
+    "owner": false,
+    "percent_floor": true,
+    "proc_policy": true,
+    "provenance": true,
+    "rank_amounts": true,
+    "role_uniqueness": true
+   },
+   "entry": 126473,
+   "fault": "contested",
+   "provider": 378004,
+   "rank": 2,
+   "rule_blockers": [
+    "[owner] owner attribute 4 has support 'disabled', not Ignored",
+    "[owner] owner attribute 416 has support 'disabled', not Ignored"
+   ]
+  }
+ ],
+ "rule": {
+  "dimensions": [
+   "effects",
+   "owner",
+   "rank_amounts",
+   "percent_floor",
+   "integral_flats",
+   "proc_policy",
+   "effect_ceiling",
+   "role_uniqueness"
+  ],
+  "summary": "v4 + package atomicity (four-effect ceiling, unique non-modifier authority)",
+  "version": "v5"
+ }
+}

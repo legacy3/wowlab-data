@@ -1,0 +1,2860 @@
+{
+ "classes": {
+  "detached-entry": {
+   "core_code": "none -- Core admits these",
+   "count": 3038,
+   "description": "TraitNodeEntry row with no TraitNodeXTraitNodeEntry row: no node grants it, so no player can acquire it",
+   "key": "detached-entry",
+   "rationale": "selected_spell.rs never reads topology, so 2,143 resolvable entries with no granting node resolve exactly like granted ones; the source fact 'is reachable' is simply not consulted",
+   "rows": [
+    {
+     "definition_id": 10647,
+     "entry_id": 9928,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 10687,
+     "entry_id": 9968,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 11049,
+     "entry_id": 10330,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85142,
+     "entry_id": 80139,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85148,
+     "entry_id": 80145,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85149,
+     "entry_id": 80146,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85151,
+     "entry_id": 80148,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85152,
+     "entry_id": 80149,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85153,
+     "entry_id": 80150,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85154,
+     "entry_id": 80151,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85155,
+     "entry_id": 80152,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85157,
+     "entry_id": 80154,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85159,
+     "entry_id": 80156,
+     "max_ranks": 2,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85161,
+     "entry_id": 80158,
+     "max_ranks": 2,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85163,
+     "entry_id": 80160,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85165,
+     "entry_id": 80162,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85167,
+     "entry_id": 80164,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85169,
+     "entry_id": 80166,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85170,
+     "entry_id": 80167,
+     "max_ranks": 1,
+     "resolvable": true
+    },
+    {
+     "definition_id": 85172,
+     "entry_id": 80169,
+     "max_ranks": 2,
+     "resolvable": true
+    }
+   ],
+   "source_table": "TraitNodeXTraitNodeEntry (absent)",
+   "verdict": "admitted-but-unproved"
+  },
+  "duplicate-effect-point-rows": {
+   "core_code": "UnsupportedEffectPoints",
+   "count": 2,
+   "description": "two TraitDefinitionEffectPoints rows for the same EffectIndex",
+   "key": "duplicate-effect-point-rows",
+   "rationale": "selected_spell.rs:322-331; the source is ambiguous and Trinity silently takes the first match (std::ranges::find, SpellInfo.cpp:538), which is order-dependent, not authoritative",
+   "rows": [
+    {
+     "definition_id": 106806,
+     "entries": [
+      101906
+     ],
+     "repeated_effect_indices": [
+      0
+     ],
+     "row_ids": [
+      19371,
+      19372,
+      19373
+     ]
+    },
+    {
+     "definition_id": 141760,
+     "entries": [
+      136997
+     ],
+     "repeated_effect_indices": [
+      1
+     ],
+     "row_ids": [
+      24387,
+      24392,
+      24393
+     ]
+    }
+   ],
+   "source_table": "TraitDefinitionEffectPoints.EffectIndex",
+   "verdict": "semantically-right"
+  },
+  "foreign-definition": {
+   "core_code": "MissingDefinition",
+   "count": 177,
+   "description": "TraitNodeEntry.TraitDefinitionID has no TraitDefinition row",
+   "key": "foreign-definition",
+   "rationale": "every one of these carries TraitDefinitionID == 0, i.e. the entry names no definition at all; there is no provider to resolve",
+   "rows": [
+    {
+     "entry_id": 103707,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 103716,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 112550,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 112641,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 112857,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 112922,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 117138,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 117163,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 117166,
+     "max_ranks": 0,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 118799,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 12
+    },
+    {
+     "entry_id": 118800,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 9
+    },
+    {
+     "entry_id": 118801,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 9
+    },
+    {
+     "entry_id": 118802,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 10
+    },
+    {
+     "entry_id": 118803,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 10
+    },
+    {
+     "entry_id": 118804,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 11
+    },
+    {
+     "entry_id": 118805,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 11
+    },
+    {
+     "entry_id": 118806,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 12
+    },
+    {
+     "entry_id": 118818,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 139
+    },
+    {
+     "entry_id": 122438,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    },
+    {
+     "entry_id": 122439,
+     "max_ranks": 1,
+     "trait_definition_id": 0,
+     "trait_subtree_id": 0
+    }
+   ],
+   "source_table": "TraitNodeEntry -> TraitDefinition (absent)",
+   "verdict": "semantically-right"
+  },
+  "foreign-effect-point-rows": {
+   "core_code": "UnsupportedEffectPoints",
+   "count": 48,
+   "description": "a point row whose EffectIndex exceeds the provider's effect count",
+   "key": "foreign-effect-point-rows",
+   "rationale": "selected_spell.rs:333-341; the row shapes an effect the provider does not have -- build skew between the definition and the spell",
+   "rows": [
+    {
+     "definition_id": 85239,
+     "entries": [
+      80236
+     ],
+     "provider": 378406,
+     "provider_effect_count": 1,
+     "row_ids": [
+      23653
+     ]
+    },
+    {
+     "definition_id": 96551,
+     "entries": [
+      91549
+     ],
+     "provider": 453908,
+     "provider_effect_count": 2,
+     "row_ids": [
+      22660,
+      22661,
+      22662
+     ]
+    },
+    {
+     "definition_id": 101286,
+     "entries": [
+      96284
+     ],
+     "provider": 377440,
+     "provider_effect_count": 1,
+     "row_ids": [
+      21903
+     ]
+    },
+    {
+     "definition_id": 101337,
+     "entries": [
+      96335
+     ],
+     "provider": 319836,
+     "provider_effect_count": 1,
+     "row_ids": [
+      22982,
+      22983,
+      22984
+     ]
+    },
+    {
+     "definition_id": 105576,
+     "entries": [
+      100574
+     ],
+     "provider": 378962,
+     "provider_effect_count": 2,
+     "row_ids": [
+      21889
+     ]
+    },
+    {
+     "definition_id": 105600,
+     "entries": [
+      100598
+     ],
+     "provider": 260367,
+     "provider_effect_count": 2,
+     "row_ids": [
+      19092
+     ]
+    },
+    {
+     "definition_id": 105621,
+     "entries": [
+      100619
+     ],
+     "provider": 385539,
+     "provider_effect_count": 1,
+     "row_ids": [
+      21991
+     ]
+    },
+    {
+     "definition_id": 106416,
+     "entries": [
+      101414
+     ],
+     "provider": 264348,
+     "provider_effect_count": 1,
+     "row_ids": [
+      21893
+     ]
+    },
+    {
+     "definition_id": 106471,
+     "entries": [
+      101469
+     ],
+     "provider": 196737,
+     "provider_effect_count": 3,
+     "row_ids": [
+      19286,
+      19288
+     ]
+    },
+    {
+     "definition_id": 106535,
+     "entries": [
+      101533
+     ],
+     "provider": 389579,
+     "provider_effect_count": 1,
+     "row_ids": [
+      21901
+     ]
+    },
+    {
+     "definition_id": 106545,
+     "entries": [
+      101543
+     ],
+     "provider": 387219,
+     "provider_effect_count": 1,
+     "row_ids": [
+      19296
+     ]
+    },
+    {
+     "definition_id": 106881,
+     "entries": [
+      101814
+     ],
+     "provider": 384411,
+     "provider_effect_count": 1,
+     "row_ids": [
+      24055
+     ]
+    },
+    {
+     "definition_id": 106994,
+     "entries": [
+      102002
+     ],
+     "provider": 381867,
+     "provider_effect_count": 2,
+     "row_ids": [
+      19433,
+      19436
+     ]
+    },
+    {
+     "definition_id": 107004,
+     "entries": [
+      101981
+     ],
+     "provider": 382215,
+     "provider_effect_count": 2,
+     "row_ids": [
+      19440
+     ]
+    },
+    {
+     "definition_id": 107572,
+     "entries": [
+      102567
+     ],
+     "provider": 387879,
+     "provider_effect_count": 1,
+     "row_ids": [
+      23835
+     ]
+    },
+    {
+     "definition_id": 107621,
+     "entries": [
+      102616
+     ],
+     "provider": 391142,
+     "provider_effect_count": 2,
+     "row_ids": [
+      23004
+     ]
+    },
+    {
+     "definition_id": 117291,
+     "entries": [
+      112286
+     ],
+     "provider": 383459,
+     "provider_effect_count": 2,
+     "row_ids": [
+      21509
+     ]
+    },
+    {
+     "definition_id": 117877,
+     "entries": [
+      112872
+     ],
+     "provider": 389220,
+     "provider_effect_count": 1,
+     "row_ids": [
+      22277
+     ]
+    },
+    {
+     "definition_id": 120028,
+     "entries": [
+      115021
+     ],
+     "provider": 405278,
+     "provider_effect_count": 1,
+     "row_ids": [
+      22623
+     ]
+    },
+    {
+     "definition_id": 121070,
+     "entries": [
+      116058
+     ],
+     "provider": 387273,
+     "provider_effect_count": 1,
+     "row_ids": [
+      22371
+     ]
+    }
+   ],
+   "source_table": "TraitDefinitionEffectPoints.EffectIndex",
+   "verdict": "semantically-right"
+  },
+  "incomplete-rank-shaping": {
+   "core_code": "none -- Core admits these",
+   "count": 164,
+   "description": "a package where some effects are rank-shaped and sibling effects keep their authored value",
+   "key": "incomplete-rank-shaping",
+   "rationale": "Improved Vivify 101510 is the witness: at rank 1 its two effects carry 20 and 40. Core reproduces this through the named branch has_improved_vivify_amounts rather than through the general rule, so 163 sibling cases are admitted by the source rule with no named branch behind them",
+   "rows": [
+    {
+     "admitted": true,
+     "defects": [
+      "detached-entry"
+     ],
+     "definition_id": 85228,
+     "detached": true,
+     "effects": [
+      {
+       "amounts": {
+        "1": 2.0,
+        "2": 2.0
+       },
+       "authored": 2.0,
+       "effect_index": 1,
+       "effect_row_id": 1007627,
+       "point_row_id": null,
+       "verdict": "none"
+      },
+      {
+       "amounts": {
+        "1": 15.0,
+        "2": 30.0
+       },
+       "authored": 30.0,
+       "effect_index": 2,
+       "effect_row_id": 1008209,
+       "point_row_id": 22681,
+       "verdict": "Multiply"
+      }
+     ],
+     "entry_id": 80225,
+     "generalized_ok": true,
+     "max_ranks": 2,
+     "mixed_shaped_siblings": true,
+     "node_entry_type": 2,
+     "node_ids": [],
+     "overrides_spell_id": 0,
+     "point_rows": [
+      {
+       "curve": {
+        "curve_id": 77414,
+        "defects": [],
+        "flags": 0,
+        "order_indices": [
+         0,
+         1
+        ],
+        "point_count": 2,
+        "points": [
+         [
+          1.0,
+          0.5
+         ],
+         [
+          2.0,
+          1.0
+         ]
+        ],
+        "type": 0
+       },
+       "curve_id": 77414,
+       "defects": [],
+       "definition_id": 85228,
+       "effect_index": 2,
+       "operation": "Multiply",
+       "operation_type": 1,
+       "position": 0,
+       "retained_by_core": true,
+       "row_id": 22681,
+       "source_effect_index": 1
+      }
+     ],
+     "provider": 379049,
+     "rank": 1,
+     "refusal": null,
+     "shaping_kind": "multiply-only",
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "admitted": true,
+     "defects": [
+      "detached-entry"
+     ],
+     "definition_id": 85259,
+     "detached": true,
+     "effects": [
+      {
+       "amounts": {
+        "1": 1.0,
+        "2": 2.0
+       },
+       "authored": 1.0,
+       "effect_index": 1,
+       "effect_row_id": 302656,
+       "point_row_id": 13817,
+       "verdict": "Set"
+      },
+      {
+       "amounts": {
+        "1": -2000.0,
+        "2": -2000.0
+       },
+       "authored": -2000.0,
+       "effect_index": 2,
+       "effect_row_id": 1283970,
+       "point_row_id": null,
+       "verdict": "none"
+      }
+     ],
+     "entry_id": 80256,
+     "generalized_ok": true,
+     "max_ranks": 2,
+     "mixed_shaped_siblings": true,
+     "node_entry_type": 2,
+     "node_ids": [],
+     "overrides_spell_id": 0,
+     "point_rows": [
+      {
+       "curve": {
+        "curve_id": 52520,
+        "defects": [],
+        "flags": 0,
+        "order_indices": [
+         0,
+         1
+        ],
+        "point_count": 2,
+        "points": [
+         [
+          1.0,
+          1.0
+         ],
+         [
+          2.0,
+          2.0
+         ]
+        ],
+        "type": 0
+       },
+       "curve_id": 52520,
+       "defects": [],
+       "definition_id": 85259,
+       "effect_index": 1,
+       "operation": "Set",
+       "operation_type": 0,
+       "position": 0,
+       "retained_by_core": true,
+       "row_id": 13817,
+       "source_effect_index": 0
+      }
+     ],
+     "provider": 205029,
+     "rank": 1,
+     "refusal": null,
+     "shaping_kind": "set-only",
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "admitted": true,
+     "defects": [
+      "detached-entry"
+     ],
+     "definition_id": 85270,
+     "detached": true,
+     "effects": [
+      {
+       "amounts": {
+        "1": 70.0,
+        "2": 70.0
+       },
+       "authored": 70.0,
+       "effect_index": 1,
+       "effect_row_id": 299766,
+       "point_row_id": null,
+       "verdict": "none"
+      },
+      {
+       "amounts": {
+        "1": -20.0,
+        "2": -40.0
+       },
+       "authored": -40.0,
+       "effect_index": 2,
+       "effect_row_id": 299771,
+       "point_row_id": 13819,
+       "verdict": "Set"
+      },
+      {
+       "amounts": {
+        "1": 0.0,
+        "2": 0.0
+       },
+       "authored": 0.0,
+       "effect_index": 3,
+       "effect_row_id": 299775,
+       "point_row_id": null,
+       "verdict": "none"
+      }
+     ],
+     "entry_id": 80267,
+     "generalized_ok": true,
+     "max_ranks": 2,
+     "mixed_shaped_siblings": true,
+     "node_entry_type": 2,
+     "node_ids": [],
+     "overrides_spell_id": 0,
+     "point_rows": [
+      {
+       "curve": {
+        "curve_id": 52522,
+        "defects": [],
+        "flags": 0,
+        "order_indices": [
+         0,
+         1
+        ],
+        "point_count": 2,
+        "points": [
+         [
+          1.0,
+          -20.0
+         ],
+         [
+          2.0,
+          -40.0
+         ]
+        ],
+        "type": 0
+       },
+       "curve_id": 52522,
+       "defects": [],
+       "definition_id": 85270,
+       "effect_index": 2,
+       "operation": "Set",
+       "operation_type": 0,
+       "position": 0,
+       "retained_by_core": true,
+       "row_id": 13819,
+       "source_effect_index": 1
+      }
+     ],
+     "provider": 203275,
+     "rank": 1,
+     "refusal": null,
+     "shaping_kind": "set-only",
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "admitted": true,
+     "defects": [
+      "detached-entry"
+     ],
+     "definition_id": 85273,
+     "detached": true,
+     "effects": [
+      {
+       "amounts": {
+        "1": 4.0,
+        "2": 4.0
+       },
+       "authored": 4.0,
+       "effect_index": 1,
+       "effect_row_id": 1015478,
+       "point_row_id": null,
+       "verdict": "none"
+      },
+      {
+       "amounts": {
+        "1": 4.0,
+        "2": 8.0
+       },
+       "authored": 3.0,
+       "effect_index": 2,
+       "effect_row_id": 1015479,
+       "point_row_id": 13822,
+       "verdict": "Set"
+      },
+      {
+       "amounts": {
+        "1": 3.0,
+        "2": 6.0
+       },
+       "authored": 2.0,
+       "effect_index": 3,
+       "effect_row_id": 1017924,
+       "point_row_id": 13821,
+       "verdict": "Set"
+      },
+      {
+       "amounts": {
+        "1": 1.0,
+        "2": 2.0
+       },
+       "authored": 1.0,
+       "effect_index": 4,
+       "effect_row_id": 1017925,
+       "point_row_id": 13820,
+       "verdict": "Set"
+      }
+     ],
+     "entry_id": 80270,
+     "generalized_ok": true,
+     "max_ranks": 2,
+     "mixed_shaped_siblings": true,
+     "node_entry_type": 2,
+     "node_ids": [],
+     "overrides_spell_id": 0,
+     "point_rows": [
+      {
+       "curve": {
+        "curve_id": 52523,
+        "defects": [],
+        "flags": 0,
+        "order_indices": [
+         0,
+         1
+        ],
+        "point_count": 2,
+        "points": [
+         [
+          1.0,
+          1.0
+         ],
+         [
+          2.0,
+          2.0
+         ]
+        ],
+        "type": 0
+       },
+       "curve_id": 52523,
+       "defects": [],
+       "definition_id": 85273,
+       "effect_index": 4,
+       "operation": "Set",
+       "operation_type": 0,
+       "position": 0,
+       "retained_by_core": true,
+       "row_id": 13820,
+       "source_effect_index": 3
+      },
+      {
+       "curve": {
+        "curve_id": 52524,
+        "defects": [],
+        "flags": 0,
+        "order_indices": [
+         0,
+         1
+        ],
+        "point_count": 2,
+        "points": [
+         [
+          1.0,
+          3.0
+         ],
+         [
+          2.0,
+          6.0
+         ]
+        ],
+        "type": 0
+       },
+       "curve_id": 52524,
+       "defects": [],
+       "definition_id": 85273,
+       "effect_index": 3,
+       "operation": "Set",
+       "operation_type": 0,
+       "position": 1,
+       "retained_by_core": true,
+       "row_id": 13821,
+       "source_effect_index": 2
+      },
+      {
+       "curve": {
+        "curve_id": 52525,
+        "defects": [],
+        "flags": 0,
+        "order_indices": [
+         0,
+         1
+        ],
+        "point_count": 2,
+        "points": [
+         [
+          1.0,
+          4.0
+         ],
+         [
+          2.0,
+          8.0
+         ]
+        ],
+        "type": 0
+       },
+       "curve_id": 52525,
+       "defects": [],
+       "definition_id": 85273,
+       "effect_index": 2,
+       "operation": "Set",
+       "operation_type": 0,
+       "position": 2,
+       "retained_by_core": true,
+       "row_id": 13822,
+       "source_effect_index": 1
+      }
+     ],
+     "provider": 383489,
+     "rank": 1,
+     "refusal": null,
+     "shaping_kind": "set-only",
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "admitted": true,
+     "defects": [
+      "detached-entry"
+     ],
+     "definition_id": 85275,
+     "detached": true,
+     "effects": [
+      {
+       "amounts": {
+        "1": 3.999999761581421,
+        "2": 8.0
+       },
+       "authored": 2.0,
+       "effect_index": 1,
+       "effect_row_id": 1015729,
+       "point_row_id": 13823,
+       "verdict": "Set"
+      },
+      {
+       "amounts": {
+        "1": 20.0,
+        "2": 20.0
+       },
+       "authored": 20.0,
+       "effect_index": 2,
+       "effect_row_id": 1163847,
+       "point_row_id": null,
+       "verdict": "none"
+      }
+     ],
+     "entry_id": 80272,
+     "generalized_ok": true,
+     "max_ranks": 2,
+     "mixed_shaped_siblings": true,
+     "node_entry_type": 2,
+     "node_ids": [],
+     "overrides_spell_id": 0,
+     "point_rows": [
+      {
+       "curve": {
+        "curve_id": 52526,
+        "defects": [],
+        "flags": 0,
+        "order_indices": [
+         0,
+         1
+        ],
+        "point_count": 2,
+        "points": [
+         [
+          1.0,
+          3.999999761581421
+         ],
+         [
+          2.0,
+          8.0
+         ]
+        ],
+        "type": 0
+       },
+       "curve_id": 52526,
+       "defects": [],
+       "definition_id": 85275,
+       "effect_index": 1,
+       "operation": "Set",
+       "operation_type": 0,
+       "position": 0,
+       "retained_by_core": true,
+       "row_id": 13823,
+       "source_effect_index": 0
+      }
+     ],
+     "provider": 383669,
+     "rank": 1,
+     "refusal": null,
+     "shaping_kind": "set-only",
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    }
+   ],
+   "source_table": "TraitDefinitionEffectPoints (absent row)",
+   "verdict": "admitted-but-hardcoded"
+  },
+  "malformed-rank-curve": {
+   "core_code": "UnsupportedCurvePoints",
+   "count": 30,
+   "description": "a Set/Multiply curve that is not an exact rank table",
+   "key": "malformed-rank-curve",
+   "rationale": "30 defective point rows across 22 entries. 5 are **conservative**: a 3-point rank curve on a MaxRanks-2 entry (curves 54420, 54421, 54425, 54426, 58141) still carries exactly one point at Pos_0 == 1 and Pos_0 == 2, so both reachable ranks have an unambiguous authored value and only the surplus third point offends amount.rs:26. The rest are **semantically right**: a curve indexed from rank 0 ([(0,1),(2,2)] -- curves 92965, 96288, 80165) has no point at rank 1 at all, so Core's positional read would return the rank-0 value while Trinity's linear GetCurveValueAt returns 1.5; and curve 60382 carries two points at Pos_0 == 1, which is ambiguous outright",
+   "rows": [
+    {
+     "amounts_if_admitted": [
+      15.0,
+      30.0
+     ],
+     "curve": {
+      "curve_id": 54420,
+      "defects": [
+       "point-count-3-vs-max-ranks-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1,
+       2
+      ],
+      "point_count": 3,
+      "points": [
+       [
+        1.0,
+        15.0
+       ],
+       [
+        2.0,
+        30.0
+       ],
+       [
+        3.0,
+        30.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 92601,
+     "entry_id": 87599,
+     "max_ranks": 2,
+     "point_row_id": 15556,
+     "reason": "point-count-3-vs-max-ranks-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "conservative",
+     "why": "the curve has exactly one point at every reachable rank ([1.0, 2.0] -> [15.0, 30.0]); only the surplus points offend amount.rs:26"
+    },
+    {
+     "amounts_if_admitted": [
+      15.0,
+      30.0
+     ],
+     "curve": {
+      "curve_id": 54421,
+      "defects": [
+       "point-count-3-vs-max-ranks-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1,
+       2
+      ],
+      "point_count": 3,
+      "points": [
+       [
+        1.0,
+        15.0
+       ],
+       [
+        2.0,
+        30.0
+       ],
+       [
+        3.0,
+        6000.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 92607,
+     "entry_id": 87605,
+     "max_ranks": 2,
+     "point_row_id": 15557,
+     "reason": "point-count-3-vs-max-ranks-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "conservative",
+     "why": "the curve has exactly one point at every reachable rank ([1.0, 2.0] -> [15.0, 30.0]); only the surplus points offend amount.rs:26"
+    },
+    {
+     "amounts_if_admitted": [
+      1.0,
+      2.0
+     ],
+     "curve": {
+      "curve_id": 54425,
+      "defects": [
+       "point-count-3-vs-max-ranks-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1,
+       2
+      ],
+      "point_count": 3,
+      "points": [
+       [
+        1.0,
+        1.0
+       ],
+       [
+        2.0,
+        2.0
+       ],
+       [
+        3.0,
+        3.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 92619,
+     "entry_id": 87617,
+     "max_ranks": 2,
+     "point_row_id": 15561,
+     "reason": "point-count-3-vs-max-ranks-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "conservative",
+     "why": "the curve has exactly one point at every reachable rank ([1.0, 2.0] -> [1.0, 2.0]); only the surplus points offend amount.rs:26"
+    },
+    {
+     "amounts_if_admitted": [
+      5.0,
+      10.0
+     ],
+     "curve": {
+      "curve_id": 54426,
+      "defects": [
+       "point-count-3-vs-max-ranks-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1,
+       2
+      ],
+      "point_count": 3,
+      "points": [
+       [
+        1.0,
+        5.0
+       ],
+       [
+        2.0,
+        10.0
+       ],
+       [
+        3.0,
+        15.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 92623,
+     "entry_id": 87621,
+     "max_ranks": 2,
+     "point_row_id": 15562,
+     "reason": "point-count-3-vs-max-ranks-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "conservative",
+     "why": "the curve has exactly one point at every reachable rank ([1.0, 2.0] -> [5.0, 10.0]); only the surplus points offend amount.rs:26"
+    },
+    {
+     "amounts_if_admitted": [
+      5.0,
+      10.0
+     ],
+     "curve": {
+      "curve_id": 58141,
+      "defects": [
+       "point-count-3-vs-max-ranks-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1,
+       2
+      ],
+      "point_count": 3,
+      "points": [
+       [
+        1.0,
+        5.0
+       ],
+       [
+        2.0,
+        10.0
+       ],
+       [
+        3.0,
+        15.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 105560,
+     "entry_id": 100558,
+     "max_ranks": 2,
+     "point_row_id": 19076,
+     "reason": "point-count-3-vs-max-ranks-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "conservative",
+     "why": "the curve has exactly one point at every reachable rank ([1.0, 2.0] -> [5.0, 10.0]); only the surplus points offend amount.rs:26"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58589,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106858,
+     "entry_id": 101843,
+     "max_ranks": 2,
+     "point_row_id": 19390,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58621,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106969,
+     "entry_id": 101974,
+     "max_ranks": 2,
+     "point_row_id": 19422,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58622,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106978,
+     "entry_id": 101978,
+     "max_ranks": 2,
+     "point_row_id": 19423,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58641,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 107005,
+     "entry_id": 101980,
+     "max_ranks": 2,
+     "point_row_id": 19442,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58638,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 107001,
+     "entry_id": 101984,
+     "max_ranks": 2,
+     "point_row_id": 19438,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58637,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 107001,
+     "entry_id": 101984,
+     "max_ranks": 2,
+     "point_row_id": 19439,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58628,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106985,
+     "entry_id": 101990,
+     "max_ranks": 2,
+     "point_row_id": 19429,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58630,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106985,
+     "entry_id": 101990,
+     "max_ranks": 2,
+     "point_row_id": 19430,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58629,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106985,
+     "entry_id": 101990,
+     "max_ranks": 2,
+     "point_row_id": 19431,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 77440,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106985,
+     "entry_id": 101990,
+     "max_ranks": 2,
+     "point_row_id": 22683,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 58636,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106996,
+     "entry_id": 101999,
+     "max_ranks": 2,
+     "point_row_id": 19437,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 63118,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106996,
+     "entry_id": 101999,
+     "max_ranks": 2,
+     "point_row_id": 21971,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 65351,
+      "defects": [
+       "pos0-0-at-rank-1",
+       "pos0-0-at-rank-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        0.0
+       ],
+       [
+        0.0,
+        0.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 106996,
+     "entry_id": 101999,
+     "max_ranks": 2,
+     "point_row_id": 22270,
+     "reason": "pos0-0-at-rank-1; pos0-0-at-rank-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 60382,
+      "defects": [
+       "point-count-3-vs-max-ranks-2"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1,
+       2
+      ],
+      "point_count": 3,
+      "points": [
+       [
+        1.0,
+        15.0
+       ],
+       [
+        1.0,
+        15.0
+       ],
+       [
+        2.0,
+        30.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 107449,
+     "entry_id": 102450,
+     "max_ranks": 2,
+     "point_row_id": 20983,
+     "reason": "point-count-3-vs-max-ranks-2",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    },
+    {
+     "amounts_if_admitted": null,
+     "curve": {
+      "curve_id": 92965,
+      "defects": [
+       "pos0-0-at-rank-1"
+      ],
+      "flags": 0,
+      "order_indices": [
+       0,
+       1
+      ],
+      "point_count": 2,
+      "points": [
+       [
+        0.0,
+        1.0
+       ],
+       [
+        2.0,
+        2.0
+       ]
+      ],
+      "type": 0
+     },
+     "definition_id": 117325,
+     "entry_id": 112320,
+     "max_ranks": 2,
+     "point_row_id": 24137,
+     "reason": "pos0-0-at-rank-1",
+     "refusal": "UnsupportedCurvePoints",
+     "verdict": "semantically-right",
+     "why": "no unambiguous point at every reachable rank, so Core's positional read would disagree with Trinity's interpolated GetCurveValueAt (`trinity` DB2Stores.cpp:2327-2345)"
+    }
+   ],
+   "source_table": "Curve / CurvePoint",
+   "verdict": "mixed"
+  },
+  "max-ranks-beyond-core-cap": {
+   "core_code": "UnsupportedRank",
+   "count": 1068,
+   "description": "TraitNodeEntry.MaxRanks not in {1, 2}",
+   "key": "max-ranks-beyond-core-cap",
+   "rationale": "24 of these carry a curve with exactly MaxRanks points at OrderIndex == rank - 1 and Pos_0 == rank -- the identical shape amount.rs already accepts, only longer; the {1,2} limit is a Core cap, not a source boundary",
+   "rows": [
+    {
+     "carries_rank_table": true,
+     "definition_id": 128626,
+     "entry_id": 123788,
+     "max_ranks": 3
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 128627,
+     "entry_id": 123789,
+     "max_ranks": 50
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 130444,
+     "entry_id": 125612,
+     "max_ranks": 50
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 133234,
+     "entry_id": 128428,
+     "max_ranks": 70
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 133245,
+     "entry_id": 128439,
+     "max_ranks": 70
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 133329,
+     "entry_id": 128526,
+     "max_ranks": 50
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 133427,
+     "entry_id": 128624,
+     "max_ranks": 70
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 136804,
+     "entry_id": 132003,
+     "max_ranks": 5
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 136848,
+     "entry_id": 132047,
+     "max_ranks": 3
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 136851,
+     "entry_id": 132050,
+     "max_ranks": 3
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 136853,
+     "entry_id": 132052,
+     "max_ranks": 3
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 137558,
+     "entry_id": 132772,
+     "max_ranks": 90
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 137565,
+     "entry_id": 132779,
+     "max_ranks": 90
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 137576,
+     "entry_id": 132790,
+     "max_ranks": 90
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 138311,
+     "entry_id": 133525,
+     "max_ranks": 3
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 140492,
+     "entry_id": 135737,
+     "max_ranks": 50
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 140702,
+     "entry_id": 135947,
+     "max_ranks": 50
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 140703,
+     "entry_id": 135948,
+     "max_ranks": 50
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 141920,
+     "entry_id": 137159,
+     "max_ranks": 50
+    },
+    {
+     "carries_rank_table": true,
+     "definition_id": 141921,
+     "entry_id": 137160,
+     "max_ranks": 50
+    }
+   ],
+   "source_table": "TraitNodeEntry.MaxRanks",
+   "verdict": "conservative"
+  },
+  "more-point-rows-than-effects": {
+   "core_code": "UnsupportedEffectPoints",
+   "count": 41,
+   "description": "a definition with more point rows than the provider has effects",
+   "key": "more-point-rows-than-effects",
+   "rationale": "selected_spell.rs:277-284; at least one row cannot correspond to an effect of this provider",
+   "rows": [
+    {
+     "definition_id": 85239,
+     "entries": [
+      80236
+     ],
+     "point_rows": 2,
+     "provider": 378406,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 96551,
+     "entries": [
+      91549
+     ],
+     "point_rows": 5,
+     "provider": 453908,
+     "provider_effect_count": 2
+    },
+    {
+     "definition_id": 101286,
+     "entries": [
+      96284
+     ],
+     "point_rows": 2,
+     "provider": 377440,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 101337,
+     "entries": [
+      96335
+     ],
+     "point_rows": 3,
+     "provider": 319836,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 105576,
+     "entries": [
+      100574
+     ],
+     "point_rows": 3,
+     "provider": 378962,
+     "provider_effect_count": 2
+    },
+    {
+     "definition_id": 105600,
+     "entries": [
+      100598
+     ],
+     "point_rows": 3,
+     "provider": 260367,
+     "provider_effect_count": 2
+    },
+    {
+     "definition_id": 105621,
+     "entries": [
+      100619
+     ],
+     "point_rows": 2,
+     "provider": 385539,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 106471,
+     "entries": [
+      101469
+     ],
+     "point_rows": 5,
+     "provider": 196737,
+     "provider_effect_count": 3
+    },
+    {
+     "definition_id": 106535,
+     "entries": [
+      101533
+     ],
+     "point_rows": 2,
+     "provider": 389579,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 106545,
+     "entries": [
+      101543
+     ],
+     "point_rows": 2,
+     "provider": 387219,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 106806,
+     "entries": [
+      101906
+     ],
+     "point_rows": 3,
+     "provider": 200076,
+     "provider_effect_count": 2
+    },
+    {
+     "definition_id": 106881,
+     "entries": [
+      101814
+     ],
+     "point_rows": 2,
+     "provider": 384411,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 106994,
+     "entries": [
+      102002
+     ],
+     "point_rows": 4,
+     "provider": 381867,
+     "provider_effect_count": 2
+    },
+    {
+     "definition_id": 107572,
+     "entries": [
+      102567
+     ],
+     "point_rows": 2,
+     "provider": 387879,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 107621,
+     "entries": [
+      102616
+     ],
+     "point_rows": 3,
+     "provider": 391142,
+     "provider_effect_count": 2
+    },
+    {
+     "definition_id": 117291,
+     "entries": [
+      112286
+     ],
+     "point_rows": 3,
+     "provider": 383459,
+     "provider_effect_count": 2
+    },
+    {
+     "definition_id": 117877,
+     "entries": [
+      112872
+     ],
+     "point_rows": 2,
+     "provider": 389220,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 121070,
+     "entries": [
+      116058
+     ],
+     "point_rows": 2,
+     "provider": 387273,
+     "provider_effect_count": 1
+    },
+    {
+     "definition_id": 121899,
+     "entries": [
+      116887
+     ],
+     "point_rows": 3,
+     "provider": 383459,
+     "provider_effect_count": 2
+    },
+    {
+     "definition_id": 129686,
+     "entries": [
+      124848
+     ],
+     "point_rows": 2,
+     "provider": 387219,
+     "provider_effect_count": 1
+    }
+   ],
+   "source_table": "TraitDefinitionEffectPoints",
+   "verdict": "semantically-right"
+  },
+  "non-rank-table-curve": {
+   "core_code": "UnsupportedCurve (unreached: those entries fail earlier)",
+   "count": 2,
+   "description": "Curve.Type != 0 referenced by a trait definition",
+   "key": "non-rank-table-curve",
+   "rationale": "Type 2 with 3 points is a Bezier3 control hull in Trinity (DB2Stores.cpp DetermineCurveType); its points are not rank samples",
+   "rows": [
+    {
+     "curve_id": 82523,
+     "definitions": [
+      134272,
+      134273,
+      134274,
+      134275,
+      134276,
+      134277,
+      134278,
+      134279,
+      134280,
+      134281,
+      134282,
+      134296,
+      134297,
+      134298,
+      134299,
+      134300,
+      134301,
+      134302,
+      134303,
+      134304
+     ],
+     "flags": 0,
+     "points": [
+      [
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       99.0
+      ],
+      [
+       99.0,
+       99.0
+      ]
+     ],
+     "trinity_interpolation": "Bezier3 (DetermineCurveType, Type 2 + 3 points)",
+     "type": 2,
+     "verdict": "semantically right: a Bezier control hull is not a rank table"
+    },
+    {
+     "curve_id": 82586,
+     "definitions": [
+      134308
+     ],
+     "flags": 0,
+     "points": [
+      [
+       0.0,
+       0.0
+      ],
+      [
+       0.0,
+       45.0
+      ],
+      [
+       99.0,
+       50.0
+      ]
+     ],
+     "trinity_interpolation": "Bezier3 (DetermineCurveType, Type 2 + 3 points)",
+     "type": 2,
+     "verdict": "semantically right: a Bezier control hull is not a rank table"
+    }
+   ],
+   "source_table": "Curve.Type",
+   "verdict": "semantically-right"
+  },
+  "operation-type-none": {
+   "core_code": "UnsupportedEffectPoints",
+   "count": 7,
+   "description": "TraitDefinitionEffectPoints.OperationType == -1",
+   "key": "operation-type-none",
+   "rationale": "`trinity` DBCEnums.h:2907-2912 names -1 TraitPointsOperationType::None and SpellInfo.cpp:550-552 keeps the authored value; Core already has that behaviour for an unpointed effect, so this is a representable case it declines to read",
+   "rows": [
+    {
+     "curve_id": 55495,
+     "definition_id": 96428,
+     "effect_index": 0,
+     "entries": [
+      91426
+     ],
+     "operation_type": -1,
+     "provider": 389576,
+     "row_id": 16589,
+     "trinity_name": "None"
+    },
+    {
+     "curve_id": 55519,
+     "definition_id": 96451,
+     "effect_index": 0,
+     "entries": [
+      91449
+     ],
+     "operation_type": -1,
+     "provider": 386646,
+     "row_id": 16601,
+     "trinity_name": "None"
+    },
+    {
+     "curve_id": 68504,
+     "definition_id": 120971,
+     "effect_index": 0,
+     "entries": [
+      115959
+     ],
+     "operation_type": -1,
+     "provider": 196412,
+     "row_id": 22307,
+     "trinity_name": "None"
+    },
+    {
+     "curve_id": 68529,
+     "definition_id": 121013,
+     "effect_index": 0,
+     "entries": [
+      116001
+     ],
+     "operation_type": -1,
+     "provider": 386646,
+     "row_id": 22335,
+     "trinity_name": "None"
+    },
+    {
+     "curve_id": 68544,
+     "definition_id": 121031,
+     "effect_index": 0,
+     "entries": [
+      116019
+     ],
+     "operation_type": -1,
+     "provider": 389576,
+     "row_id": 22348,
+     "trinity_name": "None"
+    },
+    {
+     "curve_id": 68548,
+     "definition_id": 121034,
+     "effect_index": 0,
+     "entries": [
+      116022
+     ],
+     "operation_type": -1,
+     "provider": 171975,
+     "row_id": 22351,
+     "trinity_name": "None"
+    },
+    {
+     "curve_id": 68557,
+     "definition_id": 121050,
+     "effect_index": 0,
+     "entries": [
+      116038
+     ],
+     "operation_type": -1,
+     "provider": 199471,
+     "row_id": 22362,
+     "trinity_name": "None"
+    }
+   ],
+   "source_table": "TraitDefinitionEffectPoints.OperationType",
+   "verdict": "conservative"
+  },
+  "overrides-spell-id-nonzero": {
+   "core_code": "UnsupportedDefinition",
+   "count": 199,
+   "description": "TraitDefinition.OverridesSpellID != 0: the definition replaces another spell rather than carrying its own package",
+   "key": "overrides-spell-id-nonzero",
+   "rationale": "selected_spell.rs:240; the resolved package would not be the provider's own effect set, and Core models no override relation",
+   "rows": [
+    {
+     "definition_id": 85166,
+     "entry_id": 80163,
+     "overrides_spell_id": 1953,
+     "provider": 212653,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 85244,
+     "entry_id": 80241,
+     "overrides_spell_id": 319836,
+     "provider": 30455,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 85285,
+     "entry_id": 80282,
+     "overrides_spell_id": 319836,
+     "provider": 108853,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 101248,
+     "entry_id": 96246,
+     "overrides_spell_id": 316239,
+     "provider": 49020,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 101297,
+     "entry_id": 96295,
+     "overrides_spell_id": 43265,
+     "provider": 152280,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 101306,
+     "entry_id": 96304,
+     "overrides_spell_id": 316239,
+     "provider": 206930,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 101317,
+     "entry_id": 96315,
+     "overrides_spell_id": 43265,
+     "provider": 152280,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 101322,
+     "entry_id": 96320,
+     "overrides_spell_id": 55090,
+     "provider": 207311,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 101327,
+     "entry_id": 96325,
+     "overrides_spell_id": 46585,
+     "provider": 46584,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 105568,
+     "entry_id": 100566,
+     "overrides_spell_id": 186270,
+     "provider": 259387,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 105618,
+     "entry_id": 100616,
+     "overrides_spell_id": 195645,
+     "provider": 5116,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 105629,
+     "entry_id": 100627,
+     "overrides_spell_id": 185358,
+     "provider": 342049,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 105665,
+     "entry_id": 100663,
+     "overrides_spell_id": 56641,
+     "provider": 193455,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 106504,
+     "entry_id": 101502,
+     "overrides_spell_id": 109132,
+     "provider": 115008,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 106534,
+     "entry_id": 101532,
+     "overrides_spell_id": 115078,
+     "provider": 115313,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 106894,
+     "entry_id": 101816,
+     "overrides_spell_id": 384352,
+     "provider": 378270,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 106869,
+     "entry_id": 101819,
+     "overrides_spell_id": 470411,
+     "provider": 470057,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 106850,
+     "entry_id": 101883,
+     "overrides_spell_id": 470411,
+     "provider": 470057,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 106926,
+     "entry_id": 101933,
+     "overrides_spell_id": 5394,
+     "provider": 157153,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    },
+    {
+     "definition_id": 106971,
+     "entry_id": 101975,
+     "overrides_spell_id": 2484,
+     "provider": 51485,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 0
+    }
+   ],
+   "source_table": "TraitDefinition.OverridesSpellID",
+   "verdict": "semantically-right"
+  },
+  "rank-outside-domain": {
+   "core_code": "UnsupportedRank",
+   "count": 10,
+   "description": "effective rank 0, or greater than the entry's MaxRanks",
+   "key": "rank-outside-domain",
+   "rationale": "selected_spell.rs:230-238; a rank outside 1..=MaxRanks has no curve point and therefore no authored amount",
+   "rows": [
+    {
+     "entry_id": 101510,
+     "max_ranks": 2,
+     "rank": 0,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 101510,
+     "max_ranks": 2,
+     "rank": 3,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 117409,
+     "max_ranks": 1,
+     "rank": 0,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 117409,
+     "max_ranks": 1,
+     "rank": 2,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 115483,
+     "max_ranks": 2,
+     "rank": 0,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 115483,
+     "max_ranks": 2,
+     "rank": 3,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 137000,
+     "max_ranks": 2,
+     "rank": 0,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 137000,
+     "max_ranks": 2,
+     "rank": 3,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 136808,
+     "max_ranks": 1,
+     "rank": 0,
+     "refusal": "UnsupportedRank"
+    },
+    {
+     "entry_id": 136808,
+     "max_ranks": 1,
+     "rank": 2,
+     "refusal": "UnsupportedRank"
+    }
+   ],
+   "source_table": "TraitNodeEntry.MaxRanks",
+   "verdict": "semantically-right"
+  },
+  "trait-subtree-id-nonzero": {
+   "core_code": "UnsupportedDefinition (branch is dead in this snapshot)",
+   "count": 140,
+   "description": "TraitNodeEntry.TraitSubTreeID != 0 (hero-talent sub-tree entry)",
+   "key": "trait-subtree-id-nonzero",
+   "rationale": "all 140 such entries also carry TraitDefinitionID == 0, so MissingDefinition (selected_spell.rs:226) fires first and the TraitSubTreeID branch at selected_spell.rs:242 is never the reason",
+   "rows": [
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118799,
+     "trait_subtree_id": 12
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118800,
+     "trait_subtree_id": 9
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118801,
+     "trait_subtree_id": 9
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118802,
+     "trait_subtree_id": 10
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118803,
+     "trait_subtree_id": 10
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118804,
+     "trait_subtree_id": 11
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118805,
+     "trait_subtree_id": 11
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118806,
+     "trait_subtree_id": 12
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 118818,
+     "trait_subtree_id": 139
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123050,
+     "trait_subtree_id": 9
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123287,
+     "trait_subtree_id": 18
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123288,
+     "trait_subtree_id": 18
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123289,
+     "trait_subtree_id": 19
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123290,
+     "trait_subtree_id": 20
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123291,
+     "trait_subtree_id": 19
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123292,
+     "trait_subtree_id": 20
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123295,
+     "trait_subtree_id": 24
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123296,
+     "trait_subtree_id": 22
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123297,
+     "trait_subtree_id": 21
+    },
+    {
+     "actual_refusal": "MissingDefinition",
+     "definition_id": 0,
+     "entry_id": 123298,
+     "trait_subtree_id": 22
+    }
+   ],
+   "source_table": "TraitNodeEntry.TraitSubTreeID",
+   "verdict": "unreachable"
+  },
+  "visible-spell-id-nonzero": {
+   "core_code": "UnsupportedDefinition",
+   "count": 123,
+   "description": "TraitDefinition.VisibleSpellID != 0: the tooltip spell differs from the provider",
+   "key": "visible-spell-id-nonzero",
+   "rationale": "VisibleSpellID is a presentation field; 107 entries are refused for it alone even though the provider's effect rows are unaffected. Refusing is safe but it is a *display* fact, not a semantic one",
+   "rows": [
+    {
+     "definition_id": 96429,
+     "entry_id": 91448,
+     "overrides_spell_id": 0,
+     "provider": 386244,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 386256
+    },
+    {
+     "definition_id": 105522,
+     "entry_id": 100520,
+     "overrides_spell_id": 0,
+     "provider": 393505,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 388045
+    },
+    {
+     "definition_id": 106498,
+     "entry_id": 101496,
+     "overrides_spell_id": 0,
+     "provider": 388917,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 115203
+    },
+    {
+     "definition_id": 106845,
+     "entry_id": 101863,
+     "overrides_spell_id": 0,
+     "provider": 392763,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 191634
+    },
+    {
+     "definition_id": 106920,
+     "entry_id": 101900,
+     "overrides_spell_id": 0,
+     "provider": 392916,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 5394
+    },
+    {
+     "definition_id": 106993,
+     "entry_id": 101998,
+     "overrides_spell_id": 0,
+     "provider": 392915,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 5394
+    },
+    {
+     "definition_id": 107452,
+     "entry_id": 102447,
+     "overrides_spell_id": 0,
+     "provider": 389539,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 389539
+    },
+    {
+     "definition_id": 107453,
+     "entry_id": 102448,
+     "overrides_spell_id": 0,
+     "provider": 31884,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 31884
+    },
+    {
+     "definition_id": 107501,
+     "entry_id": 102496,
+     "overrides_spell_id": 0,
+     "provider": 384392,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 231895
+    },
+    {
+     "definition_id": 107524,
+     "entry_id": 102519,
+     "overrides_spell_id": 0,
+     "provider": 31884,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 31884
+    },
+    {
+     "definition_id": 107573,
+     "entry_id": 102568,
+     "overrides_spell_id": 0,
+     "provider": 394088,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 216331
+    },
+    {
+     "definition_id": 107574,
+     "entry_id": 102569,
+     "overrides_spell_id": 0,
+     "provider": 31884,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 31884
+    },
+    {
+     "definition_id": 107616,
+     "entry_id": 102611,
+     "overrides_spell_id": 0,
+     "provider": 53376,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 31884
+    },
+    {
+     "definition_id": 108167,
+     "entry_id": 103162,
+     "overrides_spell_id": 0,
+     "provider": 343223,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 106951
+    },
+    {
+     "definition_id": 114844,
+     "entry_id": 109839,
+     "overrides_spell_id": 0,
+     "provider": 394013,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 102560
+    },
+    {
+     "definition_id": 114854,
+     "entry_id": 109849,
+     "overrides_spell_id": 0,
+     "provider": 395022,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 194223
+    },
+    {
+     "definition_id": 117582,
+     "entry_id": 112577,
+     "overrides_spell_id": 0,
+     "provider": 394930,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 185313
+    },
+    {
+     "definition_id": 117622,
+     "entry_id": 112617,
+     "overrides_spell_id": 0,
+     "provider": 394935,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 36554
+    },
+    {
+     "definition_id": 117653,
+     "entry_id": 112648,
+     "overrides_spell_id": 0,
+     "provider": 469779,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 381623
+    },
+    {
+     "definition_id": 117680,
+     "entry_id": 112675,
+     "overrides_spell_id": 0,
+     "provider": 394932,
+     "trait_subtree_id": 0,
+     "visible_spell_id": 36554
+    }
+   ],
+   "source_table": "TraitDefinition.VisibleSpellID",
+   "verdict": "conservative"
+  }
+ },
+ "pins": {
+  "core": "b1714eda2b4b9393853f94c6517e78cce2dfa21a",
+  "core_symbols": [
+   "TraitSourceCatalog::try_selected_spell_effect_amounts (crates/data/src/trait_source/selected_spell.rs:210-382)",
+   "exact_rank_curve_points (crates/data/src/trait_source/amount.rs:10-41)"
+  ],
+  "evidence_classes": {
+   "core": "/home/dev/pallet/core",
+   "source": "data/tables/*.csv",
+   "trinity": "/home/dev/pallet/TrinityCore"
+  }
+ },
+ "verdict_legend": {
+  "admitted-but-hardcoded": "Core admits it through a named branch",
+  "admitted-but-unproved": "Core admits it without consulting the fact",
+  "conservative": "the source carries the fact; Core declines to read it",
+  "mixed": "some rows in the class are one, some the other",
+  "semantically-right": "the source genuinely does not carry the fact Core would need",
+  "unreachable": "an earlier refusal always fires first"
+ }
+}

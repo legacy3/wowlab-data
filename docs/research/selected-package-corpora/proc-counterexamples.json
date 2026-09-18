@@ -1,0 +1,6722 @@
+{
+ "counterexamples": [
+  {
+   "all_ids": [
+    77756,
+    112965,
+    200071,
+    207387,
+    268175,
+    371032,
+    372307,
+    375994,
+    383695,
+    383980,
+    384041,
+    387095,
+    390693,
+    390994,
+    392302,
+    473520,
+    1215245
+   ],
+   "breaks": "Core's SelectedAuraOptionsContract::Absent branch: 'no aura-options row may exist' is taken as proof that the provider has no proc semantics.  It is not.  A world-DB spell_proc row keys on SpellID, not on the presence of a SpellAuraOptions row (SpellMgr::LoadSpellProcs, SpellMgr.cpp:1571-1651), so a provider with zero SpellAuraOptions facts can still own a full proc lifecycle.",
+   "count": 17,
+   "evidence_class": "trinity",
+   "id": "D-CE-01",
+   "members": [
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_sha_lava_surge']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      101846,
+      101894,
+      127024,
+      127280
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Lava Surge",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_sha_lava_surge"
+     ],
+     "shape": "absent",
+     "spell": 77756
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_mage_fingers_of_frost']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      80227
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Fingers of Frost",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_mage_fingers_of_frost"
+     ],
+     "shape": "absent",
+     "spell": 112965
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_sha_undulation_passive']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      126949,
+      127205
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Undulation",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_sha_undulation_passive"
+     ],
+     "shape": "absent",
+     "spell": 200071
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4,
+      219
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_dh_painbringer']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112892
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Painbringer",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_dh_painbringer"
+     ],
+     "shape": "absent",
+     "spell": 207387
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)"
+     ],
+     "entries": [
+      112890
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Void Reaver",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 268175
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)"
+     ],
+     "entries": [
+      87675,
+      115656
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Terror of the Skies",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 371032
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4,
+      108
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_pri_burning_vehemence']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103739
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Burning Vehemence",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_pri_burning_vehemence"
+     ],
+     "shape": "absent",
+     "spell": 372307
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_pri_mental_decay']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      133378
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Mental Decay",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_pri_mental_decay"
+     ],
+     "shape": "absent",
+     "spell": 375994
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)"
+     ],
+     "entries": [
+      101461,
+      124846
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Improved Blackout Kick",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 383695
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      193
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)"
+     ],
+     "entries": [
+      80205,
+      125099,
+      137084
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Arcane Tempo",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 383980
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_warr_strategist']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112157,
+      116772
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Strategist",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_warr_strategist"
+     ],
+     "shape": "absent",
+     "spell": 384041
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      219
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_warl_pyrogenics']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      115942
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Pyrogenics",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": true,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_warl_pyrogenics"
+     ],
+     "shape": "absent",
+     "spell": 387095
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      107
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_pri_train_of_thought']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103731
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Inner Focus",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_pri_train_of_thought"
+     ],
+     "shape": "absent",
+     "spell": 390693
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_pri_voice_of_harmony']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103754
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Voice of Harmony",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_pri_voice_of_harmony"
+     ],
+     "shape": "absent",
+     "spell": 390994
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)"
+     ],
+     "entries": [
+      103121
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Power of the Archdruid",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 392302
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_hun_shrapnel_shot']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      135735,
+      137635
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Unstable Trigger",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_hun_shrapnel_shot"
+     ],
+     "shape": "absent",
+     "spell": 473520
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      219
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_pri_eternal_sanctity']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      128612
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Eternal Sanctity",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_pri_eternal_sanctity"
+     ],
+     "shape": "absent",
+     "spell": 1215245
+    }
+   ],
+   "reachable_count": 1,
+   "title": "No SpellAuraOptions row at all, yet an effective proc entry exists"
+  },
+  {
+   "all_ids": [
+    392507,
+    441346,
+    445200,
+    1262755
+   ],
+   "breaks": "'AuraOptions present but no effective proc generation => inert' would admit these.  441346 Thousand Cuts carries the SAME ProcTypeMask 4 (PROC_FLAG_DEAL_MELEE_SWING) as Heart of the Crusader and an RPPM identity of 4.5/min.  An RPPM window is a clock: Aura::CalcPPMProcChance (SpellAuras.cpp:2034) reads m_lastProcAttemptTime / m_lastProcSuccessTime, which Aura::Aura initialises for every application (SpellAuras.cpp:481-484).",
+   "count": 4,
+   "evidence_class": "source",
+   "id": "D-CE-02",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_PERIODIC"
+      ],
+      "proc_type_mask": 327680,
+      "proc_type_mask_hex": "0x0000000000050000",
+      "procs_per_minute_id": 198,
+      "row_id": 221956
+     },
+     "aura_subtypes": [
+      107,
+      108,
+      219
+     ],
+     "blockers": [
+      "[authored] SpellProcsPerMinuteID 198 declares an RPPM identity (base rate 2.25); an RPPM window is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      103681,
+      103815
+     ],
+     "entry_origin": null,
+     "family": "rppm",
+     "generation_reason": "no-trigger-aura",
+     "name": "Deathspeaker",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=198;mask=0x50000",
+     "spell": 392507
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_SWING"
+      ],
+      "proc_type_mask": 4,
+      "proc_type_mask_hex": "0x0000000000000004",
+      "procs_per_minute_id": 195,
+      "row_id": 236013
+     },
+     "aura_subtypes": [
+      107
+     ],
+     "blockers": [
+      "[authored] SpellProcsPerMinuteID 195 declares an RPPM identity (base rate 4.5); an RPPM window is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      117734
+     ],
+     "entry_origin": null,
+     "family": "rppm",
+     "generation_reason": "no-trigger-aura",
+     "name": "Thousand Cuts",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": true,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=195;mask=0x4",
+     "spell": 441346
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_PERIODIC",
+       "PROC_FLAG_DEAL_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2359296,
+      "proc_type_mask_hex": "0x0000000000240000",
+      "procs_per_minute_id": 116,
+      "row_id": 236377
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[authored] SpellProcsPerMinuteID 116 declares an RPPM identity (base rate 2.0); an RPPM window is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      117668
+     ],
+     "entry_origin": null,
+     "family": "rppm",
+     "generation_reason": "no-trigger-aura",
+     "name": "Blessing of An'she",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=116;mask=0x240000",
+     "spell": 445200
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HELPFUL_PERIODIC",
+       "PROC_FLAG_2_CAST_SUCCESSFUL"
+      ],
+      "proc_type_mask": 17181983744,
+      "proc_type_mask_hex": "0x0000000400204400",
+      "procs_per_minute_id": 117,
+      "row_id": 243912
+     },
+     "aura_subtypes": [
+      218
+     ],
+     "blockers": [
+      "[authored] SpellProcsPerMinuteID 117 declares an RPPM identity (base rate 5.0); an RPPM window is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      136152,
+      136995
+     ],
+     "entry_origin": null,
+     "family": "rppm",
+     "generation_reason": "no-trigger-aura",
+     "name": "Benediction",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=117;mask=0x400204400",
+     "spell": 1262755
+    }
+   ],
+   "reachable_count": 1,
+   "title": "SpellProcsPerMinuteID != 0 with no generated entry"
+  },
+  {
+   "all_ids": [
+    55342,
+    377098,
+    382517,
+    383314,
+    387184,
+    389359,
+    396166,
+    416869,
+    1240206,
+    1244262,
+    1264691,
+    1266330,
+    1272453
+   ],
+   "breaks": "The naive predicate admits these.  An ICD is a clock; the field's only Trinity consumer is SpellProcEntry::Cooldown (SpellMgr.cpp:1581, 1885), so Trinity's silence is a non-implementation, not evidence of inertness.  382517 Deeper Daggers and 383314 Vanguard's Momentum are reachable selected packages today.",
+   "count": 13,
+   "evidence_class": "source",
+   "id": "D-CE-03",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 2000,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 139944,
+      "proc_type_mask_hex": "0x00000000000222A8",
+      "procs_per_minute_id": 0,
+      "row_id": 167865
+     },
+     "aura_subtypes": [
+      103
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 2000 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      80183
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Mirror Image",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=2000;chance=101;charges=0;ppm=0;mask=0x222A8",
+     "spell": 55342
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 700,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 69648,
+      "proc_type_mask_hex": "0x0000000000011010",
+      "procs_per_minute_id": 0,
+      "row_id": 220129
+     },
+     "aura_subtypes": [
+      219
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 700 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      96253
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Bonegrinder",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": true,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=700;chance=100;charges=0;ppm=0;mask=0x11010",
+     "spell": 377098
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 500,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY"
+      ],
+      "proc_type_mask": 4112,
+      "proc_type_mask_hex": "0x0000000000001010",
+      "procs_per_minute_id": 0,
+      "row_id": 220497
+     },
+     "aura_subtypes": [
+      108,
+      218
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 500 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      112609
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Deeper Daggers",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": true,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=500;chance=100;charges=0;ppm=0;mask=0x1010",
+     "spell": 382517
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 500,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 220618
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 500 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      114826
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Vanguard's Momentum",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": true,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=500;chance=100;charges=0;ppm=0;mask=0x10",
+     "spell": 383314
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 1,
+      "proc_category_recovery_ms": 100,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 221137
+     },
+     "aura_subtypes": [
+      101,
+      107,
+      193,
+      218,
+      219,
+      290,
+      318,
+      443,
+      471
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 100 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      101539
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Weapons of Order",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=1;rec=100;chance=101;charges=0;ppm=0;mask=0x10",
+     "spell": 387184
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 30000,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148147880,
+      "proc_type_mask_hex": "0x00000000800A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 221404
+     },
+     "aura_subtypes": [
+      219
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 30000 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      91421,
+      116024
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Resolute Barrier",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=30000;chance=100;charges=0;ppm=0;mask=0x800A22A8",
+     "spell": 389359
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 500,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 222545
+     },
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 500 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      101472
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-proc-flags",
+     "name": "Fury of Xuen",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=500;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 396166
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 500,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 224836
+     },
+     "aura_subtypes": [
+      108,
+      411
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 500 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      115456
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Vanguard's Momentum",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=500;chance=100;charges=0;ppm=0;mask=0x10",
+     "spell": 416869
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 200,
+      "proc_chance": 0,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 32768,
+      "proc_type_mask_hex": "0x0000000000008000",
+      "procs_per_minute_id": 0,
+      "row_id": 242270
+     },
+     "aura_subtypes": [
+      219
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 200 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      109832
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Total Eclipse",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=200;chance=0;charges=0;ppm=0;mask=0x8000",
+     "spell": 1240206
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 1000,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_2_CAST_SUCCESSFUL"
+      ],
+      "proc_type_mask": 17179869184,
+      "proc_type_mask_hex": "0x0000000400000000",
+      "procs_per_minute_id": 0,
+      "row_id": 242617
+     },
+     "aura_subtypes": [
+      411
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 1000 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      133374,
+      134277,
+      134533
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Pit of Ravening",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=1000;chance=101;charges=0;ppm=0;mask=0x400000000",
+     "spell": 1244262
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 100,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_2_CAST_SUCCESSFUL"
+      ],
+      "proc_type_mask": 17179869184,
+      "proc_type_mask_hex": "0x0000000400000000",
+      "procs_per_minute_id": 0,
+      "row_id": 244079
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 100 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      135986
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Natural Gift",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=100;chance=101;charges=0;ppm=0;mask=0x400000000",
+     "spell": 1264691
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 500,
+      "proc_chance": 0,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_2_CAST_SUCCESSFUL"
+      ],
+      "proc_type_mask": 17179869184,
+      "proc_type_mask_hex": "0x0000000400000000",
+      "procs_per_minute_id": 0,
+      "row_id": 244290
+     },
+     "aura_subtypes": [
+      219
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 500 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      112862
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Soul Splitter",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=500;chance=0;charges=0;ppm=0;mask=0x400000000",
+     "spell": 1266330
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 100,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_2_CAST_SUCCESSFUL"
+      ],
+      "proc_type_mask": 17179869184,
+      "proc_type_mask_hex": "0x0000000400000000",
+      "procs_per_minute_id": 0,
+      "row_id": 244657
+     },
+     "aura_subtypes": [
+      219
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 100 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state"
+     ],
+     "entries": [
+      136030,
+      136611
+     ],
+     "entry_origin": null,
+     "family": "proc-icd",
+     "generation_reason": "no-trigger-aura",
+     "name": "Volatile Instinct",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=100;chance=100;charges=0;ppm=0;mask=0x400000000",
+     "spell": 1272453
+    }
+   ],
+   "reachable_count": 3,
+   "title": "ProcCategoryRecovery != 0 (authored internal cooldown) with no generated entry"
+  },
+  {
+   "all_ids": [
+    73685,
+    108839,
+    191634,
+    333889,
+    370553,
+    378081,
+    383009
+   ],
+   "breaks": "This one breaks the naive predicate on TRINITY's own terms, not merely on authored intent: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges unconditionally and only *overrides* it when a SpellProcEntry exists, and Aura::Aura then sets m_procCharges / m_isUsingCharges (SpellAuras.cpp:498-499).  The application is therefore born with a mutable, consumable counter with no proc entry anywhere.",
+   "count": 7,
+   "evidence_class": "trinity",
+   "id": "D-CE-04",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 2,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 16384,
+      "proc_type_mask_hex": "0x0000000000004000",
+      "procs_per_minute_id": 0,
+      "row_id": 5106
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 2 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101918,
+      114811,
+      126948,
+      127204
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Unleash Life",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=2;rec=0;chance=101;charges=1;ppm=0;mask=0x4000",
+     "spell": 73685
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 3,
+      "proc_category_recovery_ms": 100,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 87040,
+      "proc_type_mask_hex": "0x0000000000015400",
+      "procs_per_minute_id": 0,
+      "row_id": 8548
+     },
+     "aura_subtypes": [
+      307,
+      330
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 100 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state",
+      "[trinity] CumulativeAura 3 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      80162
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Ice Floes",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=3;rec=100;chance=100;charges=1;ppm=0;mask=0x15400",
+     "spell": 108839
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 4,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 65536,
+      "proc_type_mask_hex": "0x0000000000010000",
+      "procs_per_minute_id": 0,
+      "row_id": 19438
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 4 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101859
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Stormkeeper",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=4;rec=0;chance=100;charges=1;ppm=0;mask=0x10000",
+     "spell": 191634
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_2_CAST_SUCCESSFUL"
+      ],
+      "proc_type_mask": 17179869184,
+      "proc_type_mask_hex": "0x0000000400000000",
+      "procs_per_minute_id": 0,
+      "row_id": 166922
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      91439,
+      115993
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Fel Domination",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=1;ppm=0;mask=0x400000000",
+     "spell": 333889
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 81920,
+      "proc_type_mask_hex": "0x0000000000014000",
+      "procs_per_minute_id": 0,
+      "row_id": 212360
+     },
+     "aura_subtypes": [
+      108,
+      330
+     ],
+     "blockers": [
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      87713,
+      115665
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Tip the Scales",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=1;ppm=0;mask=0x14000",
+     "spell": 370553
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 81920,
+      "proc_type_mask_hex": "0x0000000000014000",
+      "procs_per_minute_id": 0,
+      "row_id": 220249
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101997,
+      127081,
+      127337,
+      127899
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Nature's Swiftness",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=1;ppm=0;mask=0x14000",
+     "spell": 378081
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 2,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 65536,
+      "proc_type_mask_hex": "0x0000000000010000",
+      "procs_per_minute_id": 0,
+      "row_id": 220529
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] ProcCharges 2 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101901,
+      101907
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Stormkeeper",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=2;ppm=0;mask=0x10000",
+     "spell": 383009
+    }
+   ],
+   "reachable_count": 0,
+   "title": "ProcCharges != 0 with no generated entry"
+  },
+  {
+   "all_ids": [
+    14190,
+    49530,
+    382144,
+    383703,
+    407876,
+    425518,
+    429634,
+    441814,
+    441824,
+    442290,
+    444773,
+    449624,
+    449645,
+    458572,
+    467741,
+    1251069,
+    1263660,
+    1273126,
+    1301406
+   ],
+   "breaks": "These providers have BOTH nonzero ProcFlags and a triggering aura subtype (42 = SPELL_AURA_PROC_TRIGGER_SPELL in every case).  Trinity refuses to synthesise their entry (SpellMgr.cpp:1893-1902) and logs 'data in `spell_proc` table is required for it to function'.  'No entry' here means 'a proc Trinity declined to generate', the opposite of inert.",
+   "count": 19,
+   "evidence_class": "trinity",
+   "id": "D-CE-05",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_RANGED_ATTACK",
+       "PROC_FLAG_DEAL_RANGED_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 87376,
+      "proc_type_mask_hex": "0x0000000000015550",
+      "procs_per_minute_id": 0,
+      "row_id": 450
+     },
+     "aura_subtypes": [
+      4,
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      112649
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Seal Fate",
+     "proc_triggering_subtypes": [
+      4,
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x15550",
+     "spell": 14190
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_PERIODIC"
+      ],
+      "proc_type_mask": 331776,
+      "proc_type_mask_hex": "0x0000000000051000",
+      "procs_per_minute_id": 0,
+      "row_id": 3103
+     },
+     "aura_subtypes": [
+      4,
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      96328
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Sudden Doom",
+     "proc_triggering_subtypes": [
+      4,
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x51000",
+     "spell": 49530
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 16384,
+      "proc_type_mask_hex": "0x0000000000004000",
+      "procs_per_minute_id": 0,
+      "row_id": 220458
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      80213,
+      80219
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Slick Ice",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x4000",
+     "spell": 382144
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 220611
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      112311,
+      117018
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Fatality",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x10",
+     "spell": 383703
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 65536,
+      "proc_type_mask_hex": "0x0000000000010000",
+      "procs_per_minute_id": 0,
+      "row_id": 224338
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      115530
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Accretion",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x10000",
+     "spell": 407876
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 235178
+     },
+     "aura_subtypes": [
+      42,
+      219,
+      226
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      117687,
+      117815
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Light's Deliverance",
+     "proc_triggering_subtypes": [
+      42,
+      226
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x10",
+     "spell": 425518
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 235060
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      117416
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Colossal Might",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x10",
+     "spell": 429634
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 236141
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      135981
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Ruthless Aggression",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x10",
+     "spell": 441814
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 236142
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      123048,
+      136624
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Killing Strikes",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x10",
+     "spell": 441824
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 16384,
+      "proc_type_mask_hex": "0x0000000000004000",
+      "procs_per_minute_id": 0,
+      "row_id": 236426
+     },
+     "aura_subtypes": [
+      4,
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      117512
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Art of the Glaive",
+     "proc_triggering_subtypes": [
+      4,
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x4000",
+     "spell": 442290
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 236437
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      117384
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Fierce Followthrough",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x10",
+     "spell": 444773
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_PERIODIC"
+      ],
+      "proc_type_mask": 331776,
+      "proc_type_mask_hex": "0x0000000000051000",
+      "procs_per_minute_id": 0,
+      "row_id": 236863
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      117444
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Soul Anathema",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x51000",
+     "spell": 449624
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY"
+      ],
+      "proc_type_mask": 1024,
+      "proc_type_mask_hex": "0x0000000000000400",
+      "procs_per_minute_id": 0,
+      "row_id": 236757
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      103160
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Savage Fury",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x400",
+     "spell": 449645
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_RANGED_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_PERIODIC"
+      ],
+      "proc_type_mask": 332048,
+      "proc_type_mask_hex": "0x0000000000051110",
+      "procs_per_minute_id": 0,
+      "row_id": 238051
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      96306
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Bone Collector",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x51110",
+     "spell": 458572
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 17408,
+      "proc_type_mask_hex": "0x0000000000004400",
+      "procs_per_minute_id": 0,
+      "row_id": 239057
+     },
+     "aura_subtypes": [
+      4,
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      128219
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Shadow Dagger",
+     "proc_triggering_subtypes": [
+      4,
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x4400",
+     "spell": 467741
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 69648,
+      "proc_type_mask_hex": "0x0000000000011010",
+      "procs_per_minute_id": 0,
+      "row_id": 243128
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      135253
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Stormbind",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x11010",
+     "spell": 1251069
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY"
+      ],
+      "proc_type_mask": 1024,
+      "proc_type_mask_hex": "0x0000000000000400",
+      "procs_per_minute_id": 0,
+      "row_id": 244000
+     },
+     "aura_subtypes": [
+      42,
+      108,
+      218
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      136214,
+      136437,
+      136482,
+      137044
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Unseen Predator",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x400",
+     "spell": 1263660
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_RANGED_ABILITY"
+      ],
+      "proc_type_mask": 256,
+      "proc_type_mask_hex": "0x0000000000000100",
+      "procs_per_minute_id": 0,
+      "row_id": 245142
+     },
+     "aura_subtypes": [
+      4,
+      42,
+      108
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      136707,
+      137050
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Nature's Ally",
+     "proc_triggering_subtypes": [
+      4,
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x100",
+     "spell": 1273126
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_RANGED_ABILITY"
+      ],
+      "proc_type_mask": 256,
+      "proc_type_mask_hex": "0x0000000000000100",
+      "procs_per_minute_id": 0,
+      "row_id": 247831
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      137376,
+      137496,
+      137502
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Tactical Reload",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x100",
+     "spell": 1301406
+    }
+   ],
+   "reachable_count": 0,
+   "title": "No entry only because the infinite-loop guard fired"
+  },
+  {
+   "all_ids": [
+    139,
+    586,
+    596,
+    603,
+    633,
+    710,
+    740,
+    774,
+    980,
+    1022,
+    1064,
+    1079,
+    1449,
+    1463,
+    1822,
+    2050,
+    2120,
+    2643,
+    2948,
+    3411,
+    5740,
+    5938,
+    6343,
+    6353,
+    6544,
+    6940,
+    7384,
+    8042,
+    8092,
+    11366,
+    12294,
+    17877,
+    17962,
+    19434,
+    22570,
+    22842,
+    23881,
+    29166,
+    31230,
+    31850,
+    32379,
+    33757,
+    33763,
+    33891,
+    34433,
+    34861,
+    44425,
+    44457,
+    44614,
+    45438,
+    46968,
+    47788,
+    48181,
+    48438,
+    48743,
+    49184,
+    49998,
+    50334,
+    50842,
+    51505,
+    53385,
+    55233,
+    60103,
+    61336,
+    61882,
+    73920,
+    77472,
+    85288,
+    86949,
+    88625,
+    93402,
+    97462,
+    102560,
+    106839,
+    106898,
+    107428,
+    107570,
+    107574,
+    108199,
+    108416,
+    109248,
+    111400,
+    114165,
+    115069,
+    115310,
+    115750,
+    116841,
+    116858,
+    117014,
+    120517,
+    120644,
+    121536,
+    121817,
+    131894,
+    145108,
+    145205,
+    152108,
+    153561,
+    155580,
+    157980,
+    167105,
+    179057,
+    184364,
+    184367,
+    184575,
+    184662,
+    185314,
+    186270,
+    187874,
+    188443,
+    190319,
+    190784,
+    194153,
+    194223,
+    194509,
+    195182,
+    195457,
+    196447,
+    196884,
+    197214,
+    198013,
+    198793,
+    200829,
+    202342,
+    202347,
+    203953,
+    204018,
+    204021,
+    204074,
+    204596,
+    205021,
+    205029,
+    206416,
+    207407,
+    209258,
+    212084,
+    212431,
+    215568,
+    217200,
+    227847,
+    232893,
+    235219,
+    255937,
+    257044,
+    258860,
+    258887,
+    260878,
+    263165,
+    264178,
+    265202,
+    267211,
+    274281,
+    278350,
+    315508,
+    318038,
+    320413,
+    333974,
+    335467,
+    342240,
+    343294,
+    343527,
+    343721,
+    360995,
+    363534,
+    368847,
+    374277,
+    375982,
+    384355,
+    384361,
+    384444,
+    385952,
+    388118,
+    390622,
+    394062,
+    421453,
+    450347,
+    450553,
+    452410,
+    452414,
+    453282,
+    457803,
+    459783,
+    466467,
+    469344,
+    473728,
+    1226019,
+    1245412,
+    1265361
+   ],
+   "breaks": "An AuraScript can install proc hooks, charges, timers or any other per-application state with no DBC evidence at all (ObjectMgr::LoadSpellScriptNames).  A DBC-only predicate cannot see it, so 'no entry' proves nothing about these providers.",
+   "count": 188,
+   "evidence_class": "unknown",
+   "id": "D-CE-06",
+   "members": [
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      8,
+      283
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_pri_empowered_renew_heal']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      128630
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Renew",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_pri_empowered_renew_heal"
+     ],
+     "shape": "absent",
+     "spell": 139
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      87,
+      103,
+      152,
+      305
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_pri_translucent_image']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      134849
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Fade",
+     "proc_triggering_subtypes": [
+      87
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_pri_translucent_image"
+     ],
+     "shape": "absent",
+     "spell": 586
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_pri_prayerful_litany']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103767
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Prayer of Healing",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_pri_prayerful_litany"
+     ],
+     "shape": "absent",
+     "spell": 596
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_warl_doom']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      91514,
+      115927
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Doom",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_warl_doom"
+     ],
+     "shape": "absent",
+     "spell": 603
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_pal_lay_on_hands']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      102583
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Lay on Hands",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_pal_lay_on_hands"
+     ],
+     "shape": "absent",
+     "spell": 633
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 22
+     },
+     "aura_subtypes": [
+      12,
+      39,
+      118
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_warl_banish']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      91454,
+      116000
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Banish",
+     "proc_triggering_subtypes": [
+      12
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_warl_banish"
+     ],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 710
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4,
+      23,
+      69,
+      147,
+      470
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_dru_inner_peace']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103108
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Tranquility",
+     "proc_triggering_subtypes": [
+      4,
+      69
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_dru_inner_peace"
+     ],
+     "shape": "absent",
+     "spell": 740
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      8
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_dru_abundance', 'spell_dru_cultivation', 'spell_dru_germination']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103295
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Rejuvenation",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_dru_abundance",
+      "spell_dru_cultivation",
+      "spell_dru_germination"
+     ],
+     "shape": "absent",
+     "spell": 774
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 8,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 9094
+     },
+     "aura_subtypes": [
+      3,
+      226
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 8 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[unknown] spell_script_names binding(s) ['spell_warl_deaths_embrace_dots', 'spell_warl_volatile_agony']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      91570
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Agony",
+     "proc_triggering_subtypes": [
+      226
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_warl_deaths_embrace_dots",
+      "spell_warl_volatile_agony"
+     ],
+     "shape": "cum=8;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 980
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4,
+      31,
+      39,
+      87
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_pal_blessing_of_protection']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      102604
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Blessing of Protection",
+     "proc_triggering_subtypes": [
+      4,
+      87
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_pal_blessing_of_protection"
+     ],
+     "shape": "absent",
+     "spell": 1022
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_sha_deluge']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      101951,
+      127035,
+      127291,
+      127861
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Chain Heal",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_sha_deluge"
+     ],
+     "shape": "absent",
+     "spell": 1064
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      3,
+      4,
+      271
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_dru_rip']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103300
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Rip",
+     "proc_triggering_subtypes": [
+      4,
+      271
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_dru_rip"
+     ],
+     "shape": "absent",
+     "spell": 1079
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_mage_arcane_explosion']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      137628
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Arcane Explosion",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_mage_arcane_explosion"
+     ],
+     "shape": "absent",
+     "spell": 1449
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      226
+     ],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_mage_incanters_flow']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      80172,
+      80177
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Incanter's Flow",
+     "proc_triggering_subtypes": [
+      226
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_mage_incanters_flow"
+     ],
+     "shape": "absent",
+     "spell": 1463
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_dru_rake']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103277
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Rake",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_dru_rake"
+     ],
+     "shape": "absent",
+     "spell": 1822
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_pri_holy_word_salvation_cooldown_reduction', 'spell_pri_lasting_words_serenity']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103775
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Holy Word: Serenity",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_pri_holy_word_salvation_cooldown_reduction",
+      "spell_pri_lasting_words_serenity"
+     ],
+     "shape": "absent",
+     "spell": 2050
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_mage_flame_patch', 'spell_mage_hot_streak_ignite_marker']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      135619
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Flamestrike",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_mage_flame_patch",
+      "spell_mage_hot_streak_ignite_marker"
+     ],
+     "shape": "absent",
+     "spell": 2120
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_hun_multi_shot']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      100630
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Multi-Shot",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_hun_multi_shot"
+     ],
+     "shape": "absent",
+     "spell": 2643
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_mage_heat_shimmer_remove', 'spell_mage_scald', 'spell_mage_scorch']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      80281,
+      124748,
+      136879
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Scorch",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_mage_heat_shimmer_remove",
+      "spell_mage_scald",
+      "spell_mage_scorch"
+     ],
+     "shape": "absent",
+     "spell": 2948
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [],
+     "blockers": [
+      "[unknown] spell_script_names binding(s) ['spell_gen_trigger_exclude_target_aura_spell', 'spell_warr_intervene']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112186,
+      116135,
+      116904,
+      134214,
+      134217
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Intervene",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_gen_trigger_exclude_target_aura_spell",
+      "spell_warr_intervene"
+     ],
+     "shape": "absent",
+     "spell": 3411
+    }
+   ],
+   "note": "all_ids truncated to the first 60 of 188",
+   "reachable_count": 0,
+   "title": "spell_script_names binding with no generated entry"
+  },
+  {
+   "all_ids": [
+    980,
+    73685,
+    108839,
+    191034,
+    191634,
+    316440,
+    323764,
+    391528,
+    414273,
+    1233181,
+    1259790
+   ],
+   "breaks": "The second half of the hypothesis (max stack capacity is not initial stacks) rests on SpellInfo::IsMultiSlotAura() being true for passives (SpellInfo.cpp:1808-1811), which makes Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3395) skip the stacking path entirely.  Drop the Passive premise and the argument collapses: a re-applied non-passive reaches Unit.cpp:3441 foundAura->ModStackAmount(...) and climbs to the cap.",
+   "count": 11,
+   "evidence_class": "trinity",
+   "id": "D-CE-07",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 8,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 9094
+     },
+     "aura_subtypes": [
+      3,
+      226
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 8 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[unknown] spell_script_names binding(s) ['spell_warl_deaths_embrace_dots', 'spell_warl_volatile_agony']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      91570
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Agony",
+     "proc_triggering_subtypes": [
+      226
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_warl_deaths_embrace_dots",
+      "spell_warl_volatile_agony"
+     ],
+     "shape": "cum=8;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 980
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 2,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 16384,
+      "proc_type_mask_hex": "0x0000000000004000",
+      "procs_per_minute_id": 0,
+      "row_id": 5106
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 2 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101918,
+      114811,
+      126948,
+      127204
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Unleash Life",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=2;rec=0;chance=101;charges=1;ppm=0;mask=0x4000",
+     "spell": 73685
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 3,
+      "proc_category_recovery_ms": 100,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 87040,
+      "proc_type_mask_hex": "0x0000000000015400",
+      "procs_per_minute_id": 0,
+      "row_id": 8548
+     },
+     "aura_subtypes": [
+      307,
+      330
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 100 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state",
+      "[trinity] CumulativeAura 3 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      80162
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Ice Floes",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=3;rec=100;chance=100;charges=1;ppm=0;mask=0x15400",
+     "spell": 108839
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 20,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 222032
+     },
+     "aura_subtypes": [
+      23,
+      307,
+      330,
+      395
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 20 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      103243
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Starfall",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=20;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 191034
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 4,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 65536,
+      "proc_type_mask_hex": "0x0000000000010000",
+      "procs_per_minute_id": 0,
+      "row_id": 19438
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 4 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101859
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Stormkeeper",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=4;rec=0;chance=100;charges=1;ppm=0;mask=0x10000",
+     "spell": 191634
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 3,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 244699
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 3 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      112130,
+      116838
+     ],
+     "entry_origin": null,
+     "family": "inert-no-trigger-aura",
+     "generation_reason": "no-trigger-aura",
+     "name": "Martial Prowess",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=3;rec=0;chance=101;charges=0;ppm=0;mask=0x10",
+     "spell": 316440
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 99,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 143493
+     },
+     "aura_subtypes": [
+      4,
+      108,
+      226,
+      262
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 99 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      103252
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Convoke the Spirits",
+     "proc_triggering_subtypes": [
+      4,
+      226,
+      262
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=99;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 323764
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 99,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 221841
+     },
+     "aura_subtypes": [
+      4,
+      108,
+      226,
+      262
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 99 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      103119,
+      103177,
+      103200,
+      109838
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Convoke the Spirits",
+     "proc_triggering_subtypes": [
+      4,
+      226,
+      262
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=99;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 391528
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 2,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 16384,
+      "proc_type_mask_hex": "0x0000000000004000",
+      "procs_per_minute_id": 0,
+      "row_id": 224597
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 2 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      115876
+     ],
+     "entry_origin": null,
+     "family": "inert-no-trigger-aura",
+     "generation_reason": "no-trigger-aura",
+     "name": "Hand of Divinity",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=2;rec=0;chance=100;charges=0;ppm=0;mask=0x4000",
+     "spell": 414273
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 20,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 241660
+     },
+     "aura_subtypes": [
+      4,
+      23
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 20 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      133495
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Tempest Wrath",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=20;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 1233181
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 99,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 243700
+     },
+     "aura_subtypes": [
+      3,
+      4
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 99 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      136122
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Unstable Affliction",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=99;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 1259790
+    }
+   ],
+   "reachable_count": 0,
+   "title": "CumulativeAura > 1 on a NON-passive provider"
+  },
+  {
+   "all_ids": [
+    73685,
+    108839,
+    191634
+   ],
+   "breaks": "Aura::ConsumeProcCharges (SpellAuras.cpp:1819-1831) turns a proc into ModStackAmount(-1) when the entry carries PROC_ATTR_USE_STACKS_FOR_CHARGES, so the stack cap becomes the charge pool.  The two fields are not independent and neither may be read as inert while the other is nonzero.",
+   "count": 3,
+   "evidence_class": "trinity",
+   "id": "D-CE-08",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 2,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 16384,
+      "proc_type_mask_hex": "0x0000000000004000",
+      "procs_per_minute_id": 0,
+      "row_id": 5106
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 2 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101918,
+      114811,
+      126948,
+      127204
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Unleash Life",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=2;rec=0;chance=101;charges=1;ppm=0;mask=0x4000",
+     "spell": 73685
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 3,
+      "proc_category_recovery_ms": 100,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 87040,
+      "proc_type_mask_hex": "0x0000000000015400",
+      "procs_per_minute_id": 0,
+      "row_id": 8548
+     },
+     "aura_subtypes": [
+      307,
+      330
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 100 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state",
+      "[trinity] CumulativeAura 3 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      80162
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Ice Floes",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=3;rec=100;chance=100;charges=1;ppm=0;mask=0x15400",
+     "spell": 108839
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 4,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 65536,
+      "proc_type_mask_hex": "0x0000000000010000",
+      "procs_per_minute_id": 0,
+      "row_id": 19438
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 4 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101859
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Stormkeeper",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=4;rec=0;chance=100;charges=1;ppm=0;mask=0x10000",
+     "spell": 191634
+    }
+   ],
+   "reachable_count": 0,
+   "title": "CumulativeAura > 1 together with ProcCharges != 0"
+  },
+  {
+   "all_ids": [
+    980,
+    108839,
+    191034,
+    191634,
+    316440,
+    323764,
+    383334,
+    387638,
+    391528,
+    1233181,
+    1259790,
+    1271387,
+    1271466
+   ],
+   "breaks": "Phalanx's CumulativeAura 2 is not a small special case: the selected population carries caps of 3, 4, 5, 6, 8, 20 and 99 under the same 'no effective proc' condition.  Any rule that admits 2 must admit 99 or explain the difference; there is no source fact that distinguishes them (Aura::CalcMaxStackAmount, SpellAuras.cpp:1083-1090, treats them identically).",
+   "count": 13,
+   "evidence_class": "source",
+   "id": "D-CE-09",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 8,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 9094
+     },
+     "aura_subtypes": [
+      3,
+      226
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 8 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[unknown] spell_script_names binding(s) ['spell_warl_deaths_embrace_dots', 'spell_warl_volatile_agony']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      91570
+     ],
+     "entry_origin": null,
+     "family": "script-driven",
+     "generation_reason": "no-proc-flags",
+     "name": "Agony",
+     "proc_triggering_subtypes": [
+      226
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_warl_deaths_embrace_dots",
+      "spell_warl_volatile_agony"
+     ],
+     "shape": "cum=8;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 980
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 3,
+      "proc_category_recovery_ms": 100,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 87040,
+      "proc_type_mask_hex": "0x0000000000015400",
+      "procs_per_minute_id": 0,
+      "row_id": 8548
+     },
+     "aura_subtypes": [
+      307,
+      330
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 100 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state",
+      "[trinity] CumulativeAura 3 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      80162
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Ice Floes",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=3;rec=100;chance=100;charges=1;ppm=0;mask=0x15400",
+     "spell": 108839
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 20,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 222032
+     },
+     "aura_subtypes": [
+      23,
+      307,
+      330,
+      395
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 20 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      103243
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Starfall",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=20;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 191034
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 4,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 65536,
+      "proc_type_mask_hex": "0x0000000000010000",
+      "procs_per_minute_id": 0,
+      "row_id": 19438
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 4 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] CumulativeAura > 1 together with ProcCharges: with PROC_ATTR_USE_STACKS_FOR_CHARGES a proc consumes a stack (Aura::ConsumeProcCharges, SpellAuras.cpp:1819-1831)",
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)"
+     ],
+     "entries": [
+      101859
+     ],
+     "entry_origin": null,
+     "family": "charges",
+     "generation_reason": "no-trigger-aura",
+     "name": "Stormkeeper",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=4;rec=0;chance=100;charges=1;ppm=0;mask=0x10000",
+     "spell": 191634
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 3,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 16,
+      "proc_type_mask_hex": "0x0000000000000010",
+      "procs_per_minute_id": 0,
+      "row_id": 244699
+     },
+     "aura_subtypes": [
+      108
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 3 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      112130,
+      116838
+     ],
+     "entry_origin": null,
+     "family": "inert-no-trigger-aura",
+     "generation_reason": "no-trigger-aura",
+     "name": "Martial Prowess",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=3;rec=0;chance=101;charges=0;ppm=0;mask=0x10",
+     "spell": 316440
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 99,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 143493
+     },
+     "aura_subtypes": [
+      4,
+      108,
+      226,
+      262
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 99 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      103252
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Convoke the Spirits",
+     "proc_triggering_subtypes": [
+      4,
+      226,
+      262
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=99;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 323764
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 5,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 220571
+     },
+     "aura_subtypes": [
+      226
+     ],
+     "blockers": [],
+     "entries": [
+      102517
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Inner Grace",
+     "proc_triggering_subtypes": [
+      226
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=5;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 383334
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 3,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 221193
+     },
+     "aura_subtypes": [
+      107,
+      108
+     ],
+     "blockers": [],
+     "entries": [
+      101444,
+      124853
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Shadowboxing Treads",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=3;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 387638
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 99,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 221841
+     },
+     "aura_subtypes": [
+      4,
+      108,
+      226,
+      262
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 99 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      103119,
+      103177,
+      103200,
+      109838
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Convoke the Spirits",
+     "proc_triggering_subtypes": [
+      4,
+      226,
+      262
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=99;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 391528
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 20,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 241660
+     },
+     "aura_subtypes": [
+      4,
+      23
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 20 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      133495
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Tempest Wrath",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=20;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 1233181
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 99,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 243700
+     },
+     "aura_subtypes": [
+      3,
+      4
+     ],
+     "blockers": [
+      "[trinity] CumulativeAura 99 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack"
+     ],
+     "entries": [
+      136122
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Unstable Affliction",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=99;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 1259790
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 6,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 244546
+     },
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [],
+     "entries": [
+      136000
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Masterwork",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=6;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 1271387
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 6,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 244556
+     },
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [],
+     "entries": [
+      117887
+     ],
+     "entry_origin": null,
+     "family": "stack-capacity-only",
+     "generation_reason": "no-proc-flags",
+     "name": "Reflection of Radiance",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=6;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 1271466
+    }
+   ],
+   "reachable_count": 0,
+   "title": "CumulativeAura far above 2 (up to 99) with no entry"
+  },
+  {
+   "all_ids": [
+    99,
+    118,
+    122,
+    974,
+    1513,
+    1776,
+    2094,
+    2823,
+    5246,
+    5484,
+    5761,
+    6770,
+    8122,
+    10326,
+    11426,
+    13877,
+    14161,
+    14190,
+    16166,
+    16196,
+    16864,
+    23920,
+    24858,
+    27243,
+    29725,
+    29838,
+    30884,
+    31661,
+    31884,
+    32388,
+    33206,
+    34477,
+    35551,
+    47515,
+    48484,
+    48792,
+    49028,
+    49530,
+    51128,
+    51271,
+    51514,
+    51564,
+    51667,
+    51690,
+    52127,
+    53480,
+    53576,
+    57330,
+    57934,
+    58423,
+    64129,
+    79096,
+    79134,
+    80240,
+    81749,
+    85043,
+    91023,
+    102342,
+    102351,
+    102359,
+    108281,
+    108942,
+    108945,
+    109186,
+    113043,
+    114052,
+    115078,
+    115176,
+    115869,
+    116095,
+    116645,
+    116680,
+    116849,
+    120679,
+    121471,
+    122280,
+    123904,
+    135288,
+    137639,
+    148039,
+    152175,
+    152278,
+    155148,
+    155578,
+    155835,
+    156910,
+    157154,
+    157642,
+    157997,
+    158504,
+    159286,
+    170374,
+    173841,
+    183416,
+    183782,
+    184783,
+    185789,
+    187880,
+    191717,
+    191861,
+    193063,
+    193537,
+    193539,
+    194595,
+    194878,
+    194912,
+    194916,
+    195300,
+    195679,
+    196489,
+    196607,
+    196730,
+    196736,
+    196926,
+    197915,
+    198068,
+    199483,
+    199484,
+    199532,
+    199921,
+    200128,
+    200430,
+    200474,
+    200851,
+    200854,
+    201900,
+    202031,
+    202095,
+    202345,
+    202560,
+    202918,
+    203964,
+    204089,
+    205023,
+    205025,
+    205027,
+    205145,
+    205148,
+    206476,
+    207104,
+    207142,
+    207167,
+    207200,
+    207401,
+    209389,
+    210689,
+    210706,
+    210714,
+    210853,
+    213010,
+    213691,
+    215941,
+    217832,
+    218612,
+    220357,
+    223817,
+    231895,
+    235313,
+    235450,
+    235711,
+    255544,
+    256170,
+    257944,
+    258881,
+    260240,
+    260241,
+    260309,
+    260708,
+    262231,
+    265895,
+    267344,
+    268501,
+    270233,
+    273221,
+    273946,
+    274909,
+    274963,
+    275334,
+    276023,
+    280373,
+    281238,
+    289237,
+    316916,
+    319439,
+    319930,
+    319949,
+    321136,
+    321377,
+    322120,
+    325153,
+    325201,
+    326732,
+    326734,
+    328725,
+    328774,
+    334046,
+    334319,
+    335077,
+    336639,
+    338661,
+    338668,
+    339949,
+    341491,
+    342344,
+    343014,
+    343244,
+    343248,
+    343647,
+    345208,
+    355630,
+    359844,
+    360806,
+    360827,
+    362874,
+    363916,
+    366155,
+    368275,
+    369297,
+    369990,
+    370455,
+    370537,
+    370821,
+    370960,
+    371905,
+    371999,
+    372119,
+    372233,
+    372469,
+    372616,
+    373035,
+    373212,
+    373280,
+    373310,
+    374049,
+    374504,
+    375507,
+    375556,
+    375801,
+    376103,
+    376938,
+    377065,
+    377190,
+    377210,
+    377349,
+    377514,
+    377537,
+    377590,
+    377629,
+    377842,
+    378014,
+    378075,
+    378094,
+    378268,
+    378270,
+    378271,
+    378279,
+    378285,
+    378310,
+    378405,
+    378406,
+    378750,
+    378756,
+    378776,
+    378848,
+    378905,
+    378947,
+    378986,
+    379993,
+    380188,
+    381637,
+    381664,
+    381666,
+    381673,
+    381776,
+    381787,
+    381828,
+    381846,
+    381871,
+    381921,
+    381930,
+    382015,
+    382020,
+    382042,
+    382045,
+    382110,
+    382144,
+    382245,
+    382289,
+    382293,
+    382309,
+    382518,
+    382528,
+    382549,
+    382888,
+    382946,
+    383103,
+    383115,
+    383121,
+    383154,
+    383197,
+    383219,
+    383222,
+    383281,
+    383292,
+    383344,
+    383391,
+    383604,
+    383605,
+    383634,
+    383665,
+    383669,
+    383697,
+    383703,
+    383707,
+    383785,
+    383810,
+    383860,
+    383877,
+    383959,
+    384036,
+    384042,
+    384072,
+    384087,
+    384359,
+    384374,
+    384404,
+    384667,
+    384815,
+    384914,
+    385125,
+    385167,
+    385349,
+    385414,
+    385416,
+    385512,
+    385539,
+    385627,
+    385696,
+    385703,
+    385718,
+    385728,
+    385786,
+    385843,
+    385888,
+    386030,
+    386276,
+    386328,
+    386344,
+    386443,
+    386477,
+    386613,
+    386630,
+    386634,
+    386763,
+    386878,
+    386937,
+    386949,
+    386965,
+    387065,
+    387075,
+    387153,
+    387156,
+    387159,
+    387170,
+    387250,
+    387256,
+    387279,
+    387355,
+    387384,
+    387391,
+    387432,
+    387506,
+    387625,
+    387791,
+    387808,
+    387893,
+    388004,
+    388007,
+    388023,
+    388038,
+    388106,
+    388107,
+    388108,
+    388116,
+    388193,
+    388218,
+    388477,
+    388509,
+    388564,
+    388604,
+    388661,
+    388682,
+    388779,
+    388807,
+    388812,
+    388847,
+    388933,
+    389019,
+    389306,
+    389449,
+    389577,
+    389578,
+    389603,
+    389609,
+    389693,
+    389711,
+    389763,
+    389775,
+    389846,
+    389977,
+    390123,
+    390138,
+    390140,
+    390154,
+    390175,
+    390218,
+    390231,
+    390259,
+    390270,
+    390283,
+    390370,
+    390615,
+    390668,
+    390676,
+    390686,
+    390691,
+    390786,
+    390808,
+    390881,
+    390972,
+    390992,
+    391090,
+    391102,
+    391154,
+    391189,
+    391271,
+    391339,
+    391347,
+    391429,
+    391477,
+    391517,
+    391546,
+    391559,
+    391566,
+    391683,
+    391709,
+    391872,
+    391875,
+    391881,
+    392116,
+    392124,
+    392356,
+    392536,
+    392792,
+    392902,
+    392928,
+    392938,
+    392979,
+    392985,
+    392988,
+    392989,
+    392993,
+    393029,
+    393357,
+    393400,
+    393414,
+    393516,
+    393760,
+    393933,
+    393940,
+    393950,
+    393967,
+    394046,
+    394065,
+    394094,
+    394307,
+    394312,
+    395446,
+    396187,
+    400073,
+    400129,
+    400222,
+    400278,
+    400629,
+    402912,
+    403509,
+    403530,
+    404306,
+    404357,
+    404522,
+    404539,
+    404540,
+    405607,
+    405670,
+    405768,
+    405798,
+    405804,
+    406064,
+    406101,
+    406157,
+    406425,
+    406646,
+    407067,
+    407412,
+    407469,
+    407876,
+    408459,
+    409267,
+    409441,
+    410261,
+    414195,
+    414553,
+    415364,
+    416506,
+    416714,
+    416770,
+    417234,
+    418733,
+    421558,
+    423136,
+    424558,
+    425518,
+    427445,
+    427640,
+    428071,
+    428486,
+    428492,
+    428514,
+    428607,
+    428655,
+    429115,
+    429130,
+    429433,
+    429532,
+    429539,
+    429634,
+    429902,
+    430704,
+    430707,
+    431066,
+    431176,
+    431178,
+    431377,
+    431406,
+    431413,
+    431442,
+    431474,
+    431533,
+    431548,
+    431551,
+    431615,
+    431687,
+    431730,
+    431875,
+    431984,
+    432463,
+    432626,
+    432929,
+    432964,
+    432977,
+    433015,
+    433718,
+    433831,
+    433901,
+    434028,
+    434136,
+    434143,
+    434151,
+    434157,
+    434249,
+    434260,
+    434261,
+    435010,
+    435607,
+    436358,
+    436687,
+    437118,
+    437134,
+    438439,
+    438590,
+    439528,
+    439760,
+    440031,
+    440043,
+    440046,
+    440118,
+    440282,
+    440476,
+    440669,
+    440742,
+    440993,
+    441146,
+    441181,
+    441212,
+    441263,
+    441359,
+    441367,
+    441378,
+    441583,
+    441678,
+    441691,
+    441809,
+    441814,
+    441824,
+    441829,
+    441835,
+    441845,
+    442290,
+    442502,
+    442736,
+    442747,
+    442806,
+    443028,
+    443046,
+    443087,
+    443177,
+    443294,
+    443425,
+    443445,
+    443450,
+    443739,
+    444005,
+    444016,
+    444040,
+    444088,
+    444483,
+    444675,
+    444767,
+    444773,
+    444775,
+    444926,
+    444931,
+    444986,
+    445025,
+    445031,
+    445034,
+    445958,
+    446260,
+    446326,
+    447131,
+    448403,
+    448601,
+    449349,
+    449537,
+    449624,
+    449638,
+    449645,
+    449701,
+    449704,
+    449706,
+    450212,
+    450335,
+    450356,
+    450508,
+    450558,
+    450560,
+    450595,
+    450615,
+    450622,
+    450631,
+    450638,
+    450889,
+    450912,
+    450991,
+    450992,
+    451024,
+    451043,
+    451294,
+    451440,
+    451466,
+    451524,
+    451529,
+    451823,
+    452137,
+    452196,
+    452402,
+    452406,
+    452408,
+    452409,
+    452412,
+    452536,
+    452999,
+    453109,
+    453123,
+    453172,
+    453783,
+    453828,
+    453845,
+    453852,
+    453918,
+    454001,
+    454009,
+    454022,
+    454026,
+    454372,
+    454391,
+    454483,
+    455088,
+    455096,
+    455123,
+    455129,
+    455143,
+    455590,
+    455797,
+    455993,
+    456230,
+    456237,
+    456238,
+    456240,
+    456270,
+    456985,
+    457025,
+    457052,
+    457054,
+    457055,
+    457062,
+    457067,
+    457574,
+    457728,
+    457735,
+    458041,
+    458572,
+    458752,
+    458753,
+    459440,
+    459488,
+    459533,
+    459693,
+    459741,
+    459760,
+    459806,
+    459828,
+    459843,
+    459868,
+    459939,
+    460448,
+    460485,
+    460590,
+    461244,
+    461246,
+    461261,
+    461273,
+    461287,
+    462375,
+    462383,
+    462424,
+    462486,
+    462764,
+    467270,
+    467741,
+    467897,
+    467911,
+    467936,
+    468392,
+    468695,
+    468936,
+    469304,
+    469309,
+    469314,
+    469411,
+    469416,
+    469434,
+    469638,
+    469780,
+    469880,
+    469883,
+    469886,
+    470068,
+    470945,
+    471363,
+    471876,
+    472241,
+    472265,
+    472266,
+    472267,
+    472352,
+    472361,
+    472639,
+    472741,
+    473379,
+    473523,
+    474678,
+    1214442,
+    1215241,
+    1215265,
+    1215601,
+    1217429,
+    1217650,
+    1218047,
+    1218617,
+    1223976,
+    1230223,
+    1230301,
+    1230339,
+    1231979,
+    1231981,
+    1232941,
+    1233613,
+    1235088,
+    1235113,
+    1235614,
+    1238680,
+    1239669,
+    1240201,
+    1240364,
+    1241275,
+    1241288,
+    1241358,
+    1241542,
+    1241567,
+    1241714,
+    1241858,
+    1242008,
+    1242114,
+    1242147,
+    1242158,
+    1242492,
+    1242608,
+    1242745,
+    1242910,
+    1243507,
+    1243557,
+    1243659,
+    1244237,
+    1244302,
+    1244329,
+    1244331,
+    1244788,
+    1244878,
+    1244941,
+    1244977,
+    1245089,
+    1245323,
+    1245364,
+    1245368,
+    1245633,
+    1246030,
+    1246556,
+    1246799,
+    1246802,
+    1247090,
+    1247777,
+    1248704,
+    1248970,
+    1248989,
+    1249658,
+    1249832,
+    1250042,
+    1250094,
+    1250318,
+    1250378,
+    1250630,
+    1250646,
+    1250906,
+    1250923,
+    1251069,
+    1251091,
+    1251717,
+    1251718,
+    1251778,
+    1251809,
+    1252198,
+    1252708,
+    1252738,
+    1252943,
+    1253304,
+    1253461,
+    1253590,
+    1253598,
+    1253724,
+    1253769,
+    1253827,
+    1253831,
+    1253945,
+    1254865,
+    1256295,
+    1256566,
+    1256577,
+    1256813,
+    1259003,
+    1259471,
+    1259485,
+    1259612,
+    1259886,
+    1260264,
+    1260511,
+    1260673,
+    1260680,
+    1260874,
+    1261051,
+    1261056,
+    1261060,
+    1261062,
+    1261080,
+    1261106,
+    1261229,
+    1261525,
+    1261564,
+    1261565,
+    1261566,
+    1261703,
+    1261992,
+    1262409,
+    1262603,
+    1262628,
+    1262659,
+    1262667,
+    1262843,
+    1262844,
+    1263346,
+    1263353,
+    1263657,
+    1263658,
+    1263660,
+    1263782,
+    1263787,
+    1263879,
+    1263920,
+    1264096,
+    1264107,
+    1264149,
+    1264289,
+    1264290,
+    1264351,
+    1264506,
+    1264614,
+    1264688,
+    1264781,
+    1264899,
+    1264902,
+    1265129,
+    1265355,
+    1265356,
+    1265387,
+    1265549,
+    1265570,
+    1265574,
+    1265632,
+    1265633,
+    1265637,
+    1265770,
+    1265774,
+    1265790,
+    1265810,
+    1265855,
+    1265859,
+    1265862,
+    1265863,
+    1265869,
+    1265932,
+    1265949,
+    1265952,
+    1265959,
+    1265993,
+    1266329,
+    1266497,
+    1266500,
+    1266734,
+    1266740,
+    1266805,
+    1267016,
+    1267120,
+    1267203,
+    1268709,
+    1269308,
+    1269310,
+    1269311,
+    1269314,
+    1269614,
+    1270450,
+    1270709,
+    1271171,
+    1271206,
+    1271635,
+    1271974,
+    1272094,
+    1272143,
+    1272320,
+    1272422,
+    1272452,
+    1272694,
+    1272821,
+    1273062,
+    1273126,
+    1276163,
+    1277302,
+    1277444,
+    1278789,
+    1278886,
+    1279353,
+    1279355,
+    1279599,
+    1279604,
+    1279605,
+    1279616,
+    1280131,
+    1280165,
+    1280316,
+    1280868,
+    1281468,
+    1290864,
+    1293135,
+    1301406,
+    1301732,
+    1312843
+   ],
+   "breaks": "The exact configuration Core's ModAutoAttackCritChance catalog text says Heart of the Crusader does NOT have.  Every one of these generates an entry, so the predicate rejects them -- which is the point: Core's stated reason for Heart ('none of the provider's aura types is proc-triggering') is load-bearing and, on this population, sufficient.",
+   "count": 1005,
+   "evidence_class": "trinity",
+   "id": "D-CE-10",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148147880,
+      "proc_type_mask_hex": "0x00000000800A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 6
+     },
+     "aura_subtypes": [
+      5,
+      33
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] spell_script_names binding(s) ['spell_dru_incapacitating_roar']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      103316
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Incapacitating Roar",
+     "proc_triggering_subtypes": [
+      5
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_dru_incapacitating_roar"
+     ],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x800A22A8",
+     "spell": 99
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HELPFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HELPFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148182696,
+      "proc_type_mask_hex": "0x00000000800AAAA8",
+      "procs_per_minute_id": 0,
+      "row_id": 9
+     },
+     "aura_subtypes": [
+      5,
+      56,
+      61
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      137625
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Polymorph",
+     "proc_triggering_subtypes": [
+      5,
+      56
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x800AAAA8",
+     "spell": 118
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148147880,
+      "proc_type_mask_hex": "0x00000000800A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 10
+     },
+     "aura_subtypes": [
+      455
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      137629
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Frost Nova",
+     "proc_triggering_subtypes": [
+      455
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x800A22A8",
+     "spell": 122
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 9,
+      "proc_category_recovery_ms": 3000,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HELPFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 172712,
+      "proc_type_mask_hex": "0x000000000002A2A8",
+      "procs_per_minute_id": 0,
+      "row_id": 28
+     },
+     "aura_subtypes": [
+      4,
+      87,
+      283
+     ],
+     "blockers": [
+      "[authored] ProcCategoryRecovery 3000 ms declares an internal cooldown; an ICD is a clock, i.e. per-application state",
+      "[trinity] CumulativeAura 9 > 1 on a non-passive provider: reapplication reaches Unit::_TryStackingOrRefreshingExistingAura (Unit.cpp:3386-3443) and can raise the stack",
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      102004,
+      127087,
+      127343,
+      127871
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Earth Shield",
+     "proc_triggering_subtypes": [
+      4,
+      87
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=9;rec=3000;chance=100;charges=0;ppm=0;mask=0x2A2A8",
+     "spell": 974
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148147880,
+      "proc_type_mask_hex": "0x00000000800A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 37
+     },
+     "aura_subtypes": [
+      7,
+      191
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      100640,
+      126445,
+      126753,
+      135707
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Scare Beast",
+     "proc_triggering_subtypes": [
+      7
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x800A22A8",
+     "spell": 1513
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC"
+      ],
+      "proc_type_mask": 664232,
+      "proc_type_mask_hex": "0x00000000000A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 41
+     },
+     "aura_subtypes": [
+      12
+     ],
+     "blockers": [
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)",
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      112631
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Gouge",
+     "proc_triggering_subtypes": [
+      12
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=1;ppm=0;mask=0xA22A8",
+     "spell": 1776
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC"
+      ],
+      "proc_type_mask": 664232,
+      "proc_type_mask_hex": "0x00000000000A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 46
+     },
+     "aura_subtypes": [
+      5,
+      33
+     ],
+     "blockers": [
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)",
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] spell_script_names binding(s) ['spell_rog_airborne_irritant', 'spell_rog_blackjack']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112572
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Blind",
+     "proc_triggering_subtypes": [
+      5
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_rog_airborne_irritant",
+      "spell_rog_blackjack"
+     ],
+     "shape": "cum=0;rec=0;chance=100;charges=1;ppm=0;mask=0xA22A8",
+     "spell": 2094
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 30,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_SWING",
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_RANGED_ABILITY"
+      ],
+      "proc_type_mask": 276,
+      "proc_type_mask_hex": "0x0000000000000114",
+      "procs_per_minute_id": 0,
+      "row_id": 55
+     },
+     "aura_subtypes": [
+      4,
+      110
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] spell_script_names binding(s) ['spell_gen_trigger_exclude_target_aura_spell', 'spell_rog_leeching_poison']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112676
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Deadly Poison",
+     "proc_triggering_subtypes": [
+      4,
+      110
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_gen_trigger_exclude_target_aura_spell",
+      "spell_rog_leeching_poison"
+     ],
+     "shape": "cum=0;rec=0;chance=30;charges=0;ppm=0;mask=0x114",
+     "spell": 2823
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148147880,
+      "proc_type_mask_hex": "0x00000000800A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 117
+     },
+     "aura_subtypes": [
+      7,
+      33,
+      191,
+      455
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] spell_script_names binding(s) ['spell_warr_intimidating_shout']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112252,
+      116138,
+      116781,
+      134254
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Intimidating Shout",
+     "proc_triggering_subtypes": [
+      7,
+      455
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_warr_intimidating_shout"
+     ],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x800A22A8",
+     "spell": 5246
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148147880,
+      "proc_type_mask_hex": "0x00000000800A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 129
+     },
+     "aura_subtypes": [
+      7,
+      191
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      91458,
+      115999
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Howl of Terror",
+     "proc_triggering_subtypes": [
+      7
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x800A22A8",
+     "spell": 5484
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 30,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_SWING",
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_RANGED_ABILITY"
+      ],
+      "proc_type_mask": 276,
+      "proc_type_mask_hex": "0x0000000000000114",
+      "procs_per_minute_id": 0,
+      "row_id": 138
+     },
+     "aura_subtypes": [
+      42
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      112656
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Numbing Poison",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=30;charges=0;ppm=0;mask=0x114",
+     "spell": 5761
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC"
+      ],
+      "proc_type_mask": 664232,
+      "proc_type_mask_hex": "0x00000000000A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 155
+     },
+     "aura_subtypes": [
+      12
+     ],
+     "blockers": [
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)",
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] spell_script_names binding(s) ['spell_rog_blackjack']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112573
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Sap",
+     "proc_triggering_subtypes": [
+      12
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_rog_blackjack"
+     ],
+     "shape": "cum=0;rec=0;chance=100;charges=1;ppm=0;mask=0xA22A8",
+     "spell": 6770
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HELPFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HELPFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148182696,
+      "proc_type_mask_hex": "0x00000000800AAAA8",
+      "procs_per_minute_id": 0,
+      "row_id": 215
+     },
+     "aura_subtypes": [
+      7,
+      191,
+      455
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      103851
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Psychic Scream",
+     "proc_triggering_subtypes": [
+      7,
+      455
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x800AAAA8",
+     "spell": 8122
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148147880,
+      "proc_type_mask_hex": "0x00000000800A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 264
+     },
+     "aura_subtypes": [
+      7,
+      191
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      102623
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Turn Evil",
+     "proc_triggering_subtypes": [
+      7
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x800A22A8",
+     "spell": 10326
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY"
+      ],
+      "proc_type_mask": 40,
+      "proc_type_mask_hex": "0x0000000000000028",
+      "procs_per_minute_id": 0,
+      "row_id": 23677
+     },
+     "aura_subtypes": [
+      4,
+      69,
+      87,
+      286
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin spell_proc)",
+      "[unknown] spell_script_names binding(s) ['spell_mage_ice_barrier']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      80176
+     ],
+     "entry_origin": "spell_proc",
+     "family": "effective-proc",
+     "generation_reason": "spell_proc-row-present",
+     "name": "Ice Barrier",
+     "proc_triggering_subtypes": [
+      4,
+      69,
+      87
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_mage_ice_barrier"
+     ],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x28",
+     "spell": 11426
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_SWING",
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_RANGED_ABILITY"
+      ],
+      "proc_type_mask": 276,
+      "proc_type_mask_hex": "0x0000000000000114",
+      "procs_per_minute_id": 0,
+      "row_id": 414
+     },
+     "aura_subtypes": [
+      4,
+      107
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] spell_script_names binding(s) ['spell_rog_blade_flurry']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112561
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Blade Flurry",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_rog_blade_flurry"
+     ],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x114",
+     "spell": 13877
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_RANGED_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 87312,
+      "proc_type_mask_hex": "0x0000000000015510",
+      "procs_per_minute_id": 0,
+      "row_id": 17458
+     },
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] spell_script_names binding(s) ['spell_rog_ruthlessness']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      112568
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Ruthlessness",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_rog_ruthlessness"
+     ],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x15510",
+     "spell": 14161
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_MELEE_ABILITY",
+       "PROC_FLAG_DEAL_RANGED_ATTACK",
+       "PROC_FLAG_DEAL_RANGED_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_ABILITY",
+       "PROC_FLAG_DEAL_HARMFUL_ABILITY",
+       "PROC_FLAG_DEAL_HELPFUL_SPELL",
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 87376,
+      "proc_type_mask_hex": "0x0000000000015550",
+      "procs_per_minute_id": 0,
+      "row_id": 450
+     },
+     "aura_subtypes": [
+      4,
+      42
+     ],
+     "blockers": [
+      "[trinity] generation suppressed by the infinite-loop guard, not by inertness: the provider has both proc flags and a triggering aura"
+     ],
+     "entries": [
+      112649
+     ],
+     "entry_origin": null,
+     "family": "guarded-proc",
+     "generation_reason": "infinite-loop-guard",
+     "name": "Seal Fate",
+     "proc_triggering_subtypes": [
+      4,
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x15550",
+     "spell": 14190
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HARMFUL_SPELL"
+      ],
+      "proc_type_mask": 65536,
+      "proc_type_mask_hex": "0x0000000000010000",
+      "procs_per_minute_id": 0,
+      "row_id": 533
+     },
+     "aura_subtypes": [
+      42,
+      219
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      127015,
+      127271,
+      135720,
+      136714
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Master of the Elements",
+     "proc_triggering_subtypes": [
+      42
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x10000",
+     "spell": 16166
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 16384,
+      "proc_type_mask_hex": "0x0000000000004000",
+      "procs_per_minute_id": 0,
+      "row_id": 540
+     },
+     "aura_subtypes": [
+      4
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)"
+     ],
+     "entries": [
+      101902,
+      126955,
+      127211
+     ],
+     "entry_origin": "generated",
+     "family": "effective-proc",
+     "generation_reason": "generated",
+     "name": "Resurgence",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x4000",
+     "spell": 16196
+    }
+   ],
+   "note": "listed as the confirming population, not as a failure; all of these are correctly rejected",
+   "reachable_count": 0,
+   "title": "Nonzero ProcTypeMask AND at least one proc-triggering aura subtype"
+  },
+  {
+   "all_ids": [
+    605,
+    1160,
+    1161,
+    32223,
+    48707,
+    51514,
+    101545,
+    105809,
+    111673,
+    114051,
+    114052,
+    192081,
+    196555,
+    197524,
+    199483,
+    200183,
+    205364,
+    206931,
+    221562,
+    267116,
+    359816,
+    360827,
+    363916,
+    366155,
+    386011,
+    391381,
+    392966,
+    395152,
+    400533,
+    403092,
+    404977,
+    406732,
+    412733,
+    416183,
+    436358,
+    448403,
+    471306,
+    1233179,
+    1233588,
+    1234283,
+    1234286,
+    1234357,
+    1234358,
+    1234359,
+    1234360,
+    1234361,
+    1234362,
+    1234363,
+    1234364,
+    1234365,
+    1234366,
+    1234367,
+    1234368,
+    1234369,
+    1234370,
+    1234371,
+    1234372,
+    1234373,
+    1234374,
+    1234375,
+    1234376,
+    1234377,
+    1234378,
+    1234379,
+    1234380,
+    1234381,
+    1234382,
+    1234383,
+    1234384,
+    1234385,
+    1234386,
+    1234387,
+    1234388,
+    1234389,
+    1234390,
+    1234391,
+    1234392,
+    1234393,
+    1234394,
+    1234395,
+    1234396,
+    1234397,
+    1234398,
+    1234399,
+    1234400,
+    1234401,
+    1234402,
+    1234403,
+    1234404,
+    1234405,
+    1234406,
+    1234407,
+    1234408,
+    1234409,
+    1234410,
+    1234411,
+    1234412,
+    1234413,
+    1234414,
+    1234415,
+    1234416,
+    1234417,
+    1234418,
+    1234419,
+    1234420,
+    1234421,
+    1234422,
+    1234423,
+    1234424,
+    1234425,
+    1234426,
+    1234427,
+    1234428,
+    1234429,
+    1234430,
+    1234431,
+    1234432,
+    1234433,
+    1234434,
+    1234435
+   ],
+   "breaks": "A provider whose aura subtype Core does not catalogue cannot be proved proc-free, because 'is this subtype in isTriggerAura[]' is answered against Trinity's table while admission is decided against Core's.  Build skew between the two is the failure mode; these fail closed.",
+   "count": 120,
+   "evidence_class": "unknown",
+   "id": "D-CE-11",
+   "members": [
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 19
+     },
+     "aura_subtypes": [
+      2,
+      79
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [2] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      103862
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Mind Control",
+     "proc_triggering_subtypes": [
+      79
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 605
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 33
+     },
+     "aura_subtypes": [
+      79,
+      269,
+      271,
+      343
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [269] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      112159,
+      116751
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Demoralizing Shout",
+     "proc_triggering_subtypes": [
+      79,
+      271
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 1160
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 34
+     },
+     "aura_subtypes": [
+      11
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [11] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      116763
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Challenging Shout",
+     "proc_triggering_subtypes": [
+      11
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 1161
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4,
+      172,
+      211,
+      285
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [211] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      102588
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Crusader Aura",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 32223
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 3046
+     },
+     "aura_subtypes": [
+      28,
+      69,
+      87,
+      118,
+      267,
+      329
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [267, 329] absent from Core's AuraSubtypeKind catalog",
+      "[unknown] spell_script_names binding(s) ['spell_dk_anti_magic_shell']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      96199
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Anti-Magic Shell",
+     "proc_triggering_subtypes": [
+      28,
+      69,
+      87
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_dk_anti_magic_shell"
+     ],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 48707
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC",
+       "PROC_FLAG_TAKE_HELPFUL_PERIODIC"
+      ],
+      "proc_type_mask": 2148147880,
+      "proc_type_mask_hex": "0x00000000800A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 3287
+     },
+     "aura_subtypes": [
+      56,
+      60,
+      260,
+      321
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] provider carries aura subtype(s) [321] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      101972,
+      127051,
+      127307,
+      127903
+     ],
+     "entry_origin": "generated",
+     "family": "unknown",
+     "generation_reason": "generated",
+     "name": "Hex",
+     "proc_triggering_subtypes": [
+      56
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x800A22A8",
+     "spell": 51514
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4,
+      60,
+      104,
+      191,
+      305,
+      332,
+      373
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [104, 373] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      101432
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Flying Serpent Kick",
+     "proc_triggering_subtypes": [
+      4
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 101545
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      329
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [329] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      102607
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Holy Avenger",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 105809
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 8874
+     },
+     "aura_subtypes": [
+      6,
+      79
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [6] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      96188
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Control Undead",
+     "proc_triggering_subtypes": [
+      79
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 111673
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4,
+      56,
+      104,
+      108,
+      193,
+      235,
+      285,
+      312,
+      332,
+      367,
+      454
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [104, 235, 367] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      101817,
+      126941,
+      127197
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Ascendance",
+     "proc_triggering_subtypes": [
+      4,
+      56
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 114051
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 0,
+      "proc_flag_names": [
+       "PROC_FLAG_DEAL_HELPFUL_SPELL"
+      ],
+      "proc_type_mask": 16384,
+      "proc_type_mask_hex": "0x0000000000004000",
+      "procs_per_minute_id": 0,
+      "row_id": 9068
+     },
+     "aura_subtypes": [
+      4,
+      56,
+      104,
+      107,
+      108,
+      193,
+      226,
+      235,
+      312
+     ],
+     "blockers": [
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] provider carries aura subtype(s) [104, 235] absent from Core's AuraSubtypeKind catalog",
+      "[unknown] spell_script_names binding(s) ['spell_sha_ascendance_restoration']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      101912,
+      126975,
+      127231
+     ],
+     "entry_origin": "generated",
+     "family": "unknown",
+     "generation_reason": "generated",
+     "name": "Ascendance",
+     "proc_triggering_subtypes": [
+      4,
+      56,
+      226
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [
+      "spell_sha_ascendance_restoration"
+     ],
+     "shape": "cum=0;rec=0;chance=100;charges=0;ppm=0;mask=0x4000",
+     "spell": 114052
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 1,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 19822
+     },
+     "aura_subtypes": [
+      268,
+      285
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [268] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      103305
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Ironfur",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=1;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 192081
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      40,
+      171
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [171] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      112821
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Netherwalk",
+     "proc_triggering_subtypes": [
+      40
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 196555
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      107,
+      153,
+      188,
+      219
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [153] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      103288
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Astral Influence",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 197524
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 100,
+      "proc_charges": 1,
+      "proc_flag_names": [
+       "PROC_FLAG_TAKE_MELEE_SWING",
+       "PROC_FLAG_TAKE_MELEE_ABILITY",
+       "PROC_FLAG_TAKE_RANGED_ATTACK",
+       "PROC_FLAG_TAKE_RANGED_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_ABILITY",
+       "PROC_FLAG_TAKE_HARMFUL_SPELL",
+       "PROC_FLAG_TAKE_HARMFUL_PERIODIC"
+      ],
+      "proc_type_mask": 664232,
+      "proc_type_mask_hex": "0x00000000000A22A8",
+      "procs_per_minute_id": 0,
+      "row_id": 20228
+     },
+     "aura_subtypes": [
+      4,
+      16,
+      20,
+      129
+     ],
+     "blockers": [
+      "[trinity] ProcCharges 1 != 0: Aura::CalcMaxCharges (SpellAuras.cpp:1004-1015) reads SpellInfo::ProcCharges with or without a proc entry, and Aura::Aura sets m_isUsingCharges (SpellAuras.cpp:498-499)",
+      "[trinity] effective proc entry exists (origin generated)",
+      "[unknown] provider carries aura subtype(s) [16] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      100647,
+      126767,
+      136676
+     ],
+     "entry_origin": "generated",
+     "family": "unknown",
+     "generation_reason": "generated",
+     "name": "Camouflage",
+     "proc_triggering_subtypes": [
+      4,
+      16
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": false,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=100;charges=1;ppm=0;mask=0xA22A8",
+     "spell": 199483
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      4,
+      104,
+      108,
+      226,
+      235
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [104, 235] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      103748
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Apotheosis",
+     "proc_triggering_subtypes": [
+      4,
+      226
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 200183
+    },
+    {
+     "aura_options": {
+      "cumulative_aura": 0,
+      "proc_category_recovery_ms": 0,
+      "proc_chance": 101,
+      "proc_charges": 0,
+      "proc_flag_names": [],
+      "proc_type_mask": 0,
+      "proc_type_mask_hex": "0x0000000000000000",
+      "procs_per_minute_id": 0,
+      "row_id": 20858
+     },
+     "aura_subtypes": [
+      6,
+      79
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [6] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      103678
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Dominate Mind",
+     "proc_triggering_subtypes": [
+      79
+     ],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "cum=0;rec=0;chance=101;charges=0;ppm=0;mask=0x0",
+     "spell": 205364
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      24,
+      53,
+      269
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [269] absent from Core's AuraSubtypeKind catalog",
+      "[unknown] spell_script_names binding(s) ['spell_dk_blooddrinker']; an AuraScript can create per-application state with no DBC evidence"
+     ],
+     "entries": [
+      96265
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Blooddrinker",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [
+      "spell_dk_blooddrinker"
+     ],
+     "shape": "absent",
+     "spell": 206931
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      298
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [298] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      96193
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Asphyxiate",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 221562
+    },
+    {
+     "aura_options": null,
+     "aura_subtypes": [
+      493
+     ],
+     "blockers": [
+      "[unknown] provider carries aura subtype(s) [493] absent from Core's AuraSubtypeKind catalog"
+     ],
+     "entries": [
+      100661,
+      126423,
+      136679
+     ],
+     "entry_origin": null,
+     "family": "unknown",
+     "generation_reason": "no-proc-flags",
+     "name": "Animal Companion",
+     "proc_triggering_subtypes": [],
+     "reachable_as_selected_package_today": false,
+     "runtime_inert": true,
+     "script_names": [],
+     "shape": "absent",
+     "spell": 267116
+    }
+   ],
+   "note": "all_ids truncated to the first 40 of 120",
+   "reachable_count": 0,
+   "title": "Aura subtype absent from Core's own AuraSubtypeKind catalog"
+  },
+  {
+   "all_ids": [],
+   "breaks": "AuraEffect::CalculateAmount (SpellAuraEffects.cpp:786-798) reads SpellInfo::ProcFlags with no SpellProcEntry, for MOD_CONFUSE 5, MOD_FEAR 7, MOD_STUN 12, MOD_ROOT 26, TRANSFORM 56 and MOD_ROOT_2 455: a nonzero mask replaces the effect amount with 10% of max health.  The population is EMPTY here, so the predicate is safe on this snapshot -- but the check must stay, because it is the one place where ProcTypeMask is not inert without an entry.",
+   "count": 0,
+   "evidence_class": "trinity",
+   "id": "D-CE-12",
+   "members": [],
+   "note": "empty on the pinned snapshot; retained as a standing guard",
+   "reachable_count": 0,
+   "title": "Nonzero ProcTypeMask read OUTSIDE the proc pipeline (crowd-control amount override)"
+  },
+  {
+   "all_ids": [],
+   "breaks": "Searched for providers with a spell_proc overlay row that does not itself produce the effective entry.  Empty: every overlay row in the selected population resolves into an entry, so the overlay never adds hidden behaviour beyond D-CE-01.",
+   "count": 0,
+   "evidence_class": "trinity",
+   "id": "D-CE-13",
+   "members": [],
+   "note": "empty on the pinned snapshot",
+   "reachable_count": 0,
+   "title": "World-DB spell_proc row that adds behaviour Core's DBC-only view cannot see"
+  }
+ ],
+ "provenance": {
+  "distinct_providers": 5143,
+  "generated": "2026-09-18",
+  "population": "every provider spell of the resolvable selected entries",
+  "predicate_under_test": "AuraOptions present + effective proc generation NONE => inert for immutable passive admission",
+  "reachable_measured_against": "selected_package.effects.classify_package + selected_package.owner.Owners.policy as of this run; the lead's substrate moves, so this field is a snapshot",
+  "verdict": "FALSIFIED as stated; survives with three added conjuncts (no ProcCharges, no ProcCategoryRecovery, no SpellProcsPerMinuteID) plus the script / overlay / catalog fail-closed guards"
+ },
+ "totals": {
+  "counterexample_classes": 13,
+  "distinct_providers_implicated": 1357,
+  "non_empty_classes": 11,
+  "reachable_implicated": 6
+ }
+}
