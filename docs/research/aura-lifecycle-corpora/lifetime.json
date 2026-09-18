@@ -1,0 +1,1975 @@
+{
+ "death_order_fixture": {
+  "fixture": {
+   "auras": [
+    {
+     "applied_on_dying": true,
+     "channel_of_dying": false,
+     "combat_hook": false,
+     "death_persistent": false,
+     "key": "dot_on_victim",
+     "leaving_combat_interrupt": false,
+     "owned_by_dying": true,
+     "passive": false,
+     "recipients": []
+    },
+    {
+     "applied_on_dying": true,
+     "channel_of_dying": false,
+     "combat_hook": true,
+     "death_persistent": true,
+     "key": "leave_combat_buff",
+     "leaving_combat_interrupt": true,
+     "owned_by_dying": true,
+     "passive": false,
+     "recipients": []
+    },
+    {
+     "applied_on_dying": true,
+     "channel_of_dying": false,
+     "combat_hook": false,
+     "death_persistent": false,
+     "key": "passive_trait",
+     "leaving_combat_interrupt": false,
+     "owned_by_dying": true,
+     "passive": true,
+     "recipients": []
+    },
+    {
+     "applied_on_dying": true,
+     "channel_of_dying": false,
+     "combat_hook": false,
+     "death_persistent": true,
+     "key": "persistent_buff",
+     "leaving_combat_interrupt": false,
+     "owned_by_dying": true,
+     "passive": false,
+     "recipients": []
+    },
+    {
+     "applied_on_dying": true,
+     "channel_of_dying": false,
+     "combat_hook": false,
+     "death_persistent": false,
+     "key": "own_area_aura",
+     "leaving_combat_interrupt": false,
+     "owned_by_dying": true,
+     "passive": false,
+     "recipients": [
+      "ally"
+     ]
+    },
+    {
+     "applied_on_dying": false,
+     "channel_of_dying": true,
+     "combat_hook": false,
+     "death_persistent": false,
+     "key": "channel_on_enemy",
+     "leaving_combat_interrupt": false,
+     "owned_by_dying": false,
+     "passive": false,
+     "recipients": []
+    }
+   ],
+   "casting_dynobj_auras": [
+    "dynobj_of_channel"
+   ],
+   "charmed_auras": [
+    "charm_on_other"
+   ],
+   "has_pet": true,
+   "has_summons": true,
+   "in_vehicle": true,
+   "is_player": true,
+   "pve_combat_only": true,
+   "totem_auras": [
+    "totem_buff_on_party"
+   ]
+  },
+  "steps": [
+   {
+    "coords": "Unit.cpp:11400",
+    "removed": [],
+    "step": "PROC_FLAG_DEATH procs on the victim (auras still present)"
+   },
+   {
+    "coords": "Player.cpp:1157",
+    "removed": [],
+    "step": "Player::setDeathState: RemovePet (pet unsummoned; its auras cleaned up with DEFAULT)"
+   },
+   {
+    "coords": "Unit.cpp:9167",
+    "removed": [],
+    "step": "m_deathState = JUST_DIED (IsAlive() false from here)"
+   },
+   {
+    "coords": "CombatManager.cpp:416",
+    "hooks": [
+     "leave_combat_buff"
+    ],
+    "removed": [
+     {
+      "aura": "leave_combat_buff",
+      "mode": "INTERRUPT"
+     }
+    ],
+    "step": "CombatStop -> EndAllPvECombat -> AtExitCombat: OnEnterLeaveCombat(false) hooks, LeavingCombat interrupt"
+   },
+   {
+    "coords": "Unit.cpp:9172",
+    "removed": [
+     {
+      "aura": "channel_on_enemy",
+      "mode": "CANCEL"
+     },
+     {
+      "aura": "dynobj_of_channel",
+      "mode": "DEFAULT"
+     }
+    ],
+    "step": "InterruptNonMeleeSpells -> Spell::cancel: channel auras on all hit targets CANCEL (Spell.cpp:3646); every dynobject of the cancelled spell id DEFAULT (Spell.cpp:3665)"
+   },
+   {
+    "coords": "Unit.cpp:9174",
+    "removed": [
+     {
+      "aura": "vehicle_control",
+      "mode": "DEFAULT"
+     }
+    ],
+    "step": "ExitVehicle: vehicle-owned CONTROL_VEHICLE aura cast by the dying passenger removed (Unit.cpp:12868)"
+   },
+   {
+    "coords": "Unit.cpp:9177",
+    "removed": [
+     {
+      "aura": "totem_buff_on_party",
+      "mode": "DEFAULT"
+     }
+    ],
+    "step": "UnsummonAllTotems: totem auras on owner and party removed (Totem.cpp:109-137)"
+   },
+   {
+    "coords": "Unit.cpp:6625",
+    "removed": [
+     {
+      "aura": "charm_on_other",
+      "mode": "DEFAULT"
+     }
+    ],
+    "step": "RemoveAllControlled: charm auras on charmed units (RemoveCharmAuras) and summons UnSummon (ATTR1_IGNORE_OWNERS_DEATH is NYI)"
+   },
+   {
+    "coords": "Unit.cpp:9179",
+    "recipient_applications_removed_with_DEATH": {
+     "own_area_aura": [
+      "ally"
+     ]
+    },
+    "removed": [
+     {
+      "aura": "dot_on_victim",
+      "mode": "DEATH"
+     },
+     {
+      "aura": "own_area_aura",
+      "mode": "DEATH"
+     }
+    ],
+    "step": "RemoveAllAurasOnDeath"
+   }
+  ]
+ },
+ "falsification": [
+  {
+   "action": "discarded; AL-R-E-21",
+   "attempt": "Aura::Update / AuraEffect::Update have no liveness gate (TL-E-09)",
+   "id": "AL-F-E-20",
+   "result": "duration and ticks keep running",
+   "rule": "surviving auras are frozen while the holder is dead"
+  }
+ ],
+ "matrix": [
+  {
+   "anchors": [
+    "death_predicate",
+    "death_unapply"
+   ],
+   "aura": "non-passive, not ATTR3_ALLOW_AURA_WHILE_DEAD",
+   "coords": [
+    "Unit.cpp:4479",
+    "Unit.cpp:4480"
+   ],
+   "event": "holder death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "removed DEATH (after combat-exit / channel steps)",
+   "ticks": "none further; no final tick"
+  },
+  {
+   "anchors": [
+    "death_predicate",
+    "tick_damage_target_alive",
+    "tick_trigger",
+    "corpse_remove_all"
+   ],
+   "aura": "passive or ATTR3_ALLOW_AURA_WHILE_DEAD",
+   "coords": [
+    "Unit.cpp:4479",
+    "SpellAuraEffects.cpp:5634",
+    "SpellAuraEffects.cpp:5594",
+    "Creature.cpp:442"
+   ],
+   "event": "holder death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "persists on the corpse; duration keeps running; ends with EXPIRE -- or DEFAULT when a creature corpse is removed first (RemoveAllAuras, Creature.cpp:442 / despawn cleanup)",
+   "ticks": "tick counter advances; damage/heal/energize/power ticks are no-ops on a dead target; PERIODIC_TRIGGER_SPELL(_WITH_VALUE) and PERIODIC_DUMMY ticks have no alive gate and ACT (cast on the corpse; a failed triggered cast ends the aura with EXPIRE, RM-47)"
+  },
+  {
+   "anchors": [
+    "overkill_skip_death",
+    "kill_death_procs"
+   ],
+   "aura": "any",
+   "coords": [
+    "Unit.cpp:1044",
+    "Unit.cpp:11400"
+   ],
+   "event": "lethal damage absorbed by SCHOOL_ABSORB_OVERKILL (e.g. Spirit of Redemption)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "Kill runs KILL/DEATH procs but skips setDeathState: no combat-exit step, no death sweep, nothing removed with DEATH",
+   "ticks": "unchanged"
+  },
+  {
+   "anchors": [
+    "can_be_saved",
+    "pet_save_auras",
+    "load_offline_countdown"
+   ],
+   "aura": "Aura::CanBeSaved",
+   "coords": [
+    "SpellAuras.cpp:1168",
+    "Pet.cpp:483",
+    "Player.cpp:19061"
+   ],
+   "event": "holder logout / pet dismissal",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "saved, removed DEFAULT, rebuilt as NEW objects on login/summon; offline countdown only for non-positive or ATTR4_AURA_EXPIRES_OFFLINE auras; exhausted charges refilled",
+   "ticks": "periodic phase after reload not established here (AL-U-E-21)"
+  },
+  {
+   "anchors": [
+    "disable_while_dead",
+    "targetmap_unapply"
+   ],
+   "aura": "surviving + ATTR7_DISABLE_AURA_WHILE_DEAD",
+   "coords": [
+    "SpellAuras.cpp:2543",
+    "SpellAuras.cpp:778"
+   ],
+   "event": "holder death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "Aura kept, applications unapplied DEFAULT at next target-map update (<=500 ms), re-applied after resurrect",
+   "ticks": "no application -> no tick targets"
+  },
+  {
+   "anchors": [
+    "interrupt_leave_combat",
+    "death_combat_stop"
+   ],
+   "aura": "LeavingCombat interrupt flag, PvE combat",
+   "coords": [
+    "Unit.cpp:9249",
+    "Unit.cpp:9169"
+   ],
+   "event": "holder death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "removed INTERRUPT before the death sweep (even if death-persistent)",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "death_owned",
+    "aura_remove_apps"
+   ],
+   "aura": "area aura OWNED by the dying unit (non-passive)",
+   "coords": [
+    "Unit.cpp:4489",
+    "SpellAuras.cpp:645"
+   ],
+   "event": "holder death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "Aura removed DEATH; every living recipient's application unapplied with DEATH",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "get_caster",
+    "tick_funnel",
+    "tick_mana_leech"
+   ],
+   "aura": "aura owned by another (living) holder, e.g. DoT/HoT, not charm/vehicle/totem/cast-in-progress dynobj",
+   "coords": [
+    "SpellAuras.cpp:562",
+    "SpellAuraEffects.cpp:5865",
+    "SpellAuraEffects.cpp:5955"
+   ],
+   "event": "caster death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "persists; the death path does not touch it (exceptions: next rows)",
+   "ticks": "continue; GetCaster() still returns the dead unit (ObjectAccessor), so caster bonuses are read live from a corpse; funnel / mana-leech ticks no-op"
+  },
+  {
+   "anchors": [
+    "death_interrupt_casts",
+    "spell_cancel_channel"
+   ],
+   "aura": "channelled aura on a target",
+   "coords": [
+    "Unit.cpp:9172",
+    "Spell.cpp:3646"
+   ],
+   "event": "caster death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "removed CANCEL (InterruptNonMeleeSpells -> Spell::cancel)",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "death_interrupt_casts",
+    "cancel_dynobj"
+   ],
+   "aura": "dynamic-object aura of a spell the caster is casting/channelling at death",
+   "coords": [
+    "Unit.cpp:9172",
+    "Spell.cpp:3665"
+   ],
+   "event": "caster death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "removed DEFAULT: InterruptNonMeleeSpells -> Spell::cancel -> RemoveDynObject(spellId) removes ALL its dynobjects of that id (R3-06)",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "leave_world_dynobj"
+   ],
+   "aura": "dynamic-object aura of any other spell",
+   "coords": [
+    "Unit.cpp:10279"
+   ],
+   "event": "caster death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "persists until its own end or the caster leaves the world",
+   "ticks": "continue with dead caster (ASSERT_NOTNULL satisfied)"
+  },
+  {
+   "anchors": [
+    "charm_release",
+    "death_exit_vehicle",
+    "vehicle_exit"
+   ],
+   "aura": "charm / possess aura on another unit; vehicle CONTROL_VEHICLE aura on the vehicle",
+   "coords": [
+    "Unit.cpp:6623",
+    "Unit.cpp:9174",
+    "Unit.cpp:12868"
+   ],
+   "event": "caster death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "removed DEFAULT inside setDeathState (RemoveAllControlled -> RemoveCharmAuras; ExitVehicle) before the death sweep (R3-07)",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "death_totems",
+    "totem_unsummon_owner",
+    "totem_unsummon_group"
+   ],
+   "aura": "auras its totems cast on it and its party",
+   "coords": [
+    "Unit.cpp:9177",
+    "Totem.cpp:121",
+    "Totem.cpp:137"
+   ],
+   "event": "caster death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "removed DEFAULT (UnsummonAllTotems -> Totem::UnSummon)",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "leave_world_single",
+    "upd_channel_gone",
+    "get_caster"
+   ],
+   "aura": "aura on another holder",
+   "coords": [
+    "Unit.cpp:10275",
+    "Unit.cpp:2989",
+    "SpellAuras.cpp:562"
+   ],
+   "event": "caster leaves world (despawn/logout/map change)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "persists unless single-target (RM-30) or channelled (RM-03 CANCEL)",
+   "ticks": "continue with GetCaster()==nullptr: no caster bonus, no periodic crit, funnel/mana-leech/power-burn no-op"
+  },
+  {
+   "anchors": [
+    "leave_world_dynobj",
+    "leave_world_area"
+   ],
+   "aura": "own dynobjects / area auras it owns",
+   "coords": [
+    "Unit.cpp:10279",
+    "Unit.cpp:4348"
+   ],
+   "event": "caster leaves world",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "dynobjects removed (their aura: DEFAULT); owned area-aura applications on others removed DEFAULT",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "unsummon_controlled",
+    "player_death_pet",
+    "remove_all_default"
+   ],
+   "aura": "auras on/by its pet or summons",
+   "coords": [
+    "Unit.cpp:6625",
+    "Player.cpp:1157",
+    "Unit.cpp:4389"
+   ],
+   "event": "owner (master) death",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "summons UnSummon; player pet RemovePet; the controlled unit's own auras removed DEFAULT (RemoveAllAuras) when it leaves the map; auras it cast on others persist with null caster",
+   "ticks": "see caster leaves world"
+  },
+  {
+   "anchors": [
+    "remove_aura_owner_only",
+    "targetmap_unapply"
+   ],
+   "aura": "area aura owned by another unit",
+   "coords": [
+    "Unit.cpp:3837",
+    "SpellAuras.cpp:778"
+   ],
+   "event": "recipient removes a foreign-owned area application (interrupt flag, remove-by-spell, linked negative id)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "application removed with that mode; re-added at the owner's next 500 ms target-map update if still eligible (flicker; track F AL-R-F-05)",
+   "ticks": "none on that recipient in between"
+  },
+  {
+   "anchors": [
+    "targetmap_unapply"
+   ],
+   "aura": "area aura application",
+   "coords": [
+    "SpellAuras.cpp:778"
+   ],
+   "event": "recipient leaves area range",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "application unapplied DEFAULT at the next 500 ms target-map update (track F)",
+   "ticks": "none on that recipient"
+  },
+  {
+   "anchors": [
+    "channel_range_remove"
+   ],
+   "aura": "channelled aura",
+   "coords": [
+    "Spell.cpp:3413"
+   ],
+   "event": "channel target out of range",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "application removed DEFAULT",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "create_app_dead_gate",
+    "add_aura_dead_gate"
+   ],
+   "aura": "not ATTR3_ALLOW_AURA_WHILE_DEAD (passives included)",
+   "coords": [
+    "Unit.cpp:3508",
+    "Unit.cpp:12292"
+   ],
+   "event": "aura created while the holder is dead",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "Aura object may exist but _CreateAuraApplication refuses the application (player loading excepted); cross-ref track G AL-U-G-05",
+   "ticks": "none"
+  },
+  {
+   "anchors": [
+    "resurrect_ghost",
+    "player_load_alive"
+   ],
+   "aura": "ATTR3_ONLY_ON_GHOSTS",
+   "coords": [
+    "Player.cpp:4309",
+    "Player.cpp:18701"
+   ],
+   "event": "holder resurrects",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "outcome": "trinity-only: survives resurrection except 8326/20584; the ghost-only sweep runs only at login while alive (RM-19)",
+   "ticks": "none"
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py lifetime --corpus --out docs/research/aura-lifecycle-corpora/lifetime.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  }
+ },
+ "retail_experiments": [
+  {
+   "discriminates": "AL-R-E-21",
+   "fidelity": "exact",
+   "id": "AL-X-E-20",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "keeps counting (and ATTR7 ones re-apply after resurrect)"
+    },
+    {
+     "name": "frozen-while-dead",
+     "prediction": "remaining time preserved from the death moment"
+    }
+   ],
+   "observable": "remaining duration after resurrect",
+   "question": "Does a death-persistent aura keep counting down on a corpse and resume with the remaining time after resurrect?",
+   "related": [
+    "AL-R-E-21"
+   ],
+   "setup": "Earth Shield (974) holder dies and is resurrected 10 s later"
+  }
+ ],
+ "rules": [
+  {
+   "counterexamples": [],
+   "definition": "Each periodic tick re-reads the caster via ObjectAccessor (Aura::GetCaster); a dead caster is still found and its bonuses apply, a despawned caster is nullptr (no bonus, no periodic crit); funnel/mana-leech need it alive.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-E-20",
+   "name": "caster-read-live-each-tick",
+   "population": "periodic providers",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "Auras that survive the death sweep keep their duration and tick counter; damage/heal/energize/power ticks on a dead holder are no-ops, but PERIODIC_TRIGGER_SPELL(_WITH_VALUE) and PERIODIC_DUMMY ticks act (no alive gate; a failed triggered cast ends the aura with EXPIRE, RM-47). The aura ends with EXPIRE, or with DEFAULT when a creature corpse is removed first (Creature.cpp:442 / despawn RemoveAllAuras).",
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "id": "AL-R-E-21",
+   "name": "surviving-auras-keep-running-on-corpse",
+   "population": "census death_class survives-* with periodic effects",
+   "status": "trinity-only"
+  }
+ ],
+ "tick_gates": {
+  "162": {
+   "caster": "present",
+   "caster_inputs": "no-op when caster absent; dead caster still burns",
+   "name": "POWER_BURN",
+   "target_alive": true
+  },
+  "20": {
+   "caster": "optional",
+   "caster_inputs": "as PERIODIC_HEAL",
+   "name": "OBS_MOD_HEALTH",
+   "target_alive": true
+  },
+  "21": {
+   "caster": "optional",
+   "caster_inputs": "none gated",
+   "name": "OBS_MOD_POWER",
+   "target_alive": true
+  },
+  "226": {
+   "caster": "script",
+   "caster_inputs": "script-controlled",
+   "name": "PERIODIC_DUMMY",
+   "target_alive": false
+  },
+  "227": {
+   "caster": "depends",
+   "caster_inputs": "as PERIODIC_TRIGGER_SPELL",
+   "name": "PERIODIC_TRIGGER_SPELL_WITH_VALUE",
+   "target_alive": false
+  },
+  "23": {
+   "caster": "depends",
+   "caster_inputs": "trigger caster = aura caster if NeedsToBeTriggeredByCaster else target; absent caster -> no cast; whether a dead caster's triggered cast succeeds is not established here",
+   "name": "PERIODIC_TRIGGER_SPELL",
+   "target_alive": false
+  },
+  "24": {
+   "caster": "optional",
+   "caster_inputs": "none gated",
+   "name": "PERIODIC_ENERGIZE",
+   "target_alive": true
+  },
+  "3": {
+   "caster": "optional",
+   "caster_inputs": "SpellDamageBonusDone only if caster; crit chance 0 without caster (CalcPeriodicCritChance)",
+   "name": "PERIODIC_DAMAGE",
+   "target_alive": true
+  },
+  "53": {
+   "caster": "optional",
+   "caster_inputs": "damage part ticks without caster; the heal-back part requires caster alive",
+   "name": "PERIODIC_LEECH",
+   "target_alive": true
+  },
+  "62": {
+   "caster": "alive",
+   "caster_inputs": "no-op tick when caster absent or dead (tick still counted)",
+   "name": "PERIODIC_HEALTH_FUNNEL",
+   "target_alive": true
+  },
+  "64": {
+   "caster": "alive",
+   "caster_inputs": "no-op tick when caster absent or dead (tick still counted)",
+   "name": "PERIODIC_MANA_LEECH",
+   "target_alive": true
+  },
+  "70": {
+   "caster": "required-unchecked",
+   "caster_inputs": "caster->CalculateDamage dereferenced without null check -- latent: raw 70 is not in CalculatePeriodic's periodic list so it never ticks unless a script sets it periodic",
+   "name": "PERIODIC_WEAPON_PERCENT_DAMAGE",
+   "target_alive": true
+  },
+  "8": {
+   "caster": "optional",
+   "caster_inputs": "healing bonus only with caster",
+   "name": "PERIODIC_HEAL",
+   "target_alive": true
+  },
+  "89": {
+   "caster": "optional",
+   "caster_inputs": "target max-health based; crit only with caster",
+   "name": "PERIODIC_DAMAGE_PERCENT",
+   "target_alive": true
+  }
+ },
+ "timelines": [
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 3,
+     "stacks": 1,
+     "t": 9000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 4,
+     "stacks": 1,
+     "t": 12000
+    },
+    {
+     "event": "removed",
+     "mode": "EXPIRE",
+     "state": {
+      "caster": "alive",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 4,
+      "timer": 0
+     },
+     "t": 12000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "alive",
+    "duration": 0,
+    "effective_ticks": 4,
+    "removed": "EXPIRE",
+    "stacks": 1,
+    "target_alive": true,
+    "ticks_done": 4,
+    "timer": 0
+   },
+   "id": "TL-E-01",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "death==expiry model predicts identical outcome for TL-E-02",
+   "title": "natural expiry"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 3,
+     "stacks": 1,
+     "t": 9000
+    },
+    {
+     "event": "removed",
+     "mode": "DEATH",
+     "state": {
+      "caster": "alive",
+      "duration": 100,
+      "removed": "DEATH",
+      "stacks": 1,
+      "target_alive": false,
+      "ticks_done": 3,
+      "timer": 2900
+     },
+     "t": 11950
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "alive",
+    "duration": 100,
+    "effective_ticks": 3,
+    "removed": "DEATH",
+    "stacks": 1,
+    "target_alive": false,
+    "ticks_done": 3,
+    "timer": 2900
+   },
+   "id": "TL-E-02",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [
+     [
+      11950,
+      "death",
+      null
+     ]
+    ],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "rules out 'death == natural expiry' (final tick + EXPIRE)",
+   "title": "holder death 50 ms before expiry"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 3,
+     "stacks": 1,
+     "t": 9000
+    },
+    {
+     "event": "removed",
+     "mode": "DEATH",
+     "state": {
+      "caster": "alive",
+      "duration": 100,
+      "removed": "DEATH",
+      "stacks": 1,
+      "target_alive": false,
+      "ticks_done": 3,
+      "timer": 2900
+     },
+     "t": 12000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "alive",
+    "duration": 100,
+    "effective_ticks": 3,
+    "removed": "DEATH",
+    "stacks": 1,
+    "target_alive": false,
+    "ticks_done": 3,
+    "timer": 2900
+   },
+   "id": "TL-E-03",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [
+     [
+      12000,
+      "death",
+      null
+     ]
+    ],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "same-timestamp order decides 3 vs 4 ticks (track I)",
+   "title": "holder death at the expiry timestamp, death first"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 3,
+     "stacks": 1,
+     "t": 9000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 4,
+     "stacks": 1,
+     "t": 12000
+    },
+    {
+     "event": "removed",
+     "mode": "EXPIRE",
+     "state": {
+      "caster": "alive",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 4,
+      "timer": 0
+     },
+     "t": 12000
+    },
+    {
+     "event": "holder_death",
+     "state": {
+      "caster": "alive",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 1,
+      "target_alive": false,
+      "ticks_done": 4,
+      "timer": 0
+     },
+     "t": 12000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "alive",
+    "duration": 0,
+    "effective_ticks": 4,
+    "removed": "EXPIRE",
+    "stacks": 1,
+    "target_alive": false,
+    "ticks_done": 4,
+    "timer": 0
+   },
+   "id": "TL-E-04",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [
+     [
+      12000,
+      "death",
+      null
+     ]
+    ],
+    "external_before_update": false,
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "pairs with TL-E-03",
+   "title": "holder death at the expiry timestamp, holder update first"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "event": "removed",
+     "mode": "ENEMY_SPELL",
+     "state": {
+      "caster": "alive",
+      "duration": 6100,
+      "removed": "ENEMY_SPELL",
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 1,
+      "timer": 2900
+     },
+     "t": 5999
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "alive",
+    "duration": 6100,
+    "effective_ticks": 1,
+    "removed": "ENEMY_SPELL",
+    "stacks": 1,
+    "target_alive": true,
+    "ticks_done": 1,
+    "timer": 2900
+   },
+   "id": "TL-E-05",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [
+     [
+      5999,
+      "dispel",
+      1
+     ]
+    ],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "rules out 'removal flushes a pro-rated/final tick'",
+   "title": "whole-aura dispel 1 ms before the second tick"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 3,
+     "t": 3000
+    },
+    {
+     "event": "stack_dispelled",
+     "state": {
+      "caster": "alive",
+      "duration": 6100,
+      "removed": null,
+      "stacks": 2,
+      "target_alive": true,
+      "ticks_done": 1,
+      "timer": 2900
+     },
+     "t": 5999
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 2,
+     "stacks": 2,
+     "t": 6000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 3,
+     "stacks": 2,
+     "t": 9000
+    },
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 4,
+     "stacks": 2,
+     "t": 12000
+    },
+    {
+     "event": "removed",
+     "mode": "EXPIRE",
+     "state": {
+      "caster": "alive",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 2,
+      "target_alive": true,
+      "ticks_done": 4,
+      "timer": 0
+     },
+     "t": 12000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "alive",
+    "duration": 0,
+    "effective_ticks": 4,
+    "removed": "EXPIRE",
+    "stacks": 2,
+    "target_alive": true,
+    "ticks_done": 4,
+    "timer": 0
+   },
+   "id": "TL-E-06",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [
+     [
+      5999,
+      "dispel",
+      1
+     ]
+    ],
+    "period": 3000,
+    "stacks": 3,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "rules out 'stack loss refreshes duration / resets timer'",
+   "title": "one-stack dispel of a 3-stack DoT 1 ms before the second tick"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "event": "caster_death",
+     "state": {
+      "caster": "dead",
+      "duration": 7100,
+      "removed": null,
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 1,
+      "timer": 1900
+     },
+     "t": 5000
+    },
+    {
+     "caster": "dead",
+     "effective": true,
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "caster": "dead",
+     "effective": true,
+     "event": "tick",
+     "n": 3,
+     "stacks": 1,
+     "t": 9000
+    },
+    {
+     "caster": "dead",
+     "effective": true,
+     "event": "tick",
+     "n": 4,
+     "stacks": 1,
+     "t": 12000
+    },
+    {
+     "event": "removed",
+     "mode": "EXPIRE",
+     "state": {
+      "caster": "dead",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 4,
+      "timer": 0
+     },
+     "t": 12000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "dead",
+    "duration": 0,
+    "effective_ticks": 4,
+    "removed": "EXPIRE",
+    "stacks": 1,
+    "target_alive": true,
+    "ticks_done": 4,
+    "timer": 0
+   },
+   "id": "TL-E-07",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [
+     [
+      5000,
+      "caster_death",
+      null
+     ]
+    ],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "rules out 'caster death removes its DoTs'",
+   "title": "caster dies at 5000"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "event": "caster_despawn",
+     "state": {
+      "caster": "absent",
+      "duration": 7100,
+      "removed": null,
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 1,
+      "timer": 1900
+     },
+     "t": 5000
+    },
+    {
+     "caster": "absent",
+     "effective": true,
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "caster": "absent",
+     "effective": true,
+     "event": "tick",
+     "n": 3,
+     "stacks": 1,
+     "t": 9000
+    },
+    {
+     "caster": "absent",
+     "effective": true,
+     "event": "tick",
+     "n": 4,
+     "stacks": 1,
+     "t": 12000
+    },
+    {
+     "event": "removed",
+     "mode": "EXPIRE",
+     "state": {
+      "caster": "absent",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 4,
+      "timer": 0
+     },
+     "t": 12000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "absent",
+    "duration": 0,
+    "effective_ticks": 4,
+    "removed": "EXPIRE",
+    "stacks": 1,
+    "target_alive": true,
+    "ticks_done": 4,
+    "timer": 0
+   },
+   "id": "TL-E-08",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [
+     [
+      5000,
+      "caster_despawn",
+      null
+     ]
+    ],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "ticks continue with null caster (no caster bonus / crit)",
+   "title": "caster despawns at 5000"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "event": "holder_death",
+     "state": {
+      "caster": "alive",
+      "duration": 8100,
+      "removed": null,
+      "stacks": 1,
+      "target_alive": false,
+      "ticks_done": 1,
+      "timer": 900
+     },
+     "t": 4000
+    },
+    {
+     "caster": "alive",
+     "effective": false,
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "caster": "alive",
+     "effective": false,
+     "event": "tick",
+     "n": 3,
+     "stacks": 1,
+     "t": 9000
+    },
+    {
+     "caster": "alive",
+     "effective": false,
+     "event": "tick",
+     "n": 4,
+     "stacks": 1,
+     "t": 12000
+    },
+    {
+     "event": "removed",
+     "mode": "EXPIRE",
+     "state": {
+      "caster": "alive",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 1,
+      "target_alive": false,
+      "ticks_done": 4,
+      "timer": 0
+     },
+     "t": 12000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "alive",
+    "duration": 0,
+    "effective_ticks": 1,
+    "removed": "EXPIRE",
+    "stacks": 1,
+    "target_alive": false,
+    "ticks_done": 4,
+    "timer": 0
+   },
+   "id": "TL-E-09",
+   "inputs": {
+    "aura_type": 3,
+    "death_persistent": true,
+    "duration": 12000,
+    "external": [
+     [
+      4000,
+      "death",
+      null
+     ]
+    ],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "aura survives on corpse; ticks counted but ineffective; expires EXPIRE at 12000",
+   "title": "death-persistent DoT, holder dies at 4000"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": true,
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "event": "caster_death",
+     "state": {
+      "caster": "dead",
+      "duration": 7100,
+      "removed": null,
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 1,
+      "timer": 1900
+     },
+     "t": 5000
+    },
+    {
+     "caster": "dead",
+     "effective": false,
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "caster": "dead",
+     "effective": false,
+     "event": "tick",
+     "n": 3,
+     "stacks": 1,
+     "t": 9000
+    },
+    {
+     "caster": "dead",
+     "effective": false,
+     "event": "tick",
+     "n": 4,
+     "stacks": 1,
+     "t": 12000
+    },
+    {
+     "event": "removed",
+     "mode": "EXPIRE",
+     "state": {
+      "caster": "dead",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 4,
+      "timer": 0
+     },
+     "t": 12000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "dead",
+    "duration": 0,
+    "effective_ticks": 1,
+    "removed": "EXPIRE",
+    "stacks": 1,
+    "target_alive": true,
+    "ticks_done": 4,
+    "timer": 0
+   },
+   "id": "TL-E-10",
+   "inputs": {
+    "aura_type": 62,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [
+     [
+      5000,
+      "caster_death",
+      null
+     ]
+    ],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": null,
+    "update_every": 100
+   },
+   "rules_out": "caster-alive gated tick: counted, no effect",
+   "title": "health funnel (62), caster dies at 5000"
+  },
+  {
+   "events": [
+    {
+     "caster": "alive",
+     "effective": "trigger-cast",
+     "event": "tick",
+     "n": 1,
+     "stacks": 1,
+     "t": 3000
+    },
+    {
+     "caster": "alive",
+     "effective": "trigger-cast-failed",
+     "event": "tick",
+     "n": 2,
+     "stacks": 1,
+     "t": 6000
+    },
+    {
+     "event": "removed",
+     "mode": "EXPIRE",
+     "state": {
+      "caster": "alive",
+      "duration": 0,
+      "removed": "EXPIRE",
+      "stacks": 1,
+      "target_alive": true,
+      "ticks_done": 2,
+      "timer": 0
+     },
+     "t": 6000
+    }
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "final": {
+    "caster": "alive",
+    "duration": 0,
+    "effective_ticks": 0,
+    "removed": "EXPIRE",
+    "stacks": 1,
+    "target_alive": true,
+    "ticks_done": 2,
+    "timer": 0
+   },
+   "id": "TL-E-11",
+   "inputs": {
+    "aura_type": 23,
+    "death_persistent": false,
+    "duration": 12000,
+    "external": [],
+    "period": 3000,
+    "stacks": 1,
+    "trigger_fails_at": 2,
+    "update_every": 100
+   },
+   "rules_out": "rules out 'EXPIRE <=> duration ran out' (R2-10): EXPIRE at 6000 with 6000 ms left",
+   "title": "periodic trigger (23): the 2nd triggered cast fails CheckCast"
+  }
+ ],
+ "unknowns": [
+  {
+   "blocker": "track D",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:1016-1026",
+    "Player.cpp:18976"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-E-21",
+   "known": "CalculatePeriodic(load=true) derives ticks/timer from max-remaining (SpellAuraEffects.cpp:1016-1026); not modelled here",
+   "question": "After logout/pet reload (new object), where is the next tick?",
+   "reopen_condition": "track D reload model",
+   "subject": "periodic phase after reload",
+   "why_unresolved": "track D owns periodic phase"
+  },
+  {
+   "blocker": "Retail",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:10279"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-20",
+   "known": "Trinity: yes for spells not being cast at death; all dynobjects of the spell being cast/channelled are removed (Spell.cpp:3665)",
+   "question": "Do persistent area auras of a dead caster keep ticking on Retail?",
+   "reopen_condition": "Retail observation",
+   "subject": "dynobj auras after caster death",
+   "why_unresolved": "Retail"
+  }
+ ],
+ "witnesses": [
+  {
+   "build_skew": false,
+   "caster_death": "persists on other holders; caster read live (dead caster found, despawned caster null)",
+   "channelled": false,
+   "effects": [
+    {
+     "aura": 3,
+     "effect": 6,
+     "index": 0,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": {
+      "caster": "optional",
+      "caster_inputs": "SpellDamageBonusDone only if caster; crit chance 0 without caster (CalcPeriodicCritChance)",
+      "coords": "SpellAuraEffects.cpp:5632",
+      "name": "PERIODIC_DAMAGE",
+      "target_alive": true
+     }
+    },
+    {
+     "aura": 226,
+     "effect": 6,
+     "index": 1,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": {
+      "caster": "script",
+      "caster_inputs": "script-controlled",
+      "coords": "SpellAuraEffects.cpp:5594",
+      "name": "PERIODIC_DUMMY",
+      "target_alive": false
+     }
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "holder_death": "removed-death",
+   "holder_death_note": "removed with DEATH: no final tick, EXPIRE handlers skipped, linked REMOVE casts skipped",
+   "ignore_owners_death_nyi": false,
+   "in_player_population": true,
+   "name": "Rupture",
+   "only_on_ghosts": false,
+   "spell": 1943
+  },
+  {
+   "build_skew": false,
+   "caster_death": "persists on other holders; caster read live (dead caster found, despawned caster null)",
+   "channelled": false,
+   "effects": [
+    {
+     "aura": 283,
+     "effect": 6,
+     "index": 0,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": null
+    },
+    {
+     "aura": 4,
+     "effect": 6,
+     "index": 1,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": null
+    },
+    {
+     "aura": 87,
+     "effect": 6,
+     "index": 2,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": null
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "holder_death": "survives-death-persistent+disabled-while-dead",
+   "holder_death_note": "survives the death sweep; duration keeps running on the corpse",
+   "ignore_owners_death_nyi": false,
+   "in_player_population": true,
+   "name": "Earth Shield",
+   "only_on_ghosts": false,
+   "spell": 974
+  },
+  {
+   "build_skew": false,
+   "caster_death": "persists on other holders; caster read live (dead caster found, despawned caster null)",
+   "channelled": false,
+   "effects": [
+    {
+     "aura": 87,
+     "effect": 65,
+     "index": 0,
+     "owner_shape": "area (owner applies to recipients)",
+     "tick_gate": null
+    },
+    {
+     "aura": 285,
+     "effect": 6,
+     "index": 1,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": null
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "holder_death": "survives-death-persistent",
+   "holder_death_note": "survives the death sweep; duration keeps running on the corpse",
+   "ignore_owners_death_nyi": false,
+   "in_player_population": true,
+   "name": "Devotion Aura",
+   "only_on_ghosts": false,
+   "spell": 465
+  },
+  {
+   "build_skew": false,
+   "caster_death": "channelled: removed CANCEL",
+   "channelled": true,
+   "effects": [
+    {
+     "aura": 3,
+     "effect": 6,
+     "index": 0,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": {
+      "caster": "optional",
+      "caster_inputs": "SpellDamageBonusDone only if caster; crit chance 0 without caster (CalcPeriodicCritChance)",
+      "coords": "SpellAuraEffects.cpp:5632",
+      "name": "PERIODIC_DAMAGE",
+      "target_alive": true
+     }
+    },
+    {
+     "aura": 33,
+     "effect": 6,
+     "index": 1,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": null
+    },
+    {
+     "aura": 24,
+     "effect": 6,
+     "index": 2,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": {
+      "caster": "optional",
+      "caster_inputs": "none gated",
+      "coords": "SpellAuraEffects.cpp:6053",
+      "name": "PERIODIC_ENERGIZE",
+      "target_alive": true
+     }
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "holder_death": "removed-death",
+   "holder_death_note": "removed with DEATH: no final tick, EXPIRE handlers skipped, linked REMOVE casts skipped",
+   "ignore_owners_death_nyi": false,
+   "in_player_population": true,
+   "name": "Mind Flay",
+   "only_on_ghosts": false,
+   "spell": 15407
+  },
+  {
+   "build_skew": false,
+   "caster_death": "channelled: removed CANCEL",
+   "channelled": true,
+   "effects": [
+    {
+     "aura": 226,
+     "effect": 6,
+     "index": 0,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": {
+      "caster": "script",
+      "caster_inputs": "script-controlled",
+      "coords": "SpellAuraEffects.cpp:5594",
+      "name": "PERIODIC_DUMMY",
+      "target_alive": false
+     }
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "holder_death": "removed-death",
+   "holder_death_note": "removed with DEATH: no final tick, EXPIRE handlers skipped, linked REMOVE casts skipped",
+   "ignore_owners_death_nyi": false,
+   "in_player_population": false,
+   "name": "Health Funnel",
+   "only_on_ghosts": false,
+   "spell": 755
+  },
+  {
+   "build_skew": false,
+   "caster_death": "persists on other holders; caster read live (dead caster found, despawned caster null)",
+   "channelled": false,
+   "effects": [
+    {
+     "aura": 8,
+     "effect": 6,
+     "index": 0,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": {
+      "caster": "optional",
+      "caster_inputs": "healing bonus only with caster",
+      "coords": "SpellAuraEffects.cpp:5893",
+      "name": "PERIODIC_HEAL",
+      "target_alive": true
+     }
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "holder_death": "removed-death",
+   "holder_death_note": "removed with DEATH: no final tick, EXPIRE handlers skipped, linked REMOVE casts skipped",
+   "ignore_owners_death_nyi": false,
+   "in_player_population": true,
+   "name": "Lifebloom",
+   "only_on_ghosts": false,
+   "spell": 33763
+  },
+  {
+   "build_skew": false,
+   "caster_death": "persists on other holders; caster read live (dead caster found, despawned caster null)",
+   "channelled": false,
+   "effects": [
+    {
+     "aura": 4,
+     "effect": 6,
+     "index": 0,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": null
+    },
+    {
+     "aura": 110,
+     "effect": 6,
+     "index": 1,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": null
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "holder_death": "survives-death-persistent",
+   "holder_death_note": "survives the death sweep; duration keeps running on the corpse",
+   "ignore_owners_death_nyi": false,
+   "in_player_population": true,
+   "name": "Deadly Poison",
+   "only_on_ghosts": false,
+   "spell": 2823
+  },
+  {
+   "build_skew": false,
+   "caster_death": "persists on other holders; caster read live (dead caster found, despawned caster null)",
+   "channelled": false,
+   "effects": [
+    {
+     "aura": 4,
+     "effect": 27,
+     "index": 0,
+     "owner_shape": "dynamic-object",
+     "tick_gate": null
+    },
+    {
+     "aura": 226,
+     "effect": 6,
+     "index": 2,
+     "owner_shape": "unit (target owns)",
+     "tick_gate": {
+      "caster": "script",
+      "caster_inputs": "script-controlled",
+      "coords": "SpellAuraEffects.cpp:5594",
+      "name": "PERIODIC_DUMMY",
+      "target_alive": false
+     }
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "holder_death": "removed-death",
+   "holder_death_note": "removed with DEATH: no final tick, EXPIRE handlers skipped, linked REMOVE casts skipped",
+   "ignore_owners_death_nyi": false,
+   "in_player_population": true,
+   "name": "Rain of Fire",
+   "only_on_ghosts": false,
+   "spell": 5740
+  }
+ ]
+}

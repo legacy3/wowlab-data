@@ -1,0 +1,2065 @@
+{
+ "core_navigation": [
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1225-1231": "left.affected()",
+    "crates/combat/src/program/aura_lifetime.rs:16": "SpellId::new(aura.id().get())",
+    "crates/model/src/aura.rs:17-21": "affected: ActorId"
+   },
+   "audit_refs": [
+    "UNK-K-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1225-1231",
+    "crates/combat/src/program/aura_lifetime.rs:16",
+    "crates/model/src/aura.rs:17-21"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-01",
+   "observation": "Core has one mutable cell per exact AuraKey (aura = spell id, source actor, affected actor). There is no effect-mask, cast-item or per-cast component, and there is no shared caster-ANY slot: two casters applying the same aura to one recipient always own two distinct cells.",
+   "questions": [
+    "A"
+   ],
+   "reopen_condition": "Track A's identity corpus names a stacking class whose Trinity key is not (spell, caster, recipient) -- StackAmount>1 without ATTR3_DOT_STACKING_RULE (shared slot) or effect-mask recreation -- on a family Core admits; then UNK-K-001's two-caster probe becomes decisive.",
+   "research_ref": [
+    "A: Trinity one-slot lookup Unit::_TryStackingOrRefreshingExistingAura (caster-ANY when IsStackableOnOneSlotWithDifferentCasters); effect-mask mismatch recreates the aura"
+   ],
+   "status": "assumed",
+   "topic": "identity-key",
+   "trinity_coords": {
+    "Spells/SpellInfo.cpp:1808-1811": "SPELL_ATTR3_DOT_STACKING_RULE"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:116-132": "AuraPlanBuildError::DuplicateKey",
+    "crates/combat/src/state.rs:1593-1706": "fn compile_aura_plan(",
+    "crates/combat/src/state/topology.rs:8-30": "pub(super) fn mutation_reaches_key("
+   },
+   "audit_refs": [
+    "UNK-X-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:116-132",
+    "crates/combat/src/state.rs:1593-1706",
+    "crates/combat/src/state/topology.rs:8-30"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-02",
+   "observation": "Every reachable aura cell is enumerated once at CombatState construction from the program topology x actors x host-declared target relations. There is no runtime recipient discovery, no area-aura owner/application split and no periodic target-map update; the recipient set of an aura is fixed for the whole state lifetime.",
+   "questions": [
+    "A",
+    "F"
+   ],
+   "reopen_condition": "Track F shows an admitted-shape (self or single explicit target) aura whose Trinity recipient set changes mid-lifetime, or Core admits any area/persistent-area aura effect.",
+   "research_ref": [
+    "F: Aura::UpdateTargetMap every 500 ms adds/removes applications during the lifetime",
+    "targeting-recipient-policy-archaeology.md (aura target maps)"
+   ],
+   "status": "absent",
+   "topic": "recipient-topology",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program.rs:1595-1618": "fn validate_aura_mutation_source(",
+    "crates/data/src/action/catalog/selected_owner.rs:38": "a program may apply an aura owned by another spell"
+   },
+   "audit_refs": [
+    "CSA-K-01",
+    "MUT-K-012"
+   ],
+   "core_coords": [
+    "crates/combat/src/program.rs:1595-1618",
+    "crates/data/src/action/catalog/selected_owner.rs:38"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-03",
+   "observation": "An aura mutation step is checked only for its effect-kind family; the aura it applies/removes and its count are host-resolved. A bare ApplyAura row of spell A may be declared as applying aura B (probe k_aura_mutation_source::accepted_apply_aura_row_of_a_applies_foreign_aura_b).",
+   "questions": [
+    "A"
+   ],
+   "reopen_condition": "Track A/C find a real player spell whose ApplyAura effect legitimately creates an aura of a different spell id (Trinity would then be the arbiter of the binding Core leaves to the host).",
+   "research_ref": [
+    "A: application created by EffectApplyAura for the hit spell's own aura"
+   ],
+   "status": "assumed",
+   "topic": "application-identity-binding",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:729-745": "StackCountExceedsMaximum",
+    "crates/combat/src/program.rs:1650-1655": "NonZeroU16::new(input.count)"
+   },
+   "audit_refs": [
+    "CSA-K-01"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:729-745",
+    "crates/combat/src/program.rs:1650-1655"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-04",
+   "observation": "Initial stacks of an application are the host-authored step count (nonzero, <= max stacks). Core never derives them from source rows; a fresh application starts at exactly that count.",
+   "questions": [
+    "C"
+   ],
+   "reopen_condition": "Track C's stacks corpus finds a real player application whose Trinity initial stack count is not 1 (SPELLVALUE_AURA_STACK, script) -- then the host's count is carrying source semantics Core does not check.",
+   "research_ref": [
+    "C: Trinity initial stacks = AuraCreateInfo::StackAmount (default 1, SpellAuras.cpp:481; spell path SpellValue AuraStackAmount=1); CumulativeAura never read at construction"
+   ],
+   "status": "assumed",
+   "topic": "initial-stacks",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuras.cpp:481": "m_stackAmount(createInfo.StackAmount)"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:57-67": "aura_unique_stack_limit_mismatch",
+    "crates/data/src/action/catalog/aura.rs:183-185": "invalid_aura_max_stacks",
+    "crates/data/src/action/catalog/aura.rs:38-42": "max_stacks: u16"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:57-67",
+    "crates/data/src/action/catalog/aura.rs:183-185",
+    "crates/data/src/action/catalog/aura.rs:38-42"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-05",
+   "observation": "Maximum stacks are host-resolved per aura; the only generic check is nonzero. The value is cross-checked against SpellAuraOptions.CumulativeAura only for Aura Unique owners (max(cumulative,1)); family compilers add their own single-stack gates.",
+   "questions": [
+    "C"
+   ],
+   "reopen_condition": "Track C's capacity rule (CumulativeAura, 0->1, spellmods on StackAmount, script overrides) differs from a host-resolved max_stacks on any admitted family.",
+   "research_ref": [
+    "C: Trinity capacity = SpellInfo::StackAmount (CumulativeAura); ModStackAmount treats 0 as 1"
+   ],
+   "status": "assumed",
+   "topic": "stack-capacity",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:737-745": ".min(definition.max_stacks.get())",
+    "crates/combat/src/aura_state.rs:810-814": "AuraTransition::Reapplied"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:737-745",
+    "crates/combat/src/aura_state.rs:810-814"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-06",
+   "observation": "Active reapplication adds the application's stacks, saturating at max stacks, under every lifetime policy; at the cap the lifetime policy still runs (RestartLifetime restarts at cap).",
+   "questions": [
+    "C",
+    "B"
+   ],
+   "reopen_condition": "Track C shows a reapplication that does not add the incoming count (e.g. mask-mismatch recreate, AuraPointsStack base-amount accumulation) on a family Core admits.",
+   "research_ref": [
+    "C: Trinity ModStackAmount(createInfo.StackAmount): refresh iff new>=old && (StackAmount || !AURA_UNIQUE); cap only on increase (SpellAuras.cpp:1093-1127)"
+   ],
+   "status": "represented",
+   "topic": "stack-reapplication",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuras.cpp:1114": "bool refresh = stackAmount >= GetStackAmount()"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:838-874": "pub(crate) fn quote_add_stacks_from(",
+    "crates/combat/src/aura_state.rs:937-966": "count.get() >= before.cell.stacks",
+    "crates/combat/src/program/definition.rs:800-808": "RemoveStacks(NonZeroU16)"
+   },
+   "audit_refs": [
+    "CSA-K-01",
+    "MUT-K-009",
+    "MUT-K-010"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:838-874",
+    "crates/combat/src/aura_state.rs:937-966",
+    "crates/combat/src/program/definition.rs:800-808"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-07",
+   "observation": "Explicit stack operations are Add(n) (inactive -> unchanged, capped), RemoveStacks(n) (>= current -> whole-aura removal) and Remove. There is no Set-stacks operation; source direction/mode/identity of raw 164/203/289 rows is not bound to the host step.",
+   "questions": [
+    "C"
+   ],
+   "reopen_condition": "Track C's stacks corpus shows a player-reachable raw-289 Set-mode or negative-count row on an aura Core admits (the Set-mode clause was rejected on real data by R1).",
+   "research_ref": [
+    "C: EffectModifyAuraStacks MiscValue 0 Mod / 1 Set (SpellEffects.cpp:6127)"
+   ],
+   "status": "represented",
+   "topic": "stack-mutation-ops",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:296-302": "options.proc_charges() == 0",
+    "crates/combat/src/program/damage_modifier/target_aura_mechanic.rs:258": "row.proc_charges() == 0",
+    "crates/combat/src/program/dispel_duration_modifier.rs:544": "options.proc_charges() == 0",
+    "crates/combat/src/program/selected_trait_package.rs:466": "options.proc_charges() == 0",
+    "crates/combat/src/program/target_aura_state_modifier.rs:573": "options.proc_charges() == 0"
+   },
+   "audit_refs": [
+    "CSA-K-05",
+    "UNK-K-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:296-302",
+    "crates/combat/src/program/damage_modifier/target_aura_mechanic.rs:258",
+    "crates/combat/src/program/dispel_duration_modifier.rs:544",
+    "crates/combat/src/program/selected_trait_package.rs:466",
+    "crates/combat/src/program/target_aura_state_modifier.rs:573"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-08",
+   "observation": "Aura proc charges have no runtime representation. Five admission sites require ProcCharges == 0; other families do not read SpellAuraOptions charges at all. (Spell cooldown charges -- CSA-R3-02 -- are a different mechanism.)",
+   "questions": [
+    "C",
+    "H"
+   ],
+   "reopen_condition": "Any admitted Core family is found (track C/H census) with nonzero ProcCharges or a spell_proc Charges override in the player population.",
+   "research_ref": [
+    "C: CalcMaxCharges (spell_proc Charges overrides DB2), ModCharges, ConsumeProcCharges / USE_STACKS_FOR_CHARGES",
+    "H: spell_proc.Charges override"
+   ],
+   "status": "absent",
+   "topic": "aura-proc-charges",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:685-690": "PreserveExistingLifetime,",
+    "crates/combat/src/program/aura_reapplication.rs:441-496": "(ResolvedAuraReapplication::CappedCarryover, true, false, None)",
+    "crates/data/src/action/catalog/aura.rs:60-63": "CappedCarryover,"
+   },
+   "audit_refs": [
+    "PL-E-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:685-690",
+    "crates/combat/src/program/aura_reapplication.rs:441-496",
+    "crates/data/src/action/catalog/aura.rs:60-63"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-09",
+   "observation": "Four lifetime policies: RestartLifetime, CappedCarryover, IndependentStackDeadlines, PreserveExistingLifetime. The host supplies only RestartLifetime or CappedCarryover; the compiler combines it with raw 43/436/489/490 and fails closed on any other combination.",
+   "questions": [
+    "B"
+   ],
+   "reopen_condition": "Track B identifies a Trinity or simc refresh behaviour on an admitted-shape aura that none of the four policies expresses (e.g. duration reset only when the new max differs, Spell.cpp:3294-3298).",
+   "research_ref": [
+    "B: refresh.json (Trinity RefreshDuration / RefreshTimers / pandemic branch)"
+   ],
+   "status": "represented",
+   "topic": "reapplication-policy-compiler",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1174-1200": "projected.max(before.expires_at.value()",
+    "crates/combat/src/aura_state.rs:775-787": "GenerationExhausted",
+    "crates/combat/src/aura_state.rs:798-809": "applied_at: if before.cell.is_active()"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1174-1200",
+    "crates/combat/src/aura_state.rs:775-787",
+    "crates/combat/src/aura_state.rs:798-809"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-10",
+   "observation": "RestartLifetime sets expiry = now + projected application duration, which may shorten a later existing deadline (only CappedCarryover / IndependentStackDeadlines take the max with the old deadline). applied_at becomes now and the generation increments.",
+   "questions": [
+    "B",
+    "I"
+   ],
+   "reopen_condition": "Track B shows a Trinity/simc refresh that never shortens (max with remaining) for non-pandemic auras, or a duration modifier that makes the reapplied max shorter than the remaining time.",
+   "research_ref": [
+    "B: Trinity RefreshDuration -> SetDuration(GetMaxDuration()) also replaces the remaining time"
+   ],
+   "status": "represented",
+   "topic": "restart-lifetime",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1153-1173": "remaining.as_millis().min(carry_limit)",
+    "crates/combat/src/aura_state.rs:18-19": "CARRY_DENOMINATOR: u64 = 10",
+    "crates/combat/src/program/aura_reapplication.rs:455-457": "Ok(AuraReapplicationPolicy::CappedCarryover)"
+   },
+   "audit_refs": [
+    "NUM-E-002",
+    "FF-E-003",
+    "REJ-E-005"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1153-1173",
+    "crates/combat/src/aura_state.rs:18-19",
+    "crates/combat/src/program/aura_reapplication.rs:455-457"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-11",
+   "observation": "CappedCarryover (host CappedCarryover AND raw 436) computes expiry = max(now + D + min(remaining, floor(3D/10)), old expiry) with D the projected application duration, integer ms. It preserves periodic cadence. Arithmetic mirrored by core_projected_expiry().",
+   "questions": [
+    "B",
+    "I"
+   ],
+   "reopen_condition": "Track B's probe confirms the pinned-Trinity carry model; Core then matches simc / pre-92773e207c Trinity rather than the pinned consumer, and the timeline refresh-at-225-of-250 separates them (Core 500 vs pinned Trinity 550).",
+   "research_ref": [
+    "B: pinned Trinity Spell.cpp:3284-3288 reads HitAura->GetDuration() after the refresh already set it to max, so newDuration = min(D + D, trunc(D*130/100)) -- carry is ~always the full 30% (B: likely Trinity defect from 92773e207c); simc action.cpp:4603 max(r, min(0.3D, r) + D)"
+   ],
+   "status": "represented",
+   "topic": "capped-carryover",
+   "trinity_coords": {
+    "Spells/Spell.cpp:3284-3288": "SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:747-766": "AuraTransition::ReappliedPreservingDeadline",
+    "crates/combat/src/program/aura_reapplication.rs:427-453": "SpellAttributeKind::AuraDoesNotRefresh",
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:45-69": "Ok(cumulative_aura == 0)"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:747-766",
+    "crates/combat/src/program/aura_reapplication.rs:427-453",
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:45-69"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-12",
+   "observation": "PreserveExistingLifetime keeps application time, deadline, generation and periodic cadence and only adds capped stacks. It is compiled from raw 43 (Aura Unique) with authored CumulativeAura 0 on an exact hostile single-effect periodic-damage owner, or from raw 489 on the application spell. Raw 189 (ATTR5_AURA_UNIQUE_PER_CASTER), Trinity's second refresh-suppression bit, is uncatalogued in Core, so a selected owner carrying it is refused.",
+   "questions": [
+    "B",
+    "C"
+   ],
+   "reopen_condition": "Track B shows an Aura Unique reapplication whose hit duration differs from the current max (duration modifiers, haste) -- Trinity then rewrites the deadline where Core preserves it; or a raw-489 carrier's retail refresh behaviour (track L) contradicts simc.",
+   "research_ref": [
+    "B: Trinity ATTR1_AURA_UNIQUE / ATTR5_AURA_UNIQUE_PER_CASTER with StackAmount 0 -> ModStackAmount refresh=false (SpellAuras.cpp:1114); Spell.cpp:3294-3298 still resets the duration when the hit duration differs from the current max",
+    "B/J: raw 489 = Trinity SPELL_ATTR15_UNK9, no Trinity consumer; simc SX_AURA_DOES_NOT_REFRESH buff.cpp:739-744"
+   ],
+   "status": "represented",
+   "topic": "preserve-existing-lifetime",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuras.cpp:1114": "SPELL_ATTR5_AURA_UNIQUE_PER_CASTER",
+    "Spells/Spell.cpp:3294-3298": "hitInfo.AuraDuration != hitInfo.HitAura->GetMaxDuration()"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/independent_stack.rs:190-233": "self.displace_earliest(&mut pool, displaced)",
+    "crates/combat/src/program/aura_lifetime.rs:11-35": "SpellAttributeKind::AsynchronousStackingBuff",
+    "crates/combat/src/state/independent_stack_lifetime.rs:114-158": "AuraStacksExpired"
+   },
+   "audit_refs": [
+    "LC-E-003",
+    "LC-R3-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/independent_stack.rs:190-233",
+    "crates/combat/src/program/aura_lifetime.rs:11-35",
+    "crates/combat/src/state/independent_stack_lifetime.rs:114-158"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-13",
+   "observation": "Raw 490 with max stacks > 1 gives each application its own deadline cohort; overflow and explicit removal consume earliest cohorts; natural expiry removes only due stacks and exposes the latest retained deadline. Independent expiry emits AuraStacksExpired and never runs expiry drivers. A missing spell during lifetime compilation falls back to SingleDeadline under a debug_assert only.",
+   "questions": [
+    "B",
+    "C"
+   ],
+   "reopen_condition": "Track B/C find a Trinity or script consumer of ATTR15 bit 10, or track L designs a retail per-stack expiry experiment for a raw-490 carrier.",
+   "research_ref": [
+    "B/J: raw 490 = Trinity SPELL_ATTR15_UNK10, no Trinity consumer (Trinity has one duration per Aura); simc asynchronous buff stacks"
+   ],
+   "status": "represented",
+   "topic": "independent-stack-deadlines",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:55-61": "AuraPlanBuildError::InvalidDuration",
+    "crates/data/src/action/input.rs:1120-1123": "Finite { duration_ms: NonZeroU32 }",
+    "crates/data/src/game_data.rs:363-385": "pub fn spell_has_duration_entry("
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:55-61",
+    "crates/data/src/action/input.rs:1120-1123",
+    "crates/data/src/game_data.rs:363-385"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-14",
+   "observation": "The base lifetime is host-resolved (Finite{duration_ms} or Indefinite). GameData retains only whether a spell names a nonzero SpellDuration entry, never Duration/MaxDuration/DurationPerResource, so Core cannot cross-check the authored duration; zero duration is refused.",
+   "questions": [
+    "B"
+   ],
+   "reopen_condition": "Track B's duration rules name a source-derived initial duration (DurationPerResource, MinDuration, negative/indefinite encodings) for an aura shape Core admits.",
+   "research_ref": [
+    "B: duration.json (SpellDuration topology, MaxDuration/combo points, MinDuration missile floor Spell.cpp:888-896, PvPDurationIndex has no Trinity consumer)"
+   ],
+   "status": "assumed",
+   "topic": "duration-source",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/execution/planning/aura_transition.rs:56-86": "projected_application_duration(",
+    "crates/combat/src/periodic.rs:564-582": "let whole_periods = (duration_millis / period_millis).max(1);",
+    "crates/combat/src/state/modifiers.rs:72-108": "crate::dispel_duration::duration("
+   },
+   "audit_refs": [
+    "CSA-J-04"
+   ],
+   "core_coords": [
+    "crates/combat/src/execution/planning/aura_transition.rs:56-86",
+    "crates/combat/src/periodic.rs:564-582",
+    "crates/combat/src/state/modifiers.rs:72-108"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-15",
+   "observation": "The application duration is captured once per (re)application: authored -> mechanic-duration -> dispel-duration modifiers of the recipient, then (only for the Venom 391428 raw-273 slice) aligned to whole hasted periods. It is never rebased mid-lifetime. Preserve reapplication does not recompute it.",
+   "questions": [
+    "B",
+    "D"
+   ],
+   "reopen_condition": "Track B/D show a lifetime input read live after application (e.g. a duration mod applied to an active aura) on an admitted family.",
+   "research_ref": [
+    "B: Spell.cpp ModSpellDuration 3262, haste/ATTR8 3270 (per-hit recomputation)",
+    "D: snapshot-matrix (duration inputs)"
+   ],
+   "status": "represented",
+   "topic": "duration-modifiers-at-application",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1138-1150": "AuraQuoteError::IndefiniteDeadlinePolicy",
+    "crates/combat/src/periodic.rs:758-767": "PeriodicQuoteError::MissingAuraDeadline",
+    "crates/combat/src/program/aura_reapplication.rs:370-380": "unsupported_aura_lifetime_error"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1138-1150",
+    "crates/combat/src/periodic.rs:758-767",
+    "crates/combat/src/program/aura_reapplication.rs:370-380"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-16",
+   "observation": "Indefinite auras exist, but CappedCarryover / IndependentStackDeadlines on them are refused at compile time and periodic schedules require a finite aura deadline. A zero authored duration is a plan build error rather than an instantaneous or indefinite aura.",
+   "questions": [
+    "B",
+    "G"
+   ],
+   "reopen_condition": "Track B/G find player periodic auras with indefinite lifetime (e.g. passive periodic triggers) that a Core family would need.",
+   "research_ref": [
+    "B: Trinity duration 0 / -1 encodings",
+    "G: passive/indefinite auras"
+   ],
+   "status": "refused",
+   "topic": "indefinite-and-zero-lifetimes",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic.rs:729-741": "ResolvedPeriodicCadenceReapplication::PreserveCadence",
+    "crates/data/src/action/input.rs:1112-1115": "RestartCadence,"
+   },
+   "audit_refs": [
+    "UNK-E-001",
+    "PL-E-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic.rs:729-741",
+    "crates/data/src/action/input.rs:1112-1115"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-17",
+   "observation": "Whether an active reapplication preserves or restarts the tick grid is a host-authored per-schedule choice (Preserve keeps the anchor and moves only the expiry; Restart re-anchors at now and recaptures the period). No source field is consulted.",
+   "questions": [
+    "D",
+    "B"
+   ],
+   "reopen_condition": "UNK-E-001's own reopen: once a host resolver/generator exists, check that it emits PreserveCadence exactly for StackAmount >= 2 or triggered-dont-reset applications (track D rule).",
+   "research_ref": [
+    "D/C: Trinity resetPeriodicTimer = StackAmount < 2 && !TRIGGERED_DONT_RESET_PERIODIC_TIMER (Spell.cpp:3240); pandemic path overrides"
+   ],
+   "status": "assumed",
+   "topic": "periodic-cadence-on-refresh",
+   "trinity_coords": {
+    "Spells/Spell.cpp:3240": "TRIGGERED_DONT_RESET_PERIODIC_TIMER"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic.rs:743-745": "PeriodicInitialPolicy::OnFreshApplication",
+    "crates/dbc/src/spell_attribute.rs:117": "TickOnApplication = 169,"
+   },
+   "audit_refs": [
+    "UNK-E-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic.rs:743-745",
+    "crates/dbc/src/spell_attribute.rs:117"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-18",
+   "observation": "Raw 169 (Trinity SPELL_ATTR5_EXTRA_INITIAL_PERIOD) yields one full initial occurrence only on a fresh application; an active restart-cadence refresh does not re-tick (simc tick_on_application semantics).",
+   "questions": [
+    "D"
+   ],
+   "reopen_condition": "Track D's periodic timeline for a raw-169 refresh confirms Trinity re-ticks on refresh, and track L designs the retail discriminator.",
+   "research_ref": [
+    "D: Trinity ResetPeriodic(true) sets _periodicTimer so a refresh ticks immediately (SpellAuraEffects.cpp:949-958); simc dot.cpp:972-975 ticks only on start"
+   ],
+   "status": "represented",
+   "topic": "tick-on-application",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuraEffects.cpp:949-952": "void AuraEffect::ResetPeriodic("
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic.rs:523-548": "PeriodicTerminalPolicy::ProportionalNaturalExpiryPartial",
+    "crates/data/src/action/periodic_health.rs:43-46": "ProportionalNaturalExpiryPartial,"
+   },
+   "audit_refs": [
+    "FF-E-003"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic.rs:523-548",
+    "crates/data/src/action/periodic_health.rs:43-46"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-19",
+   "observation": "Regular ticks fall at anchor + k*period while <= the aura deadline (a tick exactly at expiry runs). A proportional terminal partial occurrence at natural expiry exists only when the host selects ProportionalNaturalExpiryPartial; explicit removal never produces one.",
+   "questions": [
+    "D",
+    "I"
+   ],
+   "reopen_condition": "Track D shows Trinity (or simc for the same shape) never emits a partial final tick, or emits it on removal paths too.",
+   "research_ref": [
+    "D: Trinity tick count / GetTotalTicks and whether any partial final tick exists"
+   ],
+   "status": "represented",
+   "topic": "tick-grid-and-terminal-partial",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic.rs:551-562": "PeriodicCadenceRate::SpellCastSpeed",
+    "crates/dbc/src/spell_attribute.rs:118": "SpellHasteAffectsPeriodic = 173,"
+   },
+   "audit_refs": [
+    "CSA-J-02",
+    "NUM-E-001",
+    "UNK-J-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic.rs:551-562",
+    "crates/dbc/src/spell_attribute.rs:118"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-20",
+   "observation": "With raw 173 the period is trunc(authored / spell-cast-speed) (f64), captured when an interval is installed (fresh application / restart / after each occurrence); a pending interval is never rebased by a mid-interval haste change.",
+   "questions": [
+    "D",
+    "I"
+   ],
+   "reopen_condition": "Track I's numeric boundary corpus fixes the Trinity period arithmetic (binary32 multiply) and D shows when Trinity recalculates the period (per tick vs on refresh).",
+   "research_ref": [
+    "D/I: Trinity int32(period * f32 ModCastingSpeed) (SpellAuraEffects.cpp:1006-1007)"
+   ],
+   "status": "represented",
+   "topic": "period-haste-capture",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/data/src/action/input.rs:1105-1107": "FreshAtTick,",
+    "crates/data/src/action/periodic_health.rs:62-65": "FreshAtTick,",
+    "crates/dbc/src/aura_subtype.rs:381": "using fresh power and effective point stacks"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/data/src/action/input.rs:1105-1107",
+    "crates/data/src/action/periodic_health.rs:62-65",
+    "crates/dbc/src/aura_subtype.rs:381"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-21",
+   "observation": "Periodic health / trigger amounts have a single snapshot mode, FreshAtTick: base, attack/spell power and effective point stacks are read at each occurrence. There is no application- or refresh-time amount snapshot.",
+   "questions": [
+    "D",
+    "C"
+   ],
+   "reopen_condition": "Track D's snapshot matrix classifies any input of an admitted periodic family as application-snapshot or recalculated-on-refresh rather than dynamic-each-tick.",
+   "research_ref": [
+    "D: Trinity AuraEffect::CalculateAmount at apply/stack change (amount *= stacks), caster bonuses at tick (snapshot-matrix)",
+    "C: CalculateAmount SpellAuraEffects.cpp:777 amount *= stacks unless SuppressPointsStacking"
+   ],
+   "status": "assumed",
+   "topic": "periodic-amount-snapshot",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/spell_attribute.rs:66-75": "SpellAttributeSupport::Unimplemented",
+    "crates/dbc/src/spell_attribute.rs:364": "disabled(SpellAttributeKind::Channeled",
+    "crates/dbc/src/spell_attribute.rs:467": "disabled(SpellAttributeKind::RollingPeriodic"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/program/spell_attribute.rs:66-75",
+    "crates/dbc/src/spell_attribute.rs:364",
+    "crates/dbc/src/spell_attribute.rs:467"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-22",
+   "observation": "Owners carrying Rolling Periodic (raw 334) or channel attributes (raw 34/38) are refused at compile time (Disabled support class), so rolled-over periodic amounts and channel-owned aura lifetimes never reach AuraState.",
+   "questions": [
+    "D",
+    "B"
+   ],
+   "reopen_condition": "Core admits a raw-334 or channelled aura owner.",
+   "research_ref": [
+    "D/B: Trinity ATTR10_ROLLING_PERIODIC adds old amount * remainingTicks/totalTicks during SetStackAmount (SpellAuraEffects.cpp:829-840); channel duration Spell.cpp:4014"
+   ],
+   "status": "refused",
+   "topic": "rolling-periodic-and-channels",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuraEffects.cpp:829": "SPELL_ATTR10_ROLLING_PERIODIC"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/deadline_queue.rs:222-224": "(left.at, left.sequence, left.slot)",
+    "crates/combat/src/periodic.rs:282-286": "scheduled tick tie-break must remain its canonical schedule slot",
+    "crates/combat/src/state/transition.rs:22-27": "(tick.at(), 5, 0)",
+    "crates/combat/src/state/transition.rs:54-74": "Self::AuraExpiry(expiry) => (expiry.at(), 6, expiry.sequence())"
+   },
+   "audit_refs": [
+    "UNK-E-003",
+    "UNK-F-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/deadline_queue.rs:222-224",
+    "crates/combat/src/periodic.rs:282-286",
+    "crates/combat/src/state/transition.rs:22-27",
+    "crates/combat/src/state/transition.rs:54-74"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-23",
+   "observation": "Transitions due at one millisecond run in rank order: resource startup 0, passive flow 1, hard-cast completion 2, fixed impact 3, white swing 4, periodic tick 5, aura / independent-stack expiry 6; ties inside a rank use (at, sequence, slot). A tick due exactly at expiry precedes the expiry.",
+   "questions": [
+    "I",
+    "D",
+    "E"
+   ],
+   "reopen_condition": "Track I's ordering corpus proves a Trinity call-path order for tick-vs-expiry or cast-vs-tick at one timestamp that contradicts ranks 2/5/6.",
+   "research_ref": [
+    "I: Trinity Unit::_UpdateSpells order (Aura::Update duration, UpdateTargetMap, AuraEffect::Update, then expired sweep, Unit.cpp:2957-2987) and map update granularity",
+    "E/F: UpdateOwner order SpellAuras.cpp:817-853"
+   ],
+   "status": "represented",
+   "topic": "same-timestamp-ordering",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1030-1036": "generation: u64,",
+    "crates/combat/src/aura_state.rs:607-617": "payload: quote.after.generation",
+    "crates/combat/src/state.rs:1368-1382": "aura expiry commit must match the exact peeked generation"
+   },
+   "audit_refs": [
+    "LC-H-032"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1030-1036",
+    "crates/combat/src/aura_state.rs:607-617",
+    "crates/combat/src/state.rs:1368-1382"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-24",
+   "observation": "Each cell carries a u64 generation incremented on every non-independent (re)application; expiry nodes carry it and are upserted per slot, so a refreshed aura cannot be expired by its stale deadline. Removal cancels the slot's node.",
+   "questions": [
+    "I",
+    "B"
+   ],
+   "reopen_condition": "Track I shows a Trinity observable that depends on application identity across refresh (e.g. a callback keyed to the original application surviving a refresh).",
+   "research_ref": [
+    "I: generation.json (Trinity identity is the Aura object; stale-pointer / removed-application handling)"
+   ],
+   "status": "represented",
+   "topic": "generation-safety",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/expiry_execution.rs:9-40": "ResolvedExpirySource::OriginalAuraSource",
+    "crates/combat/src/state.rs:1383-1394": "self.execute_expiry_drivers(expired, output);"
+   },
+   "audit_refs": [
+    "CSA-E-01",
+    "LC-H-010"
+   ],
+   "core_coords": [
+    "crates/combat/src/expiry_execution.rs:9-40",
+    "crates/combat/src/state.rs:1383-1394"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-25",
+   "observation": "Natural expiry: quote removal -> commit dependent authorities -> cancel periodic cells -> AuraExpired observation -> health thresholds -> TriggerSpellOnExpire drivers (source = recipient or original caster). Expiry drivers run only on natural aggregate expiry, never on explicit removal or independent-stack expiry.",
+   "questions": [
+    "E",
+    "D"
+   ],
+   "reopen_condition": "Track E shows an expire-triggered effect that Trinity also runs on another remove mode, or runs before dependent state is unapplied.",
+   "research_ref": [
+    "E: Trinity removal with AURA_REMOVE_BY_EXPIRE after _UpdateSpells sweep (Unit.cpp:2987); AfterEffectRemove hooks see the remove mode"
+   ],
+   "status": "represented",
+   "topic": "natural-expiry-sequence",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/event.rs:463-480": "AuraStacksExpired {",
+    "crates/combat/src/event.rs:68-76": "pub enum AuraChangeKind {"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/event.rs:463-480",
+    "crates/combat/src/event.rs:68-76"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-26",
+   "observation": "Core's observable removal vocabulary is AuraChangeKind::Removed (explicit mutation or dispel) plus AuraExpired / AuraStacksExpired (natural). There is no remove mode (default / interrupt / cancel / enemy spell / expire / death), so no downstream behaviour can branch on it.",
+   "questions": [
+    "E",
+    "H"
+   ],
+   "reopen_condition": "Track E/H find a lifecycle callback on an admitted family whose Trinity behaviour depends on the remove mode.",
+   "research_ref": [
+    "E: AuraRemoveMode SpellAuraDefines.h:55-64",
+    "H: LINK_REMOVE skips the linked cast when removeMode == AURA_REMOVE_BY_DEATH (SpellAuras.cpp:1421)"
+   ],
+   "status": "absent",
+   "topic": "remove-reason",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuraDefines.h:55-64": "AURA_REMOVE_BY_ENEMY_SPELL"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic_execution.rs:449-457": "if aura_recipient_is_dead {",
+    "crates/dbc/src/spell_attribute.rs:391": "unimplemented(SpellAttributeKind::AllowAuraWhileDead",
+    "crates/dbc/src/spell_attribute.rs:436": "unimplemented(SpellAttributeKind::DisableAuraWhileDead"
+   },
+   "audit_refs": [
+    "CSA-E-01",
+    "CSA-H-01",
+    "CSA-H-02",
+    "CSA-G-01",
+    "CSA-R2-01",
+    "LC-H-010",
+    "LC-E-001",
+    "LC-H-026",
+    "UNK-H-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic_execution.rs:449-457",
+    "crates/dbc/src/spell_attribute.rs:391",
+    "crates/dbc/src/spell_attribute.rs:436"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-27",
+   "observation": "Death is not a lifecycle event: auras stay active on a corpse, their deadlines and on-expire drivers stay armed, and fresh applications onto a dead actor commit. Only the periodic executor cancels a schedule when its recipient is dead at a due tick (aura stays). A dead source's periodic keeps ticking. Raw 116/226 owners are refused. Probes e_death_lifecycle (5) and h_death_lifecycle (4) pass at the pin.",
+   "questions": [
+    "E",
+    "D",
+    "F"
+   ],
+   "reopen_condition": "Any death-lifecycle milestone in Core: track E's lifetime.json (which auras survive, remove mode DEATH, caster-death non-effect) is the source-side reference to compare against.",
+   "research_ref": [
+    "E: RemoveAllAurasOnDeath Unit.cpp:4472 keeps IsPassive || IsDeathPersistent (ATTR3_ALLOW_AURA_WHILE_DEAD); auras cast by the dying unit on others are not removed; ATTR7_DISABLE_AURA_WHILE_DEAD only in UnitAura::FillTargetMap"
+   ],
+   "status": "absent",
+   "topic": "death",
+   "trinity_coords": {
+    "Entities/Unit/Unit.cpp:4472": "void Unit::RemoveAllAurasOnDeath()"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/execution/planning/dispel.rs:84-120": "random.uniform_index(candidate_count)",
+    "crates/combat/src/program/dispel.rs:238-249": "\"no periodic lifecycle fanout\"",
+    "crates/combat/src/program/dispel_mechanic.rs:383-395": "finite single-stack self-only raw-87 applicand",
+    "crates/data/src/action/catalog/aura.rs:104-108": "DispelTypeId::from_raw(1)"
+   },
+   "audit_refs": [
+    "CSA-E-02",
+    "CSA-R3-01",
+    "UNK-I-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/execution/planning/dispel.rs:84-120",
+    "crates/combat/src/program/dispel.rs:238-249",
+    "crates/combat/src/program/dispel_mechanic.rs:383-395",
+    "crates/data/src/action/catalog/aura.rs:104-108"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-28",
+   "observation": "Dispel admits only Magic-family, finite, single-stack, single-deadline, self-reachable auras without periodic schedules; one attempt selects one candidate uniformly and removes the whole aura. Dispel resistance, per-stack / per-charge dispel (ATTR1_DISPEL_ALL_STACKS, ATTR7_DISPEL_REMOVES_CHARGES), OnDispel hooks and dispel of periodic auras are outside the admitted slice.",
+   "questions": [
+    "E",
+    "C"
+   ],
+   "reopen_condition": "Core widens the dispel slice beyond max_stacks 1 / non-periodic; then track E's dispel.json (stack vs charge removal, chance roll, RNG draw count) is the comparison target.",
+   "research_ref": [
+    "E: GetDispellableAuraList Unit.cpp:4735, RemoveAurasDueToSpellByDispel Unit.cpp:4006 (ModCharges vs ModStackAmount), CalcDispelChance SpellAuras.cpp:1237; mechanic dispel rolls before the mechanic filter SpellEffects.cpp:4236"
+   ],
+   "status": "refused",
+   "topic": "dispel",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuras.cpp:1237": "Aura::CalcDispelChance("
+   }
+  },
+  {
+   "anchors": {
+    "crates/data/src/spell_external_policy.rs:22-34": "pub aura_interrupt_policy: SpellExternalPolicyPresence,",
+    "crates/dbc/src/spell_attribute.rs:363": "unimplemented(SpellAttributeKind::NoAuraCancel"
+   },
+   "audit_refs": [
+    "CSA-K-05",
+    "UNK-K-002"
+   ],
+   "core_coords": [
+    "crates/data/src/spell_external_policy.rs:22-34",
+    "crates/dbc/src/spell_attribute.rs:363"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-29",
+   "observation": "Player cancel, AuraInterruptFlags removal (damage taken, movement, casting, combat leave) and leave-combat removal have no Core path. SpellAuraInterrupts only exists as an external-policy presence column that rejects on the SelectedTrait route; No Aura Cancel (raw 31) owners are refused.",
+   "questions": [
+    "E",
+    "H"
+   ],
+   "reopen_condition": "Track E/J count admitted-shape player auras with nonzero AuraInterruptFlags; any such family admitted by Core is removing on an event Core cannot see.",
+   "research_ref": [
+    "E: RemoveAurasWithInterruptFlags Unit.cpp:4240; cancel via RemoveOwnedAura (SpellHandler.cpp:284, track F)"
+   ],
+   "status": "absent",
+   "topic": "cancel-and-interrupt-removal",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/spell_attribute.rs:17-47": "uncataloged_selected_spell_attribute",
+    "crates/dbc/src/spell_attribute.rs:351": "no aura lifecycle"
+   },
+   "audit_refs": [
+    "CSA-K-05",
+    "UNK-I-002",
+    "UNK-K-003"
+   ],
+   "core_coords": [
+    "crates/combat/src/program/spell_attribute.rs:17-47",
+    "crates/dbc/src/spell_attribute.rs:351"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-30",
+   "observation": "Passive (raw 6) owners compile as immutable definitions with explicit actor bindings and no aura lifecycle; simultaneous aura or action ownership rejects the flag. Passives are therefore never AuraState cells (no stacks, no removal, no refresh).",
+   "questions": [
+    "G",
+    "C"
+   ],
+   "reopen_condition": "Track G finds an admitted-shape passive whose Trinity aura is mutated after learning (stacks, charges, removal, re-application on shapeshift).",
+   "research_ref": [
+    "G: passive-active.json (Trinity passives are Auras: multislot, never refreshed, removed on unlearn/shapeshift, may stack -- Phalanx capacity 2)",
+    "selected-passive-package-generalization.md"
+   ],
+   "status": "assumed",
+   "topic": "passive-as-non-aura",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/spell_attribute.rs:17-75": "external_spell_policy",
+    "crates/data/src/spell_external_policy.rs:22-34": "pub external_aura_stack_mutation: SpellExternalPolicyPresence,"
+   },
+   "audit_refs": [
+    "CSA-K-05",
+    "CSA-A-02",
+    "UNK-K-002",
+    "UNK-K-003"
+   ],
+   "core_coords": [
+    "crates/combat/src/program/spell_attribute.rs:17-75",
+    "crates/data/src/spell_external_policy.rs:22-34"
+   ],
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-31",
+   "observation": "Scripts, spell_proc rows, aura-interrupt policy and external aura-stack mutation are admitted only as presence columns (Absent/Present/Unknown); Present or Unknown rejects on the SelectedTrait route. No script-controlled lifecycle input is representable; the ordinary-Passive route does not consult the columns.",
+   "questions": [
+    "H"
+   ],
+   "reopen_condition": "Track H names a player lifecycle surface on a Core-admitted spell whose only source is a world overlay or script (the host catalog would have to mark it Present).",
+   "research_ref": [
+    "H: external-policy.json (spell_linked_spell LINK_AURA/LINK_REMOVE, spell_proc charges, AuraScript hooks)"
+   ],
+   "status": "refused",
+   "topic": "external-policy-boundary",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/spell_attribute.rs:66": "SpellAttributeSupport::Ignored => {}",
+    "crates/dbc/src/spell_attribute.rs:384": "ignored(SpellAttributeKind::DotStackingRule"
+   },
+   "audit_refs": [
+    "UNK-K-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/program/spell_attribute.rs:66",
+    "crates/dbc/src/spell_attribute.rs:384"
+   ],
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-32",
+   "observation": "Raw 103 (ATTR3_DOT_STACKING_RULE) is catalogued Ignored and passes owner admission; Core's per-caster key already separates casters, so the flag cannot change Core behaviour.",
+   "questions": [
+    "A"
+   ],
+   "reopen_condition": "UNK-K-001's reopen (two casters, same admitted non-periodic aura) combined with track A's coexistence rule.",
+   "research_ref": [
+    "A: Trinity IsStackableOnOneSlotWithDifferentCasters and Aura::CanStackWith use the flag to decide shared-slot vs per-caster coexistence"
+   ],
+   "status": "assumed",
+   "topic": "dot-stacking-rule",
+   "trinity_coords": {
+    "Spells/SpellInfo.cpp:1808-1811": "IsStackableOnOneSlotWithDifferentCasters"
+   }
+  }
+ ],
+ "counts": {
+  "by_status": {
+   "absent": 5,
+   "assumed": 9,
+   "refused": 4,
+   "represented": 14
+  },
+  "probe_tests": 22,
+  "records": 32
+ },
+ "falsification": [
+  {
+   "action": "recorded in AL-K-K-10",
+   "attempt": "read projected_expiry for all four policies",
+   "id": "AL-F-K-01",
+   "result": "falsified for RestartLifetime: the max with the old deadline is taken only for CappedCarryover / IndependentStackDeadlines (aura_state.rs:1188-1199)",
+   "rule": "Core never shortens an active aura's deadline on reapplication"
+  },
+  {
+   "action": "AL-K-K-26",
+   "attempt": "enumerate CombatObservation aura variants",
+   "id": "AL-F-K-02",
+   "result": "falsified: only Removed / AuraExpired / AuraStacksExpired (event.rs:68-76,463-480)",
+   "rule": "Core distinguishes remove reasons"
+  },
+  {
+   "action": "AL-K-K-25",
+   "attempt": "trace execute_expiry_drivers callers",
+   "id": "AL-F-K-03",
+   "result": "falsified: only natural aggregate expiry (state.rs:1394); independent-stack expiry and explicit removal never run them",
+   "rule": "expiry drivers run on every removal"
+  },
+  {
+   "action": "AL-K-K-28",
+   "attempt": "read dispel admission",
+   "id": "AL-F-K-04",
+   "result": "unreachable: dispellable auras must have max_stacks 1 (program/dispel.rs:238-243); whole aura removed",
+   "rule": "Core dispel removes one stack per dispel"
+  },
+  {
+   "action": "AL-K-K-21",
+   "attempt": "enumerate snapshot inputs",
+   "id": "AL-F-K-05",
+   "result": "falsified: the only mode is FreshAtTick (periodic_health.rs:62-65, input.rs:1105-1107)",
+   "rule": "periodic amounts are snapshotted at application"
+  },
+  {
+   "action": "AL-K-K-27",
+   "attempt": "re-run e_death_lifecycle / h_death_lifecycle probes at the pin",
+   "id": "AL-F-K-06",
+   "result": "falsified: 9/9 probes pass asserting the aura survives on the corpse; only the periodic cell is cancelled at a due tick",
+   "rule": "recipient death removes or suspends the aura"
+  },
+  {
+   "action": "AL-K-K-11 reopen condition (B owns the Trinity verdict)",
+   "attempt": "timeline D=250: apply 0, refresh at 225 (remaining 25) under core_projected_expiry vs the pinned Spell.cpp:3284-3288 expression as described by track B",
+   "id": "AL-F-K-07",
+   "result": "diverges: Core 500, pinned Trinity 550 (carry always the 30% cap); equal at refresh 150 (475), which is why e_capped_carryover cannot see it",
+   "rule": "Core's capped carryover equals pinned Trinity's pandemic arithmetic"
+  },
+  {
+   "action": "AL-K-K-14",
+   "attempt": "search GameData for SpellDuration values",
+   "id": "AL-F-K-08",
+   "result": "falsified: only a presence bit per spell (game_data.rs:363-385)",
+   "rule": "Core validates aura duration against SpellDuration"
+  }
+ ],
+ "lifecycle_attributes": [
+  {
+   "bit": 0,
+   "core_admission": "refused (uncatalogued)",
+   "core_coord": null,
+   "core_support": null,
+   "core_variant": null,
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 3,
+    "controlled": 0,
+    "player": 0
+   },
+   "question": "C",
+   "raw": 0,
+   "trinity_name": "SPELL_ATTR0_PROC_FAILURE_BURNS_CHARGE",
+   "why": "proc failure burns a charge",
+   "word": 0
+  },
+  {
+   "bit": 6,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:351",
+   "core_support": "implemented",
+   "core_variant": "Passive",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 16756,
+    "controlled": 45,
+    "player": 3453
+   },
+   "question": "G",
+   "raw": 6,
+   "trinity_name": "SPELL_ATTR0_PASSIVE",
+   "why": "passive: Trinity aura vs Core non-aura definition",
+   "word": 0
+  },
+  {
+   "bit": 31,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:363",
+   "core_support": "unimplemented",
+   "core_variant": "NoAuraCancel",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 13649,
+    "controlled": 0,
+    "player": 231
+   },
+   "question": "E",
+   "raw": 31,
+   "trinity_name": "SPELL_ATTR0_NO_AURA_CANCEL",
+   "why": "no aura cancel: cancel eligibility",
+   "word": 0
+  },
+  {
+   "bit": 2,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:364",
+   "core_support": "disabled",
+   "core_variant": "Channeled",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 12375,
+    "controlled": 11,
+    "player": 31
+   },
+   "question": "B",
+   "raw": 34,
+   "trinity_name": "SPELL_ATTR1_IS_CHANNELLED",
+   "why": "channelled: channel-owned aura lifetime",
+   "word": 1
+  },
+  {
+   "bit": 6,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:367",
+   "core_support": "disabled",
+   "core_variant": "SelfChanneled",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 9122,
+    "controlled": 3,
+    "player": 31
+   },
+   "question": "B",
+   "raw": 38,
+   "trinity_name": "SPELL_ATTR1_IS_SELF_CHANNELLED",
+   "why": "self channelled",
+   "word": 1
+  },
+  {
+   "bit": 11,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:371",
+   "core_support": "implemented",
+   "core_variant": "AuraUnique",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 6175,
+    "controlled": 0,
+    "player": 2
+   },
+   "question": "B",
+   "raw": 43,
+   "trinity_name": "SPELL_ATTR1_AURA_UNIQUE",
+   "why": "aura unique: refresh suppression / Core PreserveExistingLifetime",
+   "word": 1
+  },
+  {
+   "bit": 25,
+   "core_admission": "refused (uncatalogued)",
+   "core_coord": null,
+   "core_support": null,
+   "core_variant": null,
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 1629,
+    "controlled": 1,
+    "player": 12
+   },
+   "question": "E",
+   "raw": 57,
+   "trinity_name": "SPELL_ATTR1_AURA_STAYS_AFTER_COMBAT",
+   "why": "aura stays after combat: leave-combat removal",
+   "word": 1
+  },
+  {
+   "bit": 30,
+   "core_admission": "refused (uncatalogued)",
+   "core_coord": null,
+   "core_support": null,
+   "core_variant": null,
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 115,
+    "controlled": 0,
+    "player": 5
+   },
+   "question": "E",
+   "raw": 62,
+   "trinity_name": "SPELL_ATTR1_DISPEL_ALL_STACKS",
+   "why": "dispel all stacks",
+   "word": 1
+  },
+  {
+   "bit": 0,
+   "core_admission": "refused (uncatalogued)",
+   "core_coord": null,
+   "core_support": null,
+   "core_variant": null,
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 40938,
+    "controlled": 0,
+    "player": 20
+   },
+   "question": "E",
+   "raw": 64,
+   "trinity_name": "SPELL_ATTR2_ALLOW_DEAD_TARGET",
+   "why": "allow dead target: application onto the dead",
+   "word": 2
+  },
+  {
+   "bit": 7,
+   "core_admission": "admitted-ignored",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:384",
+   "core_support": "ignored",
+   "core_variant": "DotStackingRule",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 840,
+    "controlled": 5,
+    "player": 44
+   },
+   "question": "A",
+   "raw": 103,
+   "trinity_name": "SPELL_ATTR3_DOT_STACKING_RULE",
+   "why": "DoT stacking rule: per-caster vs shared slot",
+   "word": 3
+  },
+  {
+   "bit": 20,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:391",
+   "core_support": "unimplemented",
+   "core_variant": "AllowAuraWhileDead",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 47451,
+    "controlled": 7,
+    "player": 195
+   },
+   "question": "E",
+   "raw": 116,
+   "trinity_name": "SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD",
+   "why": "allow aura while dead: death survival",
+   "word": 3
+  },
+  {
+   "bit": 25,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:393",
+   "core_support": "disabled",
+   "core_variant": "TreatAsPeriodic",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 171,
+    "controlled": 0,
+    "player": 4
+   },
+   "question": "D",
+   "raw": 121,
+   "trinity_name": "SPELL_ATTR3_TREAT_AS_PERIODIC",
+   "why": "treat as periodic",
+   "word": 3
+  },
+  {
+   "bit": 6,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:398",
+   "core_support": "unimplemented",
+   "core_variant": "CannotBeStolen",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 3683,
+    "controlled": 0,
+    "player": 26
+   },
+   "question": "E",
+   "raw": 134,
+   "trinity_name": "SPELL_ATTR4_CANNOT_BE_STOLEN",
+   "why": "cannot be stolen: spellsteal",
+   "word": 4
+  },
+  {
+   "bit": 9,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:407",
+   "core_support": "implemented",
+   "core_variant": "TickOnApplication",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 7279,
+    "controlled": 3,
+    "player": 61
+   },
+   "question": "D",
+   "raw": 169,
+   "trinity_name": "SPELL_ATTR5_EXTRA_INITIAL_PERIOD",
+   "why": "extra initial period (tick on application)",
+   "word": 5
+  },
+  {
+   "bit": 13,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:408",
+   "core_support": "implemented",
+   "core_variant": "SpellHasteAffectsPeriodic",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 731,
+    "controlled": 6,
+    "player": 79
+   },
+   "question": "D",
+   "raw": 173,
+   "trinity_name": "SPELL_ATTR5_SPELL_HASTE_AFFECTS_PERIODIC",
+   "why": "spell haste affects periodic",
+   "word": 5
+  },
+  {
+   "bit": 29,
+   "core_admission": "refused (uncatalogued)",
+   "core_coord": null,
+   "core_support": null,
+   "core_variant": null,
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 925,
+    "controlled": 0,
+    "player": 4
+   },
+   "question": "B",
+   "raw": 189,
+   "trinity_name": "SPELL_ATTR5_AURA_UNIQUE_PER_CASTER",
+   "why": "aura unique per caster: refresh suppression",
+   "word": 5
+  },
+  {
+   "bit": 1,
+   "core_admission": "refused (uncatalogued)",
+   "core_coord": null,
+   "core_support": null,
+   "core_variant": null,
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 144,
+    "controlled": 0,
+    "player": 0
+   },
+   "question": "B",
+   "raw": 225,
+   "trinity_name": "SPELL_ATTR7_NO_TARGET_DURATION_MOD",
+   "why": "no target duration mod",
+   "word": 7
+  },
+  {
+   "bit": 2,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:436",
+   "core_support": "unimplemented",
+   "core_variant": "DisableAuraWhileDead",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 1972,
+    "controlled": 2,
+    "player": 79
+   },
+   "question": "E",
+   "raw": 226,
+   "trinity_name": "SPELL_ATTR7_DISABLE_AURA_WHILE_DEAD",
+   "why": "disable aura while dead",
+   "word": 7
+  },
+  {
+   "bit": 10,
+   "core_admission": "refused (uncatalogued)",
+   "core_coord": null,
+   "core_support": null,
+   "core_variant": null,
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 49,
+    "controlled": 0,
+    "player": 0
+   },
+   "question": "C",
+   "raw": 234,
+   "trinity_name": "SPELL_ATTR7_DISPEL_REMOVES_CHARGES",
+   "why": "dispel removes charges",
+   "word": 7
+  },
+  {
+   "bit": 9,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:443",
+   "core_support": "implemented",
+   "core_variant": "PeriodicCanCrit",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 721,
+    "controlled": 5,
+    "player": 58
+   },
+   "question": "D",
+   "raw": 265,
+   "trinity_name": "SPELL_ATTR8_PERIODIC_CAN_CRIT",
+   "why": "periodic can crit",
+   "word": 8
+  },
+  {
+   "bit": 17,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:450",
+   "core_support": "implemented",
+   "core_variant": "HasteAffectsDuration",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 302,
+    "controlled": 4,
+    "player": 37
+   },
+   "question": "B",
+   "raw": 273,
+   "trinity_name": "SPELL_ATTR8_HASTE_AFFECTS_DURATION",
+   "why": "haste affects duration",
+   "word": 8
+  },
+  {
+   "bit": 22,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:452",
+   "core_support": "implemented",
+   "core_variant": "MeleeHasteAffectsPeriodic",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 31,
+    "controlled": 1,
+    "player": 1
+   },
+   "question": "D",
+   "raw": 278,
+   "trinity_name": "SPELL_ATTR8_MELEE_HASTE_AFFECTS_PERIODIC",
+   "why": "melee haste affects periodic",
+   "word": 8
+  },
+  {
+   "bit": 14,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:467",
+   "core_support": "disabled",
+   "core_variant": "RollingPeriodic",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 192,
+    "controlled": 0,
+    "player": 8
+   },
+   "question": "D",
+   "raw": 334,
+   "trinity_name": "SPELL_ATTR10_ROLLING_PERIODIC",
+   "why": "rolling periodic",
+   "word": 10
+  },
+  {
+   "bit": 24,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:468",
+   "core_support": "disabled",
+   "core_variant": "UpdatePassivesOnApplyRemove",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 591,
+    "controlled": 0,
+    "player": 51
+   },
+   "question": "G",
+   "raw": 344,
+   "trinity_name": "SPELL_ATTR10_UNK24",
+   "why": "update passives on apply/remove",
+   "word": 10
+  },
+  {
+   "bit": 12,
+   "core_admission": "refused",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:484",
+   "core_support": "disabled",
+   "core_variant": "DoNotConsumeAuraStackOnProc",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 872,
+    "controlled": 2,
+    "player": 30
+   },
+   "question": "C",
+   "raw": 428,
+   "trinity_name": "SPELL_ATTR13_UNK12",
+   "why": "do not consume aura stack on proc",
+   "word": 13
+  },
+  {
+   "bit": 20,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:485",
+   "core_support": "implemented",
+   "core_variant": "PeriodicRefreshExtendsDuration",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 699,
+    "controlled": 9,
+    "player": 61
+   },
+   "question": "B",
+   "raw": 436,
+   "trinity_name": "SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION",
+   "why": "periodic refresh extends duration (pandemic)",
+   "word": 13
+  },
+  {
+   "bit": 9,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:490",
+   "core_support": "implemented",
+   "core_variant": "AuraDoesNotRefresh",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 33,
+    "controlled": 0,
+    "player": 0
+   },
+   "question": "B",
+   "raw": 489,
+   "trinity_name": "SPELL_ATTR15_UNK9",
+   "why": "aura does not refresh (Trinity ATTR15 UNK9)",
+   "word": 15
+  },
+  {
+   "bit": 10,
+   "core_admission": "implemented-slice (catalog text bounds the admitted carriers)",
+   "core_coord": "crates/dbc/src/spell_attribute.rs:491",
+   "core_support": "implemented",
+   "core_variant": "AsynchronousStackingBuff",
+   "evidence": [
+    "core-navigation",
+    "db2-fact"
+   ],
+   "provider_spell_carriers": {
+    "all": 70,
+    "controlled": 0,
+    "player": 6
+   },
+   "question": "C",
+   "raw": 490,
+   "trinity_name": "SPELL_ATTR15_UNK10",
+   "why": "asynchronous stacking buff (Trinity ATTR15 UNK10)",
+   "word": 15
+  }
+ ],
+ "policy_triggers": {
+  "asynchronous_stacking_490_cumulative_gt1": {
+   "all": 65,
+   "controlled": 0,
+   "player": 6
+  },
+  "asynchronous_stacking_490_cumulative_le1": {
+   "all": 5,
+   "controlled": 0,
+   "player": 0
+  },
+  "aura_does_not_refresh_489": {
+   "all": 33,
+   "controlled": 0,
+   "player": 0
+  },
+  "aura_unique_cumulative_0": {
+   "all": 5692,
+   "controlled": 0,
+   "player": 2
+  },
+  "aura_unique_cumulative_positive": {
+   "all": 483,
+   "controlled": 0,
+   "player": 0
+  },
+  "periodic_refresh_extends_436": {
+   "all": 699,
+   "controlled": 9,
+   "player": 61
+  }
+ },
+ "populations": {
+  "all": 189140,
+  "controlled": 141,
+  "player": 4218
+ },
+ "probe_confirmations": [
+  {
+   "confirms": "exact-expiry tick precedes expiry; restart cadence discards partial period; preserve cadence keeps anchor; tick-on-application only on fresh application; explicit removal leaves no stale tick; hasted period trunc(f64 division) incl. 1100/1.1 -> 999",
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "file": "e_periodic_schedule.rs",
+   "records": [
+    "AL-K-K-17",
+    "AL-K-K-18",
+    "AL-K-K-19",
+    "AL-K-K-20",
+    "AL-K-K-23"
+   ],
+   "result": "pass",
+   "tests": 7
+  },
+  {
+   "confirms": "natural-expiry proportional partial (100/200 full, 250 half); refresh at 150 of 250 carries min(100, 75) -> expiry 475 with cadence preserved and remainder moved",
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "file": "e_capped_carryover.rs",
+   "records": [
+    "AL-K-K-11",
+    "AL-K-K-19"
+   ],
+   "result": "pass",
+   "tests": 2
+  },
+  {
+   "confirms": "expiry driver runs after recipient death (reapplies to corpse / fizzles on damage child); fresh periodic application onto a dead recipient admitted; periodic trigger silently cancelled after recipient death; dead source's periodic keeps ticking",
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "file": "e_death_lifecycle.rs",
+   "records": [
+    "AL-K-K-27",
+    "AL-K-K-25"
+   ],
+   "result": "pass",
+   "tests": 5
+  },
+  {
+   "confirms": "dead caster keeps casting; on-expire driver fires from an aura on a dead recipient; aura application to a dead target commits; control: living recipient fires once",
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "file": "h_death_lifecycle.rs",
+   "records": [
+    "AL-K-K-27"
+   ],
+   "result": "pass",
+   "tests": 4
+  },
+  {
+   "confirms": "raw-289 direction/count/identity unbound; ApplyAura row of A applies foreign aura B; raw-289 Set mode admitted as Add; raw-203 removes the host aura, not EffectTriggerSpell",
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "file": "k_aura_mutation_source.rs",
+   "records": [
+    "AL-K-K-03",
+    "AL-K-K-07"
+   ],
+   "result": "pass",
+   "tests": 4
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py coremap --out ../../docs/research/aura-lifecycle-corpora/core-navigation.json",
+  "core_verified": {
+   "clean": true,
+   "commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "core_anchors": 87,
+   "trinity_anchors": 13
+  },
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "probe_command": "cd scripts/research/core_audit/probe && CARGO_TARGET_DIR=<scratch>/targets/K CARGO_BUILD_JOBS=4 cargo test --offline --locked --test e_periodic_schedule --test e_capped_carryover --test e_death_lifecycle --test k_aura_mutation_source --test h_death_lifecycle"
+ },
+ "question_matrix": {
+  "A": {
+   "question": "identity / application: which mutable aura/application object exists and what it is keyed by",
+   "records": [
+    "AL-K-K-01",
+    "AL-K-K-02",
+    "AL-K-K-03",
+    "AL-K-K-32"
+   ],
+   "status_counts": {
+    "absent": 1,
+    "assumed": 3,
+    "refused": 0,
+    "represented": 0
+   }
+  },
+  "B": {
+   "question": "duration / refresh / pandemic: how the lifetime initialises and what reapplication does to it",
+   "records": [
+    "AL-K-K-06",
+    "AL-K-K-09",
+    "AL-K-K-10",
+    "AL-K-K-11",
+    "AL-K-K-12",
+    "AL-K-K-13",
+    "AL-K-K-14",
+    "AL-K-K-15",
+    "AL-K-K-16",
+    "AL-K-K-17",
+    "AL-K-K-22",
+    "AL-K-K-24"
+   ],
+   "status_counts": {
+    "absent": 0,
+    "assumed": 2,
+    "refused": 2,
+    "represented": 8
+   }
+  },
+  "C": {
+   "question": "stacks / charges / proc state: initial stacks, capacity, stack and charge mutation",
+   "records": [
+    "AL-K-K-04",
+    "AL-K-K-05",
+    "AL-K-K-06",
+    "AL-K-K-07",
+    "AL-K-K-08",
+    "AL-K-K-12",
+    "AL-K-K-13",
+    "AL-K-K-21",
+    "AL-K-K-28",
+    "AL-K-K-30"
+   ],
+   "status_counts": {
+    "absent": 1,
+    "assumed": 4,
+    "refused": 1,
+    "represented": 4
+   }
+  },
+  "D": {
+   "question": "periodic / snapshotting: cadence, initial and terminal ticks, what is captured vs read live",
+   "records": [
+    "AL-K-K-15",
+    "AL-K-K-17",
+    "AL-K-K-18",
+    "AL-K-K-19",
+    "AL-K-K-20",
+    "AL-K-K-21",
+    "AL-K-K-22",
+    "AL-K-K-23",
+    "AL-K-K-25",
+    "AL-K-K-27"
+   ],
+   "status_counts": {
+    "absent": 1,
+    "assumed": 2,
+    "refused": 1,
+    "represented": 6
+   }
+  },
+  "E": {
+   "question": "removal / dispel / death: removal paths, callbacks, remove reasons, death",
+   "records": [
+    "AL-K-K-23",
+    "AL-K-K-25",
+    "AL-K-K-26",
+    "AL-K-K-27",
+    "AL-K-K-28",
+    "AL-K-K-29"
+   ],
+   "status_counts": {
+    "absent": 3,
+    "assumed": 0,
+    "refused": 1,
+    "represented": 2
+   }
+  },
+  "F": {
+   "question": "area aura recipients: recipient-map changes during an aura's lifetime",
+   "records": [
+    "AL-K-K-02",
+    "AL-K-K-27"
+   ],
+   "status_counts": {
+    "absent": 2,
+    "assumed": 0,
+    "refused": 0,
+    "represented": 0
+   }
+  },
+  "G": {
+   "question": "passive / active / acquisition: passives as auras, mutability of passives",
+   "records": [
+    "AL-K-K-16",
+    "AL-K-K-30"
+   ],
+   "status_counts": {
+    "absent": 0,
+    "assumed": 1,
+    "refused": 1,
+    "represented": 0
+   }
+  },
+  "H": {
+   "question": "scripts / world overlays / external policy",
+   "records": [
+    "AL-K-K-08",
+    "AL-K-K-26",
+    "AL-K-K-29",
+    "AL-K-K-31"
+   ],
+   "status_counts": {
+    "absent": 3,
+    "assumed": 0,
+    "refused": 1,
+    "represented": 0
+   }
+  },
+  "I": {
+   "question": "numeric boundaries / same-timestamp ordering / generation safety",
+   "records": [
+    "AL-K-K-10",
+    "AL-K-K-11",
+    "AL-K-K-19",
+    "AL-K-K-20",
+    "AL-K-K-23",
+    "AL-K-K-24"
+   ],
+   "status_counts": {
+    "absent": 0,
+    "assumed": 0,
+    "refused": 0,
+    "represented": 6
+   }
+  }
+ },
+ "questions": {
+  "A": "identity / application: which mutable aura/application object exists and what it is keyed by",
+  "B": "duration / refresh / pandemic: how the lifetime initialises and what reapplication does to it",
+  "C": "stacks / charges / proc state: initial stacks, capacity, stack and charge mutation",
+  "D": "periodic / snapshotting: cadence, initial and terminal ticks, what is captured vs read live",
+  "E": "removal / dispel / death: removal paths, callbacks, remove reasons, death",
+  "F": "area aura recipients: recipient-map changes during an aura's lifetime",
+  "G": "passive / active / acquisition: passives as auras, mutability of passives",
+  "H": "scripts / world overlays / external policy",
+  "I": "numeric boundaries / same-timestamp ordering / generation safety"
+ },
+ "scope": "navigation only: where each aura-lifecycle concept lives in Core and which research question it touches; findings belong to the Core semantic boundary audit (cited ids), rules to tracks A-I",
+ "statuses": {
+  "absent": "no Core representation and no compile-time refusal tied to the concept",
+  "assumed": "Core runs it from host-authored input or a single fixed mode without source validation",
+  "refused": "Core fails closed at compile/admission time for this shape",
+  "represented": "Core has a runtime representation driven by source facts it validates"
+ },
+ "subtype_coverage": {
+  "all": {
+   "disabled": 31882,
+   "ignored": 10552,
+   "implemented": 74541,
+   "uncatalogued": 37260,
+   "unimplemented": 99022
+  },
+  "controlled": {
+   "disabled": 81,
+   "ignored": 1,
+   "implemented": 258,
+   "uncatalogued": 22,
+   "unimplemented": 55
+  },
+  "player": {
+   "disabled": 1071,
+   "ignored": 53,
+   "implemented": 4535,
+   "uncatalogued": 349,
+   "unimplemented": 3175
+  }
+ },
+ "timelines": [
+  {
+   "evidence": [
+    "core-navigation",
+    "structural-inference"
+   ],
+   "id": "TL-K-01",
+   "mirrors": "crates/combat/src/aura_state.rs:1131-1200; TC Spell.cpp:3284-3288 (as read by track B)",
+   "rows": [
+    {
+     "before_expiry": 250,
+     "core_expiry": 475,
+     "event": "apply@0 then refresh@150",
+     "pinned_trinity_expiry_per_track_B": 475
+    },
+    {
+     "before_expiry": 250,
+     "core_expiry": 500,
+     "event": "apply@0 then refresh@225",
+     "pinned_trinity_expiry_per_track_B": 550
+    }
+   ],
+   "rules_out": "'Core carryover == pinned Trinity pandemic' (diverges at 225); probe e_capped_carryover only exercises the 150 row where they agree",
+   "subject": "capped carryover, base 250 ms"
+  }
+ ],
+ "unknowns": [
+  {
+   "blocker": "missing producer",
+   "build_skew": false,
+   "coords": [
+    "crates/data/src/action/input.rs:1112-1123",
+    "crates/combat/src/program.rs:1650-1655"
+   ],
+   "evidence": [
+    "core-navigation",
+    "unresolved"
+   ],
+   "id": "AL-U-K-01",
+   "known": "Core consumes them as trusted host input (AL-K-K-04/05/14/17/19) and only cross-checks a few against DB2 (Aura Unique cumulative, raw 436 vs CappedCarryover).",
+   "question": "Which producer emits Core's host-authored lifecycle inputs (ResolvedAuraLifetimeInput, ResolvedAuraReapplication, ResolvedPeriodicCadenceInput, TerminalInput, application count, max stacks) from source data, and from which fields?",
+   "reopen_condition": "A resolver/generator for the action catalog is written or audited; compare its emission against tracks B/C/D rules.",
+   "subject": "host resolver for lifecycle policy inputs",
+   "why_unresolved": "No generator exists in any pinned repo (same gap as UNK-K-002 for the policy catalog)."
+  },
+  {
+   "blocker": "retail observation",
+   "build_skew": false,
+   "coords": [
+    "crates/dbc/src/spell_attribute.rs:490-491"
+   ],
+   "evidence": [
+    "core-navigation",
+    "retail-unknown"
+   ],
+   "id": "AL-U-K-02",
+   "known": "Trinity has no consumer of either bit at the pin; simc names bit 9 SX_AURA_DOES_NOT_REFRESH; Core's catalog text implements both.",
+   "question": "Are Core's PreserveExistingLifetime (raw 489) and IndependentStackDeadlines (raw 490) readings of Trinity's unnamed SPELL_ATTR15_UNK9/UNK10 retail-correct?",
+   "reopen_condition": "Track L designs a retail refresh/per-stack-expiry experiment on a player carrier of raw 489 or 490.",
+   "subject": "raw 489 / 490 semantics",
+   "why_unresolved": "no direct source consumer; semantics come from simc/Core naming only"
+  }
+ ]
+}

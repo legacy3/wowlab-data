@@ -1,0 +1,3575 @@
+{
+ "counts": {
+  "by_fidelity": {
+   "approximate": 30,
+   "exact": 32,
+   "insufficient": 6
+  },
+  "by_origin": {
+   "A": 5,
+   "B": 6,
+   "C": 7,
+   "D": 5,
+   "E": 11,
+   "F": 6,
+   "G": 4,
+   "H": 4,
+   "I": 5,
+   "J": 3,
+   "L": 12
+  },
+  "experiments": 68
+ },
+ "falsification": [
+  {
+   "action": "kept as experiment AL-X-L-01",
+   "attempt": "re-queried Struct_AuraData and UNIT_AURA pages for a verbatim statement (a first summary had claimed 'persists across refresh')",
+   "id": "AL-F-L-01",
+   "result": "neither page states it",
+   "rule": "auraInstanceID persistence across refresh is documented"
+  },
+  {
+   "action": "rule discarded; client-side allocation (AL-U-L-01)",
+   "attempt": "compared the captured ids (SRC-L-14: 2079, 2162, 2163) with Trinity MAX_AURAS 300 (SpellAuraDefines.h:22)",
+   "id": "AL-F-L-02",
+   "result": "ids exceed the slot range",
+   "rule": "auraInstanceID is the server aura slot"
+  },
+  {
+   "action": "channel OBS-ADDON-CLEU provides nothing; WoWCombatLog.txt used instead",
+   "attempt": "CombatLogDocumentation.lua:132 HasRestrictions; wiki: registration forbidden since 12.0.0",
+   "id": "AL-F-L-03",
+   "result": "refuted",
+   "rule": "addons can use CLEU out of combat"
+  },
+  {
+   "action": "dropped the planned experiment",
+   "attempt": "read BuildUpdatePacket: Applications = IsUsingStacks ? stacks : charges (SpellAuras.cpp:261, :1078)",
+   "id": "AL-F-L-04",
+   "result": "Trinity also sends 0 (no stacks, no charges)",
+   "rule": "applications=0 for a non-stacking aura is a Retail-vs-Trinity divergence"
+  },
+  {
+   "action": "DoT experiments graded via the combat log",
+   "attempt": "SecretWhenUnitAuraRestricted covers Combat (SRC-L-06)",
+   "id": "AL-F-L-05",
+   "result": "refuted unless the spell is NeverSecret",
+   "rule": "DoT experiments on a training dummy can read AuraData"
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py experiments --out docs/research/aura-lifecycle-corpora/retail-experiments.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "surface": {
+   "branch": "live",
+   "client_build": "12.1.0.69875",
+   "commit": "78282522143e25c3540583734fd192c3d69be910",
+   "docs_dir": "Interface/AddOns/Blizzard_APIDocumentationGenerated",
+   "repo": "Gethe/wow-ui-source"
+  }
+ },
+ "retail_experiments": [
+  {
+   "discriminates": "replace vs keep-first vs coexist",
+   "fidelity": "exact",
+   "id": "AL-X-A-01",
+   "models": [
+    {
+     "name": "trinity-replace",
+     "prediction": "one aura remains, caster = second priest, remaining duration = full"
+    },
+    {
+     "name": "keep-first",
+     "prediction": "one aura remains, caster = first priest, duration unchanged"
+    },
+    {
+     "name": "coexist",
+     "prediction": "two aura entries"
+    }
+   ],
+   "observable": "UnitAura(source, expirationTime), COMBAT_LOG SPELL_AURA_REMOVED/APPLIED/REFRESH",
+   "origin": "A",
+   "question": "Two priests cast Power Infusion (10060) on one player 5 s apart",
+   "related": [
+    "AL-U-A-01",
+    "AL-R-A-04"
+   ],
+   "setup": "two priests, one target (also: two druids with Mark of the Wild 1126), combat log + UnitAura source/expiration",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "shared-object vs per-caster identity",
+   "fidelity": "exact",
+   "id": "AL-X-A-02",
+   "models": [
+    {
+     "name": "trinity-shared",
+     "prediction": "one aura, stacks = 2, source = first caster"
+    },
+    {
+     "name": "per-caster",
+     "prediction": "two auras with 1 stack each"
+    }
+   ],
+   "observable": "UnitAura count/applications/sourceUnit",
+   "origin": "A",
+   "question": "Two casters apply a StackAmount>1 non-DOT_STACKING aura to one target (e.g. Divine Hymn 64844)",
+   "related": [
+    "AL-U-A-02",
+    "AL-R-A-02"
+   ],
+   "setup": "two priests channel Divine Hymn on the same group member",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "SpellSpecific HAND exclusivity",
+   "fidelity": "exact",
+   "id": "AL-X-A-03",
+   "models": [
+    {
+     "name": "trinity-HAND-exclusive",
+     "prediction": "Freedom removed when Protection applies"
+    },
+    {
+     "name": "independent",
+     "prediction": "both present"
+    }
+   ],
+   "observable": "UnitAura list + SPELL_AURA_REMOVED for 1044",
+   "origin": "A",
+   "question": "A paladin casts Blessing of Freedom then Blessing of Protection on the same ally",
+   "related": [
+    "AL-U-A-03"
+   ],
+   "setup": "one paladin, one ally",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "legacy hardcoded SpellSpecific ids",
+   "fidelity": "exact",
+   "id": "AL-X-A-04",
+   "models": [
+    {
+     "name": "trinity-PRESENCE",
+     "prediction": "48263 removed (stamina bonus lost)"
+    },
+    {
+     "name": "independent",
+     "prediction": "48263 stays"
+    }
+   ],
+   "observable": "aura list, stamina stat",
+   "origin": "A",
+   "question": "A Blood DK with Veteran of the Third War (48263) uses Death's Advance (48265)",
+   "related": [
+    "AL-D-A-01"
+   ],
+   "setup": "Blood DK, check UnitAura / stamina before and after Death's Advance",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "same-cast aura ordering",
+   "fidelity": "approximate",
+   "id": "AL-X-A-05",
+   "models": [
+    {
+     "name": "trinity-order",
+     "prediction": "first Haunt hit not amplified by its own debuff; second hit amplified by the previous application"
+    },
+    {
+     "name": "index-order",
+     "prediction": "both hits amplified"
+    }
+   ],
+   "observable": "combat log SPELL_DAMAGE amounts",
+   "origin": "A",
+   "question": "Haunt (48181) damage on a fresh target vs a target already carrying Haunt",
+   "related": [
+    "AL-U-A-05",
+    "AL-R-A-08"
+   ],
+   "setup": "affliction warlock vs training dummy, fixed stats, compare direct damage of first and refresh casts",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-D-B-01 / AL-U-B-01",
+   "fidelity": "approximate",
+   "id": "AL-X-B-01",
+   "models": [
+    {
+     "name": "trinity-7f3d43b",
+     "predict": "refresh at r=2000 -> 18200; at r=8000 -> 18200"
+    },
+    {
+     "name": "carry-before-refresh/simc/core",
+     "predict": "r=2000 -> 16000; r=8000 -> 18200"
+    }
+   ],
+   "observable": "AuraData.duration / expirationTime of the refreshed debuff (UNIT_AURA updated)",
+   "origin": "B",
+   "question": "pandemic carry depends on remaining? (Corruption 146739, 14 s, 2 s period)",
+   "related": [
+    "AL-U-B-01",
+    "AL-R-B-07"
+   ],
+   "setup": "Affliction warlock, no haste-duration effects; apply Corruption, refresh at r=2 s and separately r=8 s",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-D-B-01 with M != r",
+   "fidelity": "approximate",
+   "id": "AL-X-B-02",
+   "models": [
+    {
+     "name": "trinity-7f3d43b",
+     "predict": "any r -> 28000 (24000 + min duration 4000)"
+    },
+    {
+     "name": "carry-before-refresh",
+     "predict": "r=1000 -> 25000; r=10000 -> 31200"
+    }
+   ],
+   "observable": "AuraData.duration after refresh",
+   "origin": "B",
+   "question": "combo-point pandemic (Rupture 1943, 5 CP)",
+   "related": [
+    "AL-U-B-01"
+   ],
+   "setup": "Assassination rogue; 5 CP Rupture, refresh with 5 CP at r=1 s and r=10 s",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-D-B-02",
+   "fidelity": "exact",
+   "id": "AL-X-B-03",
+   "models": [
+    {
+     "name": "trinity-7f3d43b",
+     "predict": "0 ms (buff never visible)"
+    },
+    {
+     "name": "record-interpolation",
+     "predict": "min(0 + 1000*CP, 5000)"
+    }
+   ],
+   "observable": "AuraData.duration of 32645",
+   "origin": "B",
+   "question": "Envenom duration per combo point",
+   "related": [
+    "AL-U-B-05"
+   ],
+   "setup": "Assassination rogue, Envenom at 1..5 CP",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-B-06",
+   "fidelity": "approximate",
+   "id": "AL-X-B-04",
+   "models": [
+    {
+     "name": "trinity-floor",
+     "predict": "floor(orig/hastedPeriod)*hastedPeriod"
+    },
+    {
+     "name": "orig-partial-tick",
+     "predict": "orig duration unchanged"
+    },
+    {
+     "name": "orig-times-haste",
+     "predict": "orig*ModCastingSpeed"
+    }
+   ],
+   "observable": "AuraData.duration",
+   "origin": "B",
+   "question": "ATTR8 haste duration (Doom 603 / Soothing Mist)",
+   "related": [
+    "AL-R-B-10"
+   ],
+   "setup": "known haste rating, cast once",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-B-07",
+   "fidelity": "insufficient",
+   "id": "AL-X-B-05",
+   "models": [
+    {
+     "name": "trinity",
+     "predict": "phase preserved; ticks capped at floor(newmax/period); no partial"
+    },
+    {
+     "name": "simc",
+     "predict": "phase preserved; partial final tick"
+    }
+   ],
+   "observable": "periodic damage events timing (CLEU if available in 12.x)",
+   "origin": "B",
+   "question": "tick phase and final partial tick after pandemic refresh",
+   "related": [
+    "AL-U-B-07"
+   ],
+   "setup": "Corruption refreshed mid-period",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-D-B-03",
+   "fidelity": "insufficient",
+   "id": "AL-X-B-06",
+   "models": [
+    {
+     "name": "trinity",
+     "predict": "new + oldEstimated*remainingTicks/totalTicks (bonus reapplied)"
+    },
+    {
+     "name": "bonus-once",
+     "predict": "rolled remainder not re-scaled"
+    }
+   ],
+   "observable": "tick amounts after refresh",
+   "origin": "B",
+   "question": "rolling periodic amount (Deep Wounds 262115 / Barbed Shot 217200)",
+   "related": [
+    "AL-U-B-08"
+   ],
+   "setup": "refresh at known remaining ticks with fixed stats",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-C-01 / AL-R-C-02",
+   "fidelity": "exact",
+   "id": "AL-X-C-01",
+   "models": [
+    {
+     "name": "trinity-wrap",
+     "prediction": "166 applications after the second cast"
+    },
+    {
+     "name": "no-stacks",
+     "prediction": "0 or 1 applications, never increases"
+    },
+    {
+     "name": "clamp-to-capacity",
+     "prediction": "2 applications (capacity 9 ignoring the mod)"
+    }
+   ],
+   "observable": "UNIT_AURA applications of 974 / combat log",
+   "origin": "C",
+   "question": "Earth Shield stack count under Therazane's Resilience after two casts",
+   "related": [
+    "AL-U-C-01",
+    "AL-D-C-02"
+   ],
+   "setup": "Shaman with Earth Shield + Therazane's Resilience; cast Earth Shield on self twice",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-C-02",
+   "fidelity": "exact",
+   "id": "AL-X-C-02",
+   "models": [
+    {
+     "name": "trinity-ub-255",
+     "prediction": "255 charges, removed after 255 hits"
+    },
+    {
+     "name": "chargeless",
+     "prediction": "no charge count; never consumed by hits"
+    },
+    {
+     "name": "zero-clamp",
+     "prediction": "aura removed at the first hit"
+    }
+   ],
+   "observable": "aura applications / removal",
+   "origin": "C",
+   "question": "Blistering Scales charges under Regenerative Chitin",
+   "related": [
+    "AL-U-C-02",
+    "AL-D-C-03"
+   ],
+   "setup": "Evoker with Regenerative Chitin; apply Blistering Scales; take 16 melee hits",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-C-04",
+   "fidelity": "approximate",
+   "id": "AL-X-C-03",
+   "models": [
+    {
+     "name": "shared-slot",
+     "prediction": "one aura, stacks sum, caster = first"
+    },
+    {
+     "name": "per-caster",
+     "prediction": "two auras, separate stacks and durations"
+    }
+   ],
+   "observable": "aura list entries and applications",
+   "origin": "C",
+   "question": "Two casters applying one capacity>=2 aura without DOT_STACKING_RULE",
+   "related": [
+    "AL-U-C-04",
+    "AL-R-C-09"
+   ],
+   "setup": "two players apply a shared-slot family aura (corpus witnesses) to one target",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-C-05",
+   "fidelity": "exact",
+   "id": "AL-X-C-04",
+   "models": [
+    {
+     "name": "trinity-shared",
+     "prediction": "one aura; each cast refreshes all stacks' duration"
+    },
+    {
+     "name": "independent",
+     "prediction": "each cast expires on its own timer"
+    }
+   ],
+   "observable": "time-stamped applications count",
+   "origin": "C",
+   "question": "Ironfur with Ursine Adept: independent or shared duration",
+   "related": [
+    "AL-U-C-05"
+   ],
+   "setup": "Guardian druid with Ursine Adept; cast Ironfur at t=0 and t=3s; watch stack count over 10 s",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-C-08",
+   "fidelity": "approximate",
+   "id": "AL-X-C-05",
+   "models": [
+    {
+     "name": "trinity-per-cast",
+     "prediction": "Sweeping Strikes with Improved Sweeping Strikes gains 7 stacks per cast (capped)"
+    },
+    {
+     "name": "creation-only",
+     "prediction": "7 on creation, +1 on refresh"
+    }
+   ],
+   "observable": "applications before/after the recast",
+   "origin": "C",
+   "question": "Doses added on reapplication",
+   "related": [
+    "AL-U-C-08"
+   ],
+   "setup": "Warrior with Improved Sweeping Strikes; cast Sweeping Strikes, spend 2 stacks, recast",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-C-09",
+   "fidelity": "exact",
+   "id": "AL-X-C-06",
+   "models": [
+    {
+     "name": "trinity-shared-duration",
+     "prediction": "all stacks drop together when the last refresh expires"
+    },
+    {
+     "name": "asynchronous",
+     "prediction": "stacks drop one by one at their own application time + duration"
+    }
+   ],
+   "observable": "time-stamped applications count",
+   "origin": "C",
+   "question": "Per-stack expiry of an Attributes_15 0x400 aura",
+   "related": [
+    "AL-U-C-09",
+    "AL-R-C-12"
+   ],
+   "setup": "Warlock: apply Unstable Affliction stacks (1259790) at t=0, 2, 4 s without refreshing; watch applications",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-C-10",
+   "fidelity": "exact",
+   "id": "AL-X-C-07",
+   "models": [
+    {
+     "name": "trinity-separate",
+     "prediction": "1 stack; tooltip/applications show stacks (IsUsingStacks)"
+    },
+    {
+     "name": "simc-charges-are-stacks",
+     "prediction": "applications start at min(ProcCharges, capacity)"
+    }
+   ],
+   "observable": "applications after the first application",
+   "origin": "C",
+   "question": "Initial applications of a charges+capacity aura",
+   "related": [
+    "AL-U-C-10"
+   ],
+   "setup": "Brace For Impact 386029 (ProcCharges 5, capacity 3) -- or any charges_with_capacity witness",
+   "surface_checked": false
+  },
+  {
+   "discriminates": [
+    "AL-R-D-06"
+   ],
+   "fidelity": "approximate",
+   "id": "AL-X-D-01",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "one occurrence right after the reapply, then every period"
+    },
+    {
+     "name": "simc/core",
+     "prediction": "no extra occurrence; phase preserved"
+    }
+   ],
+   "observable": "CLEU SPELL_PERIODIC_* timestamps around SPELL_AURA_REFRESHED",
+   "origin": "D",
+   "question": "raw-169 restart-reapply extra occurrence (UNK-E-002)",
+   "related": [
+    "AL-U-D-02",
+    "UNK-E-002"
+   ],
+   "setup": "player-cast raw-169, non-pandemic, StackAmount<2 periodic reapplied by the same caster before expiry (candidates from periodic.json census 'unk_e_002_raw169_restart_extra_tick_possible')",
+   "surface_checked": false
+  },
+  {
+   "discriminates": [
+    "AL-R-D-05"
+   ],
+   "fidelity": "approximate",
+   "id": "AL-X-D-02",
+   "models": [
+    {
+     "name": "trinity-untriggered",
+     "prediction": "next trigger = reapply + period"
+    },
+    {
+     "name": "preserve",
+     "prediction": "next trigger keeps the old phase"
+    }
+   ],
+   "observable": "CLEU cast/damage events of the triggered spell",
+   "origin": "D",
+   "question": "periodic trigger (subtype 23) phase after reapply (UNK-E-001)",
+   "related": [
+    "AL-U-D-01",
+    "UNK-E-001"
+   ],
+   "setup": "player aura with a periodic trigger effect, reapplied mid-period by a hard cast and (separately) by a proc",
+   "surface_checked": false
+  },
+  {
+   "discriminates": [
+    "AL-R-D-02"
+   ],
+   "fidelity": "approximate",
+   "id": "AL-X-D-03",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "interval unchanged until refresh"
+    },
+    {
+     "name": "simc",
+     "prediction": "next interval shortened (rescheduled)"
+    },
+    {
+     "name": "core",
+     "prediction": "interval after the next occurrence shortened"
+    }
+   ],
+   "observable": "CLEU SPELL_PERIODIC_DAMAGE intervals",
+   "origin": "D",
+   "question": "haste gained mid-DoT changes the pending interval?",
+   "related": [
+    "AL-U-D-05"
+   ],
+   "setup": "raw-173 DoT (e.g. 589:0) then a large haste buff between two occurrences",
+   "surface_checked": false
+  },
+  {
+   "discriminates": [
+    "AL-R-D-03"
+   ],
+   "fidelity": "approximate",
+   "id": "AL-X-D-04",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "no occurrence for the tail"
+    },
+    {
+     "name": "simc/core",
+     "prediction": "a reduced last occurrence"
+    }
+   ],
+   "observable": "amount and time of the last SPELL_PERIODIC_DAMAGE before SPELL_AURA_REMOVED",
+   "origin": "D",
+   "question": "partial final occurrence",
+   "related": [
+    "AL-U-D-04"
+   ],
+   "setup": "pandemic-refresh a raw-436 DoT so that the new duration is not a multiple of the period",
+   "surface_checked": false
+  },
+  {
+   "discriminates": [
+    "AL-R-D-08"
+   ],
+   "fidelity": "insufficient",
+   "id": "AL-X-D-05",
+   "models": [
+    {
+     "name": "trinity/simc-default",
+     "prediction": "later occurrences scale with the new value"
+    },
+    {
+     "name": "full-snapshot / compute-on-cast",
+     "prediction": "unchanged until reapply"
+    }
+   ],
+   "observable": "SPELL_PERIODIC_* amounts (Midnight combat-log restrictions: see Track L)",
+   "origin": "D",
+   "question": "spell power / versatility gained mid-periodic changes later occurrences?",
+   "related": [
+    "AL-U-D-06"
+   ],
+   "setup": "apply 589:0 (no 0x8000) and 22842:0 (0x8000), then gain a stat buff; compare",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-E-04 / AL-U-E-01",
+   "fidelity": "exact",
+   "id": "AL-X-E-01",
+   "models": [
+    {
+     "name": "death==expiry",
+     "prediction": "bloom heal / on-expire event after the death"
+    },
+    {
+     "name": "trinity",
+     "prediction": "aura removed at death, no bloom, no final periodic heal"
+    }
+   ],
+   "observable": "combat log SPELL_AURA_REMOVED and the bloom heal event",
+   "origin": "E",
+   "question": "Does an on-expire payoff fire when the holder dies before expiry?",
+   "related": [
+    "AL-U-E-01",
+    "AL-R-E-04"
+   ],
+   "setup": "Lifebloom (33763) on a friendly target that dies ~0.5 s before expiry",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-E-01",
+   "fidelity": "exact",
+   "id": "AL-X-E-02",
+   "models": [
+    {
+     "name": "flush-on-removal",
+     "prediction": "a final (pro-rated) tick at death"
+    },
+    {
+     "name": "trinity",
+     "prediction": "no further tick after UNIT_DIED"
+    }
+   ],
+   "observable": "SPELL_PERIODIC_DAMAGE events after UNIT_DIED",
+   "origin": "E",
+   "question": "Does a DoT deal its last tick if the target dies just before it?",
+   "related": [
+    "AL-R-E-01"
+   ],
+   "setup": "periodic damage on a target killed by another source between the penultimate and last tick",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-E-07",
+   "fidelity": "exact",
+   "id": "AL-X-E-03",
+   "models": [
+    {
+     "name": "caster-death-removes",
+     "prediction": "SPELL_AURA_REMOVED at caster death"
+    },
+    {
+     "name": "trinity",
+     "prediction": "ticks continue until expiry"
+    }
+   ],
+   "observable": "SPELL_PERIODIC_DAMAGE with the dead caster as source",
+   "origin": "E",
+   "question": "Do a dead caster's DoTs keep ticking?",
+   "related": [
+    "AL-R-E-07"
+   ],
+   "setup": "caster applies a DoT and dies",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-E-08",
+   "fidelity": "approximate",
+   "id": "AL-X-E-04",
+   "models": [
+    {
+     "name": "single-death-sweep",
+     "prediction": "all removals share one reason"
+    },
+    {
+     "name": "trinity",
+     "prediction": "leave-combat-interrupt auras and channel auras go before the death sweep"
+    }
+   ],
+   "observable": "combat-log order of SPELL_AURA_REMOVED around UNIT_DIED",
+   "origin": "E",
+   "question": "In which order are auras removed when a unit in combat dies?",
+   "related": [
+    "AL-R-E-08",
+    "AL-U-E-02"
+   ],
+   "setup": "unit with a LeavingCombat-interrupt aura and an active channel dies",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "RM-38",
+   "fidelity": "exact",
+   "id": "AL-X-E-05",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "old aura removed DEFAULT by the single-target cap: no bloom"
+    },
+    {
+     "name": "bloom-on-any-end",
+     "prediction": "old aura blooms"
+    }
+   ],
+   "observable": "Lifebloom bloom heal on A in the combat log",
+   "origin": "E",
+   "question": "When Lifebloom is moved to a second target, does the old one bloom?",
+   "related": [
+    "AL-R-E-05"
+   ],
+   "setup": "Lifebloom (33763) on A, recast on B",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "RM-09 foreign_owned_outcome",
+   "fidelity": "approximate",
+   "id": "AL-X-E-06",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "removed on move, re-applied within <= 500 ms while in range"
+    },
+    {
+     "name": "gone-until-recast",
+     "prediction": "stays off"
+    }
+   ],
+   "observable": "UNIT_AURA remove/add pair",
+   "origin": "E",
+   "question": "Does a movement-interrupted party (area) aura flicker back on the recipient?",
+   "related": [
+    "AL-U-E-06"
+   ],
+   "setup": "party-member recipient of an area aura whose spell has a Moving interrupt flag moves",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "RM-43",
+   "fidelity": "exact",
+   "id": "AL-X-E-07",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "positive auras freeze; negative / ATTR4_AURA_EXPIRES_OFFLINE count down"
+    },
+    {
+     "name": "all-count-down",
+     "prediction": "every aura loses the offline time"
+    }
+   ],
+   "observable": "remaining durations after login",
+   "origin": "E",
+   "question": "Do positive buffs count down while the player is offline?",
+   "related": [],
+   "setup": "log out with a 10-min positive buff and a debuff for 2 min",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-E-09",
+   "fidelity": "approximate",
+   "id": "AL-X-E-08",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "no effect (no consumer)"
+    },
+    {
+     "name": "implemented",
+     "prediction": "aura removed on disconnect / on damage"
+    }
+   ],
+   "observable": "aura presence afterwards",
+   "origin": "E",
+   "question": "Do the Disconnect / DamageCancelsScript interrupt bits remove auras?",
+   "related": [
+    "AL-U-E-09"
+   ],
+   "setup": "player aura carrying the bit (census unconsumed_interrupt_flag_occurrences, player); disconnect or take damage",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-E-10 / AL-R-E-11",
+   "fidelity": "approximate",
+   "id": "AL-X-E-10",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "uniform per identity; resisted attempt consumed"
+    },
+    {
+     "name": "stack-weighted",
+     "prediction": "selection probability proportional to stacks"
+    }
+   ],
+   "observable": "frequency of each removal",
+   "origin": "E",
+   "question": "Is dispel selection uniform per aura identity, and does a resisted attempt consume the attempt?",
+   "related": [
+    "AL-U-E-10"
+   ],
+   "setup": "target with one 5-stack and one 1-stack Magic debuff, many single-attempt dispels",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-E-06",
+   "fidelity": "exact",
+   "id": "AL-X-E-11",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "no change"
+    },
+    {
+     "name": "refresh-on-change",
+     "prediction": "duration refreshed"
+    }
+   ],
+   "observable": "UnitAura expirationTime and tick timestamps",
+   "origin": "E",
+   "question": "Does a one-stack dispel of a stacked DoT change its remaining duration or next tick time?",
+   "related": [
+    "AL-R-E-06"
+   ],
+   "setup": "3-stack Magic DoT, dispel one stack",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-E-21",
+   "fidelity": "exact",
+   "id": "AL-X-E-20",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "keeps counting (and ATTR7 ones re-apply after resurrect)"
+    },
+    {
+     "name": "frozen-while-dead",
+     "prediction": "remaining time preserved from the death moment"
+    }
+   ],
+   "observable": "remaining duration after resurrect",
+   "origin": "E",
+   "question": "Does a death-persistent aura keep counting down on a corpse and resume with the remaining time after resurrect?",
+   "related": [
+    "AL-R-E-21"
+   ],
+   "setup": "Earth Shield (974) holder dies and is resurrected 10 s later",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "reevaluation cadence (AL-R-F-02)",
+   "fidelity": "approximate",
+   "id": "AL-X-F-01",
+   "models": [
+    {
+     "name": "trinity-500ms",
+     "prediction": "SPELL_AURA_REMOVED 0-600 ms after crossing the radius, quantised to the owner's 500 ms map schedule"
+    },
+    {
+     "name": "continuous",
+     "prediction": "removal within one server tick of the crossing"
+    }
+   ],
+   "observable": "combat-log SPELL_AURA_APPLIED/REMOVED timestamps vs position trace",
+   "origin": "F",
+   "question": "Leave / enter latency of a raid aura (Devotion Aura 465:0).",
+   "related": [
+    "AL-U-F-05"
+   ],
+   "setup": "paladin with Devotion Aura stationary; party member walks out of range on a known path; repeat 20x",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "owner-death policy for death-persistent parents",
+   "fidelity": "exact",
+   "id": "AL-X-F-02",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "party keeps Devotion Aura; the dead paladin loses its own within 500 ms; regained after resurrection"
+    },
+    {
+     "name": "all-kept",
+     "prediction": "paladin and party keep it"
+    },
+    {
+     "name": "all-removed",
+     "prediction": "aura removed from everyone at death"
+    }
+   ],
+   "observable": "UNIT_AURA on both units; combat log",
+   "origin": "F",
+   "question": "Paladin dies with Devotion Aura active.",
+   "related": [
+    "AL-U-F-02",
+    "AL-R-F-06"
+   ],
+   "setup": "2-player party, paladin dies (fall damage), inspect both buff bars, then resurrect",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "passive parent survives owner death",
+   "fidelity": "exact",
+   "id": "AL-X-F-03",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "living recipients keep it; owner drops its own"
+    },
+    {
+     "name": "removed",
+     "prediction": "recipients lose it at death"
+    }
+   ],
+   "observable": "UNIT_AURA on the recipient",
+   "origin": "F",
+   "question": "Owner of a passive party aura dies (Blessing of Dawn 183416:1 / Time of Need 368412:0).",
+   "related": [
+    "AL-U-F-01"
+   ],
+   "setup": "party of two, owner dies in range",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-F-03",
+   "fidelity": "approximate",
+   "id": "AL-X-F-04",
+   "models": [
+    {
+     "name": "shared-timer",
+     "prediction": "first tick at the parent's next tick boundary (any delay after entering)"
+    },
+    {
+     "name": "own-timer",
+     "prediction": "first tick one period after entering"
+    }
+   ],
+   "observable": "combat-log periodic tick timestamps of the joiner vs an original recipient",
+   "origin": "F",
+   "question": "Late joiner of a periodic NPC area aura: when is its first tick?",
+   "related": [
+    "AL-U-F-07"
+   ],
+   "setup": "enter an NPC periodic area aura at varied offsets relative to its tick boundary",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-F-05 cancel",
+   "fidelity": "exact",
+   "id": "AL-X-F-05",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "nothing happens"
+    },
+    {
+     "name": "remove-readd",
+     "prediction": "removed then re-applied within ~500 ms"
+    },
+    {
+     "name": "removed",
+     "prediction": "removed until re-entry"
+    }
+   ],
+   "observable": "UNIT_AURA on the canceller",
+   "origin": "F",
+   "question": "A party member right-click cancels another player's area aura (Devotion Aura).",
+   "related": [
+    "AL-R-F-05"
+   ],
+   "setup": "two paladins not needed; one paladin + one other player",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-F-01",
+   "fidelity": "exact",
+   "id": "AL-X-F-06",
+   "models": [
+    {
+     "name": "one-parent",
+     "prediction": "joiner's expiration time equals the owner's"
+    },
+    {
+     "name": "fresh",
+     "prediction": "joiner's expiration = join time + full duration"
+    }
+   ],
+   "observable": "UnitAura expirationTime on both",
+   "origin": "F",
+   "question": "Duration shown on a late joiner of a timed party aura (Frenzied Regeneration 22842:2 / Convoke 391528:2).",
+   "related": [
+    "AL-R-F-01"
+   ],
+   "setup": "cast, have the second player enter range mid-duration",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "all three models",
+   "fidelity": "approximate",
+   "id": "AL-X-G-01",
+   "models": [
+    {
+     "name": "trinity-lost",
+     "prediction": "aura absent after the event until relearn/relog"
+    },
+    {
+     "name": "reset",
+     "prediction": "aura present after the event, mutable state reset (new aura instance id / cleared stacks)"
+    },
+    {
+     "name": "ignored",
+     "prediction": "aura present, same instance, state kept"
+    }
+   ],
+   "observable": "UnitAura/aura instance id and stack/charge fields before and after",
+   "origin": "G",
+   "question": "Are interrupt-flagged passives lost, reset, or untouched at the flag's event?",
+   "related": [
+    "AL-U-G-01",
+    "AL-D-G-01"
+   ],
+   "setup": "Use a player-scope passive whose flag is StartOfEncounter/EnteringInstance/ChangeSpec (see passive_interrupt_flags.player witnesses); trigger the event (zone into an instance, pull a boss, swap spec and back)",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "recreate vs in-place",
+   "fidelity": "approximate",
+   "id": "AL-X-G-02",
+   "models": [
+    {
+     "name": "recreate",
+     "prediction": "charges/proc cooldown reset after refund+re-pick"
+    },
+    {
+     "name": "in-place",
+     "prediction": "state kept"
+    }
+   ],
+   "observable": "charges / next possible proc time",
+   "origin": "G",
+   "question": "Does a trait re-pick reset a passive's mutable state?",
+   "related": [
+    "AL-U-G-02"
+   ],
+   "setup": "Passive with proc charges or ICD (e.g. Lifecycles 197915); consume a charge / trigger the ICD, then refund and re-pick the talent",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "not-saved vs saved",
+   "fidelity": "approximate",
+   "id": "AL-X-G-03",
+   "models": [
+    {
+     "name": "not-saved",
+     "prediction": "state reset on login"
+    },
+    {
+     "name": "saved",
+     "prediction": "state restored"
+    }
+   ],
+   "observable": "charges / ICD after login",
+   "origin": "G",
+   "question": "Does passive state survive logout?",
+   "related": [
+    "AL-U-G-03"
+   ],
+   "setup": "Same passive as AL-X-G-02; consume state; log out and back in within the ICD",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "survive vs reapply",
+   "fidelity": "approximate",
+   "id": "AL-X-G-04",
+   "models": [
+    {
+     "name": "survive",
+     "prediction": "same aura instance, ICD still running"
+    },
+    {
+     "name": "reapply",
+     "prediction": "new instance, state reset"
+    }
+   ],
+   "observable": "aura instance id, next proc time",
+   "origin": "G",
+   "question": "Does a passive keep its object and state across death and resurrection?",
+   "related": [
+    "AL-R-G-04"
+   ],
+   "setup": "Passive with an ICD; trigger it, die, resurrect before the ICD ends",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "death vs expiry for external removal code",
+   "fidelity": "approximate",
+   "id": "AL-X-H-01",
+   "models": [
+    {
+     "name": "trinity-remove-mode",
+     "prediction": "bloom heal 33778 on expiry/dispel, none when target dies"
+    },
+    {
+     "name": "any-removal",
+     "prediction": "bloom on every removal including death"
+    }
+   ],
+   "observable": "combat log SPELL_HEAL 33778 presence",
+   "origin": "H",
+   "question": "Does an on-remove effect distinguish death from expiry (Lifebloom bloom)?",
+   "related": [
+    "AL-R-H-07",
+    "AL-T-H-03"
+   ],
+   "setup": "Lifebloom on a friendly target that dies before expiry; control: same target survives to expiry",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-H-02",
+   "fidelity": "exact",
+   "id": "AL-X-H-02",
+   "models": [
+    {
+     "name": "trinity-link-aura",
+     "prediction": "53651 removed when 53563 removed; may expire earlier on own duration"
+    },
+    {
+     "name": "shared-lifetime",
+     "prediction": "53651 always has 53563's remaining duration"
+    }
+   ],
+   "observable": "aura remaining time (UnitAura) of both spells",
+   "origin": "H",
+   "question": "Is Light's Beacon (53651) bounded by Beacon of Light (53563) but with its own timer?",
+   "related": [
+    "AL-R-H-02",
+    "AL-T-H-01"
+   ],
+   "setup": "cast Beacon of Light; read both auras' remaining durations; cancel/let expire the beacon",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-H-04",
+   "fidelity": "approximate",
+   "id": "AL-X-H-03",
+   "models": [
+    {
+     "name": "trinity-reapply-handler",
+     "prediction": "refresh refreshes the Abundance stack's duration, no new stack"
+    },
+    {
+     "name": "real-only",
+     "prediction": "refresh does not touch Abundance"
+    }
+   ],
+   "observable": "Abundance stacks/remaining",
+   "origin": "H",
+   "question": "Does a refresh re-run apply-side effects (Rejuvenation + Abundance)?",
+   "related": [
+    "AL-R-H-04",
+    "AL-T-H-02"
+   ],
+   "setup": "with Abundance talented, cast Rejuvenation on A, then refresh on A",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-R-H-05 companion (PROC_ATTR_USE_STACKS_FOR_CHARGES)",
+   "fidelity": "exact",
+   "id": "AL-X-H-04",
+   "models": [
+    {
+     "name": "stacks-for-charges",
+     "prediction": "one stack removed per consumed proc"
+    },
+    {
+     "name": "charges",
+     "prediction": "whole aura removed at first consumption"
+    }
+   ],
+   "observable": "stack count after consumption",
+   "origin": "H",
+   "question": "Does consuming a proc from a stacked aura drop a stack or the aura (Clearcasting 16870)?",
+   "related": [
+    "AL-F-H-05"
+   ],
+   "setup": "build 2 Clearcasting stacks, cast one consumer",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-I-01",
+   "fidelity": "exact",
+   "id": "AL-X-I-01",
+   "models": [
+    {
+     "name": "trinity-tick-then-expire",
+     "prediction": "n = duration/period ticks; last tick logged at the same timestamp as, and before, the aura-removed event"
+    },
+    {
+     "name": "expiry-first",
+     "prediction": "n - 1 ticks"
+    }
+   ],
+   "observable": "combat-log periodic damage count and SPELL_AURA_REMOVED ordering",
+   "origin": "I",
+   "question": "final tick at expiry",
+   "related": [
+    "AL-R-I-01",
+    "OR-I-01"
+   ],
+   "setup": "apply an unhasted DoT with duration an exact multiple of its period to a target dummy; no refresh",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-I-05",
+   "fidelity": "exact",
+   "id": "AL-X-I-02",
+   "models": [
+    {
+     "name": "trinity-runtime-130",
+     "prediction": "new duration = 1.3 x base at any remaining"
+    },
+    {
+     "name": "carryover",
+     "prediction": "new duration = base + min(remaining, 0.3 x base)"
+    }
+   ],
+   "observable": "aura duration shown right after refresh",
+   "origin": "I",
+   "question": "pandemic commit",
+   "related": [
+    "AL-D-B-01",
+    "AL-D-D-02",
+    "AL-R-B-07"
+   ],
+   "setup": "refresh an ATTR13 DoT (a current-player periodic pandemic spell) at 10% and at 50% remaining",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-I-02",
+   "fidelity": "insufficient",
+   "id": "AL-X-I-03",
+   "models": [
+    {
+     "name": "spellid-order",
+     "prediction": "only DoTs whose spell id sorts below the killing DoT tick"
+    },
+    {
+     "name": "all-due-ticks",
+     "prediction": "every DoT due at that ms ticks"
+    }
+   ],
+   "observable": "periodic damage events at the death timestamp",
+   "origin": "I",
+   "question": "same-ms tick of two DoTs on a dying target",
+   "related": [
+    "AL-R-I-03",
+    "OR-I-05"
+   ],
+   "setup": "two same-period DoTs applied in the same server tick; target health tuned so one tick kills",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-I-03",
+   "fidelity": "approximate",
+   "id": "AL-X-I-04",
+   "models": [
+    {
+     "name": "trinity-auras-first",
+     "prediction": "a self buff expiring at the swing ms does not affect the swing"
+    },
+    {
+     "name": "swing-first",
+     "prediction": "the swing still benefits"
+    }
+   ],
+   "observable": "swing damage relative to the buff",
+   "origin": "I",
+   "question": "buff expiring at a white swing",
+   "related": [
+    "OR-I-06"
+   ],
+   "setup": "self damage buff whose expiry aligns with a swing (fixed weapon speed, no haste changes)",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "AL-U-I-07",
+   "fidelity": "approximate",
+   "id": "AL-X-I-05",
+   "models": [
+    {
+     "name": "trinity-freeze",
+     "prediction": "a debuff on a mob left outside every player's update range has more remaining time on return than authored minus wall time"
+    },
+    {
+     "name": "wall-clock",
+     "prediction": "remaining = authored - elapsed wall time"
+    }
+   ],
+   "observable": "remaining duration on the mob's aura",
+   "origin": "I",
+   "question": "aura countdown far from players",
+   "related": [
+    "AL-U-I-07"
+   ],
+   "setup": "apply a long debuff to a stationary mob, move far away (beyond visibility), return after a measured interval",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "refresh vs no-refresh",
+   "fidelity": "approximate",
+   "id": "AL-X-J-01",
+   "models": [
+    {
+     "name": "trinity-default",
+     "prediction": "reapplication refreshes duration (RefreshDuration)"
+    },
+    {
+     "name": "client-name",
+     "prediction": "reapplication leaves the remaining duration unchanged"
+    },
+    {
+     "name": "core-catalog",
+     "prediction": "active reapplication applies and caps stacks but preserves application time and expiry deadline (core/crates/dbc/src/spell_attribute.rs, AuraDoesNotRefresh raw 489)"
+    }
+   ],
+   "observable": "remaining duration after the second application (aura tooltip / UNIT_AURA)",
+   "origin": "J",
+   "question": "Does AURA_DOES_NOT_REFRESH (attr15 0x200) make a reapplication a no-op on duration?",
+   "related": [
+    "AL-U-J-01"
+   ],
+   "setup": "apply a witness ([1330, 256148, 1235729]) twice on one target mid-duration",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "single aura timer vs per-application timers",
+   "fidelity": "exact",
+   "id": "AL-X-J-02",
+   "models": [
+    {
+     "name": "shared-timer",
+     "prediction": "all stacks expire together; each application refreshes"
+    },
+    {
+     "name": "per-stack-timer",
+     "prediction": "stacks fall off one by one at their own deadlines (Core's catalog text for AsynchronousStackingBuff raw 490 adopts this for finite non-periodic carriers)"
+    }
+   ],
+   "observable": "stack count over time until 0",
+   "origin": "J",
+   "question": "Does ASYNCHRONOUS_STACKING_BUFF (attr15 0x400) give each stack its own expiry?",
+   "related": [
+    "AL-U-J-01"
+   ],
+   "setup": "gain two stacks of a witness ([315341, 335082, 383395]) seconds apart, stop re-triggering",
+   "surface_checked": false
+  },
+  {
+   "discriminates": "NYI vs honoured",
+   "fidelity": "insufficient",
+   "id": "AL-X-J-03",
+   "models": [
+    {
+     "name": "trinity-nyi",
+     "prediction": "no effect (owner death handled as for any aura)"
+    },
+    {
+     "name": "client-name",
+     "prediction": "aura survives owner death"
+    }
+   ],
+   "observable": "aura presence on the controlled unit after owner death",
+   "origin": "J",
+   "question": "Does IGNORE_OWNERS_DEATH keep an aura on a unit after its owner dies?",
+   "related": [
+    "AL-U-J-02"
+   ],
+   "setup": "pet/guardian with a witness aura ([63939, 67374, 74535]); kill the owner",
+   "surface_checked": false
+  },
+  {
+   "api": [
+    "OBS-UNIT-AURA-EVENT",
+    "OBS-ADDON-AURA-QUERY",
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 67,
+    "candidates_player": [
+     774,
+     8936,
+     33763,
+     48438,
+     61295,
+     115175,
+     124682,
+     156322
+    ],
+    "controlled": 1,
+    "player": 10,
+    "selectors": {
+     "active": "not SPELL_ATTR0_PASSIVE",
+     "finite": "authored duration > 0",
+     "pandemic": "SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION",
+     "periodic-heal": "a PERIODIC_HEAL effect with period > 0"
+    }
+   },
+   "context": "solo-no-combat",
+   "discriminates": "instance identity survives refresh (Trinity keeps Aura object, slot and CastID) vs a new instance per application",
+   "evidence": [
+    "retail-unknown",
+    "structural-inference",
+    "trinity-consumer"
+   ],
+   "fidelity": "exact",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-ADDON-AURA-QUERY",
+     "grade": "exact",
+     "quantity": "identity"
+    },
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "exact",
+     "quantity": "event-kind"
+    }
+   ],
+   "id": "AL-X-L-01",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "slot-keyed (Trinity wire)",
+     "prediction": {
+      "combat_log": "SPELL_AURA_REFRESH",
+      "instance_id": "unchanged",
+      "update_info": "updatedAuraInstanceIDs=[old]"
+     },
+     "source": "SpellAuras.cpp:235-298; Aura::m_castId const SpellAuras.h:394"
+    },
+    {
+     "evidence": "structural-inference",
+     "name": "cast-keyed (new CastID per recast)",
+     "prediction": {
+      "combat_log": "SPELL_AURA_REFRESH",
+      "instance_id": "new",
+      "update_info": "removedAuraInstanceIDs=[old], addedAuras=[new]"
+     },
+     "source": "structural-inference (client allocates ids: SRC-L-14 ids 2079..2163 > MAX_AURAS 300)"
+    }
+   ],
+   "observable": "identity via OBS-ADDON-AURA-QUERY (exact); event-kind via OBS-COMBATLOG-FILE (exact)",
+   "observables": [
+    {
+     "quantity": "identity"
+    },
+    {
+     "quantity": "event-kind"
+    }
+   ],
+   "origin": "L",
+   "question": "Does a same-caster refresh keep the aura instance (auraInstanceID) or replace it?",
+   "related": [
+    "track:A",
+    "AL-U-L-01"
+   ],
+   "setup": {
+    "class": "Druid",
+    "spec": "Restoration",
+    "steps": [
+     "/combatlog on",
+     "cast the witness on self out of combat; record UNIT_AURA addedAuras auraInstanceID",
+     "recast at 2 s remaining (pandemic branch)",
+     "record the next UNIT_AURA updateInfo",
+     "repeat with recast at 8 s remaining (carry capped)",
+     "repeat after a stat change (AL-X-L-06 interplay)"
+    ],
+    "talents": "none required"
+   },
+   "topic": "identity",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": true,
+     "duration_ms": 12000,
+     "extra_initial_period": true,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 8,
+       "index": 0,
+       "period": 3000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Rejuvenation",
+    "player": true,
+    "selector_results": {
+     "active": true,
+     "finite": true,
+     "pandemic": true,
+     "periodic-heal": true
+    },
+    "selectors": [
+     "finite",
+     "active",
+     "periodic-heal",
+     "pandemic"
+    ],
+    "spell": 774,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-ADDON-AURA-QUERY",
+    "OBS-UNIT-AURA-EVENT"
+   ],
+   "applicability": {
+    "all": 7372,
+    "candidates_player": [
+     44544,
+     51124,
+     52127,
+     64844,
+     73685,
+     116768,
+     119085,
+     137639
+    ],
+    "controlled": 0,
+    "player": 80,
+    "selectors": {
+     "active": "not SPELL_ATTR0_PASSIVE",
+     "finite": "authored duration > 0",
+     "stackable-one-slot": "CumulativeAura > 1, not channeled, not ATTR3_DOT_STACKING_RULE (SpellInfo.cpp:1808)"
+    }
+   },
+   "context": "group-no-combat",
+   "discriminates": "caster identity rule of one-slot multi-caster stacking",
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "fidelity": "exact",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-ADDON-AURA-QUERY",
+     "grade": "exact",
+     "quantity": "source"
+    },
+    {
+     "channel": "OBS-ADDON-AURA-QUERY",
+     "grade": "exact",
+     "quantity": "stacks"
+    },
+    {
+     "channel": "OBS-ADDON-AURA-QUERY",
+     "grade": "exact",
+     "quantity": "identity"
+    }
+   ],
+   "id": "AL-X-L-02",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "Trinity: one slot, original caster kept, stack +1",
+     "prediction": {
+      "applications": 2,
+      "instances": 1,
+      "sourceUnit": "A"
+     },
+     "source": "Unit.cpp:3386-3445 (lookup ANY caster when IsStackableOnOneSlotWithDifferentCasters, track A)"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "latest caster owns the slot",
+     "prediction": {
+      "applications": 2,
+      "instances": 1,
+      "sourceUnit": "B"
+     },
+     "source": "structural-inference"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "per-caster instances",
+     "prediction": {
+      "applications": [
+       1,
+       1
+      ],
+      "instances": 2,
+      "sourceUnit": [
+       "A",
+       "B"
+      ]
+     },
+     "source": "structural-inference"
+    }
+   ],
+   "observable": "source via OBS-ADDON-AURA-QUERY (exact); stacks via OBS-ADDON-AURA-QUERY (exact); identity via OBS-ADDON-AURA-QUERY (exact)",
+   "observables": [
+    {
+     "quantity": "source"
+    },
+    {
+     "quantity": "stacks"
+    },
+    {
+     "quantity": "identity"
+    }
+   ],
+   "origin": "L",
+   "question": "When a second caster refreshes a stackable-on-one-slot aura, whose aura is it afterwards?",
+   "related": [
+    "track:A",
+    "track:C"
+   ],
+   "setup": {
+    "class": "two players of the witness class",
+    "spec": "any",
+    "steps": [
+     "player A applies the witness aura to player C",
+     "player B applies it to C",
+     "read sourceUnit, applications, auraInstanceID on C"
+    ],
+    "talents": "witness-dependent"
+   },
+   "topic": "identity",
+   "witness": {
+    "note": "choose from applicability.candidates",
+    "selectors": [
+     "finite",
+     "active",
+     "stackable-one-slot"
+    ],
+    "spell": null,
+    "status": "to-select"
+   }
+  },
+  {
+   "api": [
+    "OBS-ADDON-AURA-QUERY",
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 106,
+    "candidates_player": [
+     774,
+     8936,
+     33763,
+     48438,
+     61295,
+     156322,
+     378412,
+     1263644
+    ],
+    "controlled": 1,
+    "player": 8,
+    "selectors": {
+     "active": "not SPELL_ATTR0_PASSIVE",
+     "dot-stacking-rule": "SPELL_ATTR3_DOT_STACKING_RULE",
+     "finite": "authored duration > 0",
+     "periodic-heal": "a PERIODIC_HEAL effect with period > 0"
+    }
+   },
+   "context": "group-no-combat",
+   "discriminates": "observable coexistence (not Trinity's multimap storage) per stacking shape",
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "fidelity": "exact",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-ADDON-AURA-QUERY",
+     "grade": "exact",
+     "quantity": "instance-count"
+    },
+    {
+     "channel": "OBS-ADDON-AURA-QUERY",
+     "grade": "exact",
+     "quantity": "source"
+    }
+   ],
+   "id": "AL-X-L-03",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "Trinity CanStackWith",
+     "prediction": {
+      "non-periodic same spell": "1 (B's)",
+      "periodic+DOT_STACKING_RULE": 2
+     },
+     "source": "SpellAuras.cpp:1633-1770"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "highest-value-wins (no replacement by weaker)",
+     "prediction": {
+      "non-periodic same spell": "1 (stronger)",
+      "periodic+DOT_STACKING_RULE": 2
+     },
+     "source": "structural-inference"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "per-caster always",
+     "prediction": {
+      "non-periodic same spell": 2,
+      "periodic+DOT_STACKING_RULE": 2
+     },
+     "source": "structural-inference"
+    }
+   ],
+   "observable": "instance-count via OBS-ADDON-AURA-QUERY (exact); source via OBS-ADDON-AURA-QUERY (exact)",
+   "observables": [
+    {
+     "quantity": "instance-count"
+    },
+    {
+     "quantity": "source"
+    }
+   ],
+   "origin": "L",
+   "question": "Do two casters' applications of the same spell coexist, replace, or merge?",
+   "related": [
+    "track:A"
+   ],
+   "setup": {
+    "class": "two players of the witness class",
+    "spec": "any",
+    "steps": [
+     "A applies the witness to C",
+     "B applies the witness to C 3 s later",
+     "list C's auras with GetUnitAuras(C, 'HELPFUL'): count, sourceUnit, instance ids"
+    ],
+    "talents": "none required"
+   },
+   "topic": "coexistence",
+   "variants": [
+    {
+     "trinity": "coexist: 2 instances (CanStackWith SpellAuras.cpp:1698 ATTR3_DOT_STACKING_RULE)",
+     "witness": {
+      "build_skew": false,
+      "drift": "unchanged",
+      "facts": {
+       "dispel_type": 1,
+       "dot_stacking_rule": true,
+       "duration_ms": 12000,
+       "extra_initial_period": true,
+       "pandemic": true,
+       "periodic": [
+        {
+         "aura": 8,
+         "index": 0,
+         "period": 3000
+        }
+       ],
+       "stack_amount": 0
+      },
+      "name": "Rejuvenation",
+      "player": true,
+      "selector_results": {
+       "dot-stacking-rule": true,
+       "periodic-heal": true
+      },
+      "selectors": [
+       "periodic-heal",
+       "dot-stacking-rule"
+      ],
+      "spell": 774,
+      "status": "ok"
+     }
+    },
+    {
+     "trinity": "replace: newest wins (CanStackWith SpellAuras.cpp:1757-1767 same rank chain -> false; _RemoveNoStackAurasDueToAura removes the old)",
+     "witness": {
+      "build_skew": false,
+      "drift": "unchanged",
+      "facts": {
+       "dispel_type": 1,
+       "dot_stacking_rule": false,
+       "duration_ms": 3600000,
+       "extra_initial_period": false,
+       "pandemic": false,
+       "periodic": [],
+       "stack_amount": 0
+      },
+      "name": "Mark of the Wild",
+      "player": true,
+      "selector_results": {
+       "no-dot-stacking-rule": true,
+       "not-periodic": true
+      },
+      "selectors": [
+       "not-periodic",
+       "no-dot-stacking-rule"
+      ],
+      "spell": 1126,
+      "status": "ok"
+     }
+    }
+   ],
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": true,
+     "duration_ms": 12000,
+     "extra_initial_period": true,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 8,
+       "index": 0,
+       "period": 3000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Rejuvenation",
+    "player": true,
+    "selector_results": {
+     "active": true,
+     "dot-stacking-rule": true,
+     "finite": true,
+     "periodic-heal": true
+    },
+    "selectors": [
+     "finite",
+     "active",
+     "periodic-heal",
+     "dot-stacking-rule"
+    ],
+    "spell": 774,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-ADDON-AURA-QUERY",
+    "OBS-REFRESH-PREDICTION",
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 67,
+    "candidates_player": [
+     774,
+     8936,
+     33763,
+     48438,
+     61295,
+     115175,
+     124682,
+     156322
+    ],
+    "controlled": 1,
+    "player": 10,
+    "selectors": {
+     "active": "not SPELL_ATTR0_PASSIVE",
+     "finite": "authored duration > 0",
+     "pandemic": "SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION",
+     "periodic-heal": "a PERIODIC_HEAL effect with period > 0"
+    }
+   },
+   "context": "solo-no-combat",
+   "discriminates": "Trinity-as-written full 30% carry vs remaining-capped carry (simc/Core/intended); r_large is the non-discriminating control",
+   "evidence": [
+    "core-navigation",
+    "retail-unknown",
+    "simc-consumer",
+    "structural-inference",
+    "trinity-consumer"
+   ],
+   "fidelity": "approximate",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-ADDON-AURA-QUERY",
+     "grade": "approximate",
+     "margin_ms": 1800,
+     "quantity": "max-duration"
+    },
+    {
+     "channel": "OBS-REFRESH-PREDICTION",
+     "grade": "exact",
+     "quantity": "client-prediction"
+    }
+   ],
+   "id": "AL-X-L-04",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "Trinity as written",
+     "prediction": {
+      "r_large": 15600,
+      "r_small": 15600
+     },
+     "source": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990"
+    },
+    {
+     "evidence": "structural-inference",
+     "name": "remaining-capped carry (intended Trinity)",
+     "prediction": {
+      "r_large": 15600,
+      "r_small": 13800
+     },
+     "source": "structural-inference (track B)"
+    },
+    {
+     "evidence": "simc-consumer",
+     "name": "simc DOT_REFRESH_PANDEMIC",
+     "prediction": {
+      "r_large": 15600,
+      "r_small": 13800
+     },
+     "source": "simc action.cpp:4603"
+    },
+    {
+     "evidence": "core-navigation",
+     "name": "Core CappedCarryover",
+     "prediction": {
+      "r_large": 15600,
+      "r_small": 13800
+     },
+     "source": "Core aura_state.rs:1153-1200 (track K)"
+    }
+   ],
+   "observable": "max-duration via OBS-ADDON-AURA-QUERY (approximate); client-prediction via OBS-REFRESH-PREDICTION (exact)",
+   "observables": [
+    {
+     "margin_ms": 1800,
+     "quantity": "max-duration"
+    },
+    {
+     "quantity": "client-prediction"
+    }
+   ],
+   "origin": "L",
+   "question": "What maximum duration results from refreshing an ATTR13 aura with little time left?",
+   "related": [
+    "track:B",
+    "track:K"
+   ],
+   "setup": {
+    "class": "Druid",
+    "inputs": {
+     "D_ms": 12000,
+     "note": "D = authored duration without mods; remaining r read at recast",
+     "r_large_ms": 6000,
+     "r_small_ms": 1800
+    },
+    "spec": "Restoration",
+    "steps": [
+     "cast the witness on self out of combat",
+     "before recasting read GetRefreshExtendedDuration (client prediction)",
+     "recast with r_small remaining",
+     "read AuraData.duration after the UNIT_AURA update",
+     "repeat with r_large"
+    ],
+    "talents": "none affecting the witness duration (verify base duration equals the authored one first)"
+   },
+   "topic": "pandemic",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": true,
+     "duration_ms": 12000,
+     "extra_initial_period": true,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 8,
+       "index": 0,
+       "period": 3000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Rejuvenation",
+    "player": true,
+    "selector_results": {
+     "active": true,
+     "finite": true,
+     "pandemic": true,
+     "periodic-heal": true
+    },
+    "selectors": [
+     "finite",
+     "active",
+     "pandemic",
+     "periodic-heal"
+    ],
+    "spell": 774,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 6,
+    "candidates_player": [
+     774
+    ],
+    "controlled": 0,
+    "player": 1,
+    "selectors": {
+     "extra-initial-period": "SPELL_ATTR5_EXTRA_INITIAL_PERIOD",
+     "finite": "authored duration > 0",
+     "pandemic": "SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION",
+     "periodic-heal": "a PERIODIC_HEAL effect with period > 0"
+    }
+   },
+   "context": "solo-no-combat",
+   "discriminates": "phase kept + whole ticks (Trinity pandemic branch) vs timer reset (Trinity non-pandemic branch) vs phase kept + partial last tick (simc)",
+   "evidence": [
+    "retail-unknown",
+    "simc-consumer",
+    "trinity-consumer"
+   ],
+   "fidelity": "approximate",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "approximate",
+     "margin_ms": 1999,
+     "quantity": "event-time"
+    },
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "exact",
+     "quantity": "amount"
+    }
+   ],
+   "id": "AL-X-L-05",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "Trinity pandemic branch (phase kept, whole ticks)",
+     "prediction": {
+      "next_tick_ms": 9000,
+      "partial_last_tick": false,
+      "removed_at_ms": 22600,
+      "ticks": [
+       1,
+       3000,
+       6000,
+       9000,
+       12000,
+       15000,
+       18000,
+       21000
+      ]
+     },
+     "source": "SpellAuras.cpp:976-990; SpellAuraEffects.cpp:949-958,1250-1275"
+    },
+    {
+     "evidence": "trinity-consumer",
+     "name": "timer reset on refresh (Trinity non-pandemic branch)",
+     "prediction": {
+      "next_tick_ms": 7001,
+      "partial_last_tick": false,
+      "removed_at_ms": 22600,
+      "ticks": [
+       1,
+       3000,
+       6000,
+       7001,
+       10000,
+       13000,
+       16000,
+       19000,
+       22000
+      ]
+     },
+     "source": "Spell.cpp:3240 resetPeriodicTimer; SpellAuraEffects.cpp:949-958"
+    },
+    {
+     "evidence": "simc-consumer",
+     "name": "simc (phase kept, partial last tick)",
+     "prediction": {
+      "next_tick_ms": 9000,
+      "partial_last_tick": true,
+      "removed_at_ms": 22600,
+      "ticks": [
+       [
+        0,
+        "1"
+       ],
+       [
+        3000,
+        "1"
+       ],
+       [
+        6000,
+        "1"
+       ],
+       [
+        9000,
+        "1"
+       ],
+       [
+        12000,
+        "1"
+       ],
+       [
+        15000,
+        "1"
+       ],
+       [
+        18000,
+        "1"
+       ],
+       [
+        21000,
+        "1"
+       ],
+       [
+        22600,
+        "8/15"
+       ]
+      ]
+     },
+     "source": "simc dot.cpp:938-962, :693"
+    }
+   ],
+   "observable": "event-time via OBS-COMBATLOG-FILE (approximate); amount via OBS-COMBATLOG-FILE (exact)",
+   "observables": [
+    {
+     "margin_ms": 1999,
+     "quantity": "event-time"
+    },
+    {
+     "quantity": "amount"
+    }
+   ],
+   "origin": "L",
+   "question": "When does the next tick occur after a refresh, and is the final tick partial?",
+   "related": [
+    "track:D",
+    "track:B"
+   ],
+   "setup": {
+    "class": "Druid",
+    "inputs": {
+     "D_ms": 12000,
+     "note": "unhasted; Trinity timeline with 1 ms updates, first update 1 ms after apply",
+     "period_ms": 3000,
+     "refresh_at_ms": 7000
+    },
+    "spec": "Restoration",
+    "steps": [
+     "/combatlog on (advanced)",
+     "cast the witness on self below full health",
+     "recast at inputs.refresh_at_ms",
+     "let it expire",
+     "read SPELL_PERIODIC_HEAL times/amounts and SPELL_AURA_REMOVED"
+    ],
+    "talents": "none; record haste (period scales)"
+   },
+   "topic": "next-tick",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": true,
+     "duration_ms": 12000,
+     "extra_initial_period": true,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 8,
+       "index": 0,
+       "period": 3000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Rejuvenation",
+    "player": true,
+    "selector_results": {
+     "extra-initial-period": true,
+     "finite": true,
+     "pandemic": true,
+     "periodic-heal": true
+    },
+    "selectors": [
+     "finite",
+     "periodic-heal",
+     "pandemic",
+     "extra-initial-period"
+    ],
+    "spell": 774,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-COMBATLOG-FILE",
+    "OBS-ADDON-AURA-QUERY"
+   ],
+   "applicability": {
+    "all": 652,
+    "candidates_player": [
+     774,
+     8936,
+     33763,
+     48438,
+     61295,
+     108416,
+     115175,
+     124682
+    ],
+    "controlled": 1,
+    "player": 15,
+    "selectors": {
+     "finite": "authored duration > 0",
+     "periodic-heal": "a PERIODIC_HEAL effect with period > 0"
+    }
+   },
+   "context": "solo-no-combat",
+   "discriminates": "input timing of periodic amounts (dynamic vs snapshot)",
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "fidelity": "approximate",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "exact",
+     "quantity": "amount"
+    },
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "approximate",
+     "quantity": "caster-stat"
+    }
+   ],
+   "id": "AL-X-L-06",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "Trinity dynamic-each-tick",
+     "prediction": {
+      "ticks_after_change": "scaled by the stat change"
+     },
+     "source": "SpellAuraEffects.cpp:5916 (heal) / :5664 (damage) BonusDone at tick time"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "application-snapshot",
+     "prediction": {
+      "ticks_after_change": "unchanged until refresh"
+     },
+     "source": "structural-inference"
+    }
+   ],
+   "observable": "amount via OBS-COMBATLOG-FILE (exact); caster-stat via OBS-COMBATLOG-FILE (approximate)",
+   "observables": [
+    {
+     "quantity": "amount"
+    },
+    {
+     "quantity": "caster-stat"
+    }
+   ],
+   "origin": "L",
+   "question": "After a caster stat change mid-aura (no refresh), do later ticks change?",
+   "related": [
+    "track:D"
+   ],
+   "setup": {
+    "class": "Druid",
+    "spec": "Restoration",
+    "steps": [
+     "/combatlog on (advanced)",
+     "record caster stats",
+     "cast the witness on self",
+     "after the 2nd tick gain a known healing-done/primary-stat buff (verify its effect out of combat first)",
+     "compare non-crit tick amounts before/after"
+    ],
+    "talents": "none"
+   },
+   "topic": "snapshot",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": true,
+     "duration_ms": 12000,
+     "extra_initial_period": true,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 8,
+       "index": 0,
+       "period": 3000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Rejuvenation",
+    "player": true,
+    "selector_results": {
+     "finite": true,
+     "periodic-heal": true
+    },
+    "selectors": [
+     "finite",
+     "periodic-heal"
+    ],
+    "spell": 774,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 8720,
+    "candidates_player": [
+     703,
+     980,
+     1079,
+     1943,
+     2818,
+     14914,
+     15407,
+     27243
+    ],
+    "controlled": 4,
+    "player": 46,
+    "selectors": {
+     "dies-with-target": "not SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD",
+     "finite": "authored duration > 0",
+     "periodic-damage": "a PERIODIC_DAMAGE effect with period > 0"
+    }
+   },
+   "context": "open-world-combat",
+   "discriminates": "death is (or is not) a lifecycle event for auras the dead unit cast",
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "fidelity": "exact",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "exact",
+     "quantity": "event-kind"
+    },
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "exact",
+     "quantity": "source"
+    }
+   ],
+   "id": "AL-X-L-07",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "Trinity",
+     "prediction": {
+      "caster_dies": "DoT keeps ticking to expiry",
+      "target_dies": "aura removed (AURA_REMOVE_BY_DEATH) at death"
+     },
+     "source": "Unit.cpp:4472 RemoveAllAurasOnDeath removes only the dying unit's own auras (keeps passive / ATTR3_ALLOW_AURA_WHILE_DEAD); SpellAuras.cpp:557 caster lookup"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "caster-death ends caster's DoTs",
+     "prediction": {
+      "caster_dies": "SPELL_AURA_REMOVED at caster death, no further ticks",
+      "target_dies": "aura removed at death"
+     },
+     "source": "structural-inference"
+    }
+   ],
+   "observable": "event-kind via OBS-COMBATLOG-FILE (exact); source via OBS-COMBATLOG-FILE (exact)",
+   "observables": [
+    {
+     "quantity": "event-kind"
+    },
+    {
+     "quantity": "source"
+    }
+   ],
+   "origin": "L",
+   "question": "What happens to a periodic aura when its caster dies, and when its target dies, before expiry?",
+   "related": [
+    "track:E",
+    "UNK-E-001"
+   ],
+   "setup": {
+    "class": "Warlock",
+    "spec": "Affliction",
+    "steps": [
+     "/combatlog on",
+     "(a) apply the DoT to a high-health open-world mob, then die (e.g. fall damage) before expiry",
+     "(b) apply to a low-health mob and kill it",
+     "read SPELL_PERIODIC_DAMAGE after UNIT_DIED and SPELL_AURA_REMOVED presence/time"
+    ],
+    "talents": "none"
+   },
+   "topic": "death",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": false,
+     "duration_ms": 14000,
+     "extra_initial_period": false,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 3,
+       "index": 0,
+       "period": 2000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Corruption",
+    "player": true,
+    "selector_results": {
+     "dies-with-target": true,
+     "finite": true,
+     "periodic-damage": true
+    },
+    "selectors": [
+     "finite",
+     "periodic-damage",
+     "dies-with-target"
+    ],
+    "spell": 146739,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 277,
+    "candidates_player": [
+     774,
+     8936,
+     33763,
+     48438,
+     61295,
+     124682,
+     156322,
+     366155
+    ],
+    "controlled": 1,
+    "player": 8,
+    "selectors": {
+     "finite": "authored duration > 0",
+     "magic": "DispelType 1 (Magic)",
+     "periodic-heal": "a PERIODIC_HEAL effect with period > 0"
+    }
+   },
+   "context": "duel",
+   "discriminates": "removal-by-dispel pays nothing vs a partial final tick",
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "fidelity": "approximate",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "exact",
+     "quantity": "event-kind"
+    },
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "approximate",
+     "margin_ms": 1500,
+     "quantity": "event-time"
+    }
+   ],
+   "id": "AL-X-L-08",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "Trinity",
+     "prediction": {
+      "events": [
+       "SPELL_DISPEL",
+       "SPELL_AURA_REMOVED"
+      ],
+      "tick_at_dispel": false
+     },
+     "source": "Unit.cpp:4006 RemoveAurasDueToSpellByDispel -> ModStackAmount/ModCharges(ENEMY_SPELL) -> removal, no tick on removal"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "partial tick on early removal",
+     "prediction": {
+      "events": [
+       "SPELL_PERIODIC_HEAL",
+       "SPELL_DISPEL",
+       "SPELL_AURA_REMOVED"
+      ],
+      "tick_at_dispel": "partial (0.5 of a tick)"
+     },
+     "source": "structural-inference"
+    }
+   ],
+   "observable": "event-kind via OBS-COMBATLOG-FILE (exact); event-time via OBS-COMBATLOG-FILE (approximate)",
+   "observables": [
+    {
+     "quantity": "event-kind"
+    },
+    {
+     "margin_ms": 1500,
+     "quantity": "event-time"
+    }
+   ],
+   "origin": "L",
+   "question": "Does a dispel between ticks produce a final (partial) tick, and how is the removal logged?",
+   "related": [
+    "track:E",
+    "track:D"
+   ],
+   "setup": {
+    "class": "Druid (target) + a class with an offensive magic dispel",
+    "spec": "any",
+    "steps": [
+     "/combatlog on (both)",
+     "duel; target casts the witness on self",
+     "opponent dispels 1.5 s after a tick",
+     "read SPELL_DISPEL, SPELL_AURA_REMOVED and any SPELL_PERIODIC_HEAL at the dispel time"
+    ],
+    "talents": "offensive dispel"
+   },
+   "topic": "dispel",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": true,
+     "duration_ms": 12000,
+     "extra_initial_period": true,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 8,
+       "index": 0,
+       "period": 3000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Rejuvenation",
+    "player": true,
+    "selector_results": {
+     "finite": true,
+     "magic": true,
+     "periodic-heal": true
+    },
+    "selectors": [
+     "finite",
+     "periodic-heal",
+     "magic"
+    ],
+    "spell": 774,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 280,
+    "candidates_player": [
+     774,
+     8936,
+     33763,
+     48438,
+     61295,
+     124682,
+     156322,
+     366155
+    ],
+    "controlled": 1,
+    "player": 8,
+    "selectors": {
+     "magic": "DispelType 1 (Magic)",
+     "periodic-heal": "a PERIODIC_HEAL effect with period > 0"
+    }
+   },
+   "context": "duel",
+   "discriminates": "only via tick presence statistics, never via line order (receipt order is not scheduler order)",
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "fidelity": "insufficient",
+   "fidelity_basis": [
+    {
+     "channel": null,
+     "grade": "insufficient",
+     "quantity": "same-time-order"
+    }
+   ],
+   "id": "AL-X-L-09",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "Trinity: spell effects before aura updates in the same unit update",
+     "prediction": {
+      "tick_after_dispel": "never"
+     },
+     "source": "track I (Unit::Update order)"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "aura update first",
+     "prediction": {
+      "tick_after_dispel": "the coinciding tick is paid"
+     },
+     "source": "structural-inference"
+    }
+   ],
+   "observable": "same-time-order via no channel (insufficient)",
+   "observables": [
+    {
+     "quantity": "same-time-order"
+    }
+   ],
+   "origin": "L",
+   "question": "When a dispel and a tick land in the same server update, which happens first?",
+   "related": [
+    "track:I",
+    "AL-X-L-08"
+   ],
+   "setup": {
+    "class": "as AL-X-L-08",
+    "spec": "any",
+    "steps": [
+     "repeat AL-X-L-08 aiming the dispel at the tick time; collect many trials"
+    ],
+    "talents": "offensive dispel"
+   },
+   "topic": "same-timestamp-order",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": true,
+     "duration_ms": 12000,
+     "extra_initial_period": true,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 8,
+       "index": 0,
+       "period": 3000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Rejuvenation",
+    "player": true,
+    "selector_results": {
+     "magic": true,
+     "periodic-heal": true
+    },
+    "selectors": [
+     "periodic-heal",
+     "magic"
+    ],
+    "spell": 774,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 15,
+    "candidates_player": [
+     980
+    ],
+    "controlled": 0,
+    "player": 1,
+    "selectors": {
+     "finite": "authored duration > 0",
+     "pandemic": "SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION",
+     "periodic-damage": "a PERIODIC_DAMAGE effect with period > 0",
+     "stacking": "CumulativeAura > 1"
+    }
+   },
+   "context": "open-world-combat",
+   "discriminates": "same-tick stack mutation order; absence of a Trinity consumer is not absence of Retail behaviour",
+   "evidence": [
+    "retail-unknown",
+    "script-consumer",
+    "structural-inference",
+    "trinity-consumer"
+   ],
+   "fidelity": "exact",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "exact",
+     "quantity": "stacks"
+    },
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "exact",
+     "quantity": "amount"
+    }
+   ],
+   "id": "AL-X-L-10",
+   "models": [
+    {
+     "evidence": [
+      "trinity-consumer",
+      "script-consumer"
+     ],
+     "name": "Trinity pinned",
+     "prediction": {
+      "stack_multipliers_first_4_ticks": [
+       1,
+       1,
+       1,
+       1
+      ]
+     },
+     "source": "no consumer for the witness's stack growth: spell_warlock.cpp has no Agony stack script; PERIODIC_DUMMY effect 1 is inert"
+    },
+    {
+     "evidence": "structural-inference",
+     "name": "stack after damage",
+     "prediction": {
+      "stack_multipliers_first_4_ticks": [
+       1,
+       2,
+       3,
+       4
+      ]
+     },
+     "source": "structural-inference (effect order: damage index 0 before dummy index 1 in UpdateOwner, SpellAuras.cpp:845-846)"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "stack before damage",
+     "prediction": {
+      "stack_multipliers_first_4_ticks": [
+       2,
+       3,
+       4,
+       5
+      ]
+     },
+     "source": "structural-inference"
+    }
+   ],
+   "observable": "stacks via OBS-COMBATLOG-FILE (exact); amount via OBS-COMBATLOG-FILE (exact)",
+   "observables": [
+    {
+     "quantity": "stacks"
+    },
+    {
+     "quantity": "amount"
+    }
+   ],
+   "origin": "L",
+   "question": "Does a stack gained on a tick apply to that tick's amount or only to later ticks?",
+   "related": [
+    "track:C",
+    "track:H",
+    "track:D"
+   ],
+   "setup": {
+    "class": "Warlock",
+    "spec": "Affliction",
+    "steps": [
+     "/combatlog on",
+     "apply the witness to a training dummy",
+     "read SPELL_AURA_APPLIED_DOSE (stack) and SPELL_PERIODIC_DAMAGE (non-crit) per tick"
+    ],
+    "talents": "none altering the witness stacking"
+   },
+   "topic": "stack-around-tick",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 2,
+     "dot_stacking_rule": true,
+     "duration_ms": 18000,
+     "extra_initial_period": false,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 3,
+       "index": 0,
+       "period": 2000
+      },
+      {
+       "aura": 226,
+       "index": 1,
+       "period": 2000
+      }
+     ],
+     "stack_amount": 8
+    },
+    "name": "Agony",
+    "player": true,
+    "selector_results": {
+     "finite": true,
+     "pandemic": true,
+     "periodic-damage": true,
+     "stacking": true
+    },
+    "selectors": [
+     "finite",
+     "periodic-damage",
+     "stacking",
+     "pandemic"
+    ],
+    "spell": 980,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-COMBATLOG-FILE"
+   ],
+   "applicability": {
+    "all": 652,
+    "candidates_player": [
+     774,
+     8936,
+     33763,
+     48438,
+     61295,
+     108416,
+     115175,
+     124682
+    ],
+    "controlled": 1,
+    "player": 15,
+    "selectors": {
+     "finite": "authored duration > 0",
+     "periodic-heal": "a PERIODIC_HEAL effect with period > 0"
+    }
+   },
+   "context": "solo-no-combat",
+   "discriminates": "replaces the TIMING_JITTER_MS assumption with a measurement",
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "fidelity": "approximate",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-COMBATLOG-FILE",
+     "grade": "approximate",
+     "margin_ms": 1000,
+     "quantity": "event-time"
+    }
+   ],
+   "id": "AL-X-L-11",
+   "models": [
+    {
+     "evidence": "trinity-consumer",
+     "name": "fixed-period server ticks",
+     "prediction": {
+      "interval_spread_ms": "<= receipt jitter"
+     },
+     "source": "SpellAuraEffects.cpp:1250-1275"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "server update quantised ticks",
+     "prediction": {
+      "interval_spread_ms": ">= server update period"
+     },
+     "source": "structural-inference"
+    }
+   ],
+   "observable": "event-time via OBS-COMBATLOG-FILE (approximate)",
+   "observables": [
+    {
+     "margin_ms": 1000,
+     "quantity": "event-time"
+    }
+   ],
+   "origin": "L",
+   "question": "How large is the combat-log timing jitter between two server events of one aura?",
+   "related": [
+    "AL-U-L-04"
+   ],
+   "setup": {
+    "class": "Druid",
+    "spec": "Restoration",
+    "steps": [
+     "/combatlog on",
+     "cast the witness on self 30x",
+     "histogram tick-to-tick intervals"
+    ],
+    "talents": "none; fixed haste during the run"
+   },
+   "topic": "calibration",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": true,
+     "duration_ms": 12000,
+     "extra_initial_period": true,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 8,
+       "index": 0,
+       "period": 3000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Rejuvenation",
+    "player": true,
+    "selector_results": {
+     "finite": true,
+     "periodic-heal": true
+    },
+    "selectors": [
+     "finite",
+     "periodic-heal"
+    ],
+    "spell": 774,
+    "status": "ok"
+   }
+  },
+  {
+   "api": [
+    "OBS-SECRECY-QUERY"
+   ],
+   "applicability": {
+    "all": 89511,
+    "candidates_player": [
+     99,
+     498,
+     586,
+     603,
+     605,
+     703,
+     710,
+     740
+    ],
+    "controlled": 87,
+    "player": 674,
+    "selectors": {
+     "finite": "authored duration > 0"
+    }
+   },
+   "context": "solo-no-combat",
+   "discriminates": "whether in-combat experiments can be upgraded to addon channels",
+   "evidence": [
+    "retail-unknown",
+    "structural-inference"
+   ],
+   "fidelity": "exact",
+   "fidelity_basis": [
+    {
+     "channel": "OBS-SECRECY-QUERY",
+     "grade": "exact",
+     "quantity": "secrecy"
+    }
+   ],
+   "id": "AL-X-L-12",
+   "models": [
+    {
+     "evidence": "structural-inference",
+     "name": "all player auras contextually secret",
+     "prediction": {
+      "secrecy": "contextual for every witness"
+     },
+     "source": "SRC-L-06"
+    },
+    {
+     "evidence": "retail-unknown",
+     "name": "some flagged NeverSecret",
+     "prediction": {
+      "secrecy": "NeverSecret for some witnesses"
+     },
+     "source": "SRC-L-06 per-spell flags"
+    }
+   ],
+   "observable": "secrecy via OBS-SECRECY-QUERY (exact)",
+   "observables": [
+    {
+     "quantity": "secrecy"
+    }
+   ],
+   "origin": "L",
+   "question": "Which witness auras are NeverSecret (addon-readable even in combat)?",
+   "related": [
+    "AL-U-L-08"
+   ],
+   "setup": {
+    "class": "any",
+    "spec": "any",
+    "steps": [
+     "out of combat call C_Secrets.GetSpellAuraSecrecy(id) for every catalogue witness"
+    ],
+    "talents": "none"
+   },
+   "topic": "surface",
+   "witness": {
+    "build_skew": false,
+    "drift": "unchanged",
+    "facts": {
+     "dispel_type": 1,
+     "dot_stacking_rule": false,
+     "duration_ms": 14000,
+     "extra_initial_period": false,
+     "pandemic": true,
+     "periodic": [
+      {
+       "aura": 3,
+       "index": 0,
+       "period": 2000
+      }
+     ],
+     "stack_amount": 0
+    },
+    "name": "Corruption",
+    "player": true,
+    "selector_results": {
+     "finite": true
+    },
+    "selectors": [
+     "finite"
+    ],
+    "spell": 146739,
+    "status": "ok"
+   }
+  }
+ ],
+ "rules": [
+  {
+   "counterexamples": [],
+   "definition": "AuraData/UNIT_AURA values are readable by addons only when no Combat/Encounter/ChallengeMode/PvPMatch restriction is active, or the spell is NeverSecret",
+   "evidence": [
+    "structural-inference"
+   ],
+   "id": "AL-R-L-01",
+   "name": "addon aura channels are out-of-restriction channels",
+   "population": {
+    "count": 3,
+    "name": "channels"
+   },
+   "status": "proposed"
+  },
+  {
+   "counterexamples": [
+    "NeverSecret spells (AL-X-L-12)"
+   ],
+   "definition": "for secret auras in combat, the only exact channel is WoWCombatLog.txt: event kinds, sources, stacks, amounts exact; no instance identity, durations only as event-time differences",
+   "evidence": [
+    "structural-inference",
+    "retail-unknown"
+   ],
+   "id": "AL-R-L-02",
+   "name": "in-combat observation is combat-log-file only",
+   "population": {
+    "count": 14,
+    "name": "quantities"
+   },
+   "status": "proposed"
+  }
+ ],
+ "surface": {
+  "aura_secret_restrictions": [
+   "ChallengeMode",
+   "Combat",
+   "Encounter",
+   "PvPMatch"
+  ],
+  "channels": {
+   "OBS-ADDON-AURA-QUERY": {
+    "api": "C_UnitAuras.GetAuraDataByAuraInstanceID / GetUnitAuras / GetUnitAuraInstanceIDs (AuraData)",
+    "note": "duration (s) presumably mirrors the server's integer max-duration ms (Trinity wire: Duration) -> exact if so (AL-U-L-02); expirationTime = client receipt time + Remaining -> latency-bound",
+    "provides": {
+     "charges": "exact",
+     "identity": "exact",
+     "instance-count": "exact",
+     "max-duration": "unverified-exact",
+     "remaining-duration": [
+      "timing",
+      1
+     ],
+     "source": "exact",
+     "stacks": "exact"
+    },
+    "requires_nonsecret_aura": true,
+    "sources": [
+     "SRC-L-01",
+     "SRC-L-02",
+     "SRC-L-06",
+     "SRC-L-11",
+     "SRC-L-12",
+     "SRC-L-14",
+     "SRC-L-15"
+    ]
+   },
+   "OBS-ADDON-CLEU": {
+    "api": "COMBAT_LOG_EVENT_UNFILTERED (addon registration)",
+    "note": "unavailable to addons since 12.0.0 (registration forbidden)",
+    "provides": {},
+    "requires_nonsecret_aura": false,
+    "sources": [
+     "SRC-L-09",
+     "SRC-L-10"
+    ]
+   },
+   "OBS-COMBATLOG-FILE": {
+    "api": "WoWCombatLog.txt via /combatlog with advanced combat logging",
+    "note": "client-written, local clock at receipt; instance-count/source inferred per source GUID from APPLIED without REMOVED; durations only as event-time differences; advanced fields' unit semantics for periodic lines unverified (AL-U-L-05)",
+    "provides": {
+     "amount": "exact",
+     "caster-stat": "unverified-exact",
+     "event-kind": "exact",
+     "event-time": [
+      "timing",
+      1
+     ],
+     "instance-count": "exact",
+     "max-duration": [
+      "timing",
+      1
+     ],
+     "remaining-duration": [
+      "timing",
+      1
+     ],
+     "same-time-order": "order",
+     "source": "exact",
+     "stacks": "exact"
+    },
+    "requires_nonsecret_aura": false,
+    "sources": [
+     "SRC-L-13",
+     "SRC-L-10"
+    ]
+   },
+   "OBS-REFRESH-PREDICTION": {
+    "api": "C_UnitAuras.GetRefreshExtendedDuration(unit, auraInstanceID[, spellID])",
+    "note": "Blizzard's client-side model of a refresh; compare with the server result, never substitute",
+    "provides": {
+     "client-prediction": "exact"
+    },
+    "requires_nonsecret_aura": true,
+    "sources": [
+     "SRC-L-03"
+    ]
+   },
+   "OBS-SECRECY-QUERY": {
+    "api": "C_Secrets.GetSpellAuraSecrecy / ShouldSpellAuraBeSecret(spellID)",
+    "note": "decides whether an addon channel survives in a restricted context for one witness spell",
+    "provides": {
+     "secrecy": "exact"
+    },
+    "requires_nonsecret_aura": false,
+    "sources": [
+     "SRC-L-08"
+    ]
+   },
+   "OBS-UI-RECORDING": {
+    "api": "screen recording of Blizzard's own aura frames (they may display secret values)",
+    "note": "display rounding and frame rate bound the resolution; last-resort channel",
+    "provides": {
+     "remaining-duration": [
+      "timing",
+      100
+     ],
+     "stacks": "unverified-exact"
+    },
+    "requires_nonsecret_aura": false,
+    "sources": [
+     "SRC-L-06"
+    ]
+   },
+   "OBS-UNIT-AURA-EVENT": {
+    "api": "UNIT_AURA updateInfo {addedAuras, updatedAuraInstanceIDs, removedAuraInstanceIDs, isFullUpdate}",
+    "note": "added/updated/removed only: no removal cause; isFullUpdate batches hide individual events",
+    "provides": {
+     "event-kind": "exact",
+     "event-time": [
+      "timing",
+      1
+     ],
+     "identity": "exact"
+    },
+    "requires_nonsecret_aura": true,
+    "sources": [
+     "SRC-L-04",
+     "SRC-L-05",
+     "SRC-L-11"
+    ]
+   }
+  },
+  "contexts": {
+   "duel": {
+    "note": "duel (not a PvPMatch per the enum text; unverified)",
+    "restrictions": [
+     "Combat"
+    ]
+   },
+   "group-no-combat": {
+    "note": "open world party, nobody in combat (friendly buffs/HoTs)",
+    "restrictions": []
+   },
+   "instance-encounter": {
+    "note": "dungeon/raid boss",
+    "restrictions": [
+     "Combat",
+     "Encounter",
+     "Map"
+    ]
+   },
+   "open-world-combat": {
+    "note": "dummy or open-world mob; DoTs on hostiles",
+    "restrictions": [
+     "Combat"
+    ]
+   },
+   "solo-no-combat": {
+    "note": "open world, player not in combat (self-cast buffs/HoTs)",
+    "restrictions": []
+   }
+  },
+  "quantities": {
+   "amount": "integer amount of a tick or absorb",
+   "caster-stat": "caster stat value at a moment",
+   "charges": "proc charge count",
+   "client-prediction": "the client's own predicted refresh result",
+   "event-kind": "which lifecycle event happened (applied / refreshed / dose / removed / dispelled / died)",
+   "event-time": "time of a tick / removal / refresh",
+   "identity": "same aura object across events (instance identity)",
+   "instance-count": "number of coexisting instances on one target (per caster)",
+   "max-duration": "authored/current maximum duration of the instance",
+   "remaining-duration": "remaining duration at a given moment",
+   "same-time-order": "server order of two events in the same server update",
+   "secrecy": "whether a spell's aura data is secret in restricted contexts",
+   "source": "caster attribution of an instance",
+   "stacks": "stack count"
+  },
+  "sources": {
+   "SRC-L-01": {
+    "claim": "GetAuraDataByAuraInstanceID(unit, auraInstanceID) -> AuraData; RequiresUnitAuraAccess, SecretWhenUnitAuraRestricted",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/UnitAuraDocumentation.lua:170",
+    "kind": "blizzard-generated-doc",
+    "quote": "Name = \"GetAuraDataByAuraInstanceID\"",
+    "status": "verified-primary"
+   },
+   "SRC-L-02": {
+    "claim": "GetUnitAuras / GetUnitAuraInstanceIDs (:432) enumerate a unit's auras with filter + sort rule",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/UnitAuraDocumentation.lua:452",
+    "kind": "blizzard-generated-doc",
+    "quote": "Name = \"GetUnitAuras\"",
+    "status": "verified-primary"
+   },
+   "SRC-L-03": {
+    "claim": "GetRefreshExtendedDuration: the CLIENT's prediction of a refresh result (not server truth)",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/UnitAuraDocumentation.lua:392",
+    "kind": "blizzard-generated-doc",
+    "quote": "Returns the client-predicted new duration of this aura if it were cast again right now.",
+    "status": "verified-primary"
+   },
+   "SRC-L-04": {
+    "claim": "UNIT_AURA(unitTarget, updateInfo), SecretWhenAurasRestricted (:603)",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/UnitAuraDocumentation.lua:600",
+    "kind": "blizzard-generated-doc",
+    "quote": "LiteralName = \"UNIT_AURA\"",
+    "status": "verified-primary"
+   },
+   "SRC-L-05": {
+    "claim": "UnitAuraUpdateInfo = {isFullUpdate, removedAuraInstanceIDs, addedAuras (AuraData), updatedAuraInstanceIDs} (:59-62)",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/UnitConstantsDocumentation.lua:55",
+    "kind": "blizzard-generated-doc",
+    "quote": "Name = \"UnitAuraUpdateInfo\"",
+    "status": "verified-primary"
+   },
+   "SRC-L-06": {
+    "claim": "SecretWhenUnitAuraRestricted: aura values are secret under Combat/Encounter/ChallengeMode/PvPMatch restrictions unless the spell is flagged never-secret",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/SecretPredicatesDocumentation.lua:79",
+    "kind": "blizzard-generated-doc",
+    "quote": "Guarded APIs and events produce secret values when combat, encounter, challenge mode, or PvP match addon restrictions are in effect. Individual spells may be flagged as never or always secret, which takes priority over restrictions.",
+    "status": "verified-primary"
+   },
+   "SRC-L-07": {
+    "claim": "AddOnRestrictionType.Combat definition (Encounter :27, ChallengeMode :28, PvPMatch :29, Map :30)",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/RestrictedActionsConstantsDocumentation.lua:26",
+    "kind": "blizzard-generated-doc",
+    "quote": "The player is actively affecting combat.",
+    "status": "verified-primary"
+   },
+   "SRC-L-08": {
+    "claim": "C_Secrets.ShouldSpellAuraBeSecret / GetSpellAuraSecrecy (:45) -> SecrecyLevel (NeverSecret / AlwaysSecret / ...) queryable per spell",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/SecretPredicateAPIDocumentation.lua:139",
+    "kind": "blizzard-generated-doc",
+    "quote": "Returns true if a given spell identifier would, if applied as an aura, produce secret values when queried.",
+    "status": "verified-primary"
+   },
+   "SRC-L-09": {
+    "claim": "COMBAT_LOG_EVENT_UNFILTERED HasRestrictions; the event getter lives in C_CombatLogSecure (Environment SecureOnly, CombatLogSecureDocumentation.lua:6/:45)",
+    "coords": "Interface/AddOns/Blizzard_APIDocumentationGenerated/CombatLogDocumentation.lua:132",
+    "kind": "blizzard-generated-doc",
+    "quote": "LiteralName = \"COMBAT_LOG_EVENT_UNFILTERED\"",
+    "status": "verified-primary"
+   },
+   "SRC-L-10": {
+    "claim": "addons cannot register CLEU in 12.x (ADDON_ACTION_FORBIDDEN); CLEU timestamp was Unix seconds with millisecond precision",
+    "coords": "warcraft.wiki.gg/wiki/COMBAT_LOG_EVENT",
+    "kind": "wiki-secondary",
+    "quote": "This event is no longer accessible to addons in Midnight since Patch 12.0.0",
+    "status": "verified-secondary"
+   },
+   "SRC-L-11": {
+    "claim": "12.1.0: while auras are secret the whole payload (incl. auraInstanceID) is secret",
+    "coords": "warcraft.wiki.gg/wiki/UNIT_AURA (Patch 12.1.0 history)",
+    "kind": "wiki-secondary",
+    "quote": "The UNIT_AURA event now delivers a fully secret payload while auras are secret. AuraData structs are now always fully secret.",
+    "status": "verified-secondary"
+   },
+   "SRC-L-12": {
+    "claim": "AuraData fields: applications, auraInstanceID (NeverSecret), charges, duration, expirationTime, maxCharges, points, sourceUnit, spellId, timeMod, ...; the page does NOT state whether auraInstanceID survives a refresh",
+    "coords": "warcraft.wiki.gg/wiki/Struct_AuraData",
+    "kind": "wiki-secondary",
+    "quote": "auraInstanceID",
+    "status": "verified-secondary"
+   },
+   "SRC-L-13": {
+    "claim": "WoWCombatLog.txt (/combatlog, advanced logging) is written by the client, unaffected by addon restrictions; local-clock timestamps with 3 fractional digits + tz; aura subevents APPLIED/REFRESH/APPLIED_DOSE/REMOVED_DOSE/REMOVED/BROKEN; no aura instance id and no remaining duration on any line",
+    "coords": "wowcoach.gg/docs/combat-log/line-format; warcraft.wiki.gg/wiki/COMBAT_LOG_EVENT",
+    "kind": "web-secondary",
+    "quote": "COMBAT_LOG_VERSION,22,ADVANCED_LOG_ENABLED,1,BUILD_VERSION,12.0.0,PROJECT_ID,1",
+    "status": "unverified"
+   },
+   "SRC-L-14": {
+    "claim": "captured UNIT_AURA payload (client build not recorded): Barkskin/Matted Fur added with auraInstanceIDs 2162/2163, a removed id 2079, applications 0 for non-stacking auras, expirationTime with 3 decimals (GetTime clock)",
+    "coords": "innocent-js@4e46b18c:src/events/Aura.ts:55",
+    "kind": "local-capture",
+    "quote": "\"auraInstanceID\": 2162",
+    "status": "verified-secondary"
+   },
+   "SRC-L-15": {
+    "claim": "Trinity's SMSG_AURA_UPDATE carries Slot + {CastID, SpellID, Flags, Applications (stacks if IsUsingStacks else charges, :261), CastUnit, Duration=max ms, Remaining ms, TimeMod, Points}; no aura instance id on the wire; Aura::m_castId is const (SpellAuras.h:394) so a refresh keeps the original CastID",
+    "coords": "SpellAuras.cpp:235-298",
+    "kind": "trinity-consumer",
+    "quote": "auraInfo.Slot = GetSlot();",
+    "status": "verified-primary"
+   }
+  },
+  "timing_jitter_ms_assumption": 200
+ },
+ "unknowns": [
+  {
+   "blocker": "live client observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:235",
+    "SpellAuraDefines.h:22",
+    "SRC-L-14"
+   ],
+   "evidence": [
+    "structural-inference",
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-01",
+   "known": "Not on Trinity's wire (Slot + CastID only, SpellAuras.cpp:235-298); captured ids exceed MAX_AURAS 300",
+   "question": "What makes the client allocate a new auraInstanceID?",
+   "reopen_condition": "AL-X-L-01 run",
+   "subject": "auraInstanceID allocation",
+   "why_unresolved": "client-side rule, undocumented"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:270-274"
+   ],
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-02",
+   "known": "Trinity sends Duration/Remaining as int32 ms (SpellAuras.cpp:270-274)",
+   "question": "Is AuraData.duration the server's integer max duration ms / 1000?",
+   "reopen_condition": "AL-X-L-04 shows non-round values",
+   "subject": "AuraData.duration precision",
+   "why_unresolved": "Retail wire not documented"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-07",
+    "SRC-L-06"
+   ],
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-03",
+   "known": "Combat = 'actively affecting combat' (SRC-L-07)",
+   "question": "Which setups keep aura data readable (self HoT out of combat, friendly buffs, a training dummy)?",
+   "reopen_condition": "C_RestrictedActions.IsAddOnRestrictionActive(Combat) logged during each run",
+   "subject": "Combat restriction trigger",
+   "why_unresolved": "trigger conditions not documented"
+  },
+  {
+   "blocker": "measurement",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-13"
+   ],
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-04",
+   "known": "local clock ms stamps (SRC-L-13); TIMING_JITTER_MS=200 is an assumption",
+   "question": "Bound on receipt jitter between two server events in WoWCombatLog.txt?",
+   "reopen_condition": "AL-X-L-11 run",
+   "subject": "combat log timing jitter",
+   "why_unresolved": "no documentation"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-10"
+   ],
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-05",
+   "known": "17 advanced params listed (SRC-L-10)",
+   "question": "Whose stats do advanced fields carry on SPELL_PERIODIC_* lines?",
+   "reopen_condition": "compare with caster stats read out of combat",
+   "subject": "advanced log unit for periodic lines",
+   "why_unresolved": "semantics per subevent undocumented"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-11",
+    "SRC-L-12"
+   ],
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-06",
+   "known": "Struct_AuraData marks it NeverSecret (SRC-L-12) but 12.1.0 notes 'AuraData structs are now always fully secret' (SRC-L-11)",
+   "question": "Is auraInstanceID still readable while auras are secret?",
+   "reopen_condition": "issecretvalue(aura.auraInstanceID) in combat",
+   "subject": "field secrecy in 12.1",
+   "why_unresolved": "sources conflict"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-03"
+   ],
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-07",
+   "known": "documented as client-predicted (SRC-L-03)",
+   "question": "Does GetRefreshExtendedDuration equal the server's refresh result?",
+   "reopen_condition": "AL-X-L-04 run",
+   "subject": "client refresh prediction",
+   "why_unresolved": "prediction model unpublished"
+  },
+  {
+   "blocker": "a DB2/attribute column is identified",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-08"
+   ],
+   "evidence": [
+    "unresolved"
+   ],
+   "id": "AL-U-L-08",
+   "known": "C_Secrets exposes them (SRC-L-08); not found among snapshot tables inspected (SpellAuraVisibility has Type/Flags only)",
+   "question": "Where do NeverSecret/AlwaysSecret spell flags come from?",
+   "reopen_condition": "AL-X-L-12 run cross-checked with DB2 columns",
+   "subject": "per-spell aura secrecy source",
+   "why_unresolved": "no DB2 column identified"
+  }
+ ]
+}

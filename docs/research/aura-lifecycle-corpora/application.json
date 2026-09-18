@@ -1,0 +1,3116 @@
+{
+ "counts": {
+  "all": {
+   "APPLY_AURA with EffectAura 0": 31,
+   "StackAmount>1 (initial stacks still 1 unless Doses/SPELLVALUE_AURA_STACK)": 11156,
+   "area-aura only (application deferred to UpdateTargetMap)": 1063,
+   "aura effects with >1 implicit-target group (object carries effects for other recipients)": 4301,
+   "damage + own damage-taken modifier": 802,
+   "damage index < first aura index": 9266,
+   "damage index > first aura index": 1406,
+   "dynobj-only": 829,
+   "initial charges > 0": 1355,
+   "initial charges from spell_proc differ from ProcCharges": 36,
+   "mixed APPLY_AURA + area aura": 300,
+   "no DIFFICULTY_NONE SpellInfo (fail-closed)": 2,
+   "population": "all",
+   "spells": 189140,
+   "unit-aura spells": 188309,
+   "with same-cast damage/heal": 11304
+  },
+  "controlled": {
+   "StackAmount>1 (initial stacks still 1 unless Doses/SPELLVALUE_AURA_STACK)": 2,
+   "area-aura only (application deferred to UpdateTargetMap)": 1,
+   "aura effects with >1 implicit-target group (object carries effects for other recipients)": 4,
+   "damage + own damage-taken modifier": 1,
+   "damage index < first aura index": 7,
+   "damage index > first aura index": 4,
+   "initial charges > 0": 3,
+   "population": "controlled",
+   "spells": 141,
+   "unit-aura spells": 141,
+   "with same-cast damage/heal": 12
+  },
+  "player": {
+   "APPLY_AURA with EffectAura 0": 2,
+   "StackAmount>1 (initial stacks still 1 unless Doses/SPELLVALUE_AURA_STACK)": 111,
+   "area-aura only (application deferred to UpdateTargetMap)": 5,
+   "aura effects with >1 implicit-target group (object carries effects for other recipients)": 85,
+   "damage + own damage-taken modifier": 1,
+   "damage index < first aura index": 23,
+   "damage index > first aura index": 12,
+   "initial charges > 0": 83,
+   "initial charges from spell_proc differ from ProcCharges": 9,
+   "mixed APPLY_AURA + area aura": 17,
+   "population": "player",
+   "spells": 4218,
+   "unit-aura spells": 4218,
+   "with same-cast damage/heal": 50
+  }
+ },
+ "falsification": [
+  {
+   "action": "replaced by AL-R-A-07",
+   "attempt": "trace DoProcessTargetContainer / DoDamageAndTriggers call path",
+   "id": "AL-F-A-06",
+   "result": "false: aura HandleEffect(REAL) runs in DoDamageAndTriggers after damage (Spell.cpp:2938 < 3040)",
+   "rule": "each effect resolves fully in index order (aura effect i active before effect i+1)"
+  },
+  {
+   "action": "partial_failures entry",
+   "attempt": "read allAuraEffectMask construction (Spell.cpp:3241-3243)",
+   "id": "AL-F-A-07",
+   "result": "false: every unit-owned aura effect is constructed on every recipient's object; the application mask selects",
+   "rule": "one aura object per (spell, target) contains only the effects aimed at that target"
+  },
+  {
+   "action": "AL-R-A-10 + partial_failures",
+   "attempt": "dead target / area aura / immune paths",
+   "id": "AL-F-A-08",
+   "result": "false: dead target (Unit.cpp:3507-3510) and area-aura-only spells have an owned object with no application at hit",
+   "rule": "aura application exists as soon as the aura object exists"
+  }
+ ],
+ "player_damage_with_own_taken_modifier": [
+  {
+   "aura_created_at_effect": 1,
+   "build_skew": false,
+   "damage_after_aura_index": [],
+   "damage_before_aura_index": [
+    0
+   ],
+   "damage_effects": [
+    0
+   ],
+   "damage_taken_modifier_effects": [
+    1
+   ],
+   "heal_effects": [],
+   "name": "Haunt",
+   "same_cast_damage_sees_own_aura": false,
+   "spell": 48181,
+   "why": "damage/heal amounts (done+taken) are computed at their effect index (SpellEffects.cpp:562-567) and dealt in DoDamageAndTriggers (Spell.cpp:2896/2938) before _ApplyAura registers the aura's effects (Spell.cpp:3040); the aura object exists from its first aura effect but its effects are not in m_modAuras yet"
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py application --corpus --out docs/research/aura-lifecycle-corpora/application.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  }
+ },
+ "retail_experiments": [
+  {
+   "discriminates": "same-cast aura ordering",
+   "fidelity": "approximate",
+   "id": "AL-X-A-05",
+   "models": [
+    {
+     "name": "trinity-order",
+     "prediction": "first Haunt hit not amplified by its own debuff; second hit amplified by the previous application"
+    },
+    {
+     "name": "index-order",
+     "prediction": "both hits amplified"
+    }
+   ],
+   "observable": "combat log SPELL_DAMAGE amounts",
+   "question": "Haunt (48181) damage on a fresh target vs a target already carrying Haunt",
+   "related": [
+    "AL-U-A-05",
+    "AL-R-A-08"
+   ],
+   "setup": "affliction warlock vs training dummy, fixed stats, compare direct damage of first and refresh casts"
+  }
+ ],
+ "rules": [
+  {
+   "counterexamples": [],
+   "definition": "For one target the aura object is created (or refreshed) at the first unit-owned aura effect in effect-index order, carrying AuraEffects for all unit-owned aura effects; its effects become active (m_modAuras, handlers, OnEffectApply) only in DoDamageAndTriggers after the same spell's heal, damage and HIT-phase procs",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-07",
+   "name": "object at first aura effect, effects applied after the hit",
+   "population": {
+    "count": 4218,
+    "name": "player providers with unit-owned aura effects"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "direct damage/heal of a spell is computed at its effect index with the target's then-active auras and dealt before the spell's own aura is applied, regardless of index order",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-08",
+   "name": "same-cast damage never sees its own debuff",
+   "population": {
+    "count": 1,
+    "name": "player spells with damage and a damage-taken modifier aura"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "a new aura starts with SpellValue AuraStackAmount (1 + Doses mods, or a script override), never CumulativeAura; creation does not clamp",
+   "evidence": [
+    "trinity-consumer",
+    "script-consumer"
+   ],
+   "id": "AL-R-A-09",
+   "name": "initial stacks are not capacity",
+   "population": {
+    "count": 111,
+    "name": "player providers with StackAmount>1"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "APPLY_AREA_AURA_* effects have no hit handler; the owner object exists at hit and every application (owner included) is created by the first UpdateTargetMap in the owner's next Aura::UpdateOwner, after that tick's duration decrement",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-10",
+   "name": "area auras apply one owner update after the hit",
+   "population": {
+    "count": 5,
+    "name": "player area-aura-only providers"
+   },
+   "status": "trinity-only"
+  }
+ ],
+ "script_initial_stack_sites": {
+  "count": 39,
+  "evidence": "script-consumer",
+  "examples": [
+   "spell_dk.cpp:797 Festering Wound",
+   "spell_shaman.cpp:2010-2023 Maelstrom Weapon consumers",
+   "spell_priest.cpp:1626",
+   "spell_warrior.cpp:149"
+  ],
+  "handoff": "C, H",
+  "note": "SPELLVALUE_AURA_STACK overrides (initial stacks set by scripts); `rg -n SPELLVALUE_AURA_STACK src/server/scripts` at the pinned revision"
+ },
+ "steps": [
+  {
+   "coords": "Spell.cpp:3174-3221 (PreprocessSpellHit)",
+   "handoff": "B (duration quote), D (amount timing)",
+   "step": "preprocess",
+   "what": "aura base points snapshot (CalcBaseValue per effect), DR group/level, duration quote"
+  },
+  {
+   "coords": "Spell.cpp:3238-3256; SpellAuras.cpp:350-388",
+   "handoff": "identity.py",
+   "step": "create-or-refresh",
+   "what": "TryRefreshStackOrCreate at the FIRST unit-owned aura effect hitting this target"
+  },
+  {
+   "coords": "SpellAuras.cpp:476-501 (m_stackAmount 481, duration 496-497, charges 498-499)",
+   "handoff": "B, C",
+   "step": "construct",
+   "what": "Aura ctor: m_maxDuration=m_duration=CalcMaxDuration(caster); m_procCharges=CalcMaxCharges; m_stackAmount=createInfo.StackAmount (unclamped)"
+  },
+  {
+   "coords": "SpellAuras.cpp:2510-2511, 511-523; SpellAuraEffects.cpp:736-747",
+   "handoff": "D",
+   "step": "scripts+effects",
+   "what": "LoadScripts then _InitEffects: AuraEffect for EVERY unit-owned aura effect of the spell (CalculatePeriodic(create=true), CalculateAmount -> DoEffectCalc* hooks)"
+  },
+  {
+   "coords": "Unit.cpp:3449-3479",
+   "handoff": "identity.py, E (single-target)",
+   "step": "register-owned",
+   "what": "_AddAura: m_ownedAuras insert, no-stack removal (CanStackWith), single-target registration"
+  },
+  {
+   "coords": "Spell.cpp:3260-3298",
+   "handoff": "B",
+   "step": "duration-commit",
+   "what": "ModSpellDuration, DurationMul, channel/ATTR8 haste, ATTR13 refresh extension; SetMaxDuration+SetDuration only if different from CalcMaxDuration"
+  },
+  {
+   "coords": "Spell.cpp:3300-3305; SpellAuras.cpp:2650-2662",
+   "handoff": "F",
+   "step": "static-application",
+   "what": "AddStaticApplication(target, APPLY_AURA bits of this effect)"
+  },
+  {
+   "coords": "SpellEffects.cpp:1110-1124; Unit.cpp:3488-3528; SpellAuras.cpp:73-97",
+   "handoff": "",
+   "step": "create-application",
+   "what": "EffectApplyAura (APPLY_AURA / APPLY_AURA_ON_PET only): _CreateAuraApplication or AddEffectToApplyEffectMask; visible slot allocation; dead target w/o ATTR3_ALLOW_AURA_WHILE_DEAD -> no application"
+  },
+  {
+   "coords": "SpellEffects.cpp:562-567",
+   "handoff": "",
+   "step": "sibling-effects",
+   "what": "damage/heal effects compute m_damage/m_healing (done+taken bonuses) at their own index"
+  },
+  {
+   "coords": "Spell.cpp:2896, 2938, 2980",
+   "handoff": "",
+   "step": "deal",
+   "what": "HealBySpell / DealSpellDamage, then PROC_SPELL_PHASE_HIT procs"
+  },
+  {
+   "coords": "Spell.cpp:3029-3048; Unit.cpp:3544-3598; SpellAuraEffects.cpp:1134-1178",
+   "handoff": "",
+   "step": "real-apply",
+   "what": "_ApplyAura: no-stack removal on recipient, aura state, HandleAuraSpecificMods, HandleEffect(REAL) per effect in index order (OnEffectApply -> handler -> AfterEffectApply)"
+  },
+  {
+   "coords": "Spell.cpp:3051, 3058",
+   "handoff": "H",
+   "step": "after-hit",
+   "what": "DoTriggersOnSpellHit (ADD_TARGET_TRIGGER), AfterHit scripts"
+  }
+ ],
+ "synthetic_timelines": {
+  "damage_then_debuff": {
+   "effects": [
+    {
+     "index": 0,
+     "kind": "damage"
+    },
+    {
+     "index": 1,
+     "kind": "aura"
+    }
+   ],
+   "rules_out": "effect-index resolution (debuff applied before/with sibling damage)",
+   "timeline": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:562-567",
+     "damage_dealt": false,
+     "event": "effect 0: damage computed (done+taken bonuses read now)",
+     "n": 1,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 1: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> application created",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2938",
+     "damage_dealt": true,
+     "event": "DealSpellDamage",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": true,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 1",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": true,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 7,
+     "object": true
+    }
+   ]
+  },
+  "dead_target": {
+   "rules_out": "'aura creation implies an application'",
+   "timeline": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Unit.cpp:3507-3510",
+     "damage_dealt": false,
+     "event": "effect 0: EffectApplyAura -> _CreateAuraApplication refused (dead target)",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 4,
+     "object": true
+    }
+   ]
+  },
+  "debuff_then_damage": {
+   "effects": [
+    {
+     "index": 0,
+     "kind": "aura"
+    },
+    {
+     "index": 1,
+     "kind": "damage"
+    }
+   ],
+   "rules_out": "'aura effect index before damage index -> damage amplified by own debuff'",
+   "timeline": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 0: EffectApplyAura -> application created",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:562-567",
+     "damage_dealt": false,
+     "event": "effect 1: damage computed (done+taken bonuses read now)",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2938",
+     "damage_dealt": true,
+     "event": "DealSpellDamage",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": true,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 0",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": true,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 7,
+     "object": true
+    }
+   ]
+  },
+  "immune_effect": {
+   "rules_out": "'object effect mask == applied effect mask'",
+   "timeline": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 0: EffectApplyAura -> application created",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 0",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 5,
+     "object": true
+    }
+   ]
+  }
+ },
+ "unknowns": [
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3980-3992",
+    "SpellEffects.cpp:562-567",
+    "Spell.cpp:3040"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-A-05",
+   "known": "Trinity: never (AL-R-A-08)",
+   "question": "Does Retail apply a spell's own damage-taken debuff before its direct damage (e.g. Haunt 48181)?",
+   "reopen_condition": "AL-X-A-05 result",
+   "subject": "same-cast debuff ordering",
+   "why_unresolved": "no Retail observation; DB2 effect order does not decide it"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "SpellEffects.cpp:127",
+    "SpellAuras.cpp:837-842"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-A-06",
+   "known": "Trinity: next UpdateOwner (<= one map tick later), after one duration decrement",
+   "question": "Is an area aura's first recipient set applied at hit or at the next aura update in Retail?",
+   "reopen_condition": "track F / L experiment",
+   "subject": "area aura first application",
+   "why_unresolved": "sub-tick timing unobservable without combat-log timestamps"
+  }
+ ],
+ "witnesses": [
+  {
+   "plan": {
+    "build_skew": false,
+    "dynobj_aura_mask": 0,
+    "effects": [
+     {
+      "aura_effect_object": false,
+      "aura_name_zero": false,
+      "index": 0,
+      "label": "SPELL_EFFECT_SCHOOL_DAMAGE",
+      "role": "damage (computed at index, dealt in DoDamageAndTriggers)",
+      "targets": [
+       6,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 1,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_MOD_SCHOOL_MASK_DAMAGE_FROM_CASTER",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 2,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_MOD_DAMAGE_TAKEN_FROM_CASTER_PET",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 3,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_380",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 4,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_PERIODIC_TRIGGER_SPELL",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     }
+    ],
+    "initial": {
+     "amount": {
+      "handoff": "D",
+      "timing": "AuraBasePoints computed in PreprocessSpellHit before any effect (Spell.cpp:3175-3178); AuraEffect::CalculateAmount at construction (SpellAuraEffects.cpp:744)"
+     },
+     "charges": {
+      "coords": "SpellAuras.cpp:1004-1015 CalcMaxCharges",
+      "handoff": "C",
+      "runtime": [
+       "SpellModOp::ProcCharges"
+      ],
+      "source": "SpellAuraOptions.ProcCharges",
+      "value": 0
+     },
+     "duration": {
+      "coords": "SpellAuras.cpp:496-497 (ctor) then Spell.cpp:3294-3298 (hit commit)",
+      "handoff": "B",
+      "index": 85,
+      "row": {
+       "Duration": 18000,
+       "DurationPerResource": 0,
+       "ID": 85,
+       "MaxDuration": 18000
+      }
+     },
+     "stacks": {
+      "capacity_not_used": 0,
+      "handoff": "C",
+      "note": "creation does not clamp to CumulativeAura (SpellAuras.cpp:481 m_stackAmount(createInfo.StackAmount)); only ModStackAmount clamps (SpellAuras.cpp:1099-1106)",
+      "runtime": [
+       "SpellModOp::Doses (Spell.cpp:506)",
+       "SPELLVALUE_AURA_STACK (Spell.cpp:8741, scripts)"
+      ],
+      "source": "SpellValue::AuraStackAmount = 1 (Spell.cpp:450)",
+      "value": 1
+     }
+    },
+    "name": "Haunt",
+    "ordering": {
+     "aura_created_at_effect": 1,
+     "damage_after_aura_index": [],
+     "damage_before_aura_index": [
+      0
+     ],
+     "damage_effects": [
+      0
+     ],
+     "damage_taken_modifier_effects": [
+      1
+     ],
+     "heal_effects": [],
+     "same_cast_damage_sees_own_aura": false,
+     "why": "damage/heal amounts (done+taken) are computed at their effect index (SpellEffects.cpp:562-567) and dealt in DoDamageAndTriggers (Spell.cpp:2896/2938) before _ApplyAura registers the aura's effects (Spell.cpp:3040); the aura object exists from its first aura effect but its effects are not in m_modAuras yet"
+    },
+    "partial_failures": [
+     {
+      "case": "immune effect",
+      "coords": "Spell.cpp:3985-3988, 3031-3036",
+      "result": "effect index never hits (target EffectMask); AuraEffect exists on the object but is not in the application"
+     },
+     {
+      "case": "effect aimed at another recipient",
+      "coords": "Spell.cpp:3241-3243; SpellEffects.cpp:1119-1123",
+      "result": "object carries its AuraEffect (allAuraEffectMask) but this recipient's application lacks the bit"
+     },
+     {
+      "case": "dead recipient without ATTR3_ALLOW_AURA_WHILE_DEAD",
+      "coords": "Unit.cpp:3507-3510",
+      "handoff": "E",
+      "result": "owned aura object exists, _CreateAuraApplication returns nullptr (no application)"
+     },
+     {
+      "case": "no-stack removal of the new aura during registration (IsHighestExclusiveAura false)",
+      "coords": "Unit.cpp:3454-3457, 3722-3726; SpellAuras.cpp:434-436",
+      "result": "Create returns nullptr; nothing applied"
+     },
+     {
+      "case": "script removes aura during OnEffectApply / handler",
+      "coords": "Unit.cpp:3579-3587; SpellAuraEffects.cpp:1161-1171",
+      "handoff": "H",
+      "result": "remaining effects in index order are not applied (loop breaks on remove mode)"
+     },
+     {
+      "case": "visible slots exhausted (>= MAX_AURAS=300)",
+      "coords": "SpellAuras.cpp:84-96",
+      "result": "application exists and applies effects but is never sent to the client"
+     },
+     {
+      "case": "single-target aura on owner outside world",
+      "coords": "SpellAuras.cpp:420-424",
+      "result": "Create returns nullptr unless self-cast"
+     },
+     {
+      "case": "found aura removed by its own script during ModStackAmount",
+      "coords": "SpellAuras.cpp:370-373",
+      "result": "TryRefreshStackOrCreate returns nullptr"
+     },
+     {
+      "case": "negative aura diminished to 0 duration and every effect is APPLY_AURA",
+      "coords": "Spell.cpp:3217-3220",
+      "handoff": "B",
+      "result": "whole hit becomes SPELL_MISS_IMMUNE"
+     },
+     {
+      "case": "effect-mask mismatch with existing aura",
+      "coords": "Unit.cpp:3402-3406",
+      "result": "new object + removal of the old one (not a refresh)"
+     }
+    ],
+    "recipient_groups": [
+     {
+      "create_at_effect": 1,
+      "effects": [
+       1,
+       2,
+       3,
+       4
+      ],
+      "targets": [
+       6,
+       0
+      ]
+     }
+    ],
+    "scripts": [
+     "spell_warl_haunt"
+    ],
+    "spell": 48181,
+    "unit_aura_mask": 30
+   },
+   "player": true,
+   "timeline_new": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:562-567",
+     "damage_dealt": false,
+     "event": "effect 0: damage computed (done+taken bonuses read now)",
+     "n": 1,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 1: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> application created",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 2: EffectApplyAura -> effect added to application mask",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 3: EffectApplyAura -> effect added to application mask",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 4: EffectApplyAura -> effect added to application mask",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2938",
+     "damage_dealt": true,
+     "event": "DealSpellDamage",
+     "n": 7,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": true,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 8,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 1",
+     "n": 9,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 2",
+     "n": 10,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 3",
+     "n": 11,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 4",
+     "n": 12,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": true,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 13,
+     "object": true
+    }
+   ],
+   "timeline_refresh": [
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "SpellEffects.cpp:562-567",
+     "damage_dealt": false,
+     "event": "effect 0: damage computed (done+taken bonuses read now)",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 1: TryRefreshStackOrCreate -> refresh existing object",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> effect added to application mask",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 2: EffectApplyAura -> effect added to application mask",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 3: EffectApplyAura -> effect added to application mask",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 4: EffectApplyAura -> effect added to application mask",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "Spell.cpp:2938",
+     "damage_dealt": true,
+     "event": "DealSpellDamage",
+     "n": 7,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": true,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 8,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": true,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 9,
+     "object": true
+    }
+   ]
+  },
+  {
+   "plan": {
+    "build_skew": false,
+    "dynobj_aura_mask": 0,
+    "effects": [
+     {
+      "aura_effect_object": false,
+      "aura_name_zero": false,
+      "index": 0,
+      "label": "SPELL_EFFECT_SCHOOL_DAMAGE",
+      "role": "damage (computed at index, dealt in DoDamageAndTriggers)",
+      "targets": [
+       6,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 1,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_PERIODIC_DAMAGE",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 2,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_AREA_TRIGGER",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 3,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_MOD_IGNORE_TARGET_RESIST",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     }
+    ],
+    "initial": {
+     "amount": {
+      "handoff": "D",
+      "timing": "AuraBasePoints computed in PreprocessSpellHit before any effect (Spell.cpp:3175-3178); AuraEffect::CalculateAmount at construction (SpellAuraEffects.cpp:744)"
+     },
+     "charges": {
+      "coords": "SpellAuras.cpp:1004-1015 CalcMaxCharges",
+      "handoff": "C",
+      "runtime": [
+       "SpellModOp::ProcCharges"
+      ],
+      "source": "SpellAuraOptions.ProcCharges",
+      "value": 0
+     },
+     "duration": {
+      "coords": "SpellAuras.cpp:496-497 (ctor) then Spell.cpp:3294-3298 (hit commit)",
+      "handoff": "B",
+      "index": 165,
+      "row": {
+       "Duration": 7000,
+       "DurationPerResource": 0,
+       "ID": 165,
+       "MaxDuration": 7000
+      }
+     },
+     "stacks": {
+      "capacity_not_used": 1,
+      "handoff": "C",
+      "note": "creation does not clamp to CumulativeAura (SpellAuras.cpp:481 m_stackAmount(createInfo.StackAmount)); only ModStackAmount clamps (SpellAuras.cpp:1099-1106)",
+      "runtime": [
+       "SpellModOp::Doses (Spell.cpp:506)",
+       "SPELLVALUE_AURA_STACK (Spell.cpp:8741, scripts)"
+      ],
+      "source": "SpellValue::AuraStackAmount = 1 (Spell.cpp:450)",
+      "value": 1
+     }
+    },
+    "name": "Holy Fire",
+    "ordering": {
+     "aura_created_at_effect": 1,
+     "damage_after_aura_index": [],
+     "damage_before_aura_index": [
+      0
+     ],
+     "damage_effects": [
+      0
+     ],
+     "damage_taken_modifier_effects": [],
+     "heal_effects": [],
+     "same_cast_damage_sees_own_aura": false,
+     "why": "damage/heal amounts (done+taken) are computed at their effect index (SpellEffects.cpp:562-567) and dealt in DoDamageAndTriggers (Spell.cpp:2896/2938) before _ApplyAura registers the aura's effects (Spell.cpp:3040); the aura object exists from its first aura effect but its effects are not in m_modAuras yet"
+    },
+    "partial_failures": [
+     {
+      "case": "immune effect",
+      "coords": "Spell.cpp:3985-3988, 3031-3036",
+      "result": "effect index never hits (target EffectMask); AuraEffect exists on the object but is not in the application"
+     },
+     {
+      "case": "effect aimed at another recipient",
+      "coords": "Spell.cpp:3241-3243; SpellEffects.cpp:1119-1123",
+      "result": "object carries its AuraEffect (allAuraEffectMask) but this recipient's application lacks the bit"
+     },
+     {
+      "case": "dead recipient without ATTR3_ALLOW_AURA_WHILE_DEAD",
+      "coords": "Unit.cpp:3507-3510",
+      "handoff": "E",
+      "result": "owned aura object exists, _CreateAuraApplication returns nullptr (no application)"
+     },
+     {
+      "case": "no-stack removal of the new aura during registration (IsHighestExclusiveAura false)",
+      "coords": "Unit.cpp:3454-3457, 3722-3726; SpellAuras.cpp:434-436",
+      "result": "Create returns nullptr; nothing applied"
+     },
+     {
+      "case": "script removes aura during OnEffectApply / handler",
+      "coords": "Unit.cpp:3579-3587; SpellAuraEffects.cpp:1161-1171",
+      "handoff": "H",
+      "result": "remaining effects in index order are not applied (loop breaks on remove mode)"
+     },
+     {
+      "case": "visible slots exhausted (>= MAX_AURAS=300)",
+      "coords": "SpellAuras.cpp:84-96",
+      "result": "application exists and applies effects but is never sent to the client"
+     },
+     {
+      "case": "single-target aura on owner outside world",
+      "coords": "SpellAuras.cpp:420-424",
+      "result": "Create returns nullptr unless self-cast"
+     },
+     {
+      "case": "found aura removed by its own script during ModStackAmount",
+      "coords": "SpellAuras.cpp:370-373",
+      "result": "TryRefreshStackOrCreate returns nullptr"
+     },
+     {
+      "case": "negative aura diminished to 0 duration and every effect is APPLY_AURA",
+      "coords": "Spell.cpp:3217-3220",
+      "handoff": "B",
+      "result": "whole hit becomes SPELL_MISS_IMMUNE"
+     },
+     {
+      "case": "effect-mask mismatch with existing aura",
+      "coords": "Unit.cpp:3402-3406",
+      "result": "new object + removal of the old one (not a refresh)"
+     }
+    ],
+    "recipient_groups": [
+     {
+      "create_at_effect": 1,
+      "effects": [
+       1,
+       2,
+       3
+      ],
+      "targets": [
+       6,
+       0
+      ]
+     }
+    ],
+    "scripts": [
+     "spell_pri_empyreal_blaze_extend"
+    ],
+    "spell": 14914,
+    "unit_aura_mask": 14
+   },
+   "player": true,
+   "timeline_new": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:562-567",
+     "damage_dealt": false,
+     "event": "effect 0: damage computed (done+taken bonuses read now)",
+     "n": 1,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 1: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> application created",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 2: EffectApplyAura -> effect added to application mask",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 3: EffectApplyAura -> effect added to application mask",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2938",
+     "damage_dealt": true,
+     "event": "DealSpellDamage",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": true,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 7,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 1",
+     "n": 8,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 2",
+     "n": 9,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": true,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 3",
+     "n": 10,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": true,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 11,
+     "object": true
+    }
+   ],
+   "timeline_refresh": [
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "SpellEffects.cpp:562-567",
+     "damage_dealt": false,
+     "event": "effect 0: damage computed (done+taken bonuses read now)",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 1: TryRefreshStackOrCreate -> refresh existing object",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> effect added to application mask",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 2: EffectApplyAura -> effect added to application mask",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 3: EffectApplyAura -> effect added to application mask",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "Spell.cpp:2938",
+     "damage_dealt": true,
+     "event": "DealSpellDamage",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": true,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 7,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2,
+      3
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": true,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 8,
+     "object": true
+    }
+   ]
+  },
+  {
+   "plan": {
+    "build_skew": false,
+    "dynobj_aura_mask": 0,
+    "effects": [
+     {
+      "aura_effect_object": false,
+      "aura_name_zero": false,
+      "index": 0,
+      "label": "SPELL_EFFECT_HEAL",
+      "role": "heal (computed at index, dealt in DoDamageAndTriggers)",
+      "targets": [
+       21,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 1,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_PERIODIC_HEAL",
+      "role": "unit-aura",
+      "targets": [
+       21,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 2,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_MOD_DAMAGE_PERCENT_TAKEN",
+      "role": "unit-aura",
+      "targets": [
+       21,
+       0
+      ]
+     }
+    ],
+    "initial": {
+     "amount": {
+      "handoff": "D",
+      "timing": "AuraBasePoints computed in PreprocessSpellHit before any effect (Spell.cpp:3175-3178); AuraEffect::CalculateAmount at construction (SpellAuraEffects.cpp:744)"
+     },
+     "charges": {
+      "coords": "SpellAuras.cpp:1004-1015 CalcMaxCharges",
+      "handoff": "C",
+      "runtime": [
+       "SpellModOp::ProcCharges"
+      ],
+      "source": "SpellAuraOptions.ProcCharges",
+      "value": 0
+     },
+     "duration": {
+      "coords": "SpellAuras.cpp:496-497 (ctor) then Spell.cpp:3294-3298 (hit commit)",
+      "handoff": "B",
+      "index": 32,
+      "row": {
+       "Duration": 6000,
+       "DurationPerResource": 0,
+       "ID": 32,
+       "MaxDuration": 6000
+      }
+     },
+     "stacks": {
+      "capacity_not_used": 0,
+      "handoff": "C",
+      "note": "creation does not clamp to CumulativeAura (SpellAuras.cpp:481 m_stackAmount(createInfo.StackAmount)); only ModStackAmount clamps (SpellAuras.cpp:1099-1106)",
+      "runtime": [
+       "SpellModOp::Doses (Spell.cpp:506)",
+       "SPELLVALUE_AURA_STACK (Spell.cpp:8741, scripts)"
+      ],
+      "source": "SpellValue::AuraStackAmount = 1 (Spell.cpp:450)",
+      "value": 1
+     }
+    },
+    "name": "Regrowth",
+    "ordering": {
+     "aura_created_at_effect": 1,
+     "damage_after_aura_index": [],
+     "damage_before_aura_index": [],
+     "damage_effects": [],
+     "damage_taken_modifier_effects": [
+      2
+     ],
+     "heal_effects": [
+      0
+     ],
+     "same_cast_damage_sees_own_aura": false,
+     "why": "damage/heal amounts (done+taken) are computed at their effect index (SpellEffects.cpp:562-567) and dealt in DoDamageAndTriggers (Spell.cpp:2896/2938) before _ApplyAura registers the aura's effects (Spell.cpp:3040); the aura object exists from its first aura effect but its effects are not in m_modAuras yet"
+    },
+    "partial_failures": [
+     {
+      "case": "immune effect",
+      "coords": "Spell.cpp:3985-3988, 3031-3036",
+      "result": "effect index never hits (target EffectMask); AuraEffect exists on the object but is not in the application"
+     },
+     {
+      "case": "effect aimed at another recipient",
+      "coords": "Spell.cpp:3241-3243; SpellEffects.cpp:1119-1123",
+      "result": "object carries its AuraEffect (allAuraEffectMask) but this recipient's application lacks the bit"
+     },
+     {
+      "case": "dead recipient without ATTR3_ALLOW_AURA_WHILE_DEAD",
+      "coords": "Unit.cpp:3507-3510",
+      "handoff": "E",
+      "result": "owned aura object exists, _CreateAuraApplication returns nullptr (no application)"
+     },
+     {
+      "case": "no-stack removal of the new aura during registration (IsHighestExclusiveAura false)",
+      "coords": "Unit.cpp:3454-3457, 3722-3726; SpellAuras.cpp:434-436",
+      "result": "Create returns nullptr; nothing applied"
+     },
+     {
+      "case": "script removes aura during OnEffectApply / handler",
+      "coords": "Unit.cpp:3579-3587; SpellAuraEffects.cpp:1161-1171",
+      "handoff": "H",
+      "result": "remaining effects in index order are not applied (loop breaks on remove mode)"
+     },
+     {
+      "case": "visible slots exhausted (>= MAX_AURAS=300)",
+      "coords": "SpellAuras.cpp:84-96",
+      "result": "application exists and applies effects but is never sent to the client"
+     },
+     {
+      "case": "single-target aura on owner outside world",
+      "coords": "SpellAuras.cpp:420-424",
+      "result": "Create returns nullptr unless self-cast"
+     },
+     {
+      "case": "found aura removed by its own script during ModStackAmount",
+      "coords": "SpellAuras.cpp:370-373",
+      "result": "TryRefreshStackOrCreate returns nullptr"
+     },
+     {
+      "case": "negative aura diminished to 0 duration and every effect is APPLY_AURA",
+      "coords": "Spell.cpp:3217-3220",
+      "handoff": "B",
+      "result": "whole hit becomes SPELL_MISS_IMMUNE"
+     },
+     {
+      "case": "effect-mask mismatch with existing aura",
+      "coords": "Unit.cpp:3402-3406",
+      "result": "new object + removal of the old one (not a refresh)"
+     }
+    ],
+    "recipient_groups": [
+     {
+      "create_at_effect": 1,
+      "effects": [
+       1,
+       2
+      ],
+      "targets": [
+       21,
+       0
+      ]
+     }
+    ],
+    "scripts": [],
+    "spell": 8936,
+    "unit_aura_mask": 6
+   },
+   "player": true,
+   "timeline_new": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:HandleEffects",
+     "damage_dealt": false,
+     "event": "effect 0: heal computed",
+     "n": 1,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 1: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> application created",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 2: EffectApplyAura -> effect added to application mask",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2896",
+     "damage_dealt": false,
+     "event": "HealBySpell",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 1",
+     "n": 7,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 2",
+     "n": 8,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 9,
+     "object": true
+    }
+   ],
+   "timeline_refresh": [
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "SpellEffects.cpp:HandleEffects",
+     "damage_dealt": false,
+     "event": "effect 0: heal computed",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 1: TryRefreshStackOrCreate -> refresh existing object",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> effect added to application mask",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 2: EffectApplyAura -> effect added to application mask",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:2896",
+     "damage_dealt": false,
+     "event": "HealBySpell",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1,
+      2
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 7,
+     "object": true
+    }
+   ]
+  },
+  {
+   "plan": {
+    "area_note": "area-aura effects: owner aura created at hit; first application (owner and recipients) at the owner's next Aura::UpdateOwner -> UpdateTargetMap, after that update's duration decrement (SpellAuras.cpp:837-842)",
+    "build_skew": false,
+    "dynobj_aura_mask": 0,
+    "effects": [
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 0,
+      "label": "SPELL_EFFECT_APPLY_AREA_AURA_RAID/SPELL_AURA_MOD_DAMAGE_PERCENT_TAKEN",
+      "role": "area-aura (no hit handler; recipients via UpdateTargetMap)",
+      "targets": [
+       1,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 1,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_LINKED_2",
+      "role": "unit-aura",
+      "targets": [
+       1,
+       0
+      ]
+     }
+    ],
+    "initial": {
+     "amount": {
+      "handoff": "D",
+      "timing": "AuraBasePoints computed in PreprocessSpellHit before any effect (Spell.cpp:3175-3178); AuraEffect::CalculateAmount at construction (SpellAuraEffects.cpp:744)"
+     },
+     "charges": {
+      "coords": "SpellAuras.cpp:1004-1015 CalcMaxCharges",
+      "handoff": "C",
+      "runtime": [
+       "SpellModOp::ProcCharges"
+      ],
+      "source": "SpellAuraOptions.ProcCharges",
+      "value": 0
+     },
+     "duration": {
+      "coords": "SpellAuras.cpp:496-497 (ctor) then Spell.cpp:3294-3298 (hit commit)",
+      "handoff": "B",
+      "index": 21,
+      "row": {
+       "Duration": -1,
+       "DurationPerResource": 0,
+       "ID": 21,
+       "MaxDuration": -1
+      }
+     },
+     "stacks": {
+      "capacity_not_used": 0,
+      "handoff": "C",
+      "note": "creation does not clamp to CumulativeAura (SpellAuras.cpp:481 m_stackAmount(createInfo.StackAmount)); only ModStackAmount clamps (SpellAuras.cpp:1099-1106)",
+      "runtime": [
+       "SpellModOp::Doses (Spell.cpp:506)",
+       "SPELLVALUE_AURA_STACK (Spell.cpp:8741, scripts)"
+      ],
+      "source": "SpellValue::AuraStackAmount = 1 (Spell.cpp:450)",
+      "value": 1
+     }
+    },
+    "name": "Devotion Aura",
+    "ordering": {
+     "aura_created_at_effect": 1,
+     "damage_after_aura_index": [],
+     "damage_before_aura_index": [],
+     "damage_effects": [],
+     "damage_taken_modifier_effects": [],
+     "heal_effects": [],
+     "same_cast_damage_sees_own_aura": null,
+     "why": "damage/heal amounts (done+taken) are computed at their effect index (SpellEffects.cpp:562-567) and dealt in DoDamageAndTriggers (Spell.cpp:2896/2938) before _ApplyAura registers the aura's effects (Spell.cpp:3040); the aura object exists from its first aura effect but its effects are not in m_modAuras yet"
+    },
+    "partial_failures": [
+     {
+      "case": "immune effect",
+      "coords": "Spell.cpp:3985-3988, 3031-3036",
+      "result": "effect index never hits (target EffectMask); AuraEffect exists on the object but is not in the application"
+     },
+     {
+      "case": "effect aimed at another recipient",
+      "coords": "Spell.cpp:3241-3243; SpellEffects.cpp:1119-1123",
+      "result": "object carries its AuraEffect (allAuraEffectMask) but this recipient's application lacks the bit"
+     },
+     {
+      "case": "dead recipient without ATTR3_ALLOW_AURA_WHILE_DEAD",
+      "coords": "Unit.cpp:3507-3510",
+      "handoff": "E",
+      "result": "owned aura object exists, _CreateAuraApplication returns nullptr (no application)"
+     },
+     {
+      "case": "no-stack removal of the new aura during registration (IsHighestExclusiveAura false)",
+      "coords": "Unit.cpp:3454-3457, 3722-3726; SpellAuras.cpp:434-436",
+      "result": "Create returns nullptr; nothing applied"
+     },
+     {
+      "case": "script removes aura during OnEffectApply / handler",
+      "coords": "Unit.cpp:3579-3587; SpellAuraEffects.cpp:1161-1171",
+      "handoff": "H",
+      "result": "remaining effects in index order are not applied (loop breaks on remove mode)"
+     },
+     {
+      "case": "visible slots exhausted (>= MAX_AURAS=300)",
+      "coords": "SpellAuras.cpp:84-96",
+      "result": "application exists and applies effects but is never sent to the client"
+     },
+     {
+      "case": "single-target aura on owner outside world",
+      "coords": "SpellAuras.cpp:420-424",
+      "result": "Create returns nullptr unless self-cast"
+     },
+     {
+      "case": "found aura removed by its own script during ModStackAmount",
+      "coords": "SpellAuras.cpp:370-373",
+      "result": "TryRefreshStackOrCreate returns nullptr"
+     },
+     {
+      "case": "negative aura diminished to 0 duration and every effect is APPLY_AURA",
+      "coords": "Spell.cpp:3217-3220",
+      "handoff": "B",
+      "result": "whole hit becomes SPELL_MISS_IMMUNE"
+     },
+     {
+      "case": "effect-mask mismatch with existing aura",
+      "coords": "Unit.cpp:3402-3406",
+      "result": "new object + removal of the old one (not a refresh)"
+     }
+    ],
+    "recipient_groups": [
+     {
+      "create_at_effect": 0,
+      "effects": [
+       0,
+       1
+      ],
+      "targets": [
+       1,
+       0
+      ]
+     }
+    ],
+    "scripts": [],
+    "spell": 465,
+    "unit_aura_mask": 3
+   },
+   "player": true,
+   "timeline_new": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:127",
+     "damage_dealt": false,
+     "event": "effect 0: area aura effect has no hit handler",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> application created",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 1",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 6,
+     "object": true
+    }
+   ],
+   "timeline_refresh": [
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> refresh existing object",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "SpellEffects.cpp:127",
+     "damage_dealt": false,
+     "event": "effect 0: area aura effect has no hit handler",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> effect added to application mask",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      1
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 5,
+     "object": true
+    }
+   ]
+  },
+  {
+   "plan": {
+    "build_skew": false,
+    "dynobj_aura_mask": 0,
+    "effects": [
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 0,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_PERIODIC_DAMAGE",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 1,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_PERIODIC_DUMMY",
+      "role": "unit-aura",
+      "targets": [
+       6,
+       0
+      ]
+     }
+    ],
+    "initial": {
+     "amount": {
+      "handoff": "D",
+      "timing": "AuraBasePoints computed in PreprocessSpellHit before any effect (Spell.cpp:3175-3178); AuraEffect::CalculateAmount at construction (SpellAuraEffects.cpp:744)"
+     },
+     "charges": {
+      "coords": "SpellAuras.cpp:1004-1015 CalcMaxCharges",
+      "handoff": "C",
+      "runtime": [
+       "SpellModOp::ProcCharges"
+      ],
+      "source": "SpellAuraOptions.ProcCharges",
+      "value": 0
+     },
+     "duration": {
+      "coords": "SpellAuras.cpp:496-497 (ctor) then Spell.cpp:3294-3298 (hit commit)",
+      "handoff": "B",
+      "index": 85,
+      "row": {
+       "Duration": 18000,
+       "DurationPerResource": 0,
+       "ID": 85,
+       "MaxDuration": 18000
+      }
+     },
+     "stacks": {
+      "capacity_not_used": 8,
+      "handoff": "C",
+      "note": "creation does not clamp to CumulativeAura (SpellAuras.cpp:481 m_stackAmount(createInfo.StackAmount)); only ModStackAmount clamps (SpellAuras.cpp:1099-1106)",
+      "runtime": [
+       "SpellModOp::Doses (Spell.cpp:506)",
+       "SPELLVALUE_AURA_STACK (Spell.cpp:8741, scripts)"
+      ],
+      "source": "SpellValue::AuraStackAmount = 1 (Spell.cpp:450)",
+      "value": 1
+     }
+    },
+    "name": "Agony",
+    "ordering": {
+     "aura_created_at_effect": 0,
+     "damage_after_aura_index": [],
+     "damage_before_aura_index": [],
+     "damage_effects": [],
+     "damage_taken_modifier_effects": [],
+     "heal_effects": [],
+     "same_cast_damage_sees_own_aura": null,
+     "why": "damage/heal amounts (done+taken) are computed at their effect index (SpellEffects.cpp:562-567) and dealt in DoDamageAndTriggers (Spell.cpp:2896/2938) before _ApplyAura registers the aura's effects (Spell.cpp:3040); the aura object exists from its first aura effect but its effects are not in m_modAuras yet"
+    },
+    "partial_failures": [
+     {
+      "case": "immune effect",
+      "coords": "Spell.cpp:3985-3988, 3031-3036",
+      "result": "effect index never hits (target EffectMask); AuraEffect exists on the object but is not in the application"
+     },
+     {
+      "case": "effect aimed at another recipient",
+      "coords": "Spell.cpp:3241-3243; SpellEffects.cpp:1119-1123",
+      "result": "object carries its AuraEffect (allAuraEffectMask) but this recipient's application lacks the bit"
+     },
+     {
+      "case": "dead recipient without ATTR3_ALLOW_AURA_WHILE_DEAD",
+      "coords": "Unit.cpp:3507-3510",
+      "handoff": "E",
+      "result": "owned aura object exists, _CreateAuraApplication returns nullptr (no application)"
+     },
+     {
+      "case": "no-stack removal of the new aura during registration (IsHighestExclusiveAura false)",
+      "coords": "Unit.cpp:3454-3457, 3722-3726; SpellAuras.cpp:434-436",
+      "result": "Create returns nullptr; nothing applied"
+     },
+     {
+      "case": "script removes aura during OnEffectApply / handler",
+      "coords": "Unit.cpp:3579-3587; SpellAuraEffects.cpp:1161-1171",
+      "handoff": "H",
+      "result": "remaining effects in index order are not applied (loop breaks on remove mode)"
+     },
+     {
+      "case": "visible slots exhausted (>= MAX_AURAS=300)",
+      "coords": "SpellAuras.cpp:84-96",
+      "result": "application exists and applies effects but is never sent to the client"
+     },
+     {
+      "case": "single-target aura on owner outside world",
+      "coords": "SpellAuras.cpp:420-424",
+      "result": "Create returns nullptr unless self-cast"
+     },
+     {
+      "case": "found aura removed by its own script during ModStackAmount",
+      "coords": "SpellAuras.cpp:370-373",
+      "result": "TryRefreshStackOrCreate returns nullptr"
+     },
+     {
+      "case": "negative aura diminished to 0 duration and every effect is APPLY_AURA",
+      "coords": "Spell.cpp:3217-3220",
+      "handoff": "B",
+      "result": "whole hit becomes SPELL_MISS_IMMUNE"
+     },
+     {
+      "case": "effect-mask mismatch with existing aura",
+      "coords": "Unit.cpp:3402-3406",
+      "result": "new object + removal of the old one (not a refresh)"
+     }
+    ],
+    "recipient_groups": [
+     {
+      "create_at_effect": 0,
+      "effects": [
+       0,
+       1
+      ],
+      "targets": [
+       6,
+       0
+      ]
+     }
+    ],
+    "scripts": [
+     "spell_warl_deaths_embrace_dots",
+     "spell_warl_volatile_agony"
+    ],
+    "spell": 980,
+    "unit_aura_mask": 3
+   },
+   "player": true,
+   "timeline_new": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 0: EffectApplyAura -> application created",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> effect added to application mask",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 0",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 1",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 7,
+     "object": true
+    }
+   ],
+   "timeline_refresh": [
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> refresh existing object",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 0: EffectApplyAura -> effect added to application mask",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> effect added to application mask",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 5,
+     "object": true
+    }
+   ]
+  },
+  {
+   "plan": {
+    "build_skew": false,
+    "dynobj_aura_mask": 0,
+    "effects": [
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 0,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_DUMMY",
+      "role": "unit-aura",
+      "targets": [
+       1,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": true,
+      "index": 1,
+      "label": "SPELL_EFFECT_APPLY_AURA",
+      "role": "unit-aura",
+      "targets": [
+       0,
+       0
+      ]
+     }
+    ],
+    "initial": {
+     "amount": {
+      "handoff": "D",
+      "timing": "AuraBasePoints computed in PreprocessSpellHit before any effect (Spell.cpp:3175-3178); AuraEffect::CalculateAmount at construction (SpellAuraEffects.cpp:744)"
+     },
+     "charges": {
+      "coords": "SpellAuras.cpp:1004-1015 CalcMaxCharges",
+      "handoff": "C",
+      "runtime": [
+       "SpellModOp::ProcCharges"
+      ],
+      "source": "SpellAuraOptions.ProcCharges",
+      "value": 0
+     },
+     "duration": {
+      "coords": "SpellAuras.cpp:496-497 (ctor) then Spell.cpp:3294-3298 (hit commit)",
+      "handoff": "B",
+      "index": 0,
+      "row": null
+     },
+     "stacks": {
+      "capacity_not_used": 0,
+      "handoff": "C",
+      "note": "creation does not clamp to CumulativeAura (SpellAuras.cpp:481 m_stackAmount(createInfo.StackAmount)); only ModStackAmount clamps (SpellAuras.cpp:1099-1106)",
+      "runtime": [
+       "SpellModOp::Doses (Spell.cpp:506)",
+       "SPELLVALUE_AURA_STACK (Spell.cpp:8741, scripts)"
+      ],
+      "source": "SpellValue::AuraStackAmount = 1 (Spell.cpp:450)",
+      "value": 1
+     }
+    },
+    "name": "Arcane Familiar",
+    "ordering": {
+     "aura_created_at_effect": 0,
+     "damage_after_aura_index": [],
+     "damage_before_aura_index": [],
+     "damage_effects": [],
+     "damage_taken_modifier_effects": [],
+     "heal_effects": [],
+     "same_cast_damage_sees_own_aura": null,
+     "why": "damage/heal amounts (done+taken) are computed at their effect index (SpellEffects.cpp:562-567) and dealt in DoDamageAndTriggers (Spell.cpp:2896/2938) before _ApplyAura registers the aura's effects (Spell.cpp:3040); the aura object exists from its first aura effect but its effects are not in m_modAuras yet"
+    },
+    "partial_failures": [
+     {
+      "case": "immune effect",
+      "coords": "Spell.cpp:3985-3988, 3031-3036",
+      "result": "effect index never hits (target EffectMask); AuraEffect exists on the object but is not in the application"
+     },
+     {
+      "case": "effect aimed at another recipient",
+      "coords": "Spell.cpp:3241-3243; SpellEffects.cpp:1119-1123",
+      "result": "object carries its AuraEffect (allAuraEffectMask) but this recipient's application lacks the bit"
+     },
+     {
+      "case": "dead recipient without ATTR3_ALLOW_AURA_WHILE_DEAD",
+      "coords": "Unit.cpp:3507-3510",
+      "handoff": "E",
+      "result": "owned aura object exists, _CreateAuraApplication returns nullptr (no application)"
+     },
+     {
+      "case": "no-stack removal of the new aura during registration (IsHighestExclusiveAura false)",
+      "coords": "Unit.cpp:3454-3457, 3722-3726; SpellAuras.cpp:434-436",
+      "result": "Create returns nullptr; nothing applied"
+     },
+     {
+      "case": "script removes aura during OnEffectApply / handler",
+      "coords": "Unit.cpp:3579-3587; SpellAuraEffects.cpp:1161-1171",
+      "handoff": "H",
+      "result": "remaining effects in index order are not applied (loop breaks on remove mode)"
+     },
+     {
+      "case": "visible slots exhausted (>= MAX_AURAS=300)",
+      "coords": "SpellAuras.cpp:84-96",
+      "result": "application exists and applies effects but is never sent to the client"
+     },
+     {
+      "case": "single-target aura on owner outside world",
+      "coords": "SpellAuras.cpp:420-424",
+      "result": "Create returns nullptr unless self-cast"
+     },
+     {
+      "case": "found aura removed by its own script during ModStackAmount",
+      "coords": "SpellAuras.cpp:370-373",
+      "result": "TryRefreshStackOrCreate returns nullptr"
+     },
+     {
+      "case": "negative aura diminished to 0 duration and every effect is APPLY_AURA",
+      "coords": "Spell.cpp:3217-3220",
+      "handoff": "B",
+      "result": "whole hit becomes SPELL_MISS_IMMUNE"
+     },
+     {
+      "case": "effect-mask mismatch with existing aura",
+      "coords": "Unit.cpp:3402-3406",
+      "result": "new object + removal of the old one (not a refresh)"
+     },
+     {
+      "case": "APPLY_AURA with EffectAura 0",
+      "coords": "SpellInfo.cpp:494-497; SpellAuras.cpp:320-345",
+      "result": "still in BuildEffectMaskForOwner (IsUnitOwnedAuraEffect has no aura test): an AuraEffect of type SPELL_AURA_NONE is created and applied"
+     }
+    ],
+    "recipient_groups": [
+     {
+      "create_at_effect": 0,
+      "effects": [
+       0
+      ],
+      "targets": [
+       1,
+       0
+      ]
+     },
+     {
+      "create_at_effect": 1,
+      "effects": [
+       1
+      ],
+      "targets": [
+       0,
+       0
+      ]
+     }
+    ],
+    "scripts": [],
+    "spell": 205022,
+    "unit_aura_mask": 3
+   },
+   "player": true,
+   "timeline_new": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 0: EffectApplyAura -> application created",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> effect added to application mask",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 0",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 1",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 7,
+     "object": true
+    }
+   ],
+   "timeline_refresh": [
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 0: TryRefreshStackOrCreate -> refresh existing object",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 0: EffectApplyAura -> effect added to application mask",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 1: EffectApplyAura -> effect added to application mask",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      0,
+      1
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 5,
+     "object": true
+    }
+   ]
+  },
+  {
+   "plan": {
+    "build_skew": false,
+    "dynobj_aura_mask": 1,
+    "effects": [
+     {
+      "aura_effect_object": false,
+      "aura_name_zero": false,
+      "index": 0,
+      "label": "SPELL_EFFECT_PERSISTENT_AREA_AURA/SPELL_AURA_DUMMY",
+      "role": "dynobj-aura (new DynamicObject per cast, HANDLE_HIT)",
+      "targets": [
+       87,
+       28
+      ]
+     },
+     {
+      "aura_effect_object": false,
+      "aura_name_zero": false,
+      "index": 1,
+      "label": "SPELL_EFFECT_CREATE_AREATRIGGER_2",
+      "role": "other (HandleEffects at index)",
+      "targets": [
+       87,
+       0
+      ]
+     },
+     {
+      "aura_effect_object": true,
+      "aura_name_zero": false,
+      "index": 2,
+      "label": "SPELL_EFFECT_APPLY_AURA/SPELL_AURA_PERIODIC_DUMMY",
+      "role": "unit-aura",
+      "targets": [
+       1,
+       0
+      ]
+     }
+    ],
+    "initial": {
+     "amount": {
+      "handoff": "D",
+      "timing": "AuraBasePoints computed in PreprocessSpellHit before any effect (Spell.cpp:3175-3178); AuraEffect::CalculateAmount at construction (SpellAuraEffects.cpp:744)"
+     },
+     "charges": {
+      "coords": "SpellAuras.cpp:1004-1015 CalcMaxCharges",
+      "handoff": "C",
+      "runtime": [
+       "SpellModOp::ProcCharges"
+      ],
+      "source": "SpellAuraOptions.ProcCharges",
+      "value": 0
+     },
+     "duration": {
+      "coords": "SpellAuras.cpp:496-497 (ctor) then Spell.cpp:3294-3298 (hit commit)",
+      "handoff": "B",
+      "index": 31,
+      "row": {
+       "Duration": 8000,
+       "DurationPerResource": 0,
+       "ID": 31,
+       "MaxDuration": 8000
+      }
+     },
+     "stacks": {
+      "capacity_not_used": 0,
+      "handoff": "C",
+      "note": "creation does not clamp to CumulativeAura (SpellAuras.cpp:481 m_stackAmount(createInfo.StackAmount)); only ModStackAmount clamps (SpellAuras.cpp:1099-1106)",
+      "runtime": [
+       "SpellModOp::Doses (Spell.cpp:506)",
+       "SPELLVALUE_AURA_STACK (Spell.cpp:8741, scripts)"
+      ],
+      "source": "SpellValue::AuraStackAmount = 1 (Spell.cpp:450)",
+      "value": 1
+     }
+    },
+    "name": "Rain of Fire",
+    "ordering": {
+     "aura_created_at_effect": 2,
+     "damage_after_aura_index": [],
+     "damage_before_aura_index": [],
+     "damage_effects": [],
+     "damage_taken_modifier_effects": [],
+     "heal_effects": [],
+     "same_cast_damage_sees_own_aura": null,
+     "why": "damage/heal amounts (done+taken) are computed at their effect index (SpellEffects.cpp:562-567) and dealt in DoDamageAndTriggers (Spell.cpp:2896/2938) before _ApplyAura registers the aura's effects (Spell.cpp:3040); the aura object exists from its first aura effect but its effects are not in m_modAuras yet"
+    },
+    "partial_failures": [
+     {
+      "case": "immune effect",
+      "coords": "Spell.cpp:3985-3988, 3031-3036",
+      "result": "effect index never hits (target EffectMask); AuraEffect exists on the object but is not in the application"
+     },
+     {
+      "case": "effect aimed at another recipient",
+      "coords": "Spell.cpp:3241-3243; SpellEffects.cpp:1119-1123",
+      "result": "object carries its AuraEffect (allAuraEffectMask) but this recipient's application lacks the bit"
+     },
+     {
+      "case": "dead recipient without ATTR3_ALLOW_AURA_WHILE_DEAD",
+      "coords": "Unit.cpp:3507-3510",
+      "handoff": "E",
+      "result": "owned aura object exists, _CreateAuraApplication returns nullptr (no application)"
+     },
+     {
+      "case": "no-stack removal of the new aura during registration (IsHighestExclusiveAura false)",
+      "coords": "Unit.cpp:3454-3457, 3722-3726; SpellAuras.cpp:434-436",
+      "result": "Create returns nullptr; nothing applied"
+     },
+     {
+      "case": "script removes aura during OnEffectApply / handler",
+      "coords": "Unit.cpp:3579-3587; SpellAuraEffects.cpp:1161-1171",
+      "handoff": "H",
+      "result": "remaining effects in index order are not applied (loop breaks on remove mode)"
+     },
+     {
+      "case": "visible slots exhausted (>= MAX_AURAS=300)",
+      "coords": "SpellAuras.cpp:84-96",
+      "result": "application exists and applies effects but is never sent to the client"
+     },
+     {
+      "case": "single-target aura on owner outside world",
+      "coords": "SpellAuras.cpp:420-424",
+      "result": "Create returns nullptr unless self-cast"
+     },
+     {
+      "case": "found aura removed by its own script during ModStackAmount",
+      "coords": "SpellAuras.cpp:370-373",
+      "result": "TryRefreshStackOrCreate returns nullptr"
+     },
+     {
+      "case": "negative aura diminished to 0 duration and every effect is APPLY_AURA",
+      "coords": "Spell.cpp:3217-3220",
+      "handoff": "B",
+      "result": "whole hit becomes SPELL_MISS_IMMUNE"
+     },
+     {
+      "case": "effect-mask mismatch with existing aura",
+      "coords": "Unit.cpp:3402-3406",
+      "result": "new object + removal of the old one (not a refresh)"
+     }
+    ],
+    "recipient_groups": [
+     {
+      "create_at_effect": 2,
+      "effects": [
+       2
+      ],
+      "targets": [
+       1,
+       0
+      ]
+     }
+    ],
+    "scripts": [
+     "spell_warl_rain_of_fire"
+    ],
+    "spell": 5740,
+    "unit_aura_mask": 4
+   },
+   "player": true,
+   "timeline_new": [
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:5716",
+     "damage_dealt": false,
+     "event": "effect 0: other effect handler",
+     "n": 1,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:5716",
+     "damage_dealt": false,
+     "event": "effect 1: other effect handler",
+     "n": 2,
+     "object": false
+    },
+    {
+     "application": false,
+     "applied_effects": [],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 2: TryRefreshStackOrCreate -> new object (all aura effects constructed)",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "SpellEffects.cpp:1121",
+     "damage_dealt": false,
+     "event": "effect 2: EffectApplyAura -> application created",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "Spell.cpp:3040; Unit.cpp:3579-3587",
+     "damage_dealt": false,
+     "event": "_ApplyAura: HandleEffect(REAL) effect 2",
+     "n": 6,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 7,
+     "object": true
+    }
+   ],
+   "timeline_refresh": [
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "Spell.cpp:3174-3215",
+     "damage_dealt": false,
+     "event": "PreprocessSpellHit: aura base points + duration quote",
+     "n": 0,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "Spell.cpp:5716",
+     "damage_dealt": false,
+     "event": "effect 0: other effect handler",
+     "n": 1,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "Spell.cpp:5716",
+     "damage_dealt": false,
+     "event": "effect 1: other effect handler",
+     "n": 2,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "Spell.cpp:3254",
+     "damage_dealt": false,
+     "event": "effect 2: TryRefreshStackOrCreate -> refresh existing object",
+     "n": 3,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "SpellEffects.cpp:1123",
+     "damage_dealt": false,
+     "event": "effect 2: EffectApplyAura -> effect added to application mask",
+     "n": 4,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "Spell.cpp:2980",
+     "damage_dealt": false,
+     "event": "ProcSkillsAndAuras (PROC_SPELL_PHASE_HIT)",
+     "n": 5,
+     "object": true
+    },
+    {
+     "application": true,
+     "applied_effects": [
+      2
+     ],
+     "coords": "Spell.cpp:3051-3058",
+     "damage_dealt": false,
+     "event": "DoTriggersOnSpellHit + AfterHit scripts",
+     "n": 6,
+     "object": true
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,446 @@
+{
+ "facts": [
+  {
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "GN-I-01",
+   "name": "removal-then-reapply creates a new generation",
+   "scenarios": [
+    "reapply-after-expiry-new-generation",
+    "remove-then-refresh-same-tick"
+   ],
+   "semantics": "a reapplication after removal (expiry, dispel, death) starts from nothing: new stacks, charges, timers and a fresh duration; nothing of the old application's timing carries over",
+   "technique": "RemoveOwnedAura erases from m_ownedAuras at once (Unit.cpp:3758), so GetOwnedAura cannot find the removed object and TryRefreshStackOrCreate falls through to Aura::Create (SpellAuras.cpp:386-387)",
+   "timelines": {
+    "reapply-after-expiry-new-generation": [
+     "   100 session create       T  A  duration=1000 gen=1",
+     "   500 spells  tick         T  A  eff=0 n=1 stack=1",
+     "  1000 spells  tick         T  A  eff=0 n=2 stack=1",
+     "  1000 spells  unapply      T  A  mode=5",
+     "  1100 session refresh-miss    A",
+     "  1100 session create       T  A  duration=1000 gen=2"
+    ],
+    "remove-then-refresh-same-tick": [
+     "   100 session create       T  A  duration=5000 gen=1",
+     "   500 session unapply      T  A  mode=4",
+     "   500 session refresh-miss    A",
+     "   500 session create       T  A  duration=5000 gen=2"
+    ]
+   }
+  },
+  {
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "GN-I-02",
+   "name": "refresh keeps the same object",
+   "scenarios": [
+    "refresh-before-due-tick",
+    "pandemic-refresh-reads-refreshed-duration"
+   ],
+   "semantics": "a successful refresh/stack of the found aura mutates it in place (no remove/apply of the aura)",
+   "technique": "_TryStackingOrRefreshingExistingAura -> ModStackAmount on the found object (Unit.cpp:3441)",
+   "timelines": {
+    "pandemic-refresh-reads-refreshed-duration": [
+     "   100 session create       T  A  duration=10000 gen=1",
+     "  2000 spells  tick         T  A  eff=0 n=1 stack=1",
+     "  4000 spells  tick         T  A  eff=0 n=2 stack=1",
+     "  6000 spells  tick         T  A  eff=0 n=3 stack=1",
+     "  8000 spells  tick         T  A  eff=0 n=4 stack=1",
+     "  8100 session refresh      T  A  duration=13000 effects=[[0, 0]] max=13000 stack=1",
+     " 10000 spells  tick         T  A  eff=0 n=1 stack=1",
+     " 12000 spells  tick         T  A  eff=0 n=2 stack=1",
+     " 14000 spells  tick         T  A  eff=0 n=3 stack=1",
+     " 16000 spells  tick         T  A  eff=0 n=4 stack=1",
+     " 18000 spells  tick         T  A  eff=0 n=5 stack=1",
+     " 20000 spells  tick         T  A  eff=0 n=6 stack=1",
+     " 21000 spells  unapply      T  A  mode=5"
+    ],
+    "refresh-before-due-tick": [
+     "   100 session create       T  A  duration=10000 gen=1",
+     "  2000 session refresh      T  A  duration=10000 effects=[[0, 0]] max=10000 stack=1",
+     "  3900 spells  tick         T  A  eff=0 n=1 stack=1"
+    ]
+   }
+  },
+  {
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "GN-I-03",
+   "name": "old deadlines cannot fire into a new generation",
+   "scenarios": [
+    "reapply-after-expiry-new-generation"
+   ],
+   "semantics": "periodic phase, tick count and expiry are per object; a new generation's first tick is measured from its own creation (or immediately with ATTR5_EXTRA_INITIAL_PERIOD)",
+   "technique": "timers live in AuraEffect members; no scheduler entry outlives the object (ticks/expiry are polled in _UpdateSpells, not queued)",
+   "timelines": {
+    "reapply-after-expiry-new-generation": [
+     "   100 session create       T  A  duration=1000 gen=1",
+     "   500 spells  tick         T  A  eff=0 n=1 stack=1",
+     "  1000 spells  tick         T  A  eff=0 n=2 stack=1",
+     "  1000 spells  unapply      T  A  mode=5",
+     "  1100 session refresh-miss    A",
+     "  1100 session create       T  A  duration=1000 gen=2"
+    ]
+   }
+  },
+  {
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "GN-I-04",
+   "name": "removed-but-allocated window",
+   "scenarios": [
+    "death-lower-id-kills"
+   ],
+   "semantics": "none observable: a removed aura receives no ticks, refreshes or expiry",
+   "technique": "the object stays allocated in m_removedAuras until the owner's next _DeleteRemovedAuras (Unit.cpp:2999) -- up to one full world tick when removed after the owner's update; later effects of the same UpdateOwner still run AuraEffect::Update on it (no IsRemoved check, SpellAuras.cpp:845-846, SpellAuraEffects.cpp:1250-1276) but GetApplicationList is empty, so only OnEffectUpdatePeriodic script hooks and _ticksDone see it",
+   "timelines": {
+    "death-lower-id-kills": [
+     "   250 session create       T  A  duration=10000 gen=1",
+     "   250 session create       T  B  duration=10000 gen=1",
+     "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+     "  1000 spells  death        T",
+     "  1000 spells  unapply      T  A  mode=6",
+     "  1000 spells  unapply      T  B  mode=6"
+    ]
+   }
+  },
+  {
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "GN-I-05",
+   "name": "child spells capture values, not the aura",
+   "scenarios": [],
+   "semantics": "a triggered spell in flight from an aura that has since been removed or refreshed still resolves with the values captured when it was cast",
+   "technique": "Spell::prepare copies SpellInfo* and cast item level from the triggering AuraEffect (Spell.cpp:3459-3463)",
+   "timelines": {}
+  },
+  {
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "GN-I-06",
+   "name": "pending charge drop defers expiry",
+   "scenarios": [],
+   "semantics": "an aura whose last charge is being consumed by a delayed hit is not expire-removed before the drop",
+   "technique": "IsExpired = !duration && !m_dropEvent (SpellAuras.h:226); ChargeDropEvent aborted by _Remove",
+   "timelines": {}
+  },
+  {
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "GN-I-07",
+   "name": "same-pass visibility of a new generation depends on storage order",
+   "scenarios": [
+    "trigger-insert-before-next",
+    "trigger-insert-after-next",
+    "session-creation-decrement",
+    "late-owner-creation"
+   ],
+   "semantics": "whether a just-created aura loses one world diff immediately depends on its SpellId relative to the owner's update iterator (OR-I-11) and on caster/owner update order (OR-I-10)",
+   "technique": "std::multimap iteration with a pre-advanced member iterator (Unit.cpp:2975-2980)",
+   "timelines": {
+    "late-owner-creation": [
+     "   400 session prepare      C     cast_time=0",
+     "   400 events  cast         C     timer=0",
+     "   400 events  create       P  B  duration=1000 gen=1",
+     "  1600 spells  unapply      P  B  mode=5"
+    ],
+    "session-creation-decrement": [
+     "   400 session create       T  A  duration=1000 gen=1",
+     "  1200 spells  unapply      T  A  mode=5"
+    ],
+    "trigger-insert-after-next": [
+     "   500 session create       T  A  duration=5000 gen=1",
+     "   500 session create       T  C  duration=9000 gen=1",
+     "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+     "  1000 spells  create       T  B  duration=3000 gen=1"
+    ],
+    "trigger-insert-before-next": [
+     "   500 session create       T  A  duration=5000 gen=1",
+     "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+     "  1000 spells  create       T  B  duration=3000 gen=1"
+    ]
+   }
+  }
+ ],
+ "falsification": [
+  {
+   "action": "rule discarded; AL-R-I-09 kept",
+   "attempt": "remove-then-refresh-same-tick",
+   "id": "AL-F-I-07",
+   "result": "refresh misses; Create builds generation 2",
+   "rule": "a removed-but-not-yet-deleted aura can be found and refreshed in the same tick"
+  },
+  {
+   "action": "rule refined with one exception (AL-D-I-02)",
+   "attempt": "header member scan (generation.scan_holders) + reading each invalidation path",
+   "id": "AL-F-I-08",
+   "result": "AreaTrigger::_aurEff is not cleared when the caster is unreachable at removal",
+   "rule": "every class member holding Aura*/AuraEffect*/AuraApplication* is invalidated before delete"
+  }
+ ],
+ "holders": {
+  "classified_but_not_found": [],
+  "members": [
+   {
+    "coords": "AreaTrigger.h:263",
+    "evidence": "trinity-consumer",
+    "holder": "AreaTrigger -> creating AuraEffect",
+    "invalidation": "none when the caster is not reachable at removal: the area trigger keeps a dangling AuraEffect* until its own duration ends; Unit::RemoveAreaTrigger compares by pointer identity (Unit.cpp:5503), so a later AuraEffect allocated at the same address can match (ABA)",
+    "key": "AreaTrigger.h:_aurEff",
+    "lifetime": "set at creation (AreaTrigger.cpp:119); area trigger removed by AuraEffect::HandleCreateAreaTrigger(remove) only `if (Unit* caster = GetCaster())` (SpellAuraEffects.cpp:6400-6401)",
+    "line": "AuraEffect const* _aurEff;",
+    "risk": "stale-pointer (candidate Trinity defect AL-D-I-02)",
+    "type": "AuraEffect"
+   },
+   {
+    "coords": "DynamicObject.h:90",
+    "evidence": "trinity-consumer",
+    "holder": "DynamicObject -> its DynObjAura",
+    "invalidation": "explicit; Update checks IsRemoved/IsExpired (DynamicObject.cpp:142-148)",
+    "key": "DynamicObject.h:_aura",
+    "lifetime": "DynamicObject::RemoveAura moves it to _removedAura and calls _Remove (DynamicObject.cpp:198-205)",
+    "line": "Aura* _aura;",
+    "risk": "none",
+    "type": "Aura"
+   },
+   {
+    "coords": "DynamicObject.h:91",
+    "evidence": "trinity-consumer",
+    "holder": "DynamicObject -> removed DynObjAura awaiting delete",
+    "invalidation": "deferred delete",
+    "key": "DynamicObject.h:_removedAura",
+    "lifetime": "deleted in ~DynamicObject (DynamicObject.cpp:51)",
+    "line": "Aura* _removedAura;",
+    "risk": "none",
+    "type": "Aura"
+   },
+   {
+    "coords": "Player.h:262",
+    "evidence": "structural-inference",
+    "holder": "SpellModifier -> Aura",
+    "invalidation": "effect unapply",
+    "key": "Player.h:ownerAura",
+    "lifetime": "spell modifier removed by the effect's remove handler (AuraEffect::HandleModSpellModifier path) before the Aura is deleted",
+    "line": "Aura* const ownerAura;",
+    "risk": "none observed",
+    "type": "Aura"
+   },
+   {
+    "coords": "Spell.h:810",
+    "evidence": "trinity-consumer",
+    "holder": "Spell -> aura of the hit being processed",
+    "invalidation": "EffectApplyAura guards `_spellAura->IsRemoved()` (SpellEffects.cpp:1115); SpellScript::GetHitAura hides removed auras unless asked (SpellScript.cpp:675)",
+    "key": "Spell.h:_spellAura",
+    "lifetime": "set around HandleEffects / after-hit hooks (Spell.cpp:3309-3311, 3057-3059)",
+    "line": "UnitAura* _spellAura;",
+    "risk": "none (guarded)",
+    "type": "UnitAura"
+   },
+   {
+    "coords": "SpellAuraEffects.h:108",
+    "evidence": "trinity-consumer",
+    "holder": "AuraEffect -> owning Aura",
+    "invalidation": "same object lifetime",
+    "key": "SpellAuraEffects.h:m_base",
+    "lifetime": "owned by the Aura (deleted in ~Aura, SpellAuras.cpp:544-545)",
+    "line": "Aura* const m_base;",
+    "risk": "none",
+    "type": "Aura"
+   },
+   {
+    "coords": "SpellAuras.h:66",
+    "evidence": "trinity-consumer",
+    "holder": "AuraApplication -> Aura",
+    "invalidation": "application unlinked in _UnapplyAura before the Aura can be deleted",
+    "key": "SpellAuras.h:_base",
+    "lifetime": "application deleted by Aura::_DeleteRemovedApplications (end of UpdateOwner, SpellAuras.cpp:852) or ~Aura (548)",
+    "line": "Aura* const _base;",
+    "risk": "none",
+    "type": "Aura"
+   },
+   {
+    "coords": "SpellAuras.h:427",
+    "evidence": "trinity-consumer",
+    "holder": "Aura -> removed applications awaiting delete",
+    "invalidation": "deferred delete (implementation technique: lets callers finish with the application)",
+    "key": "SpellAuras.h:_removedApplications",
+    "lifetime": "until the end of the owning Aura's next UpdateOwner",
+    "line": "std::vector<AuraApplication*> _removedApplications;",
+    "risk": "none",
+    "type": "AuraApplication"
+   },
+   {
+    "coords": "SpellScript.h:1642",
+    "evidence": "structural-inference",
+    "holder": "AuraScript::ScriptStateStore -> saved application",
+    "invalidation": "not needed (transient)",
+    "key": "SpellScript.h:_auraApplication",
+    "lifetime": "one nested hook call",
+    "line": "AuraApplication const* _auraApplication;",
+    "risk": "none",
+    "type": "AuraApplication"
+   },
+   {
+    "coords": "SpellScript.h:1635",
+    "evidence": "trinity-consumer",
+    "holder": "AuraScript -> its Aura",
+    "invalidation": "same object lifetime",
+    "key": "SpellScript.h:m_aura",
+    "lifetime": "scripts deleted in ~Aura (SpellAuras.cpp:538-542)",
+    "line": "Aura* m_aura;",
+    "risk": "none",
+    "type": "Aura"
+   },
+   {
+    "coords": "SpellScript.h:1636",
+    "evidence": "structural-inference",
+    "holder": "AuraScript -> application of the running hook",
+    "invalidation": "not needed (transient)",
+    "key": "SpellScript.h:m_auraApplication",
+    "lifetime": "set/restored around one hook call (ScriptStateStore)",
+    "line": "AuraApplication const* m_auraApplication;",
+    "risk": "none",
+    "type": "AuraApplication"
+   },
+   {
+    "coords": "Unit.h:147",
+    "evidence": "trinity-consumer",
+    "holder": "DispelableAura -> Aura (dispel/steal candidate list)",
+    "invalidation": "not needed (transient)",
+    "key": "Unit.h:_aura",
+    "lifetime": "stack-local list inside one dispel/steal resolution (GetDispellableAuraList, Unit.cpp:4735)",
+    "line": "Aura* _aura;",
+    "risk": "none",
+    "type": "Aura"
+   },
+   {
+    "coords": "Unit.h:582",
+    "evidence": "trinity-consumer",
+    "holder": "SpellPeriodicAuraLogInfo -> AuraEffect",
+    "invalidation": "not needed (transient)",
+    "key": "Unit.h:auraEff",
+    "lifetime": "one periodic tick's combat-log packet",
+    "line": "AuraEffect const* auraEff;",
+    "risk": "none",
+    "type": "AuraEffect"
+   }
+  ],
+  "non_member_holders": [
+   {
+    "coords": "SpellAuras.cpp:46-60, 1046-1054",
+    "evidence": "trinity-consumer",
+    "holder": "ChargeDropEvent::_base (Aura*) in the owner's EventProcessor",
+    "invalidation": "Aura::_Remove calls m_dropEvent->ScheduleAbort() (SpellAuras.cpp:648-652); an aborted event is deleted without Execute (EventProcessor.cpp:63-74); BasicEvent::Abort default does not touch _base",
+    "risk": "none"
+   },
+   {
+    "coords": "Spell.cpp:3238-3305, 3029-3046",
+    "evidence": "trinity-consumer",
+    "holder": "Spell::TargetInfo::HitAura (UnitAura*) across the effects of one hit",
+    "invalidation": "application lookups via GetApplicationOfTarget return null once removed; DoSpellEffectHit's `else hitInfo.HitAura->AddStaticApplication` (Spell.cpp:3305) has no IsRemoved guard but only records a static target mask that a removed aura never consumes (UpdateTargetMap returns early)",
+    "risk": "none observed"
+   },
+   {
+    "coords": "SpellDefines.h:498, Object.cpp:2250-2260, Spell.cpp:3459-3463",
+    "evidence": "trinity-consumer",
+    "holder": "CastSpellExtraArgs::TriggeringAura (AuraEffect const*) -> Spell::prepare",
+    "invalidation": "not retained: prepare copies m_triggeredByAuraSpell (SpellInfo*, static data) and m_castItemLevel; the cast item is resolved once by GUID. A triggered spell in flight never dereferences its source aura again",
+    "risk": "none"
+   },
+   {
+    "coords": "Unit.cpp:2975-2980, 3755-3757",
+    "evidence": [
+     "trinity-consumer",
+     "trinity-probe"
+    ],
+    "holder": "Unit::m_auraUpdateIterator (AuraMap::iterator) during _UpdateSpells",
+    "invalidation": "RemoveOwnedAura advances it when it points at the removed aura; insertions do not move it (new auras are visited in the same pass only when inserted after it: OR-I-11)",
+    "risk": "none (ordering consequence only)"
+   }
+  ],
+  "unclassified": []
+ },
+ "is_removed_sites": {
+  "game/Entities/AreaTrigger/AreaTrigger.h": 1,
+  "game/Entities/DynamicObject/DynamicObject.cpp": 3,
+  "game/Entities/Unit/Unit.cpp": 6,
+  "game/Spells/Auras/SpellAuras.cpp": 10,
+  "game/Spells/Auras/SpellAuras.h": 1,
+  "game/Spells/SpellEffects.cpp": 1,
+  "game/Spells/SpellScript.cpp": 1,
+  "scripts/Argus/AntorusTheBurningThrone/boss_garothi_worldbreaker.cpp": 1,
+  "scripts/Spells/spell_hunter.cpp": 1,
+  "scripts/Spells/spell_warlock.cpp": 1
+ },
+ "provenance": {
+  "command": "aura_lifecycle.py generation --out docs/research/aura-lifecycle-corpora/generation.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f"
+ },
+ "rules": [
+  {
+   "counterexamples": [],
+   "definition": "a reapplication after removal creates a new aura object with fresh timers/stacks/charges; a refresh of a found aura mutates it in place",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-I-09",
+   "name": "removal ends the generation; refresh keeps the object",
+   "population": "every unit-owned aura (structural)",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "a triggered spell never dereferences its triggering AuraEffect after Spell::prepare",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-I-10",
+   "name": "child spells hold value copies",
+   "population": "every aura-triggered cast (structural)",
+   "status": "trinity-only"
+  }
+ ],
+ "trinity_defects": [
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:6397-6402",
+    "AreaTrigger.h:263",
+    "Unit.cpp:5503"
+   ],
+   "description": "HandleCreateAreaTrigger(remove) removes the area trigger only when the caster is reachable; otherwise AreaTrigger::_aurEff dangles and Unit::RemoveAreaTrigger(AuraEffect const*) compares by address",
+   "id": "AL-D-I-02",
+   "lifecycle_effect": "area trigger outlives its aura until its own duration; possible ABA match on a later effect",
+   "oracle_behaviour": "catalogued (generation.HOLDERS); not modelled"
+  }
+ ]
+}

@@ -1,0 +1,166 @@
+#!/usr/bin/env python3
+"""Extract TrinityCore aura-removal code verbatim (aura-lifecycle Track E).
+
+The C++ side of the differential for ``aura_lifecycle/{removal,dispel,lifetime}.py``
+is Trinity's own text compiled against minimal stubs (``probe.cpp``).
+``Random.h`` is included directly.
+
+Extracted verbatim (TrinityCore @ 7f3d43b):
+  Unit.cpp        DispelableAura ctor/dtor/RollDispel, Unit::RemoveAllAurasOnDeath, Unit::RemoveOwnedAura (iterator, Aura*),
+                  Unit::_UnapplyAura (iterator, AuraApplication*), Unit::RemoveAurasDueToSpellByDispel,
+                  Unit::GetDispellableAuraList, and the owned-aura
+                  update + expiry-sweep statements of Unit::_UpdateSpells
+  Unit.h          class DispelableAura, class DispelInfo
+  SpellAuras.cpp  Aura::_Remove, Aura::_UnapplyForTarget, Aura::Update, Aura::ModCharges,
+                  Aura::ModStackAmount, Aura::IsPassive, Aura::IsDeathPersistent, Aura::CalcDispelChance,
+                  UnitAura::Remove
+  SpellAuraEffects.cpp  AuraEffect::Update, AuraEffect::GetTotalTicks
+  SpellInfo.cpp   SpellInfo::IsPassive, IsDeathPersistent, IsChanneled, GetDispelMask (x2)
+  SpellEffects.cpp  the attempt loop of Spell::EffectDispel
+  Random.cpp      irand, urand, rand_chance (bodies; the engine words come from the probe's rand32)
+  enums           AuraRemoveMode (SpellAuraDefines.h), DispelType + DISPEL_ALL_MASK (SharedDefines.h),
+                  the SPELL_ATTR* bits the bodies test
+"""
+
+from __future__ import annotations
+
+import re
+import sys
+from pathlib import Path
+
+WORKSPACE_PARENT = Path(__file__).resolve().parents[5]
+TC_ROOT = Path(sys.argv[1] if len(sys.argv) > 1 and sys.argv[1] else WORKSPACE_PARENT / "TrinityCore")
+OUT_DIR = Path(sys.argv[2] if len(sys.argv) > 2 else Path(__file__).parent)
+OUT_DECLS = OUT_DIR / "tc_removal_decls.inc"
+OUT_BODIES = OUT_DIR / "tc_removal_bodies.inc"
+OUT_RANDOM = OUT_DIR / "tc_removal_random.inc"
+G = TC_ROOT / "src/server/game"
+
+ATTRS = ("SPELL_ATTR0_PASSIVE", "SPELL_ATTR1_IS_CHANNELLED", "SPELL_ATTR1_IS_SELF_CHANNELLED", "SPELL_ATTR1_AURA_UNIQUE", "SPELL_ATTR1_DISPEL_ALL_STACKS",
+         "SPELL_ATTR2_NO_TARGET_PER_SECOND_COSTS", "SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD",
+         "SPELL_ATTR5_AURA_UNIQUE_PER_CASTER", "SPELL_ATTR5_EXTRA_INITIAL_PERIOD", "SPELL_ATTR7_DISPEL_REMOVES_CHARGES")
+
+
+def braced(text: str, start: int) -> tuple[int, int]:
+    open_brace = text.index("{", start)
+    depth = 0
+    for pos in range(open_brace, len(text)):
+        if text[pos] == "{":
+            depth += 1
+        elif text[pos] == "}":
+            depth -= 1
+            if depth == 0:
+                return open_brace, pos + 1
+    raise SystemExit("unbalanced braces")
+
+
+def function(text: str, signature: str, source: str) -> str:
+    start = text.find(signature)
+    if start < 0:
+        raise SystemExit(f"signature not found in {source}: {signature}")
+    if text.find(signature, start + 1) >= 0:
+        raise SystemExit(f"signature not unique in {source}: {signature}")
+    line = text.count("\n", 0, start) + 1
+    _, b = braced(text, start)
+    return f"// {source}:{line}\n{text[start:b]}\n"
+
+
+def block(text: str, first: str, last: str, source: str, include_last: bool = True, start: int = 0) -> str:
+    a = text.index(first, start)
+    b = text.index(last, a) + (len(last) if include_last else 0)
+    line = text.count("\n", 0, a) + 1
+    return f"// {source}:{line}\n{text[a:b]}"
+
+
+def define(text: str, name: str, source: str) -> str:
+    for n, line in enumerate(text.splitlines(), 1):
+        if line.startswith(f"#define {name} "):
+            return f"// {source}:{n}\n{line}"
+    raise SystemExit(f"#define {name} not found in {source}")
+
+
+def named_values(text: str, names, source: str, enum: str, underlying: str = "uint32") -> str:
+    rows = []
+    for name in names:
+        m = re.search(rf"^\s*({re.escape(name)})\s*=\s*([0-9A-Fa-fx]+)", text, re.MULTILINE)
+        if not m:
+            raise SystemExit(f"{name} not found in {source}")
+        line = text.count("\n", 0, m.start()) + 1
+        rows.append(f"    {name} = {m.group(2)}, // {source}:{line}")
+    return f"enum {enum} : {underlying}\n{{\n" + "\n".join(rows) + "\n};"
+
+
+def main() -> int:
+    unit_cpp = (G / "Entities/Unit/Unit.cpp").read_text(encoding="utf-8")
+    unit_h = (G / "Entities/Unit/Unit.h").read_text(encoding="utf-8")
+    auras_cpp = (G / "Spells/Auras/SpellAuras.cpp").read_text(encoding="utf-8")
+    effects_cpp = (G / "Spells/Auras/SpellAuraEffects.cpp").read_text(encoding="utf-8")
+    defines_h = (G / "Spells/Auras/SpellAuraDefines.h").read_text(encoding="utf-8")
+    info_cpp = (G / "Spells/SpellInfo.cpp").read_text(encoding="utf-8")
+    spell_effects = (G / "Spells/SpellEffects.cpp").read_text(encoding="utf-8")
+    shared = (G / "Miscellaneous/SharedDefines.h").read_text(encoding="utf-8")
+    random_cpp = (TC_ROOT / "src/common/Utilities/Random.cpp").read_text(encoding="utf-8")
+
+    decls = [
+        "// GENERATED by tools/tc_aura_removal_probe/extract.py from TrinityCore -- do not edit",
+        block(defines_h, "enum AuraRemoveMode", "};", "SpellAuraDefines.h"),
+        block(shared, "enum DispelType", "};", "SharedDefines.h"),
+        define(shared, "DISPEL_ALL_MASK", "SharedDefines.h"),
+        *[named_values(shared, [a for a in ATTRS if a.startswith(f"SPELL_ATTR{w}_")], "SharedDefines.h", f"SpellAttr{w}")
+          for w in sorted({a[10] for a in ATTRS})],
+    ]
+    classes = [
+        "// GENERATED by tools/tc_aura_removal_probe/extract.py from TrinityCore -- do not edit",
+        block(unit_h, "class TC_GAME_API DispelableAura", "typedef std::vector<DispelableAura> DispelChargesList;", "Unit.h"),
+        block(unit_h, "class DispelInfo", "};", "Unit.h"),
+    ]
+    rnd = ["// GENERATED by tools/tc_aura_removal_probe/extract.py from TrinityCore -- do not edit"]
+    for sig in ("int32 irand(int32 min, int32 max)", "uint32 urand(uint32 min, uint32 max)", "float rand_chance()"):
+        rnd.append(function(random_cpp, sig, "Random.cpp"))
+    bodies = ["// GENERATED by tools/tc_aura_removal_probe/extract.py from TrinityCore -- do not edit"]
+    for sig in ("bool SpellInfo::IsPassive() const", "bool SpellInfo::IsDeathPersistent() const",
+                "bool SpellInfo::IsChanneled() const", "uint32 SpellInfo::GetDispelMask() const",
+                "uint32 SpellInfo::GetDispelMask(DispelType type)"):
+        bodies.append(function(info_cpp, sig, "SpellInfo.cpp"))
+    for sig in ("DispelableAura::DispelableAura(Aura* aura, int32 dispelChance, uint8 dispelCharges)",
+                "bool DispelableAura::RollDispel() const",
+                "void Unit::RemoveAllAurasOnDeath()",
+                "void Unit::RemoveOwnedAura(AuraMap::iterator& i, AuraRemoveMode removeMode)",
+                "void Unit::RemoveOwnedAura(Aura* aura, AuraRemoveMode removeMode)",
+                "void Unit::_UnapplyAura(AuraApplicationMap::iterator& i, AuraRemoveMode removeMode)",
+                "void Unit::_UnapplyAura(AuraApplication* aurApp, AuraRemoveMode removeMode)",
+                "void Unit::RemoveAurasDueToSpellByDispel(uint32 spellId, uint32 dispellerSpellId, ObjectGuid casterGUID, WorldObject* dispeller, uint8 chargesRemoved /*= 1*/)",
+                "void Unit::GetDispellableAuraList(WorldObject const* caster, uint32 dispelMask, DispelChargesList& dispelList, bool isReflect /*= false*/) const"):
+        bodies.append(function(unit_cpp, sig, "Unit.cpp"))
+        if sig.startswith("DispelableAura::DispelableAura"):
+            bodies.append(block(unit_cpp, "DispelableAura::~DispelableAura() = default;", ";", "Unit.cpp"))
+    upd = block(unit_cpp, "    // m_auraUpdateIterator can be updated", "    for (AuraApplication* visibleAura : m_visibleAurasToUpdate)",
+                "Unit.cpp", include_last=False)
+    bodies.append("void Unit::_UpdateSpellsAuras(uint32 time)\n{\n" + upd + "}\n")
+    for sig in ("void Aura::_Remove(AuraRemoveMode removeMode)",
+                "void Aura::_UnapplyForTarget(Unit* target, Unit* caster, AuraApplication* auraApp)",
+                "void Aura::Update(uint32 diff, Unit* caster)",
+                "bool Aura::ModCharges(int32 num, AuraRemoveMode removeMode)",
+                "bool Aura::ModStackAmount(int32 num, AuraRemoveMode removeMode /*= AURA_REMOVE_BY_DEFAULT*/, bool resetPeriodicTimer /*= true*/)",
+                "bool Aura::IsPassive() const", "bool Aura::IsDeathPersistent() const",
+                "int32 Aura::CalcDispelChance(Unit const* /*auraTarget*/, bool /*offensive*/) const",
+                "void UnitAura::Remove(AuraRemoveMode removeMode)"):
+        bodies.append(function(auras_cpp, sig, "SpellAuras.cpp"))
+    for sig in ("void AuraEffect::Update(uint32 diff, Unit* caster)", "uint32 AuraEffect::GetTotalTicks() const"):
+        bodies.append(function(effects_cpp, sig, "SpellAuraEffects.cpp"))
+    function(spell_effects, "void Spell::EffectDispel()", "SpellEffects.cpp")      # uniqueness check
+    loop = block(spell_effects, "    // dispel N = damage buffs (or while exist buffs for dispel)", "    if (!dispelFailed.FailedSpells.empty())",
+                 "SpellEffects.cpp (Spell::EffectDispel)", include_last=False, start=spell_effects.index("void Spell::EffectDispel()"))
+    bodies.append("void DispelLoop(DispelChargesList& dispelList, size_t remaining, int32 dispelAmount, DispelChargesList& successList, DispelFailedStub& dispelFailed)\n{\n"
+                  + loop + "}\n")
+
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    OUT_DECLS.write_text("\n\n".join(decls) + "\n\n" + "\n\n".join(classes) + "\n", encoding="utf-8")
+    OUT_BODIES.write_text("\n\n".join(bodies) + "\n", encoding="utf-8")
+    OUT_RANDOM.write_text("\n\n".join(rnd) + "\n", encoding="utf-8")
+    print(f"wrote {OUT_DECLS.name}, {OUT_BODIES.name} ({len(bodies)} blocks) from {TC_ROOT}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

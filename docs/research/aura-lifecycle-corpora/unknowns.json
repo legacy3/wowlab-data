@@ -1,0 +1,3663 @@
+{
+ "core_navigation": [
+  {
+   "core_coords": [
+    "crates/model/src/aura.rs:17 AuraKey(aura, source, affected)"
+   ],
+   "corpus": "identity.json",
+   "id": "AL-K-A-01",
+   "observation": "Core keys every aura instance per source actor; Trinity additionally has any-caster shared objects, multislot passives and cross-caster replacement (counts: identity.json counts.player)",
+   "reopen_condition": "Core models multi-caster application of the same aura",
+   "research_ref": "identity.json counts.player.lookup / other_caster",
+   "topic": "aura instance identity"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1143-1199",
+    "crates/combat/src/aura_state.rs:18-19"
+   ],
+   "corpus": "carryover.json",
+   "evidence": "core-navigation",
+   "id": "AL-K-B-01",
+   "observation": "Core computes base + min(remaining, floor(3*base/10)) and keeps max(projected, old expiry): the simc / carry-before-refresh model, not pinned Trinity (which ignores remaining).",
+   "reopen_condition": "Retail result of AL-X-B-01/02",
+   "research_ref": [
+    "AL-R-B-07",
+    "AL-D-B-01",
+    "AL-U-B-01"
+   ],
+   "topic": "CappedCarryover formula"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1161-1162"
+   ],
+   "corpus": "carryover.json",
+   "evidence": "core-navigation",
+   "id": "AL-K-B-02",
+   "observation": "integer floor(3D/10) vs Trinity trunc(float(D)*130/100)-D: equal for D < 516250 ms",
+   "reopen_condition": "durations >= 516250 ms with ATTR13",
+   "research_ref": [
+    "AL-F-B-07"
+   ],
+   "topic": "carry rounding"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:686-691"
+   ],
+   "corpus": "refresh.json",
+   "evidence": "core-navigation",
+   "id": "AL-K-B-03",
+   "observation": "RestartLifetime / CappedCarryover / IndependentStackDeadlines / PreserveExistingLifetime vs Trinity branches refresh / refresh+ATTR13 / new-object / unique-no-timer-refresh; Trinity's unique branch is not pure preservation (resets when the hit duration differs from max).",
+   "reopen_condition": "track K coremap",
+   "research_ref": [
+    "AL-R-B-04",
+    "AL-R-B-08"
+   ],
+   "topic": "reapplication policy vocabulary"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1143-1199"
+   ],
+   "corpus": "carryover.json",
+   "evidence": "core-navigation",
+   "id": "AL-K-B-04",
+   "observation": "verbatim probe confirms K: pinned Trinity 550 ms (325 ms from refresh), Core 500 ms; the divergence is exactly the AL-D-B-01 path (Trinity ignores remaining), not a Core arithmetic slip; at a 150 ms refresh both give 475 because r >= 0.3*hit",
+   "reopen_condition": "Retail AL-X-B-01",
+   "research_ref": [
+    "AL-D-B-01",
+    "AL-R-B-07"
+   ],
+   "topic": "TL-K-01 (250 ms aura refreshed at 225 ms)"
+  },
+  {
+   "core_coords": [
+    "crates/dbc/src/spell_attribute.rs:180-181",
+    "crates/dbc/src/spell_attribute.rs:490-491"
+   ],
+   "corpus": "refresh.json",
+   "evidence": "core-navigation",
+   "id": "AL-K-B-05",
+   "observation": "Core implements simc's meanings (489 preserve expiry while bumping stacks; 490 independent stack deadlines); Trinity has no consumer (UNK9/UNK10), so their only source is simc buff.cpp",
+   "reopen_condition": "Retail trace of a 489/490 aura",
+   "research_ref": [
+    "AL-U-B-03"
+   ],
+   "topic": "raw 489 / 490 meanings"
+  },
+  {
+   "core_coords": "crates/data/src/action/catalog/operation.rs:879-885",
+   "corpus": "stacks.json",
+   "id": "AL-K-C-01",
+   "observation": "Core aura mutations carry an explicit apply count validated count <= max_stacks; Trinity's initial count comes from Doses / SPELLVALUE_AURA_STACK and is not capped at construction",
+   "reopen_condition": "a Core consumer of Doses or SPELLVALUE_AURA_STACK",
+   "research_ref": "AL-R-C-01",
+   "topic": "initial stack count"
+  },
+  {
+   "core_coords": "crates/combat/src/aura_state.rs:155 (NonZeroU16 max_stacks)",
+   "corpus": "stacks.json",
+   "id": "AL-K-C-02",
+   "observation": "Core max stacks are u16 and non-zero; Trinity capacity 0 means 'non-stackable, pinned to 1' and storage is uint8",
+   "reopen_condition": "Retail evidence on >255 stacks (AL-U-C-03)",
+   "research_ref": "AL-D-C-01",
+   "topic": "stack width"
+  },
+  {
+   "core_coords": "crates/combat/src/effect_point_stacking.rs:4-12",
+   "corpus": "stacks.json",
+   "id": "AL-K-C-03",
+   "observation": "Core EffectPointStacking::from_suppressed mirrors SuppressPointsStacking; Trinity applies it to every aura type plus the per-tick coefficient bonus",
+   "reopen_condition": "a Core aura type that bypasses EffectPointStacking",
+   "research_ref": "AL-R-C-06",
+   "topic": "point stacking"
+  },
+  {
+   "core_coords": "crates/combat/src/independent_stack.rs:12-40",
+   "corpus": "stacks.json",
+   "id": "AL-K-C-04",
+   "observation": "Core has per-application stack cohorts with own deadlines; Trinity has none inside one Aura (only multi-slot passives or per-caster auras are independent)",
+   "reopen_condition": "Retail result of AL-X-C-04",
+   "research_ref": "AL-R-C-09 / AL-U-C-05",
+   "topic": "independent stacks"
+  },
+  {
+   "core_coords": "crates/dbc/src/spell_attribute.rs:181, :491",
+   "corpus": "stacks.json",
+   "id": "AL-K-C-05",
+   "observation": "Core implements attribute 490 as independent per-application deadlines; Trinity has no consumer (SPELL_ATTR15_UNK10), so Trinity is not an oracle for these auras",
+   "reopen_condition": "Retail result of AL-X-C-06",
+   "research_ref": "AL-R-C-12 / AL-U-C-09",
+   "topic": "asynchronous stacking"
+  },
+  {
+   "core_coords": "docs/research/core-semantic-boundary-audit.md CSA-K-01",
+   "corpus": "stacks.json",
+   "id": "AL-K-C-06",
+   "observation": "raw 289 Set mode has no Core runtime op; Trinity Set never removes at 0",
+   "reopen_condition": "a Core Set-stack op",
+   "research_ref": "modify_aura_stacks",
+   "topic": "aura stack mutation effect"
+  },
+  {
+   "core_coords": [
+    "crates/data/src/action/input.rs:1112-1115"
+   ],
+   "corpus": "periodic.json",
+   "id": "AL-K-D-01",
+   "observation": "Core carries PreserveCadence/RestartCadence as an authored per-action input; in Trinity the choice depends on the reapplying cast's trigger flags, StackAmount and raw 436",
+   "reopen_condition": "if Retail AL-X-D-02 distinguishes triggered vs untriggered reapply",
+   "research_ref": [
+    "AL-R-D-05",
+    "UNK-E-001"
+   ],
+   "topic": "cadence on reapply"
+  },
+  {
+   "core_coords": [
+    "crates/dbc/src/spell_attribute.rs:407"
+   ],
+   "corpus": "periodic.json",
+   "id": "AL-K-D-02",
+   "observation": "Core catalog: 'active reapplication never creates another initial occurrence' (simc model); Trinity creates one on restart-reapply",
+   "reopen_condition": "AL-X-D-01 outcome",
+   "research_ref": [
+    "AL-R-D-06",
+    "UNK-E-002"
+   ],
+   "topic": "TickOnApplication on active reapply"
+  },
+  {
+   "core_coords": [
+    "crates/dbc/src/spell_attribute.rs:408"
+   ],
+   "corpus": "periodic.json",
+   "id": "AL-K-D-03",
+   "observation": "Core divides by cast speed and re-derives after each occurrence, with proportional terminal partials; Trinity multiplies ModCastingSpeed once at create/refresh and has no partial occurrence",
+   "reopen_condition": "AL-X-D-03 / AL-X-D-04 outcomes",
+   "research_ref": [
+    "AL-R-D-02",
+    "AL-R-D-03"
+   ],
+   "topic": "spell haste period and terminal partial"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/state/transition.rs:22-75"
+   ],
+   "corpus": "periodic.json",
+   "id": "AL-K-D-04",
+   "observation": "Core ranks cast(2) < periodic(5) < aura expiry(6): matches Trinity for owner==caster and for final-tick-before-expiry; Trinity has no rank for caster!=owner (map order)",
+   "reopen_condition": "a Retail same-timestamp observation",
+   "research_ref": [
+    "AL-R-D-04",
+    "AL-R-D-09",
+    "UNK-E-003"
+   ],
+   "topic": "same-timestamp ranks"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/program/dispel.rs:244-248",
+    "crates/combat/src/program/dispel_mechanic.rs:387-395"
+   ],
+   "corpus": "removal.json",
+   "id": "AL-K-E-01",
+   "observation": "Core refuses dispellable auras with periodic fanout; Trinity removes the whole periodic aura with no final tick or lowers stacks keeping the periodic timer. The refusal is a correct boundary, not a gap to fill by inference.",
+   "reopen_condition": "Core models periodic removal without a tick and stack decrement without timer reset",
+   "research_ref": "dispel.json rules AL-R-E-10..12; RM-11/RM-13",
+   "topic": "periodic dispel refusal"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/execution/expiry_execution.rs:9-40",
+    "crates/combat/src/state.rs:1368-1397"
+   ],
+   "corpus": "removal.json",
+   "id": "AL-K-E-02",
+   "observation": "Trinity removes non-persistent auras at death with DEATH (no on-expire driver) but ATTR3_ALLOW_AURA_WHILE_DEAD auras persist and expire with EXPIRE on the corpse; passive ones too (optionally unapplied by ATTR7).",
+   "reopen_condition": "Core adds a death lifecycle transition",
+   "research_ref": "lifetime.json death_order, census death_class",
+   "topic": "auras on a corpse (CSA-E-01)"
+  },
+  {
+   "core_coords": [
+    "crates/sim/src/random.rs:133-146"
+   ],
+   "corpus": "dispel.json",
+   "id": "AL-K-E-03",
+   "observation": "Core's uniform_index consumes no draw for a singleton domain; Trinity's urand(0,0) consumes one engine word and every resistance roll consumes one irand word even at 100 %. Stream alignment differs (not an exactness claim about Retail).",
+   "reopen_condition": "Core adopts a Trinity-aligned draw-address contract",
+   "research_ref": "dispel.json AL-R-E-11",
+   "topic": "singleton-domain draws"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/program/dispel_mechanic.rs:387-395"
+   ],
+   "corpus": "dispel.json",
+   "id": "AL-K-E-04",
+   "observation": "Trinity draws once per owned aura applied on the target, passive/hidden ones included, before the mechanic test.",
+   "reopen_condition": "passive traits represented as auras in Core",
+   "research_ref": "AL-R-E-13",
+   "topic": "mechanic-dispel forced trial count (UNK-I-002)"
+  },
+  {
+   "core_coords": [
+    "crates/data/src/effect.rs:56-62 (owns_unit_aura_effect: 6|35|65|119|128|129|143|174|202|271; 27 excluded as spatial membership)"
+   ],
+   "corpus": "area-lifecycle.json",
+   "id": "AL-K-F-01",
+   "observation": "Core groups the area kinds with APPLY_AURA as unit-aura owners; in Trinity those kinds reach any recipient (the owner included) only through the 500 ms recipient map of one shared parent.",
+   "reopen_condition": "Core models a recipient other than the aura owner for an area kind",
+   "research_ref": "LIFECYCLE_TABLE initial recipient set / reevaluation cadence; AL-R-F-01..03",
+   "topic": "area-aura effect kinds"
+  },
+  {
+   "core_coords": [
+    "crates/combat/tests/expiry_drivers.rs:707 (area_aura_party_source_kind_can_own_an_expiry_driver)"
+   ],
+   "corpus": "area-lifecycle.json",
+   "id": "AL-K-F-02",
+   "observation": "A kind-35 source may own an expiry driver; in Trinity the driver is the parent's duration and its expiry unapplies every recipient at once (dynobj: BY_DEFAULT).",
+   "reopen_condition": "Core attaches expiry to a non-owner recipient",
+   "research_ref": "STATE_OWNERSHIP duration row; AL-R-F-04",
+   "topic": "area-aura expiry driver"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/program/exact_source.rs:153-243"
+   ],
+   "corpus": "passive-active.json",
+   "id": "AL-K-G-01",
+   "observation": "Core admits selected passives through an owner-policy check; the census finds 1049 player passives with a mutable carrier",
+   "reopen_condition": "Core admission path consults effective proc entry / scripts / interrupt flags",
+   "research_ref": "AL-R-G-08 (discarded), selected-passive-package-generalization.md §13 D1",
+   "topic": "selected passives compiled as immutable"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/passive_maximum_health.rs:38"
+   ],
+   "corpus": "passive-active.json",
+   "id": "AL-K-G-02",
+   "observation": "Core applies passive contributions as static bindings; no loss/reacquisition events exist to model interrupt/charges/expiry of passives",
+   "reopen_condition": "Core introduces passive acquisition/loss lifecycle",
+   "research_ref": "AL-R-G-09, AL-D-G-01",
+   "topic": "passive loss events"
+  },
+  {
+   "core_coords": [
+    "crates/sim/src/scheduler/mod.rs:190"
+   ],
+   "corpus": "ordering.json",
+   "id": "AL-K-I-01",
+   "observation": "Core's scheduler breaks timestamp ties by priority then insertion order; Trinity resolves them by world phase / unit update order and owner SpellId storage order, with tick-before-expiry inside an owner",
+   "reopen_condition": "a Core contract claims Trinity parity for final-tick-at-expiry, same-ms death or refresh-vs-tick",
+   "research_ref": [
+    "OR-I-01",
+    "OR-I-05",
+    "AL-R-I-02",
+    "AL-R-I-03"
+   ],
+   "topic": "same-timestamp tie-break"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/deadline_queue.rs:8-13",
+    "crates/combat/src/periodic.rs:282-286"
+   ],
+   "corpus": "ordering.json",
+   "id": "AL-K-I-02",
+   "observation": "Core deadlines carry (sequence, at, slot) with a canonical schedule-slot tie-break; Trinity has no queued aura deadlines (polled timers per object), so stale deadlines cannot exist there by construction",
+   "reopen_condition": "Core reuses a slot across aura generations",
+   "research_ref": [
+    "GN-I-03",
+    "AL-R-I-09"
+   ],
+   "topic": "periodic deadline identity"
+  },
+  {
+   "core_coords": [
+    "docs/research/core-audit-corpora/numeric-boundaries.json NUM-E-002"
+   ],
+   "corpus": "ordering.json",
+   "id": "AL-K-I-03",
+   "observation": "NUM-E-002 compares Core with the formula text at Spell.cpp:3284-3287 reading it as remaining duration; at runtime Trinity reads the refreshed duration",
+   "reopen_condition": "Core audit numeric records are regenerated",
+   "research_ref": [
+    "AL-D-B-01",
+    "AL-D-D-02",
+    "AL-F-I-02"
+   ],
+   "topic": "pandemic numeric record"
+  },
+  {
+   "core_coords": "core/crates/dbc/src/spell_attribute.rs; core/crates/dbc/src/aura_subtype.rs",
+   "corpus": "provider-census.json",
+   "id": "AL-K-J-01",
+   "observation": "player providers whose subtypes are all Core-implemented but carry a disabled/unimplemented/uncatalogued lifecycle attribute: 202 (blockers {'ALLOW_AURA_WHILE_DEAD': 43, 'ALLOW_ENTERING_ARENA': 21, 'ALLOW_WHILE_NOT_SHAPESHIFTED_CASTER_FORM': 18, 'AURA_STAYS_AFTER_COMBAT': 4, 'CANNOT_BE_STOLEN': 4, 'DISABLE_AURA_WHILE_DEAD': 8, 'DISPEL_ALL_STACKS': 1, 'DO_NOT_CONSUME_AURA_STACK_ON_PROC': 8, 'HEARTBEAT_RESIST': 3, 'IMMUNITY_PURGES_EFFECT': 12, 'IS_CHANNELLED': 3, 'IS_SELF_CHANNELLED': 2, 'LIMIT_N': 10, 'MASTERY_AFFECTS_POINTS': 15, 'NOT_SHAPESHIFTED': 68, 'NO_AURA_CANCEL': 67, 'REMOVE_ENTERING_ARENA': 3, 'ROLLING_PERIODIC': 5, 'UPDATE_PASSIVES_ON_APPLY_REMOVE': 11})",
+   "reopen_condition": "Core changes the support class of one of these attributes",
+   "research_ref": "provider-census.json core",
+   "topic": "lifecycle-only blockers"
+  },
+  {
+   "core_coords": "core/crates/dbc/src/spell_attribute.rs (DotStackingRule raw 103: ignored)",
+   "corpus": "provider-census.json",
+   "id": "AL-K-J-02",
+   "observation": "Core marks the attribute ignored while Trinity reads it in Aura::CanStackWith (SpellAuras.cpp:1698); carriers: player 44, all 840",
+   "reopen_condition": "Track A settles the observable stacking consequence",
+   "research_ref": "AL-R-J-05; Track A",
+   "topic": "DOT_STACKING_RULE catalog class"
+  },
+  {
+   "core_coords": "core/crates/dbc/src/spell_attribute.rs (HasteAffectsDuration raw 273)",
+   "corpus": "provider-census.json",
+   "id": "AL-K-J-03",
+   "observation": "Core's implemented text for raw 273 admits one spell (391428); census carriers: player 37, all 302; catalog_admissible is therefore an upper bound",
+   "reopen_condition": "Core generalizes the row",
+   "research_ref": "lifecycle-signatures.json core columns",
+   "topic": "narrow 'implemented' attribute rows"
+  },
+  {
+   "core_coords": "core/crates/dbc/src/spell_attribute.rs (AuraDoesNotRefresh raw 489, AsynchronousStackingBuff raw 490: implemented)",
+   "corpus": "provider-census.json",
+   "id": "AL-K-J-04",
+   "observation": "Core declares these implemented while pinned Trinity never reads the bits (SPELL_ATTR15_UNK9/UNK10); carriers: AURA_DOES_NOT_REFRESH all 33 / player 0, ASYNCHRONOUS_STACKING_BUFF all 70 / player 6; no consumer oracle exists to differential-test them",
+   "reopen_condition": "a Retail observation (AL-X-J-01/02) or a newer consumer",
+   "research_ref": "AL-U-J-01; AL-X-J-01/02",
+   "topic": "client-named attributes Core implements without a Trinity oracle"
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1225-1231": "left.affected()",
+    "crates/combat/src/program/aura_lifetime.rs:16": "SpellId::new(aura.id().get())",
+    "crates/model/src/aura.rs:17-21": "affected: ActorId"
+   },
+   "audit_refs": [
+    "UNK-K-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1225-1231",
+    "crates/combat/src/program/aura_lifetime.rs:16",
+    "crates/model/src/aura.rs:17-21"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-01",
+   "observation": "Core has one mutable cell per exact AuraKey (aura = spell id, source actor, affected actor). There is no effect-mask, cast-item or per-cast component, and there is no shared caster-ANY slot: two casters applying the same aura to one recipient always own two distinct cells.",
+   "questions": [
+    "A"
+   ],
+   "reopen_condition": "Track A's identity corpus names a stacking class whose Trinity key is not (spell, caster, recipient) -- StackAmount>1 without ATTR3_DOT_STACKING_RULE (shared slot) or effect-mask recreation -- on a family Core admits; then UNK-K-001's two-caster probe becomes decisive.",
+   "research_ref": [
+    "A: Trinity one-slot lookup Unit::_TryStackingOrRefreshingExistingAura (caster-ANY when IsStackableOnOneSlotWithDifferentCasters); effect-mask mismatch recreates the aura"
+   ],
+   "status": "assumed",
+   "topic": "identity-key",
+   "trinity_coords": {
+    "Spells/SpellInfo.cpp:1808-1811": "SPELL_ATTR3_DOT_STACKING_RULE"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:116-132": "AuraPlanBuildError::DuplicateKey",
+    "crates/combat/src/state.rs:1593-1706": "fn compile_aura_plan(",
+    "crates/combat/src/state/topology.rs:8-30": "pub(super) fn mutation_reaches_key("
+   },
+   "audit_refs": [
+    "UNK-X-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:116-132",
+    "crates/combat/src/state.rs:1593-1706",
+    "crates/combat/src/state/topology.rs:8-30"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-02",
+   "observation": "Every reachable aura cell is enumerated once at CombatState construction from the program topology x actors x host-declared target relations. There is no runtime recipient discovery, no area-aura owner/application split and no periodic target-map update; the recipient set of an aura is fixed for the whole state lifetime.",
+   "questions": [
+    "A",
+    "F"
+   ],
+   "reopen_condition": "Track F shows an admitted-shape (self or single explicit target) aura whose Trinity recipient set changes mid-lifetime, or Core admits any area/persistent-area aura effect.",
+   "research_ref": [
+    "F: Aura::UpdateTargetMap every 500 ms adds/removes applications during the lifetime",
+    "targeting-recipient-policy-archaeology.md (aura target maps)"
+   ],
+   "status": "absent",
+   "topic": "recipient-topology",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program.rs:1595-1618": "fn validate_aura_mutation_source(",
+    "crates/data/src/action/catalog/selected_owner.rs:38": "a program may apply an aura owned by another spell"
+   },
+   "audit_refs": [
+    "CSA-K-01",
+    "MUT-K-012"
+   ],
+   "core_coords": [
+    "crates/combat/src/program.rs:1595-1618",
+    "crates/data/src/action/catalog/selected_owner.rs:38"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-03",
+   "observation": "An aura mutation step is checked only for its effect-kind family; the aura it applies/removes and its count are host-resolved. A bare ApplyAura row of spell A may be declared as applying aura B (probe k_aura_mutation_source::accepted_apply_aura_row_of_a_applies_foreign_aura_b).",
+   "questions": [
+    "A"
+   ],
+   "reopen_condition": "Track A/C find a real player spell whose ApplyAura effect legitimately creates an aura of a different spell id (Trinity would then be the arbiter of the binding Core leaves to the host).",
+   "research_ref": [
+    "A: application created by EffectApplyAura for the hit spell's own aura"
+   ],
+   "status": "assumed",
+   "topic": "application-identity-binding",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:729-745": "StackCountExceedsMaximum",
+    "crates/combat/src/program.rs:1650-1655": "NonZeroU16::new(input.count)"
+   },
+   "audit_refs": [
+    "CSA-K-01"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:729-745",
+    "crates/combat/src/program.rs:1650-1655"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-04",
+   "observation": "Initial stacks of an application are the host-authored step count (nonzero, <= max stacks). Core never derives them from source rows; a fresh application starts at exactly that count.",
+   "questions": [
+    "C"
+   ],
+   "reopen_condition": "Track C's stacks corpus finds a real player application whose Trinity initial stack count is not 1 (SPELLVALUE_AURA_STACK, script) -- then the host's count is carrying source semantics Core does not check.",
+   "research_ref": [
+    "C: Trinity initial stacks = AuraCreateInfo::StackAmount (default 1, SpellAuras.cpp:481; spell path SpellValue AuraStackAmount=1); CumulativeAura never read at construction"
+   ],
+   "status": "assumed",
+   "topic": "initial-stacks",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuras.cpp:481": "m_stackAmount(createInfo.StackAmount)"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:57-67": "aura_unique_stack_limit_mismatch",
+    "crates/data/src/action/catalog/aura.rs:183-185": "invalid_aura_max_stacks",
+    "crates/data/src/action/catalog/aura.rs:38-42": "max_stacks: u16"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:57-67",
+    "crates/data/src/action/catalog/aura.rs:183-185",
+    "crates/data/src/action/catalog/aura.rs:38-42"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-05",
+   "observation": "Maximum stacks are host-resolved per aura; the only generic check is nonzero. The value is cross-checked against SpellAuraOptions.CumulativeAura only for Aura Unique owners (max(cumulative,1)); family compilers add their own single-stack gates.",
+   "questions": [
+    "C"
+   ],
+   "reopen_condition": "Track C's capacity rule (CumulativeAura, 0->1, spellmods on StackAmount, script overrides) differs from a host-resolved max_stacks on any admitted family.",
+   "research_ref": [
+    "C: Trinity capacity = SpellInfo::StackAmount (CumulativeAura); ModStackAmount treats 0 as 1"
+   ],
+   "status": "assumed",
+   "topic": "stack-capacity",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:737-745": ".min(definition.max_stacks.get())",
+    "crates/combat/src/aura_state.rs:810-814": "AuraTransition::Reapplied"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:737-745",
+    "crates/combat/src/aura_state.rs:810-814"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-06",
+   "observation": "Active reapplication adds the application's stacks, saturating at max stacks, under every lifetime policy; at the cap the lifetime policy still runs (RestartLifetime restarts at cap).",
+   "questions": [
+    "C",
+    "B"
+   ],
+   "reopen_condition": "Track C shows a reapplication that does not add the incoming count (e.g. mask-mismatch recreate, AuraPointsStack base-amount accumulation) on a family Core admits.",
+   "research_ref": [
+    "C: Trinity ModStackAmount(createInfo.StackAmount): refresh iff new>=old && (StackAmount || !AURA_UNIQUE); cap only on increase (SpellAuras.cpp:1093-1127)"
+   ],
+   "status": "represented",
+   "topic": "stack-reapplication",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuras.cpp:1114": "bool refresh = stackAmount >= GetStackAmount()"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:838-874": "pub(crate) fn quote_add_stacks_from(",
+    "crates/combat/src/aura_state.rs:937-966": "count.get() >= before.cell.stacks",
+    "crates/combat/src/program/definition.rs:800-808": "RemoveStacks(NonZeroU16)"
+   },
+   "audit_refs": [
+    "CSA-K-01",
+    "MUT-K-009",
+    "MUT-K-010"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:838-874",
+    "crates/combat/src/aura_state.rs:937-966",
+    "crates/combat/src/program/definition.rs:800-808"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-07",
+   "observation": "Explicit stack operations are Add(n) (inactive -> unchanged, capped), RemoveStacks(n) (>= current -> whole-aura removal) and Remove. There is no Set-stacks operation; source direction/mode/identity of raw 164/203/289 rows is not bound to the host step.",
+   "questions": [
+    "C"
+   ],
+   "reopen_condition": "Track C's stacks corpus shows a player-reachable raw-289 Set-mode or negative-count row on an aura Core admits (the Set-mode clause was rejected on real data by R1).",
+   "research_ref": [
+    "C: EffectModifyAuraStacks MiscValue 0 Mod / 1 Set (SpellEffects.cpp:6127)"
+   ],
+   "status": "represented",
+   "topic": "stack-mutation-ops",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:296-302": "options.proc_charges() == 0",
+    "crates/combat/src/program/damage_modifier/target_aura_mechanic.rs:258": "row.proc_charges() == 0",
+    "crates/combat/src/program/dispel_duration_modifier.rs:544": "options.proc_charges() == 0",
+    "crates/combat/src/program/selected_trait_package.rs:466": "options.proc_charges() == 0",
+    "crates/combat/src/program/target_aura_state_modifier.rs:573": "options.proc_charges() == 0"
+   },
+   "audit_refs": [
+    "CSA-K-05",
+    "UNK-K-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:296-302",
+    "crates/combat/src/program/damage_modifier/target_aura_mechanic.rs:258",
+    "crates/combat/src/program/dispel_duration_modifier.rs:544",
+    "crates/combat/src/program/selected_trait_package.rs:466",
+    "crates/combat/src/program/target_aura_state_modifier.rs:573"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-08",
+   "observation": "Aura proc charges have no runtime representation. Five admission sites require ProcCharges == 0; other families do not read SpellAuraOptions charges at all. (Spell cooldown charges -- CSA-R3-02 -- are a different mechanism.)",
+   "questions": [
+    "C",
+    "H"
+   ],
+   "reopen_condition": "Any admitted Core family is found (track C/H census) with nonzero ProcCharges or a spell_proc Charges override in the player population.",
+   "research_ref": [
+    "C: CalcMaxCharges (spell_proc Charges overrides DB2), ModCharges, ConsumeProcCharges / USE_STACKS_FOR_CHARGES",
+    "H: spell_proc.Charges override"
+   ],
+   "status": "absent",
+   "topic": "aura-proc-charges",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:685-690": "PreserveExistingLifetime,",
+    "crates/combat/src/program/aura_reapplication.rs:441-496": "(ResolvedAuraReapplication::CappedCarryover, true, false, None)",
+    "crates/data/src/action/catalog/aura.rs:60-63": "CappedCarryover,"
+   },
+   "audit_refs": [
+    "PL-E-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:685-690",
+    "crates/combat/src/program/aura_reapplication.rs:441-496",
+    "crates/data/src/action/catalog/aura.rs:60-63"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-09",
+   "observation": "Four lifetime policies: RestartLifetime, CappedCarryover, IndependentStackDeadlines, PreserveExistingLifetime. The host supplies only RestartLifetime or CappedCarryover; the compiler combines it with raw 43/436/489/490 and fails closed on any other combination.",
+   "questions": [
+    "B"
+   ],
+   "reopen_condition": "Track B identifies a Trinity or simc refresh behaviour on an admitted-shape aura that none of the four policies expresses (e.g. duration reset only when the new max differs, Spell.cpp:3294-3298).",
+   "research_ref": [
+    "B: refresh.json (Trinity RefreshDuration / RefreshTimers / pandemic branch)"
+   ],
+   "status": "represented",
+   "topic": "reapplication-policy-compiler",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1174-1200": "projected.max(before.expires_at.value()",
+    "crates/combat/src/aura_state.rs:775-787": "GenerationExhausted",
+    "crates/combat/src/aura_state.rs:798-809": "applied_at: if before.cell.is_active()"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1174-1200",
+    "crates/combat/src/aura_state.rs:775-787",
+    "crates/combat/src/aura_state.rs:798-809"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-10",
+   "observation": "RestartLifetime sets expiry = now + projected application duration, which may shorten a later existing deadline (only CappedCarryover / IndependentStackDeadlines take the max with the old deadline). applied_at becomes now and the generation increments.",
+   "questions": [
+    "B",
+    "I"
+   ],
+   "reopen_condition": "Track B shows a Trinity/simc refresh that never shortens (max with remaining) for non-pandemic auras, or a duration modifier that makes the reapplied max shorter than the remaining time.",
+   "research_ref": [
+    "B: Trinity RefreshDuration -> SetDuration(GetMaxDuration()) also replaces the remaining time"
+   ],
+   "status": "represented",
+   "topic": "restart-lifetime",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1153-1173": "remaining.as_millis().min(carry_limit)",
+    "crates/combat/src/aura_state.rs:18-19": "CARRY_DENOMINATOR: u64 = 10",
+    "crates/combat/src/program/aura_reapplication.rs:455-457": "Ok(AuraReapplicationPolicy::CappedCarryover)"
+   },
+   "audit_refs": [
+    "NUM-E-002",
+    "FF-E-003",
+    "REJ-E-005"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1153-1173",
+    "crates/combat/src/aura_state.rs:18-19",
+    "crates/combat/src/program/aura_reapplication.rs:455-457"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-11",
+   "observation": "CappedCarryover (host CappedCarryover AND raw 436) computes expiry = max(now + D + min(remaining, floor(3D/10)), old expiry) with D the projected application duration, integer ms. It preserves periodic cadence. Arithmetic mirrored by core_projected_expiry().",
+   "questions": [
+    "B",
+    "I"
+   ],
+   "reopen_condition": "Track B's probe confirms the pinned-Trinity carry model; Core then matches simc / pre-92773e207c Trinity rather than the pinned consumer, and the timeline refresh-at-225-of-250 separates them (Core 500 vs pinned Trinity 550).",
+   "research_ref": [
+    "B: pinned Trinity Spell.cpp:3284-3288 reads HitAura->GetDuration() after the refresh already set it to max, so newDuration = min(D + D, trunc(D*130/100)) -- carry is ~always the full 30% (B: likely Trinity defect from 92773e207c); simc action.cpp:4603 max(r, min(0.3D, r) + D)"
+   ],
+   "status": "represented",
+   "topic": "capped-carryover",
+   "trinity_coords": {
+    "Spells/Spell.cpp:3284-3288": "SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:747-766": "AuraTransition::ReappliedPreservingDeadline",
+    "crates/combat/src/program/aura_reapplication.rs:427-453": "SpellAttributeKind::AuraDoesNotRefresh",
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:45-69": "Ok(cumulative_aura == 0)"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:747-766",
+    "crates/combat/src/program/aura_reapplication.rs:427-453",
+    "crates/combat/src/program/aura_reapplication/aura_unique.rs:45-69"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-12",
+   "observation": "PreserveExistingLifetime keeps application time, deadline, generation and periodic cadence and only adds capped stacks. It is compiled from raw 43 (Aura Unique) with authored CumulativeAura 0 on an exact hostile single-effect periodic-damage owner, or from raw 489 on the application spell. Raw 189 (ATTR5_AURA_UNIQUE_PER_CASTER), Trinity's second refresh-suppression bit, is uncatalogued in Core, so a selected owner carrying it is refused.",
+   "questions": [
+    "B",
+    "C"
+   ],
+   "reopen_condition": "Track B shows an Aura Unique reapplication whose hit duration differs from the current max (duration modifiers, haste) -- Trinity then rewrites the deadline where Core preserves it; or a raw-489 carrier's retail refresh behaviour (track L) contradicts simc.",
+   "research_ref": [
+    "B: Trinity ATTR1_AURA_UNIQUE / ATTR5_AURA_UNIQUE_PER_CASTER with StackAmount 0 -> ModStackAmount refresh=false (SpellAuras.cpp:1114); Spell.cpp:3294-3298 still resets the duration when the hit duration differs from the current max",
+    "B/J: raw 489 = Trinity SPELL_ATTR15_UNK9, no Trinity consumer; simc SX_AURA_DOES_NOT_REFRESH buff.cpp:739-744"
+   ],
+   "status": "represented",
+   "topic": "preserve-existing-lifetime",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuras.cpp:1114": "SPELL_ATTR5_AURA_UNIQUE_PER_CASTER",
+    "Spells/Spell.cpp:3294-3298": "hitInfo.AuraDuration != hitInfo.HitAura->GetMaxDuration()"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/independent_stack.rs:190-233": "self.displace_earliest(&mut pool, displaced)",
+    "crates/combat/src/program/aura_lifetime.rs:11-35": "SpellAttributeKind::AsynchronousStackingBuff",
+    "crates/combat/src/state/independent_stack_lifetime.rs:114-158": "AuraStacksExpired"
+   },
+   "audit_refs": [
+    "LC-E-003",
+    "LC-R3-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/independent_stack.rs:190-233",
+    "crates/combat/src/program/aura_lifetime.rs:11-35",
+    "crates/combat/src/state/independent_stack_lifetime.rs:114-158"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-13",
+   "observation": "Raw 490 with max stacks > 1 gives each application its own deadline cohort; overflow and explicit removal consume earliest cohorts; natural expiry removes only due stacks and exposes the latest retained deadline. Independent expiry emits AuraStacksExpired and never runs expiry drivers. A missing spell during lifetime compilation falls back to SingleDeadline under a debug_assert only.",
+   "questions": [
+    "B",
+    "C"
+   ],
+   "reopen_condition": "Track B/C find a Trinity or script consumer of ATTR15 bit 10, or track L designs a retail per-stack expiry experiment for a raw-490 carrier.",
+   "research_ref": [
+    "B/J: raw 490 = Trinity SPELL_ATTR15_UNK10, no Trinity consumer (Trinity has one duration per Aura); simc asynchronous buff stacks"
+   ],
+   "status": "represented",
+   "topic": "independent-stack-deadlines",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:55-61": "AuraPlanBuildError::InvalidDuration",
+    "crates/data/src/action/input.rs:1120-1123": "Finite { duration_ms: NonZeroU32 }",
+    "crates/data/src/game_data.rs:363-385": "pub fn spell_has_duration_entry("
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:55-61",
+    "crates/data/src/action/input.rs:1120-1123",
+    "crates/data/src/game_data.rs:363-385"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-14",
+   "observation": "The base lifetime is host-resolved (Finite{duration_ms} or Indefinite). GameData retains only whether a spell names a nonzero SpellDuration entry, never Duration/MaxDuration/DurationPerResource, so Core cannot cross-check the authored duration; zero duration is refused.",
+   "questions": [
+    "B"
+   ],
+   "reopen_condition": "Track B's duration rules name a source-derived initial duration (DurationPerResource, MinDuration, negative/indefinite encodings) for an aura shape Core admits.",
+   "research_ref": [
+    "B: duration.json (SpellDuration topology, MaxDuration/combo points, MinDuration missile floor Spell.cpp:888-896, PvPDurationIndex has no Trinity consumer)"
+   ],
+   "status": "assumed",
+   "topic": "duration-source",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/execution/planning/aura_transition.rs:56-86": "projected_application_duration(",
+    "crates/combat/src/periodic.rs:564-582": "let whole_periods = (duration_millis / period_millis).max(1);",
+    "crates/combat/src/state/modifiers.rs:72-108": "crate::dispel_duration::duration("
+   },
+   "audit_refs": [
+    "CSA-J-04"
+   ],
+   "core_coords": [
+    "crates/combat/src/execution/planning/aura_transition.rs:56-86",
+    "crates/combat/src/periodic.rs:564-582",
+    "crates/combat/src/state/modifiers.rs:72-108"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-15",
+   "observation": "The application duration is captured once per (re)application: authored -> mechanic-duration -> dispel-duration modifiers of the recipient, then (only for the Venom 391428 raw-273 slice) aligned to whole hasted periods. It is never rebased mid-lifetime. Preserve reapplication does not recompute it.",
+   "questions": [
+    "B",
+    "D"
+   ],
+   "reopen_condition": "Track B/D show a lifetime input read live after application (e.g. a duration mod applied to an active aura) on an admitted family.",
+   "research_ref": [
+    "B: Spell.cpp ModSpellDuration 3262, haste/ATTR8 3270 (per-hit recomputation)",
+    "D: snapshot-matrix (duration inputs)"
+   ],
+   "status": "represented",
+   "topic": "duration-modifiers-at-application",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1138-1150": "AuraQuoteError::IndefiniteDeadlinePolicy",
+    "crates/combat/src/periodic.rs:758-767": "PeriodicQuoteError::MissingAuraDeadline",
+    "crates/combat/src/program/aura_reapplication.rs:370-380": "unsupported_aura_lifetime_error"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1138-1150",
+    "crates/combat/src/periodic.rs:758-767",
+    "crates/combat/src/program/aura_reapplication.rs:370-380"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-16",
+   "observation": "Indefinite auras exist, but CappedCarryover / IndependentStackDeadlines on them are refused at compile time and periodic schedules require a finite aura deadline. A zero authored duration is a plan build error rather than an instantaneous or indefinite aura.",
+   "questions": [
+    "B",
+    "G"
+   ],
+   "reopen_condition": "Track B/G find player periodic auras with indefinite lifetime (e.g. passive periodic triggers) that a Core family would need.",
+   "research_ref": [
+    "B: Trinity duration 0 / -1 encodings",
+    "G: passive/indefinite auras"
+   ],
+   "status": "refused",
+   "topic": "indefinite-and-zero-lifetimes",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic.rs:729-741": "ResolvedPeriodicCadenceReapplication::PreserveCadence",
+    "crates/data/src/action/input.rs:1112-1115": "RestartCadence,"
+   },
+   "audit_refs": [
+    "UNK-E-001",
+    "PL-E-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic.rs:729-741",
+    "crates/data/src/action/input.rs:1112-1115"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-17",
+   "observation": "Whether an active reapplication preserves or restarts the tick grid is a host-authored per-schedule choice (Preserve keeps the anchor and moves only the expiry; Restart re-anchors at now and recaptures the period). No source field is consulted.",
+   "questions": [
+    "D",
+    "B"
+   ],
+   "reopen_condition": "UNK-E-001's own reopen: once a host resolver/generator exists, check that it emits PreserveCadence exactly for StackAmount >= 2 or triggered-dont-reset applications (track D rule).",
+   "research_ref": [
+    "D/C: Trinity resetPeriodicTimer = StackAmount < 2 && !TRIGGERED_DONT_RESET_PERIODIC_TIMER (Spell.cpp:3240); pandemic path overrides"
+   ],
+   "status": "assumed",
+   "topic": "periodic-cadence-on-refresh",
+   "trinity_coords": {
+    "Spells/Spell.cpp:3240": "TRIGGERED_DONT_RESET_PERIODIC_TIMER"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic.rs:743-745": "PeriodicInitialPolicy::OnFreshApplication",
+    "crates/dbc/src/spell_attribute.rs:117": "TickOnApplication = 169,"
+   },
+   "audit_refs": [
+    "UNK-E-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic.rs:743-745",
+    "crates/dbc/src/spell_attribute.rs:117"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-18",
+   "observation": "Raw 169 (Trinity SPELL_ATTR5_EXTRA_INITIAL_PERIOD) yields one full initial occurrence only on a fresh application; an active restart-cadence refresh does not re-tick (simc tick_on_application semantics).",
+   "questions": [
+    "D"
+   ],
+   "reopen_condition": "Track D's periodic timeline for a raw-169 refresh confirms Trinity re-ticks on refresh, and track L designs the retail discriminator.",
+   "research_ref": [
+    "D: Trinity ResetPeriodic(true) sets _periodicTimer so a refresh ticks immediately (SpellAuraEffects.cpp:949-958); simc dot.cpp:972-975 ticks only on start"
+   ],
+   "status": "represented",
+   "topic": "tick-on-application",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuraEffects.cpp:949-952": "void AuraEffect::ResetPeriodic("
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic.rs:523-548": "PeriodicTerminalPolicy::ProportionalNaturalExpiryPartial",
+    "crates/data/src/action/periodic_health.rs:43-46": "ProportionalNaturalExpiryPartial,"
+   },
+   "audit_refs": [
+    "FF-E-003"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic.rs:523-548",
+    "crates/data/src/action/periodic_health.rs:43-46"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-19",
+   "observation": "Regular ticks fall at anchor + k*period while <= the aura deadline (a tick exactly at expiry runs). A proportional terminal partial occurrence at natural expiry exists only when the host selects ProportionalNaturalExpiryPartial; explicit removal never produces one.",
+   "questions": [
+    "D",
+    "I"
+   ],
+   "reopen_condition": "Track D shows Trinity (or simc for the same shape) never emits a partial final tick, or emits it on removal paths too.",
+   "research_ref": [
+    "D: Trinity tick count / GetTotalTicks and whether any partial final tick exists"
+   ],
+   "status": "represented",
+   "topic": "tick-grid-and-terminal-partial",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic.rs:551-562": "PeriodicCadenceRate::SpellCastSpeed",
+    "crates/dbc/src/spell_attribute.rs:118": "SpellHasteAffectsPeriodic = 173,"
+   },
+   "audit_refs": [
+    "CSA-J-02",
+    "NUM-E-001",
+    "UNK-J-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic.rs:551-562",
+    "crates/dbc/src/spell_attribute.rs:118"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-20",
+   "observation": "With raw 173 the period is trunc(authored / spell-cast-speed) (f64), captured when an interval is installed (fresh application / restart / after each occurrence); a pending interval is never rebased by a mid-interval haste change.",
+   "questions": [
+    "D",
+    "I"
+   ],
+   "reopen_condition": "Track I's numeric boundary corpus fixes the Trinity period arithmetic (binary32 multiply) and D shows when Trinity recalculates the period (per tick vs on refresh).",
+   "research_ref": [
+    "D/I: Trinity int32(period * f32 ModCastingSpeed) (SpellAuraEffects.cpp:1006-1007)"
+   ],
+   "status": "represented",
+   "topic": "period-haste-capture",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/data/src/action/input.rs:1105-1107": "FreshAtTick,",
+    "crates/data/src/action/periodic_health.rs:62-65": "FreshAtTick,",
+    "crates/dbc/src/aura_subtype.rs:381": "using fresh power and effective point stacks"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/data/src/action/input.rs:1105-1107",
+    "crates/data/src/action/periodic_health.rs:62-65",
+    "crates/dbc/src/aura_subtype.rs:381"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-21",
+   "observation": "Periodic health / trigger amounts have a single snapshot mode, FreshAtTick: base, attack/spell power and effective point stacks are read at each occurrence. There is no application- or refresh-time amount snapshot.",
+   "questions": [
+    "D",
+    "C"
+   ],
+   "reopen_condition": "Track D's snapshot matrix classifies any input of an admitted periodic family as application-snapshot or recalculated-on-refresh rather than dynamic-each-tick.",
+   "research_ref": [
+    "D: Trinity AuraEffect::CalculateAmount at apply/stack change (amount *= stacks), caster bonuses at tick (snapshot-matrix)",
+    "C: CalculateAmount SpellAuraEffects.cpp:777 amount *= stacks unless SuppressPointsStacking"
+   ],
+   "status": "assumed",
+   "topic": "periodic-amount-snapshot",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/spell_attribute.rs:66-75": "SpellAttributeSupport::Unimplemented",
+    "crates/dbc/src/spell_attribute.rs:364": "disabled(SpellAttributeKind::Channeled",
+    "crates/dbc/src/spell_attribute.rs:467": "disabled(SpellAttributeKind::RollingPeriodic"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/program/spell_attribute.rs:66-75",
+    "crates/dbc/src/spell_attribute.rs:364",
+    "crates/dbc/src/spell_attribute.rs:467"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-22",
+   "observation": "Owners carrying Rolling Periodic (raw 334) or channel attributes (raw 34/38) are refused at compile time (Disabled support class), so rolled-over periodic amounts and channel-owned aura lifetimes never reach AuraState.",
+   "questions": [
+    "D",
+    "B"
+   ],
+   "reopen_condition": "Core admits a raw-334 or channelled aura owner.",
+   "research_ref": [
+    "D/B: Trinity ATTR10_ROLLING_PERIODIC adds old amount * remainingTicks/totalTicks during SetStackAmount (SpellAuraEffects.cpp:829-840); channel duration Spell.cpp:4014"
+   ],
+   "status": "refused",
+   "topic": "rolling-periodic-and-channels",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuraEffects.cpp:829": "SPELL_ATTR10_ROLLING_PERIODIC"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/deadline_queue.rs:222-224": "(left.at, left.sequence, left.slot)",
+    "crates/combat/src/periodic.rs:282-286": "scheduled tick tie-break must remain its canonical schedule slot",
+    "crates/combat/src/state/transition.rs:22-27": "(tick.at(), 5, 0)",
+    "crates/combat/src/state/transition.rs:54-74": "Self::AuraExpiry(expiry) => (expiry.at(), 6, expiry.sequence())"
+   },
+   "audit_refs": [
+    "UNK-E-003",
+    "UNK-F-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/deadline_queue.rs:222-224",
+    "crates/combat/src/periodic.rs:282-286",
+    "crates/combat/src/state/transition.rs:22-27",
+    "crates/combat/src/state/transition.rs:54-74"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-23",
+   "observation": "Transitions due at one millisecond run in rank order: resource startup 0, passive flow 1, hard-cast completion 2, fixed impact 3, white swing 4, periodic tick 5, aura / independent-stack expiry 6; ties inside a rank use (at, sequence, slot). A tick due exactly at expiry precedes the expiry.",
+   "questions": [
+    "I",
+    "D",
+    "E"
+   ],
+   "reopen_condition": "Track I's ordering corpus proves a Trinity call-path order for tick-vs-expiry or cast-vs-tick at one timestamp that contradicts ranks 2/5/6.",
+   "research_ref": [
+    "I: Trinity Unit::_UpdateSpells order (Aura::Update duration, UpdateTargetMap, AuraEffect::Update, then expired sweep, Unit.cpp:2957-2987) and map update granularity",
+    "E/F: UpdateOwner order SpellAuras.cpp:817-853"
+   ],
+   "status": "represented",
+   "topic": "same-timestamp-ordering",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/aura_state.rs:1030-1036": "generation: u64,",
+    "crates/combat/src/aura_state.rs:607-617": "payload: quote.after.generation",
+    "crates/combat/src/state.rs:1368-1382": "aura expiry commit must match the exact peeked generation"
+   },
+   "audit_refs": [
+    "LC-H-032"
+   ],
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1030-1036",
+    "crates/combat/src/aura_state.rs:607-617",
+    "crates/combat/src/state.rs:1368-1382"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-24",
+   "observation": "Each cell carries a u64 generation incremented on every non-independent (re)application; expiry nodes carry it and are upserted per slot, so a refreshed aura cannot be expired by its stale deadline. Removal cancels the slot's node.",
+   "questions": [
+    "I",
+    "B"
+   ],
+   "reopen_condition": "Track I shows a Trinity observable that depends on application identity across refresh (e.g. a callback keyed to the original application surviving a refresh).",
+   "research_ref": [
+    "I: generation.json (Trinity identity is the Aura object; stale-pointer / removed-application handling)"
+   ],
+   "status": "represented",
+   "topic": "generation-safety",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/expiry_execution.rs:9-40": "ResolvedExpirySource::OriginalAuraSource",
+    "crates/combat/src/state.rs:1383-1394": "self.execute_expiry_drivers(expired, output);"
+   },
+   "audit_refs": [
+    "CSA-E-01",
+    "LC-H-010"
+   ],
+   "core_coords": [
+    "crates/combat/src/expiry_execution.rs:9-40",
+    "crates/combat/src/state.rs:1383-1394"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-25",
+   "observation": "Natural expiry: quote removal -> commit dependent authorities -> cancel periodic cells -> AuraExpired observation -> health thresholds -> TriggerSpellOnExpire drivers (source = recipient or original caster). Expiry drivers run only on natural aggregate expiry, never on explicit removal or independent-stack expiry.",
+   "questions": [
+    "E",
+    "D"
+   ],
+   "reopen_condition": "Track E shows an expire-triggered effect that Trinity also runs on another remove mode, or runs before dependent state is unapplied.",
+   "research_ref": [
+    "E: Trinity removal with AURA_REMOVE_BY_EXPIRE after _UpdateSpells sweep (Unit.cpp:2987); AfterEffectRemove hooks see the remove mode"
+   ],
+   "status": "represented",
+   "topic": "natural-expiry-sequence",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/event.rs:463-480": "AuraStacksExpired {",
+    "crates/combat/src/event.rs:68-76": "pub enum AuraChangeKind {"
+   },
+   "audit_refs": [],
+   "core_coords": [
+    "crates/combat/src/event.rs:463-480",
+    "crates/combat/src/event.rs:68-76"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-26",
+   "observation": "Core's observable removal vocabulary is AuraChangeKind::Removed (explicit mutation or dispel) plus AuraExpired / AuraStacksExpired (natural). There is no remove mode (default / interrupt / cancel / enemy spell / expire / death), so no downstream behaviour can branch on it.",
+   "questions": [
+    "E",
+    "H"
+   ],
+   "reopen_condition": "Track E/H find a lifecycle callback on an admitted family whose Trinity behaviour depends on the remove mode.",
+   "research_ref": [
+    "E: AuraRemoveMode SpellAuraDefines.h:55-64",
+    "H: LINK_REMOVE skips the linked cast when removeMode == AURA_REMOVE_BY_DEATH (SpellAuras.cpp:1421)"
+   ],
+   "status": "absent",
+   "topic": "remove-reason",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuraDefines.h:55-64": "AURA_REMOVE_BY_ENEMY_SPELL"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/periodic_execution.rs:449-457": "if aura_recipient_is_dead {",
+    "crates/dbc/src/spell_attribute.rs:391": "unimplemented(SpellAttributeKind::AllowAuraWhileDead",
+    "crates/dbc/src/spell_attribute.rs:436": "unimplemented(SpellAttributeKind::DisableAuraWhileDead"
+   },
+   "audit_refs": [
+    "CSA-E-01",
+    "CSA-H-01",
+    "CSA-H-02",
+    "CSA-G-01",
+    "CSA-R2-01",
+    "LC-H-010",
+    "LC-E-001",
+    "LC-H-026",
+    "UNK-H-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/periodic_execution.rs:449-457",
+    "crates/dbc/src/spell_attribute.rs:391",
+    "crates/dbc/src/spell_attribute.rs:436"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-27",
+   "observation": "Death is not a lifecycle event: auras stay active on a corpse, their deadlines and on-expire drivers stay armed, and fresh applications onto a dead actor commit. Only the periodic executor cancels a schedule when its recipient is dead at a due tick (aura stays). A dead source's periodic keeps ticking. Raw 116/226 owners are refused. Probes e_death_lifecycle (5) and h_death_lifecycle (4) pass at the pin.",
+   "questions": [
+    "E",
+    "D",
+    "F"
+   ],
+   "reopen_condition": "Any death-lifecycle milestone in Core: track E's lifetime.json (which auras survive, remove mode DEATH, caster-death non-effect) is the source-side reference to compare against.",
+   "research_ref": [
+    "E: RemoveAllAurasOnDeath Unit.cpp:4472 keeps IsPassive || IsDeathPersistent (ATTR3_ALLOW_AURA_WHILE_DEAD); auras cast by the dying unit on others are not removed; ATTR7_DISABLE_AURA_WHILE_DEAD only in UnitAura::FillTargetMap"
+   ],
+   "status": "absent",
+   "topic": "death",
+   "trinity_coords": {
+    "Entities/Unit/Unit.cpp:4472": "void Unit::RemoveAllAurasOnDeath()"
+   }
+  },
+  {
+   "anchors": {
+    "crates/combat/src/execution/planning/dispel.rs:84-120": "random.uniform_index(candidate_count)",
+    "crates/combat/src/program/dispel.rs:238-249": "\"no periodic lifecycle fanout\"",
+    "crates/combat/src/program/dispel_mechanic.rs:383-395": "finite single-stack self-only raw-87 applicand",
+    "crates/data/src/action/catalog/aura.rs:104-108": "DispelTypeId::from_raw(1)"
+   },
+   "audit_refs": [
+    "CSA-E-02",
+    "CSA-R3-01",
+    "UNK-I-002"
+   ],
+   "core_coords": [
+    "crates/combat/src/execution/planning/dispel.rs:84-120",
+    "crates/combat/src/program/dispel.rs:238-249",
+    "crates/combat/src/program/dispel_mechanic.rs:383-395",
+    "crates/data/src/action/catalog/aura.rs:104-108"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-28",
+   "observation": "Dispel admits only Magic-family, finite, single-stack, single-deadline, self-reachable auras without periodic schedules; one attempt selects one candidate uniformly and removes the whole aura. Dispel resistance, per-stack / per-charge dispel (ATTR1_DISPEL_ALL_STACKS, ATTR7_DISPEL_REMOVES_CHARGES), OnDispel hooks and dispel of periodic auras are outside the admitted slice.",
+   "questions": [
+    "E",
+    "C"
+   ],
+   "reopen_condition": "Core widens the dispel slice beyond max_stacks 1 / non-periodic; then track E's dispel.json (stack vs charge removal, chance roll, RNG draw count) is the comparison target.",
+   "research_ref": [
+    "E: GetDispellableAuraList Unit.cpp:4735, RemoveAurasDueToSpellByDispel Unit.cpp:4006 (ModCharges vs ModStackAmount), CalcDispelChance SpellAuras.cpp:1237; mechanic dispel rolls before the mechanic filter SpellEffects.cpp:4236"
+   ],
+   "status": "refused",
+   "topic": "dispel",
+   "trinity_coords": {
+    "Spells/Auras/SpellAuras.cpp:1237": "Aura::CalcDispelChance("
+   }
+  },
+  {
+   "anchors": {
+    "crates/data/src/spell_external_policy.rs:22-34": "pub aura_interrupt_policy: SpellExternalPolicyPresence,",
+    "crates/dbc/src/spell_attribute.rs:363": "unimplemented(SpellAttributeKind::NoAuraCancel"
+   },
+   "audit_refs": [
+    "CSA-K-05",
+    "UNK-K-002"
+   ],
+   "core_coords": [
+    "crates/data/src/spell_external_policy.rs:22-34",
+    "crates/dbc/src/spell_attribute.rs:363"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-29",
+   "observation": "Player cancel, AuraInterruptFlags removal (damage taken, movement, casting, combat leave) and leave-combat removal have no Core path. SpellAuraInterrupts only exists as an external-policy presence column that rejects on the SelectedTrait route; No Aura Cancel (raw 31) owners are refused.",
+   "questions": [
+    "E",
+    "H"
+   ],
+   "reopen_condition": "Track E/J count admitted-shape player auras with nonzero AuraInterruptFlags; any such family admitted by Core is removing on an event Core cannot see.",
+   "research_ref": [
+    "E: RemoveAurasWithInterruptFlags Unit.cpp:4240; cancel via RemoveOwnedAura (SpellHandler.cpp:284, track F)"
+   ],
+   "status": "absent",
+   "topic": "cancel-and-interrupt-removal",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/spell_attribute.rs:17-47": "uncataloged_selected_spell_attribute",
+    "crates/dbc/src/spell_attribute.rs:351": "no aura lifecycle"
+   },
+   "audit_refs": [
+    "CSA-K-05",
+    "UNK-I-002",
+    "UNK-K-003"
+   ],
+   "core_coords": [
+    "crates/combat/src/program/spell_attribute.rs:17-47",
+    "crates/dbc/src/spell_attribute.rs:351"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-30",
+   "observation": "Passive (raw 6) owners compile as immutable definitions with explicit actor bindings and no aura lifecycle; simultaneous aura or action ownership rejects the flag. Passives are therefore never AuraState cells (no stacks, no removal, no refresh).",
+   "questions": [
+    "G",
+    "C"
+   ],
+   "reopen_condition": "Track G finds an admitted-shape passive whose Trinity aura is mutated after learning (stacks, charges, removal, re-application on shapeshift).",
+   "research_ref": [
+    "G: passive-active.json (Trinity passives are Auras: multislot, never refreshed, removed on unlearn/shapeshift, may stack -- Phalanx capacity 2)",
+    "selected-passive-package-generalization.md"
+   ],
+   "status": "assumed",
+   "topic": "passive-as-non-aura",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/spell_attribute.rs:17-75": "external_spell_policy",
+    "crates/data/src/spell_external_policy.rs:22-34": "pub external_aura_stack_mutation: SpellExternalPolicyPresence,"
+   },
+   "audit_refs": [
+    "CSA-K-05",
+    "CSA-A-02",
+    "UNK-K-002",
+    "UNK-K-003"
+   ],
+   "core_coords": [
+    "crates/combat/src/program/spell_attribute.rs:17-75",
+    "crates/data/src/spell_external_policy.rs:22-34"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation"
+   ],
+   "id": "AL-K-K-31",
+   "observation": "Scripts, spell_proc rows, aura-interrupt policy and external aura-stack mutation are admitted only as presence columns (Absent/Present/Unknown); Present or Unknown rejects on the SelectedTrait route. No script-controlled lifecycle input is representable; the ordinary-Passive route does not consult the columns.",
+   "questions": [
+    "H"
+   ],
+   "reopen_condition": "Track H names a player lifecycle surface on a Core-admitted spell whose only source is a world overlay or script (the host catalog would have to mark it Present).",
+   "research_ref": [
+    "H: external-policy.json (spell_linked_spell LINK_AURA/LINK_REMOVE, spell_proc charges, AuraScript hooks)"
+   ],
+   "status": "refused",
+   "topic": "external-policy-boundary",
+   "trinity_coords": {}
+  },
+  {
+   "anchors": {
+    "crates/combat/src/program/spell_attribute.rs:66": "SpellAttributeSupport::Ignored => {}",
+    "crates/dbc/src/spell_attribute.rs:384": "ignored(SpellAttributeKind::DotStackingRule"
+   },
+   "audit_refs": [
+    "UNK-K-001"
+   ],
+   "core_coords": [
+    "crates/combat/src/program/spell_attribute.rs:66",
+    "crates/dbc/src/spell_attribute.rs:384"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "trinity-consumer"
+   ],
+   "id": "AL-K-K-32",
+   "observation": "Raw 103 (ATTR3_DOT_STACKING_RULE) is catalogued Ignored and passes owner admission; Core's per-caster key already separates casters, so the flag cannot change Core behaviour.",
+   "questions": [
+    "A"
+   ],
+   "reopen_condition": "UNK-K-001's reopen (two casters, same admitted non-periodic aura) combined with track A's coexistence rule.",
+   "research_ref": [
+    "A: Trinity IsStackableOnOneSlotWithDifferentCasters and Aura::CanStackWith use the flag to decide shared-slot vs per-caster coexistence"
+   ],
+   "status": "assumed",
+   "topic": "dot-stacking-rule",
+   "trinity_coords": {
+    "Spells/SpellInfo.cpp:1808-1811": "IsStackableOnOneSlotWithDifferentCasters"
+   }
+  }
+ ],
+ "counts": {
+  "core_navigation": 63,
+  "falsification": 127,
+  "retail_experiments": 68,
+  "rules": 117,
+  "trinity_defects": 34,
+  "unknowns": 88
+ },
+ "provenance": {
+  "command": "aura_lifecycle.py unknowns --corpus --out docs/research/aura-lifecycle-corpora/unknowns.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  }
+ },
+ "reconciliation": {
+  "AL-D-D-02": {
+   "merged": [
+    "AL-D-B-01"
+   ],
+   "note": "same defect (pandemic reads the already-refreshed duration). D found it with the periodic probe; B refined it: the commit is min(hit + M, trunc(1.3 hit)) with M the recalculated max, so combo-point spells get their minimum duration, and unique non-stacking ATTR13 spells (AL-D-I-03) do read the live remaining."
+  },
+  "AL-U-B-01": {
+   "merged": [
+    "AL-U-I-05"
+   ],
+   "note": "one Retail question: the ATTR13 commit formula (remaining-based vs Trinity's runtime 130%)."
+  },
+  "AL-U-B-02": {
+   "merged": [
+    "AL-U-J-03"
+   ],
+   "note": "PvPDurationIndex selection (no consumer in Trinity or simc)."
+  },
+  "AL-U-C-06": {
+   "merged": [
+    "AL-U-E-08"
+   ],
+   "note": "MODIFY_AURA_STACKS (raw 289) Set 0: a live aura with 0 stacks in Trinity (AL-D-C-04)."
+  },
+  "AL-U-D-03": {
+   "merged": [
+    "AL-U-B-09"
+   ],
+   "note": "refresh vs due tick in the same ms. Trinity side proven by track I (delivery channel decides; ordering.json settlement_b_vs_d); Retail open. B's timelines assumed update-before-hit, which holds only for hits delivered after the owner update."
+  },
+  "AL-U-D-04": {
+   "merged": [
+    "AL-U-B-07"
+   ],
+   "note": "partial / final occurrence after a carried refresh is the same Retail question as a proportional last occurrence."
+  },
+  "AL-U-K-02": {
+   "merged": [
+    "AL-U-B-03",
+    "AL-U-C-09"
+   ],
+   "note": "raw 489 / raw 490 (Attributes_15 0x200 / 0x400): Trinity has no consumer, simc and Core give them preserve-expiry / asynchronous-stack meanings."
+  }
+ },
+ "retail_experiment_ids": [
+  "AL-X-A-01",
+  "AL-X-A-02",
+  "AL-X-A-03",
+  "AL-X-A-04",
+  "AL-X-A-05",
+  "AL-X-B-01",
+  "AL-X-B-02",
+  "AL-X-B-03",
+  "AL-X-B-04",
+  "AL-X-B-05",
+  "AL-X-B-06",
+  "AL-X-C-01",
+  "AL-X-C-02",
+  "AL-X-C-03",
+  "AL-X-C-04",
+  "AL-X-C-05",
+  "AL-X-C-06",
+  "AL-X-C-07",
+  "AL-X-D-01",
+  "AL-X-D-02",
+  "AL-X-D-03",
+  "AL-X-D-04",
+  "AL-X-D-05",
+  "AL-X-E-01",
+  "AL-X-E-02",
+  "AL-X-E-03",
+  "AL-X-E-04",
+  "AL-X-E-05",
+  "AL-X-E-06",
+  "AL-X-E-07",
+  "AL-X-E-08",
+  "AL-X-E-10",
+  "AL-X-E-11",
+  "AL-X-E-20",
+  "AL-X-F-01",
+  "AL-X-F-02",
+  "AL-X-F-03",
+  "AL-X-F-04",
+  "AL-X-F-05",
+  "AL-X-F-06",
+  "AL-X-G-01",
+  "AL-X-G-02",
+  "AL-X-G-03",
+  "AL-X-G-04",
+  "AL-X-H-01",
+  "AL-X-H-02",
+  "AL-X-H-03",
+  "AL-X-H-04",
+  "AL-X-I-01",
+  "AL-X-I-02",
+  "AL-X-I-03",
+  "AL-X-I-04",
+  "AL-X-I-05",
+  "AL-X-J-01",
+  "AL-X-J-02",
+  "AL-X-J-03",
+  "AL-X-L-01",
+  "AL-X-L-02",
+  "AL-X-L-03",
+  "AL-X-L-04",
+  "AL-X-L-05",
+  "AL-X-L-06",
+  "AL-X-L-07",
+  "AL-X-L-08",
+  "AL-X-L-09",
+  "AL-X-L-10",
+  "AL-X-L-11",
+  "AL-X-L-12"
+ ],
+ "trinity_defects": [
+  {
+   "coords": [
+    "SpellInfo.cpp:2954",
+    "SpellInfo.cpp:2061-2078",
+    "SpellAuras.cpp:1669-1671"
+   ],
+   "corpus": "identity.json",
+   "description": "_LoadSpellSpecific hardcodes ids 48263/48265/48266 as SPELL_SPECIFIC_PRESENCE (WotLK presences); in 12.x 48263 is Veteran of the Third War (passive) and 48265 Death's Advance",
+   "id": "AL-D-A-01",
+   "lifecycle_effect": "applying Death's Advance removes the Veteran of the Third War passive aura (exclusive, not per-caster); re-learning the passive removes Death's Advance",
+   "oracle_behaviour": "reproduced (identity.can_stack_with -> existing-removed); not corrected"
+  },
+  {
+   "coords": [
+    "SpellInfo.cpp:2896",
+    "SpellAuras.cpp:1669-1671"
+   ],
+   "corpus": "identity.json",
+   "description": "WARLOCK_ARMOR family-flag test (Flags[1] & 0x20000020 || Flags[2] & 0x10) matches modern warlock auras Burning Rush 111400 and Soul Leech 108370 (and 1311653, build skew)",
+   "id": "AL-D-A-02",
+   "lifecycle_effect": "activating Burning Rush removes the Soul Leech auras (and vice versa)",
+   "oracle_behaviour": "reproduced; not corrected"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:481",
+    "SpellAuras.cpp:1099-1106"
+   ],
+   "corpus": "identity.json",
+   "description": "Aura ctor stores createInfo.StackAmount unclamped (SpellModOp::Doses or SPELLVALUE_AURA_STACK above CumulativeAura), while ModStackAmount clamps on refresh",
+   "id": "AL-D-A-03",
+   "lifecycle_effect": "initial stacks may exceed capacity on creation but not on refresh (asymmetry)",
+   "oracle_behaviour": "reproduced in application.initial_state note; handed to track C"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3284-3288",
+    "Unit.cpp:3441",
+    "SpellAuras.cpp:1119-1121",
+    "SpellAuras.cpp:976-990",
+    "git 92773e207c"
+   ],
+   "corpus": "carryover.json",
+   "description": "ATTR13 pandemic branch reads HitAura->GetDuration() after the refresh path already reset it to the recalculated max, so the remaining time never enters the formula.",
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-D-B-01",
+   "lifecycle_effect": "Every ATTR13 refresh yields min(hit + M, trunc(1.3*hit)): the full 30% bonus regardless of remaining (and for combo-point spells a carry of M = minimum duration, e.g. Rupture 5 CP -> 28000 always).",
+   "merged_into": "AL-D-D-02",
+   "oracle_behaviour": "reproduced (refresh.pandemic_models['trinity-7f3d43b'], apply_hit), probe-confirmed; competing 'carry-before-refresh' model kept for Retail",
+   "refinement_over_AL-D-D-02": "the result is min(hit + M, trunc(1.3*hit)) with M = CalcMaxDuration() at RefreshTimers (live caster SpellMod Duration, NO power costs): it equals 1.3*hit only when M >= 0.3*hit.  Combo-point records carry M = minimum (Rupture/Rip 5 CP: 28000, not 31200); ATTR1_AURA_UNIQUE/ATTR5_AURA_UNIQUE_PER_CASTER non-stacking ATTR13 auras (15 all, 0 player) skip RefreshTimers and do read the live remaining.",
+   "same_as": [
+    "AL-D-D-02 (track D, probe tc_aura_periodic_probe, timeline AL-T-D-07)",
+    "TL-K-01 / AL-K-B-04"
+   ],
+   "verdict": "defect relative to Trinity's evident intent (newDuration = hit + remaining only makes sense if remaining is live; commit 92773e207c is titled 'Fixed ...'), relative to the pre-2025 Trinity code (read live r in RefreshTimers, though its Spell-path result was then overwritten), simc (action.cpp:4603, buff.cpp:1920) and Core CappedCarryover (aura_state.rs:1143-1199), which all make the carry depend on remaining.  Retail itself stays AL-U-B-01."
+  },
+  {
+   "coords": [
+    "Object.cpp:1709-1711"
+   ],
+   "corpus": "duration.json",
+   "description": "CalcSpellDuration returns early when the minimum duration <= 0, so per-resource duration never applies to records with minimum 0.",
+   "evidence": [
+    "trinity-consumer",
+    "db2-fact"
+   ],
+   "id": "AL-D-B-02",
+   "lifecycle_effect": "Envenom 32645 buff has 0 ms duration (expires at first update); Killing Spree 51690 never starts channeling (handle_immediate requires duration > 0).",
+   "oracle_behaviour": "reproduced (duration.calc_spell_duration); flagged, not corrected"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:829-840",
+    "SpellAuraEffects.cpp:872-876"
+   ],
+   "corpus": "carryover.json",
+   "description": "ROLLING_PERIODIC adds the old effect's *estimated* amount (already bonus-done applied) to the new base amount, after which CalculateEstimatedAmount applies bonus-done again.",
+   "evidence": [
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-D-B-03",
+   "lifecycle_effect": "Rolled remainder may be bonus-compounded (likely defect; depends on DoT bonus path, track D).",
+   "oracle_behaviour": "reproduced as refresh.rolling_periodic_amount (pre-stack, pre-round); compounding not asserted"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3279-3281",
+    "Spell.cpp:3230-3232",
+    "Spell.cpp:515-522"
+   ],
+   "corpus": "duration.json",
+   "description": "ATTR8_HASTE_AFFECTS_DURATION with no nonzero GetPeriod() multiplies by m_originalCaster->m_unitData->ModCastingSpeed, not the null-checked caster of 3230-3232; m_originalCaster is null for GameObject casters and absent/out-of-world original casters.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-D-B-04",
+   "lifecycle_effect": "latent null dereference on the hit of such auras; otherwise another binary32 site int32(orig*float)",
+   "oracle_behaviour": "duration.haste_affects_duration raises nothing but hit_commit fails closed without a caster; source-backed, not probed (R2-14)",
+   "population": {
+    "counts": {
+     "all": 23,
+     "controlled": 0,
+     "player": 2
+    },
+    "first": [
+     603,
+     6788,
+     48107,
+     125930,
+     146448,
+     146506,
+     199816,
+     210847,
+     219509,
+     219512
+    ],
+    "name": "non-channel ATTR8 providers, all aura periods 0, positive duration",
+    "reconciliation": "R2-14's 63 = every ATTR8 provider without a periodic aura type: 23 reach Spell.cpp:3281 (non-channel, all periods 0, duration > 0), 5 are stopped by the AuraDuration > 0 gate (3268), 35 are channels (IsChanneled branch 3269 precedes)"
+   }
+  },
+  {
+   "coords": "SpellAuras.cpp:1056 (uint8 SetStackAmount) via :1093-1127",
+   "corpus": "stacks.json",
+   "description": "ModStackAmount caps against an int32 capacity up to 65000 but stores uint8: 255+1 -> 0 stacks",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-C-01",
+   "lifecycle_effect": "a live aura with 0 stacks (amount 0), not removed; next increment restarts at 1",
+   "oracle_behaviour": "reproduced (stacks.set_stack_amount u8; probe)"
+  },
+  {
+   "coords": "SpellAuras.cpp:1099-1106",
+   "corpus": "stacks.json",
+   "description": "negative CalcMaxStackAmount: an increasing ModStackAmount sets stackAmount = max (negative) without the <= 0 removal check (else-if), then stores uint8",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-C-02",
+   "lifecycle_effect": "Earth Shield + Therazane's Resilience: 166 stacks, no refresh",
+   "oracle_behaviour": "reproduced (probe-confirmed)"
+  },
+  {
+   "coords": "Player.cpp:22851 / SpellAuras.cpp:1012-1014",
+   "corpus": "stacks.json",
+   "description": "ApplySpellMod<uint32> converts a negative double to uint32 (undefined behaviour); CalcMaxCharges then truncates to uint8 (ProcCharges 999999 -> 63)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-C-03",
+   "lifecycle_effect": "Blistering Scales + Regenerative Chitin: 255 charges on gcc/x86-64",
+   "oracle_behaviour": "reproduced as the gcc value; marked UB"
+  },
+  {
+   "coords": "SpellEffects.cpp:6140-6142",
+   "corpus": "stacks.json",
+   "description": "EffectModifyAuraStacks Set mode calls SetStackAmount without a <= 0 removal (Unit::SetAuraStack guards `if (stack)`, the effect does not)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-C-04",
+   "lifecycle_effect": "zero-stack live aura",
+   "oracle_behaviour": "reproduced (set_stack_amount)"
+  },
+  {
+   "coords": "SpellAuras.cpp:1068-1069",
+   "corpus": "stacks.json",
+   "description": "SetStackAmount recalculates every effect with ChangeAmount(CalculateAmount) ignoring m_canBeRecalculated (absorb shields, fixed CC amounts reset on a stack/reapply)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-C-05",
+   "lifecycle_effect": "remaining absorb on refresh replaced by a fresh calculation",
+   "oracle_behaviour": "reproduced (event recorded); likely-intended?"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:966-981",
+    "SpellAuraEffects.cpp:1334"
+   ],
+   "corpus": "periodic.json",
+   "description": "SPELL_AURA_PERIODIC_WEAPON_PERCENT_DAMAGE (70) is dispatched by PeriodicTick but not in the CalculatePeriodic periodic set, so m_isPeriodic stays false and it never ticks",
+   "id": "AL-D-D-01",
+   "lifecycle_effect": "853 all-pop effects produce no occurrences (0 current-player)",
+   "oracle_behaviour": "reproduced (profile note, census key weapon_percent_damage_never_ticks); not corrected"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3284-3288",
+    "SpellAuras.cpp:976-992",
+    "Unit.cpp:3441"
+   ],
+   "corpus": "periodic.json",
+   "description": "pandemic duration reads HitAura->GetDuration() after ModStackAmount->RefreshTimers->RefreshDuration already set it to the full new duration, so min(D+D, 1.3D) = 1.3D regardless of the remaining time (for StackAmount>0 or non-unique auras, i.e. whenever RefreshTimers ran)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-D-02",
+   "lifecycle_effect": "every pandemic refresh yields 130% of the base duration; tick budget follows (AL-T-D-07)",
+   "merged_from": [
+    "AL-D-B-01"
+   ],
+   "oracle_behaviour": "reproduced in periodic._set_spell_duration; Track B owns the duration semantics",
+   "probe_scope": "SetDuration/RefreshTimers/ModStackAmount and the Spell.cpp:3264-3298 blocks are verbatim; their order (ModStackAmount before the duration block, as Unit.cpp:3441 inside Spell.cpp:3254) is driver-glued (R2-13)",
+   "reconciliation_note": "same defect (pandemic reads the already-refreshed duration). D found it with the periodic probe; B refined it: the commit is min(hit + M, trunc(1.3 hit)) with M the recalculated max, so combo-point spells get their minimum duration, and unique non-stacking ATTR13 spells (AL-D-I-03) do read the live remaining."
+  },
+  {
+   "coords": [
+    "Unit.cpp:2975-2981",
+    "SpellAuras.cpp:855-862",
+    "SpellAuraEffects.cpp:1257"
+   ],
+   "corpus": "periodic.json",
+   "description": "an aura created/restarted between owner updates is credited the owner's whole next diff (time before it existed), shifting duration and every occurrence early by up to one diff",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-D-03",
+   "lifecycle_effect": "AL-T-D-10 (50 ms early), AL-T-D-17 (restart at a due ms: next occurrence after period-diff)",
+   "oracle_behaviour": "reproduced; CANDIDATE defect / implementation artefact, not a definite defect: no Retail observable at sub-update resolution can falsify it (R2 note)",
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source",
+   "status": "candidate"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:936-946",
+    "SpellAuraEffects.cpp:1031",
+    "SpellAuras.cpp:976-992"
+   ],
+   "corpus": "periodic.json",
+   "description": "on a preserve refresh (pandemic/stackable/triggered) _ticksDone is reset and the budget recomputed from the new max duration while the phase is kept, so the last period boundary inside the new duration can exceed the budget and is dropped; with a shorter re-hasted period the budget can be exhausted early leaving an idle tail",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-D-04",
+   "lifecycle_effect": "AL-T-D-19 drops the 24000 occurrence; AL-T-D-15 ends ticking ~3 s before expiry",
+   "oracle_behaviour": "reproduced",
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source"
+  },
+  {
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:936-947",
+    "SpellAuraEffects.cpp:1255",
+    "spell_priest.cpp:2995-2998"
+   ],
+   "corpus": "periodic.json",
+   "description": "script duration extensions via SetDuration only (Painful Punishment 390686 on Shadow Word: Pain / Purge the Wicked) leave MaxDuration and so the tick budget unchanged: the extension never ticks (R2-05)",
+   "evidence": [
+    "trinity-consumer",
+    "script-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-D-D-05",
+   "lifecycle_effect": "AL-T-D-24: 16 s / 2 s DoT +4000 at 10 s ticks 2000..16000 (8) then lives silently to 20000",
+   "oracle_behaviour": "reproduced (periodic op set_duration); probe-checked",
+   "reference": "R2-05",
+   "witnesses": [
+    "390686 (effect 0 DUMMY in 69497: the hook binds)"
+   ]
+  },
+  {
+   "build_skew": true,
+   "coords": [
+    "SpellAuraEffects.cpp:936-947",
+    "SpellAuraEffects.cpp:1255",
+    "spell_priest.cpp:2847-2854"
+   ],
+   "corpus": "periodic.json",
+   "description": "SetMaxDuration(remaining + x) with _ticksDone kept (Mental Decay 375994 on SW:P / Vampiric Touch) drops the budget below ticks already done: every remaining occurrence is lost (R2-05)",
+   "evidence": [
+    "trinity-consumer",
+    "script-consumer",
+    "trinity-probe",
+    "build-skew"
+   ],
+   "id": "AL-D-D-06",
+   "lifecycle_effect": "AL-T-D-25: +1000 at 10 s -> budget 3 < ticks_done 4 -> no occurrence for the last 7 s",
+   "oracle_behaviour": "reproduced (ops set_max_duration + set_duration); probe-checked",
+   "reference": "R2-05",
+   "witnesses": [
+    "375994 (hook targets EFFECT_0 SPELL_AURA_DUMMY but effect 0 is aura 108 in 69497: likely unbound)"
+   ]
+  },
+  {
+   "coords": [
+    "spell_druid.cpp:1506-1507"
+   ],
+   "corpus": "removal.json",
+   "description": "Lifebloom AfterEffectRemove calls GetCaster()->CastSpell without a null check; the aura outlives a despawned caster (RM-31 notes) so EXPIRE/ENEMY_SPELL removal then dereferences nullptr",
+   "id": "AL-D-E-01",
+   "lifecycle_effect": "crash instead of no bloom when the caster left the map before expiry/dispel",
+   "oracle_behaviour": "lifetime/removal models report the branch; FailClosed for absent caster"
+  },
+  {
+   "coords": [
+    "SpellEffects.cpp:2174",
+    "SpellEffects.cpp:2222"
+   ],
+   "corpus": "dispel.json",
+   "description": "EffectDispel groups successes by (spell id, GetCaster() pointer); two auras of the same spell whose casters are both absent compare equal (nullptr == nullptr) and collapse into one group, so RemoveAurasDueToSpellByDispel is called only with the first aura's caster GUID",
+   "id": "AL-D-E-02",
+   "lifecycle_effect": "the second aura's success is credited to the first (extra charge) and the second aura survives",
+   "oracle_behaviour": "dispel.effect_dispel reproduces the collapse (fixture DF-05)"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5687",
+    "SpellAuraEffects.cpp:968-982"
+   ],
+   "corpus": "removal.json",
+   "description": "PERIODIC_WEAPON_PERCENT_DAMAGE tick dereferences caster without a null check; latent because raw 70 is not in CalculatePeriodic's periodic list (853 providers in the all population carry raw 70 and never tick in Trinity -- periodic semantics are track D's)",
+   "id": "AL-D-E-03",
+   "lifecycle_effect": "none unless a script marks raw 70 periodic",
+   "oracle_behaviour": "lifetime.tick_effective raises FailClosed for an absent caster"
+  },
+  {
+   "coords": [
+    "Unit.cpp:4765-4768"
+   ],
+   "corpus": "dispel.json",
+   "description": "An ATTR7_DISPEL_REMOVES_CHARGES aura with zero charges is never a dispel candidate (charges > 0 filter) although its DispelType matches; 6 dispellable non-passive providers in the all population have no authored ProcCharges (139368, 184239, 247788, 296199, 296429, 333874; none player) -- dispellable only if runtime spell mods / spell_proc grant charges",
+   "id": "AL-D-E-04",
+   "lifecycle_effect": "aura immune to dispel in Trinity",
+   "oracle_behaviour": "dispel.dispellable_list reproduces the filter; census counts dispel_removes_charges_but_no_authored_charges"
+  },
+  {
+   "coords": [
+    "src/server/game/Entities/AreaTrigger/AreaTrigger.cpp:1190"
+   ],
+   "corpus": "area-lifecycle.json",
+   "description": "UndoActions removes every aura of the action spell from the AT caster on the exiting unit (RemoveAurasDueToSpell(spell, casterGuid)), including one refreshed by another overlapping AT of the same caster the unit is still inside.",
+   "id": "AL-D-F-01",
+   "lifecycle_effect": "unit loses the aura although still inside an AT that grants it; not re-added until re-entry",
+   "oracle_behaviour": "reproduced in at_timeline (S18 p3 at 1500); no current-player AT known to overlap itself"
+  },
+  {
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuras.cpp:586",
+    "src/server/game/Spells/Auras/SpellAuras.cpp:606"
+   ],
+   "corpus": "area-lifecycle.json",
+   "description": "Cooldown-on-event handling runs per application: every new recipient restarts the infinite cooldown and every recipient that leaves sends the cooldown event, while the parent aura is still active.",
+   "id": "AL-D-F-02",
+   "lifecycle_effect": "caster cooldown can start when any recipient leaves an area aura with SPELL_ATTR0_COOLDOWN_ON_EVENT (or a CooldownEventOnLeaveCombat category)",
+   "oracle_behaviour": "flagged by census flag cooldown_on_event; not simulated"
+  },
+  {
+   "coords": [
+    "src/server/game/Entities/DynamicObject/DynamicObject.cpp:134",
+    "src/server/game/Entities/DynamicObject/DynamicObject.cpp:198"
+   ],
+   "corpus": "area-lifecycle.json",
+   "description": "Persistent-area-aura expiry reaches recipients as AURA_REMOVE_BY_DEFAULT (via the remove list) instead of BY_EXPIRE.",
+   "id": "AL-D-F-03",
+   "lifecycle_effect": "remove-mode-gated script hooks (GetRemoveMode() == EXPIRE) never run for dynobj recipients",
+   "oracle_behaviour": "reproduced (S14)"
+  },
+  {
+   "coords": [
+    "src/server/game/Entities/Unit/Unit.cpp:4246-4258",
+    "src/server/game/Entities/Unit/Unit.cpp:10250",
+    "src/server/game/Handlers/CharacterHandler.cpp:1308",
+    "src/server/game/Entities/Player/Player.cpp:2751"
+   ],
+   "corpus": "passive-active.json",
+   "description": "Passives with an implemented AuraInterruptFlag are removed by the event and, unless the firing path itself relearns them (ChangeSpec for trait/spec passives), never re-applied: EnterWorld fires in Unit::AddToWorld after LoadFromDB cast the passives, Login fires after login, ChangeGlyph on any glyph apply, and a relearn of a still-known spell early-returns in AddSpell (no recast). E.g. 48263 Veteran of the Third War (Login) is absent after every login; 193468 Mastery: Sniper Training (ChangeGlyph) is lost on a glyph change until relog/spec change.",
+   "id": "AL-D-G-01",
+   "lifecycle_effect": "permanent loss of a passive until relearn/relog (relog re-loses Login/EnterWorld ones)",
+   "oracle_behaviour": "reproduced as removal_policy()['aura-interrupt'] + no-self-restoration; marked likely-defect, Retail UNKNOWN (AL-U-G-01)"
+  },
+  {
+   "coords": [
+    "src/server/game/Entities/Player/Player.cpp:8393",
+    "src/server/game/Entities/Player/Player.cpp:30668"
+   ],
+   "corpus": "passive-active.json",
+   "description": "Set-bonus removal (ApplyEquipSpell with no item) and mastery removal use RemoveAurasDueToSpell(id) with no caster GUID: they also remove applications of that spell cast by other units.",
+   "id": "AL-D-G-02",
+   "lifecycle_effect": "cross-caster removal on unequip/spec change",
+   "oracle_behaviour": "ROUTES['current-set'] records 'ANY caster'"
+  },
+  {
+   "coords": [
+    "src/server/game/Entities/Player/Player.cpp:2642",
+    "src/server/game/Entities/Player/Player.cpp:29143"
+   ],
+   "corpus": "passive-active.json",
+   "description": "SpellAuraInterruptFlags2::ChangeTalent fires only in legacy Player::AddTalent; UpdateTraitConfig (all current talent edits) never fires it.",
+   "id": "AL-D-G-03",
+   "lifecycle_effect": "ChangeTalent-flagged auras survive trait edits in Trinity",
+   "oracle_behaviour": "INTERRUPT_FLAGS consumer note"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:1056-1076",
+    "SpellAuras.cpp:1380-1398,1492-1553,1597-1604"
+   ],
+   "corpus": "external-policy.json",
+   "description": "Aura::SetStackAmount calls HandleAuraSpecificMods(apply=false, onReapply=true) for every stack change/refresh; the spell_area block, the family 'mods at aura remove' branch and CreatureAI::OnAuraRemoved are not guarded by onReapply, so they run although nothing is removed (followed by OnAuraApplied).",
+   "id": "AL-D-H-01",
+   "lifecycle_effect": "refresh/stack change can auto-remove spell_area auras and emits spurious remove/apply AI callbacks; family remove branches see removeMode AURA_REMOVE_NONE",
+   "oracle_behaviour": "reproduced by specific_mods_blocks(False, True); not corrected"
+  },
+  {
+   "coords": [
+    "SpellMgr.cpp:2126-2133"
+   ],
+   "corpus": "external-policy.json",
+   "description": "LoadSpellLinked logs 'changed to 0' for a negative trigger with type != 0 but sets SPELL_LINK_REMOVE (3).",
+   "id": "AL-D-H-02",
+   "lifecycle_effect": "none (log text only); the stored type is REMOVE",
+   "oracle_behaviour": "loader normalisation reproduced (ServerOverlay.linked)"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:6397-6402",
+    "AreaTrigger.h:263",
+    "Unit.cpp:5503"
+   ],
+   "corpus": "generation.json",
+   "description": "HandleCreateAreaTrigger(remove) removes the area trigger only when the caster is reachable; otherwise AreaTrigger::_aurEff dangles and Unit::RemoveAreaTrigger(AuraEffect const*) compares by address",
+   "id": "AL-D-I-02",
+   "lifecycle_effect": "area trigger outlives its aura until its own duration; possible ABA match on a later effect",
+   "oracle_behaviour": "catalogued (generation.HOLDERS); not modelled"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:1114",
+    "Spell.cpp:3284-3298",
+    "SpellAuraEffects.cpp:936-946"
+   ],
+   "corpus": "ordering.json",
+   "description": "ATTR13 with ATTR1_AURA_UNIQUE/ATTR5_AURA_UNIQUE_PER_CASTER and StackAmount 0: no RefreshTimers, so _ticksDone keeps counting while SetMaxDuration raises the bound only by floor(newMax/period)",
+   "id": "AL-D-I-03",
+   "lifecycle_effect": "tail of the extended aura has no ticks (scenario pandemic-unique-keeps-remaining: 8000 ms silent)",
+   "oracle_behaviour": "reproduced (probe-confirmed); 15 providers (0 current-player)"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:995-1013",
+    "SpellAuraEffects.cpp:1250-1262"
+   ],
+   "corpus": "numeric-boundaries.json",
+   "description": "the `if (_period)` guard precedes the haste product; int32(period x speed) == 0 keeps m_isPeriodic and GetTotalTicks returns 0: permanent auras loop forever in AuraEffect::Update",
+   "id": "AL-D-I-04",
+   "lifecycle_effect": "latent: no hasted periodic provider with period <= 10 ms in 69497",
+   "oracle_behaviour": "numeric.zero_period_outcome; FailClosed nowhere needed"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:864-872"
+   ],
+   "corpus": "numeric-boundaries.json",
+   "description": "m_timeCla += 1000 - diff can store exactly 0, which disables the per-second cost branch until RefreshDuration; a negative value charges once per update with no catch-up",
+   "id": "AL-D-I-05",
+   "lifecycle_effect": "per-second aura upkeep stops (or under-charges) after a long world diff",
+   "oracle_behaviour": "numeric.periodic_cost_timer"
+  }
+ ],
+ "unknowns": [
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:1757-1766",
+    "Unit.cpp:3728-3729"
+   ],
+   "corpus": "identity.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-A-01",
+   "known": "Trinity removes the older object and creates the new one (remove callbacks, fresh duration)",
+   "question": "Does a second caster's non-stacking buff (e.g. 1126 / 10060) replace the first caster's object or refresh/keep it?",
+   "reopen_condition": "AL-X-A-01 result",
+   "subject": "cross-caster raid buffs",
+   "why_unresolved": "no Retail observation; DB2 has no identity field"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:3390-3432",
+    "SpellAuras.cpp:1056-1074"
+   ],
+   "corpus": "identity.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-A-02",
+   "known": "Trinity keeps caster A's GUID but adopts B's base points (Unit.cpp:3409-3419); ModStackAmount recalculates amounts with GetCaster() = A",
+   "question": "When caster B stacks onto caster A's shared aura, whose caster-dependent values (amount, mods, owner of procs) does Retail use?",
+   "reopen_condition": "AL-X-A-02 result",
+   "subject": "shared one-slot object caster",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "SpellInfo.cpp:2803-2980",
+    "SpellInfo.cpp:2061-2107"
+   ],
+   "corpus": "identity.json",
+   "evidence": [
+    "trinity-consumer",
+    "structural-inference",
+    "retail-unknown"
+   ],
+   "id": "AL-U-A-03",
+   "known": "Trinity derives them from legacy family flags; no DB2 field encodes exclusivity",
+   "question": "Are HAND (1022/1044) and ELEMENTAL_SHIELD (974/52127) classes still mutually exclusive in Retail?",
+   "reopen_condition": "AL-X-A-03 result",
+   "subject": "SpellSpecific exclusivity on modern spells",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:3402-3406",
+    "Unit.cpp:12294-12306"
+   ],
+   "corpus": "identity.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-A-04",
+   "known": "Trinity recreates (remove + create)",
+   "question": "Is a partial-mask object (immunity-reduced AddAura) replaced or refreshed by a later full cast in Retail?",
+   "reopen_condition": "none planned (low value)",
+   "subject": "effect-mask mismatch recreate",
+   "why_unresolved": "rare, no observation"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3980-3992",
+    "SpellEffects.cpp:562-567",
+    "Spell.cpp:3040"
+   ],
+   "corpus": "application.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-A-05",
+   "known": "Trinity: never (AL-R-A-08)",
+   "question": "Does Retail apply a spell's own damage-taken debuff before its direct damage (e.g. Haunt 48181)?",
+   "reopen_condition": "AL-X-A-05 result",
+   "subject": "same-cast debuff ordering",
+   "why_unresolved": "no Retail observation; DB2 effect order does not decide it"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "SpellEffects.cpp:127",
+    "SpellAuras.cpp:837-842"
+   ],
+   "corpus": "application.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-A-06",
+   "known": "Trinity: next UpdateOwner (<= one map tick later), after one duration decrement",
+   "question": "Is an area aura's first recipient set applied at hit or at the next aura update in Retail?",
+   "reopen_condition": "track F / L experiment",
+   "subject": "area aura first application",
+   "why_unresolved": "sub-tick timing unobservable without combat-log timestamps"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3284-3288"
+   ],
+   "corpus": "carryover.json",
+   "evidence": [
+    "retail-unknown",
+    "trinity-probe"
+   ],
+   "id": "AL-U-B-01",
+   "known": "pinned Trinity: always min(M, trunc(1.3*hit)-hit); pre-2025 Trinity, simc, Core: r-dependent",
+   "merged_from": [
+    "AL-U-I-05"
+   ],
+   "question": "Does Retail carry the remaining duration (min(r, 0.3*D)) or always 30% (pinned Trinity), and what is D (hit after haste/mods?) and the rounding?",
+   "reconciliation_note": "one Retail question: the ATTR13 commit formula (remaining-based vs Trinity's runtime 130%).",
+   "reopen_condition": "AL-X-B-01/02 result",
+   "subject": "Retail pandemic carry",
+   "why_unresolved": "no Retail consumer; Trinity path is defective"
+  },
+  {
+   "blocker": "Retail PvP observation",
+   "build_skew": false,
+   "coords": [
+    "SpellInfo.cpp:1364"
+   ],
+   "corpus": "duration.json",
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-02",
+   "known": "391 providers carry one (37 player); no Trinity/simc consumer",
+   "merged_from": [
+    "AL-U-J-03"
+   ],
+   "question": "When is the PvP duration record selected and does it compose with DR / mods?",
+   "reconciliation_note": "PvPDurationIndex selection (no consumer in Trinity or simc).",
+   "reopen_condition": "client symbol or PvP trace",
+   "subject": "PvPDurationIndex",
+   "why_unresolved": "no consumer"
+  },
+  {
+   "blocker": "Retail trace",
+   "build_skew": false,
+   "coords": [
+    "simc engine/buff/buff.cpp:739-744",
+    "simc engine/buff/buff.cpp:777-779",
+    "simc engine/dbc/data_enums.hh:1909-1910",
+    "core crates/dbc/src/spell_attribute.rs:180-181,490-491"
+   ],
+   "corpus": "refresh.json",
+   "evidence": [
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-03",
+   "known": "raw 489 providers {'all': 33, 'player': 0, 'controlled': 0}, raw 490 {'all': 70, 'player': 6, 'controlled': 0}; Trinity UNK9/UNK10 no consumer; simc 489 -> buff DISABLED refresh: stacks bumped, expiry untouched (buff.cpp:740-744, 2540-2554); simc 490 -> ASYNCHRONOUS stack behaviour when max stack > 1: each stack own expiry (buff.cpp:777-779, 2229-2234); Core catalog names both with simc-style meanings (navigation)",
+   "merged_into": "AL-U-K-02",
+   "question": "Is reapplication ignored entirely, or only duration kept? (and raw 490 async stacking)",
+   "reopen_condition": "Retail recast of a flagged aura",
+   "subject": "ATTR15 bit 9 (simc SX_AURA_DOES_NOT_REFRESH)",
+   "why_unresolved": "single secondary consumer"
+  },
+  {
+   "blocker": "cooldown-gated refresh in Retail",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3284"
+   ],
+   "corpus": "carryover.json",
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-04",
+   "known": "authored; Trinity applies; simc buff PANDEMIC only via the flag",
+   "question": "Does Retail extend non-periodic buffs (Vampiric Blood 55233, Enraged Regeneration 184364) on refresh?",
+   "reopen_condition": "a refreshable non-periodic ATTR13 aura observed",
+   "subject": "ATTR13 on non-periodic auras",
+   "why_unresolved": "no Retail consumer"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Object.cpp:1707-1725"
+   ],
+   "corpus": "duration.json",
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-05",
+   "known": "record (0, max, +per); Trinity yields 0",
+   "question": "Envenom / Killing Spree duration per combo point in Retail",
+   "reopen_condition": "AL-X-B-03",
+   "subject": "per-resource duration with minimum 0",
+   "why_unresolved": "Trinity defect path"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3271-3282"
+   ],
+   "corpus": "duration.json",
+   "evidence": [
+    "trinity-consumer",
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-06",
+   "known": "Trinity floors (Spell.cpp:3271-3282); simc hasted dots keep duration with partial tick",
+   "question": "Retail: hasted duration floored to whole hastened periods, or orig with partial tick, or orig*haste?",
+   "reopen_condition": "AL-X-B-04",
+   "subject": "ATTR8 haste alignment",
+   "why_unresolved": "consumers disagree"
+  },
+  {
+   "blocker": "Retail combat-log ticks (restricted in 12.x, track L)",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:1250-1276"
+   ],
+   "corpus": "carryover.json",
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-07",
+   "known": "Trinity preserves phase, caps ticks at floor(max/period) -> suppressed tick; simc partial ticks",
+   "merged_into": "AL-U-D-04",
+   "question": "Retail: is the phase preserved and is the final partial tick delivered after a carried refresh?",
+   "reopen_condition": "AL-X-B-05",
+   "subject": "tick schedule after pandemic",
+   "why_unresolved": "tick policy is track D; no Retail consumer"
+  },
+  {
+   "blocker": "Retail damage observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:829-840"
+   ],
+   "corpus": "carryover.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-08",
+   "known": "Trinity SpellAuraEffects.cpp:829-840",
+   "question": "Exact Retail rolled amount (remaining ticks fraction? bonus once or twice?)",
+   "reopen_condition": "AL-X-B-06",
+   "subject": "rolling periodic amount",
+   "why_unresolved": "single consumer, likely defect AL-D-B-03"
+  },
+  {
+   "blocker": "track I",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:2957"
+   ],
+   "corpus": "refresh.json",
+   "evidence": [
+    "unresolved"
+   ],
+   "id": "AL-U-B-09",
+   "known": "timelines assume update(t) then hit(t)",
+   "merged_into": "AL-U-D-03",
+   "question": "When a refresh lands in the same ms as an expiry/tick, which runs first?",
+   "reopen_condition": "track I ordering corpus",
+   "subject": "hit vs update order in one ms",
+   "why_unresolved": "scheduler order is track I"
+  },
+  {
+   "blocker": "no client/server source",
+   "build_skew": false,
+   "coords": "SpellAuras.cpp:1093-1106",
+   "corpus": "stacks.json",
+   "evidence": "retail-unknown",
+   "id": "AL-U-C-01",
+   "known": "Trinity: initial 1, reapply stores 166 stacks (probe)",
+   "question": "What does Retail do with Earth Shield / Water Shield under Therazane's Resilience (MaxAuraStacks -99, Doses -99)?",
+   "reopen_condition": "AL-X-C-01 observed",
+   "subject": "negative MaxAuraStacks / Doses",
+   "why_unresolved": "no Retail consumer; Trinity arithmetic is not evidence"
+  },
+  {
+   "blocker": "no source",
+   "build_skew": false,
+   "coords": "SpellAuras.cpp:1004-1015; Player.cpp:22851",
+   "corpus": "stacks.json",
+   "evidence": "retail-unknown",
+   "id": "AL-U-C-02",
+   "known": "Trinity: uint32(-1.0) is UB; gcc yields 255 charges",
+   "question": "Does a ProcCharges result <= 0 mean 'no charges' in Retail (Regenerative Chitin on Blistering Scales)?",
+   "reopen_condition": "AL-X-C-02 observed",
+   "subject": "negative ProcCharges modifier",
+   "why_unresolved": "UB + no Retail consumer"
+  },
+  {
+   "blocker": "no source",
+   "build_skew": false,
+   "coords": "SpellAuras.h:238, SpellAuras.cpp:1056",
+   "corpus": "stacks.json",
+   "evidence": "retail-unknown",
+   "id": "AL-U-C-03",
+   "known": "Trinity m_stackAmount is uint8",
+   "question": "Retail stack width for capacities 256..65000 (158 providers, none player)",
+   "reopen_condition": "a Retail observation of any >255 stack aura",
+   "subject": "stacks above 255",
+   "why_unresolved": "no Retail consumer"
+  },
+  {
+   "blocker": "no source",
+   "build_skew": false,
+   "coords": "SpellInfo.cpp:1808-1812, Unit.cpp:3401",
+   "corpus": "stacks.json",
+   "evidence": "retail-unknown",
+   "id": "AL-U-C-04",
+   "known": "Trinity merges into the first caster's aura; its own comment says 'TODO: Re-verify' (SpellInfo.cpp:1810)",
+   "question": "Do capacity>=2 non-DOT_STACKING_RULE auras from two casters merge in Retail?",
+   "reopen_condition": "AL-X-C-03 observed",
+   "subject": "shared slot across casters",
+   "why_unresolved": "Trinity marks its own rule unverified"
+  },
+  {
+   "blocker": "no source",
+   "build_skew": false,
+   "coords": "SpellAuras.cpp:1093-1127",
+   "corpus": "stacks.json",
+   "evidence": "retail-unknown",
+   "id": "AL-U-C-05",
+   "known": "Trinity: one aura, stacks share one refreshed duration",
+   "question": "Does Ironfur with Ursine Adept keep independent per-application durations in Retail?",
+   "reopen_condition": "AL-X-C-04 observed",
+   "subject": "MaxAuraStacks-raised capacity-1 auras",
+   "why_unresolved": "no Retail consumer; Core has an independent-stack authority (navigation)"
+  },
+  {
+   "blocker": "no source",
+   "build_skew": false,
+   "coords": "SpellEffects.cpp:6140-6142",
+   "corpus": "stacks.json",
+   "evidence": "retail-unknown",
+   "id": "AL-U-C-06",
+   "known": "Trinity keeps a zero-stack aura",
+   "merged_from": [
+    "AL-U-E-08"
+   ],
+   "question": "Is a MODIFY_AURA_STACKS Set 0 a removal in Retail?",
+   "reconciliation_note": "MODIFY_AURA_STACKS (raw 289) Set 0: a live aura with 0 stacks in Trinity (AL-D-C-04).",
+   "reopen_condition": "Retail observation of Stability 451179 after 451986",
+   "subject": "SetStackAmount(0)",
+   "why_unresolved": "2 non-player rows only"
+  },
+  {
+   "blocker": "no source",
+   "build_skew": false,
+   "coords": "SpellAuras.cpp:1114",
+   "corpus": "stacks.json",
+   "evidence": "retail-unknown",
+   "id": "AL-U-C-07",
+   "known": "SpellAuras.cpp:1114",
+   "question": "Trinity ignores ATTR1_AURA_UNIQUE / ATTR5_AURA_UNIQUE_PER_CASTER for refresh when capacity != 0; is that Retail?",
+   "reopen_condition": "Retail recast of a unique stacking aura",
+   "subject": "AURA_UNIQUE with capacity > 0",
+   "why_unresolved": "no Retail consumer"
+  },
+  {
+   "blocker": "no source",
+   "build_skew": false,
+   "coords": "Spell.cpp:506, Unit.cpp:3441",
+   "corpus": "stacks.json",
+   "evidence": "retail-unknown",
+   "id": "AL-U-C-08",
+   "known": "Trinity: AuraStackAmount is modded per cast and passed to ModStackAmount",
+   "question": "Does Retail add 1+Doses stacks per reapplication (Trinity) or only on creation?",
+   "reopen_condition": "AL-X-C-05 observed",
+   "subject": "Doses on reapplication",
+   "why_unresolved": "no Retail consumer"
+  },
+  {
+   "blocker": "no Retail consumer",
+   "build_skew": false,
+   "coords": "SharedDefines.h:1002; simc engine/buff/buff.cpp:777-779",
+   "corpus": "stacks.json",
+   "evidence": [
+    "retail-unknown",
+    "simc-consumer"
+   ],
+   "id": "AL-U-C-09",
+   "known": "Trinity ignores the bit (SPELL_ATTR15_UNK10); simc and Core treat it as per-stack deadlines",
+   "merged_into": "AL-U-K-02",
+   "question": "Do auras with Attributes_15 0x400 expire stack by stack in Retail?",
+   "reopen_condition": "AL-X-C-06 observed",
+   "subject": "asynchronous stacking attribute",
+   "why_unresolved": "the only Trinity-independent consumers are simc/Core (secondary)"
+  },
+  {
+   "blocker": "no Retail consumer",
+   "build_skew": false,
+   "coords": "SpellAuras.cpp:498-499; simc engine/dbc/spell_data.hpp:564",
+   "corpus": "stacks.json",
+   "evidence": [
+    "retail-unknown",
+    "simc-consumer"
+   ],
+   "id": "AL-U-C-10",
+   "known": "Trinity: separate m_procCharges; simc: initial_stacks() = ProcCharges",
+   "question": "Are DB2 ProcCharges a separate counter (Trinity) or the initial stack count (simc) for auras that also have CumulativeAura?",
+   "reopen_condition": "AL-X-C-07 observed",
+   "subject": "proc charges vs stacks",
+   "why_unresolved": "two consumers disagree"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3240",
+    "SpellDefines.h:291-293",
+    "SpellAuras.cpp:976-992"
+   ],
+   "corpus": "periodic.json",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-D-01",
+   "known": "Trinity, SPELL-HIT PATH ONLY: restart iff StackAmount<2, not pandemic and the reapplying cast is not fully triggered; every non-hit refresh path (AddAura, effect 289, linked, steal, scripts) restarts unless pandemic (AL-R-D-05, R2-04); simc: always preserve; no DB2 field of the aura encodes the choice",
+   "question": "Does Retail restart or preserve the periodic phase of a periodic trigger/energize on same-caster reapply?",
+   "reopen_condition": "combat-log trigger/energize times around a reapply (AL-X-D-02)",
+   "subject": "UNK-E-001 subtype 23/24 refresh cadence (Retail)",
+   "why_unresolved": "the deciding input in Trinity is a server-side cast flag with no client-data counterpart"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:949-959",
+    "dot.cpp:972-975"
+   ],
+   "corpus": "periodic.json",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-D-02",
+   "known": "Trinity yes on a restarting Spell-hit reapply (AL-T-D-03) and on every non-hit refresh path of a non-pandemic aura (AL-R-D-05/06); simc/Core no",
+   "question": "Does a restart-reapplied raw-169 aura produce an extra immediate occurrence in Retail?",
+   "reopen_condition": "AL-X-D-01",
+   "subject": "UNK-E-002 raw 169 on restart-reapply (Retail)",
+   "why_unresolved": "consumers disagree; no Retail log"
+  },
+  {
+   "blocker": "no 1 ms Retail observable",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:423-433",
+    "Object.cpp:245-247",
+    "Spell.cpp:8375-8379",
+    "Unit.cpp:2975-2991"
+   ],
+   "corpus": "periodic.json",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "structural-inference",
+    "retail-unknown"
+   ],
+   "id": "AL-U-D-03",
+   "known": "Trinity: owner==caster -> cast first (occurrence dropped on restart, AL-T-D-17); caster!=owner -> map update order of the two units (AL-T-D-18), not a spell property",
+   "merged_from": [
+    "AL-U-B-09"
+   ],
+   "question": "When a reapplying cast completes at the ms an occurrence is due, which is observed first?",
+   "reconciliation_note": "refresh vs due tick in the same ms. Trinity side proven by track I (delivery channel decides; ordering.json settlement_b_vs_d); Retail open. B's timelines assumed update-before-hit, which holds only for hits delivered after the owner update.",
+   "reopen_condition": "a Retail log with cast-success and periodic events sharing a timestamp",
+   "subject": "UNK-E-003 same-ms cast completion vs due occurrence",
+   "why_unresolved": "Retail server scheduling granularity/order is unobservable at 1 ms; Trinity's cross-unit order is container order"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:936-946",
+    "dot.cpp:660-699"
+   ],
+   "corpus": "periodic.json",
+   "evidence": [
+    "trinity-consumer",
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-D-04",
+   "known": "Trinity no (budget), simc yes (partial), Core yes (terminal-partial)",
+   "merged_from": [
+    "AL-U-B-07"
+   ],
+   "question": "Does Retail produce a proportional last occurrence for duration % period != 0 (incl. pandemic-extended)?",
+   "reconciliation_note": "partial / final occurrence after a carried refresh is the same Retail question as a proportional last occurrence.",
+   "reopen_condition": "AL-X-D-04",
+   "subject": "partial final occurrence",
+   "why_unresolved": "consumer disagreement"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:996-1013",
+    "dot.cpp:1000-1010"
+   ],
+   "corpus": "periodic.json",
+   "evidence": [
+    "trinity-consumer",
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-D-05",
+   "known": "Trinity fixed until refresh; simc hasted_ticks rescheduled; Core per occurrence",
+   "question": "Is the Retail tick interval re-derived from live haste (per occurrence) or fixed at application/refresh?",
+   "reopen_condition": "AL-X-D-03",
+   "subject": "haste change during an active periodic",
+   "why_unresolved": "three consumers, three models"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "DBCEnums.h:2418",
+    "engine/action/action.cpp:2802-2812"
+   ],
+   "corpus": "periodic.json",
+   "evidence": [
+    "db2-fact",
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-D-06",
+   "known": "Trinity NYI (all dynamic); simc freezes player-scoped done inputs",
+   "question": "Which periodic inputs does Retail freeze for effects carrying 0x8000?",
+   "reopen_condition": "AL-X-D-05 on 22842",
+   "subject": "ComputePointsOnlyAtCastTime (effect attribute 0x8000)",
+   "why_unresolved": "no direct consumer implements it"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:2975-2981",
+    "SpellAuras.cpp:855-862"
+   ],
+   "corpus": "periodic.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-D-07",
+   "known": "Trinity quantized (AL-R-D-07)",
+   "question": "Are Retail occurrences quantized to a server update (early credit / catch-up bursts) or scheduled exactly?",
+   "reopen_condition": "CLEU tick intervals under load",
+   "subject": "Retail update granularity",
+   "why_unresolved": "server-internal"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Map.cpp:695-760",
+    "GridNotifiers.cpp:283-287",
+    "Unit.cpp:2975-2981"
+   ],
+   "corpus": "periodic.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-D-08",
+   "known": "Trinity: units update only in visited grid cells (Map.cpp:695-760, GridNotifiers.cpp:283-287); auras on unvisited units freeze and the lost time is never credited (diff is per map tick). Cf. OR-I-03/04/10, AL-U-I-03",
+   "question": "Do Retail auras on units far from any player keep counting down and ticking in wall-clock time?",
+   "reopen_condition": "a wall-clock duration claim for owners far from players",
+   "subject": "owner-update freeze of unvisited units (R2-12)",
+   "why_unresolved": "server-internal scheduling; Trinity-only fact"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:4480",
+    "spell_druid.cpp:1506"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-01",
+   "known": "Trinity: no (DEATH mode, EXPIRE handlers skipped)",
+   "question": "Does Retail run on-expire behaviour (e.g. Lifebloom bloom, raw-495 trigger) when the holder dies before expiry?",
+   "reopen_condition": "AL-X-E-01 result",
+   "subject": "death vs expiry on Retail",
+   "why_unresolved": "no Retail consumer; Trinity is a consumer oracle only"
+  },
+  {
+   "blocker": "CombatManager PvP suppression path",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:6036",
+    "CombatManager.cpp:416"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-E-02",
+   "known": "PvE: INTERRUPT before DEATH sweep; PvP: combat is suppressed, not ended, in CombatStop",
+   "question": "When a unit dies with PvP combat references (SuppressPvPCombat), when do LeavingCombat-interrupt auras go and with which mode relative to DEATH?",
+   "reopen_condition": "trace SuppressPvPCombat -> UpdateOwnerCombatState",
+   "subject": "PvP death combat exit",
+   "why_unresolved": "suppressed-combat lifecycle not traced"
+  },
+  {
+   "blocker": "Spell cast checks",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:5594"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-E-03",
+   "known": "trigger caster chosen by NeedsToBeTriggeredByCaster; absent caster -> no cast",
+   "question": "Does a PERIODIC_TRIGGER_SPELL tick whose trigger caster is the (dead) aura caster produce a cast?",
+   "reopen_condition": "trace TRIGGERED_FULL_MASK CheckCast for a dead caster",
+   "subject": "dead caster triggered periodic casts",
+   "why_unresolved": "Spell::prepare/CheckCast for dead triggered casters not traced"
+  },
+  {
+   "blocker": "track I ordering",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:2976-2991"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "structural-inference",
+    "unresolved"
+   ],
+   "id": "AL-U-E-04",
+   "known": "outcome differs (TL-E-03: 3 ticks DEATH; TL-E-04: 4 ticks EXPIRE)",
+   "question": "When the lethal event and the holder's expiry update share a timestamp, which happens first?",
+   "reopen_condition": "track I same-timestamp model",
+   "subject": "same-millisecond death and expiry",
+   "why_unresolved": "map/unit update ordering (track I)"
+  },
+  {
+   "blocker": "Retail",
+   "build_skew": false,
+   "coords": [
+    "SharedDefines.h:497",
+    "Unit.cpp:6625"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-05",
+   "known": "NYI in Trinity (SharedDefines.h:497); RemoveAllControlled unsummons every summon",
+   "question": "What does SPELL_ATTR1_IGNORE_OWNERS_DEATH do for summons / their auras?",
+   "reopen_condition": "Retail observation of a pet flagged IGNORE_OWNERS_DEATH",
+   "subject": "IGNORE_OWNERS_DEATH",
+   "why_unresolved": "no consumer"
+  },
+  {
+   "blocker": "no consumer depends on it found",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:641-647"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-E-06",
+   "known": "Aura::_Remove iterates an unordered_map keyed by GUID (storage)",
+   "question": "Is the order in which one aura's applications on several targets are unapplied observable?",
+   "reopen_condition": "a script that reads other recipients during removal",
+   "subject": "recipient unapply order",
+   "why_unresolved": "cascading remove handlers could make it observable"
+  },
+  {
+   "blocker": "Retail",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:1829",
+    "Object.cpp:2630"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-07",
+   "known": "Trinity DEFAULT (proc) vs EXPIRE (spell mod)",
+   "question": "Is the last-charge removal reason distinguishable by path on Retail?",
+   "reopen_condition": "Retail combat-log removal reason for a charge-consumed buff",
+   "subject": "charge-exhaustion mode on Retail",
+   "why_unresolved": "Trinity storage of mode, Retail unknown"
+  },
+  {
+   "blocker": "track C / Retail",
+   "build_skew": false,
+   "coords": [
+    "SpellEffects.cpp:6141"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-08",
+   "known": "Trinity SetStackAmount(0) leaves a live 0-stack aura (SpellAuras.cpp:1056, SpellEffects.cpp:6141)",
+   "merged_into": "AL-U-C-06",
+   "question": "Does raw-289 set-mode with value 0 end the aura?",
+   "reopen_condition": "track C census of raw-289 set-mode rows",
+   "subject": "set-mode stacks to zero",
+   "why_unresolved": "track C owns stack mutation; Retail unknown"
+  },
+  {
+   "blocker": "Retail",
+   "build_skew": false,
+   "coords": [
+    "SpellDefines.h:107",
+    "SpellDefines.h:132"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-09",
+   "known": "no Trinity consumer (removal.interrupt_flag_consumed); player occurrences in census unconsumed_interrupt_flag_occurrences",
+   "question": "What do the Disconnect and DamageCancelsScript interrupt bits (and 6 other unconsumed bits) do?",
+   "reopen_condition": "AL-X-E-08",
+   "subject": "unconsumed interrupt bits",
+   "why_unresolved": "no consumer != no Retail behaviour"
+  },
+  {
+   "blocker": "Retail",
+   "build_skew": false,
+   "coords": [
+    "SpellEffects.cpp:2163-2194"
+   ],
+   "corpus": "dispel.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-10",
+   "known": "Trinity: yes and yes",
+   "question": "Does Retail spend an attempt on a resisted dispel and select uniformly per aura identity?",
+   "reopen_condition": "AL-X-E-10",
+   "subject": "Retail dispel RNG",
+   "why_unresolved": "Retail server code unavailable"
+  },
+  {
+   "blocker": "track A",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:120-150"
+   ],
+   "corpus": "dispel.json",
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-E-11",
+   "known": "AuraApplication ctor decides per effect mask and caster friendliness (SpellAuras.cpp:120-150)",
+   "question": "Which applications count as positive for dispel filtering when caster and holder relation differs from the spell's positivity?",
+   "reopen_condition": "track A application positivity model",
+   "subject": "application positivity",
+   "why_unresolved": "track A/targeting positivity owns it"
+  },
+  {
+   "blocker": "Retail",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:10279"
+   ],
+   "corpus": "lifetime.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-20",
+   "known": "Trinity: yes for spells not being cast at death; all dynobjects of the spell being cast/channelled are removed (Spell.cpp:3665)",
+   "question": "Do persistent area auras of a dead caster keep ticking on Retail?",
+   "reopen_condition": "Retail observation",
+   "subject": "dynobj auras after caster death",
+   "why_unresolved": "Retail"
+  },
+  {
+   "blocker": "track D",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:1016-1026",
+    "Player.cpp:18976"
+   ],
+   "corpus": "lifetime.json",
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-E-21",
+   "known": "CalculatePeriodic(load=true) derives ticks/timer from max-remaining (SpellAuraEffects.cpp:1016-1026); not modelled here",
+   "question": "After logout/pet reload (new object), where is the next tick?",
+   "reopen_condition": "track D reload model",
+   "subject": "periodic phase after reload",
+   "why_unresolved": "track D owns periodic phase"
+  },
+  {
+   "blocker": "Retail",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:998-1044",
+    "Unit.cpp:11385-11411"
+   ],
+   "corpus": "removal.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-22",
+   "known": "Trinity runs KILL/DEATH procs but skips setDeathState: no death sweep, no combat exit",
+   "question": "Does a death absorbed by SCHOOL_ABSORB_OVERKILL (Spirit of Redemption shape) end any auras on Retail?",
+   "reopen_condition": "Retail combat log around Spirit of Redemption",
+   "subject": "Kill without death sweep",
+   "why_unresolved": "Retail"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Entities/Unit/Unit.cpp:4472",
+    "src/server/game/Spells/SpellInfo.cpp:2452"
+   ],
+   "corpus": "area-lifecycle.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-F-01",
+   "known": "Trinity: yes, only the dead owner drops its own application (S09); 17 current-player effects are passive without ATTR7",
+   "question": "In Retail, do recipients keep a passive area aura (e.g. Blessing of Dawn 183416:1) while its owner is dead?",
+   "reopen_condition": "AL-X-F-03 result",
+   "subject": "passive area aura, dead owner",
+   "why_unresolved": "Trinity default, no Retail observation"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/SpellInfo.cpp:2452",
+    "src/server/game/Entities/Unit/Unit.cpp:4472"
+   ],
+   "corpus": "area-lifecycle.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-F-02",
+   "known": "Trinity: parent survives (ALLOW_AURA_WHILE_DEAD); the dead owner is dropped from its own map at the next update (TARGETS_DEAD) and re-added after resurrection (S07)",
+   "question": "In Retail, does a dead paladin keep its own Devotion / Concentration / Crusader Aura application, and do living party members keep theirs?",
+   "reopen_condition": "AL-X-F-02 result",
+   "subject": "death-persistent paladin auras",
+   "why_unresolved": "Trinity mechanism (CheckTarget on the owner) is incidental; no Retail observation"
+  },
+  {
+   "blocker": "Track I ordering model",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Entities/Unit/Unit.cpp:423",
+    "src/server/game/Spells/Auras/SpellAuras.cpp:817"
+   ],
+   "corpus": "area-lifecycle.json",
+   "evidence": [
+    "structural-inference",
+    "unresolved"
+   ],
+   "id": "AL-U-F-03",
+   "known": "Model convention: events at t run before the owner update step ending at t; WorldSession updates precede map updates",
+   "question": "Where inside a server tick do a cast / death / refresh land relative to the owner's aura update (the first owner update after creation receives the full world diff)?",
+   "reopen_condition": "Track I publishes the world-tick ordering model",
+   "subject": "event vs owner-update ordering",
+   "why_unresolved": "Track I owns same-timestamp ordering"
+  },
+  {
+   "blocker": "Map::Update object iteration order",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Entities/AreaTrigger/AreaTrigger.cpp:341",
+    "src/server/game/Entities/Unit/Unit.cpp:2957"
+   ],
+   "corpus": "area-lifecycle.json",
+   "evidence": [
+    "unresolved"
+   ],
+   "id": "AL-U-F-04",
+   "known": "both are map object updates; order is map container order",
+   "question": "Does an AT's UpdateTargetList run before or after the per-unit aura countdown of the same map tick?",
+   "reopen_condition": "Track I or a probe of Map::Update",
+   "subject": "AreaTrigger vs unit update order",
+   "why_unresolved": "not proven from call paths"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuras.h:58"
+   ],
+   "corpus": "area-lifecycle.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-F-05",
+   "known": "Trinity constant UPDATE_TARGET_MAP_INTERVAL = 500",
+   "question": "Is Retail's area-aura enter/leave latency bounded by a 500 ms reevaluation like Trinity's?",
+   "reopen_condition": "AL-X-F-01 result",
+   "subject": "Retail recipient-map cadence",
+   "why_unresolved": "server constant, not in client data"
+  },
+  {
+   "blocker": "none in data; Retail observation only",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:767"
+   ],
+   "corpus": "area-lifecycle.json",
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-F-06",
+   "known": "Trinity iterates std::unordered_map<ObjectGuid, ...> (hash order, undefined)",
+   "question": "Which recipient receives a shared tick first (matters for procs / deaths inside the tick loop)?",
+   "reopen_condition": "a consumer depends on intra-tick order",
+   "subject": "tick delivery order within one tick",
+   "why_unresolved": "unspecified container order"
+  },
+  {
+   "blocker": "needs an NPC periodic area aura",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1250"
+   ],
+   "corpus": "area-lifecycle.json",
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-F-07",
+   "known": "Trinity: shared; current-player population has no periodic area-aura effect (0/35)",
+   "question": "Does a unit entering a periodic area aura in Retail tick on the parent's schedule (shared timer) or on its own?",
+   "reopen_condition": "AL-X-F-04 result",
+   "subject": "late-joiner periodic attribution in Retail",
+   "why_unresolved": "no Retail observation; no player witness"
+  },
+  {
+   "blocker": "Retail experiment AL-X-G-01",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Entities/Unit/Unit.cpp:4250",
+    "src/server/game/Entities/Unit/Unit.cpp:10250",
+    "src/server/game/Handlers/CharacterHandler.cpp:1308"
+   ],
+   "corpus": "passive-active.json",
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "id": "AL-U-G-01",
+   "known": "Trinity removes it (Unit.cpp:4246-4258) and never restores it; 172 all / 50 player passives",
+   "question": "Retail: is a passive with an implemented interrupt flag (EnterWorld, LeaveWorld, Login, ChangeSpec, EnteringInstance, StartOfEncounter...) removed and lost, removed and immediately re-applied (state reset), or unaffected?",
+   "reopen_condition": "observe aura list across the event",
+   "subject": "AuraInterruptFlags on passives",
+   "why_unresolved": "no Retail observation; DB2 cannot say"
+  },
+  {
+   "blocker": "AL-X-G-02",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuras.cpp:1651",
+    "src/server/game/Entities/Player/Player.cpp:29266"
+   ],
+   "corpus": "passive-active.json",
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-G-02",
+   "known": "Trinity: replace (TL-G-01), rank change = remove+learn (TL-G-07)",
+   "question": "Retail: does re-learning / re-picking a passive reset its mutable state (Trinity: new object) or keep it?",
+   "reopen_condition": "observe charges/proc cooldown after a trait re-pick",
+   "subject": "passive re-application",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "blocker": "AL-X-G-03",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+   ],
+   "corpus": "passive-active.json",
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-G-03",
+   "known": "Trinity: never saved (SpellAuras.cpp:1170)",
+   "question": "Retail: do passive stacks/charges/proc cooldowns survive logout?",
+   "reopen_condition": "observe after relog",
+   "subject": "passive mutable state across logout",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "blocker": "a player-scope witness appears",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+   ],
+   "corpus": "passive-active.json",
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-G-04",
+   "known": "Trinity: yes (SpellAuras.cpp:925); 9 providers, none in player scope",
+   "question": "Retail: do passives with a DurationIndex expire?",
+   "reopen_condition": "",
+   "subject": "finite-duration passives",
+   "why_unresolved": "no player witness; low value"
+  },
+  {
+   "blocker": "E/F timeline of an owned-unapplied aura",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Entities/Unit/Unit.cpp:3508"
+   ],
+   "corpus": "passive-active.json",
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-G-05",
+   "known": "Trinity: _CreateAuraApplication refuses non-death-persistent applications on a dead unit (Unit.cpp:3507-3510) -> owned aura without application",
+   "question": "What happens when a passive is acquired while the owner is dead outside loading?",
+   "reopen_condition": "",
+   "subject": "application while dead",
+   "why_unresolved": "which routes can fire while dead (equip? trait edit?) and whether UpdateTargetMap later applies it is track E/F's"
+  },
+  {
+   "blocker": "track H overlay classification",
+   "build_skew": false,
+   "coords": [
+    "docs/research/dummy-corpora/script-index.json"
+   ],
+   "corpus": "passive-active.json",
+   "evidence": [
+    "script-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-G-06",
+   "known": "310 all / 149 player passives have spell_script_names bindings",
+   "question": "Which of the scripted passives hold AuraScript member state?",
+   "reopen_condition": "",
+   "subject": "script-held passive state",
+   "why_unresolved": "script census is track H's"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:1401-1455",
+    "SpellAuras.cpp:1820"
+   ],
+   "corpus": "external-policy.json",
+   "evidence": [
+    "world-db-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-H-01",
+   "known": "they are TrinityCore world-DB rows, not client data",
+   "question": "Do the server-authored couplings (e.g. Beacon of Light 53563 -> 53651 LINK_AURA, Clearcasting 16870 stacks-for-charges) exist with the same lifecycle in Retail?",
+   "reopen_condition": "AL-X-H-01/02/04 results",
+   "subject": "spell_linked_spell / spell_proc / spell_group semantics in Retail",
+   "why_unresolved": "no Retail server source"
+  },
+  {
+   "blocker": "index scope",
+   "build_skew": false,
+   "coords": [
+    "dummy-corpora/script-index.json engine/classes"
+   ],
+   "corpus": "external-policy.json",
+   "evidence": [
+    "unresolved"
+   ],
+   "id": "AL-U-H-02",
+   "known": "indexed: SOURCE_KINDS",
+   "question": "Which unindexed sources mutate player aura lifecycles (creature AI, SmartAI, instance scripts, AreaTriggerAI, engine branches keyed on non-literal ids)?",
+   "reopen_condition": "index AI/areatrigger/instance classes by referenced SpellIDs",
+   "subject": "coverage of external sources",
+   "why_unresolved": "not parsed per spell"
+  },
+  {
+   "blocker": "dataflow",
+   "build_skew": false,
+   "coords": [
+    "aura_lifecycle/overlays.py ExternalIndex._actions"
+   ],
+   "corpus": "external-policy.json",
+   "evidence": [
+    "structural-inference"
+   ],
+   "id": "AL-U-H-03",
+   "known": "132 edges attributed by structural inference (GetAura(X) in the same handler)",
+   "question": "Which aura is mutated when a handler calls SetDuration/ModStackAmount/Remove on a local variable?",
+   "reopen_condition": "per-handler dataflow or manual review",
+   "subject": "cross-spell script receivers",
+   "why_unresolved": "no dataflow in the structural index"
+  },
+  {
+   "blocker": "condition evaluation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:2579-2622,2726"
+   ],
+   "corpus": "external-policy.json",
+   "evidence": [
+    "world-db-fact",
+    "unresolved"
+   ],
+   "id": "AL-U-H-04",
+   "known": "presence and effect masks only",
+   "question": "Which recipients/casts do conditions (sources 13/17/24) admit for a concrete application?",
+   "reopen_condition": "track F / conditions port",
+   "subject": "runtime-evaluated gates",
+   "why_unresolved": "ConditionMgr not ported"
+  },
+  {
+   "blocker": "Trinity support for 12.1",
+   "build_skew": true,
+   "coords": [
+    "SpellScript.cpp:290-330 (_Validate)"
+   ],
+   "corpus": "external-policy.json",
+   "evidence": [
+    "build-skew"
+   ],
+   "id": "AL-U-H-05",
+   "known": "73 player-provider hook bindings never execute on the 12.1 snapshot",
+   "question": "Do scripts written for <= 12.0.7 still describe 12.1 spells whose effects moved?",
+   "reopen_condition": "Trinity bump",
+   "subject": "script build skew",
+   "why_unresolved": "no 12.1 Trinity"
+  },
+  {
+   "blocker": "index scope",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:1476-1546",
+    "SpellMgr.cpp:3249-3263"
+   ],
+   "corpus": "external-policy.json",
+   "evidence": [
+    "unresolved"
+   ],
+   "id": "AL-U-H-06",
+   "known": "only HandleAuraSpecificMods and LoadSpellInfoCustomAttributes family branches are mirrored",
+   "question": "Which other engine branches keyed on SpellFamilyFlags change lifecycle for current spells?",
+   "reopen_condition": "index flag128 comparisons in engine files",
+   "subject": "family-flag engine branches outside HandleAuraSpecificMods",
+   "why_unresolved": "no family-flag index of the engine"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:2975-2991",
+    "SpellAuraEffects.cpp:1258-1274"
+   ],
+   "corpus": "ordering.json",
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-01",
+   "known": "Trinity: yes, tick then expire in the same owner update (AL-R-I-01)",
+   "question": "Does Retail deliver the tick due at the expiry instant of an aura whose duration is a multiple of its period?",
+   "reopen_condition": "AL-X-I-01 result",
+   "subject": "final tick vs expiry at the same ms (Retail)",
+   "why_unresolved": "no Retail server source"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:2975-2980",
+    "Unit.cpp:4472-4493"
+   ],
+   "corpus": "ordering.json",
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-02",
+   "known": "Trinity orders by SpellId multimap key (AL-R-I-03); this is a storage artefact",
+   "question": "Is same-ms tick/death resolution on Retail ordered by anything observable (spell id, application order)?",
+   "reopen_condition": "AL-X-I-03 result",
+   "subject": "storage-order dependence (Retail)",
+   "why_unresolved": "no Retail server source; same-ms alignment hard to observe"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Map.cpp:662-705",
+    "Spell.cpp:3467"
+   ],
+   "corpus": "ordering.json",
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-03",
+   "known": "Trinity: world-tick quantized, delivery-phase ordered, previous-tick dated (AL-R-I-02, AL-R-I-04)",
+   "question": "At what granularity does Retail order a refresh/dispel against a due tick of another unit's aura, and are durations measured from the application instant or from a server tick?",
+   "reopen_condition": "AL-X-I-02/AL-X-I-04 timestamps",
+   "subject": "cross-unit same-ms ordering and quantization (Retail)",
+   "why_unresolved": "no Retail server source; server tick rate unknown"
+  },
+  {
+   "blocker": "Retail observation of a >255-stack aura",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.h:410-411"
+   ],
+   "corpus": "numeric-boundaries.json",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-04",
+   "known": "Trinity stores uint8 (AL-D-C-01); DB2 authors up to 65000",
+   "question": "Do authored StackAmount values > 255 (158 providers, 0 current-player) wrap on Retail?",
+   "reopen_condition": "a current-player carrier appears",
+   "subject": "stack/charge storage width (Retail)",
+   "why_unresolved": "no Retail server source"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3284-3288",
+    "SpellAuras.cpp:976-992"
+   ],
+   "corpus": "ordering.json",
+   "evidence": [
+    "trinity-probe",
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-05",
+   "known": "Trinity runtime: 130% for the refreshing branch (AL-D-B-01, AL-D-D-02); simc action.cpp:4604 carryover",
+   "merged_into": "AL-U-B-01",
+   "question": "Is the Retail ATTR13 commit min(new + remaining, 1.3 new) (simc, community) or Trinity's runtime 130%?",
+   "reopen_condition": "AL-X-I-02 result",
+   "subject": "pandemic commit value (Retail)",
+   "why_unresolved": "Trinity is a consumer oracle with a probable defect; Retail truth needs observation"
+  },
+  {
+   "blocker": "none for Trinity; Retail observation otherwise",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:864-872"
+   ],
+   "corpus": "numeric-boundaries.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-06",
+   "known": "Trinity stops charging until RefreshDuration (AL-D-I-05); 1 current-player provider has per-second costs",
+   "question": "What does the m_timeCla stall (diff == m_timeCla + 1000) do on Retail and does any current carrier reach it?",
+   "reopen_condition": "Core models per-second aura costs",
+   "subject": "per-second periodic cost cadence at large diffs",
+   "why_unresolved": "needs a world diff > 1000 ms (server lag) to trigger"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Map.cpp:695-760",
+    "GridNotifiers.cpp:283-288"
+   ],
+   "corpus": "ordering.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-07",
+   "known": "Trinity: a unit updates only when its cell is visited (Map.cpp:695-760); frozen time is never credited back (ordering.json update_coverage)",
+   "question": "Do auras on units outside every updated cell keep counting down on Retail, or freeze as in Trinity?",
+   "reopen_condition": "AL-X-I-05 result",
+   "subject": "aura time on units nobody updates (Retail)",
+   "why_unresolved": "no Retail server source"
+  },
+  {
+   "blocker": "no consumer at the pin",
+   "build_skew": false,
+   "coords": [
+    "TrinityCore/src/server/game/Miscellaneous/SharedDefines.h",
+    "core/crates/dbc/src/spell_attribute.rs"
+   ],
+   "corpus": "provider-census.json",
+   "evidence": [
+    "db2-fact",
+    "core-navigation",
+    "retail-unknown"
+   ],
+   "id": "AL-U-J-01",
+   "known": "UPDATE_PASSIVES_ON_APPLY_REMOVE (attr10 0x1000000, Core raw 344): all 591, player 51; DO_NOT_CONSUME_AURA_STACK_ON_PROC (attr13 0x1000, Core raw 428): all 872, player 30; AURA_DOES_NOT_REFRESH (attr15 0x200, Core raw 489): all 33, player 0; ASYNCHRONOUS_STACKING_BUFF (attr15 0x400, Core raw 490): all 70, player 6",
+   "question": "What lifecycle behaviour do UPDATE_PASSIVES_ON_APPLY_REMOVE, DO_NOT_CONSUME_AURA_STACK_ON_PROC, AURA_DOES_NOT_REFRESH, ASYNCHRONOUS_STACKING_BUFF select?",
+   "reopen_condition": "a newer Trinity/simc consumer, or the Retail experiments AL-X-J-01/02",
+   "subject": "client-named lifecycle attributes Trinity leaves UNK",
+   "why_unresolved": "pinned Trinity names these bits SPELL_ATTRn_UNKm and never reads them; only the client/Core name exists"
+  },
+  {
+   "blocker": "Trinity implements nothing to read",
+   "build_skew": false,
+   "coords": [
+    "TrinityCore/src/server/game/Miscellaneous/SharedDefines.h:467,496,497"
+   ],
+   "corpus": "provider-census.json",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-J-02",
+   "known": "HEARTBEAT_RESIST: all 486, player 12; FINISHING_MOVE_DURATION: all 7, player 0; IGNORE_OWNERS_DEATH: all 375, player 0",
+   "question": "Do HEARTBEAT_RESIST, FINISHING_MOVE_DURATION, IGNORE_OWNERS_DEATH change aura lifetime in Retail?",
+   "reopen_condition": "Retail observation; Track E for IGNORE_OWNERS_DEATH",
+   "subject": "Trinity-named lifecycle attributes with no consumer",
+   "why_unresolved": "no non-comment reference outside SharedDefines.h / enuminfo in the pinned tree (some tagged NYI)"
+  },
+  {
+   "blocker": "no consumer",
+   "build_skew": false,
+   "coords": [
+    "TrinityCore/src/server/game/Spells/SpellInfo.cpp:1337-1372"
+   ],
+   "corpus": "provider-census.json",
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-J-03",
+   "known": "providers with a PvP duration: all 391, player 37; Trinity never reads the column",
+   "merged_into": "AL-U-B-02",
+   "question": "When does SpellMisc.PvPDurationIndex replace the base duration for an aura?",
+   "reopen_condition": "Track B decides whether PvP duration is in scope",
+   "subject": "PvP duration index",
+   "why_unresolved": "no Trinity consumer; PvE simulation may never need it"
+  },
+  {
+   "blocker": "build skew",
+   "build_skew": true,
+   "coords": [
+    "docs/research/dummy-corpora/build-skew.json"
+   ],
+   "corpus": "provider-census.json",
+   "evidence": [
+    "build-skew",
+    "structural-inference"
+   ],
+   "id": "AL-U-J-04",
+   "known": "skewed providers: all 4189, player 73, controlled 0",
+   "question": "Do providers newer than Trinity's supported build follow the lifecycle of their signature peers?",
+   "reopen_condition": "a Trinity revision supporting 12.1.x",
+   "subject": "build-skewed providers",
+   "why_unresolved": "pinned Trinity supports client <= 12.0.7.68453; newer spells have no scripts/overlays/corrections authored"
+  },
+  {
+   "blocker": "no Retail observation",
+   "build_skew": false,
+   "coords": [
+    "TrinityCore/src/server/game/Spells/SpellInfo.cpp:3986-3998"
+   ],
+   "corpus": "provider-census.json",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-J-05",
+   "known": "abs-negative providers: all 1, player 0; Trinity takes abs()",
+   "question": "Why does a SpellDuration row carry a negative non-sentinel duration, and what does Retail do with it?",
+   "reopen_condition": "Track B",
+   "subject": "abs-negative duration entries",
+   "why_unresolved": "client/Retail meaning unknown"
+  },
+  {
+   "blocker": "missing producer",
+   "build_skew": false,
+   "coords": [
+    "crates/data/src/action/input.rs:1112-1123",
+    "crates/combat/src/program.rs:1650-1655"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "unresolved"
+   ],
+   "id": "AL-U-K-01",
+   "known": "Core consumes them as trusted host input (AL-K-K-04/05/14/17/19) and only cross-checks a few against DB2 (Aura Unique cumulative, raw 436 vs CappedCarryover).",
+   "question": "Which producer emits Core's host-authored lifecycle inputs (ResolvedAuraLifetimeInput, ResolvedAuraReapplication, ResolvedPeriodicCadenceInput, TerminalInput, application count, max stacks) from source data, and from which fields?",
+   "reopen_condition": "A resolver/generator for the action catalog is written or audited; compare its emission against tracks B/C/D rules.",
+   "subject": "host resolver for lifecycle policy inputs",
+   "why_unresolved": "No generator exists in any pinned repo (same gap as UNK-K-002 for the policy catalog)."
+  },
+  {
+   "blocker": "retail observation",
+   "build_skew": false,
+   "coords": [
+    "crates/dbc/src/spell_attribute.rs:490-491"
+   ],
+   "corpus": "core-navigation.json",
+   "evidence": [
+    "core-navigation",
+    "retail-unknown"
+   ],
+   "id": "AL-U-K-02",
+   "known": "Trinity has no consumer of either bit at the pin; simc names bit 9 SX_AURA_DOES_NOT_REFRESH; Core's catalog text implements both.",
+   "merged_from": [
+    "AL-U-B-03",
+    "AL-U-C-09"
+   ],
+   "question": "Are Core's PreserveExistingLifetime (raw 489) and IndependentStackDeadlines (raw 490) readings of Trinity's unnamed SPELL_ATTR15_UNK9/UNK10 retail-correct?",
+   "reconciliation_note": "raw 489 / raw 490 (Attributes_15 0x200 / 0x400): Trinity has no consumer, simc and Core give them preserve-expiry / asynchronous-stack meanings.",
+   "reopen_condition": "Track L designs a retail refresh/per-stack-expiry experiment on a player carrier of raw 489 or 490.",
+   "subject": "raw 489 / 490 semantics",
+   "why_unresolved": "no direct source consumer; semantics come from simc/Core naming only"
+  },
+  {
+   "blocker": "live client observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:235",
+    "SpellAuraDefines.h:22",
+    "SRC-L-14"
+   ],
+   "corpus": "retail-experiments.json",
+   "evidence": [
+    "structural-inference",
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-01",
+   "known": "Not on Trinity's wire (Slot + CastID only, SpellAuras.cpp:235-298); captured ids exceed MAX_AURAS 300",
+   "question": "What makes the client allocate a new auraInstanceID?",
+   "reopen_condition": "AL-X-L-01 run",
+   "subject": "auraInstanceID allocation",
+   "why_unresolved": "client-side rule, undocumented"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:270-274"
+   ],
+   "corpus": "retail-experiments.json",
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-02",
+   "known": "Trinity sends Duration/Remaining as int32 ms (SpellAuras.cpp:270-274)",
+   "question": "Is AuraData.duration the server's integer max duration ms / 1000?",
+   "reopen_condition": "AL-X-L-04 shows non-round values",
+   "subject": "AuraData.duration precision",
+   "why_unresolved": "Retail wire not documented"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-07",
+    "SRC-L-06"
+   ],
+   "corpus": "retail-experiments.json",
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-03",
+   "known": "Combat = 'actively affecting combat' (SRC-L-07)",
+   "question": "Which setups keep aura data readable (self HoT out of combat, friendly buffs, a training dummy)?",
+   "reopen_condition": "C_RestrictedActions.IsAddOnRestrictionActive(Combat) logged during each run",
+   "subject": "Combat restriction trigger",
+   "why_unresolved": "trigger conditions not documented"
+  },
+  {
+   "blocker": "measurement",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-13"
+   ],
+   "corpus": "retail-experiments.json",
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-04",
+   "known": "local clock ms stamps (SRC-L-13); TIMING_JITTER_MS=200 is an assumption",
+   "question": "Bound on receipt jitter between two server events in WoWCombatLog.txt?",
+   "reopen_condition": "AL-X-L-11 run",
+   "subject": "combat log timing jitter",
+   "why_unresolved": "no documentation"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-10"
+   ],
+   "corpus": "retail-experiments.json",
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-05",
+   "known": "17 advanced params listed (SRC-L-10)",
+   "question": "Whose stats do advanced fields carry on SPELL_PERIODIC_* lines?",
+   "reopen_condition": "compare with caster stats read out of combat",
+   "subject": "advanced log unit for periodic lines",
+   "why_unresolved": "semantics per subevent undocumented"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-11",
+    "SRC-L-12"
+   ],
+   "corpus": "retail-experiments.json",
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-06",
+   "known": "Struct_AuraData marks it NeverSecret (SRC-L-12) but 12.1.0 notes 'AuraData structs are now always fully secret' (SRC-L-11)",
+   "question": "Is auraInstanceID still readable while auras are secret?",
+   "reopen_condition": "issecretvalue(aura.auraInstanceID) in combat",
+   "subject": "field secrecy in 12.1",
+   "why_unresolved": "sources conflict"
+  },
+  {
+   "blocker": "live observation",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-03"
+   ],
+   "corpus": "retail-experiments.json",
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-L-07",
+   "known": "documented as client-predicted (SRC-L-03)",
+   "question": "Does GetRefreshExtendedDuration equal the server's refresh result?",
+   "reopen_condition": "AL-X-L-04 run",
+   "subject": "client refresh prediction",
+   "why_unresolved": "prediction model unpublished"
+  },
+  {
+   "blocker": "a DB2/attribute column is identified",
+   "build_skew": false,
+   "coords": [
+    "SRC-L-08"
+   ],
+   "corpus": "retail-experiments.json",
+   "evidence": [
+    "unresolved"
+   ],
+   "id": "AL-U-L-08",
+   "known": "C_Secrets exposes them (SRC-L-08); not found among snapshot tables inspected (SpellAuraVisibility has Type/Flags only)",
+   "question": "Where do NeverSecret/AlwaysSecret spell flags come from?",
+   "reopen_condition": "AL-X-L-12 run cross-checked with DB2 columns",
+   "subject": "per-spell aura secrecy source",
+   "why_unresolved": "no DB2 column identified"
+  }
+ ]
+}

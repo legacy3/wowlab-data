@@ -1,0 +1,7007 @@
+{
+ "acquisition_routes": {
+  "class-trait": {
+   "amount": "trait rank -> TraitDefinitionEffectPoints curve in SpellEffectInfo::CalcValue",
+   "apply": "Player::ApplyTraitEntry -> LearnSpell(trait rank) -> AddSpell -> (passive) HandlePassiveSpellLearn -> CastSpell",
+   "coords": [
+    "src/server/game/Entities/Player/Player.cpp:29391",
+    "src/server/game/Entities/Player/Player.cpp:29266",
+    "src/server/game/Entities/Player/Player.cpp:3195",
+    "src/server/game/Spells/SpellInfo.cpp:534"
+   ],
+   "rank_change": "ApplyTraitEntry(false) then ApplyTraitEntry(true): remove + recreate (new object)",
+   "remove": "ApplyTraitEntry(apply=false) -> RemoveSpell -> RemoveOwnedAura(id, self)"
+  },
+  "current-gear:on-equip": {
+   "apply": "ApplyItemEquipSpell -> ApplyEquipSpell -> CastSpell(this, id, item) (passive or not)",
+   "coords": [
+    "src/server/game/Entities/Player/Player.cpp:8315",
+    "src/server/game/Entities/Player/Player.cpp:8368",
+    "src/server/game/Entities/Player/Player.cpp:8391"
+   ],
+   "remove": "ApplyEquipSpell(apply=false) -> RemoveAurasDueToItemSpell(id, item GUID)"
+  },
+  "current-set": {
+   "apply": "AddItemsSetItem (threshold/spec/subtree gates) -> ApplyEquipSpell(spell, nullptr)",
+   "coords": [
+    "src/server/game/Entities/Item/Item.cpp:164",
+    "src/server/game/Entities/Item/Item.cpp:209",
+    "src/server/game/Entities/Player/Player.cpp:8393"
+   ],
+   "remove": "RemoveItemsSetItem -> ApplyEquipSpell(false) -> RemoveAurasDueToSpell(id) -- ANY caster"
+  },
+  "enchant:equip-spell": {
+   "apply": "ApplyEnchantment ITEM_ENCHANTMENT_TYPE_EQUIP_SPELL -> CastSpell(this, id, item)",
+   "coords": [
+    "src/server/game/Entities/Player/Player.cpp:13487",
+    "src/server/game/Entities/Player/Player.cpp:13489"
+   ],
+   "remove": "RemoveAurasDueToItemSpell(id, item GUID)"
+  },
+  "spec-spell": {
+   "apply": "LearnSpecializationSpells -> LearnSpell -> AddSpell -> HandlePassiveSpellLearn -> CastSpell",
+   "coords": [
+    "src/server/game/Entities/Player/Player.cpp:30631",
+    "src/server/game/Entities/Player/Player.cpp:30649",
+    "src/server/game/Entities/Player/Player.cpp:30668"
+   ],
+   "rank_change": null,
+   "remove": "RemoveSpecializationSpells -> RemoveSpell (mastery: RemoveAurasDueToSpell, any caster)"
+  }
+ },
+ "census": {
+  "counts": {
+   "all": {
+    "active": 172326,
+    "active_cast_when_learned": 355,
+    "active_on_equip_route": 7,
+    "fail_closed": 2,
+    "passive": 16812,
+    "passive_any_mutable": 6316,
+    "passive_area": 162,
+    "passive_build_skew": 209,
+    "passive_by_correction_only": 56,
+    "passive_caster_aura_state": 8,
+    "passive_db2": 16756,
+    "passive_death_persistent_attr": 1620,
+    "passive_effective_proc_entry": 5487,
+    "passive_equipped_item": 50,
+    "passive_finite_duration": 9,
+    "passive_inert_proc_signal": 198,
+    "passive_interruptible": 172,
+    "passive_modify_stacks_target": 0,
+    "passive_mutable_build_skew": 79,
+    "passive_periodic": 636,
+    "passive_proc_charges": 5,
+    "passive_remove_aura_target": 6,
+    "passive_scripted": 310,
+    "passive_spell_proc_row": 883,
+    "passive_stack_cap_gt1": 84,
+    "passive_stackable_with_ranks": 118,
+    "passive_stances": 25,
+    "passive_zero_duration_entry": 0,
+    "providers": 189140
+   },
+   "controlled": {
+    "active": 96,
+    "active_cast_when_learned": 1,
+    "active_on_equip_route": 0,
+    "fail_closed": 0,
+    "passive": 45,
+    "passive_any_mutable": 11,
+    "passive_area": 0,
+    "passive_build_skew": 0,
+    "passive_by_correction_only": 0,
+    "passive_caster_aura_state": 0,
+    "passive_db2": 45,
+    "passive_death_persistent_attr": 2,
+    "passive_effective_proc_entry": 10,
+    "passive_equipped_item": 0,
+    "passive_finite_duration": 0,
+    "passive_inert_proc_signal": 0,
+    "passive_interruptible": 0,
+    "passive_modify_stacks_target": 0,
+    "passive_mutable_build_skew": 0,
+    "passive_periodic": 1,
+    "passive_proc_charges": 0,
+    "passive_remove_aura_target": 0,
+    "passive_scripted": 0,
+    "passive_spell_proc_row": 0,
+    "passive_stack_cap_gt1": 0,
+    "passive_stackable_with_ranks": 0,
+    "passive_stances": 0,
+    "passive_zero_duration_entry": 0,
+    "providers": 141
+   },
+   "player": {
+    "active": 765,
+    "active_cast_when_learned": 0,
+    "active_on_equip_route": 7,
+    "fail_closed": 0,
+    "passive": 3453,
+    "passive_any_mutable": 1049,
+    "passive_area": 11,
+    "passive_build_skew": 50,
+    "passive_by_correction_only": 0,
+    "passive_caster_aura_state": 4,
+    "passive_db2": 3453,
+    "passive_death_persistent_attr": 142,
+    "passive_effective_proc_entry": 927,
+    "passive_equipped_item": 33,
+    "passive_finite_duration": 0,
+    "passive_inert_proc_signal": 72,
+    "passive_interruptible": 50,
+    "passive_modify_stacks_target": 0,
+    "passive_mutable_build_skew": 21,
+    "passive_periodic": 71,
+    "passive_proc_charges": 2,
+    "passive_remove_aura_target": 0,
+    "passive_scripted": 149,
+    "passive_spell_proc_row": 169,
+    "passive_stack_cap_gt1": 7,
+    "passive_stackable_with_ranks": 5,
+    "passive_stances": 2,
+    "passive_zero_duration_entry": 0,
+    "providers": 4218
+   }
+  },
+  "fail_closed": [
+   {
+    "reason": "182749: no DIFFICULTY_NONE SpellMisc row; IsPassive undetermined",
+    "spell": 182749
+   },
+   {
+    "reason": "1281745: no DIFFICULTY_NONE SpellMisc row; IsPassive undetermined",
+    "spell": 1281745
+   }
+  ],
+  "fail_closed_total": 2,
+  "witnesses": {
+   "all": {
+    "active": [
+     {
+      "build_skew": false,
+      "name": "Swim Speed (TEST)",
+      "spell": 13
+     },
+     {
+      "build_skew": false,
+      "name": "Power Word: Shield",
+      "spell": 17
+     },
+     {
+      "build_skew": false,
+      "name": "Stun",
+      "spell": 25
+     },
+     {
+      "build_skew": false,
+      "name": "Stun",
+      "spell": 56
+     },
+     {
+      "build_skew": false,
+      "name": "Haste",
+      "spell": 65
+     },
+     {
+      "build_skew": false,
+      "name": "Invisibility",
+      "spell": 66
+     },
+     {
+      "build_skew": false,
+      "name": "Turtle's Shell",
+      "spell": 77
+     },
+     {
+      "build_skew": false,
+      "name": "Dismember",
+      "spell": 96
+     }
+    ],
+    "active_cast_when_learned": [
+     {
+      "build_skew": false,
+      "name": "Find Herbs",
+      "spell": 2383
+     },
+     {
+      "build_skew": false,
+      "name": "Find Minerals",
+      "spell": 2580
+     },
+     {
+      "build_skew": false,
+      "name": "Disease Cloud",
+      "spell": 12187
+     },
+     {
+      "build_skew": false,
+      "name": "Disease Cloud",
+      "spell": 12627
+     },
+     {
+      "build_skew": false,
+      "name": "Disease Cloud",
+      "spell": 16345
+     },
+     {
+      "build_skew": false,
+      "name": "Disease Cloud",
+      "spell": 16577
+     },
+     {
+      "build_skew": false,
+      "name": "ClearAll",
+      "spell": 28471
+     },
+     {
+      "build_skew": false,
+      "name": "Mutated Spores",
+      "spell": 30110
+     }
+    ],
+    "active_on_equip_route": [
+     {
+      "build_skew": false,
+      "name": "Enduring Bloodstone",
+      "spell": 435550
+     },
+     {
+      "build_skew": false,
+      "name": "Illusory Adornment - Blooming Light",
+      "spell": 1236743
+     },
+     {
+      "build_skew": false,
+      "name": "Illusory Adornment - Nature's Embrace",
+      "spell": 1236744
+     },
+     {
+      "build_skew": false,
+      "name": "Illusory Adornment - Voidtouched",
+      "spell": 1236745
+     },
+     {
+      "build_skew": false,
+      "name": "Powerful Eversong Diamond",
+      "spell": 1258209
+     },
+     {
+      "build_skew": false,
+      "name": "Telluric Eversong Diamond",
+      "spell": 1258210
+     },
+     {
+      "build_skew": false,
+      "name": "Midnight Angler's Grand Line",
+      "spell": 1269475
+     }
+    ],
+    "passive": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Pulverize",
+      "spell": 742
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Resistance",
+      "spell": 822
+     },
+     {
+      "build_skew": false,
+      "name": "Natural Resistance",
+      "spell": 823
+     },
+     {
+      "build_skew": false,
+      "name": "Nightmare Riding",
+      "spell": 827
+     },
+     {
+      "build_skew": false,
+      "name": "Critical Strike",
+      "spell": 1132
+     },
+     {
+      "build_skew": false,
+      "name": "Bear Form Passive",
+      "spell": 1178
+     },
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     }
+    ],
+    "passive_any_mutable": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Pulverize",
+      "spell": 742
+     },
+     {
+      "build_skew": false,
+      "name": "Bear Form Passive",
+      "spell": 1178
+     },
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     },
+     {
+      "build_skew": false,
+      "name": "Rancid Blood",
+      "spell": 3235
+     },
+     {
+      "build_skew": false,
+      "name": "Violent Shield",
+      "spell": 3284
+     },
+     {
+      "build_skew": false,
+      "name": "Rancid Ooze",
+      "spell": 3338
+     },
+     {
+      "build_skew": false,
+      "name": "Consume Flesh",
+      "spell": 3394
+     }
+    ],
+    "passive_area": [
+     {
+      "build_skew": false,
+      "name": "Elemental Protection Totem Aura",
+      "spell": 8263
+     },
+     {
+      "build_skew": false,
+      "name": "Worg Sentry",
+      "spell": 16527
+     },
+     {
+      "build_skew": false,
+      "name": "Smolderweb Protection",
+      "spell": 16530
+     },
+     {
+      "build_skew": false,
+      "name": "Battle Standard",
+      "spell": 23033
+     },
+     {
+      "build_skew": false,
+      "name": "Battle Standard",
+      "spell": 23036
+     },
+     {
+      "build_skew": false,
+      "name": "Battle Standard",
+      "spell": 23574
+     },
+     {
+      "build_skew": false,
+      "name": "Battle Standard",
+      "spell": 23576
+     },
+     {
+      "build_skew": false,
+      "name": "Twilight Cultist Disguise",
+      "spell": 24746
+     }
+    ],
+    "passive_build_skew": [
+     {
+      "build_skew": true,
+      "name": "Blood Pact",
+      "spell": 1288480
+     },
+     {
+      "build_skew": true,
+      "name": "Venom Infusion",
+      "spell": 1288782
+     },
+     {
+      "build_skew": true,
+      "name": "Venom Infusion",
+      "spell": 1288783
+     },
+     {
+      "build_skew": true,
+      "name": "Venom Infusion",
+      "spell": 1288785
+     },
+     {
+      "build_skew": true,
+      "name": "Venom Infusion",
+      "spell": 1288786
+     },
+     {
+      "build_skew": true,
+      "name": "Essence Trap",
+      "spell": 1288788
+     },
+     {
+      "build_skew": true,
+      "name": "Essence Trap",
+      "spell": 1288789
+     },
+     {
+      "build_skew": true,
+      "name": "Essence Trap",
+      "spell": 1288790
+     }
+    ],
+    "passive_by_correction_only": [
+     {
+      "build_skew": false,
+      "name": "Knockback Immune Fly",
+      "spell": 40795
+     },
+     {
+      "build_skew": false,
+      "name": "Flight",
+      "spell": 43775
+     },
+     {
+      "build_skew": false,
+      "name": "Flight",
+      "spell": 47433
+     },
+     {
+      "build_skew": false,
+      "name": "Flight",
+      "spell": 48602
+     },
+     {
+      "build_skew": false,
+      "name": "Flight + Speed",
+      "spell": 49303
+     },
+     {
+      "build_skew": false,
+      "name": "Wyrmrest Defender: Flight Aura",
+      "spell": 50069
+     },
+     {
+      "build_skew": false,
+      "name": "Flight",
+      "spell": 50296
+     },
+     {
+      "build_skew": false,
+      "name": "Flight",
+      "spell": 50345
+     }
+    ],
+    "passive_caster_aura_state": [
+     {
+      "build_skew": false,
+      "name": "Cornered",
+      "spell": 53497
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Unshackled Fury",
+      "spell": 76856
+     },
+     {
+      "build_skew": false,
+      "name": "Contender",
+      "spell": 169616
+     },
+     {
+      "build_skew": false,
+      "name": "Muze's Unwavering Will",
+      "spell": 210632
+     },
+     {
+      "build_skew": false,
+      "name": "Cruelty",
+      "spell": 335070
+     },
+     {
+      "build_skew": false,
+      "name": "Unwavering Will",
+      "spell": 373456
+     },
+     {
+      "build_skew": false,
+      "name": "Exuberance",
+      "spell": 375542
+     },
+     {
+      "build_skew": false,
+      "name": "Cruelty",
+      "spell": 392931
+     }
+    ],
+    "passive_db2": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Pulverize",
+      "spell": 742
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Resistance",
+      "spell": 822
+     },
+     {
+      "build_skew": false,
+      "name": "Natural Resistance",
+      "spell": 823
+     },
+     {
+      "build_skew": false,
+      "name": "Nightmare Riding",
+      "spell": 827
+     },
+     {
+      "build_skew": false,
+      "name": "Critical Strike",
+      "spell": 1132
+     },
+     {
+      "build_skew": false,
+      "name": "Bear Form Passive",
+      "spell": 1178
+     },
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     }
+    ],
+    "passive_death_persistent_attr": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Ghost",
+      "spell": 9036
+     },
+     {
+      "build_skew": false,
+      "name": "Reincarnation",
+      "spell": 20608
+     },
+     {
+      "build_skew": false,
+      "name": "Demonic Ally",
+      "spell": 21741
+     },
+     {
+      "build_skew": false,
+      "name": "Twisting Nether",
+      "spell": 23683
+     },
+     {
+      "build_skew": false,
+      "name": "Righteous Fury",
+      "spell": 25780
+     },
+     {
+      "build_skew": false,
+      "name": "Unseen Path Pet Bonus",
+      "spell": 26176
+     },
+     {
+      "build_skew": false,
+      "name": "Lesser Warding",
+      "spell": 29504
+     }
+    ],
+    "passive_effective_proc_entry": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Pulverize",
+      "spell": 742
+     },
+     {
+      "build_skew": false,
+      "name": "Bear Form Passive",
+      "spell": 1178
+     },
+     {
+      "build_skew": false,
+      "name": "Rancid Blood",
+      "spell": 3235
+     },
+     {
+      "build_skew": false,
+      "name": "Violent Shield",
+      "spell": 3284
+     },
+     {
+      "build_skew": false,
+      "name": "Rancid Ooze",
+      "spell": 3338
+     },
+     {
+      "build_skew": false,
+      "name": "Consume Flesh",
+      "spell": 3394
+     },
+     {
+      "build_skew": false,
+      "name": "Thrash",
+      "spell": 3417
+     }
+    ],
+    "passive_equipped_item": [
+     {
+      "build_skew": false,
+      "name": "MACESTAFFSPECIAL (DND)",
+      "spell": 3440
+     },
+     {
+      "build_skew": false,
+      "name": "Dagger Power",
+      "spell": 5586
+     },
+     {
+      "build_skew": false,
+      "name": "Legendary Bow Haste",
+      "spell": 44972
+     },
+     {
+      "build_skew": false,
+      "name": "Titan's Grip: Single-Minded Fury",
+      "spell": 81099
+     },
+     {
+      "build_skew": false,
+      "name": "Might of the Frozen Wastes",
+      "spell": 81333
+     },
+     {
+      "build_skew": false,
+      "name": "Nethermancy",
+      "spell": 86091
+     },
+     {
+      "build_skew": false,
+      "name": "Leather Specialization",
+      "spell": 86092
+     },
+     {
+      "build_skew": false,
+      "name": "Leather Specialization",
+      "spell": 86093
+     }
+    ],
+    "passive_finite_duration": [
+     {
+      "build_skew": false,
+      "name": "Pulverize",
+      "spell": 742
+     },
+     {
+      "build_skew": false,
+      "name": "Elemental Slayer",
+      "spell": 24991
+     },
+     {
+      "build_skew": false,
+      "name": "Lesser Warding",
+      "spell": 29504
+     },
+     {
+      "build_skew": false,
+      "name": "Mana Regen 5%",
+      "spell": 32102
+     },
+     {
+      "build_skew": false,
+      "name": "Nether Power",
+      "spell": 35121
+     },
+     {
+      "build_skew": false,
+      "name": "Electric Skin",
+      "spell": 35319
+     },
+     {
+      "build_skew": false,
+      "name": "Decompose",
+      "spell": 43200
+     },
+     {
+      "build_skew": false,
+      "name": "Call the Flock: Spin",
+      "spell": 97280
+     }
+    ],
+    "passive_inert_proc_signal": [
+     {
+      "build_skew": false,
+      "name": "Lifestone Regeneration",
+      "spell": 5707
+     },
+     {
+      "build_skew": false,
+      "name": "Seal Fate",
+      "spell": 14190
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Missiles +1",
+      "spell": 21228
+     },
+     {
+      "build_skew": false,
+      "name": "Frostbolt, Improved",
+      "spell": 21229
+     },
+     {
+      "build_skew": false,
+      "name": "Friendly Nukes",
+      "spell": 21879
+     },
+     {
+      "build_skew": false,
+      "name": "Improved Thorns Duration",
+      "spell": 21972
+     },
+     {
+      "build_skew": false,
+      "name": "Gift of the Gathering Storm Chain Lightning Bonus",
+      "spell": 26123
+     },
+     {
+      "build_skew": false,
+      "name": "Striker's Arcane Shot Bonus",
+      "spell": 26173
+     }
+    ],
+    "passive_interruptible": [
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     },
+     {
+      "build_skew": false,
+      "name": "Rift Spawn Invisibility",
+      "spell": 9093
+     },
+     {
+      "build_skew": false,
+      "name": "Righteous Fury",
+      "spell": 25780
+     },
+     {
+      "build_skew": false,
+      "name": "Lesser Warding",
+      "spell": 29504
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Invisibility",
+      "spell": 30628
+     },
+     {
+      "build_skew": false,
+      "name": "Chilling Touch",
+      "spell": 35188
+     },
+     {
+      "build_skew": false,
+      "name": "Aspect of the Spirit Hunter",
+      "spell": 36613
+     },
+     {
+      "build_skew": false,
+      "name": "Feign Death",
+      "spell": 42557
+     }
+    ],
+    "passive_mutable_build_skew": [
+     {
+      "build_skew": true,
+      "name": "Blood Pact",
+      "spell": 1288480
+     },
+     {
+      "build_skew": true,
+      "name": "Corrosive Eye",
+      "spell": 1291701
+     },
+     {
+      "build_skew": true,
+      "name": "Corrosive Scale",
+      "spell": 1291702
+     },
+     {
+      "build_skew": true,
+      "name": "Corrosive Wing",
+      "spell": 1291705
+     },
+     {
+      "build_skew": true,
+      "name": "Venomfang",
+      "spell": 1291718
+     },
+     {
+      "build_skew": true,
+      "name": "Guillotine",
+      "spell": 1291728
+     },
+     {
+      "build_skew": true,
+      "name": "Soulcoiler Ritual Vessel",
+      "spell": 1291885
+     },
+     {
+      "build_skew": true,
+      "name": "Corrosive Heart",
+      "spell": 1292056
+     }
+    ],
+    "passive_periodic": [
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     },
+     {
+      "build_skew": false,
+      "name": "Ward of Laze Passive",
+      "spell": 3825
+     },
+     {
+      "build_skew": false,
+      "name": "Target Dummy Passive",
+      "spell": 4044
+     },
+     {
+      "build_skew": false,
+      "name": "Advanced Target Dummy Passive",
+      "spell": 4048
+     },
+     {
+      "build_skew": false,
+      "name": "Healing Ward V Passive",
+      "spell": 4972
+     },
+     {
+      "build_skew": false,
+      "name": "Living Flame Passive",
+      "spell": 5111
+     },
+     {
+      "build_skew": false,
+      "name": "Energy Regen",
+      "spell": 5310
+     },
+     {
+      "build_skew": false,
+      "name": "Healing Ward Passive",
+      "spell": 5608
+     }
+    ],
+    "passive_proc_charges": [
+     {
+      "build_skew": false,
+      "name": "Helcular's Puppets Passive",
+      "spell": 4951
+     },
+     {
+      "build_skew": false,
+      "name": "Lifecycles",
+      "spell": 197915
+     },
+     {
+      "build_skew": false,
+      "name": "Flux Melting",
+      "spell": 381776
+     },
+     {
+      "build_skew": false,
+      "name": "Sharpen Blade",
+      "spell": 1219165
+     },
+     {
+      "build_skew": false,
+      "name": "Kroluk's Warbanner",
+      "spell": 1250563
+     }
+    ],
+    "passive_remove_aura_target": [
+     {
+      "build_skew": false,
+      "name": "Vermillion Skyscreamer Flight Aura",
+      "spell": 88830
+     },
+     {
+      "build_skew": false,
+      "name": "Trained Fire Hawk Flight Aura",
+      "spell": 98756
+     },
+     {
+      "build_skew": false,
+      "name": "Flight",
+      "spell": 193887
+     },
+     {
+      "build_skew": false,
+      "name": "Flight",
+      "spell": 382684
+     },
+     {
+      "build_skew": false,
+      "name": "[DNT] Listener",
+      "spell": 415772
+     },
+     {
+      "build_skew": false,
+      "name": "Blistering Splinters",
+      "spell": 418522
+     }
+    ],
+    "passive_scripted": [
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Ignite",
+      "spell": 12846
+     },
+     {
+      "build_skew": false,
+      "name": "Ruthlessness",
+      "spell": 14161
+     },
+     {
+      "build_skew": false,
+      "name": "Omen of Clarity",
+      "spell": 16864
+     },
+     {
+      "build_skew": false,
+      "name": "Spirit of Redemption",
+      "spell": 20711
+     },
+     {
+      "build_skew": false,
+      "name": "Lightning Shield",
+      "spell": 23551
+     },
+     {
+      "build_skew": false,
+      "name": "Mana Surge",
+      "spell": 23572
+     },
+     {
+      "build_skew": false,
+      "name": "Dream Fog",
+      "spell": 24780
+     }
+    ],
+    "passive_spell_proc_row": [
+     {
+      "build_skew": false,
+      "name": "Mithril Shield Spike",
+      "spell": 9782
+     },
+     {
+      "build_skew": false,
+      "name": "Iron Shield Spike",
+      "spell": 9784
+     },
+     {
+      "build_skew": false,
+      "name": "Hand of Justice",
+      "spell": 15600
+     },
+     {
+      "build_skew": false,
+      "name": "Bonespike",
+      "spell": 16550
+     },
+     {
+      "build_skew": false,
+      "name": "Proc Self Invulnerability",
+      "spell": 16620
+     },
+     {
+      "build_skew": false,
+      "name": "Thorium Shield Spike",
+      "spell": 16624
+     },
+     {
+      "build_skew": false,
+      "name": "Omen of Clarity",
+      "spell": 16864
+     },
+     {
+      "build_skew": false,
+      "name": "Retribution",
+      "spell": 17495
+     }
+    ],
+    "passive_stack_cap_gt1": [
+     {
+      "build_skew": false,
+      "name": "Glyph of Lesser Proportion",
+      "spell": 57870
+     },
+     {
+      "build_skew": false,
+      "name": "Burning Desire",
+      "spell": 77617
+     },
+     {
+      "build_skew": false,
+      "name": "Item - Proc Stacking Activator (5)",
+      "spell": 91833
+     },
+     {
+      "build_skew": false,
+      "name": "Dreadblade's Fortune",
+      "spell": 202730
+     },
+     {
+      "build_skew": false,
+      "name": "Dreadblade's Fate",
+      "spell": 202732
+     },
+     {
+      "build_skew": false,
+      "name": "Luxurious Feather",
+      "spell": 329049
+     },
+     {
+      "build_skew": false,
+      "name": "Infusion: Corpse Purification",
+      "spell": 360065
+     },
+     {
+      "build_skew": false,
+      "name": "Glyph of the Wild Mushroom",
+      "spell": 361721
+     }
+    ],
+    "passive_stackable_with_ranks": [
+     {
+      "build_skew": false,
+      "name": "Elemental Protection Totem Aura",
+      "spell": 8263
+     },
+     {
+      "build_skew": false,
+      "name": "Worg Sentry",
+      "spell": 16527
+     },
+     {
+      "build_skew": false,
+      "name": "Smolderweb Protection",
+      "spell": 16530
+     },
+     {
+      "build_skew": false,
+      "name": "Battle Standard",
+      "spell": 23033
+     },
+     {
+      "build_skew": false,
+      "name": "Battle Standard",
+      "spell": 23036
+     },
+     {
+      "build_skew": false,
+      "name": "Battle Standard",
+      "spell": 23574
+     },
+     {
+      "build_skew": false,
+      "name": "Battle Standard",
+      "spell": 23576
+     },
+     {
+      "build_skew": false,
+      "name": "Twilight Cultist Disguise",
+      "spell": 24746
+     }
+    ],
+    "passive_stances": [
+     {
+      "build_skew": false,
+      "name": "Bear Form Passive",
+      "spell": 1178
+     },
+     {
+      "build_skew": false,
+      "name": "Cat Form",
+      "spell": 3025
+     },
+     {
+      "build_skew": false,
+      "name": "Incarnation: Tree of Life",
+      "spell": 5420
+     },
+     {
+      "build_skew": false,
+      "name": "Aquatic Form Passive",
+      "spell": 5421
+     },
+     {
+      "build_skew": false,
+      "name": "Feral Instinct",
+      "spell": 16949
+     },
+     {
+      "build_skew": false,
+      "name": "Feline Grace",
+      "spell": 20719
+     },
+     {
+      "build_skew": false,
+      "name": "Shapeshift Movement Speed",
+      "spell": 23218
+     },
+     {
+      "build_skew": false,
+      "name": "Floating",
+      "spell": 27985
+     }
+    ]
+   },
+   "controlled": {
+    "active": [
+     {
+      "build_skew": false,
+      "name": "Mind Control",
+      "spell": 605
+     },
+     {
+      "build_skew": false,
+      "name": "Growl",
+      "spell": 2649
+     },
+     {
+      "build_skew": false,
+      "name": "Healing Stream",
+      "spell": 5672
+     },
+     {
+      "build_skew": false,
+      "name": "Seduction",
+      "spell": 6358
+     },
+     {
+      "build_skew": false,
+      "name": "Whiplash",
+      "spell": 6360
+     },
+     {
+      "build_skew": false,
+      "name": "Lesser Invisibility",
+      "spell": 7870
+     },
+     {
+      "build_skew": false,
+      "name": "Suffering",
+      "spell": 17735
+     },
+     {
+      "build_skew": false,
+      "name": "Shadow Bulwark",
+      "spell": 17767
+     }
+    ],
+    "active_cast_when_learned": [
+     {
+      "build_skew": false,
+      "name": "Threatening Presence",
+      "spell": 112042
+     }
+    ],
+    "passive": [
+     {
+      "build_skew": false,
+      "name": "Pet Damage",
+      "spell": 8875
+     },
+     {
+      "build_skew": false,
+      "name": "Pet Health",
+      "spell": 19581
+     },
+     {
+      "build_skew": false,
+      "name": "Avoidance",
+      "spell": 32233
+     },
+     {
+      "build_skew": false,
+      "name": "Hunter Pet",
+      "spell": 34902
+     },
+     {
+      "build_skew": false,
+      "name": "Earth Elemental",
+      "spell": 35773
+     },
+     {
+      "build_skew": false,
+      "name": "Exotic Beasts",
+      "spell": 53270
+     },
+     {
+      "build_skew": false,
+      "name": "Avoidance",
+      "spell": 62137
+     },
+     {
+      "build_skew": false,
+      "name": "Avoidance",
+      "spell": 65220
+     }
+    ],
+    "passive_any_mutable": [
+     {
+      "build_skew": false,
+      "name": "Earth Elemental",
+      "spell": 35773
+     },
+     {
+      "build_skew": false,
+      "name": "Marksmanship Hunter",
+      "spell": 137016
+     },
+     {
+      "build_skew": false,
+      "name": "Molten Hide",
+      "spell": 159788
+     },
+     {
+      "build_skew": false,
+      "name": "Stone Armor",
+      "spell": 160049
+     },
+     {
+      "build_skew": false,
+      "name": "Thick Hide",
+      "spell": 160057
+     },
+     {
+      "build_skew": false,
+      "name": "Gruff",
+      "spell": 263921
+     },
+     {
+      "build_skew": false,
+      "name": "Thick Fur",
+      "spell": 263934
+     },
+     {
+      "build_skew": false,
+      "name": "Silverback",
+      "spell": 263939
+     }
+    ],
+    "passive_db2": [
+     {
+      "build_skew": false,
+      "name": "Pet Damage",
+      "spell": 8875
+     },
+     {
+      "build_skew": false,
+      "name": "Pet Health",
+      "spell": 19581
+     },
+     {
+      "build_skew": false,
+      "name": "Avoidance",
+      "spell": 32233
+     },
+     {
+      "build_skew": false,
+      "name": "Hunter Pet",
+      "spell": 34902
+     },
+     {
+      "build_skew": false,
+      "name": "Earth Elemental",
+      "spell": 35773
+     },
+     {
+      "build_skew": false,
+      "name": "Exotic Beasts",
+      "spell": 53270
+     },
+     {
+      "build_skew": false,
+      "name": "Avoidance",
+      "spell": 62137
+     },
+     {
+      "build_skew": false,
+      "name": "Avoidance",
+      "spell": 65220
+     }
+    ],
+    "passive_death_persistent_attr": [
+     {
+      "build_skew": false,
+      "name": "Kindred Spirits",
+      "spell": 88680
+     },
+     {
+      "build_skew": false,
+      "name": "Unholy Armaments",
+      "spell": 1265971
+     }
+    ],
+    "passive_effective_proc_entry": [
+     {
+      "build_skew": false,
+      "name": "Marksmanship Hunter",
+      "spell": 137016
+     },
+     {
+      "build_skew": false,
+      "name": "Molten Hide",
+      "spell": 159788
+     },
+     {
+      "build_skew": false,
+      "name": "Stone Armor",
+      "spell": 160049
+     },
+     {
+      "build_skew": false,
+      "name": "Thick Hide",
+      "spell": 160057
+     },
+     {
+      "build_skew": false,
+      "name": "Gruff",
+      "spell": 263921
+     },
+     {
+      "build_skew": false,
+      "name": "Thick Fur",
+      "spell": 263934
+     },
+     {
+      "build_skew": false,
+      "name": "Silverback",
+      "spell": 263939
+     },
+     {
+      "build_skew": false,
+      "name": "Niuzao's Fortitude",
+      "spell": 264023
+     }
+    ],
+    "passive_periodic": [
+     {
+      "build_skew": false,
+      "name": "Earth Elemental",
+      "spell": 35773
+     }
+    ]
+   },
+   "player": {
+    "active": [
+     {
+      "build_skew": false,
+      "name": "Incapacitating Roar",
+      "spell": 99
+     },
+     {
+      "build_skew": false,
+      "name": "Devotion Aura",
+      "spell": 465
+     },
+     {
+      "build_skew": false,
+      "name": "Divine Protection",
+      "spell": 498
+     },
+     {
+      "build_skew": false,
+      "name": "Fade",
+      "spell": 586
+     },
+     {
+      "build_skew": false,
+      "name": "Doom",
+      "spell": 603
+     },
+     {
+      "build_skew": false,
+      "name": "Mind Control",
+      "spell": 605
+     },
+     {
+      "build_skew": false,
+      "name": "Garrote",
+      "spell": 703
+     },
+     {
+      "build_skew": false,
+      "name": "Banish",
+      "spell": 710
+     }
+    ],
+    "active_on_equip_route": [
+     {
+      "build_skew": false,
+      "name": "Enduring Bloodstone",
+      "spell": 435550
+     },
+     {
+      "build_skew": false,
+      "name": "Illusory Adornment - Blooming Light",
+      "spell": 1236743
+     },
+     {
+      "build_skew": false,
+      "name": "Illusory Adornment - Nature's Embrace",
+      "spell": 1236744
+     },
+     {
+      "build_skew": false,
+      "name": "Illusory Adornment - Voidtouched",
+      "spell": 1236745
+     },
+     {
+      "build_skew": false,
+      "name": "Powerful Eversong Diamond",
+      "spell": 1258209
+     },
+     {
+      "build_skew": false,
+      "name": "Telluric Eversong Diamond",
+      "spell": 1258210
+     },
+     {
+      "build_skew": false,
+      "name": "Midnight Angler's Grand Line",
+      "spell": 1269475
+     }
+    ],
+    "passive": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Revenge Trigger",
+      "spell": 5301
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Ignite",
+      "spell": 12846
+     },
+     {
+      "build_skew": false,
+      "name": "Improved Whirlwind",
+      "spell": 12950
+     },
+     {
+      "build_skew": false,
+      "name": "Ruthlessness",
+      "spell": 14161
+     },
+     {
+      "build_skew": false,
+      "name": "Seal Fate",
+      "spell": 14190
+     },
+     {
+      "build_skew": false,
+      "name": "Vigor",
+      "spell": 14983
+     },
+     {
+      "build_skew": false,
+      "name": "Master of the Elements",
+      "spell": 16166
+     }
+    ],
+    "passive_any_mutable": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Revenge Trigger",
+      "spell": 5301
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Ignite",
+      "spell": 12846
+     },
+     {
+      "build_skew": false,
+      "name": "Ruthlessness",
+      "spell": 14161
+     },
+     {
+      "build_skew": false,
+      "name": "Master of the Elements",
+      "spell": 16166
+     },
+     {
+      "build_skew": false,
+      "name": "Resurgence",
+      "spell": 16196
+     },
+     {
+      "build_skew": false,
+      "name": "Omen of Clarity",
+      "spell": 16864
+     },
+     {
+      "build_skew": false,
+      "name": "Predatory Swiftness",
+      "spell": 16974
+     }
+    ],
+    "passive_area": [
+     {
+      "build_skew": false,
+      "name": "Blessing of Dawn",
+      "spell": 183416
+     },
+     {
+      "build_skew": false,
+      "name": "Rewind",
+      "spell": 363558
+     },
+     {
+      "build_skew": false,
+      "name": "Time of Need",
+      "spell": 368412
+     },
+     {
+      "build_skew": false,
+      "name": "Concussive Blows",
+      "spell": 383115
+     },
+     {
+      "build_skew": false,
+      "name": "Forestwalk",
+      "spell": 400129
+     },
+     {
+      "build_skew": false,
+      "name": "Punishment",
+      "spell": 403530
+     },
+     {
+      "build_skew": false,
+      "name": "Instrument of Retribution",
+      "spell": 404752
+     },
+     {
+      "build_skew": false,
+      "name": "Necrolyte Teachings",
+      "spell": 449620
+     }
+    ],
+    "passive_build_skew": [
+     {
+      "build_skew": true,
+      "name": "Venomfang",
+      "spell": 1291718
+     },
+     {
+      "build_skew": true,
+      "name": "Bite of Zul'jan",
+      "spell": 1291726
+     },
+     {
+      "build_skew": true,
+      "name": "Guillotine",
+      "spell": 1291728
+     },
+     {
+      "build_skew": true,
+      "name": "Soulcoiler Ritual Vessel",
+      "spell": 1291885
+     },
+     {
+      "build_skew": true,
+      "name": "Keeper's Seething Core",
+      "spell": 1292065
+     },
+     {
+      "build_skew": true,
+      "name": "Gebbo's Bottomless Bag",
+      "spell": 1292291
+     },
+     {
+      "build_skew": true,
+      "name": "Knot of Writhing Serpents",
+      "spell": 1293304
+     },
+     {
+      "build_skew": true,
+      "name": "The King's Unyielding Wind",
+      "spell": 1294744
+     }
+    ],
+    "passive_caster_aura_state": [
+     {
+      "build_skew": false,
+      "name": "Mastery: Unshackled Fury",
+      "spell": 76856
+     },
+     {
+      "build_skew": false,
+      "name": "Unwavering Will",
+      "spell": 373456
+     },
+     {
+      "build_skew": false,
+      "name": "Exuberance",
+      "spell": 375542
+     },
+     {
+      "build_skew": false,
+      "name": "Cruelty",
+      "spell": 392931
+     }
+    ],
+    "passive_db2": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Revenge Trigger",
+      "spell": 5301
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Ignite",
+      "spell": 12846
+     },
+     {
+      "build_skew": false,
+      "name": "Improved Whirlwind",
+      "spell": 12950
+     },
+     {
+      "build_skew": false,
+      "name": "Ruthlessness",
+      "spell": 14161
+     },
+     {
+      "build_skew": false,
+      "name": "Seal Fate",
+      "spell": 14190
+     },
+     {
+      "build_skew": false,
+      "name": "Vigor",
+      "spell": 14983
+     },
+     {
+      "build_skew": false,
+      "name": "Master of the Elements",
+      "spell": 16166
+     }
+    ],
+    "passive_death_persistent_attr": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Righteous Fury",
+      "spell": 25780
+     },
+     {
+      "build_skew": false,
+      "name": "Stagger",
+      "spell": 115069
+     },
+     {
+      "build_skew": false,
+      "name": "Demonic Wards",
+      "spell": 203513
+     },
+     {
+      "build_skew": false,
+      "name": "Thick Skin",
+      "spell": 320380
+     },
+     {
+      "build_skew": false,
+      "name": "Enlightened",
+      "spell": 321387
+     },
+     {
+      "build_skew": false,
+      "name": "Dance of Chi-Ji",
+      "spell": 325201
+     },
+     {
+      "build_skew": false,
+      "name": "Inevitable Demise",
+      "spell": 334319
+     }
+    ],
+    "passive_effective_proc_entry": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Revenge Trigger",
+      "spell": 5301
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Ignite",
+      "spell": 12846
+     },
+     {
+      "build_skew": false,
+      "name": "Ruthlessness",
+      "spell": 14161
+     },
+     {
+      "build_skew": false,
+      "name": "Master of the Elements",
+      "spell": 16166
+     },
+     {
+      "build_skew": false,
+      "name": "Resurgence",
+      "spell": 16196
+     },
+     {
+      "build_skew": false,
+      "name": "Omen of Clarity",
+      "spell": 16864
+     },
+     {
+      "build_skew": false,
+      "name": "Predatory Swiftness",
+      "spell": 16974
+     }
+    ],
+    "passive_equipped_item": [
+     {
+      "build_skew": false,
+      "name": "Titan's Grip: Single-Minded Fury",
+      "spell": 81099
+     },
+     {
+      "build_skew": false,
+      "name": "Might of the Frozen Wastes",
+      "spell": 81333
+     },
+     {
+      "build_skew": false,
+      "name": "Leather Specialization",
+      "spell": 86093
+     },
+     {
+      "build_skew": false,
+      "name": "Leather Specialization",
+      "spell": 86096
+     },
+     {
+      "build_skew": false,
+      "name": "Leather Specialization",
+      "spell": 86097
+     },
+     {
+      "build_skew": false,
+      "name": "Mail Specialization",
+      "spell": 86099
+     },
+     {
+      "build_skew": false,
+      "name": "Mail Specialization",
+      "spell": 86100
+     },
+     {
+      "build_skew": false,
+      "name": "Plate Specialization",
+      "spell": 86101
+     }
+    ],
+    "passive_inert_proc_signal": [
+     {
+      "build_skew": false,
+      "name": "Seal Fate",
+      "spell": 14190
+     },
+     {
+      "build_skew": false,
+      "name": "Sudden Doom",
+      "spell": 49530
+     },
+     {
+      "build_skew": false,
+      "name": "Frost Mage",
+      "spell": 137020
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Nature's Guardian",
+      "spell": 155783
+     },
+     {
+      "build_skew": false,
+      "name": "Scent of Blood",
+      "spell": 193532
+     },
+     {
+      "build_skew": false,
+      "name": "Tip of the Spear",
+      "spell": 260285
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Highlord's Judgment",
+      "spell": 267316
+     },
+     {
+      "build_skew": false,
+      "name": "Killer Instinct",
+      "spell": 273887
+     }
+    ],
+    "passive_interruptible": [
+     {
+      "build_skew": false,
+      "name": "Righteous Fury",
+      "spell": 25780
+     },
+     {
+      "build_skew": false,
+      "name": "Veteran of the Third War",
+      "spell": 48263
+     },
+     {
+      "build_skew": false,
+      "name": "Teachings of the Monastery",
+      "spell": 116645
+     },
+     {
+      "build_skew": false,
+      "name": "Grimoire of Synergy",
+      "spell": 171975
+     },
+     {
+      "build_skew": false,
+      "name": "Maelstrom Weapon",
+      "spell": 187880
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Sniper Training",
+      "spell": 193468
+     },
+     {
+      "build_skew": false,
+      "name": "Rapid Decomposition",
+      "spell": 194662
+     },
+     {
+      "build_skew": false,
+      "name": "Anti-Magic Barrier",
+      "spell": 205727
+     }
+    ],
+    "passive_mutable_build_skew": [
+     {
+      "build_skew": true,
+      "name": "Venomfang",
+      "spell": 1291718
+     },
+     {
+      "build_skew": true,
+      "name": "Guillotine",
+      "spell": 1291728
+     },
+     {
+      "build_skew": true,
+      "name": "Soulcoiler Ritual Vessel",
+      "spell": 1291885
+     },
+     {
+      "build_skew": true,
+      "name": "Keeper's Seething Core",
+      "spell": 1292065
+     },
+     {
+      "build_skew": true,
+      "name": "Gebbo's Bottomless Bag",
+      "spell": 1292291
+     },
+     {
+      "build_skew": true,
+      "name": "Knot of Writhing Serpents",
+      "spell": 1293304
+     },
+     {
+      "build_skew": true,
+      "name": "Wavecaller's Seastone",
+      "spell": 1295058
+     },
+     {
+      "build_skew": true,
+      "name": "Fang of Umbral Malignance",
+      "spell": 1295219
+     }
+    ],
+    "passive_periodic": [
+     {
+      "build_skew": false,
+      "name": "Second Wind",
+      "spell": 29838
+     },
+     {
+      "build_skew": false,
+      "name": "Combat Wisdom",
+      "spell": 121817
+     },
+     {
+      "build_skew": false,
+      "name": "Healing Elixir",
+      "spell": 122280
+     },
+     {
+      "build_skew": false,
+      "name": "Windwalker Monk",
+      "spell": 137025
+     },
+     {
+      "build_skew": false,
+      "name": "Ysera's Gift",
+      "spell": 145108
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing of Dawn",
+      "spell": 183416
+     },
+     {
+      "build_skew": false,
+      "name": "Shooting Stars",
+      "spell": 202342
+     },
+     {
+      "build_skew": false,
+      "name": "Nature's Balance",
+      "spell": 202430
+     }
+    ],
+    "passive_proc_charges": [
+     {
+      "build_skew": false,
+      "name": "Lifecycles",
+      "spell": 197915
+     },
+     {
+      "build_skew": false,
+      "name": "Flux Melting",
+      "spell": 381776
+     }
+    ],
+    "passive_scripted": [
+     {
+      "build_skew": false,
+      "name": "Mastery: Ignite",
+      "spell": 12846
+     },
+     {
+      "build_skew": false,
+      "name": "Ruthlessness",
+      "spell": 14161
+     },
+     {
+      "build_skew": false,
+      "name": "Omen of Clarity",
+      "spell": 16864
+     },
+     {
+      "build_skew": false,
+      "name": "Spirit of Redemption",
+      "spell": 20711
+     },
+     {
+      "build_skew": false,
+      "name": "Sudden Death",
+      "spell": 29725
+     },
+     {
+      "build_skew": false,
+      "name": "Nature's Guardian",
+      "spell": 30884
+     },
+     {
+      "build_skew": false,
+      "name": "Cheat Death",
+      "spell": 31230
+     },
+     {
+      "build_skew": false,
+      "name": "Shadowfiend",
+      "spell": 34433
+     }
+    ],
+    "passive_spell_proc_row": [
+     {
+      "build_skew": false,
+      "name": "Omen of Clarity",
+      "spell": 16864
+     },
+     {
+      "build_skew": false,
+      "name": "Sudden Death",
+      "spell": 29725
+     },
+     {
+      "build_skew": false,
+      "name": "Pyroblast Clearcasting Driver",
+      "spell": 44448
+     },
+     {
+      "build_skew": false,
+      "name": "Divine Aegis",
+      "spell": 47515
+     },
+     {
+      "build_skew": false,
+      "name": "Infected Wounds",
+      "spell": 48484
+     },
+     {
+      "build_skew": false,
+      "name": "Killing Machine",
+      "spell": 51128
+     },
+     {
+      "build_skew": false,
+      "name": "Infusion of Light",
+      "spell": 53576
+     },
+     {
+      "build_skew": false,
+      "name": "Light's Beacon",
+      "spell": 53651
+     }
+    ],
+    "passive_stack_cap_gt1": [
+     {
+      "build_skew": false,
+      "name": "Divine Resonance",
+      "spell": 384027
+     },
+     {
+      "build_skew": false,
+      "name": "Divine Resonance",
+      "spell": 386738
+     },
+     {
+      "build_skew": false,
+      "name": "Shadowboxing Treads",
+      "spell": 387638
+     },
+     {
+      "build_skew": false,
+      "name": "Moonless Night",
+      "spell": 400278
+     },
+     {
+      "build_skew": false,
+      "name": "Phalanx",
+      "spell": 1269312
+     },
+     {
+      "build_skew": false,
+      "name": "Masterwork",
+      "spell": 1271387
+     },
+     {
+      "build_skew": false,
+      "name": "Reflection of Radiance",
+      "spell": 1271466
+     }
+    ],
+    "passive_stackable_with_ranks": [
+     {
+      "build_skew": false,
+      "name": "Rewind",
+      "spell": 363558
+     },
+     {
+      "build_skew": false,
+      "name": "Time of Need",
+      "spell": 368412
+     },
+     {
+      "build_skew": false,
+      "name": "Forestwalk",
+      "spell": 400129
+     },
+     {
+      "build_skew": false,
+      "name": "Instrument of Retribution",
+      "spell": 404752
+     },
+     {
+      "build_skew": false,
+      "name": "Beacon of the Savior",
+      "spell": 1270083
+     }
+    ],
+    "passive_stances": [
+     {
+      "build_skew": false,
+      "name": "Feral Instinct",
+      "spell": 16949
+     },
+     {
+      "build_skew": false,
+      "name": "Void Tendrils",
+      "spell": 1250691
+     }
+    ]
+   }
+  }
+ },
+ "core_navigation": [
+  {
+   "core_coords": [
+    "crates/combat/src/program/exact_source.rs:153-243"
+   ],
+   "id": "AL-K-G-01",
+   "observation": "Core admits selected passives through an owner-policy check; the census finds 1049 player passives with a mutable carrier",
+   "reopen_condition": "Core admission path consults effective proc entry / scripts / interrupt flags",
+   "research_ref": "AL-R-G-08 (discarded), selected-passive-package-generalization.md §13 D1",
+   "topic": "selected passives compiled as immutable"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/passive_maximum_health.rs:38"
+   ],
+   "id": "AL-K-G-02",
+   "observation": "Core applies passive contributions as static bindings; no loss/reacquisition events exist to model interrupt/charges/expiry of passives",
+   "reopen_condition": "Core introduces passive acquisition/loss lifecycle",
+   "research_ref": "AL-R-G-09, AL-D-G-01",
+   "topic": "passive loss events"
+  }
+ ],
+ "drift": {
+  "absent_in_drift": 0,
+  "absent_tables": [],
+  "available": true,
+  "changed": [],
+  "compared": 3453,
+  "population": "player passives"
+ },
+ "falsification": [
+  {
+   "action": "rule restated as 'permanent iff no DurationEntry'",
+   "attempt": "Passive => permanent (-1)",
+   "id": "AL-F-G-01",
+   "result": "falsified on all (9 passives with a DurationEntry); holds on player (0)",
+   "rule": "AL-R-G-03"
+  },
+  {
+   "action": "capacity is dormant on the census; stack mutation only via scripts / SetAuraStack; kept as a carrier",
+   "attempt": "Passive => no stacks",
+   "id": "AL-F-G-02",
+   "result": "84 passives (all) / 7 (player) carry CumulativeAura>1; MODIFY_AURA_STACKS writers targeting a passive: 0; re-application cannot stack (multislot)",
+   "rule": "AL-R-G-08"
+  },
+  {
+   "action": "falsified; charges consumption removes the passive (no restoration)",
+   "attempt": "Passive => no charges",
+   "id": "AL-F-G-03",
+   "result": "5 passives (all) / 2 (player) have max charges > 0",
+   "rule": "AL-R-G-08"
+  },
+  {
+   "action": "falsified in Trinity; Retail semantics UNKNOWN (AL-U-G-01)",
+   "attempt": "Passive => present until unlearned",
+   "id": "AL-F-G-04",
+   "result": "172 (all) / 50 (player) passives carry AuraInterruptFlags; 6 passives are REMOVE_AURA targets",
+   "rule": "AL-R-G-09"
+  },
+  {
+   "action": "falsified; replaced by replace/coexist taxonomy (TL-G-01, TL-G-03)",
+   "attempt": "Passive re-application refreshes in place like an active",
+   "id": "AL-F-G-05",
+   "result": "IsMultiSlotAura true for every passive (SpellInfo.cpp:1805) -> no lookup",
+   "rule": "AL-R-G-02"
+  },
+  {
+   "action": "refined: effective_passive() adds the corrections",
+   "attempt": "IsPassive == DB2 ATTR0_PASSIVE",
+   "id": "AL-F-G-06",
+   "result": "56 providers passive only by Trinity correction (all), 0 player",
+   "rule": "AL-R-G-01"
+  },
+  {
+   "action": "kept inert (agrees with selected-package §12)",
+   "attempt": "Heart of the Crusader has per-aura proc state (ProcTypeMask 4)",
+   "id": "AL-F-G-07",
+   "result": "ProcEntryStore.lookup(406154) -> None: no trigger aura, generation bails",
+   "rule": "AL-R-G-08"
+  },
+  {
+   "action": "falsified; package lifecycle = immutable-by-DB2 passive owner + proc state + active child",
+   "attempt": "Pyrogenics is immutable (no SpellAuraOptions row)",
+   "id": "AL-F-G-08",
+   "result": "effective proc entry from spell_proc + spell_warl_pyrogenics OnEffectProc; the finite, re-applied state lives in child 387096",
+   "rule": "AL-R-G-08"
+  },
+  {
+   "action": "refined to AL-R-G-12",
+   "attempt": "Every learned spell with an aura effect is applied at learn",
+   "id": "AL-F-G-09",
+   "result": "non-passive auras apply only with ATTR1_CAST_WHEN_LEARNED / talent LEARN_SPELL / SKILL_STEP (Player.cpp:2912-2927)",
+   "rule": "AL-R-G-12"
+  }
+ ],
+ "named_cases": [
+  {
+   "acquisition": {
+    "learn": {
+     "applies": true,
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:2920",
+      "src/server/game/Entities/Player/Player.cpp:3079"
+     ],
+     "gates": [],
+     "via": "HandlePassiveSpellLearn"
+    },
+    "player_reach": true,
+    "reached_from": null,
+    "root_routes": [
+     {
+      "amount": "trait rank -> TraitDefinitionEffectPoints curve in SpellEffectInfo::CalcValue",
+      "apply": "Player::ApplyTraitEntry -> LearnSpell(trait rank) -> AddSpell -> (passive) HandlePassiveSpellLearn -> CastSpell",
+      "coords": [
+       "src/server/game/Entities/Player/Player.cpp:29391",
+       "src/server/game/Entities/Player/Player.cpp:29266",
+       "src/server/game/Entities/Player/Player.cpp:3195",
+       "src/server/game/Spells/SpellInfo.cpp:534"
+      ],
+      "rank_change": "ApplyTraitEntry(false) then ApplyTraitEntry(true): remove + recreate (new object)",
+      "remove": "ApplyTraitEntry(apply=false) -> RemoveSpell -> RemoveOwnedAura(id, self)",
+      "route": "class-trait"
+     }
+    ]
+   },
+   "aura_effects": [
+    {
+     "aura": 137,
+     "effect": 6,
+     "index": 0
+    },
+    {
+     "aura": 108,
+     "effect": 6,
+     "index": 1
+    },
+    {
+     "aura": 87,
+     "effect": 6,
+     "index": 2
+    }
+   ],
+   "build_skew": false,
+   "drift": {
+    "changed": [],
+    "duration_index": 0,
+    "passive": true,
+    "stack_cap": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "max_duration": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+    ],
+    "kind": "permanent",
+    "ms": -1,
+    "note": "no DurationIndex"
+   },
+   "mutable_state": [
+    {
+     "carrier": "interruptible",
+     "evidence": "db2-fact",
+     "value": [
+      536870912,
+      0
+     ]
+    }
+   ],
+   "name": "Veteran of the Third War",
+   "passive": {
+    "db2_passive": true,
+    "passive": true,
+    "reasons": [
+     "db2:SPELL_ATTR0_PASSIVE"
+    ]
+   },
+   "passive_stackable_with_ranks": false,
+   "reacquisition": [
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170",
+      "src/server/game/Entities/Player/Player.cpp:2920"
+     ],
+     "event": "login",
+     "why": "passives are never saved; AddSpell(loading) re-casts them"
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:29247",
+      "src/server/game/Entities/Player/Player.cpp:30631"
+     ],
+     "event": "relearn / trait edit / spec change"
+    }
+   ],
+   "reapplication_same_caster_item_sourced": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1760"
+    ],
+    "object": "new",
+    "outcome": "coexist",
+    "why": "item-sourced passive: 1651 skipped (cast item non-empty); IsRankOf && IsMultiSlotAura && !IsArea -> true (SpellAuras.cpp:1760)"
+   },
+   "reapplication_same_caster_no_item": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1651",
+     "src/server/game/Entities/Unit/Unit.cpp:3729"
+    ],
+    "object": "new",
+    "outcome": "replace",
+    "why": "CanStackWith false (SpellAuras.cpp:1651) -> old owned aura removed BY_DEFAULT before the new one is applied"
+   },
+   "removal": {
+    "arena-entry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4436"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "RemoveArenaAuras: !IsPassive conjunct, ATTR5_REMOVE_ENTERING_ARENA overrides"
+    },
+    "aura-interrupt": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4250"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": true,
+     "why": "RemoveAurasWithInterruptFlags has no passive exemption"
+    },
+    "caster-aura-state-lost": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:6125"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "ModifyAuraState(flag,false) removes own auras with that CasterAuraState (actives exempt only for ENRAGED)"
+    },
+    "charges-exhausted": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1027"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::ModCharges charges<=0 -> Remove(removeMode); no passive guard"
+    },
+    "dispel": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4746"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "GetDispellableAuraList: 'don't try to remove passive auras'"
+    },
+    "evade-creature-owner": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4442"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "RemoveAurasOnEvade has no passive exemption (player-owned units exempt entirely)"
+    },
+    "expiry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:2986",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_EXPIRE",
+     "removed": false,
+     "why": "Unit::_UpdateSpells IsExpired -> RemoveOwnedAura BY_EXPIRE; passive only permanent without DurationEntry"
+    },
+    "explicit-remove-effect": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:5160"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": true,
+     "why": "Spell::EffectRemoveAura -> RemoveAurasDueToSpell(TriggerSpell), no passive guard"
+    },
+    "immunity-purge": {
+     "coords": [
+      "src/server/game/Spells/SpellInfo.cpp:3718"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "SpellInfo::ApplyAllSpellImmunitiesTo purge lambda skips passives"
+    },
+    "owner-death": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4479",
+      "src/server/game/Entities/Unit/Unit.cpp:4488"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEATH",
+     "removed": false,
+     "why": "RemoveAllAurasOnDeath skips IsPassive and IsDeathPersistent (applied and owned lists)"
+    },
+    "player-cancel": {
+     "coords": [
+      "src/server/game/Handlers/SpellHandler.cpp:281"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "CMSG_CANCEL_AURA refuses passive"
+    },
+    "save-logout": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+     ],
+     "remove_mode": null,
+     "removed": "not saved (rebuilt on login)",
+     "why": "Aura::CanBeSaved: IsPassive -> false"
+    },
+    "shapeshift-lost": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1160",
+      "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1631"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::IsRemovedOnShapeLost (caster==target && Stances && !ATTR2 && !ATTR0_NOT_SHAPESHIFTED), applies to actives too"
+    },
+    "spell-steal": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:4747"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "EffectStealBeneficialBuff skips aura->IsPassive()"
+    }
+   },
+   "spell": 48263,
+   "spellmod_recalculation": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1233"
+    ],
+    "exception": "SpellInfo::IsUpdatingTemporaryAuraValuesBySpellMod literal 384669 (SpellInfo.cpp:2021-2029)",
+    "input_timing": "explicit-recalculation",
+    "requires": "caster == target (aura->GetCasterGUID() == target GUID)"
+   },
+   "why": "Veteran of the Third War (passive with the Login interrupt flag)"
+  },
+  {
+   "acquisition": {
+    "learn": {
+     "applies": true,
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:2920",
+      "src/server/game/Entities/Player/Player.cpp:3079"
+     ],
+     "gates": [],
+     "via": "HandlePassiveSpellLearn"
+    },
+    "player_reach": true,
+    "reached_from": null,
+    "root_routes": [
+     {
+      "amount": "trait rank -> TraitDefinitionEffectPoints curve in SpellEffectInfo::CalcValue",
+      "apply": "Player::ApplyTraitEntry -> LearnSpell(trait rank) -> AddSpell -> (passive) HandlePassiveSpellLearn -> CastSpell",
+      "coords": [
+       "src/server/game/Entities/Player/Player.cpp:29391",
+       "src/server/game/Entities/Player/Player.cpp:29266",
+       "src/server/game/Entities/Player/Player.cpp:3195",
+       "src/server/game/Spells/SpellInfo.cpp:534"
+      ],
+      "rank_change": "ApplyTraitEntry(false) then ApplyTraitEntry(true): remove + recreate (new object)",
+      "remove": "ApplyTraitEntry(apply=false) -> RemoveSpell -> RemoveOwnedAura(id, self)",
+      "route": "class-trait"
+     }
+    ]
+   },
+   "aura_effects": [
+    {
+     "aura": 4,
+     "effect": 6,
+     "index": 0
+    },
+    {
+     "aura": 107,
+     "effect": 6,
+     "index": 2
+    },
+    {
+     "aura": 107,
+     "effect": 6,
+     "index": 3
+    },
+    {
+     "aura": 107,
+     "effect": 6,
+     "index": 4
+    }
+   ],
+   "build_skew": false,
+   "drift": {
+    "changed": [],
+    "duration_index": 0,
+    "passive": true,
+    "stack_cap": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "script-consumer"
+   ],
+   "max_duration": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+    ],
+    "kind": "permanent",
+    "ms": -1,
+    "note": "no DurationIndex"
+   },
+   "mutable_state": [
+    {
+     "carrier": "effective-proc-entry",
+     "evidence": [
+      "trinity-consumer",
+      "db2-fact"
+     ],
+     "note": "per-aura proc state: m_procCooldown (AddProcCooldown SpellAuras.cpp:1777), m_lastProcAttemptTime/SuccessTime (RPPM), charges",
+     "value": {
+      "chance": 20.0,
+      "charges": 0,
+      "cooldown_ms": 0,
+      "origin": "generated",
+      "ppm": 0.0,
+      "proc_flags": 20
+     }
+    },
+    {
+     "carrier": "script-state",
+     "evidence": "script-consumer",
+     "value": [
+      "spell_sha_maelstrom_weapon"
+     ]
+    },
+    {
+     "carrier": "interruptible",
+     "evidence": "db2-fact",
+     "value": [
+      0,
+      64
+     ]
+    }
+   ],
+   "name": "Maelstrom Weapon",
+   "passive": {
+    "db2_passive": true,
+    "passive": true,
+    "reasons": [
+     "db2:SPELL_ATTR0_PASSIVE"
+    ]
+   },
+   "passive_stackable_with_ranks": false,
+   "reacquisition": [
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170",
+      "src/server/game/Entities/Player/Player.cpp:2920"
+     ],
+     "event": "login",
+     "why": "passives are never saved; AddSpell(loading) re-casts them"
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:29247",
+      "src/server/game/Entities/Player/Player.cpp:30631"
+     ],
+     "event": "relearn / trait edit / spec change"
+    }
+   ],
+   "reapplication_same_caster_item_sourced": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1760"
+    ],
+    "object": "new",
+    "outcome": "coexist",
+    "why": "item-sourced passive: 1651 skipped (cast item non-empty); IsRankOf && IsMultiSlotAura && !IsArea -> true (SpellAuras.cpp:1760)"
+   },
+   "reapplication_same_caster_no_item": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1651",
+     "src/server/game/Entities/Unit/Unit.cpp:3729"
+    ],
+    "object": "new",
+    "outcome": "replace",
+    "why": "CanStackWith false (SpellAuras.cpp:1651) -> old owned aura removed BY_DEFAULT before the new one is applied"
+   },
+   "removal": {
+    "arena-entry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4436"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "RemoveArenaAuras: !IsPassive conjunct, ATTR5_REMOVE_ENTERING_ARENA overrides"
+    },
+    "aura-interrupt": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4250"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": true,
+     "why": "RemoveAurasWithInterruptFlags has no passive exemption"
+    },
+    "caster-aura-state-lost": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:6125"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "ModifyAuraState(flag,false) removes own auras with that CasterAuraState (actives exempt only for ENRAGED)"
+    },
+    "charges-exhausted": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1027"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::ModCharges charges<=0 -> Remove(removeMode); no passive guard"
+    },
+    "dispel": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4746"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "GetDispellableAuraList: 'don't try to remove passive auras'"
+    },
+    "evade-creature-owner": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4442"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "RemoveAurasOnEvade has no passive exemption (player-owned units exempt entirely)"
+    },
+    "expiry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:2986",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_EXPIRE",
+     "removed": false,
+     "why": "Unit::_UpdateSpells IsExpired -> RemoveOwnedAura BY_EXPIRE; passive only permanent without DurationEntry"
+    },
+    "explicit-remove-effect": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:5160"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": true,
+     "why": "Spell::EffectRemoveAura -> RemoveAurasDueToSpell(TriggerSpell), no passive guard"
+    },
+    "immunity-purge": {
+     "coords": [
+      "src/server/game/Spells/SpellInfo.cpp:3718"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "SpellInfo::ApplyAllSpellImmunitiesTo purge lambda skips passives"
+    },
+    "owner-death": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4479",
+      "src/server/game/Entities/Unit/Unit.cpp:4488"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEATH",
+     "removed": false,
+     "why": "RemoveAllAurasOnDeath skips IsPassive and IsDeathPersistent (applied and owned lists)"
+    },
+    "player-cancel": {
+     "coords": [
+      "src/server/game/Handlers/SpellHandler.cpp:281"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "CMSG_CANCEL_AURA refuses passive"
+    },
+    "save-logout": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+     ],
+     "remove_mode": null,
+     "removed": "not saved (rebuilt on login)",
+     "why": "Aura::CanBeSaved: IsPassive -> false"
+    },
+    "shapeshift-lost": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1160",
+      "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1631"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::IsRemovedOnShapeLost (caster==target && Stances && !ATTR2 && !ATTR0_NOT_SHAPESHIFTED), applies to actives too"
+    },
+    "spell-steal": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:4747"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "EffectStealBeneficialBuff skips aura->IsPassive()"
+    }
+   },
+   "spell": 187880,
+   "spellmod_recalculation": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1233"
+    ],
+    "exception": "SpellInfo::IsUpdatingTemporaryAuraValuesBySpellMod literal 384669 (SpellInfo.cpp:2021-2029)",
+    "input_timing": "explicit-recalculation",
+    "requires": "caster == target (aura->GetCasterGUID() == target GUID)"
+   },
+   "why": "Maelstrom Weapon (passive with the ChangeSpec interrupt flag)"
+  },
+  {
+   "acquisition": {
+    "learn": {
+     "applies": true,
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:2920",
+      "src/server/game/Entities/Player/Player.cpp:3079"
+     ],
+     "gates": [],
+     "via": "HandlePassiveSpellLearn"
+    },
+    "player_reach": true,
+    "reached_from": null,
+    "root_routes": [
+     {
+      "amount": "trait rank -> TraitDefinitionEffectPoints curve in SpellEffectInfo::CalcValue",
+      "apply": "Player::ApplyTraitEntry -> LearnSpell(trait rank) -> AddSpell -> (passive) HandlePassiveSpellLearn -> CastSpell",
+      "coords": [
+       "src/server/game/Entities/Player/Player.cpp:29391",
+       "src/server/game/Entities/Player/Player.cpp:29266",
+       "src/server/game/Entities/Player/Player.cpp:3195",
+       "src/server/game/Spells/SpellInfo.cpp:534"
+      ],
+      "rank_change": "ApplyTraitEntry(false) then ApplyTraitEntry(true): remove + recreate (new object)",
+      "remove": "ApplyTraitEntry(apply=false) -> RemoveSpell -> RemoveOwnedAura(id, self)",
+      "route": "class-trait"
+     }
+    ]
+   },
+   "aura_effects": [
+    {
+     "aura": 4,
+     "effect": 6,
+     "index": 0
+    },
+    {
+     "aura": 4,
+     "effect": 6,
+     "index": 1
+    },
+    {
+     "aura": 4,
+     "effect": 6,
+     "index": 2
+    }
+   ],
+   "build_skew": false,
+   "drift": {
+    "changed": [],
+    "duration_index": 0,
+    "passive": true,
+    "stack_cap": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "max_duration": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+    ],
+    "kind": "permanent",
+    "ms": -1,
+    "note": "no DurationIndex"
+   },
+   "mutable_state": [
+    {
+     "carrier": "proc-charges",
+     "evidence": "db2-fact",
+     "source": "db2",
+     "value": 1
+    },
+    {
+     "carrier": "effective-proc-entry",
+     "evidence": [
+      "trinity-consumer",
+      "db2-fact"
+     ],
+     "note": "per-aura proc state: m_procCooldown (AddProcCooldown SpellAuras.cpp:1777), m_lastProcAttemptTime/SuccessTime (RPPM), charges",
+     "value": {
+      "chance": 100.0,
+      "charges": 1,
+      "cooldown_ms": 0,
+      "origin": "generated",
+      "ppm": 0.0,
+      "proc_flags": 16400
+     }
+    }
+   ],
+   "name": "Lifecycles",
+   "passive": {
+    "db2_passive": true,
+    "passive": true,
+    "reasons": [
+     "db2:SPELL_ATTR0_PASSIVE"
+    ]
+   },
+   "passive_stackable_with_ranks": false,
+   "reacquisition": [
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170",
+      "src/server/game/Entities/Player/Player.cpp:2920"
+     ],
+     "event": "login",
+     "why": "passives are never saved; AddSpell(loading) re-casts them"
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:29247",
+      "src/server/game/Entities/Player/Player.cpp:30631"
+     ],
+     "event": "relearn / trait edit / spec change"
+    }
+   ],
+   "reapplication_same_caster_item_sourced": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1760"
+    ],
+    "object": "new",
+    "outcome": "coexist",
+    "why": "item-sourced passive: 1651 skipped (cast item non-empty); IsRankOf && IsMultiSlotAura && !IsArea -> true (SpellAuras.cpp:1760)"
+   },
+   "reapplication_same_caster_no_item": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1651",
+     "src/server/game/Entities/Unit/Unit.cpp:3729"
+    ],
+    "object": "new",
+    "outcome": "replace",
+    "why": "CanStackWith false (SpellAuras.cpp:1651) -> old owned aura removed BY_DEFAULT before the new one is applied"
+   },
+   "removal": {
+    "arena-entry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4436"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "RemoveArenaAuras: !IsPassive conjunct, ATTR5_REMOVE_ENTERING_ARENA overrides"
+    },
+    "aura-interrupt": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4250"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": false,
+     "why": "RemoveAurasWithInterruptFlags has no passive exemption"
+    },
+    "caster-aura-state-lost": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:6125"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "ModifyAuraState(flag,false) removes own auras with that CasterAuraState (actives exempt only for ENRAGED)"
+    },
+    "charges-exhausted": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1027"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "Aura::ModCharges charges<=0 -> Remove(removeMode); no passive guard"
+    },
+    "dispel": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4746"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "GetDispellableAuraList: 'don't try to remove passive auras'"
+    },
+    "evade-creature-owner": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4442"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "RemoveAurasOnEvade has no passive exemption (player-owned units exempt entirely)"
+    },
+    "expiry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:2986",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_EXPIRE",
+     "removed": false,
+     "why": "Unit::_UpdateSpells IsExpired -> RemoveOwnedAura BY_EXPIRE; passive only permanent without DurationEntry"
+    },
+    "explicit-remove-effect": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:5160"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": true,
+     "why": "Spell::EffectRemoveAura -> RemoveAurasDueToSpell(TriggerSpell), no passive guard"
+    },
+    "immunity-purge": {
+     "coords": [
+      "src/server/game/Spells/SpellInfo.cpp:3718"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "SpellInfo::ApplyAllSpellImmunitiesTo purge lambda skips passives"
+    },
+    "owner-death": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4479",
+      "src/server/game/Entities/Unit/Unit.cpp:4488"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEATH",
+     "removed": false,
+     "why": "RemoveAllAurasOnDeath skips IsPassive and IsDeathPersistent (applied and owned lists)"
+    },
+    "player-cancel": {
+     "coords": [
+      "src/server/game/Handlers/SpellHandler.cpp:281"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "CMSG_CANCEL_AURA refuses passive"
+    },
+    "save-logout": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+     ],
+     "remove_mode": null,
+     "removed": "not saved (rebuilt on login)",
+     "why": "Aura::CanBeSaved: IsPassive -> false"
+    },
+    "shapeshift-lost": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1160",
+      "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1631"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::IsRemovedOnShapeLost (caster==target && Stances && !ATTR2 && !ATTR0_NOT_SHAPESHIFTED), applies to actives too"
+    },
+    "spell-steal": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:4747"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "EffectStealBeneficialBuff skips aura->IsPassive()"
+    }
+   },
+   "spell": 197915,
+   "spellmod_recalculation": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1233"
+    ],
+    "exception": "SpellInfo::IsUpdatingTemporaryAuraValuesBySpellMod literal 384669 (SpellInfo.cpp:2021-2029)",
+    "input_timing": "explicit-recalculation",
+    "requires": "caster == target (aura->GetCasterGUID() == target GUID)"
+   },
+   "why": "Lifecycles (passive with proc charges)"
+  },
+  {
+   "acquisition": {
+    "learn": {
+     "applies": true,
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:2920",
+      "src/server/game/Entities/Player/Player.cpp:3079"
+     ],
+     "gates": [],
+     "via": "HandlePassiveSpellLearn"
+    },
+    "player_reach": true,
+    "reached_from": null,
+    "root_routes": [
+     {
+      "amount": "trait rank -> TraitDefinitionEffectPoints curve in SpellEffectInfo::CalcValue",
+      "apply": "Player::ApplyTraitEntry -> LearnSpell(trait rank) -> AddSpell -> (passive) HandlePassiveSpellLearn -> CastSpell",
+      "coords": [
+       "src/server/game/Entities/Player/Player.cpp:29391",
+       "src/server/game/Entities/Player/Player.cpp:29266",
+       "src/server/game/Entities/Player/Player.cpp:3195",
+       "src/server/game/Spells/SpellInfo.cpp:534"
+      ],
+      "rank_change": "ApplyTraitEntry(false) then ApplyTraitEntry(true): remove + recreate (new object)",
+      "remove": "ApplyTraitEntry(apply=false) -> RemoveSpell -> RemoveOwnedAura(id, self)",
+      "route": "class-trait"
+     }
+    ]
+   },
+   "aura_effects": [
+    {
+     "aura": 219,
+     "effect": 6,
+     "index": 0
+    }
+   ],
+   "build_skew": false,
+   "drift": {
+    "changed": [],
+    "duration_index": 0,
+    "passive": true,
+    "stack_cap": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "world-db-fact",
+    "script-consumer"
+   ],
+   "max_duration": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+    ],
+    "kind": "permanent",
+    "ms": -1,
+    "note": "no DurationIndex"
+   },
+   "mutable_state": [
+    {
+     "carrier": "effective-proc-entry",
+     "evidence": [
+      "trinity-consumer",
+      "world-db-fact"
+     ],
+     "note": "per-aura proc state: m_procCooldown (AddProcCooldown SpellAuras.cpp:1777), m_lastProcAttemptTime/SuccessTime (RPPM), charges",
+     "value": {
+      "chance": 100.0,
+      "charges": 0,
+      "cooldown_ms": 0,
+      "origin": "spell_proc",
+      "ppm": 0.0,
+      "proc_flags": 327680
+     }
+    },
+    {
+     "carrier": "script-state",
+     "evidence": "script-consumer",
+     "value": [
+      "spell_warl_pyrogenics"
+     ]
+    }
+   ],
+   "name": "Pyrogenics",
+   "passive": {
+    "db2_passive": true,
+    "passive": true,
+    "reasons": [
+     "db2:SPELL_ATTR0_PASSIVE"
+    ]
+   },
+   "passive_stackable_with_ranks": false,
+   "reacquisition": [
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170",
+      "src/server/game/Entities/Player/Player.cpp:2920"
+     ],
+     "event": "login",
+     "why": "passives are never saved; AddSpell(loading) re-casts them"
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:29247",
+      "src/server/game/Entities/Player/Player.cpp:30631"
+     ],
+     "event": "relearn / trait edit / spec change"
+    }
+   ],
+   "reapplication_same_caster_item_sourced": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1760"
+    ],
+    "object": "new",
+    "outcome": "coexist",
+    "why": "item-sourced passive: 1651 skipped (cast item non-empty); IsRankOf && IsMultiSlotAura && !IsArea -> true (SpellAuras.cpp:1760)"
+   },
+   "reapplication_same_caster_no_item": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1651",
+     "src/server/game/Entities/Unit/Unit.cpp:3729"
+    ],
+    "object": "new",
+    "outcome": "replace",
+    "why": "CanStackWith false (SpellAuras.cpp:1651) -> old owned aura removed BY_DEFAULT before the new one is applied"
+   },
+   "removal": {
+    "arena-entry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4436"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "RemoveArenaAuras: !IsPassive conjunct, ATTR5_REMOVE_ENTERING_ARENA overrides"
+    },
+    "aura-interrupt": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4250"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": false,
+     "why": "RemoveAurasWithInterruptFlags has no passive exemption"
+    },
+    "caster-aura-state-lost": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:6125"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "ModifyAuraState(flag,false) removes own auras with that CasterAuraState (actives exempt only for ENRAGED)"
+    },
+    "charges-exhausted": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1027"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::ModCharges charges<=0 -> Remove(removeMode); no passive guard"
+    },
+    "dispel": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4746"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "GetDispellableAuraList: 'don't try to remove passive auras'"
+    },
+    "evade-creature-owner": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4442"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "RemoveAurasOnEvade has no passive exemption (player-owned units exempt entirely)"
+    },
+    "expiry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:2986",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_EXPIRE",
+     "removed": false,
+     "why": "Unit::_UpdateSpells IsExpired -> RemoveOwnedAura BY_EXPIRE; passive only permanent without DurationEntry"
+    },
+    "explicit-remove-effect": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:5160"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": true,
+     "why": "Spell::EffectRemoveAura -> RemoveAurasDueToSpell(TriggerSpell), no passive guard"
+    },
+    "immunity-purge": {
+     "coords": [
+      "src/server/game/Spells/SpellInfo.cpp:3718"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "SpellInfo::ApplyAllSpellImmunitiesTo purge lambda skips passives"
+    },
+    "owner-death": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4479",
+      "src/server/game/Entities/Unit/Unit.cpp:4488"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEATH",
+     "removed": false,
+     "why": "RemoveAllAurasOnDeath skips IsPassive and IsDeathPersistent (applied and owned lists)"
+    },
+    "player-cancel": {
+     "coords": [
+      "src/server/game/Handlers/SpellHandler.cpp:281"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "CMSG_CANCEL_AURA refuses passive"
+    },
+    "save-logout": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+     ],
+     "remove_mode": null,
+     "removed": "not saved (rebuilt on login)",
+     "why": "Aura::CanBeSaved: IsPassive -> false"
+    },
+    "shapeshift-lost": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1160",
+      "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1631"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::IsRemovedOnShapeLost (caster==target && Stances && !ATTR2 && !ATTR0_NOT_SHAPESHIFTED), applies to actives too"
+    },
+    "spell-steal": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:4747"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "EffectStealBeneficialBuff skips aura->IsPassive()"
+    }
+   },
+   "spell": 387095,
+   "spellmod_recalculation": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1233"
+    ],
+    "exception": "SpellInfo::IsUpdatingTemporaryAuraValuesBySpellMod literal 384669 (SpellInfo.cpp:2021-2029)",
+    "input_timing": "explicit-recalculation",
+    "requires": "caster == target (aura->GetCasterGUID() == target GUID)"
+   },
+   "why": "Pyrogenics (selected passive; spell_proc + AuraScript OnEffectProc)"
+  },
+  {
+   "acquisition": {
+    "learn": {
+     "applies": false,
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:2912"
+     ],
+     "gates": [],
+     "via": "not cast on learn (ability)"
+    },
+    "player_reach": false,
+    "reached_from": null,
+    "root_routes": []
+   },
+   "aura_effects": [
+    {
+     "aura": 270,
+     "effect": 6,
+     "index": 0
+    }
+   ],
+   "build_skew": false,
+   "drift": {
+    "changed": [],
+    "duration_index": 39,
+    "passive": false,
+    "stack_cap": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "max_duration": {
+    "coords": [
+     "src/server/game/Spells/SpellInfo.cpp:3997",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:919"
+    ],
+    "kind": "finite",
+    "ms": 2000,
+    "note": "SpellDuration 39"
+   },
+   "mutable_state": [
+    {
+     "carrier": "finite-duration",
+     "evidence": "db2-fact",
+     "value": 2000
+    },
+    {
+     "carrier": "interruptible",
+     "evidence": "db2-fact",
+     "value": [
+      524288,
+      0
+     ]
+    }
+   ],
+   "name": "Pyrogenics",
+   "passive": {
+    "db2_passive": false,
+    "passive": false,
+    "reasons": []
+   },
+   "passive_stackable_with_ranks": false,
+   "reacquisition": [],
+   "reapplication_same_caster_item_sourced": null,
+   "reapplication_same_caster_no_item": {
+    "outcome": "not-passive",
+    "why": "active re-application: tracks A/B/C"
+   },
+   "removal": {
+    "arena-entry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4436"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "RemoveArenaAuras: !IsPassive conjunct, ATTR5_REMOVE_ENTERING_ARENA overrides"
+    },
+    "aura-interrupt": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4250"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": true,
+     "why": "RemoveAurasWithInterruptFlags has no passive exemption"
+    },
+    "caster-aura-state-lost": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:6125"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "ModifyAuraState(flag,false) removes own auras with that CasterAuraState (actives exempt only for ENRAGED)"
+    },
+    "charges-exhausted": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1027"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::ModCharges charges<=0 -> Remove(removeMode); no passive guard"
+    },
+    "dispel": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4746"
+     ],
+     "remove_mode": null,
+     "removed": "dispel-type-dependent (track E)",
+     "why": "GetDispellableAuraList: 'don't try to remove passive auras'"
+    },
+    "evade-creature-owner": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4442"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "RemoveAurasOnEvade has no passive exemption (player-owned units exempt entirely)"
+    },
+    "expiry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:2986",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_EXPIRE",
+     "removed": true,
+     "why": "Unit::_UpdateSpells IsExpired -> RemoveOwnedAura BY_EXPIRE; passive only permanent without DurationEntry"
+    },
+    "explicit-remove-effect": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:5160"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": true,
+     "why": "Spell::EffectRemoveAura -> RemoveAurasDueToSpell(TriggerSpell), no passive guard"
+    },
+    "immunity-purge": {
+     "coords": [
+      "src/server/game/Spells/SpellInfo.cpp:3718"
+     ],
+     "remove_mode": null,
+     "removed": "track E",
+     "why": "SpellInfo::ApplyAllSpellImmunitiesTo purge lambda skips passives"
+    },
+    "owner-death": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4479",
+      "src/server/game/Entities/Unit/Unit.cpp:4488"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEATH",
+     "removed": true,
+     "why": "RemoveAllAurasOnDeath skips IsPassive and IsDeathPersistent (applied and owned lists)"
+    },
+    "player-cancel": {
+     "coords": [
+      "src/server/game/Handlers/SpellHandler.cpp:281"
+     ],
+     "remove_mode": null,
+     "removed": "if positive (track E)",
+     "why": "CMSG_CANCEL_AURA refuses passive"
+    },
+    "save-logout": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+     ],
+     "remove_mode": null,
+     "removed": "saved if CanBeSaved (track E)",
+     "why": "Aura::CanBeSaved: IsPassive -> false"
+    },
+    "shapeshift-lost": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1160",
+      "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1631"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::IsRemovedOnShapeLost (caster==target && Stances && !ATTR2 && !ATTR0_NOT_SHAPESHIFTED), applies to actives too"
+    },
+    "spell-steal": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:4747"
+     ],
+     "remove_mode": null,
+     "removed": "track E",
+     "why": "EffectStealBeneficialBuff skips aura->IsPassive()"
+    }
+   },
+   "spell": 387096,
+   "spellmod_recalculation": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1233"
+    ],
+    "exception": "SpellInfo::IsUpdatingTemporaryAuraValuesBySpellMod literal 384669 (SpellInfo.cpp:2021-2029)",
+    "input_timing": "application-snapshot",
+    "requires": "caster == target (aura->GetCasterGUID() == target GUID)"
+   },
+   "why": "Pyrogenics debuff (the child the passive casts; mutable state lives here)"
+  },
+  {
+   "acquisition": {
+    "learn": {
+     "applies": true,
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:2920",
+      "src/server/game/Entities/Player/Player.cpp:3079"
+     ],
+     "gates": [],
+     "via": "HandlePassiveSpellLearn"
+    },
+    "player_reach": true,
+    "reached_from": null,
+    "root_routes": [
+     {
+      "amount": "trait rank -> TraitDefinitionEffectPoints curve in SpellEffectInfo::CalcValue",
+      "apply": "Player::ApplyTraitEntry -> LearnSpell(trait rank) -> AddSpell -> (passive) HandlePassiveSpellLearn -> CastSpell",
+      "coords": [
+       "src/server/game/Entities/Player/Player.cpp:29391",
+       "src/server/game/Entities/Player/Player.cpp:29266",
+       "src/server/game/Entities/Player/Player.cpp:3195",
+       "src/server/game/Spells/SpellInfo.cpp:534"
+      ],
+      "rank_change": "ApplyTraitEntry(false) then ApplyTraitEntry(true): remove + recreate (new object)",
+      "remove": "ApplyTraitEntry(apply=false) -> RemoveSpell -> RemoveOwnedAura(id, self)",
+      "route": "class-trait"
+     }
+    ]
+   },
+   "aura_effects": [
+    {
+     "aura": 344,
+     "effect": 6,
+     "index": 0
+    },
+    {
+     "aura": 334,
+     "effect": 6,
+     "index": 1
+    },
+    {
+     "aura": 108,
+     "effect": 6,
+     "index": 2
+    },
+    {
+     "aura": 108,
+     "effect": 6,
+     "index": 3
+    }
+   ],
+   "build_skew": false,
+   "drift": {
+    "changed": [],
+    "duration_index": 0,
+    "passive": true,
+    "stack_cap": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "max_duration": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+    ],
+    "kind": "permanent",
+    "ms": -1,
+    "note": "no DurationIndex"
+   },
+   "mutable_state": [
+    {
+     "carrier": "inert-proc-signal",
+     "evidence": [
+      "db2-fact",
+      "trinity-consumer"
+     ],
+     "note": "DB2 ProcTypeMask set but LoadSpellProcs generates no entry -> no per-aura proc state in Trinity",
+     "value": [
+      4,
+      0
+     ]
+    }
+   ],
+   "name": "Heart of the Crusader",
+   "passive": {
+    "db2_passive": true,
+    "passive": true,
+    "reasons": [
+     "db2:SPELL_ATTR0_PASSIVE"
+    ]
+   },
+   "passive_stackable_with_ranks": false,
+   "reacquisition": [
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170",
+      "src/server/game/Entities/Player/Player.cpp:2920"
+     ],
+     "event": "login",
+     "why": "passives are never saved; AddSpell(loading) re-casts them"
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:29247",
+      "src/server/game/Entities/Player/Player.cpp:30631"
+     ],
+     "event": "relearn / trait edit / spec change"
+    }
+   ],
+   "reapplication_same_caster_item_sourced": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1760"
+    ],
+    "object": "new",
+    "outcome": "coexist",
+    "why": "item-sourced passive: 1651 skipped (cast item non-empty); IsRankOf && IsMultiSlotAura && !IsArea -> true (SpellAuras.cpp:1760)"
+   },
+   "reapplication_same_caster_no_item": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1651",
+     "src/server/game/Entities/Unit/Unit.cpp:3729"
+    ],
+    "object": "new",
+    "outcome": "replace",
+    "why": "CanStackWith false (SpellAuras.cpp:1651) -> old owned aura removed BY_DEFAULT before the new one is applied"
+   },
+   "removal": {
+    "arena-entry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4436"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "RemoveArenaAuras: !IsPassive conjunct, ATTR5_REMOVE_ENTERING_ARENA overrides"
+    },
+    "aura-interrupt": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4250"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": false,
+     "why": "RemoveAurasWithInterruptFlags has no passive exemption"
+    },
+    "caster-aura-state-lost": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:6125"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "ModifyAuraState(flag,false) removes own auras with that CasterAuraState (actives exempt only for ENRAGED)"
+    },
+    "charges-exhausted": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1027"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::ModCharges charges<=0 -> Remove(removeMode); no passive guard"
+    },
+    "dispel": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4746"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "GetDispellableAuraList: 'don't try to remove passive auras'"
+    },
+    "evade-creature-owner": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4442"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "RemoveAurasOnEvade has no passive exemption (player-owned units exempt entirely)"
+    },
+    "expiry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:2986",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_EXPIRE",
+     "removed": false,
+     "why": "Unit::_UpdateSpells IsExpired -> RemoveOwnedAura BY_EXPIRE; passive only permanent without DurationEntry"
+    },
+    "explicit-remove-effect": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:5160"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": true,
+     "why": "Spell::EffectRemoveAura -> RemoveAurasDueToSpell(TriggerSpell), no passive guard"
+    },
+    "immunity-purge": {
+     "coords": [
+      "src/server/game/Spells/SpellInfo.cpp:3718"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "SpellInfo::ApplyAllSpellImmunitiesTo purge lambda skips passives"
+    },
+    "owner-death": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4479",
+      "src/server/game/Entities/Unit/Unit.cpp:4488"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEATH",
+     "removed": false,
+     "why": "RemoveAllAurasOnDeath skips IsPassive and IsDeathPersistent (applied and owned lists)"
+    },
+    "player-cancel": {
+     "coords": [
+      "src/server/game/Handlers/SpellHandler.cpp:281"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "CMSG_CANCEL_AURA refuses passive"
+    },
+    "save-logout": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+     ],
+     "remove_mode": null,
+     "removed": "not saved (rebuilt on login)",
+     "why": "Aura::CanBeSaved: IsPassive -> false"
+    },
+    "shapeshift-lost": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1160",
+      "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1631"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::IsRemovedOnShapeLost (caster==target && Stances && !ATTR2 && !ATTR0_NOT_SHAPESHIFTED), applies to actives too"
+    },
+    "spell-steal": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:4747"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "EffectStealBeneficialBuff skips aura->IsPassive()"
+    }
+   },
+   "spell": 406154,
+   "spellmod_recalculation": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1233"
+    ],
+    "exception": "SpellInfo::IsUpdatingTemporaryAuraValuesBySpellMod literal 384669 (SpellInfo.cpp:2021-2029)",
+    "input_timing": "explicit-recalculation",
+    "requires": "caster == target (aura->GetCasterGUID() == target GUID)"
+   },
+   "why": "Heart of the Crusader provider (ProcTypeMask 4 on a passive)"
+  },
+  {
+   "acquisition": {
+    "learn": {
+     "applies": true,
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:2920",
+      "src/server/game/Entities/Player/Player.cpp:3079"
+     ],
+     "gates": [],
+     "via": "HandlePassiveSpellLearn"
+    },
+    "player_reach": true,
+    "reached_from": null,
+    "root_routes": [
+     {
+      "amount": "trait rank -> TraitDefinitionEffectPoints curve in SpellEffectInfo::CalcValue",
+      "apply": "Player::ApplyTraitEntry -> LearnSpell(trait rank) -> AddSpell -> (passive) HandlePassiveSpellLearn -> CastSpell",
+      "coords": [
+       "src/server/game/Entities/Player/Player.cpp:29391",
+       "src/server/game/Entities/Player/Player.cpp:29266",
+       "src/server/game/Entities/Player/Player.cpp:3195",
+       "src/server/game/Spells/SpellInfo.cpp:534"
+      ],
+      "rank_change": "ApplyTraitEntry(false) then ApplyTraitEntry(true): remove + recreate (new object)",
+      "remove": "ApplyTraitEntry(apply=false) -> RemoveSpell -> RemoveOwnedAura(id, self)",
+      "route": "class-trait"
+     }
+    ]
+   },
+   "aura_effects": [
+    {
+     "aura": 108,
+     "effect": 6,
+     "index": 0
+    },
+    {
+     "aura": 218,
+     "effect": 6,
+     "index": 1
+    }
+   ],
+   "build_skew": false,
+   "drift": {
+    "changed": [],
+    "duration_index": 0,
+    "passive": true,
+    "stack_cap": 2
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "max_duration": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+    ],
+    "kind": "permanent",
+    "ms": -1,
+    "note": "no DurationIndex"
+   },
+   "mutable_state": [
+    {
+     "carrier": "stack-capacity",
+     "evidence": "db2-fact",
+     "note": "initial stacks are 1 (AuraCreateInfo::StackAmount); passive re-application never stacks (multislot) -- only MODIFY_AURA_STACKS / SetAuraStack / scripts mutate it",
+     "value": 2,
+     "writers": []
+    }
+   ],
+   "name": "Phalanx",
+   "passive": {
+    "db2_passive": true,
+    "passive": true,
+    "reasons": [
+     "db2:SPELL_ATTR0_PASSIVE"
+    ]
+   },
+   "passive_stackable_with_ranks": false,
+   "reacquisition": [
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170",
+      "src/server/game/Entities/Player/Player.cpp:2920"
+     ],
+     "event": "login",
+     "why": "passives are never saved; AddSpell(loading) re-casts them"
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:29247",
+      "src/server/game/Entities/Player/Player.cpp:30631"
+     ],
+     "event": "relearn / trait edit / spec change"
+    }
+   ],
+   "reapplication_same_caster_item_sourced": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1760"
+    ],
+    "object": "new",
+    "outcome": "coexist",
+    "why": "item-sourced passive: 1651 skipped (cast item non-empty); IsRankOf && IsMultiSlotAura && !IsArea -> true (SpellAuras.cpp:1760)"
+   },
+   "reapplication_same_caster_no_item": {
+    "coords": [
+     "src/server/game/Entities/Unit/Unit.cpp:3395",
+     "src/server/game/Spells/SpellInfo.cpp:1805",
+     "src/server/game/Spells/Auras/SpellAuras.cpp:1651",
+     "src/server/game/Entities/Unit/Unit.cpp:3729"
+    ],
+    "object": "new",
+    "outcome": "replace",
+    "why": "CanStackWith false (SpellAuras.cpp:1651) -> old owned aura removed BY_DEFAULT before the new one is applied"
+   },
+   "removal": {
+    "arena-entry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4436"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "RemoveArenaAuras: !IsPassive conjunct, ATTR5_REMOVE_ENTERING_ARENA overrides"
+    },
+    "aura-interrupt": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4250"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": false,
+     "why": "RemoveAurasWithInterruptFlags has no passive exemption"
+    },
+    "caster-aura-state-lost": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:6125"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "ModifyAuraState(flag,false) removes own auras with that CasterAuraState (actives exempt only for ENRAGED)"
+    },
+    "charges-exhausted": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1027"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::ModCharges charges<=0 -> Remove(removeMode); no passive guard"
+    },
+    "dispel": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4746"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "GetDispellableAuraList: 'don't try to remove passive auras'"
+    },
+    "evade-creature-owner": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4442"
+     ],
+     "remove_mode": null,
+     "removed": true,
+     "why": "RemoveAurasOnEvade has no passive exemption (player-owned units exempt entirely)"
+    },
+    "expiry": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:2986",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_EXPIRE",
+     "removed": false,
+     "why": "Unit::_UpdateSpells IsExpired -> RemoveOwnedAura BY_EXPIRE; passive only permanent without DurationEntry"
+    },
+    "explicit-remove-effect": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:5160"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": true,
+     "why": "Spell::EffectRemoveAura -> RemoveAurasDueToSpell(TriggerSpell), no passive guard"
+    },
+    "immunity-purge": {
+     "coords": [
+      "src/server/game/Spells/SpellInfo.cpp:3718"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "SpellInfo::ApplyAllSpellImmunitiesTo purge lambda skips passives"
+    },
+    "owner-death": {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4479",
+      "src/server/game/Entities/Unit/Unit.cpp:4488"
+     ],
+     "remove_mode": "AURA_REMOVE_BY_DEATH",
+     "removed": false,
+     "why": "RemoveAllAurasOnDeath skips IsPassive and IsDeathPersistent (applied and owned lists)"
+    },
+    "player-cancel": {
+     "coords": [
+      "src/server/game/Handlers/SpellHandler.cpp:281"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "CMSG_CANCEL_AURA refuses passive"
+    },
+    "save-logout": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+     ],
+     "remove_mode": null,
+     "removed": "not saved (rebuilt on login)",
+     "why": "Aura::CanBeSaved: IsPassive -> false"
+    },
+    "shapeshift-lost": {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1160",
+      "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1631"
+     ],
+     "remove_mode": null,
+     "removed": false,
+     "why": "Aura::IsRemovedOnShapeLost (caster==target && Stances && !ATTR2 && !ATTR0_NOT_SHAPESHIFTED), applies to actives too"
+    },
+    "spell-steal": {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:4747"
+     ],
+     "remove_mode": null,
+     "removed": "never",
+     "why": "EffectStealBeneficialBuff skips aura->IsPassive()"
+    }
+   },
+   "spell": 1269312,
+   "spellmod_recalculation": {
+    "coords": [
+     "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1233"
+    ],
+    "exception": "SpellInfo::IsUpdatingTemporaryAuraValuesBySpellMod literal 384669 (SpellInfo.cpp:2021-2029)",
+    "input_timing": "explicit-recalculation",
+    "requires": "caster == target (aura->GetCasterGUID() == target GUID)"
+   },
+   "why": "Phalanx provider (CumulativeAura 2 on a passive)"
+  }
+ ],
+ "non_acquisition_roots": {
+  "class-skill": "extended scope only",
+  "current-gear:on-use": "ItemEffect TriggerType != ON_EQUIP: cast on use / proc, not an acquisition aura",
+  "enchant:combat-spell": "ITEM_ENCHANTMENT_TYPE_COMBAT_SPELL: cast by the enchant proc, not held",
+  "enchant:use-spell": "ITEM_ENCHANTMENT_TYPE_USE_SPELL: cast on use"
+ },
+ "passive_acquisition_routes": {
+  "all": {
+   "class-trait": {
+    "count": 3001,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Improved Whirlwind",
+      "spell": 12950
+     },
+     {
+      "build_skew": false,
+      "name": "Ruthlessness",
+      "spell": 14161
+     },
+     {
+      "build_skew": false,
+      "name": "Seal Fate",
+      "spell": 14190
+     },
+     {
+      "build_skew": false,
+      "name": "Vigor",
+      "spell": 14983
+     },
+     {
+      "build_skew": false,
+      "name": "Master of the Elements",
+      "spell": 16166
+     },
+     {
+      "build_skew": false,
+      "name": "Resurgence",
+      "spell": 16196
+     }
+    ]
+   },
+   "current-gear:on-equip": {
+    "count": 47,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Tiny Elemental in a Jar",
+      "spell": 267177
+     },
+     {
+      "build_skew": false,
+      "name": "Cut of Death",
+      "spell": 281712
+     },
+     {
+      "build_skew": false,
+      "name": "Restlessness",
+      "spell": 281735
+     },
+     {
+      "build_skew": false,
+      "name": "Ruby Whelp Shell",
+      "spell": 383812
+     },
+     {
+      "build_skew": false,
+      "name": "Kyrakka's Searing Embers",
+      "spell": 384649
+     },
+     {
+      "build_skew": false,
+      "name": "Lightspire Core",
+      "spell": 1250527
+     }
+    ]
+   },
+   "current-set": {
+    "count": 1,
+    "witnesses": [
+     {
+      "build_skew": true,
+      "name": "Bite of Zul'jan",
+      "spell": 1291726
+     }
+    ]
+   },
+   "enchant:equip-spell": {
+    "count": 17,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Precognition",
+      "spell": 377360
+     },
+     {
+      "build_skew": false,
+      "name": "Determination",
+      "spell": 411126
+     },
+     {
+      "build_skew": false,
+      "name": "Arcanoweave Spellthread",
+      "spell": 1229450
+     },
+     {
+      "build_skew": false,
+      "name": "Arcanoweave Spellthread",
+      "spell": 1229452
+     },
+     {
+      "build_skew": false,
+      "name": "Smuggler's Enchanted Edge",
+      "spell": 1237009
+     },
+     {
+      "build_skew": false,
+      "name": "Smuggler's Enchanted Edge",
+      "spell": 1237012
+     }
+    ]
+   },
+   "reached-only:learn-spell": {
+    "count": 47,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Death's Advance",
+      "spell": 124285
+     },
+     {
+      "build_skew": false,
+      "name": "Voidform",
+      "spell": 185916
+     },
+     {
+      "build_skew": false,
+      "name": "Shimmer",
+      "spell": 191738
+     },
+     {
+      "build_skew": false,
+      "name": "Felblade",
+      "spell": 203557
+     },
+     {
+      "build_skew": false,
+      "name": "Rampage!",
+      "spell": 209694
+     },
+     {
+      "build_skew": false,
+      "name": "Voidform",
+      "spell": 228264
+     }
+    ]
+   },
+   "reached-only:none": {
+    "count": 13359,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Pulverize",
+      "spell": 742
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Resistance",
+      "spell": 822
+     },
+     {
+      "build_skew": false,
+      "name": "Natural Resistance",
+      "spell": 823
+     },
+     {
+      "build_skew": false,
+      "name": "Nightmare Riding",
+      "spell": 827
+     },
+     {
+      "build_skew": false,
+      "name": "Critical Strike",
+      "spell": 1132
+     },
+     {
+      "build_skew": false,
+      "name": "Bear Form Passive",
+      "spell": 1178
+     }
+    ]
+   },
+   "reached-only:trigger": {
+    "count": 5,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Veneration",
+      "spell": 414411
+     },
+     {
+      "build_skew": false,
+      "name": "Shining Righteousness",
+      "spell": 414450
+     },
+     {
+      "build_skew": false,
+      "name": "Transcendence",
+      "spell": 434782
+     },
+     {
+      "build_skew": false,
+      "name": "A Fire Inside",
+      "spell": 1224451
+     },
+     {
+      "build_skew": false,
+      "name": "Beacon of the Savior",
+      "spell": 1270083
+     }
+    ]
+   },
+   "spec-spell": {
+    "count": 343,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Revenge Trigger",
+      "spell": 5301
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Ignite",
+      "spell": 12846
+     },
+     {
+      "build_skew": false,
+      "name": "Feral Instinct",
+      "spell": 16949
+     },
+     {
+      "build_skew": false,
+      "name": "Predatory Swiftness",
+      "spell": 16974
+     },
+     {
+      "build_skew": false,
+      "name": "Spirit of Redemption",
+      "spell": 20711
+     }
+    ]
+   }
+  },
+  "controlled": {
+   "class-trait": {
+    "count": 7,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Call of Thunder",
+      "spell": 378241
+     },
+     {
+      "build_skew": false,
+      "name": "Demonic Fortitude",
+      "spell": 386617
+     },
+     {
+      "build_skew": false,
+      "name": "Wild Synthesis",
+      "spell": 400533
+     },
+     {
+      "build_skew": false,
+      "name": "Bounteous Bloom",
+      "spell": 429215
+     },
+     {
+      "build_skew": false,
+      "name": "Durability of Nature",
+      "spell": 429227
+     },
+     {
+      "build_skew": false,
+      "name": "Abyssal Dominion",
+      "spell": 429581
+     }
+    ]
+   },
+   "reached-only:none": {
+    "count": 25,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Pet Damage",
+      "spell": 8875
+     },
+     {
+      "build_skew": false,
+      "name": "Pet Health",
+      "spell": 19581
+     },
+     {
+      "build_skew": false,
+      "name": "Avoidance",
+      "spell": 32233
+     },
+     {
+      "build_skew": false,
+      "name": "Hunter Pet",
+      "spell": 34902
+     },
+     {
+      "build_skew": false,
+      "name": "Earth Elemental",
+      "spell": 35773
+     },
+     {
+      "build_skew": false,
+      "name": "Avoidance",
+      "spell": 62137
+     }
+    ]
+   },
+   "spec-spell": {
+    "count": 13,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Exotic Beasts",
+      "spell": 53270
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Master of Beasts",
+      "spell": 76657
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Master Demonologist",
+      "spell": 77219
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Dreadblade",
+      "spell": 77515
+     },
+     {
+      "build_skew": false,
+      "name": "Frost Death Knight",
+      "spell": 137006
+     },
+     {
+      "build_skew": false,
+      "name": "Unholy Death Knight",
+      "spell": 137007
+     }
+    ]
+   }
+  },
+  "player": {
+   "class-trait": {
+    "count": 3001,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Improved Whirlwind",
+      "spell": 12950
+     },
+     {
+      "build_skew": false,
+      "name": "Ruthlessness",
+      "spell": 14161
+     },
+     {
+      "build_skew": false,
+      "name": "Seal Fate",
+      "spell": 14190
+     },
+     {
+      "build_skew": false,
+      "name": "Vigor",
+      "spell": 14983
+     },
+     {
+      "build_skew": false,
+      "name": "Master of the Elements",
+      "spell": 16166
+     },
+     {
+      "build_skew": false,
+      "name": "Resurgence",
+      "spell": 16196
+     }
+    ]
+   },
+   "current-gear:on-equip": {
+    "count": 47,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Tiny Elemental in a Jar",
+      "spell": 267177
+     },
+     {
+      "build_skew": false,
+      "name": "Cut of Death",
+      "spell": 281712
+     },
+     {
+      "build_skew": false,
+      "name": "Restlessness",
+      "spell": 281735
+     },
+     {
+      "build_skew": false,
+      "name": "Ruby Whelp Shell",
+      "spell": 383812
+     },
+     {
+      "build_skew": false,
+      "name": "Kyrakka's Searing Embers",
+      "spell": 384649
+     },
+     {
+      "build_skew": false,
+      "name": "Lightspire Core",
+      "spell": 1250527
+     }
+    ]
+   },
+   "current-set": {
+    "count": 1,
+    "witnesses": [
+     {
+      "build_skew": true,
+      "name": "Bite of Zul'jan",
+      "spell": 1291726
+     }
+    ]
+   },
+   "enchant:equip-spell": {
+    "count": 17,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Precognition",
+      "spell": 377360
+     },
+     {
+      "build_skew": false,
+      "name": "Determination",
+      "spell": 411126
+     },
+     {
+      "build_skew": false,
+      "name": "Arcanoweave Spellthread",
+      "spell": 1229450
+     },
+     {
+      "build_skew": false,
+      "name": "Arcanoweave Spellthread",
+      "spell": 1229452
+     },
+     {
+      "build_skew": false,
+      "name": "Smuggler's Enchanted Edge",
+      "spell": 1237009
+     },
+     {
+      "build_skew": false,
+      "name": "Smuggler's Enchanted Edge",
+      "spell": 1237012
+     }
+    ]
+   },
+   "reached-only:learn-spell": {
+    "count": 47,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Death's Advance",
+      "spell": 124285
+     },
+     {
+      "build_skew": false,
+      "name": "Voidform",
+      "spell": 185916
+     },
+     {
+      "build_skew": false,
+      "name": "Shimmer",
+      "spell": 191738
+     },
+     {
+      "build_skew": false,
+      "name": "Felblade",
+      "spell": 203557
+     },
+     {
+      "build_skew": false,
+      "name": "Rampage!",
+      "spell": 209694
+     },
+     {
+      "build_skew": false,
+      "name": "Voidform",
+      "spell": 228264
+     }
+    ]
+   },
+   "reached-only:trigger": {
+    "count": 5,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Veneration",
+      "spell": 414411
+     },
+     {
+      "build_skew": false,
+      "name": "Shining Righteousness",
+      "spell": 414450
+     },
+     {
+      "build_skew": false,
+      "name": "Transcendence",
+      "spell": 434782
+     },
+     {
+      "build_skew": false,
+      "name": "A Fire Inside",
+      "spell": 1224451
+     },
+     {
+      "build_skew": false,
+      "name": "Beacon of the Savior",
+      "spell": 1270083
+     }
+    ]
+   },
+   "spec-spell": {
+    "count": 343,
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Vanguard",
+      "spell": 71
+     },
+     {
+      "build_skew": false,
+      "name": "Revenge Trigger",
+      "spell": 5301
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Ignite",
+      "spell": 12846
+     },
+     {
+      "build_skew": false,
+      "name": "Feral Instinct",
+      "spell": 16949
+     },
+     {
+      "build_skew": false,
+      "name": "Predatory Swiftness",
+      "spell": 16974
+     },
+     {
+      "build_skew": false,
+      "name": "Spirit of Redemption",
+      "spell": 20711
+     }
+    ]
+   }
+  }
+ },
+ "passive_interrupt_flags": {
+  "all": {
+   "AbandonVehicle": {
+    "consumer": "Entities/Unit/Unit.cpp:12963",
+    "count": 1,
+    "net_effect": {
+     "lost-until-reacquisition": 1
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Val'sharah War of the Ancients Aura",
+      "spell": 211474
+     }
+    ]
+   },
+   "Action": {
+    "consumer": "Entities/Unit/Unit.cpp:4218 (filter); cast paths",
+    "count": 2,
+    "net_effect": {
+     "lost-until-reacquisition": 2
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Rift Spawn Invisibility",
+      "spell": 9093
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Invisibility",
+      "spell": 30628
+     }
+    ]
+   },
+   "Attacking": {
+    "consumer": "Entities/Unit/Unit.cpp:2283",
+    "count": 2,
+    "net_effect": {
+     "lost-until-reacquisition": 2
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Rift Spawn Invisibility",
+      "spell": 9093
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Invisibility",
+      "spell": 30628
+     }
+    ]
+   },
+   "ChangeGlyph": {
+    "consumer": "Spells/SpellEffects.cpp:3434",
+    "count": 12,
+    "net_effect": {
+     "lost": 12
+    },
+    "net_effect_note": "Spell::EffectApplyGlyph fires it (SpellEffects.cpp:3434); nothing on that path relearns",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     },
+     {
+      "build_skew": false,
+      "name": "Grimoire of Synergy",
+      "spell": 171975
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Sniper Training",
+      "spell": 193468
+     },
+     {
+      "build_skew": false,
+      "name": "Runic Longevity",
+      "spell": 194653
+     },
+     {
+      "build_skew": false,
+      "name": "Rapid Decomposition",
+      "spell": 194662
+     },
+     {
+      "build_skew": false,
+      "name": "Anti-Magic Barrier",
+      "spell": 205727
+     },
+     {
+      "build_skew": false,
+      "name": "Tightening Grasp",
+      "spell": 206970
+     },
+     {
+      "build_skew": false,
+      "name": "Foul Bulwark",
+      "spell": 206974
+     }
+    ]
+   },
+   "ChangeSpec": {
+    "consumer": "Entities/Player/Player.cpp:28809 (ActivateTalentGroup)",
+    "count": 64,
+    "net_effect": {
+     "lost": 17,
+     "reset": 47
+    },
+    "net_effect_note": "Player::ActivateTalentGroup fires it (Player.cpp:28809) before ApplyTraitConfig(false) (28885) / RemoveSpecializationSpells (28888) and the relearn (28950, 28957): trait/spec passives are recreated",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     },
+     {
+      "build_skew": false,
+      "name": "Righteous Fury",
+      "spell": 25780
+     },
+     {
+      "build_skew": false,
+      "name": "Teachings of the Monastery",
+      "spell": 116645
+     },
+     {
+      "build_skew": false,
+      "name": "Glyph of the Sha",
+      "spell": 147776
+     },
+     {
+      "build_skew": false,
+      "name": "Grimoire of Synergy",
+      "spell": 171975
+     },
+     {
+      "build_skew": false,
+      "name": "Maelstrom Weapon",
+      "spell": 187880
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Sniper Training",
+      "spell": 193468
+     },
+     {
+      "build_skew": false,
+      "name": "Way of the Cobra",
+      "spell": 194397
+     }
+    ]
+   },
+   "ChangeTalent": {
+    "consumer": "Entities/Player/Player.cpp:2642 (legacy Player::AddTalent only; trait edits never fire it)",
+    "count": 31,
+    "net_effect": {
+     "not-fired-by-trait-edits": 31
+    },
+    "net_effect_note": "only legacy Player::AddTalent fires it (Player.cpp:2642); UpdateTraitConfig does not",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Incanter's Flow",
+      "spell": 1463
+     },
+     {
+      "build_skew": false,
+      "name": "Grimoire of Synergy",
+      "spell": 171975
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Sniper Training",
+      "spell": 193468
+     },
+     {
+      "build_skew": false,
+      "name": "Runic Longevity",
+      "spell": 194653
+     },
+     {
+      "build_skew": false,
+      "name": "Rapid Decomposition",
+      "spell": 194662
+     },
+     {
+      "build_skew": false,
+      "name": "Flame Accelerant",
+      "spell": 203275
+     },
+     {
+      "build_skew": false,
+      "name": "Anti-Magic Barrier",
+      "spell": 205727
+     },
+     {
+      "build_skew": false,
+      "name": "Tightening Grasp",
+      "spell": 206970
+     }
+    ]
+   },
+   "Damage": {
+    "consumer": "Entities/Unit/Unit.cpp:875",
+    "count": 3,
+    "net_effect": {
+     "lost-until-reacquisition": 3
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Rift Spawn Invisibility",
+      "spell": 9093
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Invisibility",
+      "spell": 30628
+     },
+     {
+      "build_skew": false,
+      "name": "Feign Death",
+      "spell": 42557
+     }
+    ]
+   },
+   "EndOfRaidEncounterAndStartOfMythicPlus": {
+    "consumer": "Entities/Unit/Unit.cpp:554",
+    "count": 1,
+    "net_effect": {
+     "lost-until-reacquisition": 1
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Premonition",
+      "spell": 443056
+     }
+    ]
+   },
+   "EnterWorld": {
+    "consumer": "Entities/Unit/Unit.cpp:10250 (Unit::AddToWorld)",
+    "count": 70,
+    "net_effect": {
+     "lost-at-every-world-entry": 70
+    },
+    "net_effect_note": "Unit::AddToWorld (Unit.cpp:10250) runs after LoadFromDB cast the passives, and on every map add",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Lesser Warding",
+      "spell": 29504
+     },
+     {
+      "build_skew": false,
+      "name": "Fly",
+      "spell": 155312
+     },
+     {
+      "build_skew": false,
+      "name": "Val'sharah War of the Ancients Aura",
+      "spell": 211474
+     },
+     {
+      "build_skew": false,
+      "name": "The Beast Within",
+      "spell": 212668
+     },
+     {
+      "build_skew": false,
+      "name": "Flight",
+      "spell": 226760
+     },
+     {
+      "build_skew": false,
+      "name": "Interlope",
+      "spell": 248518
+     },
+     {
+      "build_skew": false,
+      "name": "Inspire",
+      "spell": 256538
+     },
+     {
+      "build_skew": false,
+      "name": "Inspire",
+      "spell": 281449
+     }
+    ]
+   },
+   "EnteringInstance": {
+    "consumer": "Maps/Map.cpp:413",
+    "count": 42,
+    "net_effect": {
+     "lost-until-reacquisition": 42
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Wrath of Air Totem",
+      "spell": 68933
+     },
+     {
+      "build_skew": false,
+      "name": "Anima Plunderer",
+      "spell": 352972
+     },
+     {
+      "build_skew": false,
+      "name": "Efficient Looter",
+      "spell": 355141
+     },
+     {
+      "build_skew": false,
+      "name": "Anima Plunderer",
+      "spell": 355374
+     },
+     {
+      "build_skew": false,
+      "name": "Anima Plunderer",
+      "spell": 355375
+     },
+     {
+      "build_skew": false,
+      "name": "Protection of the Fallen Dragons",
+      "spell": 391117
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victorious Health",
+      "spell": 1243161
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victory of Relaxation",
+      "spell": 1243171
+     }
+    ]
+   },
+   "HostileActionReceived": {
+    "consumer": "Spells/Spell.cpp:3142",
+    "count": 3,
+    "net_effect": {
+     "lost-until-reacquisition": 3
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Rift Spawn Invisibility",
+      "spell": 9093
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Invisibility",
+      "spell": 30628
+     },
+     {
+      "build_skew": false,
+      "name": "Feign Death",
+      "spell": 42557
+     }
+    ]
+   },
+   "Interacting": {
+    "consumer": "Handlers/NPCHandler.cpp:171",
+    "count": 2,
+    "net_effect": {
+     "lost-until-reacquisition": 2
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Rift Spawn Invisibility",
+      "spell": 9093
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Invisibility",
+      "spell": 30628
+     }
+    ]
+   },
+   "ItemUse": {
+    "consumer": "Entities/Player/Player.cpp:31723",
+    "count": 2,
+    "net_effect": {
+     "lost-until-reacquisition": 2
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Rift Spawn Invisibility",
+      "spell": 9093
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Invisibility",
+      "spell": 30628
+     }
+    ]
+   },
+   "LeaveArenaOrBattleground": {
+    "consumer": "Battlegrounds/Battleground.cpp:844",
+    "count": 2,
+    "net_effect": {
+     "lost-until-reacquisition": 2
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Protector of the Pack",
+      "spell": 202043
+     },
+     {
+      "build_skew": false,
+      "name": "Interlope",
+      "spell": 248518
+     }
+    ]
+   },
+   "LeaveWorld": {
+    "consumer": "Entities/Unit/Unit.cpp:10276 (Unit::RemoveFromWorld)",
+    "count": 101,
+    "net_effect": {
+     "lost-at-world-exit": 101
+    },
+    "net_effect_note": "Unit::RemoveFromWorld (Unit.cpp:10276): far teleport loses it; logout moot (not saved)",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Lesser Warding",
+      "spell": 29504
+     },
+     {
+      "build_skew": false,
+      "name": "Eye of Acherus Flight",
+      "spell": 51890
+     },
+     {
+      "build_skew": false,
+      "name": "Eye of Acherus Flight (Boost)",
+      "spell": 51923
+     },
+     {
+      "build_skew": false,
+      "name": "Skull Banner",
+      "spell": 114206
+     },
+     {
+      "build_skew": false,
+      "name": "Fly",
+      "spell": 155312
+     },
+     {
+      "build_skew": false,
+      "name": "Dragoon",
+      "spell": 169605
+     },
+     {
+      "build_skew": false,
+      "name": "Silver Dollar Club",
+      "spell": 169606
+     },
+     {
+      "build_skew": false,
+      "name": "Master Scout",
+      "spell": 169607
+     }
+    ]
+   },
+   "Login": {
+    "consumer": "Handlers/CharacterHandler.cpp:1308 (after LoadFromDB cast the passives)",
+    "count": 3,
+    "net_effect": {
+     "lost-after-login": 3
+    },
+    "net_effect_note": "WorldSession::HandlePlayerLogin fires it (CharacterHandler.cpp:1308) after the load-time cast",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Chilling Touch",
+      "spell": 35188
+     },
+     {
+      "build_skew": false,
+      "name": "Veteran of the Third War",
+      "spell": 48263
+     },
+     {
+      "build_skew": false,
+      "name": "Winds of the Isles",
+      "spell": 373586
+     }
+    ]
+   },
+   "Looting": {
+    "consumer": "Handlers/LootHandler.cpp:231",
+    "count": 2,
+    "net_effect": {
+     "lost-until-reacquisition": 2
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Rift Spawn Invisibility",
+      "spell": 9093
+     },
+     {
+      "build_skew": false,
+      "name": "Arcane Invisibility",
+      "spell": 30628
+     }
+    ]
+   },
+   "Mount": {
+    "consumer": "Entities/Unit/Unit.cpp:8313",
+    "count": 1,
+    "net_effect": {
+     "lost-until-reacquisition": 1
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Aspect of the Spirit Hunter",
+      "spell": 36613
+     }
+    ]
+   },
+   "SeamlessTransfer": {
+    "consumer": "NYI (SpellDefines.h:136)",
+    "count": 1,
+    "net_effect": {
+     "not-fired-NYI": 1
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": true,
+      "name": "Blood Pact",
+      "spell": 1288480
+     }
+    ]
+   },
+   "StartOfEncounter": {
+    "consumer": "Entities/Unit/Unit.cpp:550",
+    "count": 36,
+    "net_effect": {
+     "lost-until-reacquisition": 36
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Blessing: Victorious Health",
+      "spell": 1243161
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victory of Relaxation",
+      "spell": 1243171
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victorious Waves",
+      "spell": 1243173
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victor's Presence",
+      "spell": 1243174
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Packpeddle of Victory",
+      "spell": 1243175
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victory Through Subterfuge",
+      "spell": 1243176
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Abundant Rush",
+      "spell": 1243177
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victory at Any Cost",
+      "spell": 1243178
+     }
+    ]
+   },
+   "StartOfRaidEncounterAndStartOfMythicPlus": {
+    "consumer": "Entities/Unit/Unit.cpp:549",
+    "count": 40,
+    "net_effect": {
+     "lost-until-reacquisition": 40
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Conductive Ink",
+      "spell": 296964
+     },
+     {
+      "build_skew": false,
+      "name": "Unfurling Darkness",
+      "spell": 341273
+     },
+     {
+      "build_skew": false,
+      "name": "Premonition",
+      "spell": 443056
+     },
+     {
+      "build_skew": false,
+      "name": "Thistle Tea",
+      "spell": 469779
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victorious Health",
+      "spell": 1243161
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victory of Relaxation",
+      "spell": 1243171
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victorious Waves",
+      "spell": 1243173
+     },
+     {
+      "build_skew": false,
+      "name": "Blessing: Victor's Presence",
+      "spell": 1243174
+     }
+    ]
+   }
+  },
+  "controlled": {},
+  "player": {
+   "ChangeGlyph": {
+    "consumer": "Spells/SpellEffects.cpp:3434",
+    "count": 9,
+    "net_effect": {
+     "lost": 9
+    },
+    "net_effect_note": "Spell::EffectApplyGlyph fires it (SpellEffects.cpp:3434); nothing on that path relearns",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Grimoire of Synergy",
+      "spell": 171975
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Sniper Training",
+      "spell": 193468
+     },
+     {
+      "build_skew": false,
+      "name": "Rapid Decomposition",
+      "spell": 194662
+     },
+     {
+      "build_skew": false,
+      "name": "Anti-Magic Barrier",
+      "spell": 205727
+     },
+     {
+      "build_skew": false,
+      "name": "Foul Bulwark",
+      "spell": 206974
+     },
+     {
+      "build_skew": false,
+      "name": "Shattering Blade",
+      "spell": 207057
+     },
+     {
+      "build_skew": false,
+      "name": "Grip of the Dead",
+      "spell": 273952
+     },
+     {
+      "build_skew": false,
+      "name": "Spiritual Focus",
+      "spell": 280197
+     }
+    ]
+   },
+   "ChangeSpec": {
+    "consumer": "Entities/Player/Player.cpp:28809 (ActivateTalentGroup)",
+    "count": 48,
+    "net_effect": {
+     "lost": 1,
+     "reset": 47
+    },
+    "net_effect_note": "Player::ActivateTalentGroup fires it (Player.cpp:28809) before ApplyTraitConfig(false) (28885) / RemoveSpecializationSpells (28888) and the relearn (28950, 28957): trait/spec passives are recreated",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Righteous Fury",
+      "spell": 25780
+     },
+     {
+      "build_skew": false,
+      "name": "Teachings of the Monastery",
+      "spell": 116645
+     },
+     {
+      "build_skew": false,
+      "name": "Grimoire of Synergy",
+      "spell": 171975
+     },
+     {
+      "build_skew": false,
+      "name": "Maelstrom Weapon",
+      "spell": 187880
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Sniper Training",
+      "spell": 193468
+     },
+     {
+      "build_skew": false,
+      "name": "Rapid Decomposition",
+      "spell": 194662
+     },
+     {
+      "build_skew": false,
+      "name": "Anti-Magic Barrier",
+      "spell": 205727
+     },
+     {
+      "build_skew": false,
+      "name": "Foul Bulwark",
+      "spell": 206974
+     }
+    ]
+   },
+   "ChangeTalent": {
+    "consumer": "Entities/Player/Player.cpp:2642 (legacy Player::AddTalent only; trait edits never fire it)",
+    "count": 24,
+    "net_effect": {
+     "not-fired-by-trait-edits": 24
+    },
+    "net_effect_note": "only legacy Player::AddTalent fires it (Player.cpp:2642); UpdateTraitConfig does not",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Grimoire of Synergy",
+      "spell": 171975
+     },
+     {
+      "build_skew": false,
+      "name": "Mastery: Sniper Training",
+      "spell": 193468
+     },
+     {
+      "build_skew": false,
+      "name": "Rapid Decomposition",
+      "spell": 194662
+     },
+     {
+      "build_skew": false,
+      "name": "Anti-Magic Barrier",
+      "spell": 205727
+     },
+     {
+      "build_skew": false,
+      "name": "Foul Bulwark",
+      "spell": 206974
+     },
+     {
+      "build_skew": false,
+      "name": "Shattering Blade",
+      "spell": 207057
+     },
+     {
+      "build_skew": false,
+      "name": "Blessed Hammer",
+      "spell": 229976
+     },
+     {
+      "build_skew": false,
+      "name": "Grip of the Dead",
+      "spell": 273952
+     }
+    ]
+   },
+   "EnterWorld": {
+    "consumer": "Entities/Unit/Unit.cpp:10250 (Unit::AddToWorld)",
+    "count": 3,
+    "net_effect": {
+     "lost-at-every-world-entry": 3
+    },
+    "net_effect_note": "Unit::AddToWorld (Unit.cpp:10250) runs after LoadFromDB cast the passives, and on every map add",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Ancient Concordance",
+      "spell": 388740
+     },
+     {
+      "build_skew": false,
+      "name": "Way of the Crane",
+      "spell": 388779
+     },
+     {
+      "build_skew": false,
+      "name": "Salvo",
+      "spell": 400456
+     }
+    ]
+   },
+   "LeaveWorld": {
+    "consumer": "Entities/Unit/Unit.cpp:10276 (Unit::RemoveFromWorld)",
+    "count": 3,
+    "net_effect": {
+     "lost-at-world-exit": 3
+    },
+    "net_effect_note": "Unit::RemoveFromWorld (Unit.cpp:10276): far teleport loses it; logout moot (not saved)",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Ancient Concordance",
+      "spell": 388740
+     },
+     {
+      "build_skew": false,
+      "name": "Way of the Crane",
+      "spell": 388779
+     },
+     {
+      "build_skew": false,
+      "name": "Salvo",
+      "spell": 400456
+     }
+    ]
+   },
+   "Login": {
+    "consumer": "Handlers/CharacterHandler.cpp:1308 (after LoadFromDB cast the passives)",
+    "count": 1,
+    "net_effect": {
+     "lost-after-login": 1
+    },
+    "net_effect_note": "WorldSession::HandlePlayerLogin fires it (CharacterHandler.cpp:1308) after the load-time cast",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Veteran of the Third War",
+      "spell": 48263
+     }
+    ]
+   },
+   "StartOfRaidEncounterAndStartOfMythicPlus": {
+    "consumer": "Entities/Unit/Unit.cpp:549",
+    "count": 1,
+    "net_effect": {
+     "lost-until-reacquisition": 1
+    },
+    "net_effect_note": "no re-acquisition on the firing path",
+    "witnesses": [
+     {
+      "build_skew": false,
+      "name": "Thistle Tea",
+      "spell": 469779
+     }
+    ]
+   }
+  }
+ },
+ "provenance": {
+  "command": "aura_lifecycle.py passive --corpus --out docs/research/aura-lifecycle-corpora/passive-active.json",
+  "passive_definition": "aura_lifecycle.passive.effective_passive (Trinity SpellInfo::IsPassive)",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "populations": {
+   "all": "providers.provider_spells",
+   "controlled": "controlled-unit spells ∩ providers",
+   "player": "Scope.reach ∩ providers"
+  }
+ },
+ "remove_aura_writers_of_passives": {
+  "193887": [
+   193888,
+   193959
+  ],
+  "382684": [
+   382682,
+   392153
+  ],
+  "415772": [
+   407657,
+   413183,
+   416099
+  ],
+  "418522": [
+   417667
+  ],
+  "88830": [
+   88832
+  ],
+  "98756": [
+   99673
+  ]
+ },
+ "retail_experiments": [
+  {
+   "discriminates": "all three models",
+   "fidelity": "approximate",
+   "id": "AL-X-G-01",
+   "models": [
+    {
+     "name": "trinity-lost",
+     "prediction": "aura absent after the event until relearn/relog"
+    },
+    {
+     "name": "reset",
+     "prediction": "aura present after the event, mutable state reset (new aura instance id / cleared stacks)"
+    },
+    {
+     "name": "ignored",
+     "prediction": "aura present, same instance, state kept"
+    }
+   ],
+   "observable": "UnitAura/aura instance id and stack/charge fields before and after",
+   "question": "Are interrupt-flagged passives lost, reset, or untouched at the flag's event?",
+   "related": [
+    "AL-U-G-01",
+    "AL-D-G-01"
+   ],
+   "setup": "Use a player-scope passive whose flag is StartOfEncounter/EnteringInstance/ChangeSpec (see passive_interrupt_flags.player witnesses); trigger the event (zone into an instance, pull a boss, swap spec and back)"
+  },
+  {
+   "discriminates": "recreate vs in-place",
+   "fidelity": "approximate",
+   "id": "AL-X-G-02",
+   "models": [
+    {
+     "name": "recreate",
+     "prediction": "charges/proc cooldown reset after refund+re-pick"
+    },
+    {
+     "name": "in-place",
+     "prediction": "state kept"
+    }
+   ],
+   "observable": "charges / next possible proc time",
+   "question": "Does a trait re-pick reset a passive's mutable state?",
+   "related": [
+    "AL-U-G-02"
+   ],
+   "setup": "Passive with proc charges or ICD (e.g. Lifecycles 197915); consume a charge / trigger the ICD, then refund and re-pick the talent"
+  },
+  {
+   "discriminates": "not-saved vs saved",
+   "fidelity": "approximate",
+   "id": "AL-X-G-03",
+   "models": [
+    {
+     "name": "not-saved",
+     "prediction": "state reset on login"
+    },
+    {
+     "name": "saved",
+     "prediction": "state restored"
+    }
+   ],
+   "observable": "charges / ICD after login",
+   "question": "Does passive state survive logout?",
+   "related": [
+    "AL-U-G-03"
+   ],
+   "setup": "Same passive as AL-X-G-02; consume state; log out and back in within the ICD"
+  },
+  {
+   "discriminates": "survive vs reapply",
+   "fidelity": "approximate",
+   "id": "AL-X-G-04",
+   "models": [
+    {
+     "name": "survive",
+     "prediction": "same aura instance, ICD still running"
+    },
+    {
+     "name": "reapply",
+     "prediction": "new instance, state reset"
+    }
+   ],
+   "observable": "aura instance id, next proc time",
+   "question": "Does a passive keep its object and state across death and resurrection?",
+   "related": [
+    "AL-R-G-04"
+   ],
+   "setup": "Passive with an ICD; trigger it, die, resurrect before the ICD ends"
+  }
+ ],
+ "rules": [
+  {
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Knockback Immune Fly",
+     "spell": 40795
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 43775
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 47433
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 48602
+    },
+    {
+     "build_skew": false,
+     "name": "Flight + Speed",
+     "spell": 49303
+    },
+    {
+     "build_skew": false,
+     "name": "Wyrmrest Defender: Flight Aura",
+     "spell": 50069
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 50296
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 50345
+    }
+   ],
+   "definition": "Trinity IsPassive = DB2 SPELL_ATTR0_PASSIVE OR ActiveIconFileDataId==135754 OR spell 59630",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-01",
+   "name": "effective-passive",
+   "population": "all providers 189140: passive 16812 (56 by correction only); player 4218: passive 3453 (0 by correction only)",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [],
+   "definition": "A second application of a passive never finds the existing object (IsMultiSlotAura, Unit.cpp:3395): same caster & no cast item -> new object, old removed BY_DEFAULT (state reset); item-sourced -> coexist; passive without APPLY_AURA effect -> coexist (IsPassiveStackableWithRanks)",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-02",
+   "name": "passive-reapplication-never-refreshes",
+   "population": "passive: all 16812, player 3453; no-APPLY_AURA passives all 118 / player 5",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Pulverize",
+     "spell": 742
+    },
+    {
+     "build_skew": false,
+     "name": "Elemental Slayer",
+     "spell": 24991
+    },
+    {
+     "build_skew": false,
+     "name": "Lesser Warding",
+     "spell": 29504
+    },
+    {
+     "build_skew": false,
+     "name": "Mana Regen 5%",
+     "spell": 32102
+    },
+    {
+     "build_skew": false,
+     "name": "Nether Power",
+     "spell": 35121
+    },
+    {
+     "build_skew": false,
+     "name": "Electric Skin",
+     "spell": 35319
+    },
+    {
+     "build_skew": false,
+     "name": "Decompose",
+     "spell": 43200
+    },
+    {
+     "build_skew": false,
+     "name": "Call the Flock: Spin",
+     "spell": 97280
+    }
+   ],
+   "definition": "A passive is permanent iff it has no DurationEntry (SpellAuras.cpp:925); with one it expires",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-03",
+   "name": "passive-duration",
+   "population": "passives with finite duration: all 9, player 0",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [],
+   "definition": "Owner death removes neither the owned passive nor its applications (Unit.cpp:4479/4488); actives survive only with SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-04",
+   "name": "passive-survives-death",
+   "population": "passive: all 16812, player 3453",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "Passives are skipped by dispel lists, spell steal, immunity purge, CMSG_CANCEL_AURA and arena entry",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-05",
+   "name": "passive-unremovable-by-players-and-dispels",
+   "population": "passive: all 16812, player 3453",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "Passives are never saved (CanBeSaved SpellAuras.cpp:1170): all their mutable state resets at every login",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-06",
+   "name": "passive-not-saved",
+   "population": "passive: all 16812, player 3453; with any mutable carrier: all 6316, player 1049",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [
+    {
+     "spell": 384669,
+     "why": "IsUpdatingTemporaryAuraValuesBySpellMod literal"
+    }
+   ],
+   "definition": "A points SpellMod change recalculates amounts of the caster's own passive/permanent auras; temporary actives keep their application snapshot (SpellAuraEffects.cpp:1233), literal exception 384669",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-07",
+   "name": "spellmod-recalculates-passive-amounts",
+   "population": "passive: all 16812, player 3453",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Vanguard",
+     "spell": 71
+    },
+    {
+     "build_skew": false,
+     "name": "Revenge Trigger",
+     "spell": 5301
+    },
+    {
+     "build_skew": false,
+     "name": "Mastery: Ignite",
+     "spell": 12846
+    },
+    {
+     "build_skew": false,
+     "name": "Ruthlessness",
+     "spell": 14161
+    },
+    {
+     "build_skew": false,
+     "name": "Master of the Elements",
+     "spell": 16166
+    },
+    {
+     "build_skew": false,
+     "name": "Resurgence",
+     "spell": 16196
+    },
+    {
+     "build_skew": false,
+     "name": "Omen of Clarity",
+     "spell": 16864
+    },
+    {
+     "build_skew": false,
+     "name": "Predatory Swiftness",
+     "spell": 16974
+    }
+   ],
+   "definition": "Candidate: a passive aura carries no mutable state (the Core/selected-package assumption)",
+   "evidence": [
+    "db2-fact",
+    "world-db-fact",
+    "script-consumer"
+   ],
+   "id": "AL-R-G-08",
+   "name": "passive-is-immutable",
+   "population": "counterexamples with >=1 mutable carrier: all 6316 of 16812, player 1049 of 3453",
+   "status": "discarded"
+  },
+  {
+   "counterexamples": [],
+   "definition": "Once removed by interrupt, REMOVE_AURA effect, charges, expiry, form or aura-state loss, a passive returns only on an acquisition event (login, relearn, trait/spec edit, equip, form entry, state gain); Trinity has no re-application loop",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-09",
+   "name": "no-self-restoration",
+   "population": "passives exposed to such removal (interruptible all 172/player 50; REMOVE_AURA targets all 6; charges all 5/player 2; finite all 9; stances all 25/player 2; aura-state all 8/player 4)",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "A trait rank change is ApplyTraitEntry(false)+ApplyTraitEntry(true) (Player.cpp:29266-29268): RemoveSpell then LearnSpell -> new aura object; amount re-read from the TraitDefinitionEffectPoints curve",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-10",
+   "name": "rank-change-recreates",
+   "population": "every class-trait passive with >1 rank",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Enduring Bloodstone",
+     "spell": 435550
+    },
+    {
+     "build_skew": false,
+     "name": "Illusory Adornment - Blooming Light",
+     "spell": 1236743
+    },
+    {
+     "build_skew": false,
+     "name": "Illusory Adornment - Nature's Embrace",
+     "spell": 1236744
+    },
+    {
+     "build_skew": false,
+     "name": "Illusory Adornment - Voidtouched",
+     "spell": 1236745
+    },
+    {
+     "build_skew": false,
+     "name": "Powerful Eversong Diamond",
+     "spell": 1258209
+    },
+    {
+     "build_skew": false,
+     "name": "Telluric Eversong Diamond",
+     "spell": 1258210
+    },
+    {
+     "build_skew": false,
+     "name": "Midnight Angler's Grand Line",
+     "spell": 1269475
+    }
+   ],
+   "definition": "Item/set/enchant equip routes cast the spell whether or not it is Passive; actives acquired this way have their own duration and are not re-cast until re-equip/login",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-11",
+   "name": "equip-routes-ignore-passive",
+   "population": "non-passive providers reached by an equip route: player 7",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Find Herbs",
+     "spell": 2383
+    },
+    {
+     "build_skew": false,
+     "name": "Find Minerals",
+     "spell": 2580
+    },
+    {
+     "build_skew": false,
+     "name": "Disease Cloud",
+     "spell": 12187
+    },
+    {
+     "build_skew": false,
+     "name": "Disease Cloud",
+     "spell": 12627
+    },
+    {
+     "build_skew": false,
+     "name": "Disease Cloud",
+     "spell": 16345
+    },
+    {
+     "build_skew": false,
+     "name": "Disease Cloud",
+     "spell": 16577
+    },
+    {
+     "build_skew": false,
+     "name": "ClearAll",
+     "spell": 28471
+    },
+    {
+     "build_skew": false,
+     "name": "Mutated Spores",
+     "spell": 30110
+    }
+   ],
+   "definition": "Learning applies an aura only for passives (gated by Stances, EquippedItemClass, CasterAuraState) and for actives with SPELL_ATTR1_CAST_WHEN_LEARNED (Player.cpp:2912-2927)",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-12",
+   "name": "learn-applies-passives-only",
+   "population": "non-passive CAST_WHEN_LEARNED providers: all 355, player 0",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [
+    {
+     "child": 387096,
+     "spell": 387095
+    }
+   ],
+   "definition": "RemoveSpell removes RemoveOwnedAura(spell, self) and spell_pet_auras only; auras the passive cast (procs/scripts/triggers, e.g. Pyrogenics 387096) are untouched",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-13",
+   "name": "unlearn-removes-only-own-aura",
+   "population": "every learned passive",
+   "status": "trinity-only"
+  }
+ ],
+ "timelines": [
+  {
+   "fixture": "passive P, CumulativeAura 2, cast by self with no cast item; MODIFY_AURA_STACKS +1 at 1000; second CastSpell of P at 2000 (reachable paths: a trigger/script cast of P, HandleShapeshiftBoosts on a form switch when P's Stances cover both forms [structural-inference]; NOT a relearn of a still-known spell -- AddSpell early-returns, Player.cpp:2751)",
+   "id": "TL-G-01",
+   "log": [
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 1,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900001,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "coords": [
+      "src/server/game/Spells/SpellEffects.cpp:6138",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1093"
+     ],
+     "event": "modify-stacks",
+     "obj": 1,
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900001,
+       "stacks": 2
+      }
+     ],
+     "t_ms": 1000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 2,
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "replaced": [
+      1
+     ],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900001,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 2000
+    }
+   ],
+   "rules_out": "refresh-in-place model (passive re-application keeps object/stacks like an active refresh)",
+   "title": "passive re-application replaces the object (stacks lost)"
+  },
+  {
+   "fixture": "active A, StackAmount 0, 10000 ms, 3 charges; proc at 1000; recast at 2000",
+   "id": "TL-G-02",
+   "log": [
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 1,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 3,
+       "max_ms": 10000,
+       "obj": 1,
+       "passive": false,
+       "proc_cooldown_until": 0,
+       "remaining_ms": 10000,
+       "spell": 900002,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "event": "proc",
+     "obj": 1,
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 2,
+       "max_ms": 10000,
+       "obj": 1,
+       "passive": false,
+       "proc_cooldown_until": 1000,
+       "remaining_ms": 9000,
+       "spell": 900002,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 1000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3440",
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1119"
+     ],
+     "event": "refresh",
+     "obj": 1,
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 3,
+       "max_ms": 10000,
+       "obj": 1,
+       "passive": false,
+       "proc_cooldown_until": 1000,
+       "remaining_ms": 10000,
+       "spell": 900002,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 2000
+    }
+   ],
+   "rules_out": "'every re-application creates a new object' model",
+   "title": "active non-stacking re-application refreshes the same object (contrast to TL-G-01)"
+  },
+  {
+   "fixture": "passive equip spell E on two equipped items",
+   "id": "TL-G-03",
+   "log": [
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 1,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": "item:1",
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900003,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 2,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": "item:1",
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900003,
+       "stacks": 1
+      },
+      {
+       "amount": 0,
+       "cast_item": "item:2",
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900003,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4116"
+     ],
+     "event": "unequip",
+     "item": "item:1",
+     "removed": [
+      1
+     ],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": "item:2",
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900003,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 500
+    }
+   ],
+   "rules_out": "'one aura per SpellId per caster' model for passives",
+   "title": "item-sourced passive: two items with the same equip spell coexist; unequip removes one"
+  },
+  {
+   "fixture": "passive P with SpellDuration 15000 ms learned at 0; login at 60000",
+   "id": "TL-G-04",
+   "log": [
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 1,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": 15000,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": 15000,
+       "spell": 900004,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "event": "expire",
+     "obj": 1,
+     "remove_mode": "AURA_REMOVE_BY_EXPIRE",
+     "state": [],
+     "t_ms": 15000
+    },
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+     ],
+     "dropped": [],
+     "event": "logout-save",
+     "state": [],
+     "t_ms": 60000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 2,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": 15000,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": 15000,
+       "spell": 900004,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 60000
+    }
+   ],
+   "rules_out": "'passive == permanent' model (SpellAuras.cpp:925 only forces -1 without DurationEntry)",
+   "title": "passive with a DurationEntry expires and is not re-cast until an acquisition event"
+  },
+  {
+   "fixture": "own passive P (amount 10) and own temporary active A (30000 ms, amount 10); points SpellMod at 1000; death at 2000",
+   "id": "TL-G-05",
+   "log": [
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 1,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 10,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900005,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 2,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 10,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900005,
+       "stacks": 1
+      },
+      {
+       "amount": 10,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": 30000,
+       "obj": 2,
+       "passive": false,
+       "proc_cooldown_until": 0,
+       "remaining_ms": 30000,
+       "spell": 900006,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuraEffects.cpp:1233"
+     ],
+     "event": "spellmod-change",
+     "recalculated": [
+      1
+     ],
+     "state": [
+      {
+       "amount": 12,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900005,
+       "stacks": 1
+      },
+      {
+       "amount": 10,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": 30000,
+       "obj": 2,
+       "passive": false,
+       "proc_cooldown_until": 0,
+       "remaining_ms": 29000,
+       "spell": 900006,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 1000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4479",
+      "src/server/game/Entities/Unit/Unit.cpp:4488"
+     ],
+     "event": "death",
+     "remove_mode": "AURA_REMOVE_BY_DEATH",
+     "removed": [
+      2
+     ],
+     "state": [
+      {
+       "amount": 12,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900005,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 2000
+    }
+   ],
+   "rules_out": "'all own auras recalc on spell-mod change' and 'death clears all auras' models",
+   "title": "spell-mod change recalculates passive amounts only; death removes the active only"
+  },
+  {
+   "fixture": "passive P with ProcCharges 1; proc at 700; trait rank change (remove+learn) at 60700",
+   "id": "TL-G-06",
+   "log": [
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 1,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 1,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900007,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "coords": [
+      "src/server/game/Spells/Auras/SpellAuras.cpp:1027"
+     ],
+     "event": "charges-exhausted",
+     "obj": 1,
+     "state": [],
+     "t_ms": 700
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:3195"
+     ],
+     "event": "unlearn",
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": [],
+     "state": [],
+     "t_ms": 60000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 2,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 1,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900007,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 60000
+    }
+   ],
+   "rules_out": "'passive is re-applied automatically after loss' model",
+   "title": "passive with proc charges is consumed and stays gone until relearn"
+  },
+  {
+   "fixture": "passive P with proc cooldown 10000 ms; proc at 3000; rank 1->2 at 4000 (Player.cpp:29266-29268)",
+   "id": "TL-G-07",
+   "log": [
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 1,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900008,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "event": "proc",
+     "obj": 1,
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 13000,
+       "remaining_ms": -1,
+       "spell": 900008,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 3000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:3195"
+     ],
+     "event": "unlearn",
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": [
+      1
+     ],
+     "state": [],
+     "t_ms": 4000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 2,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900008,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 4000
+    }
+   ],
+   "rules_out": "'rank change mutates the existing aura in place' model",
+   "title": "trait rank change = remove + recreate: proc cooldown state is reset"
+  },
+  {
+   "fixture": "trait passive P1 with ChangeSpec; passive P2 with ChangeGlyph; spec change at 1000 (same spec's traits reapplied); glyph applied at 2000",
+   "id": "TL-G-08",
+   "log": [
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 1,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900009,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 2,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 1,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900009,
+       "stacks": 1
+      },
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900010,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 0
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4255"
+     ],
+     "event": "interrupt:ChangeSpec",
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": [
+      1
+     ],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900010,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 1000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Player/Player.cpp:3195"
+     ],
+     "event": "unlearn",
+     "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+     "removed": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900010,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 1000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:3395",
+      "src/server/game/Entities/Unit/Unit.cpp:3454"
+     ],
+     "event": "create",
+     "obj": 3,
+     "remove_mode": null,
+     "replaced": [],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 2,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900010,
+       "stacks": 1
+      },
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 3,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900009,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 1000
+    },
+    {
+     "coords": [
+      "src/server/game/Entities/Unit/Unit.cpp:4255"
+     ],
+     "event": "interrupt:ChangeGlyph",
+     "remove_mode": "AURA_REMOVE_BY_INTERRUPT",
+     "removed": [
+      2
+     ],
+     "state": [
+      {
+       "amount": 0,
+       "cast_item": null,
+       "caster": "self",
+       "charges": 0,
+       "max_ms": -1,
+       "obj": 3,
+       "passive": true,
+       "proc_cooldown_until": 0,
+       "remaining_ms": -1,
+       "spell": 900009,
+       "stacks": 1
+      }
+     ],
+     "t_ms": 2000
+    }
+   ],
+   "rules_out": "'passives are immune to aura interrupt flags' and 'the firing path always restores them' models",
+   "title": "interrupt-flagged passives: spec change resets a trait passive, glyph change loses one"
+  }
+ ],
+ "trinity_defects": [
+  {
+   "coords": [
+    "src/server/game/Entities/Unit/Unit.cpp:4246-4258",
+    "src/server/game/Entities/Unit/Unit.cpp:10250",
+    "src/server/game/Handlers/CharacterHandler.cpp:1308",
+    "src/server/game/Entities/Player/Player.cpp:2751"
+   ],
+   "description": "Passives with an implemented AuraInterruptFlag are removed by the event and, unless the firing path itself relearns them (ChangeSpec for trait/spec passives), never re-applied: EnterWorld fires in Unit::AddToWorld after LoadFromDB cast the passives, Login fires after login, ChangeGlyph on any glyph apply, and a relearn of a still-known spell early-returns in AddSpell (no recast). E.g. 48263 Veteran of the Third War (Login) is absent after every login; 193468 Mastery: Sniper Training (ChangeGlyph) is lost on a glyph change until relog/spec change.",
+   "id": "AL-D-G-01",
+   "lifecycle_effect": "permanent loss of a passive until relearn/relog (relog re-loses Login/EnterWorld ones)",
+   "oracle_behaviour": "reproduced as removal_policy()['aura-interrupt'] + no-self-restoration; marked likely-defect, Retail UNKNOWN (AL-U-G-01)"
+  },
+  {
+   "coords": [
+    "src/server/game/Entities/Player/Player.cpp:8393",
+    "src/server/game/Entities/Player/Player.cpp:30668"
+   ],
+   "description": "Set-bonus removal (ApplyEquipSpell with no item) and mastery removal use RemoveAurasDueToSpell(id) with no caster GUID: they also remove applications of that spell cast by other units.",
+   "id": "AL-D-G-02",
+   "lifecycle_effect": "cross-caster removal on unequip/spec change",
+   "oracle_behaviour": "ROUTES['current-set'] records 'ANY caster'"
+  },
+  {
+   "coords": [
+    "src/server/game/Entities/Player/Player.cpp:2642",
+    "src/server/game/Entities/Player/Player.cpp:29143"
+   ],
+   "description": "SpellAuraInterruptFlags2::ChangeTalent fires only in legacy Player::AddTalent; UpdateTraitConfig (all current talent edits) never fires it.",
+   "id": "AL-D-G-03",
+   "lifecycle_effect": "ChangeTalent-flagged auras survive trait edits in Trinity",
+   "oracle_behaviour": "INTERRUPT_FLAGS consumer note"
+  }
+ ],
+ "unknowns": [
+  {
+   "blocker": "Retail experiment AL-X-G-01",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Entities/Unit/Unit.cpp:4250",
+    "src/server/game/Entities/Unit/Unit.cpp:10250",
+    "src/server/game/Handlers/CharacterHandler.cpp:1308"
+   ],
+   "evidence": [
+    "retail-unknown",
+    "trinity-consumer"
+   ],
+   "id": "AL-U-G-01",
+   "known": "Trinity removes it (Unit.cpp:4246-4258) and never restores it; 172 all / 50 player passives",
+   "question": "Retail: is a passive with an implemented interrupt flag (EnterWorld, LeaveWorld, Login, ChangeSpec, EnteringInstance, StartOfEncounter...) removed and lost, removed and immediately re-applied (state reset), or unaffected?",
+   "reopen_condition": "observe aura list across the event",
+   "subject": "AuraInterruptFlags on passives",
+   "why_unresolved": "no Retail observation; DB2 cannot say"
+  },
+  {
+   "blocker": "AL-X-G-02",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuras.cpp:1651",
+    "src/server/game/Entities/Player/Player.cpp:29266"
+   ],
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-G-02",
+   "known": "Trinity: replace (TL-G-01), rank change = remove+learn (TL-G-07)",
+   "question": "Retail: does re-learning / re-picking a passive reset its mutable state (Trinity: new object) or keep it?",
+   "reopen_condition": "observe charges/proc cooldown after a trait re-pick",
+   "subject": "passive re-application",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "blocker": "AL-X-G-03",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuras.cpp:1170"
+   ],
+   "evidence": [
+    "retail-unknown"
+   ],
+   "id": "AL-U-G-03",
+   "known": "Trinity: never saved (SpellAuras.cpp:1170)",
+   "question": "Retail: do passive stacks/charges/proc cooldowns survive logout?",
+   "reopen_condition": "observe after relog",
+   "subject": "passive mutable state across logout",
+   "why_unresolved": "no Retail observation"
+  },
+  {
+   "blocker": "a player-scope witness appears",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Spells/Auras/SpellAuras.cpp:925"
+   ],
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-G-04",
+   "known": "Trinity: yes (SpellAuras.cpp:925); 9 providers, none in player scope",
+   "question": "Retail: do passives with a DurationIndex expire?",
+   "reopen_condition": "",
+   "subject": "finite-duration passives",
+   "why_unresolved": "no player witness; low value"
+  },
+  {
+   "blocker": "E/F timeline of an owned-unapplied aura",
+   "build_skew": false,
+   "coords": [
+    "src/server/game/Entities/Unit/Unit.cpp:3508"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-G-05",
+   "known": "Trinity: _CreateAuraApplication refuses non-death-persistent applications on a dead unit (Unit.cpp:3507-3510) -> owned aura without application",
+   "question": "What happens when a passive is acquired while the owner is dead outside loading?",
+   "reopen_condition": "",
+   "subject": "application while dead",
+   "why_unresolved": "which routes can fire while dead (equip? trait edit?) and whether UpdateTargetMap later applies it is track E/F's"
+  },
+  {
+   "blocker": "track H overlay classification",
+   "build_skew": false,
+   "coords": [
+    "docs/research/dummy-corpora/script-index.json"
+   ],
+   "evidence": [
+    "script-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-G-06",
+   "known": "310 all / 149 player passives have spell_script_names bindings",
+   "question": "Which of the scripted passives hold AuraScript member state?",
+   "reopen_condition": "",
+   "subject": "script-held passive state",
+   "why_unresolved": "script census is track H's"
+  }
+ ]
+}

@@ -1,0 +1,3075 @@
+{
+ "call_path": [
+  "Spell.cpp:3226 DoSpellEffectHit",
+  "SpellAuras.cpp:350 TryRefreshStackOrCreate",
+  "Unit.cpp:3386 _TryStackingOrRefreshingExistingAura",
+  "Unit.cpp:3441 ModStackAmount",
+  "SpellAuras.cpp:1117 SetStackAmount",
+  "SpellAuras.cpp:1121 RefreshTimers",
+  "Spell.cpp:3262-3298 duration commit"
+ ],
+ "census": {
+  "branches": {
+   "all": {
+    "new-object": 16814,
+    "refresh": 133312,
+    "self-channel-cancel-then-create": 19276,
+    "stack-and-refresh": 14119,
+    "unique-no-timer-refresh": 5619
+   },
+   "controlled": {
+    "new-object": 45,
+    "refresh": 83,
+    "self-channel-cancel-then-create": 11,
+    "stack-and-refresh": 2
+   },
+   "player": {
+    "new-object": 3453,
+    "refresh": 576,
+    "self-channel-cancel-then-create": 41,
+    "stack-and-refresh": 142,
+    "unique-no-timer-refresh": 6
+   }
+  },
+  "carry": {
+   "all": {
+    "n/a (non-positive duration: Spell.cpp:3268 gate)": 69,
+    "none": 188560,
+    "pandemic-reads-live-remaining": 6,
+    "pandemic-reads-refreshed-duration": 505
+   },
+   "controlled": {
+    "n/a (non-positive duration: Spell.cpp:3268 gate)": 1,
+    "none": 135,
+    "pandemic-reads-refreshed-duration": 5
+   },
+   "player": {
+    "n/a (non-positive duration: Spell.cpp:3268 gate)": 2,
+    "none": 4166,
+    "pandemic-reads-refreshed-duration": 50
+   }
+  },
+  "combos": {
+   "all": {
+    "new-object|none|rolling=False|simc489=False": 16811,
+    "new-object|none|rolling=True|simc489=False": 3,
+    "refresh|n/a (non-positive duration: Spell.cpp:3268 gate)|rolling=False|simc489=False": 51,
+    "refresh|n/a (non-positive duration: Spell.cpp:3268 gate)|rolling=True|simc489=False": 1,
+    "refresh|none|rolling=False|simc489=False": 132664,
+    "refresh|none|rolling=False|simc489=True": 12,
+    "refresh|none|rolling=True|simc489=False": 150,
+    "refresh|pandemic-reads-refreshed-duration|rolling=False|simc489=False": 419,
+    "refresh|pandemic-reads-refreshed-duration|rolling=True|simc489=False": 15,
+    "self-channel-cancel-then-create|none|rolling=False|simc489=False": 19274,
+    "self-channel-cancel-then-create|none|rolling=False|simc489=True": 2,
+    "stack-and-refresh|n/a (non-positive duration: Spell.cpp:3268 gate)|rolling=False|simc489=False": 8,
+    "stack-and-refresh|none|rolling=False|simc489=False": 13999,
+    "stack-and-refresh|none|rolling=False|simc489=True": 19,
+    "stack-and-refresh|none|rolling=True|simc489=False": 22,
+    "stack-and-refresh|pandemic-reads-refreshed-duration|rolling=False|simc489=False": 70,
+    "stack-and-refresh|pandemic-reads-refreshed-duration|rolling=True|simc489=False": 1,
+    "unique-no-timer-refresh|n/a (non-positive duration: Spell.cpp:3268 gate)|rolling=False|simc489=False": 9,
+    "unique-no-timer-refresh|none|rolling=False|simc489=False": 5604,
+    "unique-no-timer-refresh|pandemic-reads-live-remaining|rolling=False|simc489=False": 6
+   },
+   "controlled": {
+    "new-object|none|rolling=False|simc489=False": 45,
+    "refresh|n/a (non-positive duration: Spell.cpp:3268 gate)|rolling=False|simc489=False": 1,
+    "refresh|none|rolling=False|simc489=False": 77,
+    "refresh|pandemic-reads-refreshed-duration|rolling=False|simc489=False": 5,
+    "self-channel-cancel-then-create|none|rolling=False|simc489=False": 11,
+    "stack-and-refresh|none|rolling=False|simc489=False": 2
+   },
+   "player": {
+    "new-object|none|rolling=False|simc489=False": 3452,
+    "new-object|none|rolling=True|simc489=False": 1,
+    "refresh|n/a (non-positive duration: Spell.cpp:3268 gate)|rolling=False|simc489=False": 2,
+    "refresh|none|rolling=False|simc489=False": 523,
+    "refresh|none|rolling=True|simc489=False": 6,
+    "refresh|pandemic-reads-refreshed-duration|rolling=False|simc489=False": 44,
+    "refresh|pandemic-reads-refreshed-duration|rolling=True|simc489=False": 1,
+    "self-channel-cancel-then-create|none|rolling=False|simc489=False": 41,
+    "stack-and-refresh|none|rolling=False|simc489=False": 137,
+    "stack-and-refresh|pandemic-reads-refreshed-duration|rolling=False|simc489=False": 5,
+    "unique-no-timer-refresh|none|rolling=False|simc489=False": 6
+   }
+  },
+  "count_unit": "provider spells (DIFFICULTY_NONE)",
+  "evidence": [
+   "db2-fact",
+   "trinity-consumer"
+  ],
+  "periodic_timer": {
+   "all": {
+    "n/a": 36090,
+    "preserved (ATTR13)": 565,
+    "preserved (StackAmount>=2)": 10845,
+    "reset": 136021,
+    "untouched": 5619
+   },
+   "controlled": {
+    "n/a": 56,
+    "preserved (ATTR13)": 6,
+    "preserved (StackAmount>=2)": 2,
+    "reset": 77
+   },
+   "player": {
+    "n/a": 3494,
+    "preserved (ATTR13)": 52,
+    "preserved (StackAmount>=2)": 102,
+    "reset": 564,
+    "untouched": 6
+   }
+  },
+  "witnesses": {
+   "all": {
+    "new-object|none": [
+     742,
+     24991,
+     29504,
+     32102,
+     35121,
+     35319
+    ],
+    "refresh|n/a (non-positive duration: Spell.cpp:3268 gate)": [
+     196670
+    ],
+    "refresh|none": [
+     13,
+     17,
+     25,
+     56,
+     65,
+     99
+    ],
+    "refresh|pandemic-reads-refreshed-duration": [
+     66,
+     136,
+     139,
+     339,
+     589,
+     603
+    ],
+    "self-channel-cancel-then-create|none": [
+     126,
+     514,
+     605,
+     698,
+     740,
+     746
+    ],
+    "stack-and-refresh|n/a (non-positive duration: Spell.cpp:3268 gate)": [],
+    "stack-and-refresh|none": [
+     96,
+     744,
+     974,
+     1834,
+     3356,
+     5159
+    ],
+    "stack-and-refresh|pandemic-reads-refreshed-duration": [
+     980,
+     14914,
+     33763,
+     51714,
+     120699,
+     134851
+    ],
+    "unique-no-timer-refresh|n/a (non-positive duration: Spell.cpp:3268 gate)": [],
+    "unique-no-timer-refresh|none": [
+     3147,
+     3237,
+     3358,
+     3436,
+     3439,
+     3485
+    ],
+    "unique-no-timer-refresh|pandemic-reads-live-remaining": [
+     269319,
+     269397,
+     390914,
+     474174,
+     1255850,
+     1284987
+    ]
+   },
+   "controlled": {
+    "new-object|none": [],
+    "refresh|n/a (non-positive duration: Spell.cpp:3268 gate)": [],
+    "refresh|none": [
+     2649,
+     5672,
+     7870,
+     17735,
+     17767,
+     24394
+    ],
+    "refresh|pandemic-reads-refreshed-duration": [
+     48181,
+     55078,
+     89751,
+     90361,
+     118297
+    ],
+    "self-channel-cancel-then-create|none": [
+     605,
+     6358,
+     50245,
+     91838,
+     92380,
+     93433
+    ],
+    "stack-and-refresh|none": [
+     6360,
+     32390
+    ]
+   },
+   "player": {
+    "new-object|none": [],
+    "refresh|n/a (non-positive duration: Spell.cpp:3268 gate)": [],
+    "refresh|none": [
+     99,
+     498,
+     586,
+     710,
+     871,
+     1022
+    ],
+    "refresh|pandemic-reads-refreshed-duration": [
+     603,
+     703,
+     774,
+     1079,
+     1943,
+     2818
+    ],
+    "self-channel-cancel-then-create|none": [
+     605,
+     740,
+     5143,
+     6197,
+     12051,
+     15407
+    ],
+    "stack-and-refresh|none": [
+     974,
+     16870,
+     32390,
+     32645,
+     44544,
+     51124
+    ],
+    "stack-and-refresh|pandemic-reads-refreshed-duration": [
+     980,
+     14914,
+     33763,
+     366155,
+     1263345
+    ],
+    "unique-no-timer-refresh|none": [
+     452701,
+     460553
+    ]
+   }
+  }
+ },
+ "core_navigation": [
+  {
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:686-691"
+   ],
+   "evidence": "core-navigation",
+   "id": "AL-K-B-03",
+   "observation": "RestartLifetime / CappedCarryover / IndependentStackDeadlines / PreserveExistingLifetime vs Trinity branches refresh / refresh+ATTR13 / new-object / unique-no-timer-refresh; Trinity's unique branch is not pure preservation (resets when the hit duration differs from max).",
+   "reopen_condition": "track K coremap",
+   "research_ref": [
+    "AL-R-B-04",
+    "AL-R-B-08"
+   ],
+   "topic": "reapplication policy vocabulary"
+  },
+  {
+   "core_coords": [
+    "crates/dbc/src/spell_attribute.rs:180-181",
+    "crates/dbc/src/spell_attribute.rs:490-491"
+   ],
+   "evidence": "core-navigation",
+   "id": "AL-K-B-05",
+   "observation": "Core implements simc's meanings (489 preserve expiry while bumping stacks; 490 independent stack deadlines); Trinity has no consumer (UNK9/UNK10), so their only source is simc buff.cpp",
+   "reopen_condition": "Retail trace of a 489/490 aura",
+   "research_ref": [
+    "AL-U-B-03"
+   ],
+   "topic": "raw 489 / 490 meanings"
+  }
+ ],
+ "falsification": [
+  {
+   "action": "AL-R-B-05; identity details to track A",
+   "attempt": "branch census + identity lookup (GetOwnedAura keys)",
+   "id": "AL-F-B-04",
+   "result": "died: multislot (all Passive) never found; other casters on non-shared slots create new auras",
+   "rule": "reapplying the same SpellId refreshes the existing aura"
+  },
+  {
+   "action": "AL-R-B-08",
+   "attempt": "trace ModStackAmount refresh bool + Spell.cpp:3294 + probe with a changed hit duration",
+   "id": "AL-F-B-05",
+   "result": "refined: no timer refresh, but a hit whose duration differs from the current max resets duration and max; stackable unique auras refresh normally; amounts always recalculated",
+   "rule": "ATTR1_AURA_UNIQUE: 'Aura will not refresh its duration when recast'"
+  },
+  {
+   "action": "AL-R-B-15; branch self-channel-cancel-then-create in refresh.json",
+   "attempt": "R2-07: trace SetCurrentCastSpell / Spell::cancel",
+   "id": "AL-F-B-11",
+   "result": "died for the channelling caster (cancel-then-create); refresh only via non-Spell paths",
+   "rule": "a channel aura is refreshed by recasting the channel"
+  }
+ ],
+ "not_in_census": [
+  "script refresh behaviour (AuraScript SetDuration/RefreshDuration: track H)",
+  "spell_group exclusivity (track A)",
+  "area recipients (track F)",
+  "TRIGGERED_DONT_RESET_PERIODIC_TIMER casts (runtime flag)"
+ ],
+ "populations": {
+  "all": 189140,
+  "controlled": 141,
+  "player": 4218
+ },
+ "provenance": {
+  "command": "aura_lifecycle.py refresh --out docs/research/aura-lifecycle-corpora/refresh.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "track": "B"
+ },
+ "retail_experiments": [],
+ "rules": [
+  {
+   "coords": [
+    "Unit.cpp:3386-3446",
+    "SpellAuras.cpp:1093-1124",
+    "SpellInfo.cpp:1803-1812"
+   ],
+   "counterexamples": [
+    "effect-mask mismatch recreates (Unit.cpp:3406-3407) -- runtime, not census-visible",
+    "stack decrease (num<0) never refreshes (track C)"
+   ],
+   "definition": "Same-caster reapplication in Trinity takes exactly one branch: new-object (Passive or 3 hardcoded ids: never found), stack-and-refresh (StackAmount>0), unique-no-timer-refresh (StackAmount==0 and ATTR1_AURA_UNIQUE|ATTR5_AURA_UNIQUE_PER_CASTER), refresh (otherwise).",
+   "evidence": [
+    "trinity-consumer",
+    "db2-fact"
+   ],
+   "id": "AL-R-B-04",
+   "name": "reapplication branch is decided by (multislot, StackAmount, unique attrs)",
+   "population": {
+    "counts": {
+     "all": {
+      "new-object": 16814,
+      "refresh": 133312,
+      "self-channel-cancel-then-create": 19276,
+      "stack-and-refresh": 14119,
+      "unique-no-timer-refresh": 5619
+     },
+     "controlled": {
+      "new-object": 45,
+      "refresh": 83,
+      "self-channel-cancel-then-create": 11,
+      "stack-and-refresh": 2
+     },
+     "player": {
+      "new-object": 3453,
+      "refresh": 576,
+      "self-channel-cancel-then-create": 41,
+      "stack-and-refresh": 142,
+      "unique-no-timer-refresh": 6
+     }
+    },
+    "name": "provider spells"
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "coords": [
+    "Unit.cpp:3395-3407",
+    "SpellInfo.cpp:1803-1812"
+   ],
+   "counterexamples": [],
+   "definition": "A second application of the same SpellId refreshes only when GetOwnedAura finds it: multislot auras always create a new Aura, non-shared-slot auras from another caster create their own Aura (coexist or replace: track A), effect-mask mismatch recreates.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-05",
+   "name": "same SpellId does not imply refresh",
+   "population": {
+    "counts": {
+     "all": 16814,
+     "controlled": 45,
+     "player": 3453
+    },
+    "name": "provider spells on the new-object branch"
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3240",
+    "SpellAuras.h:135",
+    "SpellAuras.cpp:976-990",
+    "SpellAuraEffects.cpp:949-959,961-1031"
+   ],
+   "counterexamples": [
+    "unique-no-timer-refresh: timer and ticksDone untouched",
+    "non-Spell refreshes: StackAmount>=2 still resets (SpellAuras.h:135, ModStackAmount default)"
+   ],
+   "definition": "On a Spell-hit timer refresh the periodic phase is reset iff StackAmount<2 and not TRIGGERED_DONT_RESET_PERIODIC_TIMER and not ATTR13 (Spell.cpp:3240 is the only place that computes this); every non-Spell refresh (AddAura, effect 289, linked REAPPLY, steal, scripts) uses the default resetPeriodicTimer=true and restarts the phase whatever the StackAmount, ATTR13 still overriding (R1-05 / R2-04).  ticksDone is always reset; the period is recomputed from the live caster.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-B-06",
+   "name": "periodic timer on refresh (Spell hit path)",
+   "population": {
+    "counts": {
+     "all": {
+      "n/a": 36090,
+      "preserved (ATTR13)": 565,
+      "preserved (StackAmount>=2)": 10845,
+      "reset": 136021,
+      "untouched": 5619
+     },
+     "controlled": {
+      "n/a": 56,
+      "preserved (ATTR13)": 6,
+      "preserved (StackAmount>=2)": 2,
+      "reset": 77
+     },
+     "player": {
+      "n/a": 3494,
+      "preserved (ATTR13)": 52,
+      "preserved (StackAmount>=2)": 102,
+      "reset": 564,
+      "untouched": 6
+     }
+    },
+    "name": "provider spells by periodic-timer outcome"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:1114",
+    "Spell.cpp:3294-3298"
+   ],
+   "counterexamples": [],
+   "definition": "ModStackAmount does not refresh timers; Spell.cpp then resets duration AND max to the hit duration only when hit != current max (e.g. haste/DR/combo points/mods changed); amounts are recalculated (SetStackAmount) in every case.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-B-08",
+   "name": "unique non-stacking reapplication keeps remaining unless the hit duration changed",
+   "population": {
+    "counts": {
+     "all": 5619,
+     "controlled": 0,
+     "player": 6
+    },
+    "name": "unique-no-timer-refresh providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3587-3598",
+    "Unit.cpp:3113-3117",
+    "Spell.cpp:3636-3647",
+    "SpellInfo.cpp:1808-1812"
+   ],
+   "counterexamples": [],
+   "definition": "A channeled cast always registers as CURRENT_CHANNELED_SPELL (Spell.cpp:3587-3598, never willCastDirectly), which interrupts the running channel (Unit.cpp:3113-3117); Spell::cancel in SPELL_STATE_CHANNELING removes the channel's auras on its hit targets with AURA_REMOVE_BY_CANCEL (Spell.cpp:3636-3647) before the new hit, so the new hit creates a new aura (triggered self-channels included).  Channels are never shared-slot (SpellInfo.cpp:1808-1812), so other casters own separate auras.  A channel aura can still be found/refreshed by non-Spell paths (AL-R-B-14) or when the aura outlived its channel / sits on a target outside the cancelled spell's target list.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-15",
+   "name": "the channelling caster's recast is cancel-then-create",
+   "population": {
+    "attr13_channels": {
+     "all": 115,
+     "controlled": 3,
+     "player": 9
+    },
+    "counts": {
+     "all": 19276,
+     "controlled": 11,
+     "player": 41
+    },
+    "name": "channel providers split out of the refresh census"
+   },
+   "status": "trinity-only"
+  }
+ ],
+ "taxonomy": [
+  {
+   "amount": "new",
+   "branch": "new-object",
+   "coords": "Unit.cpp:3395; SpellInfo.cpp:1803-1806",
+   "duration": "fresh CalcMaxDuration + hit commit",
+   "observable": "two auras of one SpellId coexist",
+   "periodic": "new timers",
+   "stacks": "new object, own count",
+   "when": "IsMultiSlotAura (Passive or 55849/40075/44413)"
+  },
+  {
+   "amount": "recalculated from new base points",
+   "branch": "refresh",
+   "coords": "SpellAuras.cpp:1093-1124,976-990",
+   "duration": "max = CalcMaxDuration(); current = max; then hit commit",
+   "observable": "duration restarts (or ATTR13 extension)",
+   "periodic": "ticks reset; phase reset unless ATTR13 / TRIGGERED_DONT_RESET",
+   "stacks": "stays 1",
+   "when": "found, StackAmount == 0, not unique"
+  },
+  {
+   "amount": "recalculated (stack multiply unless SuppressPointsStacking; AuraPointsStack accumulates base)",
+   "branch": "stack-and-refresh",
+   "coords": "Unit.cpp:3409-3441; SpellAuras.cpp:1093-1124",
+   "duration": "as refresh (also at the cap)",
+   "observable": "stack +1 and duration restart",
+   "periodic": "ticks reset; phase preserved when StackAmount >= 2 or ATTR13; reset when StackAmount == 1",
+   "stacks": "+StackAmount of the cast (usually 1), capped at CalcMaxStackAmount",
+   "when": "found, StackAmount > 0"
+  },
+  {
+   "amount": "recalculated",
+   "branch": "unique-no-timer-refresh",
+   "coords": "SpellAuras.cpp:1114; Spell.cpp:3294-3298",
+   "duration": "kept unless hit duration != current max (then both reset to hit)",
+   "observable": "recast does not restart the timer",
+   "periodic": "untouched (ticksDone kept)",
+   "stacks": "stays 1",
+   "when": "found, StackAmount == 0, ATTR1_AURA_UNIQUE or ATTR5_AURA_UNIQUE_PER_CASTER"
+  },
+  {
+   "amount": "new",
+   "branch": "self-channel-cancel-then-create",
+   "coords": "Spell.cpp:3587-3598; Unit.cpp:3113-3117; Spell.cpp:3636-3647",
+   "duration": "old channel cancelled (auras removed BY_CANCEL), new aura created",
+   "observable": "no refresh / no carry on own recast; non-Spell paths can still refresh (AL-R-B-14)",
+   "periodic": "new timers",
+   "stacks": "new",
+   "when": "the channelling caster recasts a channel (triggered too)"
+  },
+  {
+   "amount": "recalculated",
+   "branch": "non-Spell refresh (entry point)",
+   "coords": "Unit.cpp:12311-12314; Unit.cpp:4068-4069 (ModStackAmount then SetDuration(stolen)); 4083; Unit.cpp:12756, 12770; SpellEffects.cpp:6138; SpellAuraEffects.cpp:5358; src/server/scripts (track H census)",
+   "duration": "RefreshTimers only: duration = max = M; no ATTR13 carry; no ModSpellDuration/haste commit",
+   "observable": "-",
+   "periodic": "phase reset unless ATTR13 (default resetPeriodicTimer=true)",
+   "stacks": "+n (positive delta refreshes)",
+   "when": "AddAura / steal / vehicle / effect 289 / linked REAPPLY / scripts find the aura"
+  },
+  {
+   "amount": "-",
+   "branch": "other-caster",
+   "coords": "Unit.cpp:3391-3402; SpellInfo.cpp:1808-1812",
+   "duration": "shared-slot: as stack-and-refresh; otherwise a new aura (coexist/replace: track A)",
+   "observable": "-",
+   "periodic": "-",
+   "stacks": "shared-slot counts all casters",
+   "when": "found by any caster only if StackAmount > 1 && !channel && !DOT_STACKING_RULE"
+  }
+ ],
+ "trinity_defects": [],
+ "unknowns": [
+  {
+   "blocker": "Retail trace",
+   "build_skew": false,
+   "coords": [
+    "simc engine/buff/buff.cpp:739-744",
+    "simc engine/buff/buff.cpp:777-779",
+    "simc engine/dbc/data_enums.hh:1909-1910",
+    "core crates/dbc/src/spell_attribute.rs:180-181,490-491"
+   ],
+   "evidence": [
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-03",
+   "known": "raw 489 providers {'all': 33, 'player': 0, 'controlled': 0}, raw 490 {'all': 70, 'player': 6, 'controlled': 0}; Trinity UNK9/UNK10 no consumer; simc 489 -> buff DISABLED refresh: stacks bumped, expiry untouched (buff.cpp:740-744, 2540-2554); simc 490 -> ASYNCHRONOUS stack behaviour when max stack > 1: each stack own expiry (buff.cpp:777-779, 2229-2234); Core catalog names both with simc-style meanings (navigation)",
+   "question": "Is reapplication ignored entirely, or only duration kept? (and raw 490 async stacking)",
+   "reopen_condition": "Retail recast of a flagged aura",
+   "subject": "ATTR15 bit 9 (simc SX_AURA_DOES_NOT_REFRESH)",
+   "why_unresolved": "single secondary consumer"
+  },
+  {
+   "blocker": "track I",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:2957"
+   ],
+   "evidence": [
+    "unresolved"
+   ],
+   "id": "AL-U-B-09",
+   "known": "timelines assume update(t) then hit(t)",
+   "question": "When a refresh lands in the same ms as an expiry/tick, which runs first?",
+   "reopen_condition": "track I ordering corpus",
+   "subject": "hit vs update order in one ms",
+   "why_unresolved": "scheduler order is track I"
+  }
+ ],
+ "witnesses": [
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "reset",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_dru_incapacitating_roar"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0,
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Incapacitating Roar",
+   "spell": 99,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 3000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 3000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3000,
+      "stacks": 1
+     },
+     "t": 2700
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 5700
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3000,
+      "stacks": 1
+     },
+     "t": 5700
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "reset",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0,
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Divine Protection",
+   "spell": 498,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 8000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 8000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 8000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 8000,
+      "stacks": 1
+     },
+     "t": 7200
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 15200
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 8000,
+      "stacks": 1
+     },
+     "t": 15200
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "reset",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_pri_translucent_image"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Fade",
+   "spell": 586,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 10000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 10000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 10000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 10000,
+      "stacks": 1
+     },
+     "t": 9000
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 19000
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 10000,
+      "stacks": 1
+     },
+     "t": 19000
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "stack-and-refresh",
+    "branch_if_found": "stack-and-refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (StackAmount>=2)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0,
+     0,
+     0
+    ],
+    "stack_amount": 9
+   },
+   "name": "Earth Shield",
+   "spell": 974,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 3600000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3600000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 3600000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3600000,
+      "stacks": 2
+     },
+     "t": 3240000
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 6840000
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3600000,
+      "stacks": 2
+     },
+     "t": 6840000
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "stack-and-refresh",
+    "branch_if_found": "stack-and-refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "any-caster (one shared aura; casterGUID ignored)",
+    "periodic_timer": "preserved (StackAmount>=2)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0,
+     0,
+     0,
+     0
+    ],
+    "stack_amount": 2
+   },
+   "name": "Fingers of Frost",
+   "spell": 44544,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 15000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 15000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 15000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 15000,
+      "stacks": 2
+     },
+     "t": 13500
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 28500
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 15000,
+      "stacks": 2
+     },
+     "t": 28500
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "stack-and-refresh",
+    "branch_if_found": "stack-and-refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": false,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "reset",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_rog_envenom"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "stack_amount": 1
+   },
+   "name": "Envenom",
+   "spell": 32645
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_gen_trigger_exclude_caster_aura_spell",
+     "spell_warl_absolute_corruption",
+     "spell_warl_deaths_embrace_dots"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     2000
+    ],
+    "stack_amount": 0
+   },
+   "name": "Corruption",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 15400
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 15400
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 15400
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 18200
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 15400,
+     "value": 14000
+    }
+   },
+   "spell": 146739,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 14000,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 14000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 18200,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 600
+       }
+      ],
+      "generation": 0,
+      "max_duration": 18200,
+      "stacks": 1
+     },
+     "t": 12600
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_rog_improved_garrote_damage"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     2000,
+     0,
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Garrote",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 19800
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 19800
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 19800
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 23400
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 19800,
+     "value": 18000
+    }
+   },
+   "spell": 703,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 18000,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 18000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 23400,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 200
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 23400,
+      "stacks": 1
+     },
+     "t": 16200
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_rog_rupture"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     2000,
+     2000
+    ],
+    "stack_amount": 0
+   },
+   "name": "Rupture",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 4400
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 4400
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 4400
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 5200
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 4400,
+     "value": 4000
+    }
+   },
+   "spell": 1943,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 4000,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 4000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 5200,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 1600
+       },
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 1600
+       }
+      ],
+      "generation": 0,
+      "max_duration": 5200,
+      "stacks": 1
+     },
+     "t": 3600
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "stack-and-refresh",
+    "branch_if_found": "stack-and-refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_warl_deaths_embrace_dots",
+     "spell_warl_volatile_agony"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     2000,
+     2000
+    ],
+    "stack_amount": 8
+   },
+   "name": "Agony",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 19800
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 19800
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 19800
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 23400
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 19800,
+     "value": 18000
+    }
+   },
+   "spell": 980,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 18000,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 18000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 23400,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 200
+       },
+       {
+        "period": 2000,
+        "ticks": 0,
+        "timer": 200
+       }
+      ],
+      "generation": 0,
+      "max_duration": 23400,
+      "stacks": 2
+     },
+     "t": 16200
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "stack-and-refresh",
+    "branch_if_found": "stack-and-refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_dru_lifebloom"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     1000
+    ],
+    "stack_amount": 1
+   },
+   "name": "Lifebloom",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 16500
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 16500
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 16500
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 19500
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 16500,
+     "value": 15000
+    }
+   },
+   "spell": 33763,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 15000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 15000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 19500,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 500
+       }
+      ],
+      "generation": 0,
+      "max_duration": 19500,
+      "stacks": 1
+     },
+     "t": 13500
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "unique-no-timer-refresh",
+    "branch_if_found": "unique-no-timer-refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "kept unless hit duration != current max (then full reset)",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "untouched",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "kept"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Roar from the Heavens",
+   "spell": 452701,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 6000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 6000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 600,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 6000,
+      "stacks": 1
+     },
+     "t": 5400
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 6000
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 6000,
+      "stacks": 1
+     },
+     "t": 6000
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "unique-no-timer-refresh",
+    "branch_if_found": "unique-no-timer-refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "kept unless hit duration != current max (then full reset)",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "untouched",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "kept"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Doom",
+   "spell": 460553,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 20000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 20000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 2000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 20000,
+      "stacks": 1
+     },
+     "t": 18000
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 20000
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 20000,
+      "stacks": 1
+     },
+     "t": 20000
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "unique-no-timer-refresh",
+    "branch_if_found": "unique-no-timer-refresh",
+    "carry": "pandemic-reads-live-remaining",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "kept unless hit duration != current max (then full reset)",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "untouched",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "kept"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Covered in Oil",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 5500
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 5500
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 5500
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 6500
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 5500,
+     "value": 5000
+    }
+   },
+   "spell": 269319,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 5000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 5000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 5500,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 5500,
+      "stacks": 1
+     },
+     "t": 4500
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 10000
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 5500,
+      "stacks": 1
+     },
+     "t": 10000
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "unique-no-timer-refresh",
+    "branch_if_found": "unique-no-timer-refresh",
+    "carry": "pandemic-reads-live-remaining",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "kept unless hit duration != current max (then full reset)",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "untouched",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "kept"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     1000
+    ],
+    "stack_amount": 0
+   },
+   "name": "Covered in Flames",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 5500
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 5500
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 5500
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 6500
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 5500,
+     "value": 5000
+    }
+   },
+   "spell": 390914,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 5000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 5000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 5500,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 4,
+        "timer": 500
+       }
+      ],
+      "generation": 0,
+      "max_duration": 5500,
+      "stacks": 1
+     },
+     "t": 4500
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 10000
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 5,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 5500,
+      "stacks": 1
+     },
+     "t": 10000
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_dk_vampiric_blood"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0,
+     0,
+     0,
+     0,
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Vampiric Blood",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 11000
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 11000
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 11000
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 13000
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 11000,
+     "value": 10000
+    }
+   },
+   "spell": 55233,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 10000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 10000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 13000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 13000,
+      "stacks": 1
+     },
+     "t": 9000
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": false,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_warr_invigorating_fury"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     0,
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Enraged Regeneration",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 8800
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 8800
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 8800
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 10400
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 8800,
+     "value": 8000
+    }
+   },
+   "spell": 184364,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 8000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 8000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 10400,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 10400,
+      "stacks": 1
+     },
+     "t": 7200
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "reset",
+    "rolling_periodic": true,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "external_policy": {
+    "evidence": "world-db-fact",
+    "note": "script bodies may call SetDuration/SetMaxDuration/RefreshDuration (track H owns the census)",
+    "spell_script_names": [
+     "spell_hun_explosive_shot"
+    ]
+   },
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     1000,
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Explosive Shot",
+   "spell": 212431,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 3000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 3000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3000,
+      "stacks": 1
+     },
+     "t": 2700
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 5700
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 3,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 3000,
+      "stacks": 1
+     },
+     "t": 5700
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "reset",
+    "rolling_periodic": true,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     1000
+    ],
+    "stack_amount": 0
+   },
+   "name": "Deep Wounds",
+   "spell": 262115,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 6000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 6000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 6000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 6000,
+      "stacks": 1
+     },
+     "t": 5400
+    },
+    {
+     "event": "expire",
+     "generation": 0,
+     "t": 11400
+    },
+    {
+     "event": "removed",
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 6,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 6000,
+      "stacks": 1
+     },
+     "t": 11400
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "classification": {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": true,
+    "simc_does_not_refresh_flag": false,
+    "ticks_done": "reset"
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "facts": {
+    "channeled": false,
+    "passive": false,
+    "periods": [
+     3000,
+     0
+    ],
+    "stack_amount": 0
+   },
+   "name": "Expurgation",
+   "pandemic_models_at_90pct": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 9900
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 9900
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 9900
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 11700
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 9900,
+     "value": 9000
+    }
+   },
+   "spell": 383346,
+   "timeline_refresh_at_90pct": [
+    {
+     "event": "apply",
+     "refresh": false,
+     "state": {
+      "duration": 9000,
+      "effects": [
+       {
+        "period": 3000,
+        "ticks": 0,
+        "timer": 0
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 9000,
+      "stacks": 1
+     },
+     "t": 0
+    },
+    {
+     "event": "apply",
+     "refresh": true,
+     "state": {
+      "duration": 11700,
+      "effects": [
+       {
+        "period": 3000,
+        "ticks": 0,
+        "timer": 2100
+       },
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "generation": 0,
+      "max_duration": 11700,
+      "stacks": 1
+     },
+     "t": 8100
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1407 @@
+{
+ "arithmetic_witnesses": {
+  "duration_16777217_times_1.0f": 16777216,
+  "hasted_period_3000_at_1.3": 2307,
+  "pct130_of_10000": 13000,
+  "stack_255_plus_1_max_300": {
+   "int32": 256,
+   "removed": false,
+   "stored": 0,
+   "wrapped": true
+  },
+  "tick_cap_13000_3000_phase_2500": true,
+  "timecla_500_diff_1500": [
+   0,
+   true
+  ]
+ },
+ "cited_not_duplicated": [
+  {
+   "ref": "NUM-E-001 / NUM-R3-002 / NUM-X-001 / CSA-J-02",
+   "topic": "hasted periodic period int32(period x binary32 speed) vs Core division"
+  },
+  {
+   "ref": "NUM-E-002",
+   "topic": "pandemic cap arithmetic (see AL-K-I-03: runtime reads the refreshed duration)"
+  },
+  {
+   "ref": "NUM-E-003",
+   "topic": "Core terminal partial tick (Trinity: none; NB-I-07)"
+  },
+  {
+   "ref": "NUM-E-005",
+   "topic": "ATTR8 aligned duration max(1, d / hasted_period) x hasted_period"
+  },
+  {
+   "ref": "NUM-D-004 / NUM-D-005 / NUM-J-026",
+   "topic": "periodic tick amounts (Tracks C/D)"
+  }
+ ],
+ "confirmations": [
+  {
+   "adds": "counts incl. player+class-skills",
+   "confirms": [
+    "AL-D-C-01",
+    "AL-D-C-03"
+   ],
+   "how": "numeric.stack_after_mod / charges_stored; NB-I-01 / NB-I-02 census",
+   "topic": "uint8 stack / charge storage"
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py numeric --out docs/research/aura-lifecycle-corpora/numeric-boundaries.json",
+  "complements": "docs/research/core-audit-corpora/numeric-boundaries.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "populations": {
+   "all": 189140,
+   "controlled": 141,
+   "player": 4218,
+   "player+class-skills": 4520
+  }
+ },
+ "records": [
+  {
+   "authored_values": [
+    300,
+    400,
+    500,
+    999,
+    1000,
+    9001,
+    9999,
+    30000,
+    65000
+   ],
+   "boundary": "authored StackAmount (SpellAuraOptions.CumulativeAura) > 255: the 256th stack stores 0",
+   "conversion": "int32 stackAmount (clamped to CalcMaxStackAmount) -> uint8 m_stackAmount (modulo 256)",
+   "coords": [
+    "SpellAuras.h:411",
+    "SpellAuras.cpp:1093-1111",
+    "SpellAuras.cpp:1056",
+    "SpellAuras.cpp:481"
+   ],
+   "counts": {
+    "all": 158,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "NB-I-01",
+   "numeric_evidence": "trinity-only",
+   "observable": "stack count wraps 255 -> 0 (then 1) in Trinity; Retail storage width unknown",
+   "quantity": "aura stack amount store",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Spirit of Runn Tum",
+     "player": false,
+     "spell": 22735
+    },
+    {
+     "build_skew": false,
+     "name": "Poison Stinger",
+     "player": false,
+     "spell": 25748
+    },
+    {
+     "build_skew": false,
+     "name": "Headless Horseman - Fire Size",
+     "player": false,
+     "spell": 42091
+    },
+    {
+     "build_skew": false,
+     "name": "Headless Horseman - Fire Size BIG",
+     "player": false,
+     "spell": 43148
+    },
+    {
+     "build_skew": false,
+     "name": "Drain Power",
+     "player": false,
+     "spell": 44132
+    },
+    {
+     "build_skew": false,
+     "name": "Torches Caught",
+     "player": false,
+     "spell": 45693
+    }
+   ]
+  },
+  {
+   "boundary": "authored ProcCharges > 255 (or SpellMod-raised) truncates modulo 256",
+   "conversion": "uint32 maxProcCharges (after SpellMod ProcCharges) -> uint8 (CalcMaxCharges return), uint8 m_procCharges",
+   "coords": [
+    "SpellAuras.cpp:1003-1015",
+    "SpellAuras.cpp:1017-1038",
+    "SpellAuras.h:410"
+   ],
+   "counts": {
+    "all": 2,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "NB-I-02",
+   "numeric_evidence": "trinity-only",
+   "observable": "charges; 0 after truncation means 'not using charges' (m_isUsingCharges = charges != 0)",
+   "quantity": "aura proc charges store",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Twilight Torment",
+     "player": false,
+     "spell": 57935
+    },
+    {
+     "build_skew": false,
+     "name": "Twilight Torment",
+     "player": false,
+     "spell": 58835
+    }
+   ]
+  },
+  {
+   "boundary": "durations > 2^24 ms (4 h 39 m 37 s) lose integer exactness; inexact rows change even at factor 1.0",
+   "conversion": "int32 duration -> binary32 x binary32 factor -> int32 truncation (DurationMul, ATTR8 non-periodic haste, RefreshDuration withMods, CalculatePct 130)",
+   "coords": [
+    "Spell.cpp:3265",
+    "Spell.cpp:3282",
+    "SpellAuras.cpp:957-960",
+    "Spell.cpp:3287",
+    "Util.h:72-75"
+   ],
+   "counts": {
+    "all": 1171,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "counts_inexact_in_binary32": {
+    "all": 45,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "NB-I-03",
+   "max_finite_authored_ms": 2147483647,
+   "numeric_evidence": "direct-consumer-reproduced",
+   "observable": "max duration of very long auras after any float product",
+   "quantity": "aura duration through binary32 products",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Starcatcher",
+     "player": false,
+     "spell": 44010
+    },
+    {
+     "build_skew": false,
+     "name": "Scourge Invasion Blood Vat Bunny",
+     "player": false,
+     "spell": 51773
+    },
+    {
+     "build_skew": false,
+     "name": "Blood Machine Beam",
+     "player": false,
+     "spell": 52122
+    },
+    {
+     "build_skew": false,
+     "name": "Scourge Invasion Blood Machine Beam, Vat",
+     "player": false,
+     "spell": 52164
+    },
+    {
+     "build_skew": false,
+     "name": "WotLK Prologue Light Beam",
+     "player": false,
+     "spell": 52407
+    },
+    {
+     "build_skew": false,
+     "name": "WotLK Prologue Light Beam, minor",
+     "player": false,
+     "spell": 52427
+    }
+   ]
+  },
+  {
+   "boundary": "Duration < -1",
+   "conversion": "SpellInfo::GetDuration abs() / IsPermanent (== -1 only)",
+   "coords": [
+    "SpellInfo.cpp:3986-3998",
+    "SpellAuras.h:227"
+   ],
+   "counts": {
+    "all": 1,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "evidence": [
+    "db2-fact"
+   ],
+   "id": "NB-I-04",
+   "numeric_evidence": "source-backed",
+   "observable": "edge to Track B (duration); listed here only as a width/sign boundary",
+   "quantity": "negative non-permanent authored durations",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Debuff All Resist",
+     "player": false,
+     "spell": 101822
+    }
+   ]
+  },
+  {
+   "boundary": "EffectAuraPeriod == 0 on a periodic aura type",
+   "conversion": "CalculatePeriodic: _period == 0 -> m_isPeriodic = false (never ticks unless a script sets it)",
+   "coords": [
+    "SpellAuraEffects.cpp:995-1013",
+    "SpellAuraEffects.cpp:988"
+   ],
+   "counts": {
+    "all": 140,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "NB-I-05",
+   "numeric_evidence": "trinity-only",
+   "observable": "no ticks (edge to Track D; scripts may assign a period in DoEffectCalcPeriodic)",
+   "quantity": "periodic effect with authored period 0",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Poison Mushroom",
+     "player": false,
+     "spell": 6727
+    },
+    {
+     "build_skew": false,
+     "name": "Healing Aura (TEST)",
+     "player": false,
+     "spell": 7331
+    },
+    {
+     "build_skew": false,
+     "name": "Refreshing Red Apple",
+     "player": false,
+     "spell": 29055
+    },
+    {
+     "build_skew": false,
+     "name": "Nether Beam - Perseverence",
+     "player": false,
+     "spell": 30400
+    },
+    {
+     "build_skew": false,
+     "name": "Dangerous Water",
+     "player": false,
+     "spell": 34589
+    },
+    {
+     "build_skew": false,
+     "name": "Karazhan - Chess NPC AI, action timer",
+     "player": false,
+     "spell": 37504
+    }
+   ]
+  },
+  {
+   "boundary": "period x speed < 1 -> _period 0 with m_isPeriodic true: non-permanent never ticks, permanent loops unboundedly",
+   "conversion": "int32(period x binary32 ModCastingSpeed) evaluated after the `if (_period)` guard",
+   "coords": [
+    "SpellAuraEffects.cpp:995-1013",
+    "SpellAuraEffects.cpp:1250-1262",
+    "SpellAuraEffects.cpp:936-946"
+   ],
+   "counts": {
+    "all": 0,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "NB-I-06",
+   "negative_period_counts": {
+    "all": 0,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "numeric_evidence": "trinity-only",
+   "observable": "latent: needs ModCastingSpeed < 1/period (listed rows: hasted periodic effects with period <= 10 ms)",
+   "quantity": "hasted period truncating to zero",
+   "rows": []
+  },
+  {
+   "boundary": "authored Duration % period != 0 (fresh application: remainder after the last tick, no partial tick)",
+   "conversion": "uint32 totalTicks = maxDuration / _period (integer), +1 with ATTR5_EXTRA_INITIAL_PERIOD",
+   "coords": [
+    "SpellAuraEffects.cpp:936-946",
+    "SpellAuraEffects.cpp:1259-1260"
+   ],
+   "counts": {
+    "all": 1317,
+    "controlled": 1,
+    "player": 4,
+    "player+class-skills": 4
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "NB-I-07",
+   "numeric_evidence": "direct-consumer-reproduced",
+   "observable": "tick count; Core audit NUM-E-003 (Core partial tick) is the divergent consumer",
+   "quantity": "tick bound floor(maxDuration / period)",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Incarnation: Avatar of Ashamane",
+     "player": true,
+     "spell": 102543
+    },
+    {
+     "build_skew": false,
+     "name": "Fists of Fury",
+     "player": true,
+     "spell": 113656
+    },
+    {
+     "build_skew": false,
+     "name": "Metamorphosis",
+     "player": true,
+     "spell": 187827
+    },
+    {
+     "build_skew": false,
+     "name": "Rapid Fire",
+     "player": true,
+     "spell": 257044
+    },
+    {
+     "build_skew": false,
+     "name": "Drink",
+     "player": false,
+     "spell": 430
+    },
+    {
+     "build_skew": false,
+     "name": "Drink",
+     "player": false,
+     "spell": 431
+    }
+   ]
+  },
+  {
+   "assumptions": [
+    "haste 1.0 (ModCastingSpeed/ModHaste = 1): counts are valid only unhasted",
+    "no Duration/Period spell mods, no target duration mods / DR",
+    "combo-point records evaluated at 1..5 CP (hit = min + perResource*CP, M = min)",
+    "channels excluded: same-caster recast is cancel-then-create (Unit.cpp:3113-3117, Spell.cpp:3636-3647)"
+   ],
+   "boundary": "(newMax mod period) + phase >= period drops the last timer-due tick",
+   "branch_periodic_finite_counts": {
+    "all": 390,
+    "controlled": 5,
+    "player": 42,
+    "player+class-skills": 57
+   },
+   "branch_total_ref": "carryover.json census.carry[pandemic-reads-refreshed-duration] (Track B; this record counts only its periodic, finite-duration subset)",
+   "channel_player_spells": [
+    740,
+    12051,
+    64843,
+    101546,
+    113656,
+    115175,
+    115294,
+    322729,
+    1261193
+   ],
+   "channels_excluded": {
+    "all": 112,
+    "controlled": 3,
+    "player": 9,
+    "player+class-skills": 14
+   },
+   "channels_note": "ATTR13 periodic self-channels on Track B branch self-channel-cancel-then-create (not refreshable by the caster's recast)",
+   "confirms": [
+    "AL-D-D-04",
+    "AL-T-D-19"
+   ],
+   "conversion": "ResetTicks + kept _periodicTimer phase vs floor(newMax / period), newMax = min(hit + M, trunc(1.3f*hit))",
+   "coords": [
+    "SpellAuras.cpp:976-992",
+    "SpellAuras.cpp:970-973",
+    "SpellAuraEffects.cpp:1250-1264",
+    "Spell.cpp:3284-3288"
+   ],
+   "counts": {
+    "all": 321,
+    "controlled": 5,
+    "player": 38,
+    "player+class-skills": 50
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "NB-I-08",
+   "numeric_evidence": "trinity-only",
+   "observable": "one fewer tick than the timer schedules after a refresh at a phase >= phase_threshold",
+   "population_note": "periodic effects of Track B refreshed-duration pandemic spells with finite positive duration",
+   "quantity": "tick bound after a phase-keeping pandemic refresh (unhasted)",
+   "rows": [
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 18000,
+       "cp": null,
+       "hit": 18000,
+       "new_max": 23400,
+       "phase_threshold": 600
+      }
+     ],
+     "index": 0,
+     "name": "Garrote",
+     "period": 2000,
+     "player": true,
+     "spell": 703
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 12000,
+       "cp": null,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 2400
+      }
+     ],
+     "index": 0,
+     "name": "Rejuvenation",
+     "period": 3000,
+     "player": true,
+     "spell": 774
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 18000,
+       "cp": null,
+       "hit": 18000,
+       "new_max": 23400,
+       "phase_threshold": 600
+      }
+     ],
+     "index": 0,
+     "name": "Agony",
+     "period": 2000,
+     "player": true,
+     "spell": 980
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 18000,
+       "cp": null,
+       "hit": 18000,
+       "new_max": 23400,
+       "phase_threshold": 600
+      }
+     ],
+     "index": 1,
+     "name": "Agony",
+     "period": 2000,
+     "player": true,
+     "spell": 980
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 4000,
+       "cp": 1,
+       "hit": 8000,
+       "new_max": 10400,
+       "phase_threshold": 1600
+      },
+      {
+       "M": 4000,
+       "cp": 2,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 400
+      }
+     ],
+     "index": 0,
+     "name": "Rip",
+     "period": 2000,
+     "player": true,
+     "spell": 1079
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 4000,
+       "cp": 1,
+       "hit": 8000,
+       "new_max": 10400,
+       "phase_threshold": 1600
+      },
+      {
+       "M": 4000,
+       "cp": 2,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 400
+      }
+     ],
+     "index": 0,
+     "name": "Rupture",
+     "period": 2000,
+     "player": true,
+     "spell": 1943
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 4000,
+       "cp": 1,
+       "hit": 8000,
+       "new_max": 10400,
+       "phase_threshold": 1600
+      },
+      {
+       "M": 4000,
+       "cp": 2,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 400
+      }
+     ],
+     "index": 1,
+     "name": "Rupture",
+     "period": 2000,
+     "player": true,
+     "spell": 1943
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 12000,
+       "cp": null,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 400
+      }
+     ],
+     "index": 0,
+     "name": "Deadly Poison",
+     "period": 2000,
+     "player": true,
+     "spell": 2818
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 8000,
+       "cp": null,
+       "hit": 8000,
+       "new_max": 10400,
+       "phase_threshold": 600
+      }
+     ],
+     "index": 2,
+     "name": "Rain of Fire",
+     "period": 1000,
+     "player": true,
+     "spell": 5740
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 6000,
+       "cp": null,
+       "hit": 6000,
+       "new_max": 7800,
+       "phase_threshold": 200
+      }
+     ],
+     "index": 1,
+     "name": "Regrowth",
+     "period": 2000,
+     "player": true,
+     "spell": 8936
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 7000,
+       "cp": null,
+       "hit": 7000,
+       "new_max": 9100,
+       "phase_threshold": 900
+      }
+     ],
+     "index": 1,
+     "name": "Holy Fire",
+     "period": 1000,
+     "player": true,
+     "spell": 14914
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 12000,
+       "cp": null,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 400
+      }
+     ],
+     "index": 0,
+     "name": "Vampiric Embrace",
+     "period": 500,
+     "player": true,
+     "spell": 15286
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 15000,
+       "cp": null,
+       "hit": 15000,
+       "new_max": 19500,
+       "phase_threshold": 500
+      }
+     ],
+     "index": 0,
+     "name": "Lifebloom",
+     "period": 1000,
+     "player": true,
+     "spell": 33763
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 21000,
+       "cp": null,
+       "hit": 21000,
+       "new_max": 27300,
+       "phase_threshold": 2700
+      }
+     ],
+     "index": 1,
+     "name": "Vampiric Touch",
+     "period": 3000,
+     "player": true,
+     "spell": 34914
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 6000,
+       "cp": null,
+       "hit": 6000,
+       "new_max": 7800,
+       "phase_threshold": 200
+      }
+     ],
+     "index": 4,
+     "name": "Dispersion",
+     "period": 1000,
+     "player": true,
+     "spell": 47585
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 18000,
+       "cp": null,
+       "hit": 18000,
+       "new_max": 23400,
+       "phase_threshold": 600
+      }
+     ],
+     "index": 4,
+     "name": "Haunt",
+     "period": 1000,
+     "player": true,
+     "spell": 48181
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 7000,
+       "cp": null,
+       "hit": 7000,
+       "new_max": 9100,
+       "phase_threshold": 900
+      }
+     ],
+     "index": 0,
+     "name": "Wild Growth",
+     "period": 1000,
+     "player": true,
+     "spell": 48438
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 24000,
+       "cp": null,
+       "hit": 24000,
+       "new_max": 31200,
+       "phase_threshold": 1800
+      }
+     ],
+     "index": 0,
+     "name": "Blood Plague",
+     "period": 3000,
+     "player": true,
+     "spell": 55078
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 18000,
+       "cp": null,
+       "hit": 18000,
+       "new_max": 23400,
+       "phase_threshold": 600
+      }
+     ],
+     "index": 1,
+     "name": "Riptide",
+     "period": 3000,
+     "player": true,
+     "spell": 61295
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 15000,
+       "cp": null,
+       "hit": 15000,
+       "new_max": 19500,
+       "phase_threshold": 1500
+      }
+     ],
+     "index": 0,
+     "name": "Siphon Life",
+     "period": 3000,
+     "player": true,
+     "spell": 63106
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 10000,
+       "cp": null,
+       "hit": 10000,
+       "new_max": 13000,
+       "phase_threshold": 1000
+      }
+     ],
+     "index": 1,
+     "name": "Healing Tide Totem",
+     "period": 2000,
+     "player": true,
+     "spell": 108280
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 12000,
+       "cp": null,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 400
+      }
+     ],
+     "index": 0,
+     "name": "Nether Tempest",
+     "period": 1000,
+     "player": true,
+     "spell": 114923
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 15000,
+       "cp": null,
+       "hit": 15000,
+       "new_max": 19500,
+       "phase_threshold": 500
+      }
+     ],
+     "index": 1,
+     "name": "Disable",
+     "period": 1000,
+     "player": true,
+     "spell": 116095
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 6000,
+       "cp": null,
+       "hit": 6000,
+       "new_max": 7800,
+       "phase_threshold": 450
+      }
+     ],
+     "index": 0,
+     "name": "Rushing Jade Wind",
+     "period": 750,
+     "player": true,
+     "spell": 116847
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 6000,
+       "cp": null,
+       "hit": 6000,
+       "new_max": 7800,
+       "phase_threshold": 200
+      }
+     ],
+     "index": 0,
+     "name": "Enveloping Mist",
+     "period": 1000,
+     "player": true,
+     "spell": 124682
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 14000,
+       "cp": null,
+       "hit": 14000,
+       "new_max": 18200,
+       "phase_threshold": 1800
+      }
+     ],
+     "index": 0,
+     "name": "Corruption",
+     "period": 2000,
+     "player": true,
+     "spell": 146739
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 15000,
+       "cp": null,
+       "hit": 15000,
+       "new_max": 19500,
+       "phase_threshold": 1500
+      }
+     ],
+     "index": 0,
+     "name": "Rake",
+     "period": 3000,
+     "player": true,
+     "spell": 155722
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 16000,
+       "cp": null,
+       "hit": 16000,
+       "new_max": 20800,
+       "phase_threshold": 1200
+      }
+     ],
+     "index": 0,
+     "name": "Eternal Flame",
+     "period": 2000,
+     "player": true,
+     "spell": 156322
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 8000,
+       "cp": null,
+       "hit": 8000,
+       "new_max": 10400,
+       "phase_threshold": 1600
+      }
+     ],
+     "index": 0,
+     "name": "Eye of the Tiger",
+     "period": 2000,
+     "player": true,
+     "spell": 196608
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 8000,
+       "cp": null,
+       "hit": 8000,
+       "new_max": 10400,
+       "phase_threshold": 1600
+      }
+     ],
+     "index": 1,
+     "name": "Eye of the Tiger",
+     "period": 2000,
+     "player": true,
+     "spell": 196608
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 6000,
+       "cp": null,
+       "hit": 6000,
+       "new_max": 7800,
+       "phase_threshold": 450
+      }
+     ],
+     "index": 0,
+     "name": "Refreshing Jade Wind",
+     "period": 750,
+     "player": true,
+     "spell": 196725
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 12000,
+       "cp": null,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 2400
+      }
+     ],
+     "index": 0,
+     "name": "Cut of Death",
+     "period": 3000,
+     "player": true,
+     "spell": 281711
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 12000,
+       "cp": null,
+       "hit": 12000,
+       "new_max": 15600,
+       "phase_threshold": 400
+      }
+     ],
+     "index": 0,
+     "name": "Reversion",
+     "period": 2000,
+     "player": true,
+     "spell": 366155
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 9000,
+       "cp": null,
+       "hit": 9000,
+       "new_max": 11700,
+       "phase_threshold": 300
+      }
+     ],
+     "index": 0,
+     "name": "Expurgation",
+     "period": 3000,
+     "player": true,
+     "spell": 383346
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 4000,
+       "cp": null,
+       "hit": 4000,
+       "new_max": 5200,
+       "phase_threshold": 800
+      }
+     ],
+     "index": 1,
+     "name": "Odyn's Fury",
+     "period": 1000,
+     "player": true,
+     "spell": 385060
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 15000,
+       "cp": null,
+       "hit": 15000,
+       "new_max": 19500,
+       "phase_threshold": 500
+      }
+     ],
+     "index": 0,
+     "name": "Inquisitor's Gaze",
+     "period": 1000,
+     "player": true,
+     "spell": 388067
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 15000,
+       "cp": null,
+       "hit": 15000,
+       "new_max": 19500,
+       "phase_threshold": 1500
+      }
+     ],
+     "index": 0,
+     "name": "Rend",
+     "period": 3000,
+     "player": true,
+     "spell": 388539
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 15000,
+       "cp": null,
+       "hit": 15000,
+       "new_max": 19500,
+       "phase_threshold": 1500
+      }
+     ],
+     "index": 0,
+     "name": "Burning Wound",
+     "period": 3000,
+     "player": true,
+     "spell": 391191
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 8000,
+       "cp": null,
+       "hit": 8000,
+       "new_max": 10400,
+       "phase_threshold": 1600
+      }
+     ],
+     "index": 0,
+     "name": "Thunderous Roar",
+     "period": 2000,
+     "player": true,
+     "spell": 397364
+    },
+    {
+     "build_skew": false,
+     "cases": [
+      {
+       "M": 9000,
+       "cp": null,
+       "hit": 9000,
+       "new_max": 11700,
+       "phase_threshold": 300
+      }
+     ],
+     "index": 1,
+     "name": "Truth's Wake",
+     "period": 3000,
+     "player": true,
+     "spell": 403695
+    }
+   ],
+   "rows_total": 334
+  },
+  {
+   "boundary": "first tick timestamp = first owner _UpdateSpells after application (world-tick quantized)",
+   "conversion": "ResetPeriodic: _periodicTimer = _period -> first AuraEffect::Update ticks immediately",
+   "coords": [
+    "SpellAuraEffects.cpp:949-959",
+    "SpellAuraEffects.cpp:1258"
+   ],
+   "counts": {
+    "all": 6124,
+    "controlled": 3,
+    "player": 56,
+    "player+class-skills": 64
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "NB-I-09",
+   "numeric_evidence": "trinity-only",
+   "observable": "initial tick in the same world tick as application iff the owner updates after the application point",
+   "quantity": "extra initial period (tick on first owner update)",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Tranquility",
+     "player": true,
+     "spell": 740
+    },
+    {
+     "build_skew": false,
+     "name": "Rejuvenation",
+     "player": true,
+     "spell": 774
+    },
+    {
+     "build_skew": false,
+     "name": "Arcane Missiles",
+     "player": true,
+     "spell": 5143
+    },
+    {
+     "build_skew": false,
+     "name": "Rain of Fire",
+     "player": true,
+     "spell": 5740
+    },
+    {
+     "build_skew": false,
+     "name": "Evocation",
+     "player": true,
+     "spell": 12051
+    },
+    {
+     "build_skew": false,
+     "name": "Adrenaline Rush",
+     "player": true,
+     "spell": 13750
+    }
+   ]
+  },
+  {
+   "boundary": "diff == m_timeCla + 1000 stores 0 -> costs stop until RefreshDuration; diff > m_timeCla + 1000 goes negative -> charge every update until caught up (one charge per update, no catch-up loop)",
+   "conversion": "int32 m_timeCla: charge when m_timeCla <= diff, then m_timeCla += 1000 - diff; 0 disables",
+   "coords": [
+    "SpellAuras.cpp:864-872",
+    "SpellAuras.cpp:488-495",
+    "SpellAuras.cpp:969"
+   ],
+   "counts": {
+    "all": 41,
+    "controlled": 2,
+    "player": 1,
+    "player+class-skills": 4
+   },
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "NB-I-10",
+   "numeric_evidence": "trinity-only",
+   "observable": "power drained per second by channel/aura upkeep (SpellPower.ManaPerSecond / PowerPctPerSecond)",
+   "quantity": "per-second periodic cost timer m_timeCla",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Soothing Mist",
+     "player": true,
+     "spell": 115175
+    },
+    {
+     "build_skew": false,
+     "name": "Hellfire",
+     "player": false,
+     "spell": 1949
+    },
+    {
+     "build_skew": false,
+     "name": "Reconstruct",
+     "player": false,
+     "spell": 10260
+    },
+    {
+     "build_skew": false,
+     "name": "Health Funnel",
+     "player": false,
+     "spell": 16569
+    },
+    {
+     "build_skew": false,
+     "name": "Health Funnel",
+     "player": false,
+     "spell": 40671
+    },
+    {
+     "build_skew": false,
+     "name": "Health Funnel",
+     "player": false,
+     "spell": 40884
+    }
+   ]
+  }
+ ],
+ "rules": [
+  {
+   "counterexamples": [],
+   "definition": "int32 duration x float factor is exact at factor 1.0 for |d| <= 2^24; above, only binary32-representable durations survive",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-I-08",
+   "name": "binary32 products keep durations exact below 2^24 ms",
+   "population": {
+    "durations_over_2^24": {
+     "all": 1171,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "inexact": {
+     "all": 45,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    }
+   },
+   "status": "holds-on-census"
+  }
+ ],
+ "trinity_defects": [
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:995-1013",
+    "SpellAuraEffects.cpp:1250-1262"
+   ],
+   "description": "the `if (_period)` guard precedes the haste product; int32(period x speed) == 0 keeps m_isPeriodic and GetTotalTicks returns 0: permanent auras loop forever in AuraEffect::Update",
+   "id": "AL-D-I-04",
+   "lifecycle_effect": "latent: no hasted periodic provider with period <= 10 ms in 69497",
+   "oracle_behaviour": "numeric.zero_period_outcome; FailClosed nowhere needed"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:864-872"
+   ],
+   "description": "m_timeCla += 1000 - diff can store exactly 0, which disables the per-second cost branch until RefreshDuration; a negative value charges once per update with no catch-up",
+   "id": "AL-D-I-05",
+   "lifecycle_effect": "per-second aura upkeep stops (or under-charges) after a long world diff",
+   "oracle_behaviour": "numeric.periodic_cost_timer"
+  }
+ ],
+ "unknowns": [
+  {
+   "blocker": "Retail observation of a >255-stack aura",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.h:410-411"
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-04",
+   "known": "Trinity stores uint8 (AL-D-C-01); DB2 authors up to 65000",
+   "question": "Do authored StackAmount values > 255 (158 providers, 0 current-player) wrap on Retail?",
+   "reopen_condition": "a current-player carrier appears",
+   "subject": "stack/charge storage width (Retail)",
+   "why_unresolved": "no Retail server source"
+  },
+  {
+   "blocker": "none for Trinity; Retail observation otherwise",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:864-872"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-06",
+   "known": "Trinity stops charging until RefreshDuration (AL-D-I-05); 1 current-player provider has per-second costs",
+   "question": "What does the m_timeCla stall (diff == m_timeCla + 1000) do on Retail and does any current carrier reach it?",
+   "reopen_condition": "Core models per-second aura costs",
+   "subject": "per-second periodic cost cadence at large diffs",
+   "why_unresolved": "needs a world diff > 1000 ms (server lag) to trigger"
+  }
+ ]
+}

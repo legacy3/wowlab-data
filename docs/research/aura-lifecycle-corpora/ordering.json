@@ -1,0 +1,2202 @@
+{
+ "answers": [
+  {
+   "answer": "confirmed for session-phase casts, the owner's own events, and casters updated before the owner; NOT for casters updated after the owner (creature caster on a player owner): those land after the owner's update and get no decrement in that tick (AL-R-I-04, OR-I-10, OR-I-18; scenario late-owner-creation)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "question": "AL-U-F-03 (event vs owner-update ordering; early credit)"
+  },
+  {
+   "answer": "proven per cell (OR-I-17): players before the cells they activate; non-pet creatures before area triggers of their cell; pets after them; cross-cell order is cell visiting order",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "question": "AL-U-F-04 (AreaTrigger UpdateTargetList vs unit aura countdown)"
+  },
+  {
+   "answer": "D is right; B's 'update(t) then hit(t)' holds only for hits delivered after the owner's update (settlement_b_vs_d, delivery_channels)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "question": "AL-U-B-09 (hit vs update order in one ms; B vs D)"
+  },
+  {
+   "answer": "map update order (OR-I-18); instant packet casts precede every owner update of the tick; hard-cast completion precedes the owner's tick iff the caster updates first (OR-I-15)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "question": "UNK-E-003 caster != target ordering"
+  }
+ ],
+ "confirmations": [
+  {
+   "adds": "refresh_path_census uses Track B's refresh.classify (counts equal carryover.json census.carry) and adds the finite-duration, channel (cancel-then-create) and externally touched (overlays.surface_flags) subsets",
+   "confirms": [
+    "AL-D-B-01",
+    "AL-D-D-02",
+    "AL-R-B-07"
+   ],
+   "how": "tc_aura_order_probe compiles ModStackAmount/RefreshTimers/RefreshDuration and the Spell.cpp:3260-3298 block verbatim; scenario pandemic-refresh-reads-refreshed-duration commits 13000 with 2000 ms remaining",
+   "topic": "pandemic commit reads the refreshed duration"
+  },
+  {
+   "adds": "AL-D-I-03: the unique branch (no ResetTicks) starves instead",
+   "confirms": [
+    "AL-D-D-04",
+    "AL-T-D-19"
+   ],
+   "how": "scenario pandemic-tick-cap (probe components); numeric NB-I-08 counts refreshed-branch periodic rows where newMax = min(hit + M, trunc(1.3f*hit)) (1..5 CP for combo-point records) leaves a remainder, unhasted, channels excluded",
+   "topic": "tick budget after a phase-keeping refresh"
+  },
+  {
+   "adds": "AL-R-I-04: no early credit when the applying unit is updated after the owner",
+   "confirms": [
+    "AL-D-D-03",
+    "AL-T-D-10"
+   ],
+   "how": "scenarios session-creation-decrement vs late-owner-creation",
+   "topic": "early credit of a fresh application"
+  },
+  {
+   "adds": "counts incl. player+class-skills",
+   "confirms": [
+    "AL-D-C-01",
+    "AL-D-C-03"
+   ],
+   "how": "numeric.stack_after_mod / charges_stored; NB-I-01 / NB-I-02 census",
+   "topic": "uint8 stack / charge storage"
+  }
+ ],
+ "core_navigation": [
+  {
+   "core_coords": [
+    "crates/sim/src/scheduler/mod.rs:190"
+   ],
+   "id": "AL-K-I-01",
+   "observation": "Core's scheduler breaks timestamp ties by priority then insertion order; Trinity resolves them by world phase / unit update order and owner SpellId storage order, with tick-before-expiry inside an owner",
+   "reopen_condition": "a Core contract claims Trinity parity for final-tick-at-expiry, same-ms death or refresh-vs-tick",
+   "research_ref": [
+    "OR-I-01",
+    "OR-I-05",
+    "AL-R-I-02",
+    "AL-R-I-03"
+   ],
+   "topic": "same-timestamp tie-break"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/deadline_queue.rs:8-13",
+    "crates/combat/src/periodic.rs:282-286"
+   ],
+   "id": "AL-K-I-02",
+   "observation": "Core deadlines carry (sequence, at, slot) with a canonical schedule-slot tie-break; Trinity has no queued aura deadlines (polled timers per object), so stale deadlines cannot exist there by construction",
+   "reopen_condition": "Core reuses a slot across aura generations",
+   "research_ref": [
+    "GN-I-03",
+    "AL-R-I-09"
+   ],
+   "topic": "periodic deadline identity"
+  },
+  {
+   "core_coords": [
+    "docs/research/core-audit-corpora/numeric-boundaries.json NUM-E-002"
+   ],
+   "id": "AL-K-I-03",
+   "observation": "NUM-E-002 compares Core with the formula text at Spell.cpp:3284-3287 reading it as remaining duration; at runtime Trinity reads the refreshed duration",
+   "reopen_condition": "Core audit numeric records are regenerated",
+   "research_ref": [
+    "AL-D-B-01",
+    "AL-D-D-02",
+    "AL-F-I-02"
+   ],
+   "topic": "pandemic numeric record"
+  }
+ ],
+ "death_survivor_census": {
+  "by_tick_kind": {
+   "no-op": {
+    "all": 3,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "script-only": {
+    "all": 1454,
+    "controlled": 0,
+    "player": 63,
+    "player+class-skills": 64
+   },
+   "silent (alive check)": {
+    "all": 451,
+    "controlled": 0,
+    "player": 1,
+    "player+class-skills": 2
+   },
+   "trigger-cast-on-corpse": {
+    "all": 2924,
+    "controlled": 1,
+    "player": 14,
+    "player+class-skills": 14
+   }
+  },
+  "player_witnesses": {
+   "no-op": [],
+   "script-only": [
+    29838,
+    121817,
+    122280,
+    137025,
+    145108,
+    202342,
+    202603,
+    213010,
+    219272,
+    253593
+   ],
+   "silent (alive check)": [
+    202430
+   ],
+   "trigger-cast-on-corpse": [
+    183416,
+    203962,
+    236501,
+    386244,
+    388067,
+    414131,
+    432181,
+    444072,
+    447985,
+    448040
+   ]
+  },
+  "population_note": "provider spells with a periodic aura effect that survives the death sweep"
+ },
+ "delivery_channels": [
+  {
+   "channel": "packet cast executed at once",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "path": [
+    "Map.cpp:662-672",
+    "SpellHandler.cpp:241-242",
+    "Player.cpp:31499-31510 RequestSpellCast -> ExecutePendingSpellCastRequest"
+   ],
+   "phase": "session (before every unit update of the tick)",
+   "probe": "components only",
+   "scenario": "refresh-before-due-tick",
+   "vs_owner_update": "hit-first for every owner"
+  },
+  {
+   "channel": "packet cast queued (spell queue window: GCD or cast in progress)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "path": [
+    "Player.cpp:944-949",
+    "Player.cpp:31530-31541 CanRequestSpellCast"
+   ],
+   "phase": "Player::Update after Unit::Update of the casting player, before its melee",
+   "scenario": null,
+   "vs_owner_update": "update-first for the caster's own auras; hit-first for owners updated later (creatures in the player's not-yet-visited cells); update-first for units updated earlier"
+  },
+  {
+   "channel": "caster event: hard-cast completion, channel start, delayed (missile) hit, charge drop",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "path": [
+    "Unit.cpp:428",
+    "Object.cpp:247",
+    "Spell.cpp:8375-8466 (LAUNCHED 8395, handle_delayed 8429)",
+    "Spell.cpp:3467"
+   ],
+   "phase": "caster's WorldObject::Update (m_Events) at the start of the caster's Unit::Update",
+   "probe": "components only",
+   "scenario": "refresh-after-due-tick",
+   "vs_owner_update": "hit-first when caster == owner or the caster is updated before the owner; update-first when the caster is updated after the owner"
+  },
+  {
+   "channel": "creature AI cast (UpdateAI; instant casts resolve inside prepare)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "path": [
+    "Creature.cpp:848",
+    "Creature.cpp:874 AIUpdateTick",
+    "Spell.cpp:3586-3611 willCastDirectly"
+   ],
+   "phase": "Creature::Update after its Unit::Update",
+   "scenario": null,
+   "vs_owner_update": "update-first for the creature's own auras; otherwise map order"
+  },
+  {
+   "channel": "synchronous triggered cast (periodic trigger / proc, TRIGGERED_FULL_MASK incl. CAST_DIRECTLY)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "path": [
+    "SpellAuraEffects.cpp:5596",
+    "SpellDefines.h:281,293",
+    "Spell.cpp:3578-3579 CAST_DIRECTLY cast(true)"
+   ],
+   "phase": "inside the triggering unit's update (often inside the owner's own aura pass)",
+   "probe": "components only",
+   "scenario": "trigger-insert-after-next",
+   "vs_owner_update": "within the same owner pass: auras already updated this pass see the hit after their update, auras after the advanced iterator see it before (OR-I-11)"
+  }
+ ],
+ "dependency_edges": [
+  {
+   "refs": [
+    "AL-D-I-03",
+    "OR-I-08",
+    "confirmations"
+   ],
+   "topic": "pandemic formula / RefreshTimers",
+   "track": "B"
+  },
+  {
+   "refs": [
+    "NB-I-07",
+    "NB-I-08",
+    "NB-I-09"
+   ],
+   "topic": "tick bound, EXTRA_INITIAL_PERIOD, hasted period",
+   "track": "D"
+  },
+  {
+   "refs": [
+    "OR-I-05"
+   ],
+   "topic": "death removal content (which auras survive)",
+   "track": "E"
+  },
+  {
+   "refs": [
+    "OR-I-13"
+   ],
+   "topic": "target map before ticks",
+   "track": "F"
+  },
+  {
+   "refs": [
+    "OR-I-12",
+    "NB-I-01"
+   ],
+   "topic": "stack amount recalculation before tick",
+   "track": "C"
+  }
+ ],
+ "falsification": [
+  {
+   "action": "refined to 'iff inserted after the already-advanced iterator (after the next aura)' (AL-R-I-03)",
+   "attempt": "probe scenario trigger-insert-before-next (A=100 ticks, creates B=200, no later neighbour)",
+   "id": "AL-F-I-01",
+   "result": "B not decremented in that pass: m_auraUpdateIterator was already end()",
+   "rule": "an aura created during an owner's update pass is updated in that pass iff its SpellId sorts after the ticking aura"
+  },
+  {
+   "action": "rule discarded for the refreshing branch; kept only for the unique branch; same defect as AL-D-B-01 / AL-D-D-02 (independent probe confirmation)",
+   "attempt": "verbatim ModStackAmount/RefreshTimers/RefreshDuration + Spell.cpp:3260-3298 in the probe, refresh with 2000 ms of 10000 ms remaining",
+   "id": "AL-F-I-02",
+   "result": "commit 13000 (=130%), not 12000: GetDuration() already returns the refreshed CalcMaxDuration",
+   "rule": "Trinity's ATTR13 commit is min(new + remaining, 130% new) (core-audit NUM-E-002 wording)"
+  },
+  {
+   "action": "refined to storage order (AL-R-I-03)",
+   "attempt": "death-higher-id-kills (killing tick on the higher SpellId)",
+   "id": "AL-F-I-03",
+   "result": "the lower-SpellId aura ticked first",
+   "rule": "death at a timestamp cancels every other tick of that timestamp on the dead unit"
+  },
+  {
+   "action": "rule discarded; AL-R-I-01 kept",
+   "attempt": "tick-vs-expiry, catch-up-large-diff",
+   "id": "AL-F-I-04",
+   "result": "the tick fires, then expiry removal",
+   "rule": "the tick due at the expiry millisecond is lost"
+  },
+  {
+   "action": "refined to AL-R-I-04",
+   "attempt": "session-creation-decrement vs late-owner-creation (same 1000 ms aura, diff 400)",
+   "id": "AL-F-I-05",
+   "result": "effective spans 800 ms vs 1200 ms of world time after the creation tick",
+   "rule": "aura lifetime is its duration measured from the cast instant"
+  },
+  {
+   "action": "refined; same finding as AL-D-D-04 / AL-T-D-19 (confirmation)",
+   "attempt": "pandemic-tick-cap (base 10000, period 3000, phase 2500)",
+   "id": "AL-F-I-06",
+   "result": "4 ticks delivered, 5 timer-due",
+   "rule": "after a phase-keeping refresh the tick count is floor((newMax + phase) / period)"
+  }
+ ],
+ "pairs": [
+  {
+   "depends_on": null,
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "OR-I-01",
+   "note": "duration reaches 0 in Aura::Update, the tick still fires in the same UpdateOwner; removal only in the second loop. With catch-up diffs every tick up to GetTotalTicks fires at the update timestamp.",
+   "order": "tick-first",
+   "pair": "periodic tick / natural expiry (same aura, same ms)",
+   "path": [
+    "Unit.cpp:2975-2980 UpdateOwner loop",
+    "SpellAuras.cpp:845-846 AuraEffect::Update",
+    "Unit.cpp:2983-2991 expiry loop"
+   ],
+   "scenario": "tick-vs-expiry",
+   "see_also": [
+    "AL-T-D-01",
+    "AL-T-D-08",
+    "AL-T-D-09",
+    "AL-T-D-16"
+   ],
+   "timeline": [
+    "   100 session create       T  A  duration=6000 gen=1",
+    "  2000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  4000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  6000 spells  tick         T  A  eff=0 n=3 stack=1",
+    "  6000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "depends_on": null,
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "OR-I-02",
+   "note": "every owned aura is updated (and ticks) before any owned aura is expire-removed, independent of SpellId.",
+   "order": "all-ticks-first",
+   "pair": "tick of aura X / expiry of aura Y on the same owner (same ms)",
+   "path": [
+    "Unit.cpp:2975-2980",
+    "Unit.cpp:2983-2991"
+   ],
+   "scenario": "tick-vs-expiry",
+   "timeline": [
+    "   100 session create       T  A  duration=6000 gen=1",
+    "  2000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  4000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  6000 spells  tick         T  A  eff=0 n=3 stack=1",
+    "  6000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "also": [
+    "refresh-after-due-tick"
+   ],
+   "depends_on": "which phase delivers the refresh relative to the owner's _UpdateSpells",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-03",
+   "note": "packet casts and SpellEvents of units updated before the owner land first: a resetting refresh zeroes the timer and the tick due at that timestamp is not delivered; pandemic (ATTR13) or TRIGGERED_DONT_RESET_PERIODIC_TIMER keeps the phase, so the due tick fires after the refresh with _ticksDone restarted. A refresh delivered by a unit updated after the owner comes after the tick.",
+   "order": "depends",
+   "pair": "tick / refresh (same aura, same ms)",
+   "path": [
+    "Map.cpp:670 sessions",
+    "Object.cpp:247 caster events",
+    "Unit.cpp:2975-2980 owner auras",
+    "SpellAuras.cpp:976-992 RefreshTimers",
+    "SpellAuraEffects.cpp:949-959 ResetPeriodic"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "refresh-before-due-tick",
+   "see_also": [
+    "AL-T-D-03",
+    "AL-T-D-04",
+    "AL-T-D-17",
+    "AL-T-D-18",
+    "AL-R-B-06"
+   ],
+   "timeline": [
+    "   100 session create       T  A  duration=10000 gen=1",
+    "  2000 session refresh      T  A  duration=10000 effects=[[0, 0]] max=10000 stack=1",
+    "  3900 spells  tick         T  A  eff=0 n=1 stack=1"
+   ]
+  },
+  {
+   "depends_on": "delivery phase of the removing spell relative to the owner's update",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-04",
+   "note": "a removed aura leaves m_ownedAuras immediately, so a removal delivered before the owner's update suppresses the due tick; one delivered after it (later unit) follows the tick. Dispel effect semantics: Track E.",
+   "order": "depends",
+   "pair": "tick / dispel or other explicit removal (same ms)",
+   "path": [
+    "Map.cpp:670",
+    "Unit.cpp:3750-3766 RemoveOwnedAura",
+    "Unit.cpp:2975-2980"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "remove-then-refresh-same-tick",
+   "see_also": [
+    "AL-T-D-11",
+    "AL-T-D-12"
+   ],
+   "timeline": [
+    "   100 session create       T  A  duration=5000 gen=1",
+    "   500 session unapply      T  A  mode=4",
+    "   500 session refresh-miss    A",
+    "   500 session create       T  A  duration=5000 gen=2"
+   ]
+  },
+  {
+   "also": [
+    "death-higher-id-kills",
+    "death-persistent-survivor-ticks"
+   ],
+   "depends_on": "m_ownedAuras key order (SpellId) of X relative to Y; only for auras the death sweep removes",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "OR-I-05",
+   "note": "narrowed (R2-11): only auras removed by RemoveAllAurasOnDeath and sorting after the killer lose their same-ms tick. Passive and ATTR3_ALLOW_AURA_WHILE_DEAD auras survive the sweep and still reach PeriodicTick in the same pass: damage/heal/leech/energize/power ticks then return early on the dead target, but PERIODIC_TRIGGER_SPELL(_WITH_VALUE) casts on the corpse (no alive check; a failed CheckCast then sets the aura's duration to 0 unless passive, Spell.cpp:3503-3507, so it is expire-removed in the same _UpdateSpells) and PERIODIC_DUMMY runs its scripts. Census: death_survivor_census.",
+   "order": "spellid-order",
+   "pair": "tick of aura X / owner death caused by tick of aura Y (same ms)",
+   "path": [
+    "Unit.cpp:2975-2980",
+    "Unit.cpp:4472-4493 RemoveAllAurasOnDeath (skips IsPassive / IsDeathPersistent)",
+    "Unit.cpp:3750-3766 iterator shift",
+    "SpellAuraEffects.cpp:5634/5764/5865/5895/5955/6018/6056/6088 alive checks",
+    "SpellAuraEffects.cpp:5583-5605, 5607-5630 trigger ticks without alive check"
+   ],
+   "scenario": "death-lower-id-kills",
+   "timeline": [
+    "   250 session create       T  A  duration=10000 gen=1",
+    "   250 session create       T  B  duration=10000 gen=1",
+    "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  death        T",
+    "  1000 spells  unapply      T  A  mode=6",
+    "  1000 spells  unapply      T  B  mode=6"
+   ]
+  },
+  {
+   "depends_on": null,
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-06",
+   "note": "a player-owned buff expiring at T is gone before the player's swing at T; a buff applied by a packet cast or by the player's own SpellEvent in tick T is present for the swing at T.",
+   "order": "auras-first",
+   "pair": "white swing of a player / expiry or tick of the player's own auras (same ms)",
+   "path": [
+    "Player.cpp:944 Unit::Update",
+    "Unit.cpp:433 _UpdateSpells",
+    "Unit.cpp:461-468 attack timers",
+    "Player.cpp:1012 DoMeleeAttackIfReady"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "late-owner-creation",
+   "timeline": [
+    "   400 session prepare      C     cast_time=0",
+    "   400 melee   swing-point  P     auras=[]",
+    "   400 events  cast         C     timer=0",
+    "   400 events  create       P  B  duration=1000 gen=1",
+    "   800 melee   swing-point  P     auras=['B']",
+    "  1200 melee   swing-point  P     auras=['B']",
+    "  1600 spells  unapply      P  B  mode=5",
+    "  1600 melee   swing-point  P     auras=[]"
+   ]
+  },
+  {
+   "depends_on": "creature updated in the player's cell visit (Map.cpp:705)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-07",
+   "note": "DoTs on a dummy are owned by the dummy (UnitAura owner = target): the player's swing at T resolves before the dummy's tick/expiry at T. A creature already visited by an earlier player's cell pass is not updated again (marked cells).",
+   "order": "swing-first",
+   "pair": "white swing of a player / tick or expiry of auras owned by a creature near the player",
+   "path": [
+    "Map.cpp:703 player->Update",
+    "Map.cpp:705 VisitNearbyCellsOf"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "late-owner-creation",
+   "timeline": [
+    "   400 session prepare      C     cast_time=0",
+    "   400 melee   swing-point  P     auras=[]",
+    "   400 events  cast         C     timer=0",
+    "   400 events  create       P  B  duration=1000 gen=1",
+    "   800 melee   swing-point  P     auras=['B']",
+    "  1200 melee   swing-point  P     auras=['B']",
+    "  1600 spells  unapply      P  B  mode=5",
+    "  1600 melee   swing-point  P     auras=[]"
+   ]
+  },
+  {
+   "depends_on": "delivery phase relative to the owner's update; same-object vs new generation",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-08",
+   "note": "refresh first: the same Aura object continues (no remove/apply hooks). Expiry first: the old object is removed (AURA_REMOVE_BY_EXPIRE) and GetOwnedAura no longer finds it -> Aura::Create builds a new generation (fresh stacks, timers, charges; pandemic reads nothing).",
+   "order": "depends",
+   "pair": "refresh / old expiry (refresh at the ms the old application expires)",
+   "path": [
+    "Unit.cpp:2983-2991",
+    "Unit.cpp:3386-3445 _TryStackingOrRefreshingExistingAura",
+    "SpellAuras.cpp:350-387"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "reapply-after-expiry-new-generation",
+   "see_also": [
+    "AL-R-B-04",
+    "AL-R-B-05"
+   ],
+   "timeline": [
+    "   100 session create       T  A  duration=1000 gen=1",
+    "   500 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  1000 spells  unapply      T  A  mode=5",
+    "  1100 session refresh-miss    A",
+    "  1100 session create       T  A  duration=1000 gen=2"
+   ]
+  },
+  {
+   "depends_on": null,
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-09",
+   "note": "an aura the caster applies to itself at cast completion is decremented by the same diff in the same tick.",
+   "order": "cast-first",
+   "pair": "cast completion (SpellEvent) / caster's own aura update (same tick)",
+   "path": [
+    "Unit.cpp:428 WorldObject::Update",
+    "Object.cpp:247 m_Events.Update",
+    "Unit.cpp:433 _UpdateSpells"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "late-owner-creation",
+   "timeline": [
+    "   400 session prepare      C     cast_time=0",
+    "   400 melee   swing-point  P     auras=[]",
+    "   400 events  cast         C     timer=0",
+    "   400 events  create       P  B  duration=1000 gen=1",
+    "   800 melee   swing-point  P     auras=['B']",
+    "  1200 melee   swing-point  P     auras=['B']",
+    "  1600 spells  unapply      P  B  mode=5",
+    "  1600 melee   swing-point  P     auras=[]"
+   ]
+  },
+  {
+   "depends_on": "whether the owner's _UpdateSpells runs after the application in the same world tick",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-10",
+   "note": "packet-phase applications and applications made by units updated before the owner are decremented by the current diff at once (effectively timestamped at the previous world tick); applications made after the owner's update (later unit) are not. Effective lifetime differs by one world diff by update order.",
+   "order": "depends",
+   "pair": "application / first decrement and first tick",
+   "path": [
+    "Map.cpp:662-705",
+    "Unit.cpp:2975-2980"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "session-creation-decrement",
+   "see_also": [
+    "AL-T-D-10",
+    "AL-D-D-03",
+    "AL-U-F-03"
+   ],
+   "timeline": [
+    "   400 session create       T  A  duration=1000 gen=1",
+    "  1200 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "depends_on": "new SpellId key position relative to the already-advanced m_auraUpdateIterator",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "OR-I-11",
+   "note": "updated in the same pass iff inserted after the *next* aura; inserting after the current aura but before (or with no) next aura is not enough.",
+   "order": "spellid-order",
+   "pair": "aura created during the owner's update pass (triggered by a tick) / its first update",
+   "path": [
+    "Unit.cpp:2975-2980",
+    "Unit.cpp:3452 m_ownedAuras.emplace",
+    "SpellAuraEffects.cpp:5596 CastSpell (TRIGGERED_FULL_MASK: CAST_DIRECTLY)"
+   ],
+   "scenario": "trigger-insert-after-next",
+   "timeline": [
+    "   500 session create       T  A  duration=5000 gen=1",
+    "   500 session create       T  C  duration=9000 gen=1",
+    "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  create       T  B  duration=3000 gen=1"
+   ]
+  },
+  {
+   "depends_on": "delivery phase (as OR-I-03); StackAmount >= 2 never resets the timer",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-12",
+   "note": "a stack added before the owner's update is seen by the tick at the same ms (amount recalculated in SetStackAmount before the tick); amount semantics: Track C/D.",
+   "order": "depends",
+   "pair": "stack mutation / tick at the same ms",
+   "path": [
+    "Spell.cpp:3240 resetPeriodicTimer = StackAmount < 2 && !DONT_RESET",
+    "SpellAuras.cpp:1093-1129",
+    "SpellAuras.cpp:1056-1076 SetStackAmount"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "refresh-before-due-tick",
+   "timeline": [
+    "   100 session create       T  A  duration=10000 gen=1",
+    "  2000 session refresh      T  A  duration=10000 effects=[[0, 0]] max=10000 stack=1",
+    "  3900 spells  tick         T  A  eff=0 n=1 stack=1"
+   ]
+  },
+  {
+   "depends_on": "the 500 ms target-map timer elapsing in this UpdateOwner",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-13",
+   "note": "a recipient dropped by the map update gets no tick at that ms; a recipient added gets the tick immediately if one is due (application list re-read per tick). Recipient semantics: Track F.",
+   "order": "map-first",
+   "pair": "area-recipient map change / tick at the same ms",
+   "path": [
+    "SpellAuras.cpp:837-840 UpdateTargetMap before effect updates",
+    "SpellAuraEffects.cpp:1269-1274 application list per tick"
+   ],
+   "scenario": null,
+   "see_also": [
+    "S01-enter-leave-ticks",
+    "S02-extra-initial-period"
+   ]
+  },
+  {
+   "depends_on": null,
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-14",
+   "note": "an aura with a pending ChargeDropEvent is never expire-removed (IsExpired false) even at duration 0; the drop runs in the owner's event phase (before _UpdateSpells), after which expiry can proceed.",
+   "order": "drop-first",
+   "pair": "charge-drop event / expiry",
+   "path": [
+    "SpellAuras.h:226 IsExpired",
+    "SpellAuras.cpp:1046-1054 DropChargeDelayed (AddEventAtOffset 1053)",
+    "SpellAuras.cpp:46-60 ChargeDropEvent"
+   ],
+   "scenario": null
+  },
+  {
+   "depends_on": "caster vs owner update order (players before creatures in their cells)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-15",
+   "note": "resolves the Trinity side of core-audit UNK-E-003: a packet (instant) cast is processed in the session phase, before every unit update of that world tick, so it precedes a tick due in that tick (the opposite of Core's 'instant cast observes the tick first'); a hard-cast completion runs in the caster's event phase and precedes the owner's tick iff the caster is updated before the owner (caster == owner: always, AL-T-D-17; player caster on a creature in its cells: always; creature caster on a player: never, AL-T-D-18).",
+   "order": "depends",
+   "pair": "periodic tick / cast completion of a spell whose target owns the aura",
+   "path": [
+    "Map.cpp:703-705",
+    "Object.cpp:247",
+    "Unit.cpp:2975-2980"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "late-owner-creation",
+   "see_also": [
+    "UNK-E-003",
+    "AL-T-D-17",
+    "AL-T-D-18"
+   ],
+   "timeline": [
+    "   400 session prepare      C     cast_time=0",
+    "   400 melee   swing-point  P     auras=[]",
+    "   400 events  cast         C     timer=0",
+    "   400 events  create       P  B  duration=1000 gen=1",
+    "   800 melee   swing-point  P     auras=['B']",
+    "  1200 melee   swing-point  P     auras=['B']",
+    "  1600 spells  unapply      P  B  mode=5",
+    "  1600 melee   swing-point  P     auras=[]"
+   ]
+  },
+  {
+   "depends_on": "insertion order (std::multimap equal-key insertion at upper bound)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "OR-I-16",
+   "note": "events added during the loop with time <= m_time run in the same Update call.",
+   "order": "fifo",
+   "pair": "same-timestamp events of one unit's event queue",
+   "path": [
+    "EventProcessor.cpp:47-79",
+    "EventProcessor.cpp:113-119"
+   ],
+   "scenario": null
+  },
+  {
+   "depends_on": "owner kind and cell: players before any cell they activate; within a cell, grid container (GameObject, Creature, DynamicObject, Corpse, AreaTrigger, ...) then world container (pets)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-17",
+   "note": "a player owner's aura countdown precedes the update of area triggers in the cells it activates, but follows area triggers in cells an earlier player already visited; a non-pet creature precedes area triggers of its own cell; pets follow them; cells are visited x-major then y (Map.cpp:620-623).",
+   "order": "depends",
+   "pair": "AreaTrigger target-list update / unit aura countdown in the same world tick",
+   "path": [
+    "Map.cpp:703-705",
+    "Map.cpp:634-635 Visit(grid) then Visit(world)",
+    "GridDefines.h:91-92 container type order",
+    "TypeContainerVisitor.h:36-39 head-first",
+    "GridNotifiers.h:243 players not visited",
+    "AreaTrigger.cpp:341"
+   ],
+   "scenario": null,
+   "see_also": [
+    "AL-U-F-04",
+    "S18-areatrigger-per-unit"
+   ]
+  },
+  {
+   "depends_on": "m_mapRefManager player order; cell marking",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "OR-I-18",
+   "note": "sessions of all players, then for each player in map-reference order: that player, then every not-yet-visited cell around it (creatures, area triggers, pets), then cells around distant creatures it fights and distant non-player casters of auras it holds; finally cells of active non-player objects. Each unit updates at most once per world tick with the full diff.",
+   "order": "proven",
+   "pair": "units of one map: update order",
+   "path": [
+    "Map.cpp:662-672 sessions",
+    "Map.cpp:695-748 per player: Update, own cells, far combat creatures, far aura casters, far summons",
+    "Map.cpp:750-760 active non-player objects' cells",
+    "Map.cpp:627-630 marked cells"
+   ],
+   "probe": "trinity-probe (components only; cross-unit order is driver-glued)",
+   "scenario": "late-owner-creation",
+   "see_also": [
+    "UNK-E-003",
+    "AL-U-F-03"
+   ],
+   "timeline": [
+    "   400 session prepare      C     cast_time=0",
+    "   400 melee   swing-point  P     auras=[]",
+    "   400 events  cast         C     timer=0",
+    "   400 events  create       P  B  duration=1000 gen=1",
+    "   800 melee   swing-point  P     auras=['B']",
+    "  1200 melee   swing-point  P     auras=['B']",
+    "  1600 spells  unapply      P  B  mode=5",
+    "  1600 melee   swing-point  P     auras=[]"
+   ]
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py ordering --out docs/research/aura-lifecycle-corpora/ordering.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "populations": {
+   "all": 189140,
+   "controlled": 141,
+   "player": 4218,
+   "player+class-skills": 4520
+  },
+  "probe": "scripts/research/tools/tc_aura_order_probe"
+ },
+ "refresh_path_census": {
+  "branches": {
+   "n/a (non-positive duration: Spell.cpp:3268 gate)": {
+    "channels_cancel_then_create": {
+     "all": 0,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "counts": {
+     "all": 69,
+     "controlled": 1,
+     "player": 2,
+     "player+class-skills": 4
+    },
+    "externally_touched": {
+     "all": 2,
+     "controlled": 0,
+     "player": 1,
+     "player+class-skills": 1
+    },
+    "finite_duration": {
+     "all": 0,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "player_spells": [
+     111400,
+     196099
+    ],
+    "player_spells_externally_touched": [
+     111400
+    ],
+    "with_periodic_effect": {
+     "all": 27,
+     "controlled": 1,
+     "player": 1,
+     "player+class-skills": 2
+    }
+   },
+   "pandemic-reads-live-remaining": {
+    "channels_cancel_then_create": {
+     "all": 0,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "counts": {
+     "all": 6,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "externally_touched": {
+     "all": 0,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "finite_duration": {
+     "all": 6,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "player_spells": [],
+    "player_spells_externally_touched": [],
+    "with_periodic_effect": {
+     "all": 5,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    }
+   },
+   "pandemic-reads-refreshed-duration": {
+    "channels_cancel_then_create": {
+     "all": 0,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "counts": {
+     "all": 505,
+     "controlled": 5,
+     "player": 50,
+     "player+class-skills": 66
+    },
+    "externally_touched": {
+     "all": 20,
+     "controlled": 0,
+     "player": 6,
+     "player+class-skills": 10
+    },
+    "finite_duration": {
+     "all": 505,
+     "controlled": 5,
+     "player": 50,
+     "player+class-skills": 66
+    },
+    "player_spells": [
+     603,
+     703,
+     774,
+     980,
+     1079,
+     1943,
+     2818,
+     5740,
+     8936,
+     14914,
+     15286,
+     33763,
+     34914,
+     45438,
+     47585,
+     48181,
+     48438,
+     55078,
+     55233,
+     61295,
+     63106,
+     108280,
+     114923,
+     116095,
+     116847,
+     124682,
+     136511,
+     146739,
+     155722,
+     156322,
+     184364,
+     196608,
+     196725,
+     281711,
+     366155,
+     383346,
+     385060,
+     388067,
+     388068,
+     388539,
+     391191,
+     391688,
+     395152,
+     397364,
+     403695,
+     407065,
+     432496,
+     1214467,
+     1263345,
+     1295649
+    ],
+    "player_spells_externally_touched": [
+     774,
+     5740,
+     34914,
+     48438,
+     136511,
+     146739
+    ],
+    "with_periodic_effect": {
+     "all": 390,
+     "controlled": 5,
+     "player": 42,
+     "player+class-skills": 57
+    }
+   }
+  },
+  "definition": "Track B refresh.classify carry (same as carryover.json census.carry); populations incl. player+class-skills",
+  "external_surface_keys": [
+   "duration",
+   "refresh",
+   "periodic"
+  ]
+ },
+ "retail_experiments": [
+  {
+   "discriminates": "AL-U-I-01",
+   "fidelity": "exact",
+   "id": "AL-X-I-01",
+   "models": [
+    {
+     "name": "trinity-tick-then-expire",
+     "prediction": "n = duration/period ticks; last tick logged at the same timestamp as, and before, the aura-removed event"
+    },
+    {
+     "name": "expiry-first",
+     "prediction": "n - 1 ticks"
+    }
+   ],
+   "observable": "combat-log periodic damage count and SPELL_AURA_REMOVED ordering",
+   "question": "final tick at expiry",
+   "related": [
+    "AL-R-I-01",
+    "OR-I-01"
+   ],
+   "setup": "apply an unhasted DoT with duration an exact multiple of its period to a target dummy; no refresh"
+  },
+  {
+   "discriminates": "AL-U-I-05",
+   "fidelity": "exact",
+   "id": "AL-X-I-02",
+   "models": [
+    {
+     "name": "trinity-runtime-130",
+     "prediction": "new duration = 1.3 x base at any remaining"
+    },
+    {
+     "name": "carryover",
+     "prediction": "new duration = base + min(remaining, 0.3 x base)"
+    }
+   ],
+   "observable": "aura duration shown right after refresh",
+   "question": "pandemic commit",
+   "related": [
+    "AL-D-B-01",
+    "AL-D-D-02",
+    "AL-R-B-07"
+   ],
+   "setup": "refresh an ATTR13 DoT (a current-player periodic pandemic spell) at 10% and at 50% remaining"
+  },
+  {
+   "discriminates": "AL-U-I-02",
+   "fidelity": "insufficient",
+   "id": "AL-X-I-03",
+   "models": [
+    {
+     "name": "spellid-order",
+     "prediction": "only DoTs whose spell id sorts below the killing DoT tick"
+    },
+    {
+     "name": "all-due-ticks",
+     "prediction": "every DoT due at that ms ticks"
+    }
+   ],
+   "observable": "periodic damage events at the death timestamp",
+   "question": "same-ms tick of two DoTs on a dying target",
+   "related": [
+    "AL-R-I-03",
+    "OR-I-05"
+   ],
+   "setup": "two same-period DoTs applied in the same server tick; target health tuned so one tick kills"
+  },
+  {
+   "discriminates": "AL-U-I-03",
+   "fidelity": "approximate",
+   "id": "AL-X-I-04",
+   "models": [
+    {
+     "name": "trinity-auras-first",
+     "prediction": "a self buff expiring at the swing ms does not affect the swing"
+    },
+    {
+     "name": "swing-first",
+     "prediction": "the swing still benefits"
+    }
+   ],
+   "observable": "swing damage relative to the buff",
+   "question": "buff expiring at a white swing",
+   "related": [
+    "OR-I-06"
+   ],
+   "setup": "self damage buff whose expiry aligns with a swing (fixed weapon speed, no haste changes)"
+  },
+  {
+   "discriminates": "AL-U-I-07",
+   "fidelity": "approximate",
+   "id": "AL-X-I-05",
+   "models": [
+    {
+     "name": "trinity-freeze",
+     "prediction": "a debuff on a mob left outside every player's update range has more remaining time on return than authored minus wall time"
+    },
+    {
+     "name": "wall-clock",
+     "prediction": "remaining = authored - elapsed wall time"
+    }
+   ],
+   "observable": "remaining duration on the mob's aura",
+   "question": "aura countdown far from players",
+   "related": [
+    "AL-U-I-07"
+   ],
+   "setup": "apply a long debuff to a stationary mob, move far away (beyond visibility), return after a measured interval"
+  }
+ ],
+ "rules": [
+  {
+   "counterexamples": [],
+   "definition": "every periodic tick due at or before an owner update (bounded by floor(maxDuration/period)) fires in that update before any aura of the same owner is expire-removed",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-I-01",
+   "name": "tick-before-expiry within the owner update",
+   "population": {
+    "periodic_provider_spells": {
+     "all": 38493,
+     "controlled": 16,
+     "player": 240,
+     "player+class-skills": 288
+    }
+   },
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "a refresh, dispel, stack change or cast completion at the same world tick as an owner's tick/expiry precedes it iff it is delivered in the session phase or by a unit updated before the owner (players, then creatures in each player's cells)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-I-02",
+   "name": "cross-unit same-ms order is update order",
+   "population": "every unit-owned aura (structural)",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "within one owner, m_ownedAuras SpellId order decides which same-ms ticks precede a tick-caused death and whether an aura created during the pass is decremented in it (death: only for auras the death sweep removes; passive / ATTR3_ALLOW_AURA_WHILE_DEAD auras still tick)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-I-03",
+   "name": "owner storage order decides same-ms death and same-pass creation",
+   "population": "every owner with >= 2 owned auras (structural)",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "lifecycle events happen at world-tick boundaries; an application made before the owner's update in a tick (session phase, the owner's own events, or a unit updated earlier) is decremented by that tick's full diff (Track D's early credit, AL-D-D-03); one made by a unit updated after the owner gets no decrement until the next tick, so the same aura lives one diff longer",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-I-04",
+   "name": "early credit only when the application precedes the owner's update",
+   "population": "every aura (structural)",
+   "status": "trinity-only"
+  }
+ ],
+ "scenarios": [
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 3,
+        "timer": 2000
+       }
+      ],
+      "gen": 1,
+      "max": 6000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "catch-up-large-diff",
+   "question": "diff spanning several periods and the expiry: how many ticks, at which timestamps?",
+   "rules_out": "one tick per update / ticks clipped by remaining duration",
+   "script": "unit T 0 1\naura A T 100 6000 0 0\neffect A 2000\nat 1 create A\nrun 5000 3",
+   "timeline": [
+    "  5000 session create       T  A  duration=6000 gen=1",
+    "  5000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  5000 spells  tick         T  A  eff=0 n=2 stack=1",
+    " 10000 spells  tick         T  A  eff=0 n=3 stack=1",
+    " 10000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 9000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 1,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 10000,
+      "removed": true,
+      "stack": 1
+     }
+    },
+    "B": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 9000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 1,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 10000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "death-higher-id-kills",
+   "question": "same as death-lower-id-kills with the killing tick on the higher SpellId",
+   "rules_out": "'death at a timestamp cancels every other tick of that timestamp'",
+   "script": "unit T 0 1\naura A T 100 10000 0 0\neffect A 1000\naura B T 200 10000 0 0\neffect B 1000\nontick B 0 kill T\nat 1 create A\nat 1 create B\nrun 250 5",
+   "timeline": [
+    "   250 session create       T  A  duration=10000 gen=1",
+    "   250 session create       T  B  duration=10000 gen=1",
+    "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  tick         T  B  eff=0 n=1 stack=1",
+    "  1000 spells  death        T",
+    "  1000 spells  unapply      T  A  mode=6",
+    "  1000 spells  unapply      T  B  mode=6"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 9000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 1,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 10000,
+      "removed": true,
+      "stack": 1
+     }
+    },
+    "B": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 9250,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 750
+       }
+      ],
+      "gen": 1,
+      "max": 10000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "death-lower-id-kills",
+   "question": "two periodic auras due at the same ms; the lower SpellId's tick kills the owner",
+   "rules_out": "'all ticks due at one timestamp resolve before death removal'",
+   "script": "unit T 0 1\naura A T 100 10000 0 0\neffect A 1000\naura B T 200 10000 0 0\neffect B 1000\nontick A 0 kill T\nat 1 create A\nat 1 create B\nrun 250 5",
+   "timeline": [
+    "   250 session create       T  A  duration=10000 gen=1",
+    "   250 session create       T  B  duration=10000 gen=1",
+    "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  death        T",
+    "  1000 spells  unapply      T  A  mode=6",
+    "  1000 spells  unapply      T  B  mode=6"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 9000,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 1,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 10000,
+      "removed": true,
+      "stack": 1
+     }
+    },
+    "B": {
+     "deleted": false,
+     "generations": 1,
+     "state": {
+      "duration": 8750,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 1,
+        "timer": 250
+       }
+      ],
+      "gen": 1,
+      "max": 10000,
+      "removed": false,
+      "stack": 1
+     }
+    }
+   },
+   "name": "death-persistent-survivor-ticks",
+   "question": "a death-persistent aura sorting after the killing aura: does it still reach its tick at the death ms?",
+   "rules_out": "'a lethal tick denies every later same-ms tick' (R2-11): survivors of the death sweep still tick",
+   "script": "unit T 0 1\naura A T 100 10000 0 0\neffect A 1000\naura B T 200 10000 0 32\neffect B 1000\nontick A 0 kill T\nat 1 create A\nat 1 create B\nrun 250 5",
+   "timeline": [
+    "   250 session create       T  A  duration=10000 gen=1",
+    "   250 session create       T  B  duration=10000 gen=1",
+    "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  death        T",
+    "  1000 spells  unapply      T  A  mode=6",
+    "  1000 spells  tick         T  B  eff=0 n=1 stack=1"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 5,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 4000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "extra-initial-period",
+   "question": "ATTR5_EXTRA_INITIAL_PERIOD: timestamp of the initial tick and tick count",
+   "rules_out": "'initial tick at the instant of application' (it is at the first owner update)",
+   "script": "unit T 0 1\naura A T 100 4000 0 1\neffect A 1000\nat 1 create A\nrun 100 45",
+   "timeline": [
+    "   100 session create       T  A  duration=4000 gen=1",
+    "   100 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  2000 spells  tick         T  A  eff=0 n=3 stack=1",
+    "  3000 spells  tick         T  A  eff=0 n=4 stack=1",
+    "  4000 spells  tick         T  A  eff=0 n=5 stack=1",
+    "  4000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 2307,
+        "ticks": 5,
+        "timer": 465
+       }
+      ],
+      "gen": 1,
+      "max": 12000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "hasted-period-truncation",
+   "question": "hasted period int32(3000 * 0.7692308f) and tick bound floor(12000 / period)",
+   "rules_out": "exact rational period 3000/1.3",
+   "script": "unit T 0 0.7692308\naura A T 100 12000 0 64\neffect A 3000\nat 1 create A\nrun 1 12000",
+   "timeline": [
+    "     1 session create       T  A  duration=12000 gen=1",
+    "  2307 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  4614 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  6921 spells  tick         T  A  eff=0 n=3 stack=1",
+    "  9228 spells  tick         T  A  eff=0 n=4 stack=1",
+    " 11535 spells  tick         T  A  eff=0 n=5 stack=1",
+    " 12000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "B": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 1000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "late-owner-creation",
+   "question": "an aura created on an earlier-updated unit by a later-updated caster: first decrement?",
+   "rules_out": "update-order-independent lifetime (compare session-creation-decrement: one diff longer)",
+   "script": "unit P 1 1\nunit C 0 1\naura B P 200 1000 0 0\neffect B 0\ncast C 0 1 create B\nrun 400 4",
+   "timeline": [
+    "   400 session prepare      C     cast_time=0",
+    "   400 melee   swing-point  P     auras=[]",
+    "   400 events  cast         C     timer=0",
+    "   400 events  create       P  B  duration=1000 gen=1",
+    "   800 melee   swing-point  P     auras=['B']",
+    "  1200 melee   swing-point  P     auras=['B']",
+    "  1600 spells  unapply      P  B  mode=5",
+    "  1600 melee   swing-point  P     auras=[]"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 3,
+        "timer": 1000
+       }
+      ],
+      "gen": 1,
+      "max": 7000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "non-multiple-duration",
+   "question": "duration not a multiple of the period: partial tick at expiry?",
+   "rules_out": "partial final tick (Core NUM-E-003 model)",
+   "script": "unit T 0 1\naura A T 100 7000 0 0\neffect A 2000\nat 1 create A\nrun 100 80",
+   "timeline": [
+    "   100 session create       T  A  duration=7000 gen=1",
+    "  2000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  4000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  6000 spells  tick         T  A  eff=0 n=3 stack=1",
+    "  7000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 6,
+        "timer": 1000
+       }
+      ],
+      "gen": 1,
+      "max": 13000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "pandemic-refresh-reads-refreshed-duration",
+   "question": "ATTR13 refresh with 2000 ms remaining: which duration does Spell.cpp:3286 read?",
+   "rules_out": "min(new + old remaining, 130%) (Core audit NUM-E-002 wording): Trinity commits 130% at any remaining",
+   "script": "unit T 0 1\naura A T 100 10000 0 2\neffect A 2000\nat 1 create A\nat 81 refresh A 1 10000\nrun 100 220",
+   "timeline": [
+    "   100 session create       T  A  duration=10000 gen=1",
+    "  2000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  4000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  6000 spells  tick         T  A  eff=0 n=3 stack=1",
+    "  8000 spells  tick         T  A  eff=0 n=4 stack=1",
+    "  8100 session refresh      T  A  duration=13000 effects=[[0, 0]] max=13000 stack=1",
+    " 10000 spells  tick         T  A  eff=0 n=1 stack=1",
+    " 12000 spells  tick         T  A  eff=0 n=2 stack=1",
+    " 14000 spells  tick         T  A  eff=0 n=3 stack=1",
+    " 16000 spells  tick         T  A  eff=0 n=4 stack=1",
+    " 18000 spells  tick         T  A  eff=0 n=5 stack=1",
+    " 20000 spells  tick         T  A  eff=0 n=6 stack=1",
+    " 21000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 3000,
+        "ticks": 4,
+        "timer": 500
+       }
+      ],
+      "gen": 1,
+      "max": 13000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "pandemic-tick-cap",
+   "question": "phase-keeping refresh: timer-due ticks vs floor(newMax / period)",
+   "rules_out": "'ticks = floor((newMax + phase) / period)' (the GetTotalTicks bound drops one)",
+   "script": "unit T 0 1\naura A T 100 10000 0 2\neffect A 3000\nat 1 create A\nat 26 refresh A 1 10000\nrun 100 160",
+   "timeline": [
+    "   100 session create       T  A  duration=10000 gen=1",
+    "  2600 session refresh      T  A  duration=13000 effects=[[2500, 0]] max=13000 stack=1",
+    "  3000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  6000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  9000 spells  tick         T  A  eff=0 n=3 stack=1",
+    " 12000 spells  tick         T  A  eff=0 n=4 stack=1",
+    " 15500 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 6,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 12000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "pandemic-unique-keeps-remaining",
+   "question": "ATTR13 + ATTR1_AURA_UNIQUE refresh: ModStackAmount skips RefreshTimers",
+   "rules_out": "'every same-caster reapplication refreshes timers'",
+   "script": "unit T 0 1\naura A T 100 10000 0 6\neffect A 2000\nat 1 create A\nat 81 refresh A 1 10000\nrun 100 220",
+   "timeline": [
+    "   100 session create       T  A  duration=10000 gen=1",
+    "  2000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  4000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  6000 spells  tick         T  A  eff=0 n=3 stack=1",
+    "  8000 spells  tick         T  A  eff=0 n=4 stack=1",
+    "  8100 session refresh      T  A  duration=12000 effects=[[0, 4]] max=12000 stack=1",
+    " 10000 spells  tick         T  A  eff=0 n=5 stack=1",
+    " 12000 spells  tick         T  A  eff=0 n=6 stack=1",
+    " 20000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": false,
+     "generations": 2,
+     "state": {
+      "duration": 800,
+      "effects": [
+       {
+        "period": 500,
+        "ticks": 0,
+        "timer": 200
+       }
+      ],
+      "gen": 2,
+      "max": 1000,
+      "removed": false,
+      "stack": 1
+     }
+    }
+   },
+   "name": "reapply-after-expiry-new-generation",
+   "question": "reapplication in the tick after expiry-removal: same object or new generation?",
+   "rules_out": "'reapplication of the same spell by the same caster reuses the aura object'",
+   "script": "unit T 0 1\naura A T 100 1000 0 0\neffect A 500\nat 1 create A\nat 11 refresh A 1 1000\nrun 100 12",
+   "timeline": [
+    "   100 session create       T  A  duration=1000 gen=1",
+    "   500 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  1000 spells  unapply      T  A  mode=5",
+    "  1100 session refresh-miss    A",
+    "  1100 session create       T  A  duration=1000 gen=2"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": false,
+     "generations": 1,
+     "state": {
+      "duration": 7500,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 1,
+        "timer": 500
+       }
+      ],
+      "gen": 1,
+      "max": 10000,
+      "removed": false,
+      "stack": 1
+     }
+    }
+   },
+   "name": "refresh-after-due-tick",
+   "question": "the same refresh delivered by a caster updated after the owner (creature SpellEvent)",
+   "rules_out": "'same-timestamp tick/refresh order is a property of the aura' (it is a property of update order)",
+   "script": "unit T 0 1\nunit C 0 1\naura A T 100 10000 0 0\neffect A 2000\nat 1 create A\ncast C 0 20 refresh A 1 10000\nrun 100 45",
+   "timeline": [
+    "   100 session create       T  A  duration=10000 gen=1",
+    "  2000 session prepare      C     cast_time=0",
+    "  2000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  2000 events  cast         C     timer=0",
+    "  2000 events  refresh      T  A  duration=10000 effects=[[0, 0]] max=10000 stack=1",
+    "  4000 spells  tick         T  A  eff=0 n=1 stack=1"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": false,
+     "generations": 1,
+     "state": {
+      "duration": 7400,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 1,
+        "timer": 600
+       }
+      ],
+      "gen": 1,
+      "max": 10000,
+      "removed": false,
+      "stack": 1
+     }
+    }
+   },
+   "name": "refresh-before-due-tick",
+   "question": "packet refresh (resetting the timer) processed in the tick where a tick is due",
+   "rules_out": "'the due tick is delivered before the refresh at the same timestamp'",
+   "script": "unit T 0 1\naura A T 100 10000 0 0\neffect A 2000\nat 1 create A\nat 20 refresh A 1 10000\nrun 100 45",
+   "timeline": [
+    "   100 session create       T  A  duration=10000 gen=1",
+    "  2000 session refresh      T  A  duration=10000 effects=[[0, 0]] max=10000 stack=1",
+    "  3900 spells  tick         T  A  eff=0 n=1 stack=1"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": false,
+     "generations": 2,
+     "state": {
+      "duration": 4200,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 0,
+        "timer": 800
+       }
+      ],
+      "gen": 2,
+      "max": 5000,
+      "removed": false,
+      "stack": 1
+     }
+    }
+   },
+   "name": "remove-then-refresh-same-tick",
+   "question": "dispel then reapply in the same session phase: the removed object is still allocated",
+   "rules_out": "'a removed-but-undeleted aura can be found and refreshed'",
+   "script": "unit T 0 1\naura A T 100 5000 0 0\neffect A 1000\nat 1 create A\nat 5 remove A\nat 5 refresh A 1 5000\nrun 100 12",
+   "timeline": [
+    "   100 session create       T  A  duration=5000 gen=1",
+    "   500 session unapply      T  A  mode=4",
+    "   500 session refresh-miss    A",
+    "   500 session create       T  A  duration=5000 gen=2"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 1000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "session-creation-decrement",
+   "question": "an aura created by a packet cast in tick N: is it decremented by tick N's diff?",
+   "rules_out": "aura lifetime measured from the processing instant of the cast",
+   "script": "unit T 0 1\naura A T 100 1000 0 0\neffect A 0\nat 1 create A\nrun 400 4",
+   "timeline": [
+    "   400 session create       T  A  duration=1000 gen=1",
+    "  1200 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": true,
+     "generations": 1,
+     "state": {
+      "duration": 0,
+      "effects": [
+       {
+        "period": 2000,
+        "ticks": 3,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 6000,
+      "removed": true,
+      "stack": 1
+     }
+    }
+   },
+   "name": "tick-vs-expiry",
+   "question": "tick due at the expiry millisecond: does it fire, and before or after removal?",
+   "rules_out": "expiry-first (last tick lost when duration reaches 0 in the same update)",
+   "script": "unit T 0 1\naura A T 100 6000 0 0\neffect A 2000\nat 1 create A\nrun 100 62",
+   "timeline": [
+    "   100 session create       T  A  duration=6000 gen=1",
+    "  2000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  4000 spells  tick         T  A  eff=0 n=2 stack=1",
+    "  6000 spells  tick         T  A  eff=0 n=3 stack=1",
+    "  6000 spells  unapply      T  A  mode=5"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": false,
+     "generations": 1,
+     "state": {
+      "duration": 3500,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 1,
+        "timer": 500
+       }
+      ],
+      "gen": 1,
+      "max": 5000,
+      "removed": false,
+      "stack": 1
+     }
+    },
+    "B": {
+     "deleted": false,
+     "generations": 1,
+     "state": {
+      "duration": 2000,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 3000,
+      "removed": false,
+      "stack": 1
+     }
+    },
+    "C": {
+     "deleted": false,
+     "generations": 1,
+     "state": {
+      "duration": 7500,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 9000,
+      "removed": false,
+      "stack": 1
+     }
+    }
+   },
+   "name": "trigger-insert-after-next",
+   "question": "aura created during a tick, sorting after the already-advanced update iterator",
+   "rules_out": "'auras created during an update pass are never updated in that pass'",
+   "script": "unit T 0 1\naura A T 100 5000 0 0\neffect A 1000\naura C T 300 9000 0 0\neffect C 0\naura B T 400 3000 0 0\neffect B 0\nontick A 0 create B\nat 1 create A\nat 1 create C\nrun 500 3",
+   "timeline": [
+    "   500 session create       T  A  duration=5000 gen=1",
+    "   500 session create       T  C  duration=9000 gen=1",
+    "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  create       T  B  duration=3000 gen=1"
+   ]
+  },
+  {
+   "final": {
+    "A": {
+     "deleted": false,
+     "generations": 1,
+     "state": {
+      "duration": 3500,
+      "effects": [
+       {
+        "period": 1000,
+        "ticks": 1,
+        "timer": 500
+       }
+      ],
+      "gen": 1,
+      "max": 5000,
+      "removed": false,
+      "stack": 1
+     }
+    },
+    "B": {
+     "deleted": false,
+     "generations": 1,
+     "state": {
+      "duration": 2500,
+      "effects": [
+       {
+        "period": 0,
+        "ticks": 0,
+        "timer": 0
+       }
+      ],
+      "gen": 1,
+      "max": 3000,
+      "removed": false,
+      "stack": 1
+     }
+    }
+   },
+   "name": "trigger-insert-before-next",
+   "question": "aura created during another aura's tick with a larger SpellId but no later neighbour",
+   "rules_out": "'larger SpellId than the ticking aura => updated in the same pass'",
+   "script": "unit T 0 1\naura A T 100 5000 0 0\neffect A 1000\naura B T 200 3000 0 0\neffect B 0\nontick A 0 create B\nat 1 create A\nrun 500 3",
+   "timeline": [
+    "   500 session create       T  A  duration=5000 gen=1",
+    "  1000 spells  tick         T  A  eff=0 n=1 stack=1",
+    "  1000 spells  create       T  B  duration=3000 gen=1"
+   ]
+  }
+ ],
+ "scheduler": [
+  {
+   "coords": "Map.cpp:670",
+   "order": 1,
+   "step": "Map::Update: sessions (client packets; instant casts resolve here)"
+  },
+  {
+   "coords": "Map.cpp:703",
+   "order": 2,
+   "step": "Map::Update: per player -> player->Update(t_diff)"
+  },
+  {
+   "coords": "Map.cpp:705",
+   "order": 3,
+   "step": "Map::Update: then creatures/objects in cells near that player (each cell once per tick)"
+  },
+  {
+   "coords": "Map.cpp:627",
+   "order": 3,
+   "step": "Map::VisitNearbyCellsOf: marked cells skipped (a unit updates at most once per tick)"
+  },
+  {
+   "coords": "Player.cpp:944",
+   "order": 4,
+   "step": "Player::Update -> Unit::Update"
+  },
+  {
+   "coords": "Unit.cpp:428",
+   "order": 5,
+   "step": "Unit::Update -> WorldObject::Update first"
+  },
+  {
+   "coords": "Object.cpp:247",
+   "order": 6,
+   "step": "WorldObject::Update -> m_Events.Update (SpellEvent: cast progress/completion, delayed hits, ChargeDropEvent)"
+  },
+  {
+   "coords": "EventProcessor.cpp:47",
+   "order": 6,
+   "step": "EventProcessor::Update: due events (time <= m_time) in time order, FIFO within a time; events added during the loop with time <= m_time run in the same call"
+  },
+  {
+   "coords": "Spell.cpp:3467",
+   "order": 6,
+   "step": "Spell::prepare schedules its SpellEvent at m_time + 1 ms (runs in the next EventProcessor::Update, with that update's full diff)"
+  },
+  {
+   "coords": "Spell.cpp:8465",
+   "order": 6,
+   "step": "SpellEvent::Execute: unfinished spell re-planned at e_time + 1"
+  },
+  {
+   "coords": "Unit.cpp:433",
+   "order": 7,
+   "step": "Unit::Update -> _UpdateSpells after events"
+  },
+  {
+   "coords": "Unit.cpp:2968",
+   "order": 8,
+   "step": "_UpdateSpells: finished current spells cleared before auras"
+  },
+  {
+   "coords": "Unit.cpp:2979",
+   "order": 9,
+   "step": "_UpdateSpells: owned auras in m_ownedAuras (multimap keyed by SpellId) order; update iterator advanced BEFORE UpdateOwner"
+  },
+  {
+   "coords": "SpellAuras.cpp:837",
+   "order": 10,
+   "step": "Aura::UpdateOwner: Aura::Update (duration) first"
+  },
+  {
+   "coords": "SpellAuras.cpp:859",
+   "order": 10,
+   "step": "Aura::Update: m_duration -= diff, floor 0 (no per-diff splitting)"
+  },
+  {
+   "coords": "SpellAuras.cpp:840",
+   "order": 11,
+   "step": "Aura::UpdateOwner: target map (every 500 ms) between duration and ticks"
+  },
+  {
+   "coords": "SpellAuras.cpp:846",
+   "order": 12,
+   "step": "Aura::UpdateOwner: AuraEffect::Update per effect index"
+  },
+  {
+   "coords": "SpellAuraEffects.cpp:1258",
+   "order": 12,
+   "step": "AuraEffect::Update: catch-up loop, all due ticks in this call, bounded by GetTotalTicks"
+  },
+  {
+   "coords": "SpellAuraEffects.cpp:1270",
+   "order": 12,
+   "step": "AuraEffect::Update: application list re-read before every tick"
+  },
+  {
+   "coords": "Unit.cpp:2987",
+   "order": 13,
+   "step": "_UpdateSpells: expired removal AFTER all owned auras updated"
+  },
+  {
+   "coords": "SpellAuras.h:226",
+   "order": 13,
+   "step": "Aura::IsExpired = !duration && !m_dropEvent"
+  },
+  {
+   "coords": "Unit.cpp:2999",
+   "order": 14,
+   "step": "_UpdateSpells: removed Aura objects deleted at the end"
+  },
+  {
+   "coords": "Unit.cpp:464",
+   "order": 15,
+   "step": "Unit::Update: attack timers decremented after _UpdateSpells"
+  },
+  {
+   "coords": "Player.cpp:1012",
+   "order": 16,
+   "step": "Player::Update: melee swing after Unit::Update"
+  },
+  {
+   "coords": "Creature.cpp:850",
+   "order": 17,
+   "step": "Creature::Update (ALIVE) -> Unit::Update then AI (melee via AI)"
+  }
+ ],
+ "settlement_b_vs_d": {
+  "evidence": [
+   "trinity-consumer"
+  ],
+  "probe": [
+   "refresh-before-due-tick (session hit swallows the 2000 ms tick)",
+   "refresh-after-due-tick (creature SpellEvent after owner: tick at 2000 then refresh)"
+  ],
+  "probe_role": "trinity-probe (components): the probe's run loop hand-writes 'sessions, then units in declared order'; the verbatim parts are _UpdateSpells / UpdateOwner / AuraEffect::Update / EventProcessor / SpellEvent",
+  "proof": [
+   "Map.cpp:662-672 sessions before objects",
+   "Unit.cpp:428-433 WorldObject::Update (m_Events) before _UpdateSpells",
+   "Player.cpp:944-949 queued request after Unit::Update",
+   "Map.cpp:695-705 player then its cells"
+  ],
+  "question": "within one world tick, does the owner's aura update run before or after a spell hit on that aura? (AL-U-B-09 assumes update(t) then hit(t); Track D: own events first, caster != owner by map order)",
+  "verdict": "Track D is right; Track B's convention holds only for hits delivered after the owner's update (caster updated after the owner, queued player casts on the caster's own auras, creature AI casts on the creature's own auras, triggered casts reaching auras earlier in the running pass). Packet casts executed at once and a unit's own SpellEvents (cast completion, delayed hits) land before the owner's update."
+ },
+ "trinity_defects": [
+  {
+   "coords": [
+    "SpellAuras.cpp:1114",
+    "Spell.cpp:3284-3298",
+    "SpellAuraEffects.cpp:936-946"
+   ],
+   "description": "ATTR13 with ATTR1_AURA_UNIQUE/ATTR5_AURA_UNIQUE_PER_CASTER and StackAmount 0: no RefreshTimers, so _ticksDone keeps counting while SetMaxDuration raises the bound only by floor(newMax/period)",
+   "id": "AL-D-I-03",
+   "lifecycle_effect": "tail of the extended aura has no ticks (scenario pandemic-unique-keeps-remaining: 8000 ms silent)",
+   "oracle_behaviour": "reproduced (probe-confirmed); 15 providers (0 current-player)"
+  }
+ ],
+ "unknowns": [
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:2975-2991",
+    "SpellAuraEffects.cpp:1258-1274"
+   ],
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-01",
+   "known": "Trinity: yes, tick then expire in the same owner update (AL-R-I-01)",
+   "question": "Does Retail deliver the tick due at the expiry instant of an aura whose duration is a multiple of its period?",
+   "reopen_condition": "AL-X-I-01 result",
+   "subject": "final tick vs expiry at the same ms (Retail)",
+   "why_unresolved": "no Retail server source"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Unit.cpp:2975-2980",
+    "Unit.cpp:4472-4493"
+   ],
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-02",
+   "known": "Trinity orders by SpellId multimap key (AL-R-I-03); this is a storage artefact",
+   "question": "Is same-ms tick/death resolution on Retail ordered by anything observable (spell id, application order)?",
+   "reopen_condition": "AL-X-I-03 result",
+   "subject": "storage-order dependence (Retail)",
+   "why_unresolved": "no Retail server source; same-ms alignment hard to observe"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Map.cpp:662-705",
+    "Spell.cpp:3467"
+   ],
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-03",
+   "known": "Trinity: world-tick quantized, delivery-phase ordered, previous-tick dated (AL-R-I-02, AL-R-I-04)",
+   "question": "At what granularity does Retail order a refresh/dispel against a due tick of another unit's aura, and are durations measured from the application instant or from a server tick?",
+   "reopen_condition": "AL-X-I-02/AL-X-I-04 timestamps",
+   "subject": "cross-unit same-ms ordering and quantization (Retail)",
+   "why_unresolved": "no Retail server source; server tick rate unknown"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3284-3288",
+    "SpellAuras.cpp:976-992"
+   ],
+   "evidence": [
+    "trinity-probe",
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-05",
+   "known": "Trinity runtime: 130% for the refreshing branch (AL-D-B-01, AL-D-D-02); simc action.cpp:4604 carryover",
+   "question": "Is the Retail ATTR13 commit min(new + remaining, 1.3 new) (simc, community) or Trinity's runtime 130%?",
+   "reopen_condition": "AL-X-I-02 result",
+   "subject": "pandemic commit value (Retail)",
+   "why_unresolved": "Trinity is a consumer oracle with a probable defect; Retail truth needs observation"
+  },
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Map.cpp:695-760",
+    "GridNotifiers.cpp:283-288"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-I-07",
+   "known": "Trinity: a unit updates only when its cell is visited (Map.cpp:695-760); frozen time is never credited back (ordering.json update_coverage)",
+   "question": "Do auras on units outside every updated cell keep counting down on Retail, or freeze as in Trinity?",
+   "reopen_condition": "AL-X-I-05 result",
+   "subject": "aura time on units nobody updates (Retail)",
+   "why_unresolved": "no Retail server source"
+  }
+ ],
+ "update_coverage": [
+  {
+   "consequence": "auras owned by a unit in an unvisited cell freeze: no duration countdown, no ticks, no expiry. The diff is per map tick and not accumulated per unit, so the frozen time is never credited back; wall-clock lifetime exceeds authored duration by the frozen time",
+   "coords": [
+    "Maps/Map.cpp:695-760",
+    "Grids/Notifiers/GridNotifiers.cpp:283-288 ObjectUpdater::Visit"
+   ],
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "fact": "a unit is updated only when its cell is visited in that map tick: cells around players (Map.cpp:705), around viewpoints (708-709), around distant creatures in PvE combat with a player (711-721), around distant non-player casters of auras a player holds (723-733), around distant summons (735-747), around active non-player objects (750-760)",
+   "status": "trinity-only",
+   "unknown": "AL-U-I-07"
+  },
+  {
+   "coords": [
+    "tools/tc_aura_order_probe/probe.cpp driver (run loop)"
+   ],
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "fact": "cross-unit order claims (OR-I-02..18 involving two units, settlement_b_vs_d) rest on the Map::Update source; the probe driver hand-writes that order (sessions, then units in declared order) and verifies only the per-unit components (_UpdateSpells, UpdateOwner, AuraEffect::Update, EventProcessor, ModStackAmount chain)",
+   "status": "label",
+   "unknown": null
+  }
+ ]
+}

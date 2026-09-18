@@ -108,3 +108,13 @@ def tg_ctx():
         pytest.skip(f"no table snapshot at {_tables}")
     from targeting import context
     return context.get()
+
+
+@pytest.fixture(scope="session")
+def al_ctx():
+    """Aura-lifecycle research context (targeting context + lifecycle DB2 columns + optional drift build)."""
+    from gearing.tables import DEFAULT_TABLES as _tables
+    if not _tables.is_dir():
+        pytest.skip(f"no table snapshot at {_tables}")
+    from aura_lifecycle import context
+    return context.get()

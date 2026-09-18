@@ -1,0 +1,4885 @@
+{
+ "lead_rules": [
+  {
+   "id": "AL-R-X-01",
+   "per_population": {
+    "all": {
+     "applies": 188217,
+     "build_skew_applies": 4189,
+     "build_skew_counterexamples": 723,
+     "counterexamples": 41392,
+     "witnesses": [
+      71,
+      126,
+      514,
+      605,
+      698,
+      740,
+      742,
+      746
+     ]
+    },
+    "controlled": {
+     "applies": 141,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 56,
+     "witnesses": [
+      605,
+      6358,
+      8875,
+      19581,
+      32233,
+      34902,
+      35773,
+      50245
+     ]
+    },
+    "player": {
+     "applies": 4216,
+     "build_skew_applies": 73,
+     "build_skew_counterexamples": 53,
+     "counterexamples": 3500,
+     "witnesses": [
+      71,
+      605,
+      740,
+      5143,
+      5301,
+      6197,
+      12051,
+      12846
+     ]
+    },
+    "player+class-skills": {
+     "applies": 4518,
+     "build_skew_applies": 73,
+     "build_skew_counterexamples": 53,
+     "counterexamples": 3591,
+     "witnesses": [
+      71,
+      126,
+      605,
+      698,
+      740,
+      1178,
+      1515,
+      1860
+     ]
+    }
+   },
+   "statement": "Reapplying the same SpellId by the same caster refreshes the existing aura",
+   "status": "discarded"
+  },
+  {
+   "census_status": "holds-on-census",
+   "id": "AL-R-X-02",
+   "note": "refresh.classify maps every multislot spell to new-object (Unit.cpp:3393, SpellInfo.cpp:1803)",
+   "per_population": {
+    "all": {
+     "applies": 16812,
+     "build_skew_applies": 209,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 0,
+     "witnesses": []
+    },
+    "controlled": {
+     "applies": 45,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 0,
+     "witnesses": []
+    },
+    "player": {
+     "applies": 3453,
+     "build_skew_applies": 50,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 0,
+     "witnesses": []
+    },
+    "player+class-skills": {
+     "applies": 3531,
+     "build_skew_applies": 50,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 0,
+     "witnesses": []
+    }
+   },
+   "statement": "Passive auras have no refresh path (every application builds a new object)",
+   "status": "source-backed"
+  },
+  {
+   "id": "AL-R-X-03",
+   "per_population": {
+    "all": {
+     "applies": 16812,
+     "build_skew_applies": 209,
+     "build_skew_counterexamples": 7,
+     "counterexamples": 774,
+     "witnesses": [
+      1463,
+      3825,
+      4044,
+      4048,
+      4951,
+      4972,
+      5111,
+      5310
+     ]
+    },
+    "controlled": {
+     "applies": 45,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 1,
+     "witnesses": [
+      35773
+     ]
+    },
+    "player": {
+     "applies": 3453,
+     "build_skew_applies": 50,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 87,
+     "witnesses": [
+      16974,
+      29838,
+      121817,
+      122280,
+      137025,
+      145108,
+      183416,
+      197915
+     ]
+    },
+    "player+class-skills": {
+     "applies": 3531,
+     "build_skew_applies": 50,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 88,
+     "witnesses": [
+      16974,
+      29838,
+      121128,
+      121817,
+      122280,
+      137025,
+      145108,
+      183416
+     ]
+    }
+   },
+   "statement": "Passive auras carry no mutable stack/charge/periodic state",
+   "status": "discarded"
+  },
+  {
+   "id": "AL-R-X-04",
+   "note": "holds on the player populations, falsified on all",
+   "per_population": {
+    "all": {
+     "applies": 16812,
+     "build_skew_applies": 209,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 9,
+     "witnesses": [
+      742,
+      24991,
+      29504,
+      32102,
+      35121,
+      35319,
+      43200,
+      97280
+     ]
+    },
+    "controlled": {
+     "applies": 45,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 0,
+     "witnesses": []
+    },
+    "player": {
+     "applies": 3453,
+     "build_skew_applies": 50,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 0,
+     "witnesses": []
+    },
+    "player+class-skills": {
+     "applies": 3531,
+     "build_skew_applies": 50,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 0,
+     "witnesses": []
+    }
+   },
+   "statement": "Passive auras are permanent",
+   "status": "refined"
+  },
+  {
+   "id": "AL-R-X-05",
+   "per_population": {
+    "all": {
+     "applies": 172326,
+     "build_skew_applies": 3980,
+     "build_skew_counterexamples": 1117,
+     "counterexamples": 45831,
+     "witnesses": [
+      465,
+      974,
+      1234,
+      1494,
+      2336,
+      2383,
+      2479,
+      2481
+     ]
+    },
+    "controlled": {
+     "applies": 96,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 5,
+     "witnesses": [
+      112042,
+      134477,
+      171011,
+      171012,
+      1241521
+     ]
+    },
+    "player": {
+     "applies": 765,
+     "build_skew_applies": 23,
+     "build_skew_counterexamples": 1,
+     "counterexamples": 53,
+     "witnesses": [
+      465,
+      974,
+      2823,
+      5761,
+      32223,
+      48743,
+      52127,
+      199736
+     ]
+    },
+    "player+class-skills": {
+     "applies": 989,
+     "build_skew_applies": 23,
+     "build_skew_counterexamples": 1,
+     "counterexamples": 76,
+     "witnesses": [
+      465,
+      974,
+      1494,
+      2823,
+      3408,
+      5761,
+      8679,
+      19878
+     ]
+    }
+   },
+   "statement": "Death removes every non-passive aura of the holder",
+   "status": "discarded"
+  },
+  {
+   "id": "AL-R-X-06",
+   "per_population": {
+    "all": {
+     "applies": 37735,
+     "build_skew_applies": 967,
+     "build_skew_counterexamples": 336,
+     "counterexamples": 13264,
+     "witnesses": [
+      66,
+      96,
+      136,
+      139,
+      339,
+      589,
+      703,
+      740
+     ]
+    },
+    "controlled": {
+     "applies": 15,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 10,
+     "witnesses": [
+      19483,
+      48181,
+      55078,
+      89751,
+      90361,
+      92380,
+      93433,
+      118297
+     ]
+    },
+    "player": {
+     "applies": 169,
+     "build_skew_applies": 6,
+     "build_skew_counterexamples": 4,
+     "counterexamples": 77,
+     "witnesses": [
+      703,
+      740,
+      774,
+      980,
+      1079,
+      1943,
+      2818,
+      5143
+     ]
+    },
+    "player+class-skills": {
+     "applies": 216,
+     "build_skew_applies": 6,
+     "build_skew_counterexamples": 4,
+     "counterexamples": 102,
+     "witnesses": [
+      66,
+      136,
+      339,
+      589,
+      703,
+      740,
+      774,
+      980
+     ]
+    }
+   },
+   "statement": "A refreshed periodic aura restarts its tick rhythm",
+   "status": "discarded"
+  },
+  {
+   "id": "AL-R-X-07",
+   "per_population": {
+    "all": {
+     "applies": 11074,
+     "build_skew_applies": 342,
+     "build_skew_counterexamples": 323,
+     "counterexamples": 10641,
+     "witnesses": [
+      96,
+      744,
+      1834,
+      3356,
+      5159,
+      5416,
+      6016,
+      6917
+     ]
+    },
+    "controlled": {
+     "applies": 2,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 0,
+     "witnesses": []
+    },
+    "player": {
+     "applies": 104,
+     "build_skew_applies": 3,
+     "build_skew_counterexamples": 3,
+     "counterexamples": 91,
+     "witnesses": [
+      36032,
+      44544,
+      51124,
+      52127,
+      64844,
+      73685,
+      116768,
+      119085
+     ]
+    },
+    "player+class-skills": {
+     "applies": 106,
+     "build_skew_applies": 3,
+     "build_skew_counterexamples": 3,
+     "counterexamples": 92,
+     "witnesses": [
+      8680,
+      36032,
+      44544,
+      51124,
+      52127,
+      64844,
+      73685,
+      116768
+     ]
+    }
+   },
+   "statement": "Stack capacity >= 2 means the aura stacks per caster",
+   "status": "discarded"
+  },
+  {
+   "id": "AL-R-X-08",
+   "per_population": {
+    "all": {
+     "applies": 189138,
+     "build_skew_applies": 4189,
+     "build_skew_counterexamples": 2,
+     "counterexamples": 4628,
+     "witnesses": [
+      17,
+      136,
+      139,
+      339,
+      408,
+      430,
+      431,
+      432
+     ]
+    },
+    "controlled": {
+     "applies": 141,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 8,
+     "witnesses": [
+      6358,
+      24394,
+      48181,
+      55078,
+      91797,
+      91800,
+      118345,
+      170995
+     ]
+    },
+    "player": {
+     "applies": 4218,
+     "build_skew_applies": 73,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 372,
+     "witnesses": [
+      465,
+      586,
+      603,
+      703,
+      740,
+      774,
+      980,
+      1044
+     ]
+    },
+    "player+class-skills": {
+     "applies": 4520,
+     "build_skew_applies": 73,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 417,
+     "witnesses": [
+      17,
+      136,
+      339,
+      408,
+      465,
+      586,
+      589,
+      603
+     ]
+    }
+   },
+   "statement": "Aura lifecycle is fully decided by DB2 (no external surface)",
+   "status": "discarded"
+  },
+  {
+   "id": "AL-R-X-09",
+   "per_population": {
+    "all": {
+     "applies": 1377,
+     "build_skew_applies": 23,
+     "build_skew_counterexamples": 23,
+     "counterexamples": 1343,
+     "witnesses": [
+      1776,
+      1784,
+      2094,
+      4341,
+      4951,
+      5215,
+      5302,
+      6268
+     ]
+    },
+    "controlled": {
+     "applies": 3,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 3,
+     "witnesses": [
+      7870,
+      24450,
+      90328
+     ]
+    },
+    "player": {
+     "applies": 91,
+     "build_skew_applies": 1,
+     "build_skew_counterexamples": 1,
+     "counterexamples": 80,
+     "witnesses": [
+      1776,
+      1784,
+      2094,
+      5302,
+      23920,
+      31661,
+      36032,
+      54149
+     ]
+    },
+    "player+class-skills": {
+     "applies": 100,
+     "build_skew_applies": 1,
+     "build_skew_counterexamples": 1,
+     "counterexamples": 89,
+     "witnesses": [
+      1776,
+      1784,
+      2094,
+      5215,
+      5302,
+      6770,
+      23920,
+      31661
+     ]
+    }
+   },
+   "statement": "Charges and stacks are the same counter",
+   "status": "discarded"
+  },
+  {
+   "id": "AL-R-X-10",
+   "per_population": {
+    "all": {
+     "applies": 189138,
+     "build_skew_applies": 4189,
+     "build_skew_counterexamples": 273,
+     "counterexamples": 18058,
+     "witnesses": [
+      17,
+      25,
+      56,
+      99,
+      101,
+      113,
+      118,
+      122
+     ]
+    },
+    "controlled": {
+     "applies": 141,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 15,
+     "witnesses": [
+      6358,
+      6360,
+      24394,
+      33395,
+      89766,
+      91797,
+      91800,
+      94019
+     ]
+    },
+    "player": {
+     "applies": 4218,
+     "build_skew_applies": 73,
+     "build_skew_counterexamples": 2,
+     "counterexamples": 177,
+     "witnesses": [
+      99,
+      710,
+      740,
+      974,
+      1513,
+      1776,
+      2094,
+      2637
+     ]
+    },
+    "player+class-skills": {
+     "applies": 4520,
+     "build_skew_applies": 73,
+     "build_skew_counterexamples": 2,
+     "counterexamples": 225,
+     "witnesses": [
+      17,
+      99,
+      118,
+      122,
+      339,
+      408,
+      710,
+      740
+     ]
+    }
+   },
+   "statement": "Amount = base captured at application x stacks, bonuses read live",
+   "status": "discarded"
+  },
+  {
+   "census_status": "discarded",
+   "id": "AL-R-X-11",
+   "note": "refresh.classify fixes carry=pandemic-reads-refreshed-duration for every timer-refreshing branch (Spell.cpp:3284-3288 after SpellAuras.cpp:1119-1121); the probe (AL-D-D-02) is the evidence",
+   "per_population": {
+    "all": {
+     "applies": 511,
+     "build_skew_applies": 12,
+     "build_skew_counterexamples": 11,
+     "counterexamples": 505,
+     "witnesses": [
+      66,
+      136,
+      139,
+      339,
+      589,
+      603,
+      703,
+      774
+     ]
+    },
+    "controlled": {
+     "applies": 5,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 5,
+     "witnesses": [
+      48181,
+      55078,
+      89751,
+      90361,
+      118297
+     ]
+    },
+    "player": {
+     "applies": 50,
+     "build_skew_applies": 1,
+     "build_skew_counterexamples": 1,
+     "counterexamples": 50,
+     "witnesses": [
+      603,
+      703,
+      774,
+      980,
+      1079,
+      1943,
+      2818,
+      5740
+     ]
+    },
+    "player+class-skills": {
+     "applies": 66,
+     "build_skew_applies": 1,
+     "build_skew_counterexamples": 1,
+     "counterexamples": 66,
+     "witnesses": [
+      66,
+      136,
+      339,
+      589,
+      603,
+      703,
+      774,
+      980
+     ]
+    }
+   },
+   "statement": "Pandemic carryover is computed from the remaining duration (finite auras only: Spell.cpp:3268 skips the carry for AuraDuration <= 0)",
+   "status": "source-backed"
+  },
+  {
+   "id": "AL-R-X-13",
+   "per_population": {
+    "all": {
+     "applies": 171405,
+     "build_skew_applies": 3980,
+     "build_skew_counterexamples": 514,
+     "counterexamples": 24580,
+     "witnesses": [
+      126,
+      514,
+      605,
+      698,
+      740,
+      746,
+      755,
+      1159
+     ]
+    },
+    "controlled": {
+     "applies": 96,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 11,
+     "witnesses": [
+      605,
+      6358,
+      50245,
+      91838,
+      92380,
+      93433,
+      135029,
+      157375
+     ]
+    },
+    "player": {
+     "applies": 763,
+     "build_skew_applies": 23,
+     "build_skew_counterexamples": 3,
+     "counterexamples": 47,
+     "witnesses": [
+      605,
+      740,
+      5143,
+      6197,
+      12051,
+      15407,
+      51690,
+      64843
+     ]
+    },
+    "player+class-skills": {
+     "applies": 987,
+     "build_skew_applies": 23,
+     "build_skew_counterexamples": 3,
+     "counterexamples": 60,
+     "witnesses": [
+      126,
+      605,
+      698,
+      740,
+      1515,
+      2096,
+      5143,
+      6196
+     ]
+    }
+   },
+   "statement": "Reapplying the same SpellId by the same caster refreshes the existing aura (non-passive only)",
+   "status": "discarded"
+  },
+  {
+   "id": "AL-R-X-12",
+   "per_population": {
+    "all": {
+     "applies": 25967,
+     "build_skew_applies": 583,
+     "build_skew_counterexamples": 10,
+     "counterexamples": 1317,
+     "witnesses": [
+      430,
+      431,
+      432,
+      804,
+      1133,
+      1135,
+      1137,
+      5004
+     ]
+    },
+    "controlled": {
+     "applies": 12,
+     "build_skew_applies": 0,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 1,
+     "witnesses": [
+      5672
+     ]
+    },
+    "player": {
+     "applies": 158,
+     "build_skew_applies": 6,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 4,
+     "witnesses": [
+      102543,
+      113656,
+      187827,
+      257044
+     ]
+    },
+    "player+class-skills": {
+     "applies": 201,
+     "build_skew_applies": 6,
+     "build_skew_counterexamples": 0,
+     "counterexamples": 4,
+     "witnesses": [
+      102543,
+      113656,
+      187827,
+      257044
+     ]
+    }
+   },
+   "statement": "A periodic aura's authored duration is a whole number of periods",
+   "status": "discarded"
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py falsification --corpus --out docs/research/aura-lifecycle-corpora/falsification.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  }
+ },
+ "status_counts": {
+  "lead": {
+   "discarded": 10,
+   "refined": 1,
+   "source-backed": 2
+  },
+  "track": {
+   "discarded": 8,
+   "holds-on-census": 16,
+   "proposed": 3,
+   "refined": 8,
+   "source-backed": 21,
+   "trinity-only": 61
+  }
+ },
+ "track_falsification": [
+  {
+   "action": "refined into AL-R-A-01 / AL-R-A-03",
+   "attempt": "census of multislot / effect-mask paths; probe create with mismatching mask",
+   "corpus": "identity.json",
+   "id": "AL-F-A-01",
+   "result": "false for 3453 player multislot (passive) spells and whenever the effect mask differs (Unit.cpp:3402-3406 recreate)",
+   "rule": "same SpellId + same caster always refreshes"
+  },
+  {
+   "action": "rule restricted; AL-R-A-02 added",
+   "attempt": "enumerate periodic spells with StackAmount>1 and no ATTR3_DOT_STACKING_RULE",
+   "corpus": "identity.json",
+   "id": "AL-F-A-02",
+   "result": "such spells take the any-caster lookup (shared object) before CanStackWith is ever reached; periodic non-area coexistence only applies to per-caster spells",
+   "rule": "DoTs/HoTs from different casters always coexist"
+  },
+  {
+   "action": "kept as counterexample; see AL-K-A-01",
+   "attempt": "CanStackWith over player providers with caster B vs A",
+   "corpus": "identity.json",
+   "id": "AL-F-A-03",
+   "result": "491 player spells replace (474 via same-rank-chain fallthrough SpellAuras.cpp:1766, e.g. 1126 Mark of the Wild, 10060 Power Infusion, 1160 Demoralizing Shout)",
+   "rule": "different caster + same buff -> coexist (per-caster identity as in Core AuraKey)"
+  },
+  {
+   "action": "rule refined: item identity only for CU_ENCHANT_PROC (0 player providers)",
+   "attempt": "probe: same spell, same caster, different cast item, CU_ENCHANT_PROC unset/set",
+   "corpus": "identity.json",
+   "id": "AL-F-A-04",
+   "result": "unset: refresh and CastItemGUID overwritten (Unit.cpp:3420-3429); set: separate objects (lookup includes item, CanStackWith 1762-1764)",
+   "rule": "the cast item is part of aura identity"
+  },
+  {
+   "action": "recorded as AL-D-A-01/02",
+   "attempt": "evaluate _LoadSpellSpecific over current-player providers",
+   "corpus": "identity.json",
+   "id": "AL-F-A-05",
+   "result": "26 player spells classified (hardcoded ids reused: 48263/48265 PRESENCE; family-flag classes on Burning Rush 111400, Soul Leech 108370 (and 1311653, build skew), Demonic Circle: Teleport 48020)",
+   "rule": "SpellSpecific exclusivity only affects legacy spells"
+  },
+  {
+   "action": "replaced by AL-R-A-07",
+   "attempt": "trace DoProcessTargetContainer / DoDamageAndTriggers call path",
+   "corpus": "application.json",
+   "id": "AL-F-A-06",
+   "result": "false: aura HandleEffect(REAL) runs in DoDamageAndTriggers after damage (Spell.cpp:2938 < 3040)",
+   "rule": "each effect resolves fully in index order (aura effect i active before effect i+1)"
+  },
+  {
+   "action": "partial_failures entry",
+   "attempt": "read allAuraEffectMask construction (Spell.cpp:3241-3243)",
+   "corpus": "application.json",
+   "id": "AL-F-A-07",
+   "result": "false: every unit-owned aura effect is constructed on every recipient's object; the application mask selects",
+   "rule": "one aura object per (spell, target) contains only the effects aimed at that target"
+  },
+  {
+   "action": "AL-R-A-10 + partial_failures",
+   "attempt": "dead target / area aura / immune paths",
+   "corpus": "application.json",
+   "id": "AL-F-A-08",
+   "result": "false: dead target (Unit.cpp:3507-3510) and area-aura-only spells have an owned object with no application at hit",
+   "rule": "aura application exists as soon as the aura object exists"
+  },
+  {
+   "action": "area outcome class added (AL-R-A-11); area providers excluded from replace",
+   "attempt": "R3-11 review: area auras are owned by their caster and reach others through the recipient map",
+   "corpus": "identity.json",
+   "id": "AL-F-A-09",
+   "result": "false for area-aura providers: blocked at the recipient (SpellAuras.cpp:732-745), replace only on the second owner itself, coexist for IsPassiveStackableWithRanks area-only passives; before the fix 16 player area providers were labelled replace",
+   "rule": "a second caster's application of the same spell replaces the first (other_caster = replace) for every non-coexisting spell"
+  },
+  {
+   "action": "same_caster uses the cast-item outcome for item-sourced spells (AL-R-A-12)",
+   "attempt": "R1 review: item-sourced passives carry a cast item",
+   "corpus": "identity.json",
+   "id": "AL-F-A-10",
+   "result": "false with a cast item (SpellAuras.cpp:1651 skipped -> 1760-1761 coexist); applied per spell via item-only reach",
+   "rule": "the same caster re-applying a passive replaces it"
+  },
+  {
+   "action": "replaced by AL-R-B-07 (trinity-only) + defect AL-D-B-01; Retail question AL-U-B-01",
+   "attempt": "trace ModStackAmount->RefreshTimers->RefreshDuration before the Spell.cpp:3284 read; compile verbatim code in tc_aura_duration_probe; refresh an 18 s/3 s DoT at t=14 s (r=4000)",
+   "corpus": "carryover.json",
+   "id": "AL-F-B-01",
+   "result": "died for pinned Trinity: probe shows after_try_refresh duration=18000 (r overwritten), final 23400 for every r; history: before 92773e207c (2025-03-23) RefreshTimers computed the carry from the live r but the Spell.cpp commit (hit != max -> SetMaxDuration(hit)) discarded it on the Spell path; the move to Spell.cpp made the carry stick but read r too late -- neither Trinity revision implements r-dependent carry",
+   "rule": "ATTR13 carries the remaining duration up to 30% (prior audit 08: 'strongly verified')"
+  },
+  {
+   "action": "kept as refined formula",
+   "attempt": "vary spell-mods, haste (ATTR8) and combo points in model+probe",
+   "corpus": "duration.json",
+   "id": "AL-F-B-02",
+   "result": "cap is trunc(float(hit)*130/100) of the *final hit duration* (after ModSpellDuration, DurationMul, haste alignment); M (the carried part) is CalcMaxDuration() without power costs",
+   "rule": "the 30% cap is of base / max / current duration"
+  },
+  {
+   "action": "AL-R-B-09; Retail meaning AL-U-B-04",
+   "attempt": "census ATTR13 providers without any nonzero aura period",
+   "corpus": "carryover.json",
+   "id": "AL-F-B-03",
+   "result": "died: non-periodic ATTR13 providers exist (e.g. 55233 Vampiric Blood, 184364 Enraged Regeneration; note 45438 Ice Block is NOT one: effects 3 and 6 carry a 1000 ms period)",
+   "rule": "ATTR13 (PERIODIC_REFRESH_EXTENDS_DURATION) only occurs on periodic auras"
+  },
+  {
+   "action": "AL-R-B-05; identity details to track A",
+   "attempt": "branch census + identity lookup (GetOwnedAura keys)",
+   "corpus": "refresh.json",
+   "id": "AL-F-B-04",
+   "result": "died: multislot (all Passive) never found; other casters on non-shared slots create new auras",
+   "rule": "reapplying the same SpellId refreshes the existing aura"
+  },
+  {
+   "action": "AL-R-B-08",
+   "attempt": "trace ModStackAmount refresh bool + Spell.cpp:3294 + probe with a changed hit duration",
+   "corpus": "refresh.json",
+   "id": "AL-F-B-05",
+   "result": "refined: no timer refresh, but a hit whose duration differs from the current max resets duration and max; stackable unique auras refresh normally; amounts always recalculated",
+   "rule": "ATTR1_AURA_UNIQUE: 'Aura will not refresh its duration when recast'"
+  },
+  {
+   "action": "AL-R-B-02 + defect AL-D-B-02",
+   "attempt": "census ranged-per-resource minimum values; read CalcSpellDuration",
+   "corpus": "duration.json",
+   "id": "AL-F-B-06",
+   "result": "died for minimum <= 0 (Envenom, Killing Spree): early return",
+   "rule": "Duration != MaxDuration with DurationPerResource means duration scales with resource"
+  },
+  {
+   "action": "kept as model table in carryover.json; Core coords to track K",
+   "attempt": "pandemic_models sweep over r",
+   "corpus": "carryover.json",
+   "id": "AL-F-B-07",
+   "result": "carry-before-refresh == simc == Core for r <= hit; for r > hit simc/Core keep r (max), Trinity's formula caps at 1.3*hit; Core integer floor vs Trinity float trunc diverge from hit >= 516250 ms",
+   "rule": "Trinity(intended), simc and Core agree on pandemic"
+  },
+  {
+   "action": "kept as timeline; same finding as AL-D-D-04 (track D; timelines AL-T-D-07, AL-T-D-19) -- cite D",
+   "attempt": "timeline 18 s/3 s DoT refreshed at 14 s (model + probe)",
+   "corpus": "carryover.json",
+   "id": "AL-F-B-08",
+   "result": "died: totalTicks = floor(23400/3000)=7 with preserved phase -> ticks 15..33 s, a due tick at 36 s is suppressed, aura lives to 37.4 s (11 ticks over 37.4 s)",
+   "rule": "preserving the periodic timer on pandemic refresh preserves every tick"
+  },
+  {
+   "action": "AL-R-B-07 keeps the refined formula; AL-D-B-01 marked same_as AL-D-D-02",
+   "attempt": "combo-point and unique branches in model + verbatim probe (test_al_b_probe.py)",
+   "corpus": "carryover.json",
+   "id": "AL-F-B-09",
+   "result": "refined: always min(hit + M, trunc(1.3*hit)); = 1.3*hit only if M >= 0.3*hit; Rupture 5 CP -> 28000; unique non-stacking ATTR13 -> live remaining (22000 at r=4000)",
+   "rule": "track D AL-D-D-02: 'pinned Trinity pandemic is always 1.3 x base'"
+  },
+  {
+   "action": "carryover.json pandemic_population; AL-R-B-07 scope; AL-R-B-15",
+   "attempt": "R1-04: check the Spell.cpp:3268 AuraDuration > 0 gate and the channel recast path (R2-07)",
+   "corpus": "carryover.json",
+   "id": "AL-F-B-10",
+   "result": "refined: permanent/zero ATTR13 auras never reach the branch (player 111400, 196099); self-channels never refresh on their own recast.  Carry axis now n/a for non-positive durations and channels are split out; the census remains a classifier restatement of the probe finding, not independent evidence",
+   "rule": "every ATTR13 timer-refresh provider reaches the carry (earlier census: player 61)"
+  },
+  {
+   "action": "AL-R-B-15; branch self-channel-cancel-then-create in refresh.json",
+   "attempt": "R2-07: trace SetCurrentCastSpell / Spell::cancel",
+   "corpus": "refresh.json",
+   "id": "AL-F-B-11",
+   "result": "died for the channelling caster (cancel-then-create); refresh only via non-Spell paths",
+   "rule": "a channel aura is refreshed by recasting the channel"
+  },
+  {
+   "action": "discarded",
+   "attempt": "initial stacks = CumulativeAura",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-01",
+   "result": "Phalanx 1269312: capacity 2, Aura::Aura reads createInfo.StackAmount (1)",
+   "rule": "AL-R-C-01"
+  },
+  {
+   "action": "refined into AL-R-C-01",
+   "attempt": "initial stacks = 1",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-02",
+   "result": "Doses spell mods (21 rows; player targets Sweeping Strikes, Earth Shield, Dawnlight, Thunder Focus Tea, Stormkeeper, Unleash Life) and 39 SPELLVALUE_AURA_STACK script sites",
+   "rule": "AL-R-C-01"
+  },
+  {
+   "action": "discarded (Trinity); kept as AL-R-C-02 'caps only increases'",
+   "attempt": "stacks never exceed capacity",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-03",
+   "result": "cap-0 Stormkeeper + Doses (2 stacks); Set rows; uint8 wrap; negative max; probe confirms track A's AL-D-A-03 (create 7 on capacity 2 -> 7, next reapply clamps to 2 without refresh)",
+   "rule": "AL-R-C-02"
+  },
+  {
+   "action": "refined",
+   "attempt": "reapplying adds exactly one stack",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-04",
+   "result": "adds createInfo.StackAmount; passives never stack",
+   "rule": "AL-R-C-03"
+  },
+  {
+   "action": "refined into the refresh gate",
+   "attempt": "every reapplication refreshes the duration",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-05",
+   "result": "AURA_UNIQUE capacity 0 (6,331); lowered cap; decreasing reapply",
+   "rule": "AL-R-C-04"
+  },
+  {
+   "action": "discarded",
+   "attempt": "a zero-change ModStackAmount is a no-op",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-06",
+   "result": "num == 0 satisfies new >= old: RefreshTimers + charge reset (linked-aura sync, HandleAuraLinked)",
+   "rule": "AL-R-C-04"
+  },
+  {
+   "action": "discarded",
+   "attempt": "only periodic/stat aura types scale with stacks",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-07",
+   "result": "CalculateAmount multiplies after the type switch for every type unless SuppressPointsStacking",
+   "rule": "AL-R-C-06"
+  },
+  {
+   "action": "discarded",
+   "attempt": "CumulativeAura 0 and 1 are equivalent",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-08",
+   "result": "capacity 1 ignores AURA_UNIQUE and makes IsUsingStacks true (displays stacks instead of charges)",
+   "rule": "AL-R-C-11"
+  },
+  {
+   "action": "discarded for Trinity; Retail unknown (AL-U-C-01)",
+   "attempt": "a negative MaxAuraStacks modifier makes an aura non-stacking",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-09",
+   "result": "Therazane's Resilience on Earth Shield: probe stores uint8(-90) = 166",
+   "rule": "AL-R-C-02"
+  },
+  {
+   "action": "discarded: a passive aura's stacks can be mutated",
+   "attempt": "passive auras are immutable single-stack objects",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-10",
+   "result": "12 player passives carry capacity > 0; 0 MODIFY_AURA_STACKS rows target a multi-slot provider, but 153 SPELL_AURA_LINKED children are multi-slot and their stacks are synced by ModStackAmount on the parent's REAPPLY",
+   "rule": "AL-R-C-01"
+  },
+  {
+   "action": "discarded",
+   "attempt": "stacks are always per caster",
+   "corpus": "stacks.json",
+   "id": "AL-F-C-11",
+   "result": "shared-slot family: key with empty caster GUID",
+   "rule": "AL-R-C-09"
+  },
+  {
+   "action": "discarded",
+   "attempt": "a spell_proc row with Charges 0 disables charges",
+   "corpus": "charges.json",
+   "id": "AL-F-C-21",
+   "result": "LoadSpellProcs fills 0 from DB2 ProcCharges",
+   "rule": "AL-R-C-21"
+  },
+  {
+   "action": "refined",
+   "attempt": "every aura with ProcCharges loses a charge per proc",
+   "corpus": "charges.json",
+   "id": "AL-F-C-22",
+   "result": "398 providers have no proc entry",
+   "rule": "AL-R-C-22"
+  },
+  {
+   "action": "discarded",
+   "attempt": "stacks and proc charges are one counter",
+   "corpus": "charges.json",
+   "id": "AL-F-C-23",
+   "result": "separate members; joined only by USE_STACKS_FOR_CHARGES and the refresh reset",
+   "rule": "AL-R-C-23"
+  },
+  {
+   "action": "discarded",
+   "attempt": "aura charges and spell (category) charges interact",
+   "corpus": "charges.json",
+   "id": "AL-F-C-24",
+   "result": "no aura code reads ChargeCategory",
+   "rule": "AL-R-C-21"
+  },
+  {
+   "action": "rule reformulated on (spell, cast) pair",
+   "attempt": "treat subtype 23/24 preserve-vs-restart as a per-spell DB2 property (UNK-E-001)",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-01",
+   "result": "killed: AL-T-D-05/06 show the same spell restarts or preserves by the reapplying cast's trigger flags",
+   "rule": "AL-R-D-05"
+  },
+  {
+   "action": "kept as Trinity-only rule + Retail experiment AL-X-D-01",
+   "attempt": "raw 169 gives an extra occurrence only on first application (simc/Core)",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-02",
+   "result": "false for Trinity (AL-T-D-03, probe-confirmed); true for pandemic/stackable/triggered reapply (AL-T-D-04)",
+   "rule": "AL-R-D-06"
+  },
+  {
+   "action": "rule kept",
+   "attempt": "expiry removes the aura before the tick due at the same ms",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-03",
+   "result": "false (AL-T-D-01; Unit.cpp:2984 after all UpdateOwner calls)",
+   "rule": "AL-R-D-04"
+  },
+  {
+   "action": "defect AL-D-D-01",
+   "attempt": "every aura type handled in PeriodicTick ticks",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-04",
+   "result": "false: aura 70 never gets m_isPeriodic",
+   "rule": "AL-R-D-01"
+  },
+  {
+   "action": "quantization rule AL-R-D-07",
+   "attempt": "occurrences at exactly application + k*period",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-05",
+   "result": "false: AL-T-D-10 (created at 50 ms, ticks at 3000) and AL-T-D-17 (restart at 6000 ticks at 8900)",
+   "rule": "AL-R-D-07"
+  },
+  {
+   "action": "rule kept (Trinity-only)",
+   "attempt": "a haste change reschedules the pending occurrence",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-06",
+   "result": "false: AL-T-D-14 period stays 3000 until reapply",
+   "rule": "AL-R-D-02"
+  },
+  {
+   "action": "profile haste_mode 'channel-cast-speed'",
+   "attempt": "raw 278 on a channel uses melee haste",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-07",
+   "result": "false: channels take ModSpellDurationTime (ModCastingSpeed, Object.cpp:1838) whenever 173 or 278 is set",
+   "rule": "AL-R-D-02"
+  },
+  {
+   "action": "defect AL-D-D-04",
+   "attempt": "pandemic refresh keeps every period boundary inside the new duration",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-08",
+   "result": "false: AL-T-D-19 drops the 24000 occurrence (budget 5 < 6 boundaries)",
+   "rule": "AL-R-D-03"
+  },
+  {
+   "action": "rule kept",
+   "attempt": "DoTs snapshot caster spell power at application",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-09",
+   "result": "false for Trinity (tick handler calls SpellDamageBonusDone) and simc default (update_flags |= snapshot_flags); snapshot timeline S-01",
+   "rule": "AL-R-D-08"
+  },
+  {
+   "action": "known divergence vs simc; unknown AL-U-D-06",
+   "attempt": "ComputePointsOnlyAtCastTime (0x8000) is honoured by Trinity",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-10",
+   "result": "false: DBCEnums.h:2418 /*NYI*/, no reader in src/server",
+   "rule": "AL-R-D-08"
+  },
+  {
+   "action": "confirms remaining-data-audit/08",
+   "attempt": "EffectAmplitude is the tick interval",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-11",
+   "result": "false: CalculatePeriodic reads ApplyAuraPeriod (EffectAuraPeriod) only (SpellAuraEffects.cpp:963)",
+   "rule": "AL-R-D-03"
+  },
+  {
+   "action": "rule text says 'period re-hasted'",
+   "attempt": "pandemic refresh keeps the next occurrence time",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-12",
+   "result": "false when haste changed: period re-hasted, timer kept -> immediate occurrence (AL-T-D-15, 2 occurrences 400 ms apart)",
+   "rule": "AL-R-D-05"
+  },
+  {
+   "action": "rule restated on (spell, delivery path, trigger flags); status refined",
+   "attempt": "'StackAmount>=2 keeps the phase' as a spell-level rule (R1-05, R2-04)",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-13",
+   "result": "false outside the Spell-hit path: AddAura / effect 289 / linked / steal / script ModStackAmount default to resetPeriodicTimer=true (AL-T-D-21..23, probe)",
+   "rule": "AL-R-D-05"
+  },
+  {
+   "action": "defects AL-D-D-05/06",
+   "attempt": "the tick budget follows the aura's remaining duration (R2-05)",
+   "corpus": "periodic.json",
+   "id": "AL-F-D-14",
+   "result": "false: budget = MaxDuration/period re-read every update, _ticksDone untouched by SetDuration/SetMaxDuration (AL-T-D-24 silent tail, AL-T-D-25 all remaining occurrences lost)",
+   "rule": "AL-R-D-03"
+  },
+  {
+   "action": "discarded; AL-R-E-04",
+   "attempt": "TL-E-01 vs TL-E-02 (lifetime.json) and probe death/update runs",
+   "corpus": "removal.json",
+   "id": "AL-F-E-01",
+   "result": "3 ticks + DEATH vs 4 ticks + EXPIRE; Lifebloom bloom gated on EXPIRE|ENEMY_SPELL",
+   "rule": "death == natural expiry"
+  },
+  {
+   "action": "discarded; AL-R-E-08",
+   "attempt": "trace setDeathState call order (Unit.cpp:9167-9179, CombatManager.cpp:416)",
+   "corpus": "removal.json",
+   "id": "AL-F-E-02",
+   "result": "CombatStop (LeavingCombat INTERRUPT) and InterruptNonMeleeSpells (channel CANCEL) run first",
+   "rule": "RemoveAllAurasOnDeath is the only death-time aura removal"
+  },
+  {
+   "action": "refined; RM-20",
+   "attempt": "consumers of ATTR7_DISABLE_AURA_WHILE_DEAD",
+   "corpus": "removal.json",
+   "id": "AL-F-E-03",
+   "result": "UnitAura::FillTargetMap empties the target map while the owner is dead -> applications unapplied DEFAULT at the next target-map update",
+   "rule": "auras surviving death stay fully applied"
+  },
+  {
+   "action": "refined; AL-R-E-02",
+   "attempt": "dynamic-object aura end path",
+   "corpus": "removal.json",
+   "id": "AL-F-E-04",
+   "result": "DynamicObject::RemoveAura uses DEFAULT",
+   "rule": "every natural end runs EXPIRE-gated behaviour"
+  },
+  {
+   "action": "discarded; AL-R-E-01",
+   "attempt": "_UnapplyAura / _Remove bodies (probe) and TL-E-05",
+   "corpus": "removal.json",
+   "id": "AL-F-E-05",
+   "result": "no tick path in removal",
+   "rule": "an aura removed before its tick yields a final or pro-rated tick"
+  },
+  {
+   "action": "refined; lifetime matrix row 'area aura OWNED by the dying unit'",
+   "attempt": "probe: owner death with a recipient application",
+   "corpus": "removal.json",
+   "id": "AL-F-E-06",
+   "result": "recipient application unapplied with DEATH while alive",
+   "rule": "area-aura recipients only lose the aura with DEFAULT when the source goes away"
+  },
+  {
+   "action": "discarded; AL-R-E-07",
+   "attempt": "search every death-path call for foreign auras; TL-E-07",
+   "corpus": "removal.json",
+   "id": "AL-F-E-07",
+   "result": "none; ticks continue",
+   "rule": "caster death removes the caster's DoTs"
+  },
+  {
+   "action": "refined: RM-37..47 added; RM-19/25/31/32/34 corrected",
+   "attempt": "hostile review R3 + R2-10",
+   "corpus": "removal.json",
+   "id": "AL-F-E-08",
+   "result": "missing: single-target cap, EXCLUSIVE_HIGHEST displacement / self-removal, mount/vehicle/charm sweeps, aura-state loss, save/reload, totem unsummon, spell-cancel dynobject removal, negative linked ids, failed trigger cast",
+   "rule": "the 36-row taxonomy lists every removal path"
+  },
+  {
+   "action": "discarded; AL-R-E-05",
+   "attempt": "R2-10 trigger-cast failure; script writers; spell-mod charges",
+   "corpus": "removal.json",
+   "id": "AL-F-E-09",
+   "result": "EXPIRE at 6000 ms with 6000 ms left (TL-E-11); Painbringer/Alter Time scripts write EXPIRE",
+   "rule": "EXPIRE means the duration ran out"
+  },
+  {
+   "action": "discarded (this track's first model); AL-R-E-11",
+   "attempt": "overload resolution of roll_chance(int32) (Random.h:54-72) and probe rngcount",
+   "corpus": "dispel.json",
+   "id": "AL-F-E-10",
+   "result": "signed_integral overload -> irand(0, 99)",
+   "rule": "dispel resistance roll is a float rand_chance()"
+  },
+  {
+   "action": "discarded for Trinity; AL-K-E-03",
+   "attempt": "probe rngcount urand 0 0",
+   "corpus": "dispel.json",
+   "id": "AL-F-E-11",
+   "result": "one rand32 word per call on libstdc++ 13",
+   "rule": "urand over a singleton domain consumes no draw (Core RandomStream::uniform_index)"
+  },
+  {
+   "action": "discarded",
+   "attempt": "GetDispellableAuraList + DF-01",
+   "corpus": "dispel.json",
+   "id": "AL-F-E-12",
+   "result": "one entry per aura regardless of stacks",
+   "rule": "stacks weight the dispel selection"
+  },
+  {
+   "action": "discarded; AL-R-E-06",
+   "attempt": "ModStackAmount(num<0) refresh predicate; DF-03",
+   "corpus": "dispel.json",
+   "id": "AL-F-E-13",
+   "result": "no RefreshTimers for a decrease",
+   "rule": "a stack dispel refreshes the aura"
+  },
+  {
+   "action": "refined; AL-R-E-07",
+   "attempt": "R3-06/07: setDeathState -> Spell::cancel / ExitVehicle / RemoveAllControlled",
+   "corpus": "removal.json",
+   "id": "AL-F-E-14",
+   "result": "dynobjects of the cast in progress, vehicle control and charm auras go",
+   "rule": "caster death touches none of the auras it cast on other holders"
+  },
+  {
+   "action": "discarded; AL-R-E-21",
+   "attempt": "Aura::Update / AuraEffect::Update have no liveness gate (TL-E-09)",
+   "corpus": "lifetime.json",
+   "id": "AL-F-E-20",
+   "result": "duration and ticks keep running",
+   "rule": "surviving auras are frozen while the holder is dead"
+  },
+  {
+   "action": "kept one-parent-duration",
+   "attempt": "model: each recipient gets a fresh duration at its application",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-01",
+   "result": "died: one m_duration per Aura (SpellAuras.cpp:855); probe S01 shows p3 applied at 3100 with 2900 left and expiring with the owner",
+   "rule": "AL-R-F-01"
+  },
+  {
+   "action": "kept shared-tick-to-current-holders",
+   "attempt": "model: a late joiner starts its own periodic timer (first tick one period after joining) or gets a join tick",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-02",
+   "result": "died: _periodicTimer is per AuraEffect (SpellAuraEffects.cpp:1250); probe S01 p3 joins 3100 and ticks at 4000 (900 ms later)",
+   "rule": "AL-R-F-03"
+  },
+  {
+   "action": "kept 500ms-recipient-map",
+   "attempt": "model: a unit leaving the radius loses the aura at the crossing time",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-03",
+   "result": "died: UpdateTargetMap runs every 500 ms; probe S01 p4 leaves 1950, still ticks at 2000, unapplied 2100",
+   "rule": "AL-R-F-02"
+  },
+  {
+   "action": "rule split by creation path",
+   "attempt": "model: every area aura first maps at its first owner update",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-04",
+   "result": "refined: Unit::AddAura (ApplyForTargets) and PERSISTENT_AREA_AURA (_RegisterForTargets) map at creation; probe S04",
+   "rule": "AL-R-F-02"
+  },
+  {
+   "action": "rule restated per flag; Retail experiments AL-X-F-02/03",
+   "attempt": "model: owner death ends every area aura it owns",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-05",
+   "result": "refined: RemoveAllAurasOnDeath skips passive and ALLOW_AURA_WHILE_DEAD (Unit.cpp:4472-4492); census counts both shapes in the player population",
+   "rule": "AL-R-F-06"
+  },
+  {
+   "action": "kept; Retail experiment AL-X-F-05 for cancel",
+   "attempt": "model: a recipient can cancel or have dispelled its copy of a foreign area aura",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-06",
+   "result": "died: HandleCancelAuraOpcode uses RemoveOwnedAura (SpellHandler.cpp:284); GetDispellableAuraList iterates owned auras (Unit.cpp:4737)",
+   "rule": "AL-R-F-05"
+  },
+  {
+   "action": "rule records the exception; AL-D-F-03",
+   "attempt": "model: persistent area aura recipients are removed BY_EXPIRE",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-07",
+   "result": "died: DynamicObject::RemoveAura -> _Remove(AURA_REMOVE_BY_DEFAULT) (DynamicObject.cpp:198-205)",
+   "rule": "AL-R-F-04"
+  },
+  {
+   "action": "amount listed as parent-owned",
+   "attempt": "model: the area effect amount is computed per recipient",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-08",
+   "result": "refined: AuraEffect::CalculateAmount passes the aura owner as target (SpellAuraEffects.cpp:777-782); per-target factors live in tick handlers (Track D)",
+   "rule": "AL-R-F-01"
+  },
+  {
+   "action": "kept; priority of AL-X-F-04 lowered",
+   "attempt": "search for current-player periodic area-aura effects (to witness tick attribution)",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-09",
+   "result": "none: 0 of 35 current-player area-aura effects are periodic; the rule is witnessed only in the all-population (NPC) census",
+   "rule": "AL-R-F-03"
+  },
+  {
+   "action": "kept per-unit rule",
+   "attempt": "model: an AT-created aura follows the AT and is re-added after it expires while the unit stays inside",
+   "corpus": "area-lifecycle.json",
+   "id": "AL-F-F-10",
+   "result": "died: DoActions runs only for entering units (AreaTrigger.cpp:853-877); timeline S18 p1 expires at 2100 inside the AT",
+   "rule": "AL-R-F-07"
+  },
+  {
+   "action": "rule restated as 'permanent iff no DurationEntry'",
+   "attempt": "Passive => permanent (-1)",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-01",
+   "result": "falsified on all (9 passives with a DurationEntry); holds on player (0)",
+   "rule": "AL-R-G-03"
+  },
+  {
+   "action": "capacity is dormant on the census; stack mutation only via scripts / SetAuraStack; kept as a carrier",
+   "attempt": "Passive => no stacks",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-02",
+   "result": "84 passives (all) / 7 (player) carry CumulativeAura>1; MODIFY_AURA_STACKS writers targeting a passive: 0; re-application cannot stack (multislot)",
+   "rule": "AL-R-G-08"
+  },
+  {
+   "action": "falsified; charges consumption removes the passive (no restoration)",
+   "attempt": "Passive => no charges",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-03",
+   "result": "5 passives (all) / 2 (player) have max charges > 0",
+   "rule": "AL-R-G-08"
+  },
+  {
+   "action": "falsified in Trinity; Retail semantics UNKNOWN (AL-U-G-01)",
+   "attempt": "Passive => present until unlearned",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-04",
+   "result": "172 (all) / 50 (player) passives carry AuraInterruptFlags; 6 passives are REMOVE_AURA targets",
+   "rule": "AL-R-G-09"
+  },
+  {
+   "action": "falsified; replaced by replace/coexist taxonomy (TL-G-01, TL-G-03)",
+   "attempt": "Passive re-application refreshes in place like an active",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-05",
+   "result": "IsMultiSlotAura true for every passive (SpellInfo.cpp:1805) -> no lookup",
+   "rule": "AL-R-G-02"
+  },
+  {
+   "action": "refined: effective_passive() adds the corrections",
+   "attempt": "IsPassive == DB2 ATTR0_PASSIVE",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-06",
+   "result": "56 providers passive only by Trinity correction (all), 0 player",
+   "rule": "AL-R-G-01"
+  },
+  {
+   "action": "kept inert (agrees with selected-package §12)",
+   "attempt": "Heart of the Crusader has per-aura proc state (ProcTypeMask 4)",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-07",
+   "result": "ProcEntryStore.lookup(406154) -> None: no trigger aura, generation bails",
+   "rule": "AL-R-G-08"
+  },
+  {
+   "action": "falsified; package lifecycle = immutable-by-DB2 passive owner + proc state + active child",
+   "attempt": "Pyrogenics is immutable (no SpellAuraOptions row)",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-08",
+   "result": "effective proc entry from spell_proc + spell_warl_pyrogenics OnEffectProc; the finite, re-applied state lives in child 387096",
+   "rule": "AL-R-G-08"
+  },
+  {
+   "action": "refined to AL-R-G-12",
+   "attempt": "Every learned spell with an aura effect is applied at learn",
+   "corpus": "passive-active.json",
+   "id": "AL-F-G-09",
+   "result": "non-passive auras apply only with ATTR1_CAST_WHEN_LEARNED / talent LEARN_SPELL / SKILL_STEP (Player.cpp:2912-2927)",
+   "rule": "AL-R-G-12"
+  },
+  {
+   "action": "rule AL-R-H-01 uses the loader normalisation",
+   "attempt": "read LoadSpellLinked and the consumer",
+   "corpus": "external-policy.json",
+   "id": "AL-F-H-01",
+   "result": "refuted: trigger<0 is rewritten to type SPELL_LINK_REMOVE (SpellMgr.cpp:2126-2133) and consumed only in the removal branch (SpellAuras.cpp:1419)",
+   "rule": "negative spell_linked_spell trigger = remove at apply time"
+  },
+  {
+   "action": "AL-R-H-04; refresh surface marked touched for them",
+   "attempt": "search registrations with AURA_EFFECT_HANDLE_REAPPLY and trace SetStackAmount -> ChangeAmount",
+   "corpus": "external-policy.json",
+   "id": "AL-F-H-02",
+   "result": "refuted: 91 bindings (all) carry REAPPLY and run on every refresh/stack change",
+   "rule": "script apply/remove hooks run only on real apply/remove"
+  },
+  {
+   "action": "specific_mods_blocks(); timeline AL-T-H-04",
+   "attempt": "block guards of Aura::HandleAuraSpecificMods under SetStackAmount(apply=false,onReapply=true)",
+   "corpus": "external-policy.json",
+   "id": "AL-F-H-03",
+   "result": "refuted: spell_area, family 'mods at aura remove' and CreatureAI::OnAuraRemoved run (AL-D-H-01)",
+   "rule": "a refresh never executes removal-side external code"
+  },
+  {
+   "action": "serverside providers listed separately; never counted in DB2 populations",
+   "attempt": "count serverside_spell aura providers absent from the DB2 snapshot",
+   "corpus": "external-policy.json",
+   "id": "AL-F-H-04",
+   "result": "refuted: 881 serverside aura spells exist only in the world DB (10 serverside rows collide with DB2 ids and are rejected by Trinity)",
+   "rule": "no DB2 aura provider => no aura"
+  },
+  {
+   "action": "AL-R-H-05; charges/stacks surfaces",
+   "attempt": "trace spell_proc Charges / AttributesMask into Aura",
+   "corpus": "external-policy.json",
+   "id": "AL-F-H-05",
+   "result": "refuted: Charges sets initial/max charges (CalcMaxCharges) and PROC_ATTR_USE_STACKS_FOR_CHARGES turns consumption into stack loss (ConsumeProcCharges)",
+   "rule": "spell_proc only affects proc eligibility, not aura lifetime"
+  },
+  {
+   "action": "AL-R-H-02",
+   "attempt": "AddAura path + removal path for LINK_AURA",
+   "corpus": "external-policy.json",
+   "id": "AL-F-H-06",
+   "result": "refuted: own duration, removal only cascades (AL-T-H-01)",
+   "rule": "a linked aura lives exactly as long as its parent"
+  },
+  {
+   "action": "only executing hooks count as touches",
+   "attempt": "GetAffectedEffectsMask against the 12.1 snapshot",
+   "corpus": "external-policy.json",
+   "id": "AL-F-H-07",
+   "result": "refuted: 246 hook bindings on providers have mask 0 or unresolvable tokens (build skew / script drift)",
+   "rule": "every AuraScript hook registered on a spell executes"
+  },
+  {
+   "action": "resolved locally; request to lead to fold into dummy_semantics",
+   "attempt": "inspect 'unresolved hook tokens' bindings",
+   "corpus": "external-policy.json",
+   "id": "AL-F-H-08",
+   "result": "refuted: two-argument absorb/split macros imply the aura type; 33 bindings resolved here (SpellScript.h:1744-1784)",
+   "rule": "Dummy-pass BindingMap resolves every aura hook registration"
+  },
+  {
+   "action": "refined to 'iff inserted after the already-advanced iterator (after the next aura)' (AL-R-I-03)",
+   "attempt": "probe scenario trigger-insert-before-next (A=100 ticks, creates B=200, no later neighbour)",
+   "corpus": "ordering.json",
+   "id": "AL-F-I-01",
+   "result": "B not decremented in that pass: m_auraUpdateIterator was already end()",
+   "rule": "an aura created during an owner's update pass is updated in that pass iff its SpellId sorts after the ticking aura"
+  },
+  {
+   "action": "rule discarded for the refreshing branch; kept only for the unique branch; same defect as AL-D-B-01 / AL-D-D-02 (independent probe confirmation)",
+   "attempt": "verbatim ModStackAmount/RefreshTimers/RefreshDuration + Spell.cpp:3260-3298 in the probe, refresh with 2000 ms of 10000 ms remaining",
+   "corpus": "ordering.json",
+   "id": "AL-F-I-02",
+   "result": "commit 13000 (=130%), not 12000: GetDuration() already returns the refreshed CalcMaxDuration",
+   "rule": "Trinity's ATTR13 commit is min(new + remaining, 130% new) (core-audit NUM-E-002 wording)"
+  },
+  {
+   "action": "refined to storage order (AL-R-I-03)",
+   "attempt": "death-higher-id-kills (killing tick on the higher SpellId)",
+   "corpus": "ordering.json",
+   "id": "AL-F-I-03",
+   "result": "the lower-SpellId aura ticked first",
+   "rule": "death at a timestamp cancels every other tick of that timestamp on the dead unit"
+  },
+  {
+   "action": "rule discarded; AL-R-I-01 kept",
+   "attempt": "tick-vs-expiry, catch-up-large-diff",
+   "corpus": "ordering.json",
+   "id": "AL-F-I-04",
+   "result": "the tick fires, then expiry removal",
+   "rule": "the tick due at the expiry millisecond is lost"
+  },
+  {
+   "action": "refined to AL-R-I-04",
+   "attempt": "session-creation-decrement vs late-owner-creation (same 1000 ms aura, diff 400)",
+   "corpus": "ordering.json",
+   "id": "AL-F-I-05",
+   "result": "effective spans 800 ms vs 1200 ms of world time after the creation tick",
+   "rule": "aura lifetime is its duration measured from the cast instant"
+  },
+  {
+   "action": "refined; same finding as AL-D-D-04 / AL-T-D-19 (confirmation)",
+   "attempt": "pandemic-tick-cap (base 10000, period 3000, phase 2500)",
+   "corpus": "ordering.json",
+   "id": "AL-F-I-06",
+   "result": "4 ticks delivered, 5 timer-due",
+   "rule": "after a phase-keeping refresh the tick count is floor((newMax + phase) / period)"
+  },
+  {
+   "action": "rule discarded; AL-R-I-09 kept",
+   "attempt": "remove-then-refresh-same-tick",
+   "corpus": "generation.json",
+   "id": "AL-F-I-07",
+   "result": "refresh misses; Create builds generation 2",
+   "rule": "a removed-but-not-yet-deleted aura can be found and refreshed in the same tick"
+  },
+  {
+   "action": "rule refined with one exception (AL-D-I-02)",
+   "attempt": "header member scan (generation.scan_holders) + reading each invalidation path",
+   "corpus": "generation.json",
+   "id": "AL-F-I-08",
+   "result": "AreaTrigger::_aurEff is not cleared when the caster is unreachable at removal",
+   "rule": "every class member holding Aura*/AuraEffect*/AuraApplication* is invalidated before delete"
+  },
+  {
+   "action": "kept for player population only; all-population counterexamples recorded",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: every provider effect whose subtype is in AuraEffect::CalculatePeriodic's list authors EffectAuraPeriod > 0",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-01",
+   "result": {
+    "all": 140,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "rule": "AL-R-J-01"
+  },
+  {
+   "action": "kept for player population only; all-population counterexamples recorded",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: no provider effect outside the periodic list authors EffectAuraPeriod > 0",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-02",
+   "result": {
+    "all": 846,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "rule": "AL-R-J-02"
+  },
+  {
+   "action": "kept for player population only; all-population counterexamples recorded",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: a SPELL_ATTR0_PASSIVE provider has a permanent duration (explicit -1 or no DurationEntry)",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-03",
+   "result": {
+    "all": 9,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "rule": "AL-R-J-03"
+  },
+  {
+   "action": "discarded; counterexamples in the player population",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: SpellAuraOptions.ProcCharges > 0 implies a nonzero ProcTypeMask",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-04",
+   "result": {
+    "all": 35,
+    "controlled": 0,
+    "player": 1,
+    "player+class-skills": 1
+   },
+   "rule": "AL-R-J-04"
+  },
+  {
+   "action": "discarded; counterexamples in the player population",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: SPELL_ATTR3_DOT_STACKING_RULE only occurs on providers with a periodic-class effect",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-05",
+   "result": {
+    "all": 391,
+    "controlled": 2,
+    "player": 15,
+    "player+class-skills": 16
+   },
+   "rule": "AL-R-J-05"
+  },
+  {
+   "action": "discarded; counterexamples in the player population",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION only occurs on providers with a periodic-class effect",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-06",
+   "result": {
+    "all": 162,
+    "controlled": 0,
+    "player": 9,
+    "player+class-skills": 11
+   },
+   "rule": "AL-R-J-06"
+  },
+  {
+   "action": "discarded; counterexamples in the player population",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: SPELL_ATTR10_ROLLING_PERIODIC only occurs on providers with a periodic-class effect",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-07",
+   "result": {
+    "all": 12,
+    "controlled": 0,
+    "player": 1,
+    "player+class-skills": 1
+   },
+   "rule": "AL-R-J-07"
+  },
+  {
+   "action": "discarded; counterexamples in the player population",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: SPELL_ATTR5_SPELL_HASTE_AFFECTS_PERIODIC / ATTR8_MELEE_HASTE_AFFECTS_PERIODIC only on providers with a periodic-class effect",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-08",
+   "result": {
+    "all": 63,
+    "controlled": 0,
+    "player": 2,
+    "player+class-skills": 3
+   },
+   "rule": "AL-R-J-08"
+  },
+  {
+   "action": "discarded; counterexamples in the player population",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: SPELL_ATTR5_EXTRA_INITIAL_PERIOD only on providers with a periodic-class effect",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-09",
+   "result": {
+    "all": 1147,
+    "controlled": 0,
+    "player": 5,
+    "player+class-skills": 5
+   },
+   "rule": "AL-R-J-09"
+  },
+  {
+   "action": "kept for player population only; all-population counterexamples recorded",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: a channelled provider (IsChanneled) has a finite duration family",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-10",
+   "result": {
+    "all": 7288,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "rule": "AL-R-J-10"
+  },
+  {
+   "action": "discarded; counterexamples in the player population",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: a provider with CumulativeAura > 1 is not passive",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-11",
+   "result": {
+    "all": 84,
+    "controlled": 0,
+    "player": 7,
+    "player+class-skills": 7
+   },
+   "rule": "AL-R-J-11"
+  },
+  {
+   "action": "kept for player population only; all-population counterexamples recorded",
+   "attempt": "search every provider spell (all/player/controlled) for a counterexample to: SPELL_ATTR8_HASTE_AFFECTS_DURATION only on finite-duration providers",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-12",
+   "result": {
+    "all": 6,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "rule": "AL-R-J-12"
+  },
+  {
+   "action": "grouping by name rejected; signatures are the grouping key",
+   "attempt": "group player providers by spell name and check whether one name maps to one full lifecycle signature",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-13",
+   "result": "469 of 3524 player names map to >1 full signature",
+   "rule": "group-by-name"
+  },
+  {
+   "action": "kept",
+   "attempt": "recompute signature ids from shuffled record order and from a round-tripped JSON signature (tests/test_al_j_signatures.py)",
+   "corpus": "provider-census.json",
+   "id": "AL-F-J-14",
+   "result": "ids identical (derived from canonical tuple only)",
+   "rule": "signature-id-stability"
+  },
+  {
+   "action": "recorded in AL-K-K-10",
+   "attempt": "read projected_expiry for all four policies",
+   "corpus": "core-navigation.json",
+   "id": "AL-F-K-01",
+   "result": "falsified for RestartLifetime: the max with the old deadline is taken only for CappedCarryover / IndependentStackDeadlines (aura_state.rs:1188-1199)",
+   "rule": "Core never shortens an active aura's deadline on reapplication"
+  },
+  {
+   "action": "AL-K-K-26",
+   "attempt": "enumerate CombatObservation aura variants",
+   "corpus": "core-navigation.json",
+   "id": "AL-F-K-02",
+   "result": "falsified: only Removed / AuraExpired / AuraStacksExpired (event.rs:68-76,463-480)",
+   "rule": "Core distinguishes remove reasons"
+  },
+  {
+   "action": "AL-K-K-25",
+   "attempt": "trace execute_expiry_drivers callers",
+   "corpus": "core-navigation.json",
+   "id": "AL-F-K-03",
+   "result": "falsified: only natural aggregate expiry (state.rs:1394); independent-stack expiry and explicit removal never run them",
+   "rule": "expiry drivers run on every removal"
+  },
+  {
+   "action": "AL-K-K-28",
+   "attempt": "read dispel admission",
+   "corpus": "core-navigation.json",
+   "id": "AL-F-K-04",
+   "result": "unreachable: dispellable auras must have max_stacks 1 (program/dispel.rs:238-243); whole aura removed",
+   "rule": "Core dispel removes one stack per dispel"
+  },
+  {
+   "action": "AL-K-K-21",
+   "attempt": "enumerate snapshot inputs",
+   "corpus": "core-navigation.json",
+   "id": "AL-F-K-05",
+   "result": "falsified: the only mode is FreshAtTick (periodic_health.rs:62-65, input.rs:1105-1107)",
+   "rule": "periodic amounts are snapshotted at application"
+  },
+  {
+   "action": "AL-K-K-27",
+   "attempt": "re-run e_death_lifecycle / h_death_lifecycle probes at the pin",
+   "corpus": "core-navigation.json",
+   "id": "AL-F-K-06",
+   "result": "falsified: 9/9 probes pass asserting the aura survives on the corpse; only the periodic cell is cancelled at a due tick",
+   "rule": "recipient death removes or suspends the aura"
+  },
+  {
+   "action": "AL-K-K-11 reopen condition (B owns the Trinity verdict)",
+   "attempt": "timeline D=250: apply 0, refresh at 225 (remaining 25) under core_projected_expiry vs the pinned Spell.cpp:3284-3288 expression as described by track B",
+   "corpus": "core-navigation.json",
+   "id": "AL-F-K-07",
+   "result": "diverges: Core 500, pinned Trinity 550 (carry always the 30% cap); equal at refresh 150 (475), which is why e_capped_carryover cannot see it",
+   "rule": "Core's capped carryover equals pinned Trinity's pandemic arithmetic"
+  },
+  {
+   "action": "AL-K-K-14",
+   "attempt": "search GameData for SpellDuration values",
+   "corpus": "core-navigation.json",
+   "id": "AL-F-K-08",
+   "result": "falsified: only a presence bit per spell (game_data.rs:363-385)",
+   "rule": "Core validates aura duration against SpellDuration"
+  },
+  {
+   "action": "kept as experiment AL-X-L-01",
+   "attempt": "re-queried Struct_AuraData and UNIT_AURA pages for a verbatim statement (a first summary had claimed 'persists across refresh')",
+   "corpus": "retail-experiments.json",
+   "id": "AL-F-L-01",
+   "result": "neither page states it",
+   "rule": "auraInstanceID persistence across refresh is documented"
+  },
+  {
+   "action": "rule discarded; client-side allocation (AL-U-L-01)",
+   "attempt": "compared the captured ids (SRC-L-14: 2079, 2162, 2163) with Trinity MAX_AURAS 300 (SpellAuraDefines.h:22)",
+   "corpus": "retail-experiments.json",
+   "id": "AL-F-L-02",
+   "result": "ids exceed the slot range",
+   "rule": "auraInstanceID is the server aura slot"
+  },
+  {
+   "action": "channel OBS-ADDON-CLEU provides nothing; WoWCombatLog.txt used instead",
+   "attempt": "CombatLogDocumentation.lua:132 HasRestrictions; wiki: registration forbidden since 12.0.0",
+   "corpus": "retail-experiments.json",
+   "id": "AL-F-L-03",
+   "result": "refuted",
+   "rule": "addons can use CLEU out of combat"
+  },
+  {
+   "action": "dropped the planned experiment",
+   "attempt": "read BuildUpdatePacket: Applications = IsUsingStacks ? stacks : charges (SpellAuras.cpp:261, :1078)",
+   "corpus": "retail-experiments.json",
+   "id": "AL-F-L-04",
+   "result": "Trinity also sends 0 (no stacks, no charges)",
+   "rule": "applications=0 for a non-stacking aura is a Retail-vs-Trinity divergence"
+  },
+  {
+   "action": "DoT experiments graded via the combat log",
+   "attempt": "SecretWhenUnitAuraRestricted covers Combat (SRC-L-06)",
+   "corpus": "retail-experiments.json",
+   "id": "AL-F-L-05",
+   "result": "refuted unless the spell is NeverSecret",
+   "rule": "DoT experiments on a training dummy can read AuraData"
+  }
+ ],
+ "track_rules": [
+  {
+   "corpus": "identity.json",
+   "counterexamples": [],
+   "definition": "A new unit-owned application refreshes an existing aura iff the target owns a non-multislot aura with the same SpellId, the same caster unless IsStackableOnOneSlotWithDifferentCasters, the same cast item only with CU_ENCHANT_PROC, and an identical aura effect mask. Difficulty, CastId, effect index and triggering spell are never keys.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-A-01",
+   "name": "refresh lookup key",
+   "population": {
+    "count": 189138,
+    "name": "all providers with unit-owned aura effects"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "identity.json",
+   "counterexamples": [],
+   "definition": "StackAmount>1, not channeled, no ATTR3_DOT_STACKING_RULE -> all casters refresh/stack ONE object whose caster GUID stays the first applier while every effect's base points become the LATEST applier's (Unit.cpp:3409-3419; += under AuraPointsStack): amount = latest applier's base points x first caster's live bonuses; cast item also overwritten (3420-3429)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-A-02",
+   "name": "one shared object across casters",
+   "population": {
+    "all": 10638,
+    "count": 91,
+    "name": "player providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "identity.json",
+   "counterexamples": [],
+   "definition": "IsPassive (or ids 55849/40075/44413) -> every application constructs a new object; same caster + same id + no cast item replaces the old one (SpellAuras.cpp:1651-1652), otherwise coexists (1760-1761) unless IsPassiveStackableWithRanks skips no-stack removal. With a cast item (item-sourced passives) 1651 is skipped and the same caster's copies COEXIST",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-03",
+   "name": "multislot never refreshes",
+   "population": {
+    "count": 3453,
+    "item_sourced_candidates": 118,
+    "name": "player providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "identity.json",
+   "counterexamples": [],
+   "definition": "for per-caster target-held (non-area) spells a second caster's application coexists iff CanStackWith(new, existing) is true; the deciding line distribution is in counts.*.other_caster_why",
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "id": "AL-R-A-04",
+   "name": "cross-caster outcome is decided by CanStackWith",
+   "population": {
+    "count": 4105,
+    "name": "player providers without area-aura effects (per-caster + multislot)"
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "identity.json",
+   "counterexamples": [],
+   "definition": "PERSISTENT_AREA_AURA builds a new DynamicObject + DynObjAura per cast (no refresh); on a recipient, same caster + same spell replaces the older application, different casters coexist",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-05",
+   "name": "dynamic-object auras are per cast",
+   "population": {
+    "all": 921,
+    "count": 2,
+    "name": "player dynobj providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "identity.json",
+   "counterexamples": [],
+   "definition": "an aura never removes an aura whose spell triggers it or which it triggers (EffectTriggerSpell), checked before groups and SpellSpecific",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-06",
+   "name": "triggering link exempts from no-stack",
+   "population": {
+    "count": null,
+    "name": "rule over all pairs"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "application.json",
+   "counterexamples": [],
+   "definition": "For one target the aura object is created (or refreshed) at the first unit-owned aura effect in effect-index order, carrying AuraEffects for all unit-owned aura effects; its effects become active (m_modAuras, handlers, OnEffectApply) only in DoDamageAndTriggers after the same spell's heal, damage and HIT-phase procs",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-07",
+   "name": "object at first aura effect, effects applied after the hit",
+   "population": {
+    "count": 4218,
+    "name": "player providers with unit-owned aura effects"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "application.json",
+   "counterexamples": [],
+   "definition": "direct damage/heal of a spell is computed at its effect index with the target's then-active auras and dealt before the spell's own aura is applied, regardless of index order",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-08",
+   "name": "same-cast damage never sees its own debuff",
+   "population": {
+    "count": 1,
+    "name": "player spells with damage and a damage-taken modifier aura"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "application.json",
+   "counterexamples": [],
+   "definition": "a new aura starts with SpellValue AuraStackAmount (1 + Doses mods, or a script override), never CumulativeAura; creation does not clamp",
+   "evidence": [
+    "trinity-consumer",
+    "script-consumer"
+   ],
+   "id": "AL-R-A-09",
+   "name": "initial stacks are not capacity",
+   "population": {
+    "count": 111,
+    "name": "player providers with StackAmount>1"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "application.json",
+   "counterexamples": [],
+   "definition": "APPLY_AREA_AURA_* effects have no hit handler; the owner object exists at hit and every application (owner included) is created by the first UpdateTargetMap in the owner's next Aura::UpdateOwner, after that tick's duration decrement",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-10",
+   "name": "area auras apply one owner update after the hit",
+   "population": {
+    "count": 5,
+    "name": "player area-aura-only providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "identity.json",
+   "counterexamples": [],
+   "definition": "an area aura is owned by its caster; a second owner's copy is admitted to a recipient only if CanStackWith holds against every applied aura (SpellAuras.cpp:732-745), otherwise it is not added and nothing is removed. On the second owner itself _ApplyAura removes the first owner's application (Unit.cpp:3714-3731) unless IsPassiveStackableWithRanks (coexist). Order dependent.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-A-11",
+   "name": "area auras from a second owner are blocked, never replaced, on recipients",
+   "population": {
+    "all": 1363,
+    "count": 22,
+    "name": "player providers with area-aura effects",
+    "on_owner": {
+     "coexist": 10,
+     "replace": 12
+    },
+    "outcomes": {
+     "area:blocked": 17,
+     "area:coexist": 5
+    }
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "identity.json",
+   "counterexamples": [],
+   "definition": "a multislot passive applied with a cast item skips the same-caster replace (SpellAuras.cpp:1651) and coexists (1760-1761); player spells reachable only through gear/set/gem/enchant roots are evaluated this way (upper bound: cast-item propagation per route unproven)",
+   "evidence": [
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-R-A-12",
+   "name": "item-sourced passives coexist for the same caster",
+   "population": {
+    "count": 64,
+    "item_sourced_player_spells": 118,
+    "name": "player item-sourced passive candidates"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellInfo.cpp:1364",
+    "SpellInfo.cpp:3986-3998",
+    "SpellAuras.cpp:910-935"
+   ],
+   "corpus": "duration.json",
+   "counterexamples": [
+    "101822 (record 427 = -600000/600000 -> 600000 ms, not permanent)"
+   ],
+   "definition": "Aura max duration starts from SpellMisc.DurationIndex -> SpellDuration.Duration; exactly -1 is permanent, any other negative is abs()'d; no DurationIndex -> -1 if Passive else 0.",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-01",
+   "name": "authored duration source",
+   "population": {
+    "count": 189140,
+    "families": {
+     "fixed": 89488,
+     "negative-non-sentinel": 1,
+     "no-duration-index-active": 13,
+     "no-duration-index-passive": 16167,
+     "no-misc-row": 2,
+     "permanent-sentinel": 83399,
+     "ranged-per-resource": 30,
+     "zero": 40
+    },
+    "name": "all providers"
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "coords": [
+    "Object.cpp:1707-1725",
+    "Spell.cpp:3998-4000"
+   ],
+   "corpus": "duration.json",
+   "counterexamples": [
+    "32645 Envenom (0..5000 +1000/CP) -> always 0 in Trinity",
+    "51690 Killing Spree (0..3500 +500/CP, channel) -> handle_immediate never channels"
+   ],
+   "definition": "WorldObject::CalcSpellDuration returns the minimum unless the cast consumed POWER_COMBO_POINTS; then min(min + DurationPerResource*CP, max).  A minimum <= 0 returns early, so the resource increment never applies.",
+   "evidence": [
+    "trinity-consumer",
+    "db2-fact"
+   ],
+   "id": "AL-R-B-02",
+   "name": "per-resource duration = combo points only, and only when minimum > 0",
+   "population": {
+    "count": 30,
+    "minimum_le_zero": {
+     "all": [
+      32645,
+      33463,
+      51690,
+      57143,
+      203123,
+      203126,
+      1242505
+     ],
+     "controlled": [],
+     "player": [
+      32645,
+      51690
+     ]
+    },
+    "name": "providers with Duration != MaxDuration and DurationPerResource != 0",
+    "player": 5
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Spell.cpp:888-896",
+    "Object.cpp:2621",
+    "SpellInfo.cpp:1364"
+   ],
+   "corpus": "duration.json",
+   "counterexamples": [],
+   "definition": "SpellMisc.MinDuration feeds missile travel time only; PvPDurationIndex has no Trinity consumer.",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-B-03",
+   "name": "MinDuration is not an aura floor; PvPDurationIndex is unconsumed",
+   "population": {
+    "count": {
+     "all": 391,
+     "controlled": 8,
+     "player": 37
+    },
+    "name": "providers with nonzero PvPDurationIndex"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Unit.cpp:3386-3446",
+    "SpellAuras.cpp:1093-1124",
+    "SpellInfo.cpp:1803-1812"
+   ],
+   "corpus": "refresh.json",
+   "counterexamples": [
+    "effect-mask mismatch recreates (Unit.cpp:3406-3407) -- runtime, not census-visible",
+    "stack decrease (num<0) never refreshes (track C)"
+   ],
+   "definition": "Same-caster reapplication in Trinity takes exactly one branch: new-object (Passive or 3 hardcoded ids: never found), stack-and-refresh (StackAmount>0), unique-no-timer-refresh (StackAmount==0 and ATTR1_AURA_UNIQUE|ATTR5_AURA_UNIQUE_PER_CASTER), refresh (otherwise).",
+   "evidence": [
+    "trinity-consumer",
+    "db2-fact"
+   ],
+   "id": "AL-R-B-04",
+   "name": "reapplication branch is decided by (multislot, StackAmount, unique attrs)",
+   "population": {
+    "counts": {
+     "all": {
+      "new-object": 16814,
+      "refresh": 133312,
+      "self-channel-cancel-then-create": 19276,
+      "stack-and-refresh": 14119,
+      "unique-no-timer-refresh": 5619
+     },
+     "controlled": {
+      "new-object": 45,
+      "refresh": 83,
+      "self-channel-cancel-then-create": 11,
+      "stack-and-refresh": 2
+     },
+     "player": {
+      "new-object": 3453,
+      "refresh": 576,
+      "self-channel-cancel-then-create": 41,
+      "stack-and-refresh": 142,
+      "unique-no-timer-refresh": 6
+     }
+    },
+    "name": "provider spells"
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "coords": [
+    "Unit.cpp:3395-3407",
+    "SpellInfo.cpp:1803-1812"
+   ],
+   "corpus": "refresh.json",
+   "counterexamples": [],
+   "definition": "A second application of the same SpellId refreshes only when GetOwnedAura finds it: multislot auras always create a new Aura, non-shared-slot auras from another caster create their own Aura (coexist or replace: track A), effect-mask mismatch recreates.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-05",
+   "name": "same SpellId does not imply refresh",
+   "population": {
+    "counts": {
+     "all": 16814,
+     "controlled": 45,
+     "player": 3453
+    },
+    "name": "provider spells on the new-object branch"
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3240",
+    "SpellAuras.h:135",
+    "SpellAuras.cpp:976-990",
+    "SpellAuraEffects.cpp:949-959,961-1031"
+   ],
+   "corpus": "refresh.json",
+   "counterexamples": [
+    "unique-no-timer-refresh: timer and ticksDone untouched",
+    "non-Spell refreshes: StackAmount>=2 still resets (SpellAuras.h:135, ModStackAmount default)"
+   ],
+   "definition": "On a Spell-hit timer refresh the periodic phase is reset iff StackAmount<2 and not TRIGGERED_DONT_RESET_PERIODIC_TIMER and not ATTR13 (Spell.cpp:3240 is the only place that computes this); every non-Spell refresh (AddAura, effect 289, linked REAPPLY, steal, scripts) uses the default resetPeriodicTimer=true and restarts the phase whatever the StackAmount, ATTR13 still overriding (R1-05 / R2-04).  ticksDone is always reset; the period is recomputed from the live caster.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-B-06",
+   "name": "periodic timer on refresh (Spell hit path)",
+   "population": {
+    "counts": {
+     "all": {
+      "n/a": 36090,
+      "preserved (ATTR13)": 565,
+      "preserved (StackAmount>=2)": 10845,
+      "reset": 136021,
+      "untouched": 5619
+     },
+     "controlled": {
+      "n/a": 56,
+      "preserved (ATTR13)": 6,
+      "preserved (StackAmount>=2)": 2,
+      "reset": 77
+     },
+     "player": {
+      "n/a": 3494,
+      "preserved (ATTR13)": 52,
+      "preserved (StackAmount>=2)": 102,
+      "reset": 564,
+      "untouched": 6
+     }
+    },
+    "name": "provider spells by periodic-timer outcome"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3284-3288",
+    "Unit.cpp:3441",
+    "SpellAuras.cpp:1119-1121",
+    "SpellAuras.cpp:976-990"
+   ],
+   "corpus": "carryover.json",
+   "counterexamples": [
+    "ATTR13 + unique non-stacking (ATTR1_AURA_UNIQUE/ATTR5_AURA_UNIQUE_PER_CASTER, StackAmount 0): no RefreshTimers, the formula reads the live remaining (min(hit + r, 1.3*hit))",
+    "non-Spell refreshes (AL-R-B-14): no ATTR13 branch at all, duration = M",
+    "permanent/zero ATTR13 auras (player 111400, 196099): never reach the branch",
+    "self-channel recast: cancel-then-create (AL-R-B-15)"
+   ],
+   "definition": "Scope: Spell::DoSpellEffectHit, non-unique (a timer-refresh branch), positive hit duration (Spell.cpp:3268 gate), not the channelling caster's own recast.  The ATTR13 branch reads HitAura->GetDuration() after ModStackAmount->RefreshTimers already set it to M = CalcMaxDuration() (aura caster's SpellMod Duration, NO power costs).  New duration = min(hit + M, trunc(1.3*hit)); the carry is min(M, trunc(1.3*hit) - hit).  For combo-point records M is the minimum duration, so the carry equals the minimum: Rupture 5 CP = 24000 + 4000 = 28000 whatever the remaining.",
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-B-07",
+   "name": "pinned-Trinity pandemic = min(hit + M, trunc(hit*1.3f)), independent of remaining",
+   "population": {
+    "carry_axis": {
+     "all": {
+      "n/a (non-positive duration: Spell.cpp:3268 gate)": 69,
+      "none": 188560,
+      "pandemic-reads-live-remaining": 6,
+      "pandemic-reads-refreshed-duration": 505
+     },
+     "controlled": {
+      "n/a (non-positive duration: Spell.cpp:3268 gate)": 1,
+      "none": 135,
+      "pandemic-reads-refreshed-duration": 5
+     },
+     "player": {
+      "n/a (non-positive duration: Spell.cpp:3268 gate)": 2,
+      "none": 4166,
+      "pandemic-reads-refreshed-duration": 50
+     }
+    },
+    "counts": {
+     "all": {
+      "attr13_total": 699,
+      "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 69,
+      "carry:none": 119,
+      "carry:pandemic-reads-live-remaining": 6,
+      "carry:pandemic-reads-refreshed-duration": 505,
+      "channel": 115,
+      "finite": 621,
+      "new_object": 4,
+      "non_positive_duration": 78,
+      "unique_non_stacking": 15
+     },
+     "controlled": {
+      "attr13_total": 9,
+      "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 1,
+      "carry:none": 3,
+      "carry:pandemic-reads-refreshed-duration": 5,
+      "channel": 3,
+      "finite": 8,
+      "non_positive_duration": 1
+     },
+     "player": {
+      "attr13_total": 61,
+      "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 2,
+      "carry:none": 9,
+      "carry:pandemic-reads-refreshed-duration": 50,
+      "channel": 9,
+      "finite": 59,
+      "non_positive_duration": 2
+     }
+    },
+    "name": "ATTR13 providers split by entry/branch/finite/channel (carryover.json pandemic_population)"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:1114",
+    "Spell.cpp:3294-3298"
+   ],
+   "corpus": "refresh.json",
+   "counterexamples": [],
+   "definition": "ModStackAmount does not refresh timers; Spell.cpp then resets duration AND max to the hit duration only when hit != current max (e.g. haste/DR/combo points/mods changed); amounts are recalculated (SetStackAmount) in every case.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-B-08",
+   "name": "unique non-stacking reapplication keeps remaining unless the hit duration changed",
+   "population": {
+    "counts": {
+     "all": 5619,
+     "controlled": 0,
+     "player": 6
+    },
+    "name": "unique-no-timer-refresh providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3284-3288"
+   ],
+   "corpus": "carryover.json",
+   "counterexamples": [],
+   "definition": "The Spell.cpp ATTR13 branch has no periodic check; ATTR13 providers without any periodic aura effect still get the carry.",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-B-09",
+   "name": "ATTR13 is authored on non-periodic auras and Trinity applies it there too",
+   "population": {
+    "counts": {
+     "all": 161,
+     "controlled": 0,
+     "player": 9
+    },
+    "name": "ATTR13 providers with no nonzero aura period"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3268-3282"
+   ],
+   "corpus": "duration.json",
+   "counterexamples": [
+    "channels take ModSpellDurationTime instead (Spell.cpp:3269)"
+   ],
+   "definition": "duration = max over live effects of max(orig/period, 1)*period with the hastened period; with no period, int32(orig*ModCastingSpeed).  Haste never adds a partial period.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-B-10",
+   "name": "ATTR8 haste-affects-duration floors to whole hastened periods",
+   "population": {
+    "counts": {
+     "all": 302,
+     "controlled": 4,
+     "player": 37
+    },
+    "name": "ATTR8 providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:978",
+    "Spell.cpp:3294-3298"
+   ],
+   "corpus": "duration.json",
+   "counterexamples": [
+    "unique-no-timer-refresh keeps the old max when hit == max"
+   ],
+   "definition": "RefreshTimers sets m_maxDuration = CalcMaxDuration() (live caster mods, no power costs), then Spell.cpp overwrites max+current with the hit duration if they differ.  Current == max after any timer refresh; pandemic sets both to the extended value.",
+   "evidence": [
+    "trinity-probe"
+   ],
+   "id": "AL-R-B-11",
+   "name": "max duration is recalculated on every timer refresh",
+   "population": {
+    "counts": {
+     "all": 147431,
+     "controlled": 85,
+     "player": 718
+    },
+    "name": "timer-refresh providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellAuras.h:226",
+    "Unit.cpp:2984-2988",
+    "SpellInfo.cpp:3988-3989"
+   ],
+   "corpus": "duration.json",
+   "counterexamples": [],
+   "definition": "A 0 ms max duration (zero record, active spell without DurationIndex, per-resource min 0) creates an aura that IsExpired at the first _UpdateSpells sweep; 0 never means permanent.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-12",
+   "name": "zero duration",
+   "population": {
+    "counts": {
+     "all": 62,
+     "controlled": 0,
+     "player": 2
+    },
+    "name": "providers whose GetDuration()==0"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:829-840",
+    "SpellAuras.cpp:1117"
+   ],
+   "corpus": "carryover.json",
+   "counterexamples": [
+    "passive rolling (450867) is multislot: new object, permanent -> totalTicks 0 -> no roll"
+   ],
+   "definition": "ATTR10: on the refresh path CalculateAmount runs from SetStackAmount before RefreshTimers, adding old estimated(bonus-done) amount * (old total - ticksDone)/old total to the new base amount.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-13",
+   "name": "rolling periodic rolls the OLD effect's remaining estimate",
+   "population": {
+    "counts": {
+     "all": 192,
+     "controlled": 0,
+     "player": 8
+    },
+    "name": "ATTR10 providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Unit.cpp:12311-12314",
+    "Unit.cpp:4068-4069 (ModStackAmount then SetDuration(stolen)); 4083",
+    "Unit.cpp:12756, 12770",
+    "SpellEffects.cpp:6138",
+    "SpellAuraEffects.cpp:5358",
+    "src/server/scripts (track H census)"
+   ],
+   "corpus": "carryover.json",
+   "counterexamples": [
+    "negative stack delta (289 / linked REAPPLY) does not refresh"
+   ],
+   "definition": "Refresh entry points other than Spell::DoSpellEffectHit run ModStackAmount(+n) -> RefreshTimers (phase reset unless ATTR13) but never reach the Spell.cpp:3262-3298 commit: no ATTR13 carry, no ModSpellDuration/haste alignment, duration = max = M (steal then SetDuration(stolen)).",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-14",
+   "name": "non-Spell refreshes have no pandemic carry and end at M",
+   "population": {
+    "name": "entry points",
+    "paths": [
+     "Unit::AddAura Unit.cpp:12311-12314",
+     "aura steal onto an existing aura Unit.cpp:4068-4069 (ModStackAmount then SetDuration(stolen)); 4083",
+     "vehicle/spellclick aura Unit.cpp:12756, 12770",
+     "SPELL_EFFECT_MODIFY_AURA_STACKS (289) MiscValue 0 SpellEffects.cpp:6138",
+     "HandleAuraLinked REAPPLY SpellAuraEffects.cpp:5358",
+     "script ModStackAmount(+n) / RefreshDuration src/server/scripts (track H census)"
+    ]
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3587-3598",
+    "Unit.cpp:3113-3117",
+    "Spell.cpp:3636-3647",
+    "SpellInfo.cpp:1808-1812"
+   ],
+   "corpus": "refresh.json",
+   "counterexamples": [],
+   "definition": "A channeled cast always registers as CURRENT_CHANNELED_SPELL (Spell.cpp:3587-3598, never willCastDirectly), which interrupts the running channel (Unit.cpp:3113-3117); Spell::cancel in SPELL_STATE_CHANNELING removes the channel's auras on its hit targets with AURA_REMOVE_BY_CANCEL (Spell.cpp:3636-3647) before the new hit, so the new hit creates a new aura (triggered self-channels included).  Channels are never shared-slot (SpellInfo.cpp:1808-1812), so other casters own separate auras.  A channel aura can still be found/refreshed by non-Spell paths (AL-R-B-14) or when the aura outlived its channel / sits on a target outside the cancelled spell's target list.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-15",
+   "name": "the channelling caster's recast is cancel-then-create",
+   "population": {
+    "attr13_channels": {
+     "all": 115,
+     "controlled": 3,
+     "player": 9
+    },
+    "counts": {
+     "all": 19276,
+     "controlled": 11,
+     "player": 41
+    },
+    "name": "channel providers split out of the refresh census"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "Phalanx 1269312 (capacity 2, initial 1) kills 'initial = capacity'",
+    "Sweeping Strikes 260708 + Improved Sweeping Strikes (Doses +6 -> 7) kills 'initial = 1'",
+    "39 SPELLVALUE_AURA_STACK script sites (Evangelism 472433, Whirlwind 85739 via ApplyWhirlwindCleaveAura)"
+   ],
+   "definition": "A newly constructed aura holds uint8(max(1, AuraStackAmount)) stacks, where AuraStackAmount is 1, modified by the caster's Doses spell mods at Spell construction and replaced by a SPELLVALUE_AURA_STACK override; SpellAuraOptions.CumulativeAura is never read on this path",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-C-01",
+   "name": "initial-stacks-from-create-info",
+   "population": "all providers with a SpellInfo (189,138)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "old Stormkeeper 320137/350247/383009: capacity 0 + Doses +1 -> created with 2 stacks",
+    "MODIFY_AURA_STACKS Set rows (21) bypass the cap",
+    "capacity > 255 wraps (158 spells)",
+    "Therazane's Resilience: max -90 -> 166 stacks"
+   ],
+   "definition": "CalcMaxStackAmount (CumulativeAura, then MaxAuraStacks mods) caps ModStackAmount only when num > 0; a zero-capacity aura is pinned to 1; construction, SetStackAmount and decreases are uncapped",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-C-02",
+   "name": "capacity-caps-only-increases",
+   "population": "all providers",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "multislot families 16,814 (player 3,453) never stack by reapplication",
+    "Doses-modified casts add 1+Doses per reapply"
+   ],
+   "definition": "A reapplication that reaches the refresh branch calls ModStackAmount(createInfo.StackAmount) -- the same Doses/override-modified amount as a fresh aura, not +1; multi-slot (every passive) and effect-mask mismatches never reach it",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-03",
+   "name": "reapply-adds-create-info-stack-amount",
+   "population": "non-multislot providers (172,324 all)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "Doom 460553 (unique, capacity 0): reapply does not refresh",
+    "Stormkeeper 320137 after Doses: reapply lowers 2 -> 1 and does not refresh",
+    "HandleAuraLinked diff 0 -> ModStackAmount(0) refreshes the child"
+   ],
+   "definition": "ModStackAmount refreshes (RefreshTimers + charges reset) iff the new count >= the old count and (capacity != 0 or neither ATTR1_AURA_UNIQUE nor ATTR5_AURA_UNIQUE_PER_CASTER); num == 0 refreshes",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-C-04",
+   "name": "refresh-gate",
+   "population": "all providers; unique no-refresh family 6,331 (player 6); unique ignored at capacity>0 (see corpus)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "capacity 1 vs 2 differ: cap1-refresh 3,363 reset, stacking families keep"
+   ],
+   "definition": "A spell hit passes ResetPeriodicTimer = (capacity < 2) && !TRIGGERED_DONT_RESET_PERIODIC_TIMER; ATTR13 pandemic forces false inside RefreshTimers",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-05",
+   "name": "periodic-reset-on-stack-hit",
+   "population": "capacity >= 2 non-multislot providers keep the periodic timer on reapply: 11,074 all",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "SCHOOL_ABSORB / CC / MOD_* all scale -- no aura-type whitelist exists",
+    "Earth Shield 974: every effect SuppressPointsStacking"
+   ],
+   "definition": "AuraEffect::CalculateAmount multiplies every aura type's amount by the stack count unless the effect has SuppressPointsStacking (after the script CalcAmount hook, before rounding/clamp); periodic ticks also multiply the coefficient bonus by the live stack count",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-C-06",
+   "name": "amount-scales-by-stacks",
+   "population": "provider aura effects (see effect_attributes)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "AURA_UNIQUE no-refresh reapply still recalculates amounts",
+    "removal-side handler code runs on every SetStackAmount: track H AL-D-H-01"
+   ],
+   "definition": "Every SetStackAmount (hence every non-removing ModStackAmount) re-runs HandleAuraSpecificMods and ChangeAmount(CalculateAmount, mark=false, onStackOrReapply=true) on every effect -- a REAPPLY handler pass even when the amount is unchanged, ignoring m_canBeRecalculated",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-07",
+   "name": "stack-change-recalculates",
+   "population": "all providers",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [],
+   "definition": "On a refresh-branch hit, effects with AuraPointsStack add the new base points to the old m_baseAmount; others replace it; then the stack multiplication applies",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-08",
+   "name": "aura-points-stack-accumulates-base",
+   "population": "provider aura effects with AuraPointsStack (see effect_attributes)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "stacking-per-caster 433 (DOT_STACKING_RULE / channeled)"
+   ],
+   "definition": "Capacity >= 2, not channeled, no ATTR3_DOT_STACKING_RULE: the refresh branch looks the aura up with an empty caster GUID, so applications from any caster stack into the first caster's Aura",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-09",
+   "name": "shared-slot-across-casters",
+   "population": "stacking-shared-across-casters 10,641 all / 91 player",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "2 MODIFY_AURA_STACKS Set-0 rows (451986 -> Stability 451179, 1255694 -> Scales 1253046)"
+   ],
+   "definition": "ModStackAmount to <= 0 removes with the caller's remove mode; SetStackAmount(0) never removes (a live zero-stack aura with amount 0)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-10",
+   "name": "stacks-zero-removal",
+   "population": "all providers",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "CumulativeAura 0 vs 1 differ observably (cap1-refresh 3,363)"
+   ],
+   "definition": "The aura's single displayed count is stacks when IsUsingStacks (capacity > 0 or stacks > 1) else charges",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-C-11",
+   "name": "client-applications-field",
+   "population": "all providers",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "stacks.json",
+   "counterexamples": [
+    "Unstable Affliction 1259790, Frenzy 335082, Between the Eyes 315341 (player)"
+   ],
+   "definition": "SpellMisc Attributes_15 bit 0x400 (Trinity SPELL_ATTR15_UNK10; simc SX_ASYNCHRONOUS_STACKING_AURA) has no Trinity consumer: flagged auras keep one shared duration for all stacks, where simc expires stacks individually",
+   "evidence": [
+    "db2-fact",
+    "simc-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-C-12",
+   "name": "async-stacking-attribute-ignored",
+   "population": "70 providers / 6 player",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "charges.json",
+   "counterexamples": [
+    "spell_proc Charges 0 does not disable charges (SpellMgr.cpp:1576)"
+   ],
+   "definition": "m_procCharges = uint8(CalcMaxCharges) at construction: spell_proc Charges (a 0 row falls back to DB2 ProcCharges at load) else DB2 ProcCharges, then ProcCharges spell mods; m_isUsingCharges = charges != 0",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-C-21",
+   "name": "initial-charges",
+   "population": "all providers",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "charges.json",
+   "counterexamples": [
+    "Stormkeeper 191634: charges consumed by its script only"
+   ],
+   "definition": "Only an aura with a SpellProcEntry can lose charges to procs (PrepareProcChargeDrop, then removal at 0 in ConsumeProcCharges); spell-mod charge auras are dropped through the same proc path",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-C-22",
+   "name": "proc-drop-needs-entry",
+   "population": "charges-without-proc-entry 398 all / 28 player never drop by the default proc path",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "charges.json",
+   "counterexamples": [
+    "12 of them also have charges > 0: dormant charges still gate procs (IsUsingCharges && !GetCharges)"
+   ],
+   "definition": "PROC_ATTR_USE_STACKS_FOR_CHARGES (spell_proc) turns proc consumption into ModStackAmount(-1) and leaves m_procCharges untouched",
+   "evidence": [
+    "world-db-fact",
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-23",
+   "name": "use-stacks-for-charges",
+   "population": "34 all / 11 player",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "charges.json",
+   "counterexamples": [
+    "AURA_UNIQUE capacity-0 auras keep spent charges"
+   ],
+   "definition": "Every refreshing ModStackAmount resets charges to the live CalcMaxCharges; non-refreshing reapplications keep them",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-24",
+   "name": "charges-reset-on-refresh",
+   "population": "all providers with charges (1,355 all)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "charges.json",
+   "counterexamples": [
+    "ATTR7_DISPEL_REMOVES_CHARGES auras without charges are never offered to dispel"
+   ],
+   "definition": "ModCharges is a no-op unless IsUsingCharges; it caps only increases and removes at <= 0",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-25",
+   "name": "mod-charges-inert-without-charges",
+   "population": "all providers",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "charges.json",
+   "counterexamples": [
+    "Wall of Steel 203261: Intervene 147833 0 -> 2 charges",
+    "Arcane Dream 353360: Presence of Mind 205025 2 -> 0 (no charges) and 198154 0 -> uint32(-2) (UB) -> 254"
+   ],
+   "definition": "Whether an aura uses charges is decided by the live CalcMaxCharges at construction (and each refresh), so ProcCharges spell mods can create charges on a DB2 charge-less aura or erase them",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-R-C-26",
+   "name": "charges-exist-by-live-mods",
+   "population": "11 ProcCharges modifier rows (see proc_charge_modifiers)",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [
+    "aura 70 PERIODIC_WEAPON_PERCENT_DAMAGE: dispatched by PeriodicTick but never periodic (853 effects all-pop, 0 player) -> AL-D-D-01",
+    "periodic type with period 0: 152 effects all-pop"
+   ],
+   "definition": "An aura effect ticks in Trinity iff its aura type is one of the 14 CalculatePeriodic types (SpellAuraEffects.cpp:966-981) and the (hasted) period is nonzero; a DoEffectCalcPeriodic script may override.",
+   "evidence": [
+    "trinity-consumer",
+    "db2-fact"
+   ],
+   "id": "AL-R-D-01",
+   "name": "periodic-set",
+   "population": {
+    "all": 40304,
+    "player": 257,
+    "unit": "provider effects"
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [
+    "engine: none; SCRIPTS recompute with live haste: Arcane Tempest spell_item.cpp:4733-4734 (ModStackAmount(1, NONE, false) + CalculatePeriodic per stack), zone_zuldrak.cpp:720, stratholme.cpp:382, shadowfang_keep.cpp:39; DoEffectCalcPeriodic hooks re-run at every CalculatePeriodic (R2-08)",
+    "simc hasted_ticks reschedules on haste change (dot.cpp:1000-1010); Core recomputes after every occurrence (AL-K-D-03)"
+   ],
+   "definition": "period = int32(float(ApplyAuraPeriod) * ModCastingSpeed) for raw 173, * ModHaste for raw 278, via ModSpellDurationTime (cast speed, only if raw 173/278 present) for channels; computed only in CalculatePeriodic (creation, RefreshTimers, DB load) -> application-snapshot + recalculated-on-refresh.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-D-02",
+   "name": "period-haste-snapshot",
+   "population": {
+    "player": {
+     "channel-cast-speed": 28,
+     "channel-unhasted": 4,
+     "none": 168,
+     "spell-haste": 57
+    },
+    "unit": "periodic provider effects"
+   },
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [
+    "simc models a partial last tick (dot.cpp:660-699); Core 'proportional terminal-partial occurrences' (AL-K-D-03)",
+    "AL-T-D-19: budget counted from 0 while the phase is carried",
+    "the budget is re-read from MaxDuration at EVERY AuraEffect::Update (SpellAuraEffects.cpp:1255) and is not tied to Duration: script SetDuration-only extensions tick silently (AL-T-D-24, AL-D-D-05); SetMaxDuration below the elapsed ticks stops all ticking (AL-T-D-25, AL-D-D-06) (R2-05)",
+    "the budget is not the only early stop: a periodic-trigger tick whose triggered cast fails CheckCast sets the aura duration to 0 -> EXPIRE in the same owner update (Spell.cpp:3503-3507, R2-10; Track E)"
+   ],
+   "definition": "GetTotalTicks = MaxDuration / period (+1 with raw 169), 0 when permanent; AuraEffect::Update stops at the budget; no partial final occurrence; the tail MaxDuration % period is uncovered.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-D-03",
+   "name": "tick-budget",
+   "population": {
+    "shorter_than_period_no_tick": {
+     "all": 48
+    },
+    "uncovered_tail": {
+     "all": 1392,
+     "player": 5
+    },
+    "unit": "periodic provider effects with authored duration"
+   },
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [],
+   "definition": "An occurrence due in the owner update in which duration reaches 0 fires; expiry removal runs after all owned auras updated (Unit.cpp:2975-2991).",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-D-04",
+   "name": "final-tick-before-expiry",
+   "population": "every non-permanent periodic aura",
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [
+    "AL-T-D-21/22/23: a 2-cap / 5-cap DoT restarts via AddAura or effect 289 while the Spell-hit path keeps it (AL-T-D-13)",
+    "simc never restarts (dot.cpp:940-969)",
+    "Core carries an authored per-action cadence (AL-K-D-01)"
+   ],
+   "definition": "Cadence on a same-caster refresh/stack is a property of (spell, delivery path, cast trigger flags). SPELL-HIT path (Spell::DoSpellEffectHit, Spell.cpp:3240): restart iff StackAmount<2 AND the cast lacks TRIGGERED_DONT_RESET_PERIODIC_TIMER (included in TRIGGERED_FULL_MASK) AND not raw 436. EVERY OTHER path passes the default resetPeriodicTimer=true: Unit::AddAura (Unit.cpp:12311, AuraCreateInfo default SpellAuras.h:135; spell_linked_spell LINK_AURA, scripts), effect 289 MODIFY_AURA_STACKS (SpellEffects.cpp:6138), HandleAuraLinked stack sync (SpellAuraEffects.cpp:5358), spell steal (Unit.cpp:4068), AuraScript ModStackAmount default (SpellScript.cpp:1183) -> restart whatever the StackAmount unless raw 436 (SpellAuras.cpp:981-985). Always ticks_done=0 and period re-hasted (R1-05, R2-04).",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-D-05",
+   "name": "refresh-cadence-by-delivery-path",
+   "population": {
+    "effect_289": "see modify_stacks.summary (18 all-population rows add stacks to stacking periodic auras -> restart; 0 player)",
+    "spell_hit_path": {
+     "by_trigger_flags": 193,
+     "preserve_pandemic": 57,
+     "preserve_stackable": 7,
+     "unit": "player periodic provider effects"
+    }
+   },
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source",
+   "status": "refined"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [
+    "simc tick_on_application only on start (dot.cpp:972-975); Core catalog text (AL-K-D-02)"
+   ],
+   "definition": "With raw 169 a restart (creation, a restarting Spell-hit reapply, or ANY non-hit refresh path of AL-R-D-05 on a non-pandemic aura) sets timer=period, so an occurrence fires at the next owner update and the budget gains one; preserve-reapply adds none.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-D-06",
+   "name": "raw169-restart-extra-occurrence",
+   "population": {
+    "restart_possible": {
+     "all": 6055,
+     "player": 48
+    },
+    "unit": "raw-169 non-pandemic StackAmount<2 periodic effects"
+   },
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [
+    "freeze of unvisited owners (AL-U-D-08)"
+   ],
+   "definition": "Duration and periodic timers advance only in the owner's _UpdateSpells by the owner's whole diff; an aura created (or restarted) between owner updates is credited the full next diff; several due occurrences in one update fire back-to-back with identical state (catch-up, capped by budget). CAVEAT (R2-12): a unit updates only when its grid cell is visited (near a player, an active non-player object, or the special caster/summon visits: Map.cpp:695-760, ObjectUpdater::Visit GridNotifiers.cpp:283-287); auras on unvisited units FREEZE (no countdown, no occurrences) and the lost time is never credited, since each diff is per map tick. Cf. Track I OR-I-03/04/10, AL-U-I-03.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-D-07",
+   "name": "owner-update-quantization",
+   "population": "every periodic aura",
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [
+    "effect attribute 0x8000 ComputePointsOnlyAtCastTime is NYI in Trinity: 76 all-pop / 1 player periodic effects (22842:0) where simc snapshots player-scoped inputs"
+   ],
+   "definition": "Periodic damage/heal/leech: base amount (CalcValue, stacks) captured by CalculateAmount at creation, reapply/stack change and explicit RecalculateAmount; caster done bonuses (SP/AP, versatility, %done, PeriodicHealingAndDamage), target taken mods and crit roll (spell-mod OWNER's chance: a pet caster uses its owner's) are read at every tick. Mastery (ATTR8_MASTERY_AFFECTS_POINTS) is in the base amount: snapshotted for auras owned by others (every DoT/HoT on another unit), recalculated only for auras the caster owns on itself (StatSystem.cpp:557-561) (R2-09).",
+   "evidence": [
+    "trinity-consumer",
+    "simc-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-R-D-08",
+   "name": "amount-snapshot-bonus-live",
+   "population": {
+    "player": {
+     "PERIODIC_DAMAGE": 46,
+     "PERIODIC_HEAL": 18,
+     "PERIODIC_LEECH": 6
+    },
+    "unit": "periodic provider effects"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "periodic.json",
+   "counterexamples": [],
+   "definition": "Within one owner: its own spell events (cast completion, hits) -> each owned aura in SpellId order (duration, target map, effect ticks) -> expiry removals. Across units: map update order.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-D-09",
+   "name": "same-ms-ordering",
+   "population": "every owner",
+   "probe_scope": "probe verifies components only; inter-body call order is driver-glued (probe.cpp driver) after the cited source",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "removal.json",
+   "counterexamples": [],
+   "definition": "No removal path runs a periodic tick; a tick at the end of an aura's life happens only when the owner's update pass reaches the period boundary before the expiry sweep of the same update.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-E-01",
+   "name": "removal-never-ticks",
+   "population": "all periodic providers (every removal site RM-01..RM-36)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "removal.json",
+   "counterexamples": [],
+   "definition": "Natural expiry reaches consumers as EXPIRE for unit-owned auras (Unit.cpp:2987) and as DEFAULT for dynamic-object auras (DynamicObject.cpp:204); EXPIRE-gated handlers never run for the latter (same finding for recipients: track F AL-D-F-03, area-lifecycle.json).",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-E-02",
+   "name": "expiry-mode-depends-on-owner-kind",
+   "population": "all providers; dynobj subset counted in dynobj_aura_spells",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "removal.json",
+   "counterexamples": [],
+   "definition": "The death sweep removes, on the dying unit only, every applied then owned aura with !IsPassive && !ATTR3_ALLOW_AURA_WHILE_DEAD, with mode DEATH. It does not run when ABSORB_OVERKILL skips setDeathState (Unit.cpp:1044) -- a Kill without death sweep.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "db2-fact"
+   ],
+   "id": "AL-R-E-03",
+   "name": "death-sweep-predicate",
+   "population": "all providers (census.death_class:*)",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "removal.json",
+   "counterexamples": [],
+   "definition": "Holder death differs from expiry in mode (DEATH vs EXPIRE), final tick (none), EXPIRE-gated handlers and scripts (skipped), positive-id spell_linked_spell REMOVE casts (skipped only for DEATH; negative-id removals still run, RM-46) and in what ran before it (LeavingCombat INTERRUPT, channel CANCEL).  Cross-ref track H (external-policy.json): DEATH-branching script handlers and the linked-spell REMOVE exemption.",
+   "evidence": [
+    "trinity-consumer",
+    "script-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-E-04",
+   "name": "death-is-not-natural-expiry",
+   "population": "player witnesses 33763, 48181, 1943 (script branches) + all non-surviving providers",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "removal.json",
+   "counterexamples": [],
+   "definition": "The same observable end arrives under different modes by path: last proc charge -> DEFAULT (SpellAuras.cpp:1829-1830) but spell-mod charge -> EXPIRE (Object.cpp:2627/2630); absorb depletion and dispel both ENEMY_SPELL; area expiry EXPIRE vs dynobj expiry DEFAULT; recipient out of range DEFAULT; EXPIRE also from failed periodic trigger casts (RM-47) and script writers (script_mode_writers); INTERRUPT also outside interrupt flags (RM-10, RM-41). A mode is a label, not a cause.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-E-05",
+   "name": "mode-is-path-dependent",
+   "population": "taxonomy RM-02, RM-10, RM-14, RM-16, RM-41, RM-47; script_writer_summary",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "removal.json",
+   "counterexamples": [],
+   "definition": "A stack decrease (dispel, steal, ModStackAmount num<0) never refreshes duration and never resets the periodic timer (refresh = new >= old, SpellAuras.cpp:1114); reaching <= 0 removes with the caller's mode.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-E-06",
+   "name": "stack-loss-keeps-timers",
+   "population": "stacking providers (track C census)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "removal.json",
+   "counterexamples": [
+    "R3-06 dynobjects of the cancelled spell",
+    "R3-07 charm / vehicle auras"
+   ],
+   "definition": "Caster death does not remove auras it cast on other holders EXCEPT: channelled auras (CANCEL); all dynobjects of the spell it is casting/channelling (DEFAULT, Spell.cpp:3665); the vehicle's CONTROL_VEHICLE aura (ExitVehicle, Unit.cpp:12868); charm/possess auras on charmed units (RemoveCharmAuras, Unit.cpp:6623); its totems' auras (Totem::UnSummon); area auras it owns (DEATH). Despawn/leave-world additionally removes its single-target auras on others (RM-30) and its dynobjects. Later ticks read the caster live (dead: found; despawned: nullptr).",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-E-07",
+   "name": "caster-death-leaves-most-foreign-auras",
+   "population": "all providers",
+   "status": "refined"
+  },
+  {
+   "corpus": "removal.json",
+   "counterexamples": [],
+   "definition": "When a unit dies with only PvE combat references, AtExitCombat runs synchronously inside CombatStop before RemoveAllAurasOnDeath: LeavingCombat-interrupt auras are removed with INTERRUPT (even death-persistent ones) and OnEnterLeaveCombat hooks run with the auras still present.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-E-08",
+   "name": "combat-exit-precedes-death-sweep",
+   "population": "providers with AuraInterruptFlags LeavingCombat (census aura_interrupt_flag_counts.LeavingCombat)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "dispel.json",
+   "counterexamples": [],
+   "definition": "Candidates are the target's owned auras applied on it, not passive, dispel-mask hit, application positivity != relation (xor reflect), CalcDispelChance > 0 and >0 stacks (or charges under ATTR7); one weight per aura.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-E-10",
+   "name": "dispel-selection",
+   "population": "dispellable providers (census.*.dispellable)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "dispel.json",
+   "counterexamples": [],
+   "definition": "Each of the effect-value attempts draws urand(0, remaining-1) then irand(0,99) (int32 roll_chance); a failed roll consumes the attempt and leaves the candidate; each call consumes one rand32 word on libstdc++ 13 (including urand(0,0) and a 100 % chance) plus one more per Lemire rejection (word w redrawn when (w*n) mod 2^32 < 2^32 mod n; e.g. w = 0 for irand(0,99)).",
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-E-11",
+   "name": "dispel-attempt-draws",
+   "population": "raw-38 dispellers (census.*.dispeller_effects)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "dispel.json",
+   "counterexamples": [],
+   "definition": "A success removes one stack (or one charge under ATTR7_DISPEL_REMOVES_CHARGES), all of them under ATTR1_DISPEL_ALL_STACKS; OnDispel runs before and AfterDispel after the mutation; mode ENEMY_SPELL. All removals are deferred until every attempt has been rolled (SpellEffects.cpp:2216).",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-E-12",
+   "name": "dispel-removal-unit",
+   "population": "dispellable providers",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "dispel.json",
+   "counterexamples": [],
+   "definition": "Mechanic dispel draws irand(0,99) for every owned aura applied on the target (passive and positive ones included) before testing the mechanic mask, then removes whole auras with ENEMY_SPELL and no dispel hooks.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-E-13",
+   "name": "mechanic-dispel-rolls-first",
+   "population": "raw-108 dispellers",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "dispel.json",
+   "counterexamples": [],
+   "definition": "DispelType 11 (Trinity enum name DESPEL_OLD_UNUSED) is carried by current auras (all 12 player-population ones are bleeds by name: Rupture 1943, Rip 1079, Rake 155722, Garrote 703, ...) and dispelled by misc-11 effects (Cauterizing Flame 374251); Trinity's mask arithmetic (1 << 11) handles it, the DISPEL_ALL mask does not include it.",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-R-E-14",
+   "name": "dispel-type-11-is-a-live-family",
+   "population": "census.*.dispellable dispel_type:OLD_UNUSED (all 818, player 12)",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "lifetime.json",
+   "counterexamples": [],
+   "definition": "Each periodic tick re-reads the caster via ObjectAccessor (Aura::GetCaster); a dead caster is still found and its bonuses apply, a despawned caster is nullptr (no bonus, no periodic crit); funnel/mana-leech need it alive.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-E-20",
+   "name": "caster-read-live-each-tick",
+   "population": "periodic providers",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "lifetime.json",
+   "counterexamples": [],
+   "definition": "Auras that survive the death sweep keep their duration and tick counter; damage/heal/energize/power ticks on a dead holder are no-ops, but PERIODIC_TRIGGER_SPELL(_WITH_VALUE) and PERIODIC_DUMMY ticks act (no alive gate; a failed triggered cast ends the aura with EXPIRE, RM-47). The aura ends with EXPIRE, or with DEFAULT when a creature corpse is removed first (Creature.cpp:442 / despawn RemoveAllAuras).",
+   "evidence": [
+    "trinity-consumer",
+    "differential"
+   ],
+   "id": "AL-R-E-21",
+   "name": "surviving-auras-keep-running-on-corpse",
+   "population": "census death_class survives-* with periodic effects",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "area-lifecycle.json",
+   "counterexamples": [
+    "AreaTrigger-created auras (own Aura per unit) -- a different pipeline, not a counterexample"
+   ],
+   "definition": "Every recipient of a unit/dynobj area aura holds an application of one parent Aura; its remaining duration, stacks, charges and amount are the parent's (a late or re-entering recipient gets the remaining duration).",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-F-01",
+   "name": "one-parent-duration",
+   "population": {
+    "count": 3105,
+    "name": "all area-aura provider effects (unit-area + dynobj)"
+   },
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "area-lifecycle.json",
+   "counterexamples": [],
+   "definition": "The recipient map is recomputed when m_updateTargetMapInterval <= diff, then reset to 500; a spell-hit UnitAura first maps at its first owner update, AddAura / dynobj auras map at creation.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-F-02",
+   "name": "500ms-recipient-map",
+   "population": {
+    "count": 3105,
+    "name": "all area-aura provider effects"
+   },
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "area-lifecycle.json",
+   "counterexamples": [
+    "script OnEffectUpdatePeriodic / OnEffectPeriodic hooks may prevent a tick per application"
+   ],
+   "definition": "A periodic area effect ticks on one timer per AuraEffect; each tick reaches exactly the applications holding the effect during that owner update (map updated before effects).",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-F-03",
+   "name": "shared-tick-to-current-holders",
+   "population": {
+    "count": 800,
+    "name": "periodic area-aura effects (all)"
+   },
+   "status": "refined"
+  },
+  {
+   "corpus": "area-lifecycle.json",
+   "counterexamples": [],
+   "definition": "Removing the parent (expire, owner death, cancel/dispel on the owner) unapplies every recipient with one remove mode; dynobj expiry uses AURA_REMOVE_BY_DEFAULT.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-F-04",
+   "name": "parent-removal-propagates",
+   "population": {
+    "count": 3105,
+    "name": "all area-aura provider effects"
+   },
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "area-lifecycle.json",
+   "counterexamples": [],
+   "definition": "Cancel and dispel aimed at a non-owner recipient do nothing; recipient death / leave-world unapplies only that application and the parent continues.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-F-05",
+   "name": "recipient-side-requests-stop-at-application",
+   "population": {
+    "count": 3105,
+    "name": "unit-area + dynobj recipients that are not the owner"
+   },
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "area-lifecycle.json",
+   "counterexamples": [
+    "script death hooks (Track H)"
+   ],
+   "definition": "Owner death removes a non-passive, non-death-persistent area aura BY_DEATH; passive or death-persistent parents survive and keep serving living recipients (ATTR7 empties the map at the next update).",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-F-06",
+   "name": "owner-death-policy",
+   "population": {
+    "count": 2082,
+    "name": "unit-area provider effects by flag"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "area-lifecycle.json",
+   "counterexamples": [],
+   "definition": "AreaTrigger ADDAURA / enter-cast auras are separate Aura objects owned by each unit, with their own duration and timers; exit removes every aura of that spell from that caster on the unit.",
+   "evidence": [
+    "trinity-consumer",
+    "world-db-fact",
+    "script-consumer"
+   ],
+   "id": "AL-R-F-07",
+   "name": "areatrigger-per-unit-aura",
+   "population": {
+    "count": 3,
+    "name": "current-player AT rows whose actions/scripts give each unit its own aura (targeting areatriggers corpus)"
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Knockback Immune Fly",
+     "spell": 40795
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 43775
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 47433
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 48602
+    },
+    {
+     "build_skew": false,
+     "name": "Flight + Speed",
+     "spell": 49303
+    },
+    {
+     "build_skew": false,
+     "name": "Wyrmrest Defender: Flight Aura",
+     "spell": 50069
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 50296
+    },
+    {
+     "build_skew": false,
+     "name": "Flight",
+     "spell": 50345
+    }
+   ],
+   "definition": "Trinity IsPassive = DB2 SPELL_ATTR0_PASSIVE OR ActiveIconFileDataId==135754 OR spell 59630",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-01",
+   "name": "effective-passive",
+   "population": "all providers 189140: passive 16812 (56 by correction only); player 4218: passive 3453 (0 by correction only)",
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [],
+   "definition": "A second application of a passive never finds the existing object (IsMultiSlotAura, Unit.cpp:3395): same caster & no cast item -> new object, old removed BY_DEFAULT (state reset); item-sourced -> coexist; passive without APPLY_AURA effect -> coexist (IsPassiveStackableWithRanks)",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-02",
+   "name": "passive-reapplication-never-refreshes",
+   "population": "passive: all 16812, player 3453; no-APPLY_AURA passives all 118 / player 5",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Pulverize",
+     "spell": 742
+    },
+    {
+     "build_skew": false,
+     "name": "Elemental Slayer",
+     "spell": 24991
+    },
+    {
+     "build_skew": false,
+     "name": "Lesser Warding",
+     "spell": 29504
+    },
+    {
+     "build_skew": false,
+     "name": "Mana Regen 5%",
+     "spell": 32102
+    },
+    {
+     "build_skew": false,
+     "name": "Nether Power",
+     "spell": 35121
+    },
+    {
+     "build_skew": false,
+     "name": "Electric Skin",
+     "spell": 35319
+    },
+    {
+     "build_skew": false,
+     "name": "Decompose",
+     "spell": 43200
+    },
+    {
+     "build_skew": false,
+     "name": "Call the Flock: Spin",
+     "spell": 97280
+    }
+   ],
+   "definition": "A passive is permanent iff it has no DurationEntry (SpellAuras.cpp:925); with one it expires",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-03",
+   "name": "passive-duration",
+   "population": "passives with finite duration: all 9, player 0",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [],
+   "definition": "Owner death removes neither the owned passive nor its applications (Unit.cpp:4479/4488); actives survive only with SPELL_ATTR3_ALLOW_AURA_WHILE_DEAD",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-04",
+   "name": "passive-survives-death",
+   "population": "passive: all 16812, player 3453",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [],
+   "definition": "Passives are skipped by dispel lists, spell steal, immunity purge, CMSG_CANCEL_AURA and arena entry",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-05",
+   "name": "passive-unremovable-by-players-and-dispels",
+   "population": "passive: all 16812, player 3453",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [],
+   "definition": "Passives are never saved (CanBeSaved SpellAuras.cpp:1170): all their mutable state resets at every login",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-06",
+   "name": "passive-not-saved",
+   "population": "passive: all 16812, player 3453; with any mutable carrier: all 6316, player 1049",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [
+    {
+     "spell": 384669,
+     "why": "IsUpdatingTemporaryAuraValuesBySpellMod literal"
+    }
+   ],
+   "definition": "A points SpellMod change recalculates amounts of the caster's own passive/permanent auras; temporary actives keep their application snapshot (SpellAuraEffects.cpp:1233), literal exception 384669",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-07",
+   "name": "spellmod-recalculates-passive-amounts",
+   "population": "passive: all 16812, player 3453",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Vanguard",
+     "spell": 71
+    },
+    {
+     "build_skew": false,
+     "name": "Revenge Trigger",
+     "spell": 5301
+    },
+    {
+     "build_skew": false,
+     "name": "Mastery: Ignite",
+     "spell": 12846
+    },
+    {
+     "build_skew": false,
+     "name": "Ruthlessness",
+     "spell": 14161
+    },
+    {
+     "build_skew": false,
+     "name": "Master of the Elements",
+     "spell": 16166
+    },
+    {
+     "build_skew": false,
+     "name": "Resurgence",
+     "spell": 16196
+    },
+    {
+     "build_skew": false,
+     "name": "Omen of Clarity",
+     "spell": 16864
+    },
+    {
+     "build_skew": false,
+     "name": "Predatory Swiftness",
+     "spell": 16974
+    }
+   ],
+   "definition": "Candidate: a passive aura carries no mutable state (the Core/selected-package assumption)",
+   "evidence": [
+    "db2-fact",
+    "world-db-fact",
+    "script-consumer"
+   ],
+   "id": "AL-R-G-08",
+   "name": "passive-is-immutable",
+   "population": "counterexamples with >=1 mutable carrier: all 6316 of 16812, player 1049 of 3453",
+   "status": "discarded"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [],
+   "definition": "Once removed by interrupt, REMOVE_AURA effect, charges, expiry, form or aura-state loss, a passive returns only on an acquisition event (login, relearn, trait/spec edit, equip, form entry, state gain); Trinity has no re-application loop",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-09",
+   "name": "no-self-restoration",
+   "population": "passives exposed to such removal (interruptible all 172/player 50; REMOVE_AURA targets all 6; charges all 5/player 2; finite all 9; stances all 25/player 2; aura-state all 8/player 4)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [],
+   "definition": "A trait rank change is ApplyTraitEntry(false)+ApplyTraitEntry(true) (Player.cpp:29266-29268): RemoveSpell then LearnSpell -> new aura object; amount re-read from the TraitDefinitionEffectPoints curve",
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-G-10",
+   "name": "rank-change-recreates",
+   "population": "every class-trait passive with >1 rank",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Enduring Bloodstone",
+     "spell": 435550
+    },
+    {
+     "build_skew": false,
+     "name": "Illusory Adornment - Blooming Light",
+     "spell": 1236743
+    },
+    {
+     "build_skew": false,
+     "name": "Illusory Adornment - Nature's Embrace",
+     "spell": 1236744
+    },
+    {
+     "build_skew": false,
+     "name": "Illusory Adornment - Voidtouched",
+     "spell": 1236745
+    },
+    {
+     "build_skew": false,
+     "name": "Powerful Eversong Diamond",
+     "spell": 1258209
+    },
+    {
+     "build_skew": false,
+     "name": "Telluric Eversong Diamond",
+     "spell": 1258210
+    },
+    {
+     "build_skew": false,
+     "name": "Midnight Angler's Grand Line",
+     "spell": 1269475
+    }
+   ],
+   "definition": "Item/set/enchant equip routes cast the spell whether or not it is Passive; actives acquired this way have their own duration and are not re-cast until re-equip/login",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-11",
+   "name": "equip-routes-ignore-passive",
+   "population": "non-passive providers reached by an equip route: player 7",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [
+    {
+     "build_skew": false,
+     "name": "Find Herbs",
+     "spell": 2383
+    },
+    {
+     "build_skew": false,
+     "name": "Find Minerals",
+     "spell": 2580
+    },
+    {
+     "build_skew": false,
+     "name": "Disease Cloud",
+     "spell": 12187
+    },
+    {
+     "build_skew": false,
+     "name": "Disease Cloud",
+     "spell": 12627
+    },
+    {
+     "build_skew": false,
+     "name": "Disease Cloud",
+     "spell": 16345
+    },
+    {
+     "build_skew": false,
+     "name": "Disease Cloud",
+     "spell": 16577
+    },
+    {
+     "build_skew": false,
+     "name": "ClearAll",
+     "spell": 28471
+    },
+    {
+     "build_skew": false,
+     "name": "Mutated Spores",
+     "spell": 30110
+    }
+   ],
+   "definition": "Learning applies an aura only for passives (gated by Stances, EquippedItemClass, CasterAuraState) and for actives with SPELL_ATTR1_CAST_WHEN_LEARNED (Player.cpp:2912-2927)",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-12",
+   "name": "learn-applies-passives-only",
+   "population": "non-passive CAST_WHEN_LEARNED providers: all 355, player 0",
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "passive-active.json",
+   "counterexamples": [
+    {
+     "child": 387096,
+     "spell": 387095
+    }
+   ],
+   "definition": "RemoveSpell removes RemoveOwnedAura(spell, self) and spell_pet_auras only; auras the passive cast (procs/scripts/triggers, e.g. Pyrogenics 387096) are untouched",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-G-13",
+   "name": "unlearn-removes-only-own-aura",
+   "population": "every learned passive",
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:1419-1430",
+    "SpellMgr.cpp:2126-2133"
+   ],
+   "corpus": "external-policy.json",
+   "counterexamples": [],
+   "definition": "A spell_linked_spell on-remove cast (negative trigger, positive target) runs for every remove mode except AURA_REMOVE_BY_DEATH; an on-remove removal (negative target) runs for all modes.",
+   "evidence": [
+    "trinity-consumer",
+    "world-db-fact"
+   ],
+   "id": "AL-R-H-01",
+   "name": "linked-on-remove-cast-suppressed-by-death",
+   "population": {
+    "count": 19,
+    "name": "all: triggers with positive on-remove targets"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:1407-1415,1433-1440,1446-1453"
+   ],
+   "corpus": "external-policy.json",
+   "counterexamples": [],
+   "definition": "A LINK_AURA child is created by caster->AddAura with its own duration (only if the caster exists), is removed with the parent's remove mode (same caster GUID only), and has its stack amount forced to the parent's on every parent stack change/refresh.",
+   "evidence": [
+    "trinity-consumer",
+    "world-db-fact"
+   ],
+   "id": "AL-R-H-02",
+   "name": "linked-aura-bounded-by-parent-not-sharing-lifetime",
+   "population": {
+    "count": 16,
+    "name": "all: LINK_AURA triggers with positive children"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Unit.cpp:3576-3587",
+    "Unit.cpp:3610,3659-3661,3680"
+   ],
+   "corpus": "external-policy.json",
+   "counterexamples": [],
+   "definition": "On apply, spell_area/linked cascades run before the aura's own effect handlers and OnEffectApply/AfterEffectApply scripts; on removal, the aura's effect handlers and OnEffectRemove/AfterEffectRemove scripts run first and the cascades last.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-H-03",
+   "name": "external-cascade-ordering",
+   "population": {
+    "count": null,
+    "name": "every aura application/removal"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellScript.h:1387-1393",
+    "SpellAuras.cpp:1056-1076",
+    "SpellAuraEffects.cpp:1091-1128"
+   ],
+   "corpus": "external-policy.json",
+   "counterexamples": [],
+   "definition": "An AuraScript OnEffectApply/AfterEffectApply/OnEffectRemove/AfterEffectRemove handler runs on a refresh or stack change iff its registration mask contains AURA_EFFECT_HANDLE_REAPPLY (or CHANGE_AMOUNT and the recomputed amount differs); REAL-only handlers do not.",
+   "evidence": [
+    "trinity-consumer",
+    "script-consumer"
+   ],
+   "id": "AL-R-H-04",
+   "name": "reapply-mode-handlers-run-on-refresh",
+   "population": {
+    "count": 91,
+    "name": "all: apply/remove hook bindings with REAPPLY",
+    "player": 4,
+    "player+class-skills": 9
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellMgr.cpp:1497-1560 (take defaults from dbcs)",
+    "SpellAuras.cpp:1004-1015"
+   ],
+   "corpus": "external-policy.json",
+   "counterexamples": [],
+   "definition": "Initial and max proc charges are spell_proc.Charges when that column is nonzero, else DB2 ProcCharges (then ProcCharges spell mods).",
+   "evidence": [
+    "trinity-consumer",
+    "world-db-fact"
+   ],
+   "id": "AL-R-H-05",
+   "name": "spell-proc-charges-override",
+   "population": {
+    "count": 36,
+    "name": "all: spells whose merged spell_proc charges differ from DB2 ProcCharges",
+    "player": 9,
+    "use_stacks_for_charges_all": 34,
+    "use_stacks_for_charges_player": 11
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "external-policy.json",
+   "counterexamples": [
+    "not a proof: creature/instance/areatrigger scripts and non-literal engine branches are not indexed (AL-U-H-02)"
+   ],
+   "definition": "Most aura providers have no external lifecycle touch in any indexed source; for those, every surface is decided by DB2 through the generic consumer (subject to the coverage caveat).",
+   "evidence": [
+    "world-db-fact",
+    "script-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-R-H-06",
+   "name": "sparse-external-touch",
+   "population": {
+    "all": 189140,
+    "all_touched": 4628,
+    "count": 4218,
+    "name": "player",
+    "touched": 372
+   },
+   "status": "proposed",
+   "status_note": "R1: the rule's own counterexample field says it is not a proof",
+   "track_status": "holds-on-census"
+  },
+  {
+   "coords": [
+    "SpellAuraDefines.h:55-64",
+    "spell_druid.cpp:1506",
+    "spell_rogue.cpp:1053"
+   ],
+   "corpus": "external-policy.json",
+   "counterexamples": [],
+   "definition": "External removal behaviour may branch on the remove mode (EXPIRE, DEATH, ENEMY_SPELL, CANCEL, INTERRUPT, DEFAULT); death is a distinct input, never equal to expiry.",
+   "evidence": [
+    "script-consumer"
+   ],
+   "id": "AL-R-H-07",
+   "name": "remove-mode-is-observable-to-external-policy",
+   "population": {
+    "count": 180,
+    "modes": {
+     "AURA_REMOVE_BY_CANCEL": 5,
+     "AURA_REMOVE_BY_DEATH": 25,
+     "AURA_REMOVE_BY_DEFAULT": 6,
+     "AURA_REMOVE_BY_ENEMY_SPELL": 38,
+     "AURA_REMOVE_BY_EXPIRE": 141,
+     "AURA_REMOVE_BY_INTERRUPT": 4
+    },
+    "name": "all: remove-mode-conditional script handlers",
+    "player": 13
+   },
+   "status": "holds-on-census"
+  },
+  {
+   "corpus": "ordering.json",
+   "counterexamples": [],
+   "definition": "every periodic tick due at or before an owner update (bounded by floor(maxDuration/period)) fires in that update before any aura of the same owner is expire-removed",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-I-01",
+   "name": "tick-before-expiry within the owner update",
+   "population": {
+    "periodic_provider_spells": {
+     "all": 38493,
+     "controlled": 16,
+     "player": 240,
+     "player+class-skills": 288
+    }
+   },
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "ordering.json",
+   "counterexamples": [],
+   "definition": "a refresh, dispel, stack change or cast completion at the same world tick as an owner's tick/expiry precedes it iff it is delivered in the session phase or by a unit updated before the owner (players, then creatures in each player's cells)",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-I-02",
+   "name": "cross-unit same-ms order is update order",
+   "population": "every unit-owned aura (structural)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "ordering.json",
+   "counterexamples": [],
+   "definition": "within one owner, m_ownedAuras SpellId order decides which same-ms ticks precede a tick-caused death and whether an aura created during the pass is decremented in it (death: only for auras the death sweep removes; passive / ATTR3_ALLOW_AURA_WHILE_DEAD auras still tick)",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-I-03",
+   "name": "owner storage order decides same-ms death and same-pass creation",
+   "population": "every owner with >= 2 owned auras (structural)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "ordering.json",
+   "counterexamples": [],
+   "definition": "lifecycle events happen at world-tick boundaries; an application made before the owner's update in a tick (session phase, the owner's own events, or a unit updated earlier) is decremented by that tick's full diff (Track D's early credit, AL-D-D-03); one made by a unit updated after the owner gets no decrement until the next tick, so the same aura lives one diff longer",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-I-04",
+   "name": "early credit only when the application precedes the owner's update",
+   "population": "every aura (structural)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "numeric-boundaries.json",
+   "counterexamples": [],
+   "definition": "int32 duration x float factor is exact at factor 1.0 for |d| <= 2^24; above, only binary32-representable durations survive",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "id": "AL-R-I-08",
+   "name": "binary32 products keep durations exact below 2^24 ms",
+   "population": {
+    "durations_over_2^24": {
+     "all": 1171,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    },
+    "inexact": {
+     "all": 45,
+     "controlled": 0,
+     "player": 0,
+     "player+class-skills": 0
+    }
+   },
+   "status": "source-backed",
+   "status_note": "R1: describes a Trinity code path; the census cannot falsify it",
+   "track_status": "holds-on-census"
+  },
+  {
+   "corpus": "generation.json",
+   "counterexamples": [],
+   "definition": "a reapplication after removal creates a new aura object with fresh timers/stacks/charges; a refresh of a found aura mutates it in place",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-I-09",
+   "name": "removal ends the generation; refresh keeps the object",
+   "population": "every unit-owned aura (structural)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "generation.json",
+   "counterexamples": [],
+   "definition": "a triggered spell never dereferences its triggering AuraEffect after Spell::prepare",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-I-10",
+   "name": "child spells hold value copies",
+   "population": "every aura-triggered cast (structural)",
+   "status": "trinity-only"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 0,
+     "count": 140,
+     "witnesses": [
+      6727,
+      7331,
+      29055,
+      30400,
+      34589,
+      37504,
+      43327,
+      52562
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    }
+   },
+   "definition": "every provider effect whose subtype is in AuraEffect::CalculatePeriodic's list authors EffectAuraPeriod > 0",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-01",
+   "name": "periodic-subtype-has-period",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 38493,
+    "controlled": 16,
+    "player": 240,
+    "player+class-skills": 288
+   },
+   "population_build_skew": {
+    "all": 974,
+    "controlled": 0,
+    "player": 6,
+    "player+class-skills": 6
+   },
+   "status": "refined"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 26,
+     "count": 846,
+     "witnesses": [
+      744,
+      3132,
+      3261,
+      3396,
+      3583,
+      3602,
+      3815,
+      4514
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    }
+   },
+   "definition": "no provider effect outside the periodic list authors EffectAuraPeriod > 0",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-02",
+   "name": "nonperiodic-subtype-has-no-period",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 189140,
+    "controlled": 141,
+    "player": 4218,
+    "player+class-skills": 4520
+   },
+   "population_build_skew": {
+    "all": 4189,
+    "controlled": 0,
+    "player": 73,
+    "player+class-skills": 73
+   },
+   "status": "refined"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 0,
+     "count": 9,
+     "witnesses": [
+      742,
+      24991,
+      29504,
+      32102,
+      35121,
+      35319,
+      43200,
+      97280
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    }
+   },
+   "definition": "a SPELL_ATTR0_PASSIVE provider has a permanent duration (explicit -1 or no DurationEntry)",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-03",
+   "name": "passive-is-permanent",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 16812,
+    "controlled": 45,
+    "player": 3453,
+    "player+class-skills": 3531
+   },
+   "population_build_skew": {
+    "all": 209,
+    "controlled": 0,
+    "player": 50,
+    "player+class-skills": 50
+   },
+   "status": "refined"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 2,
+     "count": 35,
+     "witnesses": [
+      35399,
+      38599,
+      64174,
+      65986,
+      71069,
+      73392,
+      78152,
+      86262
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 1,
+     "witnesses": [
+      194594
+     ]
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 1,
+     "witnesses": [
+      194594
+     ]
+    }
+   },
+   "definition": "SpellAuraOptions.ProcCharges > 0 implies a nonzero ProcTypeMask",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-04",
+   "name": "charges-imply-proc-flags",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 1314,
+    "controlled": 3,
+    "player": 74,
+    "player+class-skills": 83
+   },
+   "population_build_skew": {
+    "all": 23,
+    "controlled": 0,
+    "player": 1,
+    "player+class-skills": 1
+   },
+   "status": "discarded"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 7,
+     "count": 391,
+     "witnesses": [
+      974,
+      6360,
+      6558,
+      32390,
+      40128,
+      41635,
+      49836,
+      75657
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 2,
+     "witnesses": [
+      6360,
+      32390
+     ]
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 15,
+     "witnesses": [
+      974,
+      32390,
+      210824,
+      275335,
+      343527,
+      360827,
+      376974,
+      383414
+     ]
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 16,
+     "witnesses": [
+      974,
+      32390,
+      210824,
+      275335,
+      325037,
+      343527,
+      360827,
+      376974
+     ]
+    }
+   },
+   "definition": "SPELL_ATTR3_DOT_STACKING_RULE only occurs on providers with a periodic-class effect",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-05",
+   "name": "dot-stacking-rule-on-periodic",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 840,
+    "controlled": 5,
+    "player": 44,
+    "player+class-skills": 47
+   },
+   "population_build_skew": {
+    "all": 24,
+    "controlled": 0,
+    "player": 2,
+    "player+class-skills": 2
+   },
+   "status": "discarded"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 9,
+     "count": 162,
+     "witnesses": [
+      603,
+      5784,
+      55233,
+      108446,
+      118522,
+      134851,
+      142100,
+      152150
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 1,
+     "count": 9,
+     "witnesses": [
+      603,
+      55233,
+      184364,
+      196099,
+      388068,
+      391688,
+      407065,
+      1263345
+     ]
+    },
+    "player+class-skills": {
+     "build_skew": 1,
+     "count": 11,
+     "witnesses": [
+      603,
+      5784,
+      55233,
+      184364,
+      196099,
+      315496,
+      388068,
+      391688
+     ]
+    }
+   },
+   "definition": "SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION only occurs on providers with a periodic-class effect",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-06",
+   "name": "pandemic-on-periodic",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 699,
+    "controlled": 9,
+    "player": 61,
+    "player+class-skills": 84
+   },
+   "population_build_skew": {
+    "all": 12,
+    "controlled": 0,
+    "player": 1,
+    "player+class-skills": 1
+   },
+   "status": "discarded"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 0,
+     "count": 12,
+     "witnesses": [
+      141696,
+      167205,
+      191999,
+      197432,
+      204153,
+      204154,
+      209549,
+      211474
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 1,
+     "witnesses": [
+      450867
+     ]
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 1,
+     "witnesses": [
+      450867
+     ]
+    }
+   },
+   "definition": "SPELL_ATTR10_ROLLING_PERIODIC only occurs on providers with a periodic-class effect",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-07",
+   "name": "rolling-on-periodic",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 192,
+    "controlled": 0,
+    "player": 8,
+    "player+class-skills": 12
+   },
+   "population_build_skew": {
+    "all": 1,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "status": "discarded"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 0,
+     "count": 63,
+     "witnesses": [
+      603,
+      698,
+      135573,
+      135600,
+      136036,
+      136107,
+      136110,
+      139718
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 2,
+     "witnesses": [
+      603,
+      1291636
+     ]
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 3,
+     "witnesses": [
+      603,
+      698,
+      1291636
+     ]
+    }
+   },
+   "definition": "SPELL_ATTR5_SPELL_HASTE_AFFECTS_PERIODIC / ATTR8_MELEE_HASTE_AFFECTS_PERIODIC only on providers with a periodic-class effect",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-08",
+   "name": "periodic-haste-on-periodic",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 749,
+    "controlled": 7,
+    "player": 80,
+    "player+class-skills": 96
+   },
+   "population_build_skew": {
+    "all": 5,
+    "controlled": 0,
+    "player": 1,
+    "player+class-skills": 1
+   },
+   "status": "discarded"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 44,
+     "count": 1147,
+     "witnesses": [
+      4321,
+      8188,
+      34709,
+      40307,
+      42691,
+      43407,
+      43789,
+      46432
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 5,
+     "witnesses": [
+      115008,
+      267171,
+      388812,
+      1230959,
+      1266734
+     ]
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 5,
+     "witnesses": [
+      115008,
+      267171,
+      388812,
+      1230959,
+      1266734
+     ]
+    }
+   },
+   "definition": "SPELL_ATTR5_EXTRA_INITIAL_PERIOD only on providers with a periodic-class effect",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-09",
+   "name": "extra-initial-period-on-periodic",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 7279,
+    "controlled": 3,
+    "player": 61,
+    "player+class-skills": 69
+   },
+   "population_build_skew": {
+    "all": 243,
+    "controlled": 0,
+    "player": 3,
+    "player+class-skills": 3
+   },
+   "status": "discarded"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 164,
+     "count": 7288,
+     "witnesses": [
+      5432,
+      7033,
+      7083,
+      8734,
+      12380,
+      12508,
+      12623,
+      12774
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    }
+   },
+   "definition": "a channelled provider (IsChanneled) has a finite duration family",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-10",
+   "name": "channel-is-finite",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 19281,
+    "controlled": 11,
+    "player": 41,
+    "player+class-skills": 54
+   },
+   "population_build_skew": {
+    "all": 457,
+    "controlled": 0,
+    "player": 3,
+    "player+class-skills": 3
+   },
+   "status": "refined"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 0,
+     "count": 84,
+     "witnesses": [
+      57870,
+      77617,
+      91833,
+      202730,
+      202732,
+      329049,
+      360065,
+      361721
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 7,
+     "witnesses": [
+      384027,
+      386738,
+      387638,
+      400278,
+      1269312,
+      1271387,
+      1271466
+     ]
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 7,
+     "witnesses": [
+      384027,
+      386738,
+      387638,
+      400278,
+      1269312,
+      1271387,
+      1271466
+     ]
+    }
+   },
+   "definition": "a provider with CumulativeAura > 1 is not passive",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-11",
+   "name": "stack-capacity-gt1-not-passive",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 11158,
+    "controlled": 2,
+    "player": 111,
+    "player+class-skills": 113
+   },
+   "population_build_skew": {
+    "all": 342,
+    "controlled": 0,
+    "player": 3,
+    "player+class-skills": 3
+   },
+   "status": "discarded"
+  },
+  {
+   "corpus": "provider-census.json",
+   "counterexamples": {
+    "all": {
+     "build_skew": 0,
+     "count": 6,
+     "witnesses": [
+      146434,
+      147401,
+      147408,
+      149891,
+      391617,
+      1268958
+     ]
+    },
+    "controlled": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    },
+    "player+class-skills": {
+     "build_skew": 0,
+     "count": 0,
+     "witnesses": []
+    }
+   },
+   "definition": "SPELL_ATTR8_HASTE_AFFECTS_DURATION only on finite-duration providers",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "id": "AL-R-J-12",
+   "name": "haste-duration-on-finite",
+   "note": "holds-on-census on 'all' is a data regularity, not a semantic rule; 'refined' = holds on player but not on all",
+   "population": {
+    "all": 302,
+    "controlled": 4,
+    "player": 37,
+    "player+class-skills": 43
+   },
+   "population_build_skew": {
+    "all": 3,
+    "controlled": 0,
+    "player": 0,
+    "player+class-skills": 0
+   },
+   "status": "refined"
+  },
+  {
+   "corpus": "retail-experiments.json",
+   "counterexamples": [],
+   "definition": "AuraData/UNIT_AURA values are readable by addons only when no Combat/Encounter/ChallengeMode/PvPMatch restriction is active, or the spell is NeverSecret",
+   "evidence": [
+    "structural-inference"
+   ],
+   "id": "AL-R-L-01",
+   "name": "addon aura channels are out-of-restriction channels",
+   "population": {
+    "count": 3,
+    "name": "channels"
+   },
+   "status": "proposed"
+  },
+  {
+   "corpus": "retail-experiments.json",
+   "counterexamples": [
+    "NeverSecret spells (AL-X-L-12)"
+   ],
+   "definition": "for secret auras in combat, the only exact channel is WoWCombatLog.txt: event kinds, sources, stacks, amounts exact; no instance identity, durations only as event-time differences",
+   "evidence": [
+    "structural-inference",
+    "retail-unknown"
+   ],
+   "id": "AL-R-L-02",
+   "name": "in-combat observation is combat-log-file only",
+   "population": {
+    "count": 14,
+    "name": "quantities"
+   },
+   "status": "proposed"
+  }
+ ]
+}

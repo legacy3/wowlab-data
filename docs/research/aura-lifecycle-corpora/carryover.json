@@ -1,0 +1,1883 @@
+{
+ "census": {
+  "carry": {
+   "all": {
+    "n/a (non-positive duration: Spell.cpp:3268 gate)": 69,
+    "none": 188560,
+    "pandemic-reads-live-remaining": 6,
+    "pandemic-reads-refreshed-duration": 505
+   },
+   "controlled": {
+    "n/a (non-positive duration: Spell.cpp:3268 gate)": 1,
+    "none": 135,
+    "pandemic-reads-refreshed-duration": 5
+   },
+   "player": {
+    "n/a (non-positive duration: Spell.cpp:3268 gate)": 2,
+    "none": 4166,
+    "pandemic-reads-refreshed-duration": 50
+   }
+  },
+  "count_unit": "provider spells (DIFFICULTY_NONE)",
+  "evidence": "db2-fact",
+  "pandemic": {
+   "all": 699,
+   "controlled": 9,
+   "player": 61
+  },
+  "pandemic_without_periodic": {
+   "all": 161,
+   "controlled": 0,
+   "player": 9
+  },
+  "rolling": {
+   "all": 192,
+   "controlled": 0,
+   "player": 8
+  }
+ },
+ "core_navigation": [
+  {
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1143-1199",
+    "crates/combat/src/aura_state.rs:18-19"
+   ],
+   "evidence": "core-navigation",
+   "id": "AL-K-B-01",
+   "observation": "Core computes base + min(remaining, floor(3*base/10)) and keeps max(projected, old expiry): the simc / carry-before-refresh model, not pinned Trinity (which ignores remaining).",
+   "reopen_condition": "Retail result of AL-X-B-01/02",
+   "research_ref": [
+    "AL-R-B-07",
+    "AL-D-B-01",
+    "AL-U-B-01"
+   ],
+   "topic": "CappedCarryover formula"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1161-1162"
+   ],
+   "evidence": "core-navigation",
+   "id": "AL-K-B-02",
+   "observation": "integer floor(3D/10) vs Trinity trunc(float(D)*130/100)-D: equal for D < 516250 ms",
+   "reopen_condition": "durations >= 516250 ms with ATTR13",
+   "research_ref": [
+    "AL-F-B-07"
+   ],
+   "topic": "carry rounding"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/aura_state.rs:1143-1199"
+   ],
+   "evidence": "core-navigation",
+   "id": "AL-K-B-04",
+   "observation": "verbatim probe confirms K: pinned Trinity 550 ms (325 ms from refresh), Core 500 ms; the divergence is exactly the AL-D-B-01 path (Trinity ignores remaining), not a Core arithmetic slip; at a 150 ms refresh both give 475 because r >= 0.3*hit",
+   "reopen_condition": "Retail AL-X-B-01",
+   "research_ref": [
+    "AL-D-B-01",
+    "AL-R-B-07"
+   ],
+   "topic": "TL-K-01 (250 ms aura refreshed at 225 ms)"
+  }
+ ],
+ "cross_track": {
+  "AL-D-D-02": "same defect as AL-D-B-01 (B adds the M / combo-point / unique refinements, AL-F-B-09)",
+  "AL-D-D-04": "same as AL-F-B-08 (tick budget restarts, phase kept -> dropped tick / idle tail); timelines AL-T-D-07, AL-T-D-19",
+  "TL-K-01": "confirmed by the verbatim probe: pinned Trinity 550 ms vs Core 500 ms (AL-K-B-04, timeline k_tl_01_250ms_refresh_at_225)"
+ },
+ "falsification": [
+  {
+   "action": "replaced by AL-R-B-07 (trinity-only) + defect AL-D-B-01; Retail question AL-U-B-01",
+   "attempt": "trace ModStackAmount->RefreshTimers->RefreshDuration before the Spell.cpp:3284 read; compile verbatim code in tc_aura_duration_probe; refresh an 18 s/3 s DoT at t=14 s (r=4000)",
+   "id": "AL-F-B-01",
+   "result": "died for pinned Trinity: probe shows after_try_refresh duration=18000 (r overwritten), final 23400 for every r; history: before 92773e207c (2025-03-23) RefreshTimers computed the carry from the live r but the Spell.cpp commit (hit != max -> SetMaxDuration(hit)) discarded it on the Spell path; the move to Spell.cpp made the carry stick but read r too late -- neither Trinity revision implements r-dependent carry",
+   "rule": "ATTR13 carries the remaining duration up to 30% (prior audit 08: 'strongly verified')"
+  },
+  {
+   "action": "AL-R-B-09; Retail meaning AL-U-B-04",
+   "attempt": "census ATTR13 providers without any nonzero aura period",
+   "id": "AL-F-B-03",
+   "result": "died: non-periodic ATTR13 providers exist (e.g. 55233 Vampiric Blood, 184364 Enraged Regeneration; note 45438 Ice Block is NOT one: effects 3 and 6 carry a 1000 ms period)",
+   "rule": "ATTR13 (PERIODIC_REFRESH_EXTENDS_DURATION) only occurs on periodic auras"
+  },
+  {
+   "action": "kept as model table in carryover.json; Core coords to track K",
+   "attempt": "pandemic_models sweep over r",
+   "id": "AL-F-B-07",
+   "result": "carry-before-refresh == simc == Core for r <= hit; for r > hit simc/Core keep r (max), Trinity's formula caps at 1.3*hit; Core integer floor vs Trinity float trunc diverge from hit >= 516250 ms",
+   "rule": "Trinity(intended), simc and Core agree on pandemic"
+  },
+  {
+   "action": "kept as timeline; same finding as AL-D-D-04 (track D; timelines AL-T-D-07, AL-T-D-19) -- cite D",
+   "attempt": "timeline 18 s/3 s DoT refreshed at 14 s (model + probe)",
+   "id": "AL-F-B-08",
+   "result": "died: totalTicks = floor(23400/3000)=7 with preserved phase -> ticks 15..33 s, a due tick at 36 s is suppressed, aura lives to 37.4 s (11 ticks over 37.4 s)",
+   "rule": "preserving the periodic timer on pandemic refresh preserves every tick"
+  },
+  {
+   "action": "AL-R-B-07 keeps the refined formula; AL-D-B-01 marked same_as AL-D-D-02",
+   "attempt": "combo-point and unique branches in model + verbatim probe (test_al_b_probe.py)",
+   "id": "AL-F-B-09",
+   "result": "refined: always min(hit + M, trunc(1.3*hit)); = 1.3*hit only if M >= 0.3*hit; Rupture 5 CP -> 28000; unique non-stacking ATTR13 -> live remaining (22000 at r=4000)",
+   "rule": "track D AL-D-D-02: 'pinned Trinity pandemic is always 1.3 x base'"
+  },
+  {
+   "action": "carryover.json pandemic_population; AL-R-B-07 scope; AL-R-B-15",
+   "attempt": "R1-04: check the Spell.cpp:3268 AuraDuration > 0 gate and the channel recast path (R2-07)",
+   "id": "AL-F-B-10",
+   "result": "refined: permanent/zero ATTR13 auras never reach the branch (player 111400, 196099); self-channels never refresh on their own recast.  Carry axis now n/a for non-positive durations and channels are split out; the census remains a classifier restatement of the probe finding, not independent evidence",
+   "rule": "every ATTR13 timer-refresh provider reaches the carry (earlier census: player 61)"
+  }
+ ],
+ "formula": {
+  "consumer_coords": [
+   "Spell.cpp:3284-3288",
+   "SpellAuras.cpp:976-990",
+   "Unit.cpp:3441"
+  ],
+  "core": "aura_state.rs:1143-1199 D + min(r, floor(3D/10)), max with old expiry (navigation)",
+  "history": "e1f345756b (2023) introduced; 92773e207c (2025-03-23) moved it from RefreshTimers to Spell.cpp",
+  "periodic": "ATTR13 forces resetPeriodicTimer=false: phase kept, ticksDone reset, totalTicks = floor(newMax/period)",
+  "simc": "action.cpp:4603 max(r, min(0.3D, r) + D); buff.cpp:1920-1929 D + min(0.3D, r)",
+  "trinity-7f3d43b": "new = min(hit + M, trunc(float(hit)*130f/100f)); M = CalcMaxDuration() at RefreshTimers (live caster SpellMod Duration, no power costs); remaining never read"
+ },
+ "pandemic_population": {
+  "counts": {
+   "all": {
+    "attr13_total": 699,
+    "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 69,
+    "carry:none": 119,
+    "carry:pandemic-reads-live-remaining": 6,
+    "carry:pandemic-reads-refreshed-duration": 505,
+    "channel": 115,
+    "finite": 621,
+    "new_object": 4,
+    "non_positive_duration": 78,
+    "unique_non_stacking": 15
+   },
+   "controlled": {
+    "attr13_total": 9,
+    "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 1,
+    "carry:none": 3,
+    "carry:pandemic-reads-refreshed-duration": 5,
+    "channel": 3,
+    "finite": 8,
+    "non_positive_duration": 1
+   },
+   "player": {
+    "attr13_total": 61,
+    "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 2,
+    "carry:none": 9,
+    "carry:pandemic-reads-refreshed-duration": 50,
+    "channel": 9,
+    "finite": 59,
+    "non_positive_duration": 2
+   }
+  },
+  "evidence": [
+   "db2-fact",
+   "trinity-probe"
+  ],
+  "keys": {
+   "attr13_total": "all ATTR13 providers",
+   "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": "never reaches the branch",
+   "carry:none": "self-channel or multislot",
+   "carry:pandemic-reads-live-remaining": "unique non-stacking, finite, not self-channel",
+   "carry:pandemic-reads-refreshed-duration": "Spell hit path, timer refresh, finite, not self-channel -> AL-D-B-01 formula (cite this for the report's pandemic count)",
+   "channel": "channeled ATTR13 providers (own recast = cancel-then-create, AL-R-B-15)",
+   "finite / non_positive_duration": "unmodded SpellInfo::GetDuration() > 0 vs <= 0 (Spell.cpp:3268 gate)",
+   "new_object": "multislot (Passive) ATTR13 providers: never refreshed",
+   "unique_non_stacking": "ATTR1/ATTR5 unique, StackAmount 0: no RefreshTimers"
+  },
+  "note": "classifier-derived (restates the probe finding per spell; not independent evidence, R1-04)",
+  "unit": "provider spells (DIFFICULTY_NONE) with SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION"
+ },
+ "populations": {
+  "all": 189140,
+  "controlled": 141,
+  "player": 4218
+ },
+ "provenance": {
+  "command": "aura_lifecycle.py refresh --carryover --out docs/research/aura-lifecycle-corpora/carryover.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "track": "B"
+ },
+ "retail_experiments": [
+  {
+   "discriminates": "AL-D-B-01 / AL-U-B-01",
+   "fidelity": "approximate",
+   "id": "AL-X-B-01",
+   "models": [
+    {
+     "name": "trinity-7f3d43b",
+     "predict": "refresh at r=2000 -> 18200; at r=8000 -> 18200"
+    },
+    {
+     "name": "carry-before-refresh/simc/core",
+     "predict": "r=2000 -> 16000; r=8000 -> 18200"
+    }
+   ],
+   "observable": "AuraData.duration / expirationTime of the refreshed debuff (UNIT_AURA updated)",
+   "question": "pandemic carry depends on remaining? (Corruption 146739, 14 s, 2 s period)",
+   "related": [
+    "AL-U-B-01",
+    "AL-R-B-07"
+   ],
+   "setup": "Affliction warlock, no haste-duration effects; apply Corruption, refresh at r=2 s and separately r=8 s"
+  },
+  {
+   "discriminates": "AL-D-B-01 with M != r",
+   "fidelity": "approximate",
+   "id": "AL-X-B-02",
+   "models": [
+    {
+     "name": "trinity-7f3d43b",
+     "predict": "any r -> 28000 (24000 + min duration 4000)"
+    },
+    {
+     "name": "carry-before-refresh",
+     "predict": "r=1000 -> 25000; r=10000 -> 31200"
+    }
+   ],
+   "observable": "AuraData.duration after refresh",
+   "question": "combo-point pandemic (Rupture 1943, 5 CP)",
+   "related": [
+    "AL-U-B-01"
+   ],
+   "setup": "Assassination rogue; 5 CP Rupture, refresh with 5 CP at r=1 s and r=10 s"
+  },
+  {
+   "discriminates": "AL-U-B-07",
+   "fidelity": "insufficient",
+   "id": "AL-X-B-05",
+   "models": [
+    {
+     "name": "trinity",
+     "predict": "phase preserved; ticks capped at floor(newmax/period); no partial"
+    },
+    {
+     "name": "simc",
+     "predict": "phase preserved; partial final tick"
+    }
+   ],
+   "observable": "periodic damage events timing (CLEU if available in 12.x)",
+   "question": "tick phase and final partial tick after pandemic refresh",
+   "related": [
+    "AL-U-B-07"
+   ],
+   "setup": "Corruption refreshed mid-period"
+  },
+  {
+   "discriminates": "AL-D-B-03",
+   "fidelity": "insufficient",
+   "id": "AL-X-B-06",
+   "models": [
+    {
+     "name": "trinity",
+     "predict": "new + oldEstimated*remainingTicks/totalTicks (bonus reapplied)"
+    },
+    {
+     "name": "bonus-once",
+     "predict": "rolled remainder not re-scaled"
+    }
+   ],
+   "observable": "tick amounts after refresh",
+   "question": "rolling periodic amount (Deep Wounds 262115 / Barbed Shot 217200)",
+   "related": [
+    "AL-U-B-08"
+   ],
+   "setup": "refresh at known remaining ticks with fixed stats"
+  }
+ ],
+ "rolling_periodic": {
+  "coords": "SpellAuraEffects.cpp:829-840 (called via SpellAuras.cpp:1117 before RefreshTimers)",
+  "formula": "amount = CalcValue + oldEstimated * (oldTotal - ticksDone) / oldTotal; then *= stacks; round",
+  "witnesses": [
+   {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "name": "Explosive Shot",
+    "periodic_timer": "reset",
+    "rolling_periodic": true,
+    "simc_does_not_refresh_flag": false,
+    "spell": 212431,
+    "ticks_done": "reset"
+   },
+   {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "name": "Barbed Shot",
+    "periodic_timer": "reset",
+    "rolling_periodic": true,
+    "simc_does_not_refresh_flag": false,
+    "spell": 217200,
+    "ticks_done": "reset"
+   },
+   {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "none",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "name": "Deep Wounds",
+    "periodic_timer": "reset",
+    "rolling_periodic": true,
+    "simc_does_not_refresh_flag": false,
+    "spell": 262115,
+    "ticks_done": "reset"
+   },
+   {
+    "amount": "recalculated (SetStackAmount->ChangeAmount) on every found-aura path",
+    "branch": "refresh",
+    "branch_if_found": "refresh",
+    "carry": "pandemic-reads-refreshed-duration",
+    "coords": [
+     "Unit.cpp:3386-3446",
+     "SpellAuras.cpp:1093-1124",
+     "SpellAuras.cpp:976-990",
+     "Spell.cpp:3240",
+     "Spell.cpp:3268",
+     "Spell.cpp:3284-3298",
+     "Unit.cpp:3113-3117",
+     "Spell.cpp:3636-3647"
+    ],
+    "duration": "reset to recalculated max, then hit commit",
+    "entry_point": "Spell::DoSpellEffectHit (caster's cast); non-Spell refreshes: NON_SPELL_REFRESH_PATHS",
+    "finite_duration": true,
+    "lookup": "same-caster (other casters create their own Aura; coexist-or-replace is track A)",
+    "name": "Expurgation",
+    "periodic_timer": "preserved (ATTR13)",
+    "rolling_periodic": true,
+    "simc_does_not_refresh_flag": false,
+    "spell": 383346,
+    "ticks_done": "reset"
+   }
+  ]
+ },
+ "rules": [
+  {
+   "coords": [
+    "Spell.cpp:3284-3288",
+    "Unit.cpp:3441",
+    "SpellAuras.cpp:1119-1121",
+    "SpellAuras.cpp:976-990"
+   ],
+   "counterexamples": [
+    "ATTR13 + unique non-stacking (ATTR1_AURA_UNIQUE/ATTR5_AURA_UNIQUE_PER_CASTER, StackAmount 0): no RefreshTimers, the formula reads the live remaining (min(hit + r, 1.3*hit))",
+    "non-Spell refreshes (AL-R-B-14): no ATTR13 branch at all, duration = M",
+    "permanent/zero ATTR13 auras (player 111400, 196099): never reach the branch",
+    "self-channel recast: cancel-then-create (AL-R-B-15)"
+   ],
+   "definition": "Scope: Spell::DoSpellEffectHit, non-unique (a timer-refresh branch), positive hit duration (Spell.cpp:3268 gate), not the channelling caster's own recast.  The ATTR13 branch reads HitAura->GetDuration() after ModStackAmount->RefreshTimers already set it to M = CalcMaxDuration() (aura caster's SpellMod Duration, NO power costs).  New duration = min(hit + M, trunc(1.3*hit)); the carry is min(M, trunc(1.3*hit) - hit).  For combo-point records M is the minimum duration, so the carry equals the minimum: Rupture 5 CP = 24000 + 4000 = 28000 whatever the remaining.",
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-B-07",
+   "name": "pinned-Trinity pandemic = min(hit + M, trunc(hit*1.3f)), independent of remaining",
+   "population": {
+    "carry_axis": {
+     "all": {
+      "n/a (non-positive duration: Spell.cpp:3268 gate)": 69,
+      "none": 188560,
+      "pandemic-reads-live-remaining": 6,
+      "pandemic-reads-refreshed-duration": 505
+     },
+     "controlled": {
+      "n/a (non-positive duration: Spell.cpp:3268 gate)": 1,
+      "none": 135,
+      "pandemic-reads-refreshed-duration": 5
+     },
+     "player": {
+      "n/a (non-positive duration: Spell.cpp:3268 gate)": 2,
+      "none": 4166,
+      "pandemic-reads-refreshed-duration": 50
+     }
+    },
+    "counts": {
+     "all": {
+      "attr13_total": 699,
+      "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 69,
+      "carry:none": 119,
+      "carry:pandemic-reads-live-remaining": 6,
+      "carry:pandemic-reads-refreshed-duration": 505,
+      "channel": 115,
+      "finite": 621,
+      "new_object": 4,
+      "non_positive_duration": 78,
+      "unique_non_stacking": 15
+     },
+     "controlled": {
+      "attr13_total": 9,
+      "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 1,
+      "carry:none": 3,
+      "carry:pandemic-reads-refreshed-duration": 5,
+      "channel": 3,
+      "finite": 8,
+      "non_positive_duration": 1
+     },
+     "player": {
+      "attr13_total": 61,
+      "carry:n/a (non-positive duration: Spell.cpp:3268 gate)": 2,
+      "carry:none": 9,
+      "carry:pandemic-reads-refreshed-duration": 50,
+      "channel": 9,
+      "finite": 59,
+      "non_positive_duration": 2
+     }
+    },
+    "name": "ATTR13 providers split by entry/branch/finite/channel (carryover.json pandemic_population)"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3284-3288"
+   ],
+   "counterexamples": [],
+   "definition": "The Spell.cpp ATTR13 branch has no periodic check; ATTR13 providers without any periodic aura effect still get the carry.",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-R-B-09",
+   "name": "ATTR13 is authored on non-periodic auras and Trinity applies it there too",
+   "population": {
+    "counts": {
+     "all": 161,
+     "controlled": 0,
+     "player": 9
+    },
+    "name": "ATTR13 providers with no nonzero aura period"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:829-840",
+    "SpellAuras.cpp:1117"
+   ],
+   "counterexamples": [
+    "passive rolling (450867) is multislot: new object, permanent -> totalTicks 0 -> no roll"
+   ],
+   "definition": "ATTR10: on the refresh path CalculateAmount runs from SetStackAmount before RefreshTimers, adding old estimated(bonus-done) amount * (old total - ticksDone)/old total to the new base amount.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-13",
+   "name": "rolling periodic rolls the OLD effect's remaining estimate",
+   "population": {
+    "counts": {
+     "all": 192,
+     "controlled": 0,
+     "player": 8
+    },
+    "name": "ATTR10 providers"
+   },
+   "status": "trinity-only"
+  },
+  {
+   "coords": [
+    "Unit.cpp:12311-12314",
+    "Unit.cpp:4068-4069 (ModStackAmount then SetDuration(stolen)); 4083",
+    "Unit.cpp:12756, 12770",
+    "SpellEffects.cpp:6138",
+    "SpellAuraEffects.cpp:5358",
+    "src/server/scripts (track H census)"
+   ],
+   "counterexamples": [
+    "negative stack delta (289 / linked REAPPLY) does not refresh"
+   ],
+   "definition": "Refresh entry points other than Spell::DoSpellEffectHit run ModStackAmount(+n) -> RefreshTimers (phase reset unless ATTR13) but never reach the Spell.cpp:3262-3298 commit: no ATTR13 carry, no ModSpellDuration/haste alignment, duration = max = M (steal then SetDuration(stolen)).",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-B-14",
+   "name": "non-Spell refreshes have no pandemic carry and end at M",
+   "population": {
+    "name": "entry points",
+    "paths": [
+     "Unit::AddAura Unit.cpp:12311-12314",
+     "aura steal onto an existing aura Unit.cpp:4068-4069 (ModStackAmount then SetDuration(stolen)); 4083",
+     "vehicle/spellclick aura Unit.cpp:12756, 12770",
+     "SPELL_EFFECT_MODIFY_AURA_STACKS (289) MiscValue 0 SpellEffects.cpp:6138",
+     "HandleAuraLinked REAPPLY SpellAuraEffects.cpp:5358",
+     "script ModStackAmount(+n) / RefreshDuration src/server/scripts (track H census)"
+    ]
+   },
+   "status": "trinity-only"
+  }
+ ],
+ "timelines": {
+  "dot18_refresh_at_14s": {
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "models": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 22000
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 22000
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 22000
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 23400
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 22000,
+     "value": 18000
+    }
+   },
+   "question": "18 s / 3 s ATTR13 DoT refreshed at t=14 s (4 s left)",
+   "rules_out": "carry-before-refresh / simc / core predict 22000; pinned Trinity gives 23400 (probe-confirmed)",
+   "timeline": {
+    "events": [
+     {
+      "event": "apply",
+      "refresh": false,
+      "state": {
+       "duration": 18000,
+       "effects": [
+        {
+         "period": 3000,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 18000,
+       "stacks": 1
+      },
+      "t": 0
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 1,
+      "t": 3000,
+      "total": 6
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 2,
+      "t": 6000,
+      "total": 6
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 3,
+      "t": 9000,
+      "total": 6
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 4,
+      "t": 12000,
+      "total": 6
+     },
+     {
+      "event": "apply",
+      "refresh": true,
+      "state": {
+       "duration": 23400,
+       "effects": [
+        {
+         "period": 3000,
+         "ticks": 0,
+         "timer": 2000
+        }
+       ],
+       "generation": 0,
+       "max_duration": 23400,
+       "stacks": 1
+      },
+      "t": 14000
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 1,
+      "t": 15000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 2,
+      "t": 18000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 3,
+      "t": 21000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 4,
+      "t": 24000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 5,
+      "t": 27000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 6,
+      "t": 30000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 7,
+      "t": 33000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick-suppressed",
+      "generation": 0,
+      "t": 36000,
+      "ticks": 7,
+      "total": 7
+     },
+     {
+      "event": "expire",
+      "generation": 0,
+      "t": 37400
+     },
+     {
+      "event": "removed",
+      "state": {
+       "duration": 0,
+       "effects": [
+        {
+         "period": 3000,
+         "ticks": 7,
+         "timer": 1400
+        }
+       ],
+       "generation": 0,
+       "max_duration": 23400,
+       "stacks": 1
+      },
+      "t": 37400
+     }
+    ],
+    "final": null,
+    "same_ms_order": "update(t) then application(t) [assumption; track I]",
+    "spell": 0,
+    "step_ms": 100
+   }
+  },
+  "dot18_sweep": {
+   "evidence": "differential",
+   "hit": 18000,
+   "recalculated_max": 18000,
+   "rows": [
+    {
+     "carry-before-refresh": 18000,
+     "core-63f3a49": 18000,
+     "remaining": 0,
+     "simc": 18000,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 19000,
+     "core-63f3a49": 19000,
+     "remaining": 1000,
+     "simc": 19000,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 20000,
+     "core-63f3a49": 20000,
+     "remaining": 2000,
+     "simc": 20000,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 21000,
+     "core-63f3a49": 21000,
+     "remaining": 3000,
+     "simc": 21000,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 22000,
+     "core-63f3a49": 22000,
+     "remaining": 4000,
+     "simc": 22000,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23000,
+     "core-63f3a49": 23000,
+     "remaining": 5000,
+     "simc": 23000,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 6000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 7000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 8000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 9000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 10000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 11000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 12000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 13000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 14000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 15000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 16000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 17000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    },
+    {
+     "carry-before-refresh": 23400,
+     "core-63f3a49": 23400,
+     "remaining": 18000,
+     "simc": 23400,
+     "trinity-7f3d43b": 23400,
+     "trinity-pre-92773e2": 18000
+    }
+   ]
+  },
+  "hasted_pandemic": {
+   "evidence": [
+    "trinity-probe"
+   ],
+   "question": "ATTR5 hasted period (ModCastingSpeed 0.8 -> period 2400) + ATTR13 refreshed at 14 s",
+   "timeline": {
+    "events": [
+     {
+      "event": "apply",
+      "refresh": false,
+      "state": {
+       "duration": 18000,
+       "effects": [
+        {
+         "period": 2400,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 18000,
+       "stacks": 1
+      },
+      "t": 0
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 1,
+      "t": 2400,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 2,
+      "t": 4800,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 3,
+      "t": 7200,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 4,
+      "t": 9600,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 5,
+      "t": 12000,
+      "total": 7
+     },
+     {
+      "event": "apply",
+      "refresh": true,
+      "state": {
+       "duration": 23400,
+       "effects": [
+        {
+         "period": 2400,
+         "ticks": 0,
+         "timer": 2000
+        }
+       ],
+       "generation": 0,
+       "max_duration": 23400,
+       "stacks": 1
+      },
+      "t": 14000
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 1,
+      "t": 14400,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 2,
+      "t": 16800,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 3,
+      "t": 19200,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 4,
+      "t": 21600,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 5,
+      "t": 24000,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 6,
+      "t": 26400,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 7,
+      "t": 28800,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 8,
+      "t": 31200,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 9,
+      "t": 33600,
+      "total": 9
+     },
+     {
+      "effect": 0,
+      "event": "tick-suppressed",
+      "generation": 0,
+      "t": 36000,
+      "ticks": 9,
+      "total": 9
+     },
+     {
+      "event": "expire",
+      "generation": 0,
+      "t": 37400
+     },
+     {
+      "event": "removed",
+      "state": {
+       "duration": 0,
+       "effects": [
+        {
+         "period": 2400,
+         "ticks": 9,
+         "timer": 1400
+        }
+       ],
+       "generation": 0,
+       "max_duration": 23400,
+       "stacks": 1
+      },
+      "t": 37400
+     }
+    ],
+    "final": null,
+    "same_ms_order": "update(t) then application(t) [assumption; track I]",
+    "spell": 0,
+    "step_ms": 100
+   }
+  },
+  "k_tl_01_250ms_refresh_at_225": {
+   "evidence": [
+    "trinity-probe",
+    "core-navigation"
+   ],
+   "models": {
+    "carry-before-refresh": {
+     "coords": "Spell.cpp:3284-3288 with pre-refresh r",
+     "evidence": "structural-inference",
+     "value": 275
+    },
+    "core-63f3a49": {
+     "coords": "core crates/combat/src/aura_state.rs:1143-1199",
+     "evidence": "core-navigation",
+     "value": 275
+    },
+    "simc": {
+     "coords": "simc engine/action/action.cpp:4603",
+     "evidence": "simc-consumer",
+     "value": 275
+    },
+    "trinity-7f3d43b": {
+     "coords": "Spell.cpp:3284-3288 after SpellAuras.cpp:976-990",
+     "evidence": "trinity-consumer",
+     "value": 325
+    },
+    "trinity-pre-92773e2": {
+     "coords": "git 92773e207c^:SpellAuras.cpp:961-975 + Spell.cpp:3275-3279",
+     "evidence": "legacy-only",
+     "refresh_timers_value": 275,
+     "value": 250
+    }
+   },
+   "question": "track K TL-K-01: 250 ms ATTR13 aura refreshed at 225 ms (25 ms left)",
+   "result": "pinned Trinity expires at 550 ms (probe-confirmed: after_try_refresh duration 250, final 325); Core CappedCarryover 500 ms; refresh at 150 ms gives 475 in both -> Core diverges from pinned Trinity only because of AL-D-B-01",
+   "timeline": {
+    "events": [
+     {
+      "event": "apply",
+      "refresh": false,
+      "state": {
+       "duration": 250,
+       "effects": [
+        {
+         "period": 0,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 250,
+       "stacks": 1
+      },
+      "t": 0
+     },
+     {
+      "event": "apply",
+      "refresh": true,
+      "state": {
+       "duration": 325,
+       "effects": [
+        {
+         "period": 0,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 325,
+       "stacks": 1
+      },
+      "t": 225
+     },
+     {
+      "event": "expire",
+      "generation": 0,
+      "t": 550
+     },
+     {
+      "event": "removed",
+      "state": {
+       "duration": 0,
+       "effects": [
+        {
+         "period": 0,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 325,
+       "stacks": 1
+      },
+      "t": 550
+     }
+    ],
+    "final": null,
+    "same_ms_order": "update(t) then application(t) [assumption; track I]",
+    "spell": 0,
+    "step_ms": 25
+   }
+  },
+  "nonperiodic_pandemic": {
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "question": "ATTR13 on a non-periodic aura (Vampiric Blood shape 10 s) refreshed at 5 s",
+   "timeline": {
+    "events": [
+     {
+      "event": "apply",
+      "refresh": false,
+      "state": {
+       "duration": 10000,
+       "effects": [
+        {
+         "period": 0,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 10000,
+       "stacks": 1
+      },
+      "t": 0
+     },
+     {
+      "event": "apply",
+      "refresh": true,
+      "state": {
+       "duration": 13000,
+       "effects": [
+        {
+         "period": 0,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 13000,
+       "stacks": 1
+      },
+      "t": 5000
+     },
+     {
+      "event": "expire",
+      "generation": 0,
+      "t": 18000
+     },
+     {
+      "event": "removed",
+      "state": {
+       "duration": 0,
+       "effects": [
+        {
+         "period": 0,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 13000,
+       "stacks": 1
+      },
+      "t": 18000
+     }
+    ],
+    "final": null,
+    "same_ms_order": "update(t) then application(t) [assumption; track I]",
+    "spell": 55233,
+    "step_ms": 100
+   }
+  },
+  "rupture_5cp_sweep": {
+   "evidence": [
+    "trinity-probe",
+    "db2-fact"
+   ],
+   "hit": 24000,
+   "note": "RefreshTimers' CalcMaxDuration() passes no power costs -> M = minimum 4000",
+   "recalculated_max_without_power_costs": 4000,
+   "rows": [
+    {
+     "carry-before-refresh": 25000,
+     "core-63f3a49": 25000,
+     "remaining": 1000,
+     "simc": 25000,
+     "trinity-7f3d43b": 28000,
+     "trinity-pre-92773e2": 24000
+    },
+    {
+     "carry-before-refresh": 27000,
+     "core-63f3a49": 27000,
+     "remaining": 3000,
+     "simc": 27000,
+     "trinity-7f3d43b": 28000,
+     "trinity-pre-92773e2": 24000
+    },
+    {
+     "carry-before-refresh": 28000,
+     "core-63f3a49": 28000,
+     "remaining": 4000,
+     "simc": 28000,
+     "trinity-7f3d43b": 28000,
+     "trinity-pre-92773e2": 24000
+    },
+    {
+     "carry-before-refresh": 31200,
+     "core-63f3a49": 31200,
+     "remaining": 7200,
+     "simc": 31200,
+     "trinity-7f3d43b": 28000,
+     "trinity-pre-92773e2": 24000
+    },
+    {
+     "carry-before-refresh": 31200,
+     "core-63f3a49": 31200,
+     "remaining": 10000,
+     "simc": 31200,
+     "trinity-7f3d43b": 28000,
+     "trinity-pre-92773e2": 24000
+    }
+   ],
+   "spell": 1943,
+   "timeline_refresh_at_20s": {
+    "events": [
+     {
+      "event": "apply",
+      "refresh": false,
+      "state": {
+       "duration": 24000,
+       "effects": [
+        {
+         "period": 2000,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 24000,
+       "stacks": 1
+      },
+      "t": 0
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 1,
+      "t": 2000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 2,
+      "t": 4000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 3,
+      "t": 6000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 4,
+      "t": 8000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 5,
+      "t": 10000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 6,
+      "t": 12000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 7,
+      "t": 14000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 8,
+      "t": 16000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 9,
+      "t": 18000,
+      "total": 12
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 10,
+      "t": 20000,
+      "total": 12
+     },
+     {
+      "event": "apply",
+      "refresh": true,
+      "state": {
+       "duration": 28000,
+       "effects": [
+        {
+         "period": 2000,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 28000,
+       "stacks": 1
+      },
+      "t": 20000
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 1,
+      "t": 22000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 2,
+      "t": 24000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 3,
+      "t": 26000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 4,
+      "t": 28000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 5,
+      "t": 30000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 6,
+      "t": 32000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 7,
+      "t": 34000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 8,
+      "t": 36000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 9,
+      "t": 38000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 10,
+      "t": 40000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 11,
+      "t": 42000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 12,
+      "t": 44000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 13,
+      "t": 46000,
+      "total": 14
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 14,
+      "t": 48000,
+      "total": 14
+     },
+     {
+      "event": "expire",
+      "generation": 0,
+      "t": 48000
+     },
+     {
+      "event": "removed",
+      "state": {
+       "duration": 0,
+       "effects": [
+        {
+         "period": 2000,
+         "ticks": 14,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 28000,
+       "stacks": 1
+      },
+      "t": 48000
+     }
+    ],
+    "final": null,
+    "same_ms_order": "update(t) then application(t) [assumption; track I]",
+    "spell": 1943,
+    "step_ms": 100
+   }
+  },
+  "unique_pandemic_reads_live_remaining": {
+   "evidence": [
+    "trinity-probe"
+   ],
+   "question": "ATTR1_AURA_UNIQUE + ATTR13, non-stacking: no RefreshTimers, pandemic reads the live remaining",
+   "timeline": {
+    "events": [
+     {
+      "event": "apply",
+      "refresh": false,
+      "state": {
+       "duration": 18000,
+       "effects": [
+        {
+         "period": 3000,
+         "ticks": 0,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 18000,
+       "stacks": 1
+      },
+      "t": 0
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 1,
+      "t": 3000,
+      "total": 6
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 2,
+      "t": 6000,
+      "total": 6
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 3,
+      "t": 9000,
+      "total": 6
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 4,
+      "t": 12000,
+      "total": 6
+     },
+     {
+      "event": "apply",
+      "refresh": true,
+      "state": {
+       "duration": 22000,
+       "effects": [
+        {
+         "period": 3000,
+         "ticks": 4,
+         "timer": 2000
+        }
+       ],
+       "generation": 0,
+       "max_duration": 22000,
+       "stacks": 1
+      },
+      "t": 14000
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 5,
+      "t": 15000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 6,
+      "t": 18000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick",
+      "generation": 0,
+      "n": 7,
+      "t": 21000,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick-suppressed",
+      "generation": 0,
+      "t": 24000,
+      "ticks": 7,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick-suppressed",
+      "generation": 0,
+      "t": 27000,
+      "ticks": 7,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick-suppressed",
+      "generation": 0,
+      "t": 30000,
+      "ticks": 7,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick-suppressed",
+      "generation": 0,
+      "t": 33000,
+      "ticks": 7,
+      "total": 7
+     },
+     {
+      "effect": 0,
+      "event": "tick-suppressed",
+      "generation": 0,
+      "t": 36000,
+      "ticks": 7,
+      "total": 7
+     },
+     {
+      "event": "expire",
+      "generation": 0,
+      "t": 36000
+     },
+     {
+      "event": "removed",
+      "state": {
+       "duration": 0,
+       "effects": [
+        {
+         "period": 3000,
+         "ticks": 7,
+         "timer": 0
+        }
+       ],
+       "generation": 0,
+       "max_duration": 22000,
+       "stacks": 1
+      },
+      "t": 36000
+     }
+    ],
+    "final": null,
+    "same_ms_order": "update(t) then application(t) [assumption; track I]",
+    "spell": 0,
+    "step_ms": 100
+   }
+  }
+ },
+ "trinity_defects": [
+  {
+   "coords": [
+    "Spell.cpp:3284-3288",
+    "Unit.cpp:3441",
+    "SpellAuras.cpp:1119-1121",
+    "SpellAuras.cpp:976-990",
+    "git 92773e207c"
+   ],
+   "description": "ATTR13 pandemic branch reads HitAura->GetDuration() after the refresh path already reset it to the recalculated max, so the remaining time never enters the formula.",
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-D-B-01",
+   "lifecycle_effect": "Every ATTR13 refresh yields min(hit + M, trunc(1.3*hit)): the full 30% bonus regardless of remaining (and for combo-point spells a carry of M = minimum duration, e.g. Rupture 5 CP -> 28000 always).",
+   "oracle_behaviour": "reproduced (refresh.pandemic_models['trinity-7f3d43b'], apply_hit), probe-confirmed; competing 'carry-before-refresh' model kept for Retail",
+   "refinement_over_AL-D-D-02": "the result is min(hit + M, trunc(1.3*hit)) with M = CalcMaxDuration() at RefreshTimers (live caster SpellMod Duration, NO power costs): it equals 1.3*hit only when M >= 0.3*hit.  Combo-point records carry M = minimum (Rupture/Rip 5 CP: 28000, not 31200); ATTR1_AURA_UNIQUE/ATTR5_AURA_UNIQUE_PER_CASTER non-stacking ATTR13 auras (15 all, 0 player) skip RefreshTimers and do read the live remaining.",
+   "same_as": [
+    "AL-D-D-02 (track D, probe tc_aura_periodic_probe, timeline AL-T-D-07)",
+    "TL-K-01 / AL-K-B-04"
+   ],
+   "verdict": "defect relative to Trinity's evident intent (newDuration = hit + remaining only makes sense if remaining is live; commit 92773e207c is titled 'Fixed ...'), relative to the pre-2025 Trinity code (read live r in RefreshTimers, though its Spell-path result was then overwritten), simc (action.cpp:4603, buff.cpp:1920) and Core CappedCarryover (aura_state.rs:1143-1199), which all make the carry depend on remaining.  Retail itself stays AL-U-B-01."
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:829-840",
+    "SpellAuraEffects.cpp:872-876"
+   ],
+   "description": "ROLLING_PERIODIC adds the old effect's *estimated* amount (already bonus-done applied) to the new base amount, after which CalculateEstimatedAmount applies bonus-done again.",
+   "evidence": [
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-D-B-03",
+   "lifecycle_effect": "Rolled remainder may be bonus-compounded (likely defect; depends on DoT bonus path, track D).",
+   "oracle_behaviour": "reproduced as refresh.rolling_periodic_amount (pre-stack, pre-round); compounding not asserted"
+  }
+ ],
+ "unknowns": [
+  {
+   "blocker": "Retail observation",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3284-3288"
+   ],
+   "evidence": [
+    "retail-unknown",
+    "trinity-probe"
+   ],
+   "id": "AL-U-B-01",
+   "known": "pinned Trinity: always min(M, trunc(1.3*hit)-hit); pre-2025 Trinity, simc, Core: r-dependent",
+   "question": "Does Retail carry the remaining duration (min(r, 0.3*D)) or always 30% (pinned Trinity), and what is D (hit after haste/mods?) and the rounding?",
+   "reopen_condition": "AL-X-B-01/02 result",
+   "subject": "Retail pandemic carry",
+   "why_unresolved": "no Retail consumer; Trinity path is defective"
+  },
+  {
+   "blocker": "cooldown-gated refresh in Retail",
+   "build_skew": false,
+   "coords": [
+    "Spell.cpp:3284"
+   ],
+   "evidence": [
+    "db2-fact",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-04",
+   "known": "authored; Trinity applies; simc buff PANDEMIC only via the flag",
+   "question": "Does Retail extend non-periodic buffs (Vampiric Blood 55233, Enraged Regeneration 184364) on refresh?",
+   "reopen_condition": "a refreshable non-periodic ATTR13 aura observed",
+   "subject": "ATTR13 on non-periodic auras",
+   "why_unresolved": "no Retail consumer"
+  },
+  {
+   "blocker": "Retail combat-log ticks (restricted in 12.x, track L)",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:1250-1276"
+   ],
+   "evidence": [
+    "trinity-probe",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-07",
+   "known": "Trinity preserves phase, caps ticks at floor(max/period) -> suppressed tick; simc partial ticks",
+   "question": "Retail: is the phase preserved and is the final partial tick delivered after a carried refresh?",
+   "reopen_condition": "AL-X-B-05",
+   "subject": "tick schedule after pandemic",
+   "why_unresolved": "tick policy is track D; no Retail consumer"
+  },
+  {
+   "blocker": "Retail damage observation",
+   "build_skew": false,
+   "coords": [
+    "SpellAuraEffects.cpp:829-840"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-B-08",
+   "known": "Trinity SpellAuraEffects.cpp:829-840",
+   "question": "Exact Retail rolled amount (remaining ticks fraction? bonus once or twice?)",
+   "reopen_condition": "AL-X-B-06",
+   "subject": "rolling periodic amount",
+   "why_unresolved": "single consumer, likely defect AL-D-B-03"
+  }
+ ]
+}

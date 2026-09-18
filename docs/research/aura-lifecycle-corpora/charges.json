@@ -1,0 +1,1550 @@
+{
+ "aura_and_spell_charges": {
+  "count": {
+   "all": 11,
+   "controlled": 0,
+   "player": 2
+  },
+  "note": "aura proc charges and SpellCategories.ChargeCategory spell charges are unrelated state; no aura code reads ChargeCategory",
+  "witnesses": [
+   {
+    "build_skew": false,
+    "name": "Spell Reflection",
+    "player": true,
+    "spell": 23920
+   },
+   {
+    "build_skew": false,
+    "name": "Unleash Life",
+    "player": true,
+    "spell": 73685
+   },
+   {
+    "build_skew": false,
+    "name": "Ice Floes",
+    "player": false,
+    "spell": 108839
+   },
+   {
+    "build_skew": false,
+    "name": "Vanquisher's Hammer",
+    "player": false,
+    "spell": 328204
+   },
+   {
+    "build_skew": false,
+    "name": "Spell Reflection",
+    "player": false,
+    "spell": 329267
+   },
+   {
+    "build_skew": false,
+    "name": "Spell Reflection",
+    "player": false,
+    "spell": 335255
+   },
+   {
+    "build_skew": false,
+    "name": "Vanquisher's Hammer",
+    "player": false,
+    "spell": 375884
+   },
+   {
+    "build_skew": false,
+    "name": "Guard",
+    "player": false,
+    "spell": 385212
+   }
+  ]
+ },
+ "charge_entry_origin": {
+  "all": {
+   "generated": 830,
+   "none": 398,
+   "spell_proc": 127
+  },
+  "controlled": {
+   "generated": 3
+  },
+  "player": {
+   "generated": 32,
+   "none": 28,
+   "spell_proc": 23
+  }
+ },
+ "dispel_removes_charges_without_charges": {
+  "consumer": "Unit.cpp:4765-4767 (charges==0 -> not added to the dispel list)",
+  "count": {
+   "all": 47,
+   "controlled": 0,
+   "player": 0
+  },
+  "note": "ATTR7_DISPEL_REMOVES_CHARGES with no aura charges: never offered to a dispel (track E)",
+  "witnesses": [
+   {
+    "build_skew": false,
+    "name": "Impenetrable Sphere",
+    "player": false,
+    "spell": 77841
+   },
+   {
+    "build_skew": false,
+    "name": "Too Hot To Handle",
+    "player": false,
+    "spell": 99821
+   },
+   {
+    "build_skew": false,
+    "name": "Herbal Infusion",
+    "player": false,
+    "spell": 104735
+   },
+   {
+    "build_skew": false,
+    "name": "Power Overwhelming",
+    "player": false,
+    "spell": 139368
+   },
+   {
+    "build_skew": false,
+    "name": "Shadow Word: Agony",
+    "player": false,
+    "spell": 184239
+   },
+   {
+    "build_skew": false,
+    "name": "Living Water",
+    "player": false,
+    "spell": 196994
+   },
+   {
+    "build_skew": false,
+    "name": "Living Water Aura Visual and Area Trigger",
+    "player": false,
+    "spell": 197011
+   },
+   {
+    "build_skew": false,
+    "name": "Power Overwhelming",
+    "player": false,
+    "spell": 197432
+   }
+  ]
+ },
+ "falsification": [
+  {
+   "action": "discarded",
+   "attempt": "a spell_proc row with Charges 0 disables charges",
+   "id": "AL-F-C-21",
+   "result": "LoadSpellProcs fills 0 from DB2 ProcCharges",
+   "rule": "AL-R-C-21"
+  },
+  {
+   "action": "refined",
+   "attempt": "every aura with ProcCharges loses a charge per proc",
+   "id": "AL-F-C-22",
+   "result": "398 providers have no proc entry",
+   "rule": "AL-R-C-22"
+  },
+  {
+   "action": "discarded",
+   "attempt": "stacks and proc charges are one counter",
+   "id": "AL-F-C-23",
+   "result": "separate members; joined only by USE_STACKS_FOR_CHARGES and the refresh reset",
+   "rule": "AL-R-C-23"
+  },
+  {
+   "action": "discarded",
+   "attempt": "aura charges and spell (category) charges interact",
+   "id": "AL-F-C-24",
+   "result": "no aura code reads ChargeCategory",
+   "rule": "AL-R-C-21"
+  }
+ ],
+ "families": {
+  "charges-without-proc-entry": {
+   "count": {
+    "all": 398,
+    "controlled": 0,
+    "player": 28
+   },
+   "doc": "m_procCharges>0 but GetSpellProcEntry finds nothing: the proc system never drops them; only dispel/steal (ATTR7), scripts, SmartAI or redirect auras can",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Revenge!",
+     "player": true,
+     "spell": 5302
+    },
+    {
+     "build_skew": false,
+     "name": "Unleash Life",
+     "player": true,
+     "spell": 73685
+    },
+    {
+     "build_skew": false,
+     "name": "Stormkeeper",
+     "player": true,
+     "spell": 191634
+    },
+    {
+     "build_skew": false,
+     "name": "Demonic Calling",
+     "player": true,
+     "spell": 205146
+    },
+    {
+     "build_skew": false,
+     "name": "Tidebringer",
+     "player": true,
+     "spell": 236502
+    },
+    {
+     "build_skew": false,
+     "name": "Fel Domination",
+     "player": true,
+     "spell": 333889
+    },
+    {
+     "build_skew": false,
+     "name": "Tip the Scales",
+     "player": true,
+     "spell": 370553
+    },
+    {
+     "build_skew": false,
+     "name": "Nature's Swiftness",
+     "player": true,
+     "spell": 378081
+    },
+    {
+     "build_skew": false,
+     "name": "Focused Insight",
+     "player": true,
+     "spell": 381668
+    },
+    {
+     "build_skew": false,
+     "name": "Show of Force",
+     "player": true,
+     "spell": 385842
+    },
+    {
+     "build_skew": false,
+     "name": "Brace For Impact",
+     "player": true,
+     "spell": 386029
+    },
+    {
+     "build_skew": false,
+     "name": "Burn to Ashes",
+     "player": true,
+     "spell": 387154
+    }
+   ]
+  },
+  "no-charges": {
+   "count": {
+    "all": 187761,
+    "controlled": 138,
+    "player": 4127
+   },
+   "doc": "CalcMaxCharges()==0: IsUsingCharges false; ModCharges is a no-op; Applications shows stacks or 0",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Vanguard",
+     "player": true,
+     "spell": 71
+    },
+    {
+     "build_skew": false,
+     "name": "Incapacitating Roar",
+     "player": true,
+     "spell": 99
+    },
+    {
+     "build_skew": false,
+     "name": "Devotion Aura",
+     "player": true,
+     "spell": 465
+    },
+    {
+     "build_skew": false,
+     "name": "Divine Protection",
+     "player": true,
+     "spell": 498
+    },
+    {
+     "build_skew": false,
+     "name": "Fade",
+     "player": true,
+     "spell": 586
+    },
+    {
+     "build_skew": false,
+     "name": "Doom",
+     "player": true,
+     "spell": 603
+    },
+    {
+     "build_skew": false,
+     "name": "Mind Control",
+     "player": true,
+     "spell": 605
+    },
+    {
+     "build_skew": false,
+     "name": "Garrote",
+     "player": true,
+     "spell": 703
+    },
+    {
+     "build_skew": false,
+     "name": "Banish",
+     "player": true,
+     "spell": 710
+    },
+    {
+     "build_skew": false,
+     "name": "Tranquility",
+     "player": true,
+     "spell": 740
+    },
+    {
+     "build_skew": false,
+     "name": "Rejuvenation",
+     "player": true,
+     "spell": 774
+    },
+    {
+     "build_skew": false,
+     "name": "Shield Wall",
+     "player": true,
+     "spell": 871
+    }
+   ]
+  },
+  "proc-charges": {
+   "count": {
+    "all": 945,
+    "controlled": 3,
+    "player": 52
+   },
+   "doc": "charges drop on each successful proc (PrepareProcChargeDrop) and the aura is removed at 0 (ConsumeProcCharges); reset to CalcMaxCharges by every refreshing ModStackAmount",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Gouge",
+     "player": true,
+     "spell": 1776
+    },
+    {
+     "build_skew": false,
+     "name": "Stealth",
+     "player": true,
+     "spell": 1784
+    },
+    {
+     "build_skew": false,
+     "name": "Blind",
+     "player": true,
+     "spell": 2094
+    },
+    {
+     "build_skew": false,
+     "name": "Spell Reflection",
+     "player": true,
+     "spell": 23920
+    },
+    {
+     "build_skew": false,
+     "name": "Dragon's Breath",
+     "player": true,
+     "spell": 31661
+    },
+    {
+     "build_skew": false,
+     "name": "Arcane Charge",
+     "player": true,
+     "spell": 36032
+    },
+    {
+     "build_skew": false,
+     "name": "Infusion of Light",
+     "player": true,
+     "spell": 54149
+    },
+    {
+     "build_skew": false,
+     "name": "Rime",
+     "player": true,
+     "spell": 59052
+    },
+    {
+     "build_skew": false,
+     "name": "Lava Surge",
+     "player": true,
+     "spell": 77762
+    },
+    {
+     "build_skew": false,
+     "name": "Paralysis",
+     "player": true,
+     "spell": 115078
+    },
+    {
+     "build_skew": false,
+     "name": "Zen Meditation",
+     "player": true,
+     "spell": 115176
+    },
+    {
+     "build_skew": false,
+     "name": "Blackout Kick!",
+     "player": true,
+     "spell": 116768
+    }
+   ]
+  },
+  "stacks-as-charges": {
+   "count": {
+    "all": 22,
+    "controlled": 0,
+    "player": 8
+   },
+   "doc": "spell_proc PROC_ATTR_USE_STACKS_FOR_CHARGES: a proc removes one stack (ModStackAmount(-1))",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Clearcasting",
+     "player": true,
+     "spell": 16870
+    },
+    {
+     "build_skew": false,
+     "name": "Fingers of Frost",
+     "player": true,
+     "spell": 44544
+    },
+    {
+     "build_skew": false,
+     "name": "Dream of Cenarius",
+     "player": true,
+     "spell": 372152
+    },
+    {
+     "build_skew": false,
+     "name": "Cold Blooded Killer",
+     "player": true,
+     "spell": 382245
+    },
+    {
+     "build_skew": false,
+     "name": "Backlash",
+     "player": true,
+     "spell": 387385
+    },
+    {
+     "build_skew": false,
+     "name": "Ashen Juggernaut",
+     "player": true,
+     "spell": 392536
+    },
+    {
+     "build_skew": false,
+     "name": "Umbral Embrace",
+     "player": true,
+     "spell": 393763
+    },
+    {
+     "build_skew": false,
+     "name": "Evangelism",
+     "player": true,
+     "spell": 472433
+    },
+    {
+     "build_skew": false,
+     "name": "Sudden Death",
+     "player": false,
+     "spell": 52437
+    },
+    {
+     "build_skew": false,
+     "name": "Whirlwind",
+     "player": false,
+     "spell": 85739
+    },
+    {
+     "build_skew": false,
+     "name": "Surge of Light",
+     "player": false,
+     "spell": 114255
+    },
+    {
+     "build_skew": false,
+     "name": "Tooth and Claw",
+     "player": false,
+     "spell": 135286
+    }
+   ]
+  },
+  "stacks-as-charges+dormant-charges": {
+   "count": {
+    "all": 12,
+    "controlled": 0,
+    "player": 3
+   },
+   "doc": "USE_STACKS_FOR_CHARGES and ProcCharges>0: charges are initialised and gate procs (IsUsingCharges && !GetCharges) but are never dropped by procs",
+   "witnesses": [
+    {
+     "build_skew": false,
+     "name": "Vivacious Vivification",
+     "player": true,
+     "spell": 392883
+    },
+    {
+     "build_skew": false,
+     "name": "Thunder Blast",
+     "player": true,
+     "spell": 435615
+    },
+    {
+     "build_skew": false,
+     "name": "Divinity",
+     "player": true,
+     "spell": 1216314
+    },
+    {
+     "build_skew": false,
+     "name": "Backdraft",
+     "player": false,
+     "spell": 117828
+    },
+    {
+     "build_skew": false,
+     "name": "Combat Wisdom",
+     "player": false,
+     "spell": 129914
+    },
+    {
+     "build_skew": false,
+     "name": "Converging Storms",
+     "player": false,
+     "spell": 198300
+    },
+    {
+     "build_skew": false,
+     "name": "Gory Fur",
+     "player": false,
+     "spell": 201671
+    },
+    {
+     "build_skew": false,
+     "name": "Shot in the Dark",
+     "player": false,
+     "spell": 257506
+    },
+    {
+     "build_skew": false,
+     "name": "Zeal",
+     "player": false,
+     "spell": 269571
+    },
+    {
+     "build_skew": false,
+     "name": "Sudden Death",
+     "player": false,
+     "spell": 280776
+    },
+    {
+     "build_skew": false,
+     "name": "Essence Burst",
+     "player": false,
+     "spell": 359618
+    },
+    {
+     "build_skew": false,
+     "name": "Moment of Craving",
+     "player": false,
+     "spell": 1238495
+    }
+   ]
+  }
+ },
+ "initial_charge_distribution": {
+  "all": {
+   "0": 187783,
+   "1": 1055,
+   "2": 47,
+   "3": 92,
+   "4": 21,
+   "5": 55,
+   "6": 11,
+   "8": 2,
+   "9": 2,
+   "10": 35,
+   "15": 4,
+   "20": 14,
+   "25": 1,
+   "30": 2,
+   "35": 1,
+   "50": 3,
+   "60": 2,
+   "63": 2,
+   "120": 1,
+   "255": 5
+  },
+  "controlled": {
+   "0": 138,
+   "1": 3
+  },
+  "player": {
+   "0": 4135,
+   "1": 78,
+   "2": 1,
+   "3": 2,
+   "5": 1,
+   "15": 1
+  }
+ },
+ "proc_charge_modifiers": [
+  {
+   "class_mask": "0x00000000000000000000002000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 6,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 60154,
+   "targets": [],
+   "value": 1
+  },
+  {
+   "class_mask": "0x00000000000000000300000000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 4,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 70849,
+   "targets": [
+    {
+     "after_mod": 1,
+     "base": 0,
+     "name": "Spear of Bastion",
+     "target": 307871,
+     "undefined_behaviour": false
+    },
+    {
+     "after_mod": 1,
+     "base": 0,
+     "name": "Champion's Spear",
+     "target": 376080,
+     "undefined_behaviour": false
+    },
+    {
+     "after_mod": 1,
+     "base": 0,
+     "name": "Champion's Spear",
+     "target": 1271981,
+     "undefined_behaviour": false
+    }
+   ],
+   "value": 1
+  },
+  {
+   "class_mask": "0x00000000000000000000000000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 9,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 144648,
+   "targets": [],
+   "value": 1
+  },
+  {
+   "class_mask": "0x00000000000000000000004000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 15,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 144948,
+   "targets": [
+    {
+     "after_mod": 2,
+     "base": 1,
+     "name": "Bone Shield",
+     "target": 195181,
+     "undefined_behaviour": false
+    }
+   ],
+   "value": 1
+  },
+  {
+   "class_mask": "0x00000000000000000001000000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 4,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 203261,
+   "targets": [
+    {
+     "after_mod": 2,
+     "base": 0,
+     "name": "Intervene",
+     "target": 147833,
+     "undefined_behaviour": false
+    },
+    {
+     "after_mod": 2,
+     "base": 0,
+     "name": "Intercept",
+     "target": 198760,
+     "undefined_behaviour": false
+    },
+    {
+     "after_mod": 2,
+     "base": 0,
+     "name": "Interpose",
+     "target": 1244091,
+     "undefined_behaviour": false
+    }
+   ],
+   "value": 2
+  },
+  {
+   "class_mask": "0x00100000000000000000000000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 10,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 211438,
+   "targets": [
+    {
+     "after_mod": 2,
+     "base": 1,
+     "name": "Infusion of Light",
+     "target": 54149,
+     "undefined_behaviour": false
+    },
+    {
+     "after_mod": 1,
+     "base": 0,
+     "name": "Infusion of Light",
+     "target": 458213,
+     "undefined_behaviour": false
+    }
+   ],
+   "value": 1
+  },
+  {
+   "class_mask": "0x00000000000000000000002000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 3,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 321742,
+   "targets": [
+    {
+     "after_mod": 1,
+     "base": 0,
+     "name": "Presence of Mind",
+     "target": 198154,
+     "undefined_behaviour": false
+    },
+    {
+     "after_mod": 3,
+     "base": 2,
+     "name": "Presence of Mind",
+     "target": 205025,
+     "undefined_behaviour": false
+    }
+   ],
+   "value": 1
+  },
+  {
+   "class_mask": "0x00100000000000000000000000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 10,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 337777,
+   "targets": [
+    {
+     "after_mod": 2,
+     "base": 1,
+     "name": "Infusion of Light",
+     "target": 54149,
+     "undefined_behaviour": false
+    },
+    {
+     "after_mod": 1,
+     "base": 0,
+     "name": "Infusion of Light",
+     "target": 458213,
+     "undefined_behaviour": false
+    }
+   ],
+   "value": 1
+  },
+  {
+   "class_mask": "0x00000000000000000000002000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 3,
+   "index": 1,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": false,
+   "spell": 353360,
+   "targets": [
+    {
+     "after_mod": 254,
+     "base": 0,
+     "name": "Presence of Mind",
+     "target": 198154,
+     "undefined_behaviour": true
+    },
+    {
+     "after_mod": 0,
+     "base": 2,
+     "name": "Presence of Mind",
+     "target": 205025,
+     "undefined_behaviour": false
+    }
+   ],
+   "value": -2
+  },
+  {
+   "class_mask": "0x00100000000000000000000000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 10,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": true,
+   "spell": 392907,
+   "targets": [
+    {
+     "after_mod": 2,
+     "base": 1,
+     "name": "Infusion of Light",
+     "target": 54149,
+     "undefined_behaviour": false
+    },
+    {
+     "after_mod": 1,
+     "base": 0,
+     "name": "Infusion of Light",
+     "target": 458213,
+     "undefined_behaviour": false
+    }
+   ],
+   "value": 1
+  },
+  {
+   "class_mask": "0x00000000000000100000000000000000",
+   "consumer": "SpellAuras.cpp:1012",
+   "evidence": [
+    "db2-fact",
+    "structural-inference"
+   ],
+   "family": 224,
+   "index": 0,
+   "kind": "flat",
+   "label": null,
+   "op": "ProcCharges",
+   "player": true,
+   "spell": 406907,
+   "targets": [
+    {
+     "after_mod": 255,
+     "base": 15,
+     "name": "Blistering Scales",
+     "target": 360827,
+     "undefined_behaviour": true
+    }
+   ],
+   "value": -16
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py charges --census --out docs/research/aura-lifecycle-corpora/charges.json",
+  "missing_spellinfo": [
+   182749,
+   1281745
+  ],
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  },
+  "population_sizes": {
+   "all": 189140,
+   "controlled": 141,
+   "player": 4218
+  }
+ },
+ "raw_proc_charges_over_255": {
+  "consumer": "SpellAuras.cpp:1014 (uint8)",
+  "defect": "AL-D-C-03",
+  "evidence": [
+   "db2-fact",
+   "trinity-consumer"
+  ],
+  "rows": [
+   {
+    "db2_proc_charges": 999999,
+    "name": "Twilight Torment",
+    "spell": 57935,
+    "uint8": 63
+   },
+   {
+    "db2_proc_charges": 999999,
+    "name": "Twilight Torment",
+    "spell": 58835,
+    "uint8": 63
+   },
+   {
+    "db2_proc_charges": 4294967295,
+    "name": "Dreadful Strikes",
+    "spell": 128300,
+    "uint8": 255
+   },
+   {
+    "db2_proc_charges": 4294967295,
+    "name": "Sunreaver's Wisdom",
+    "spell": 138606,
+    "uint8": 255
+   },
+   {
+    "db2_proc_charges": 4294967295,
+    "name": "Silver Covenant's Wisdom",
+    "spell": 138899,
+    "uint8": 255
+   },
+   {
+    "db2_proc_charges": 4294967295,
+    "name": "Festering Wound",
+    "spell": 295873,
+    "uint8": 255
+   },
+   {
+    "db2_proc_charges": 4294967295,
+    "name": "Vial of Unseen Poison",
+    "spell": 345373,
+    "uint8": 255
+   }
+  ]
+ },
+ "rules": [
+  {
+   "counterexamples": [
+    "spell_proc Charges 0 does not disable charges (SpellMgr.cpp:1576)"
+   ],
+   "definition": "m_procCharges = uint8(CalcMaxCharges) at construction: spell_proc Charges (a 0 row falls back to DB2 ProcCharges at load) else DB2 ProcCharges, then ProcCharges spell mods; m_isUsingCharges = charges != 0",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-C-21",
+   "name": "initial-charges",
+   "population": "all providers",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [
+    "Stormkeeper 191634: charges consumed by its script only"
+   ],
+   "definition": "Only an aura with a SpellProcEntry can lose charges to procs (PrepareProcChargeDrop, then removal at 0 in ConsumeProcCharges); spell-mod charge auras are dropped through the same proc path",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-C-22",
+   "name": "proc-drop-needs-entry",
+   "population": "charges-without-proc-entry 398 all / 28 player never drop by the default proc path",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [
+    "12 of them also have charges > 0: dormant charges still gate procs (IsUsingCharges && !GetCharges)"
+   ],
+   "definition": "PROC_ATTR_USE_STACKS_FOR_CHARGES (spell_proc) turns proc consumption into ModStackAmount(-1) and leaves m_procCharges untouched",
+   "evidence": [
+    "world-db-fact",
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-23",
+   "name": "use-stacks-for-charges",
+   "population": "34 all / 11 player",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [
+    "AURA_UNIQUE capacity-0 auras keep spent charges"
+   ],
+   "definition": "Every refreshing ModStackAmount resets charges to the live CalcMaxCharges; non-refreshing reapplications keep them",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-24",
+   "name": "charges-reset-on-refresh",
+   "population": "all providers with charges (1,355 all)",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [
+    "ATTR7_DISPEL_REMOVES_CHARGES auras without charges are never offered to dispel"
+   ],
+   "definition": "ModCharges is a no-op unless IsUsingCharges; it caps only increases and removes at <= 0",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-C-25",
+   "name": "mod-charges-inert-without-charges",
+   "population": "all providers",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [
+    "Wall of Steel 203261: Intervene 147833 0 -> 2 charges",
+    "Arcane Dream 353360: Presence of Mind 205025 2 -> 0 (no charges) and 198154 0 -> uint32(-2) (UB) -> 254"
+   ],
+   "definition": "Whether an aura uses charges is decided by the live CalcMaxCharges at construction (and each refresh), so ProcCharges spell mods can create charges on a DB2 charge-less aura or erase them",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-R-C-26",
+   "name": "charges-exist-by-live-mods",
+   "population": "11 ProcCharges modifier rows (see proc_charge_modifiers)",
+   "status": "holds-on-census"
+  }
+ ],
+ "stacks_as_charges": {
+  "consumer": "SpellAuras.cpp:1823-1826",
+  "count": {
+   "all": 34,
+   "controlled": 0,
+   "player": 11
+  },
+  "evidence": [
+   "world-db-fact",
+   "trinity-consumer"
+  ],
+  "rows": [
+   {
+    "capacity": 1,
+    "dormant_charges": 0,
+    "name": "Clearcasting",
+    "player": true,
+    "spell": 16870
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Fingers of Frost",
+    "player": true,
+    "spell": 44544
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Sudden Death",
+    "player": false,
+    "spell": 52437
+   },
+   {
+    "capacity": 4,
+    "dormant_charges": 0,
+    "name": "Whirlwind",
+    "player": false,
+    "spell": 85739
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Surge of Light",
+    "player": false,
+    "spell": 114255
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 1,
+    "name": "Backdraft",
+    "player": false,
+    "spell": 117828
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 1,
+    "name": "Combat Wisdom",
+    "player": false,
+    "spell": 129914
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Tooth and Claw",
+    "player": false,
+    "spell": 135286
+   },
+   {
+    "capacity": 6,
+    "dormant_charges": 1,
+    "name": "Converging Storms",
+    "player": false,
+    "spell": 198300
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 1,
+    "name": "Gory Fur",
+    "player": false,
+    "spell": 201671
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 1,
+    "name": "Shot in the Dark",
+    "player": false,
+    "spell": 257506
+   },
+   {
+    "capacity": 1,
+    "dormant_charges": 0,
+    "name": "Precise Shots",
+    "player": false,
+    "spell": 260242
+   },
+   {
+    "capacity": 3,
+    "dormant_charges": 0,
+    "name": "Tip of the Spear",
+    "player": false,
+    "spell": 260286
+   },
+   {
+    "capacity": 6,
+    "dormant_charges": 1,
+    "name": "Zeal",
+    "player": false,
+    "spell": 269571
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 1,
+    "name": "Sudden Death",
+    "player": false,
+    "spell": 280776
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Streamline",
+    "player": false,
+    "spell": 342076
+   },
+   {
+    "capacity": 1,
+    "dormant_charges": 1,
+    "name": "Essence Burst",
+    "player": false,
+    "spell": 359618
+   },
+   {
+    "capacity": 4,
+    "dormant_charges": 0,
+    "name": "Dream of Cenarius",
+    "player": true,
+    "spell": 372152
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Empyreal Blaze",
+    "player": false,
+    "spell": 372617
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Harsh Discipline",
+    "player": false,
+    "spell": 373183
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Burnout",
+    "player": false,
+    "spell": 375802
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 0,
+    "name": "Cold Blooded Killer",
+    "player": true,
+    "spell": 382245
+   },
+   {
+    "capacity": 4,
+    "dormant_charges": 0,
+    "name": "Hit Scheme",
+    "player": false,
+    "spell": 383696
+   },
+   {
+    "capacity": 1,
+    "dormant_charges": 0,
+    "name": "Backlash",
+    "player": true,
+    "spell": 387385
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 0,
+    "name": "Restless Hunter",
+    "player": false,
+    "spell": 390212
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 0,
+    "name": "Ashen Juggernaut",
+    "player": true,
+    "spell": 392536
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 1,
+    "name": "Vivacious Vivification",
+    "player": true,
+    "spell": 392883
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 0,
+    "name": "Umbral Embrace",
+    "player": true,
+    "spell": 393763
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 1,
+    "name": "Thunder Blast",
+    "player": true,
+    "spell": 435615
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Dreamstate",
+    "player": false,
+    "spell": 450346
+   },
+   {
+    "capacity": 2,
+    "dormant_charges": 0,
+    "name": "Evangelism",
+    "player": true,
+    "spell": 472433
+   },
+   {
+    "capacity": 3,
+    "dormant_charges": 1,
+    "name": "Divinity",
+    "player": true,
+    "spell": 1216314
+   },
+   {
+    "capacity": 0,
+    "dormant_charges": 1,
+    "name": "Moment of Craving",
+    "player": false,
+    "spell": 1238495
+   },
+   {
+    "capacity": 10,
+    "dormant_charges": 0,
+    "name": "Lunar Wrath",
+    "player": false,
+    "spell": 1253600
+   }
+  ]
+ },
+ "timelines": [
+  {
+   "build_skew": false,
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "mods": {
+    "ProcCharges": [
+     -16,
+     1.0
+    ]
+   },
+   "name": "Blistering Scales",
+   "note": "Blistering Scales + Regenerative Chitin: 255 charges (UB in Trinity; Retail unknown)",
+   "rules_out": "a negative ProcCharges modifier removes charges",
+   "shape": {
+    "aura_unique": false,
+    "aura_unique_per_caster": false,
+    "capacity": 0,
+    "max_charges": 255,
+    "max_duration": 3600000,
+    "max_stacks": 0,
+    "pandemic": false
+   },
+   "spell": 360827,
+   "steps": [
+    {
+     "op": "apply",
+     "stacks": 1,
+     "t": 0
+    },
+    {
+     "op": "consume_proc",
+     "t": 100
+    },
+    {
+     "op": "consume_proc",
+     "t": 200
+    }
+   ],
+   "timeline": [
+    {
+     "applications": 255,
+     "events": [
+      {
+       "charges": 255,
+       "op": "create",
+       "stacks": 1
+      }
+     ],
+     "op": "apply",
+     "state": {
+      "charges": 255,
+      "duration": 3600000,
+      "max_duration": 3600000,
+      "remove_mode": null,
+      "removed": false,
+      "stacks": 1,
+      "using_charges": true
+     },
+     "t": 0
+    },
+    {
+     "applications": 254,
+     "events": [
+      {
+       "charges": 254,
+       "op": "drop_charge"
+      },
+      {
+       "op": "proc_handlers"
+      }
+     ],
+     "op": "consume_proc",
+     "state": {
+      "charges": 254,
+      "duration": 3599900,
+      "max_duration": 3600000,
+      "remove_mode": null,
+      "removed": false,
+      "stacks": 1,
+      "using_charges": true
+     },
+     "t": 100
+    },
+    {
+     "applications": 253,
+     "events": [
+      {
+       "charges": 253,
+       "op": "drop_charge"
+      },
+      {
+       "op": "proc_handlers"
+      }
+     ],
+     "op": "consume_proc",
+     "state": {
+      "charges": 253,
+      "duration": 3599800,
+      "max_duration": 3600000,
+      "remove_mode": null,
+      "removed": false,
+      "stacks": 1,
+      "using_charges": true
+     },
+     "t": 200
+    }
+   ]
+  },
+  {
+   "build_skew": false,
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "mods": {},
+   "name": "Clearcasting",
+   "note": "Clearcasting 135700: 1 charge; PrepareProcChargeDrop 1->0 then ConsumeProcCharges removes",
+   "rules_out": "charges survive to zero and the aura lingers",
+   "shape": {
+    "aura_unique": false,
+    "aura_unique_per_caster": false,
+    "capacity": 1,
+    "max_charges": 1,
+    "max_duration": 15000,
+    "max_stacks": 1,
+    "pandemic": false
+   },
+   "spell": 135700,
+   "steps": [
+    {
+     "op": "apply",
+     "stacks": 1,
+     "t": 0
+    },
+    {
+     "op": "consume_proc",
+     "t": 1000
+    }
+   ],
+   "timeline": [
+    {
+     "applications": 1,
+     "events": [
+      {
+       "charges": 1,
+       "op": "create",
+       "stacks": 1
+      }
+     ],
+     "op": "apply",
+     "state": {
+      "charges": 1,
+      "duration": 15000,
+      "max_duration": 15000,
+      "remove_mode": null,
+      "removed": false,
+      "stacks": 1,
+      "using_charges": true
+     },
+     "t": 0
+    },
+    {
+     "applications": 1,
+     "events": [
+      {
+       "charges": 0,
+       "op": "drop_charge"
+      },
+      {
+       "op": "proc_handlers"
+      },
+      {
+       "mode": "AURA_REMOVE_BY_DEFAULT",
+       "op": "remove",
+       "reason": "no charges left"
+      }
+     ],
+     "op": "consume_proc",
+     "state": {
+      "charges": 0,
+      "duration": 14000,
+      "max_duration": 15000,
+      "remove_mode": "AURA_REMOVE_BY_DEFAULT",
+      "removed": true,
+      "stacks": 1,
+      "using_charges": true
+     },
+     "t": 1000
+    }
+   ]
+  }
+ ]
+}

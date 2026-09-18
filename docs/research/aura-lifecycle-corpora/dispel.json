@@ -1,0 +1,970 @@
+{
+ "census": {
+  "all": {
+   "dispellable": {
+    "cannot_be_stolen": 303,
+    "dispel_all_stacks": 97,
+    "dispel_removes_charges": 8,
+    "dispel_removes_charges_but_no_authored_charges": 6,
+    "dispel_type:CURSE": 753,
+    "dispel_type:DISEASE": 591,
+    "dispel_type:ENRAGE": 712,
+    "dispel_type:INVISIBILITY": 50,
+    "dispel_type:MAGIC": 8652,
+    "dispel_type:OLD_UNUSED": 818,
+    "dispel_type:POISON": 1128,
+    "dispel_type:SPE_NPC_ONLY": 14,
+    "dispel_type:STEALTH": 245,
+    "dispel_type_but_passive": 114,
+    "dispellable_nonpassive": 12849,
+    "dispellable_with_periodic_effect": 4743,
+    "type_outside_DISPEL_ALL_MASK": 1005
+   },
+   "dispeller_effects": {
+    "dispel:effects": 398,
+    "dispel:misc-1": 14,
+    "dispel:misc0": 3,
+    "dispel:misc1": 162,
+    "dispel:misc11": 3,
+    "dispel:misc2": 38,
+    "dispel:misc3": 68,
+    "dispel:misc4": 72,
+    "dispel:misc5": 3,
+    "dispel:misc7": 18,
+    "dispel:misc8": 5,
+    "dispel:misc9": 12,
+    "dispel_mechanic:effects": 368,
+    "dispel_mechanic:misc1": 15,
+    "dispel_mechanic:misc10": 15,
+    "dispel_mechanic:misc11": 18,
+    "dispel_mechanic:misc12": 24,
+    "dispel_mechanic:misc13": 15,
+    "dispel_mechanic:misc14": 17,
+    "dispel_mechanic:misc15": 6,
+    "dispel_mechanic:misc17": 23,
+    "dispel_mechanic:misc18": 12,
+    "dispel_mechanic:misc2": 5,
+    "dispel_mechanic:misc20": 10,
+    "dispel_mechanic:misc21": 119,
+    "dispel_mechanic:misc23": 5,
+    "dispel_mechanic:misc24": 12,
+    "dispel_mechanic:misc26": 1,
+    "dispel_mechanic:misc27": 2,
+    "dispel_mechanic:misc29": 2,
+    "dispel_mechanic:misc3": 1,
+    "dispel_mechanic:misc30": 12,
+    "dispel_mechanic:misc5": 21,
+    "dispel_mechanic:misc7": 29,
+    "dispel_mechanic:misc9": 4,
+    "steal:effects": 7,
+    "steal:misc1": 7
+   },
+   "population": "all",
+   "provider_spells": 189140
+  },
+  "controlled": {
+   "dispellable": {
+    "dispel_type:DISEASE": 3,
+    "dispel_type:INVISIBILITY": 1,
+    "dispel_type:MAGIC": 15,
+    "dispel_type:STEALTH": 2,
+    "dispellable_nonpassive": 21,
+    "dispellable_with_periodic_effect": 7,
+    "type_outside_DISPEL_ALL_MASK": 3
+   },
+   "dispeller_effects": {
+    "dispel:effects": 28,
+    "dispel:misc1": 12,
+    "dispel:misc3": 8,
+    "dispel:misc4": 8
+   },
+   "population": "controlled",
+   "provider_spells": 141
+  },
+  "player": {
+   "dispellable": {
+    "cannot_be_stolen": 12,
+    "dispel_all_stacks": 5,
+    "dispel_type:CURSE": 8,
+    "dispel_type:DISEASE": 5,
+    "dispel_type:ENRAGE": 5,
+    "dispel_type:INVISIBILITY": 2,
+    "dispel_type:MAGIC": 107,
+    "dispel_type:OLD_UNUSED": 12,
+    "dispel_type:POISON": 6,
+    "dispel_type:STEALTH": 2,
+    "dispel_type_but_passive": 10,
+    "dispellable_nonpassive": 137,
+    "dispellable_with_periodic_effect": 50,
+    "type_outside_DISPEL_ALL_MASK": 9
+   },
+   "dispeller_effects": {
+    "dispel:effects": 50,
+    "dispel:misc1": 14,
+    "dispel:misc11": 1,
+    "dispel:misc2": 7,
+    "dispel:misc3": 11,
+    "dispel:misc4": 13,
+    "dispel:misc9": 4,
+    "dispel_mechanic:effects": 1,
+    "dispel_mechanic:misc29": 1,
+    "steal:effects": 1,
+    "steal:misc1": 1
+   },
+   "population": "player",
+   "provider_spells": 4218
+  }
+ },
+ "core_navigation": [
+  {
+   "core_coords": [
+    "crates/sim/src/random.rs:133-146"
+   ],
+   "id": "AL-K-E-03",
+   "observation": "Core's uniform_index consumes no draw for a singleton domain; Trinity's urand(0,0) consumes one engine word and every resistance roll consumes one irand word even at 100 %. Stream alignment differs (not an exactness claim about Retail).",
+   "reopen_condition": "Core adopts a Trinity-aligned draw-address contract",
+   "research_ref": "dispel.json AL-R-E-11",
+   "topic": "singleton-domain draws"
+  },
+  {
+   "core_coords": [
+    "crates/combat/src/program/dispel_mechanic.rs:387-395"
+   ],
+   "id": "AL-K-E-04",
+   "observation": "Trinity draws once per owned aura applied on the target, passive/hidden ones included, before the mechanic test.",
+   "reopen_condition": "passive traits represented as auras in Core",
+   "research_ref": "AL-R-E-13",
+   "topic": "mechanic-dispel forced trial count (UNK-I-002)"
+  }
+ ],
+ "dispel_all_mask": 30,
+ "dispel_types": {
+  "0": "NONE",
+  "1": "MAGIC",
+  "10": "ZG_TICKET",
+  "11": "OLD_UNUSED",
+  "2": "CURSE",
+  "3": "DISEASE",
+  "4": "POISON",
+  "5": "STEALTH",
+  "6": "INVISIBILITY",
+  "7": "ALL",
+  "8": "SPE_NPC_ONLY",
+  "9": "ENRAGE"
+ },
+ "falsification": [
+  {
+   "action": "discarded (this track's first model); AL-R-E-11",
+   "attempt": "overload resolution of roll_chance(int32) (Random.h:54-72) and probe rngcount",
+   "id": "AL-F-E-10",
+   "result": "signed_integral overload -> irand(0, 99)",
+   "rule": "dispel resistance roll is a float rand_chance()"
+  },
+  {
+   "action": "discarded for Trinity; AL-K-E-03",
+   "attempt": "probe rngcount urand 0 0",
+   "id": "AL-F-E-11",
+   "result": "one rand32 word per call on libstdc++ 13",
+   "rule": "urand over a singleton domain consumes no draw (Core RandomStream::uniform_index)"
+  },
+  {
+   "action": "discarded",
+   "attempt": "GetDispellableAuraList + DF-01",
+   "id": "AL-F-E-12",
+   "result": "one entry per aura regardless of stacks",
+   "rule": "stacks weight the dispel selection"
+  },
+  {
+   "action": "discarded; AL-R-E-06",
+   "attempt": "ModStackAmount(num<0) refresh predicate; DF-03",
+   "id": "AL-F-E-13",
+   "result": "no RefreshTimers for a decrease",
+   "rule": "a stack dispel refreshes the aura"
+  }
+ ],
+ "fixtures": [
+  {
+   "attempts": [
+    {
+     "aura": "B",
+     "charges_taken": 1,
+     "index": 1,
+     "success": true
+    },
+    {
+     "aura": "A",
+     "charges_taken": 1,
+     "index": 0,
+     "success": true
+    }
+   ],
+   "candidates": [
+    [
+     "A",
+     1
+    ],
+    [
+     "B",
+     5
+    ]
+   ],
+   "id": "DF-01",
+   "rng_calls": [
+    [
+     "urand",
+     [
+      0,
+      1,
+      1
+     ]
+    ],
+    [
+     "irand",
+     [
+      0,
+      99,
+      50
+     ]
+    ],
+    [
+     "urand",
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    [
+     "irand",
+     [
+      0,
+      99,
+      50
+     ]
+    ]
+   ],
+   "success": [
+    [
+     "B",
+     1
+    ],
+    [
+     "A",
+     1
+    ]
+   ],
+   "title": "one selection weight per aura identity (5-stack B vs A)"
+  },
+  {
+   "failed": [
+    300,
+    300
+   ],
+   "id": "DF-02",
+   "rng_calls": [
+    [
+     "urand",
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     "irand",
+     [
+      0,
+      99,
+      99
+     ]
+    ],
+    [
+     "urand",
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    [
+     "irand",
+     [
+      0,
+      99,
+      10
+     ]
+    ]
+   ],
+   "success": [],
+   "title": "failed resistance roll consumes an attempt"
+  },
+  {
+   "id": "DF-03",
+   "log": [
+    "OnDispel",
+    "SetStackAmount(2)",
+    "AfterDispel"
+   ],
+   "refreshed": false,
+   "removed": null,
+   "stacks": 2,
+   "title": "one-stack dispel of a 3-stack periodic aura"
+  },
+  {
+   "id": "DF-04",
+   "log": [
+    "OnDispel",
+    "ModCharges no-op (IsUsingCharges false)",
+    "AfterDispel"
+   ],
+   "removed": null,
+   "title": "ATTR7_DISPEL_REMOVES_CHARGES aura without charges"
+  },
+  {
+   "attempts": [
+    {
+     "aura": "X1",
+     "charges_taken": 1,
+     "index": 0,
+     "success": true
+    },
+    {
+     "aura": "X2",
+     "charges_taken": 1,
+     "index": 0,
+     "success": true
+    }
+   ],
+   "id": "DF-05",
+   "success": [
+    [
+     "X1",
+     2
+    ]
+   ],
+   "title": "same spell, two absent casters: success groups collapse (AL-D-E-02)"
+  }
+ ],
+ "provenance": {
+  "command": "aura_lifecycle.py dispel --corpus --out docs/research/aura-lifecycle-corpora/dispel.json",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  }
+ },
+ "retail_experiments": [
+  {
+   "discriminates": "AL-R-E-10 / AL-R-E-11",
+   "fidelity": "approximate",
+   "id": "AL-X-E-10",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "uniform per identity; resisted attempt consumed"
+    },
+    {
+     "name": "stack-weighted",
+     "prediction": "selection probability proportional to stacks"
+    }
+   ],
+   "observable": "frequency of each removal",
+   "question": "Is dispel selection uniform per aura identity, and does a resisted attempt consume the attempt?",
+   "related": [
+    "AL-U-E-10"
+   ],
+   "setup": "target with one 5-stack and one 1-stack Magic debuff, many single-attempt dispels"
+  },
+  {
+   "discriminates": "AL-R-E-06",
+   "fidelity": "exact",
+   "id": "AL-X-E-11",
+   "models": [
+    {
+     "name": "trinity",
+     "prediction": "no change"
+    },
+    {
+     "name": "refresh-on-change",
+     "prediction": "duration refreshed"
+    }
+   ],
+   "observable": "UnitAura expirationTime and tick timestamps",
+   "question": "Does a one-stack dispel of a stacked DoT change its remaining duration or next tick time?",
+   "related": [
+    "AL-R-E-06"
+   ],
+   "setup": "3-stack Magic DoT, dispel one stack"
+  }
+ ],
+ "rules": [
+  {
+   "counterexamples": [],
+   "definition": "Candidates are the target's owned auras applied on it, not passive, dispel-mask hit, application positivity != relation (xor reflect), CalcDispelChance > 0 and >0 stacks (or charges under ATTR7); one weight per aura.",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-E-10",
+   "name": "dispel-selection",
+   "population": "dispellable providers (census.*.dispellable)",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "Each of the effect-value attempts draws urand(0, remaining-1) then irand(0,99) (int32 roll_chance); a failed roll consumes the attempt and leaves the candidate; each call consumes one rand32 word on libstdc++ 13 (including urand(0,0) and a 100 % chance) plus one more per Lemire rejection (word w redrawn when (w*n) mod 2^32 < 2^32 mod n; e.g. w = 0 for irand(0,99)).",
+   "evidence": [
+    "trinity-probe",
+    "differential"
+   ],
+   "id": "AL-R-E-11",
+   "name": "dispel-attempt-draws",
+   "population": "raw-38 dispellers (census.*.dispeller_effects)",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "A success removes one stack (or one charge under ATTR7_DISPEL_REMOVES_CHARGES), all of them under ATTR1_DISPEL_ALL_STACKS; OnDispel runs before and AfterDispel after the mutation; mode ENEMY_SPELL. All removals are deferred until every attempt has been rolled (SpellEffects.cpp:2216).",
+   "evidence": [
+    "trinity-consumer",
+    "trinity-probe"
+   ],
+   "id": "AL-R-E-12",
+   "name": "dispel-removal-unit",
+   "population": "dispellable providers",
+   "status": "trinity-only"
+  },
+  {
+   "counterexamples": [],
+   "definition": "DispelType 11 (Trinity enum name DESPEL_OLD_UNUSED) is carried by current auras (all 12 player-population ones are bleeds by name: Rupture 1943, Rip 1079, Rake 155722, Garrote 703, ...) and dispelled by misc-11 effects (Cauterizing Flame 374251); Trinity's mask arithmetic (1 << 11) handles it, the DISPEL_ALL mask does not include it.",
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "AL-R-E-14",
+   "name": "dispel-type-11-is-a-live-family",
+   "population": "census.*.dispellable dispel_type:OLD_UNUSED (all 818, player 12)",
+   "status": "holds-on-census"
+  },
+  {
+   "counterexamples": [],
+   "definition": "Mechanic dispel draws irand(0,99) for every owned aura applied on the target (passive and positive ones included) before testing the mechanic mask, then removes whole auras with ENEMY_SPELL and no dispel hooks.",
+   "evidence": [
+    "trinity-consumer"
+   ],
+   "id": "AL-R-E-13",
+   "name": "mechanic-dispel-rolls-first",
+   "population": "raw-108 dispellers",
+   "status": "trinity-only"
+  }
+ ],
+ "trinity_defects": [
+  {
+   "coords": [
+    "Unit.cpp:4765-4768"
+   ],
+   "description": "An ATTR7_DISPEL_REMOVES_CHARGES aura with zero charges is never a dispel candidate (charges > 0 filter) although its DispelType matches; 6 dispellable non-passive providers in the all population have no authored ProcCharges (139368, 184239, 247788, 296199, 296429, 333874; none player) -- dispellable only if runtime spell mods / spell_proc grant charges",
+   "id": "AL-D-E-04",
+   "lifecycle_effect": "aura immune to dispel in Trinity",
+   "oracle_behaviour": "dispel.dispellable_list reproduces the filter; census counts dispel_removes_charges_but_no_authored_charges"
+  },
+  {
+   "coords": [
+    "SpellEffects.cpp:2174",
+    "SpellEffects.cpp:2222"
+   ],
+   "description": "EffectDispel groups successes by (spell id, GetCaster() pointer); two auras of the same spell whose casters are both absent compare equal (nullptr == nullptr) and collapse into one group, so RemoveAurasDueToSpellByDispel is called only with the first aura's caster GUID",
+   "id": "AL-D-E-02",
+   "lifecycle_effect": "the second aura's success is credited to the first (extra charge) and the second aura survives",
+   "oracle_behaviour": "dispel.effect_dispel reproduces the collapse (fixture DF-05)"
+  }
+ ],
+ "unknowns": [
+  {
+   "blocker": "Retail",
+   "build_skew": false,
+   "coords": [
+    "SpellEffects.cpp:2163-2194"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "retail-unknown"
+   ],
+   "id": "AL-U-E-10",
+   "known": "Trinity: yes and yes",
+   "question": "Does Retail spend an attempt on a resisted dispel and select uniformly per aura identity?",
+   "reopen_condition": "AL-X-E-10",
+   "subject": "Retail dispel RNG",
+   "why_unresolved": "Retail server code unavailable"
+  },
+  {
+   "blocker": "track A",
+   "build_skew": false,
+   "coords": [
+    "SpellAuras.cpp:120-150"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "unresolved"
+   ],
+   "id": "AL-U-E-11",
+   "known": "AuraApplication ctor decides per effect mask and caster friendliness (SpellAuras.cpp:120-150)",
+   "question": "Which applications count as positive for dispel filtering when caster and holder relation differs from the spell's positivity?",
+   "reopen_condition": "track A application positivity model",
+   "subject": "application positivity",
+   "why_unresolved": "track A/targeting positivity owns it"
+  }
+ ],
+ "witnesses": [
+  {
+   "aura": {
+    "authored_proc_charges": 0,
+    "cannot_be_stolen": false,
+    "charges_mode_without_charges": false,
+    "core_negative_witness": true,
+    "dispel_all_stacks": false,
+    "dispel_mask": 2,
+    "dispel_type": 1,
+    "dispel_type_name": "MAGIC",
+    "effect_mechanics": [],
+    "mechanic": 0,
+    "mode": "ENEMY_SPELL",
+    "passive_undispellable": false,
+    "periodic_aura_types": [
+     8
+    ],
+    "periodic_on_dispel": "whole-aura dispel removes it with ENEMY_SPELL, no final tick; a stack dispel recalculates amounts (SetStackAmount) and keeps the periodic timer",
+    "removed_by_dispeller_misc": [
+     "MAGIC",
+     "ALL"
+    ],
+    "spell_positive": true,
+    "unit_of_removal": "stack"
+   },
+   "build_skew": false,
+   "dispeller": [],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Rejuvenation",
+   "spell": 774
+  },
+  {
+   "aura": {
+    "authored_proc_charges": 0,
+    "cannot_be_stolen": false,
+    "charges_mode_without_charges": false,
+    "core_negative_witness": true,
+    "dispel_all_stacks": false,
+    "dispel_mask": 2,
+    "dispel_type": 1,
+    "dispel_type_name": "MAGIC",
+    "effect_mechanics": [],
+    "mechanic": 0,
+    "mode": "ENEMY_SPELL",
+    "passive_undispellable": false,
+    "periodic_aura_types": [
+     8
+    ],
+    "periodic_on_dispel": "whole-aura dispel removes it with ENEMY_SPELL, no final tick; a stack dispel recalculates amounts (SetStackAmount) and keeps the periodic timer",
+    "removed_by_dispeller_misc": [
+     "MAGIC",
+     "ALL"
+    ],
+    "spell_positive": true,
+    "unit_of_removal": "stack"
+   },
+   "build_skew": false,
+   "dispeller": [],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Lifebloom",
+   "spell": 33763
+  },
+  {
+   "aura": {
+    "authored_proc_charges": 0,
+    "cannot_be_stolen": true,
+    "charges_mode_without_charges": false,
+    "core_negative_witness": false,
+    "dispel_all_stacks": true,
+    "dispel_mask": 2,
+    "dispel_type": 1,
+    "dispel_type_name": "MAGIC",
+    "effect_mechanics": [],
+    "mechanic": 0,
+    "mode": "ENEMY_SPELL",
+    "passive_undispellable": false,
+    "periodic_aura_types": [],
+    "periodic_on_dispel": null,
+    "removed_by_dispeller_misc": [
+     "MAGIC",
+     "ALL"
+    ],
+    "spell_positive": true,
+    "unit_of_removal": "stack"
+   },
+   "build_skew": false,
+   "dispeller": [],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Earth Shield",
+   "spell": 974
+  },
+  {
+   "aura": {
+    "authored_proc_charges": 0,
+    "cannot_be_stolen": false,
+    "charges_mode_without_charges": false,
+    "core_negative_witness": true,
+    "dispel_all_stacks": false,
+    "dispel_mask": 2048,
+    "dispel_type": 11,
+    "dispel_type_name": "OLD_UNUSED",
+    "effect_mechanics": [
+     15
+    ],
+    "mechanic": 15,
+    "mode": "ENEMY_SPELL",
+    "passive_undispellable": false,
+    "periodic_aura_types": [
+     3,
+     226
+    ],
+    "periodic_on_dispel": "whole-aura dispel removes it with ENEMY_SPELL, no final tick; a stack dispel recalculates amounts (SetStackAmount) and keeps the periodic timer",
+    "removed_by_dispeller_misc": [
+     "OLD_UNUSED"
+    ],
+    "spell_positive": false,
+    "unit_of_removal": "stack"
+   },
+   "build_skew": false,
+   "dispeller": [],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Rupture",
+   "spell": 1943
+  },
+  {
+   "aura": {
+    "authored_proc_charges": 0,
+    "cannot_be_stolen": false,
+    "charges_mode_without_charges": false,
+    "core_negative_witness": false,
+    "dispel_all_stacks": false,
+    "dispel_mask": 512,
+    "dispel_type": 9,
+    "dispel_type_name": "ENRAGE",
+    "effect_mechanics": [],
+    "mechanic": 0,
+    "mode": "ENEMY_SPELL",
+    "passive_undispellable": false,
+    "periodic_aura_types": [],
+    "periodic_on_dispel": null,
+    "removed_by_dispeller_misc": [
+     "ENRAGE"
+    ],
+    "spell_positive": true,
+    "unit_of_removal": "stack"
+   },
+   "build_skew": false,
+   "dispeller": [],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Berserker Rage",
+   "spell": 18499
+  },
+  {
+   "aura": {
+    "authored_proc_charges": 0,
+    "cannot_be_stolen": false,
+    "charges_mode_without_charges": false,
+    "core_negative_witness": false,
+    "dispel_all_stacks": true,
+    "dispel_mask": 2,
+    "dispel_type": 1,
+    "dispel_type_name": "MAGIC",
+    "effect_mechanics": [],
+    "mechanic": 0,
+    "mode": "ENEMY_SPELL",
+    "passive_undispellable": false,
+    "periodic_aura_types": [],
+    "periodic_on_dispel": null,
+    "removed_by_dispeller_misc": [
+     "MAGIC",
+     "ALL"
+    ],
+    "spell_positive": true,
+    "unit_of_removal": "stack"
+   },
+   "build_skew": false,
+   "dispeller": [],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Clearcasting",
+   "spell": 16870
+  },
+  {
+   "build_skew": false,
+   "dispeller": [
+    {
+     "base_points": 100,
+     "dispel_mask": 2,
+     "effect": 38,
+     "index": 0,
+     "kind": "dispel",
+     "misc": 1,
+     "types_covered": [
+      "MAGIC"
+     ]
+    },
+    {
+     "base_points": 0,
+     "dispel_mask": 8,
+     "effect": 38,
+     "index": 1,
+     "kind": "dispel",
+     "misc": 3,
+     "types_covered": [
+      "DISEASE"
+     ]
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Purify",
+   "spell": 527
+  },
+  {
+   "build_skew": false,
+   "dispeller": [
+    {
+     "base_points": 1,
+     "dispel_mask": 2,
+     "effect": 38,
+     "index": 0,
+     "kind": "dispel",
+     "misc": 1,
+     "types_covered": [
+      "MAGIC"
+     ]
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Purge",
+   "spell": 370
+  },
+  {
+   "build_skew": false,
+   "dispeller": [
+    {
+     "base_points": 1,
+     "dispel_mask": 2,
+     "effect": 126,
+     "index": 0,
+     "kind": "steal",
+     "misc": 1,
+     "types_covered": [
+      "MAGIC"
+     ]
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Spellsteal",
+   "spell": 30449
+  },
+  {
+   "build_skew": false,
+   "dispeller": [
+    {
+     "base_points": 100,
+     "dispel_mask": 4,
+     "effect": 38,
+     "index": 0,
+     "kind": "dispel",
+     "misc": 2,
+     "types_covered": [
+      "CURSE"
+     ]
+    },
+    {
+     "base_points": 100,
+     "dispel_mask": 16,
+     "effect": 38,
+     "index": 1,
+     "kind": "dispel",
+     "misc": 4,
+     "types_covered": [
+      "POISON"
+     ]
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Remove Corruption",
+   "spell": 2782
+  },
+  {
+   "build_skew": false,
+   "dispeller": [
+    {
+     "base_points": 0,
+     "dispel_mask": 16,
+     "effect": 38,
+     "index": 0,
+     "kind": "dispel",
+     "misc": 4,
+     "types_covered": [
+      "POISON"
+     ]
+    },
+    {
+     "base_points": 0,
+     "dispel_mask": 8,
+     "effect": 38,
+     "index": 1,
+     "kind": "dispel",
+     "misc": 3,
+     "types_covered": [
+      "DISEASE"
+     ]
+    },
+    {
+     "base_points": 100,
+     "dispel_mask": 2,
+     "effect": 38,
+     "index": 2,
+     "kind": "dispel",
+     "misc": 1,
+     "types_covered": [
+      "MAGIC"
+     ]
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Cleanse",
+   "spell": 4987
+  },
+  {
+   "build_skew": false,
+   "dispeller": [
+    {
+     "base_points": 100,
+     "dispel_mask": 2048,
+     "effect": 38,
+     "index": 0,
+     "kind": "dispel",
+     "misc": 11,
+     "types_covered": [
+      "OLD_UNUSED"
+     ]
+    },
+    {
+     "base_points": 100,
+     "dispel_mask": 16,
+     "effect": 38,
+     "index": 2,
+     "kind": "dispel",
+     "misc": 4,
+     "types_covered": [
+      "POISON"
+     ]
+    },
+    {
+     "base_points": 100,
+     "dispel_mask": 4,
+     "effect": 38,
+     "index": 3,
+     "kind": "dispel",
+     "misc": 2,
+     "types_covered": [
+      "CURSE"
+     ]
+    },
+    {
+     "base_points": 100,
+     "dispel_mask": 8,
+     "effect": 38,
+     "index": 4,
+     "kind": "dispel",
+     "misc": 3,
+     "types_covered": [
+      "DISEASE"
+     ]
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Cauterizing Flame",
+   "spell": 374251
+  },
+  {
+   "build_skew": false,
+   "dispeller": [
+    {
+     "base_points": 1,
+     "effect": 108,
+     "index": 0,
+     "kind": "dispel_mechanic",
+     "misc": 29
+    }
+   ],
+   "evidence": [
+    "db2-fact",
+    "trinity-consumer"
+   ],
+   "in_player_population": true,
+   "name": "Shattering Throw",
+   "spell": 64380
+  }
+ ]
+}

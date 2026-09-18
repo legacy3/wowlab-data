@@ -1,0 +1,1091 @@
+{
+ "matrix": [
+  {
+   "coords": [
+    "Object.cpp:1829-1830",
+    "SpellAuraEffects.cpp:1005-1006"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "all-periodic",
+   "input": "SpellMod ChangeCastTime (channels only)",
+   "note": "channel period goes through ModSpellDurationTime, which applies ChangeCastTime then cast speed (only when raw 173/278 is set); captured at create/refresh (R2-08)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:932",
+    "Spell.cpp:3215",
+    "SpellAuras.cpp:978"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "all-periodic",
+   "input": "SpellMod Duration (caster)",
+   "note": "CalcMaxDuration at hit (PreprocessSpellHit) and again in RefreshTimers -> also recalculated-on-refresh; sets MaxDuration and therefore the tick budget (Track B owns duration)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:996-999"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "all-periodic",
+   "input": "SpellMod Period (caster)",
+   "note": "ApplySpellMod(SpellModOp::Period) inside CalculatePeriodic -> captured at create, re-read at RefreshTimers (also recalculated-on-refresh); no recalculation when the modifier aura changes (R2-08)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3268-3282"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "all-periodic",
+   "input": "haste -> duration (raw 273)",
+   "note": "duration = max(orig/period,1)*period with the already-hasted period (Track B)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:996-1013",
+    "SpellAuras.cpp:988-991"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "all-periodic",
+   "input": "haste -> period",
+   "note": "hasted period computed in CalculatePeriodic at create and at RefreshTimers (even pandemic: period is re-hasted while the timer is kept); the engine never recalculates on a haste change -> also recalculated-on-refresh. SCRIPT EXCEPTIONS (R2-08): Arcane Tempest spell_item.cpp:4733-4734 (ModStackAmount(1, NONE, false) then CalculatePeriodic with live haste at each stack), zone_zuldrak.cpp:720, stratholme.cpp:382, shadowfang_keep.cpp:39; DoEffectCalcPeriodic hooks re-run on every CalculatePeriodic",
+   "policy_source": "combined",
+   "simc": {
+    "coords": "engine/action/action.cpp:2784,2797-2800; engine/action/dot.cpp:1000-1010",
+    "timing": "dynamic for hasted_ticks dots (next tick rescheduled); snapshot for channels"
+   },
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3240",
+    "SpellAuras.cpp:976-992",
+    "SpellAuraEffects.cpp:949-959"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "all-periodic",
+   "input": "periodic timer phase",
+   "note": "Spell-hit path: restart on untriggered reapply of StackAmount<2 non-pandemic auras, preserved otherwise; non-hit paths (AddAura, effect 289, linked, steal, script ModStackAmount default) restart unless raw 436 (R1-05, R2-04)",
+   "policy_source": "combined",
+   "simc": {
+    "coords": "engine/action/dot.cpp:940-969",
+    "timing": "always preserved (dot_t::refresh never touches tick_event)"
+   },
+   "trinity_timing": "recalculated-on-refresh"
+  },
+  {
+   "coords": [
+    "Spell.cpp:3218",
+    "Spell.cpp:3262"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "all-periodic",
+   "input": "target duration mods / diminishing returns",
+   "note": "ApplyDiminishingToDuration and ModSpellDuration on the Spell-hit path only; never re-read; a non-hit refresh (AddAura, effect 289, scripts) uses CalcMaxDuration without them (Track B)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5863-5891"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "health-funnel",
+   "input": "amount",
+   "note": "GetAmount capped by caster live health",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5913-5914"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "obs-mod-health",
+   "input": "target max health",
+   "note": "CountPctFromMaxHealth(amount) at tick; no done bonus",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "target-live-lookup"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:6010-6051"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "obs-mod-power",
+   "input": "target max power",
+   "note": "CalculatePct(live max power, amount)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "target-live-lookup"
+  },
+  {
+   "coords": [
+    "Unit.cpp:6810"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "BonusCoefficient spellmod",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "Unit.cpp:6896"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "SpellMod PeriodicHealingAndDamage",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellInfo.cpp:603-604 (ApplyEffectModifiers)",
+    "SpellAuraEffects.cpp:1223-1247"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "SpellMod Points / PointsIndexN (caster)",
+   "note": "applied in CalcValue; a later Points spellmod recalculates only passive/permanent own auras (or IsUpdatingTemporaryAuraValuesBySpellMod) -> explicit-recalculation for those",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:736-745",
+    "SpellAuraEffects.cpp:780",
+    "SpellInfo.cpp:521-660"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "base points (EffectBasePoints, variance roll, level scaling, trait points, combo points)",
+   "note": "CalcValue inside CalculateAmount; re-run (new roll, new combo points) on same-caster reapply/stack via SetStackAmount (SpellAuras.cpp:1056-1074) -> also recalculated-on-refresh",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp (base_ta per tick uses action state)",
+    "timing": "application-snapshot"
+   },
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:820",
+    "Unit.cpp:6810-6813"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "caster absent (despawned / other map) at tick",
+   "note": "caster==nullptr -> no done bonus at all (BonusDone skipped), crit 0; dead caster still present -> full bonus",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:1278-1281",
+    "SpellAuraEffects.cpp:6132-6143",
+    "SpellAuras.cpp:524-533"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "crit chance",
+   "note": "rolled per tick from the SPELL-MOD OWNER's live SpellCritChanceDone (GetSpellModOwner: a pet/guardian caster uses its owner's chance), then target SpellCritChanceTaken; 0 unless ATTR8_PERIODIC_CAN_CRIT (raw 265) and not ATTR2_CANT_CRIT; 0 when the caster is absent or has no spell-mod owner (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "timing": "dynamic (STATE_CRIT in update_flags; tick_may_crit)"
+   },
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:6137-6141"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "crit chance of a pet/guardian caster",
+   "note": "modOwner = caster->GetSpellModOwner() -> the owning player's crit chance, not the pet's (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "DBCEnums.h:2418",
+    "engine/action/action.cpp:2802-2812"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "simc-consumer"
+   ],
+   "family": "periodic-damage",
+   "input": "effect attribute ComputePointsOnlyAtCastTime (0x8000)",
+   "note": "NYI in Trinity (ignored: all done inputs stay dynamic); simc snapshots player-scoped inputs -> known divergence",
+   "policy_source": "db2",
+   "simc": {
+    "timing": "application-snapshot (player-scoped)"
+   },
+   "trinity_timing": "unknown"
+  },
+  {
+   "coords": [
+    "SpellInfo.cpp:600-601",
+    "StatSystem.cpp:557-561"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "mastery (ATTR8_MASTERY_AFFECTS_POINTS), aura owned by ANOTHER unit (every DoT/HoT on others)",
+   "note": "points += Mastery*BonusCoefficient only in CalculateAmount (create / reapply / stack change); Player::UpdateMastery walks GetOwnedAuras() of the caster only -> never re-read (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "StatSystem.cpp:557-561"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "mastery (ATTR8_MASTERY_AFFECTS_POINTS), aura the caster owns on itself",
+   "note": "RecalculateAmount on every mastery update for owned auras with caster==owner and nonzero BonusCoefficient",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "explicit-recalculation"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:829-841"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "rolling periodic remainder (raw 334)",
+   "note": "new amount += old EstimatedAmount (done-bonus at apply) * remaining/total ticks; Track B owns the formula",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:2721-2725,2794",
+    "timing": "recalculated-on-refresh (STATE_ROLLING_TA not in update_flags)"
+   },
+   "trinity_timing": "recalculated-on-refresh"
+  },
+  {
+   "coords": [
+    "Unit.cpp:6810",
+    "SpellAuraEffects.cpp:5663-5665"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "spell power / attack power coefficient",
+   "note": "SpellDamageBonusDone with DOT at every tick, caster pointer from UpdateOwner (SpellAuras.cpp:820)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:2775-2787",
+    "timing": "dynamic-each-tick (update_flags |= STATE_SP/STATE_AP)"
+   },
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:844-845",
+    "SpellAuraEffects.cpp:5663-5665"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "stack count",
+   "note": "amount *= stack at CalculateAmount AND stack passed live to BonusDone at tick (SP/AP part x stack) unless SuppressPointsStacking (0x40)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "timing": "dynamic (dot stack)"
+   },
+   "trinity_timing": "recalculated-on-stack-change"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5663-5665",
+    "SpellAuraEffects.cpp:5694-5726"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "target taken modifiers / absorb / armor / resilience",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:507",
+    "timing": "dynamic (STATE_TGT_* in update_flags)"
+   },
+   "trinity_timing": "target-live-lookup"
+  },
+  {
+   "coords": [
+    "Unit.cpp:6901-6990"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage",
+   "input": "versatility / % damage-healing done auras",
+   "note": "SpellDamagePctDone / SpellHealingPctDone at tick; ATTR3_IGNORE_CASTER_MODIFIERS / ATTR6 skip",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:2733-2735,2787-2812",
+    "timing": "dynamic-each-tick unless EX_COMPUTE_ON_CAST (player-scoped snapshot) or persistent multiplier"
+   },
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5696-5700"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-damage-percent",
+   "input": "target max health",
+   "note": "ceil(pct of live max health) then BonusTaken; no done bonus",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "target-live-lookup"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:1321-1323"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-dummy",
+   "input": "everything",
+   "note": "no default tick action; OnEffectPeriodic scripts decide (Track H)",
+   "policy_source": "script",
+   "simc": null,
+   "trinity_timing": "script-controlled"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:6053-6083"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-energize",
+   "input": "energize amount",
+   "note": "GetAmount() only; no live caster input; recalculated on reapply/stack",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "Unit.cpp:7327"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "BonusCoefficient spellmod",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "Unit.cpp:7434"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "SpellMod PeriodicHealingAndDamage",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellInfo.cpp:603-604 (ApplyEffectModifiers)",
+    "SpellAuraEffects.cpp:1223-1247"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "SpellMod Points / PointsIndexN (caster)",
+   "note": "applied in CalcValue; a later Points spellmod recalculates only passive/permanent own auras (or IsUpdatingTemporaryAuraValuesBySpellMod) -> explicit-recalculation for those",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:736-745",
+    "SpellAuraEffects.cpp:780",
+    "SpellInfo.cpp:521-660"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "base points (EffectBasePoints, variance roll, level scaling, trait points, combo points)",
+   "note": "CalcValue inside CalculateAmount; re-run (new roll, new combo points) on same-caster reapply/stack via SetStackAmount (SpellAuras.cpp:1056-1074) -> also recalculated-on-refresh",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp (base_ta per tick uses action state)",
+    "timing": "application-snapshot"
+   },
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:820",
+    "Unit.cpp:6810-6813"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "caster absent (despawned / other map) at tick",
+   "note": "caster==nullptr -> no done bonus at all (BonusDone skipped), crit 0; dead caster still present -> full bonus",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:1278-1281",
+    "SpellAuraEffects.cpp:6132-6143",
+    "SpellAuras.cpp:524-533"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "crit chance",
+   "note": "rolled per tick from the SPELL-MOD OWNER's live SpellCritChanceDone (GetSpellModOwner: a pet/guardian caster uses its owner's chance), then target SpellCritChanceTaken; 0 unless ATTR8_PERIODIC_CAN_CRIT (raw 265) and not ATTR2_CANT_CRIT; 0 when the caster is absent or has no spell-mod owner (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "timing": "dynamic (STATE_CRIT in update_flags; tick_may_crit)"
+   },
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:6137-6141"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "crit chance of a pet/guardian caster",
+   "note": "modOwner = caster->GetSpellModOwner() -> the owning player's crit chance, not the pet's (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "DBCEnums.h:2418",
+    "engine/action/action.cpp:2802-2812"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "simc-consumer"
+   ],
+   "family": "periodic-heal",
+   "input": "effect attribute ComputePointsOnlyAtCastTime (0x8000)",
+   "note": "NYI in Trinity (ignored: all done inputs stay dynamic); simc snapshots player-scoped inputs -> known divergence",
+   "policy_source": "db2",
+   "simc": {
+    "timing": "application-snapshot (player-scoped)"
+   },
+   "trinity_timing": "unknown"
+  },
+  {
+   "coords": [
+    "SpellInfo.cpp:600-601",
+    "StatSystem.cpp:557-561"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "mastery (ATTR8_MASTERY_AFFECTS_POINTS), aura owned by ANOTHER unit (every DoT/HoT on others)",
+   "note": "points += Mastery*BonusCoefficient only in CalculateAmount (create / reapply / stack change); Player::UpdateMastery walks GetOwnedAuras() of the caster only -> never re-read (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "StatSystem.cpp:557-561"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "mastery (ATTR8_MASTERY_AFFECTS_POINTS), aura the caster owns on itself",
+   "note": "RecalculateAmount on every mastery update for owned auras with caster==owner and nonzero BonusCoefficient",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "explicit-recalculation"
+  },
+  {
+   "coords": [
+    "Unit.cpp:7327",
+    "SpellAuraEffects.cpp:5913-5918"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "spell power / attack power coefficient",
+   "note": "SpellHealingBonusDone with DOT at every tick, caster pointer from UpdateOwner (SpellAuras.cpp:820)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:2775-2787",
+    "timing": "dynamic-each-tick (update_flags |= STATE_SP/STATE_AP)"
+   },
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:844-845",
+    "SpellAuraEffects.cpp:5913-5918"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "stack count",
+   "note": "amount *= stack at CalculateAmount AND stack passed live to BonusDone at tick (SP/AP part x stack) unless SuppressPointsStacking (0x40)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "timing": "dynamic (dot stack)"
+   },
+   "trinity_timing": "recalculated-on-stack-change"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5913-5918",
+    "SpellAuraEffects.cpp:5694-5726"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "target taken modifiers / absorb / armor / resilience",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:507",
+    "timing": "dynamic (STATE_TGT_* in update_flags)"
+   },
+   "trinity_timing": "target-live-lookup"
+  },
+  {
+   "coords": [
+    "Unit.cpp:7439"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-heal",
+   "input": "versatility / % damage-healing done auras",
+   "note": "SpellDamagePctDone / SpellHealingPctDone at tick; ATTR3_IGNORE_CASTER_MODIFIERS / ATTR6 skip",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:2733-2735,2787-2812",
+    "timing": "dynamic-each-tick unless EX_COMPUTE_ON_CAST (player-scoped snapshot) or persistent multiplier"
+   },
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "Unit.cpp:6810"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "BonusCoefficient spellmod",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "Unit.cpp:6896"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "SpellMod PeriodicHealingAndDamage",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellInfo.cpp:603-604 (ApplyEffectModifiers)",
+    "SpellAuraEffects.cpp:1223-1247"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "SpellMod Points / PointsIndexN (caster)",
+   "note": "applied in CalcValue; a later Points spellmod recalculates only passive/permanent own auras (or IsUpdatingTemporaryAuraValuesBySpellMod) -> explicit-recalculation for those",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:736-745",
+    "SpellAuraEffects.cpp:780",
+    "SpellInfo.cpp:521-660"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "base points (EffectBasePoints, variance roll, level scaling, trait points, combo points)",
+   "note": "CalcValue inside CalculateAmount; re-run (new roll, new combo points) on same-caster reapply/stack via SetStackAmount (SpellAuras.cpp:1056-1074) -> also recalculated-on-refresh",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp (base_ta per tick uses action state)",
+    "timing": "application-snapshot"
+   },
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuras.cpp:820",
+    "Unit.cpp:6810-6813"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "caster absent (despawned / other map) at tick",
+   "note": "caster==nullptr -> no done bonus at all (BonusDone skipped), crit 0; dead caster still present -> full bonus",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:1278-1281",
+    "SpellAuraEffects.cpp:6132-6143",
+    "SpellAuras.cpp:524-533"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "crit chance",
+   "note": "rolled per tick from the SPELL-MOD OWNER's live SpellCritChanceDone (GetSpellModOwner: a pet/guardian caster uses its owner's chance), then target SpellCritChanceTaken; 0 unless ATTR8_PERIODIC_CAN_CRIT (raw 265) and not ATTR2_CANT_CRIT; 0 when the caster is absent or has no spell-mod owner (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "timing": "dynamic (STATE_CRIT in update_flags; tick_may_crit)"
+   },
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:6137-6141"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "crit chance of a pet/guardian caster",
+   "note": "modOwner = caster->GetSpellModOwner() -> the owning player's crit chance, not the pet's (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "caster-live-lookup"
+  },
+  {
+   "coords": [
+    "DBCEnums.h:2418",
+    "engine/action/action.cpp:2802-2812"
+   ],
+   "evidence": [
+    "trinity-consumer",
+    "simc-consumer"
+   ],
+   "family": "periodic-leech",
+   "input": "effect attribute ComputePointsOnlyAtCastTime (0x8000)",
+   "note": "NYI in Trinity (ignored: all done inputs stay dynamic); simc snapshots player-scoped inputs -> known divergence",
+   "policy_source": "db2",
+   "simc": {
+    "timing": "application-snapshot (player-scoped)"
+   },
+   "trinity_timing": "unknown"
+  },
+  {
+   "coords": [
+    "SpellInfo.cpp:600-601",
+    "StatSystem.cpp:557-561"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "mastery (ATTR8_MASTERY_AFFECTS_POINTS), aura owned by ANOTHER unit (every DoT/HoT on others)",
+   "note": "points += Mastery*BonusCoefficient only in CalculateAmount (create / reapply / stack change); Player::UpdateMastery walks GetOwnedAuras() of the caster only -> never re-read (R2-09)",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "StatSystem.cpp:557-561"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "mastery (ATTR8_MASTERY_AFFECTS_POINTS), aura the caster owns on itself",
+   "note": "RecalculateAmount on every mastery update for owned auras with caster==owner and nonzero BonusCoefficient",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "explicit-recalculation"
+  },
+  {
+   "coords": [
+    "Unit.cpp:6810",
+    "SpellAuraEffects.cpp:5785-5787"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "spell power / attack power coefficient",
+   "note": "SpellDamageBonusDone with DOT at every tick, caster pointer from UpdateOwner (SpellAuras.cpp:820)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:2775-2787",
+    "timing": "dynamic-each-tick (update_flags |= STATE_SP/STATE_AP)"
+   },
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:844-845",
+    "SpellAuraEffects.cpp:5785-5787"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "stack count",
+   "note": "amount *= stack at CalculateAmount AND stack passed live to BonusDone at tick (SP/AP part x stack) unless SuppressPointsStacking (0x40)",
+   "policy_source": "trinity-default",
+   "simc": {
+    "timing": "dynamic (dot stack)"
+   },
+   "trinity_timing": "recalculated-on-stack-change"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5785-5787",
+    "SpellAuraEffects.cpp:5694-5726"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "target taken modifiers / absorb / armor / resilience",
+   "note": "",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:507",
+    "timing": "dynamic (STATE_TGT_* in update_flags)"
+   },
+   "trinity_timing": "target-live-lookup"
+  },
+  {
+   "coords": [
+    "Unit.cpp:6901-6990"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-leech",
+   "input": "versatility / % damage-healing done auras",
+   "note": "SpellDamagePctDone / SpellHealingPctDone at tick; ATTR3_IGNORE_CASTER_MODIFIERS / ATTR6 skip",
+   "policy_source": "trinity-default",
+   "simc": {
+    "coords": "engine/action/action.cpp:2733-2735,2787-2812",
+    "timing": "dynamic-each-tick unless EX_COMPUTE_ON_CAST (player-scoped snapshot) or persistent multiplier"
+   },
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5583-5605"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-trigger-spell",
+   "input": "triggered spell inputs",
+   "note": "each tick casts the trigger spell (TRIGGERED_FULL_MASK minus cost-ignore bits): its own values are computed at that cast from the live trigger caster (caster or target per NeedsToBeTriggeredByCaster); absent caster -> no cast when caster-triggered",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "dynamic-each-tick"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5607-5630"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "periodic-trigger-spell-with-value",
+   "input": "passed base points",
+   "note": "GetAmount() of the aura at tick passed as BASE_POINT0..n",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:5951-6008",
+    "SpellAuraEffects.cpp:6084-6130"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "power-drain",
+   "input": "drained amount",
+   "note": "GetAmount() with target live power checks; no done bonus",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "application-snapshot"
+  },
+  {
+   "coords": [
+    "SpellAuraEffects.cpp:966-981",
+    "SpellAuraEffects.cpp:1334"
+   ],
+   "evidence": "trinity-consumer",
+   "family": "weapon-percent-damage",
+   "input": "everything",
+   "note": "never ticks in Trinity (not in CalculatePeriodic list) -> AL-D-D-01",
+   "policy_source": "trinity-default",
+   "simc": null,
+   "trinity_timing": "unknown"
+  }
+ ],
+ "matrix_key": "(family, input)",
+ "provenance": {
+  "command": "aura_lifecycle.py d-corpora",
+  "pins": {
+   "core_commit": "63f3a49124cecf73dee2c34f2b531b1de546c836",
+   "data_snapshot": "12.1.0.69497",
+   "drift_archive_sha256": "7087b64d0855c2f5fbf762eafa2b9e2d9852c4bb9951f1c9e022b30d826bdcca",
+   "drift_release": "wowlabdev/dbc-resolver wow-12.1.0.69814-4aec2a19e0a9",
+   "drift_snapshot": "12.1.0.69814",
+   "sidecar_commit": "350de53ef783f6415f7d2e7c86959e22f6d8403a",
+   "simc_commit": "b48def9c26d7532db2e612d97d433ec66bd8eede",
+   "tdb": "TDB_full_world_1200.26021_2026_02_06.sql",
+   "tdb_sha256": "54ddf4c12d6034a3c61e9b5683c2578de82d826d9090041a5e0477a164f5172d",
+   "tdb_updates": "sql/updates/world/master replay (522 files, via tools/tdb_server_overlay.py)",
+   "trinity_commit": "7f3d43b7c8dd1bbb413d7acbd057e58e9d048a8f",
+   "trinity_supported_build_max": "12.0.7.68453"
+  }
+ },
+ "timelines": [
+  {
+   "cut_points": "no spellmods, no AP coefficient, no taken/crit; SpellDamagePctDone supplied as pct_done",
+   "evidence": [
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "S-01",
+   "question": "spell power gained after application (1000 -> 1500 at 4500 ms)",
+   "result": {
+    "tick_times": [
+     3000,
+     6000,
+     9000,
+     12000
+    ],
+    "ticks": [
+     {
+      "full-snapshot": 600,
+      "t": 3000,
+      "tick": 1,
+      "trinity": 600
+     },
+     {
+      "full-snapshot": 600,
+      "t": 6000,
+      "tick": 2,
+      "trinity": 850
+     },
+     {
+      "full-snapshot": 600,
+      "t": 9000,
+      "tick": 3,
+      "trinity": 850
+     },
+     {
+      "full-snapshot": 600,
+      "t": 12000,
+      "tick": 4,
+      "trinity": 850
+     }
+    ]
+   },
+   "rules_out": "full application snapshot: Trinity ticks 2..4 use SP 1500 (850 vs 600)",
+   "scenario": {
+    "amount": {
+     "base_points": 100,
+     "coeff": 0.5
+    },
+    "caster_state": [
+     {
+      "spell_power": 1000,
+      "t": 0
+     },
+     {
+      "spell_power": 1500,
+      "t": 4500
+     }
+    ],
+    "events": [
+     {
+      "op": "create",
+      "t": 0
+     }
+    ],
+    "spell": {
+     "base_duration": 12000,
+     "base_period": 3000
+    },
+    "until": 13000,
+    "update_every": 100
+   }
+  },
+  {
+   "cut_points": "no spellmods, no AP coefficient, no taken/crit; SpellDamagePctDone supplied as pct_done",
+   "evidence": [
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "S-02",
+   "question": "a % damage-done buff (1.1) that expires mid-DoT",
+   "result": {
+    "tick_times": [
+     3000,
+     6000,
+     9000,
+     12000
+    ],
+    "ticks": [
+     {
+      "full-snapshot": 660,
+      "t": 3000,
+      "tick": 1,
+      "trinity": 660
+     },
+     {
+      "full-snapshot": 660,
+      "t": 6000,
+      "tick": 2,
+      "trinity": 660
+     },
+     {
+      "full-snapshot": 660,
+      "t": 9000,
+      "tick": 3,
+      "trinity": 600
+     },
+     {
+      "full-snapshot": 660,
+      "t": 12000,
+      "tick": 4,
+      "trinity": 600
+     }
+    ]
+   },
+   "rules_out": "persistent-multiplier style capture of %done at application (simc STATE_MUL_PERSISTENT applies only to persistent multipliers, not %done auras)",
+   "scenario": {
+    "amount": {
+     "base_points": 100,
+     "coeff": 0.5
+    },
+    "caster_state": [
+     {
+      "pct_done": 1.1,
+      "spell_power": 1000,
+      "t": 0
+     },
+     {
+      "pct_done": 1.0,
+      "spell_power": 1000,
+      "t": 7000
+     }
+    ],
+    "events": [
+     {
+      "op": "create",
+      "t": 0
+     }
+    ],
+    "spell": {
+     "base_duration": 12000,
+     "base_period": 3000
+    },
+    "until": 13000,
+    "update_every": 100
+   }
+  },
+  {
+   "cut_points": "no spellmods, no AP coefficient, no taken/crit; SpellDamagePctDone supplied as pct_done",
+   "evidence": [
+    "trinity-consumer",
+    "structural-inference"
+   ],
+   "id": "S-03",
+   "question": "stack added by reapply on a StackAmount-5 DoT",
+   "result": {
+    "tick_times": [
+     3000,
+     6000,
+     9000,
+     12000,
+     15000,
+     18000
+    ],
+    "ticks": [
+     {
+      "full-snapshot": 600,
+      "t": 3000,
+      "tick": 1,
+      "trinity": 600
+     },
+     {
+      "full-snapshot": 600,
+      "t": 6000,
+      "tick": 2,
+      "trinity": 600
+     },
+     {
+      "full-snapshot": 1200,
+      "t": 9000,
+      "tick": 1,
+      "trinity": 1200
+     },
+     {
+      "full-snapshot": 1200,
+      "t": 12000,
+      "tick": 2,
+      "trinity": 1200
+     },
+     {
+      "full-snapshot": 1200,
+      "t": 15000,
+      "tick": 3,
+      "trinity": 1200
+     },
+     {
+      "full-snapshot": 1200,
+      "t": 18000,
+      "tick": 4,
+      "trinity": 1200
+     }
+    ]
+   },
+   "rules_out": "stack-independent tick amount: base*stack at recalculation and SP*coeff*stack at tick",
+   "scenario": {
+    "amount": {
+     "base_points": 100,
+     "coeff": 0.5
+    },
+    "caster_state": [
+     {
+      "spell_power": 1000,
+      "t": 0
+     }
+    ],
+    "events": [
+     {
+      "op": "create",
+      "t": 0
+     },
+     {
+      "op": "reapply",
+      "t": 7050
+     }
+    ],
+    "spell": {
+     "base_duration": 12000,
+     "base_period": 3000,
+     "stack_amount": 5
+    },
+    "until": 20000,
+    "update_every": 100
+   }
+  }
+ ]
+}
