@@ -1233,15 +1233,15 @@
   "aura:318": {
    "aura_subtype": 318,
    "aura_subtype_name": "ModMasteryPercent",
-   "aura_support": "disabled",
+   "aura_support": "implemented",
    "block_groups": [
-    "aura_disabled"
+    "aura_implemented_no_selected_semantic"
    ],
    "carrier": "aura:318",
    "effect_kind": 6,
    "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
    "effects": 10,
-   "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+   "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
    "packages": 10,
    "providers": [
     31884,
@@ -2013,15 +2013,15 @@
   "aura:468": {
    "aura_subtype": 468,
    "aura_subtype_name": "TriggerSpellBasedOnHealthPercent",
-   "aura_support": "disabled",
+   "aura_support": "implemented",
    "block_groups": [
-    "aura_disabled"
+    "aura_implemented_no_selected_semantic"
    ],
    "carrier": "aura:468",
    "effect_kind": 6,
    "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
    "effects": 2,
-   "missing_semantic": "aura subtype 468 (TriggerSpellBasedOnHealthPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+   "missing_semantic": "aura subtype 468 (TriggerSpellBasedOnHealthPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 468 has no selected-passive semantic in Core; exact effect triggers spell 448088 and subtype 468 has no proved trigger-inert consumer",
    "packages": 1,
    "providers": [
     448040
@@ -2541,9 +2541,9 @@
  "entries": 1001,
  "groups": {
   "aura_absent_from_core_catalog": 13,
-  "aura_disabled": 243,
+  "aura_disabled": 235,
   "aura_ignored": 25,
-  "aura_implemented_no_selected_semantic": 661,
+  "aura_implemented_no_selected_semantic": 670,
   "aura_implemented_nonneutral_shell": 34,
   "aura_unimplemented": 489,
   "non_aura_effect_kind": 131
@@ -5075,11 +5075,11 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -5088,7 +5088,7 @@
       "NONE"
      ],
      "index": 2,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
      "period_ms": 0,
      "trigger_spell": 0
     }
@@ -12623,11 +12623,11 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -12636,7 +12636,7 @@
       "NONE"
      ],
      "index": 1,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
      "period_ms": 0,
      "trigger_spell": 0
     },
@@ -15712,12 +15712,12 @@
     {
      "aura_subtype": 468,
      "aura_subtype_name": "TriggerSpellBasedOnHealthPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 468 has no selected-passive semantic in Core",
       "exact effect triggers spell 448088 and subtype 468 has no proved trigger-inert consumer"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -15726,7 +15726,7 @@
       "NONE"
      ],
      "index": 3,
-     "missing_semantic": "aura subtype 468 (TriggerSpellBasedOnHealthPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 468 (TriggerSpellBasedOnHealthPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 468 has no selected-passive semantic in Core; exact effect triggers spell 448088 and subtype 468 has no proved trigger-inert consumer",
      "period_ms": 0,
      "trigger_spell": 448088
     },
@@ -15753,12 +15753,12 @@
     {
      "aura_subtype": 468,
      "aura_subtype_name": "TriggerSpellBasedOnHealthPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 468 has no selected-passive semantic in Core",
       "exact effect triggers spell 448086 and subtype 468 has no proved trigger-inert consumer"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -15767,7 +15767,7 @@
       "NONE"
      ],
      "index": 5,
-     "missing_semantic": "aura subtype 468 (TriggerSpellBasedOnHealthPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 468 (TriggerSpellBasedOnHealthPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 468 has no selected-passive semantic in Core; exact effect triggers spell 448086 and subtype 468 has no proved trigger-inert consumer",
      "period_ms": 0,
      "trigger_spell": 448086
     }
@@ -16319,12 +16319,12 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core",
       "exact-effect attributes 64"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -16333,7 +16333,7 @@
       "NONE"
      ],
      "index": 10,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core; exact-effect attributes 64",
      "period_ms": 0,
      "trigger_spell": 0
     },
@@ -23988,11 +23988,11 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -24001,7 +24001,7 @@
       "NONE"
      ],
      "index": 1,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
      "period_ms": 0,
      "trigger_spell": 0
     }
@@ -24028,11 +24028,11 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -24041,7 +24041,7 @@
       "NONE"
      ],
      "index": 1,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
      "period_ms": 0,
      "trigger_spell": 0
     }
@@ -27226,11 +27226,11 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -27239,7 +27239,7 @@
       "NONE"
      ],
      "index": 2,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
      "period_ms": 0,
      "trigger_spell": 0
     },
@@ -27602,11 +27602,11 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -27615,7 +27615,7 @@
       "NONE"
      ],
      "index": 2,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
      "period_ms": 0,
      "trigger_spell": 0
     },
@@ -35718,11 +35718,11 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -35731,7 +35731,7 @@
       "NONE"
      ],
      "index": 1,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
      "period_ms": 0,
      "trigger_spell": 0
     }
@@ -35758,11 +35758,11 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -35771,7 +35771,7 @@
       "NONE"
      ],
      "index": 1,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core",
      "period_ms": 0,
      "trigger_spell": 0
     }
@@ -47391,12 +47391,12 @@
     {
      "aura_subtype": 318,
      "aura_subtype_name": "ModMasteryPercent",
-     "block_group": "aura_disabled",
+     "block_group": "aura_implemented_no_selected_semantic",
      "blockers": [
       "aura subtype 318 has no selected-passive semantic in Core",
       "exact-effect attributes 64"
      ],
-     "core_support": "disabled",
+     "core_support": "implemented",
      "delivery": "self",
      "effect_kind": 6,
      "effect_kind_name": "SPELL_EFFECT_APPLY_AURA",
@@ -47405,7 +47405,7 @@
       "NONE"
      ],
      "index": 6,
-     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is `disabled` in Core's catalog (crates/dbc/src/aura_subtype.rs); it has no runtime consumer at all, selected or otherwise",
+     "missing_semantic": "aura subtype 318 (ModMasteryPercent) is implemented for ordinary auras but no selected-passive authority consumes it (SelectedTraitEffectRole has 5 variants, selected_trait_package.rs:80-90): aura subtype 318 has no selected-passive semantic in Core; exact-effect attributes 64",
      "period_ms": 0,
      "trigger_spell": 0
     },
@@ -73349,27 +73349,28 @@
   "aura_absent_from_core_catalog+aura_disabled+aura_implemented_no_selected_semantic+aura_implemented_nonneutral_shell": 1,
   "aura_absent_from_core_catalog+aura_disabled+aura_implemented_no_selected_semantic+aura_unimplemented": 1,
   "aura_absent_from_core_catalog+aura_implemented_no_selected_semantic+aura_unimplemented+non_aura_effect_kind": 2,
-  "aura_disabled": 107,
+  "aura_disabled": 102,
   "aura_disabled+aura_ignored+aura_implemented_no_selected_semantic+aura_implemented_nonneutral_shell": 2,
   "aura_disabled+aura_ignored+aura_implemented_no_selected_semantic+aura_unimplemented": 2,
   "aura_disabled+aura_ignored+aura_implemented_no_selected_semantic+aura_unimplemented+non_aura_effect_kind": 1,
   "aura_disabled+aura_implemented_no_selected_semantic": 25,
-  "aura_disabled+aura_implemented_no_selected_semantic+aura_unimplemented": 14,
+  "aura_disabled+aura_implemented_no_selected_semantic+aura_implemented_nonneutral_shell": 1,
+  "aura_disabled+aura_implemented_no_selected_semantic+aura_implemented_nonneutral_shell+aura_unimplemented": 1,
+  "aura_disabled+aura_implemented_no_selected_semantic+aura_unimplemented": 13,
   "aura_disabled+aura_implemented_no_selected_semantic+aura_unimplemented+non_aura_effect_kind": 3,
   "aura_disabled+aura_implemented_no_selected_semantic+non_aura_effect_kind": 12,
-  "aura_disabled+aura_implemented_nonneutral_shell": 1,
-  "aura_disabled+aura_implemented_nonneutral_shell+aura_unimplemented": 2,
+  "aura_disabled+aura_implemented_nonneutral_shell+aura_unimplemented": 1,
   "aura_disabled+aura_unimplemented": 37,
-  "aura_disabled+aura_unimplemented+non_aura_effect_kind": 8,
+  "aura_disabled+aura_unimplemented+non_aura_effect_kind": 6,
   "aura_disabled+non_aura_effect_kind": 20,
   "aura_ignored": 1,
   "aura_ignored+aura_implemented_no_selected_semantic+aura_unimplemented+non_aura_effect_kind": 11,
   "aura_ignored+aura_unimplemented": 1,
-  "aura_implemented_no_selected_semantic": 425,
+  "aura_implemented_no_selected_semantic": 430,
   "aura_implemented_no_selected_semantic+aura_implemented_nonneutral_shell": 6,
   "aura_implemented_no_selected_semantic+aura_implemented_nonneutral_shell+aura_unimplemented": 6,
-  "aura_implemented_no_selected_semantic+aura_unimplemented": 110,
-  "aura_implemented_no_selected_semantic+aura_unimplemented+non_aura_effect_kind": 11,
+  "aura_implemented_no_selected_semantic+aura_unimplemented": 111,
+  "aura_implemented_no_selected_semantic+aura_unimplemented+non_aura_effect_kind": 13,
   "aura_implemented_no_selected_semantic+non_aura_effect_kind": 22,
   "aura_implemented_nonneutral_shell": 16,
   "aura_unimplemented": 263,
